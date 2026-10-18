@@ -44,12 +44,13 @@ nav.links a:hover{color:var(--olive)}
 .btn:hover{background:var(--olive-d)}
 .btn.light{background:var(--stone);color:var(--olive-d)}
 
-.hero{position:relative;overflow:hidden;background:linear-gradient(180deg,#E7D8B5 0%,#F0E6CC 45%,var(--stone) 100%)}
-.hero .scene{position:absolute;inset:auto 0 0;width:100%;height:62%;display:block}
-.hero .in{position:relative;z-index:1;padding-block:72px 260px;text-align:left}
-.hero .kicker{color:var(--olive)}
-.hero h1{font-family:var(--f-display);font-weight:400;font-size:clamp(44px,7.5vw,92px);line-height:1;margin:12px 0 18px;color:var(--olive-d);max-width:13ch;text-wrap:balance}
-.hero p{max-width:44ch;color:var(--muted);margin:0}
+.hero{position:relative;overflow:hidden;background:#3B3524;color:var(--stone)}
+.hero .photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 60%;display:block}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(28,32,20,.78) 0%,rgba(28,32,20,.45) 50%,rgba(28,32,20,.08) 100%),linear-gradient(0deg,rgba(28,32,20,.35),transparent 40%)}
+.hero .in{position:relative;z-index:1;padding-block:120px 140px;text-align:left}
+.hero .kicker{color:#E9D9A6}
+.hero h1{font-family:var(--f-display);font-weight:400;font-size:clamp(44px,7.5vw,92px);line-height:1;margin:12px 0 18px;color:#FFFDF6;max-width:13ch;text-wrap:balance;text-shadow:0 2px 24px rgba(0,0,0,.25)}
+.hero p{max-width:44ch;color:rgba(255,253,246,.88);margin:0}
 .hero .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
 
 .sec{padding-block:80px}
@@ -58,7 +59,10 @@ nav.links a:hover{color:var(--olive)}
 
 .rooms{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
 .room{background:var(--white);border:1px solid var(--line);border-radius:6px;overflow:hidden;display:flex;flex-direction:column}
-.room .ill{aspect-ratio:4/3;max-width:100%;display:block}
+.room .ph{aspect-ratio:4/3;overflow:hidden;background:var(--stone-2)}
+.room .ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease}
+.room:hover .ph img{transform:scale(1.05)}
+@media (prefers-reduced-motion:reduce){.room .ph img{transition:none}}
 .room .body{padding:20px;display:flex;flex-direction:column;gap:8px;flex:1}
 .room h3{font-family:var(--f-display);font-weight:400;font-size:24px;margin:0;color:var(--olive-d)}
 .room p{margin:0;color:var(--muted);font-size:15px}
@@ -139,19 +143,7 @@ footer p{margin:0;opacity:.85;font-size:15px}
 </header>
 
 <section class="hero band" id="top">
-  <svg class="scene" viewBox="0 0 1440 500" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
-    <circle cx="1080" cy="150" r="70" fill="#F7E2A8"/>
-    <path d="M0 260c200-60 380-80 600-40s420 20 840-60v340H0z" fill="#C8C7A2"/>
-    <path d="M0 330c240-50 480-40 720-10s480 10 720-40v220H0z" fill="#A9B99A"/>
-    <g fill="#3F5B3A">
-      <ellipse cx="240" cy="300" rx="90" ry="54"/><rect x="232" y="320" width="16" height="70" fill="#5B4A36"/>
-      <ellipse cx="520" cy="320" rx="70" ry="42"/><rect x="514" y="336" width="12" height="56" fill="#5B4A36"/>
-      <ellipse cx="1240" cy="290" rx="100" ry="58"/><rect x="1230" y="312" width="18" height="80" fill="#5B4A36"/>
-    </g>
-    <g><rect x="760" y="250" width="260" height="140" fill="#EFE6CE"/><path d="M740 256l150-70 150 70z" fill="#B86B4B"/><rect x="800" y="300" width="40" height="50" fill="#3F5B3A"/><rect x="870" y="300" width="40" height="50" fill="#3F5B3A"/><rect x="940" y="300" width="40" height="90" fill="#5B4A36"/></g>
-    <rect x="1040" y="360" width="200" height="34" rx="4" fill="#7FB3C6"/>
-    <path d="M0 400c300-30 700-30 1440 0v100H0z" fill="#F4F1E6"/>
-  </svg>
+  <img class="photo" src="images/gite/oliveraie-hero.webp" alt="Oliviers centenaires dans la lumière du soir" width="1500" height="1000" fetchpriority="high">
   <div class="in">
     <div class="kicker">Maison d'hôtes · 3 chambres</div>
     <h1>Trois chambres au calme, sous les oliviers.</h1>
@@ -214,13 +206,13 @@ footer p{margin:0;opacity:.85;font-size:15px}
 
 <script>
 const ROOMS = [
-  {n:"La Bergerie",d:"Lit double, salle d'eau en pierre, accès direct au jardin.",cap:2,p:95,a:["Jardin","Douche","Clim"],c:["#C8C7A2","#3F5B3A","#EFE6CE"]},
-  {n:"L'Oliveraie",d:"Grand lit, terrasse privée face aux oliviers et coin salon.",cap:3,p:115,a:["Terrasse","Baignoire","Clim"],c:["#A9B99A","#2B4027","#F4F1E6"]},
-  {n:"Le Pigeonnier",d:"Suite familiale sur deux niveaux, vue sur les collines.",cap:4,p:145,a:["Vue","2 lits","Kitchenette"],c:["#E7D8B5","#B86B4B","#FFFEFA"]}
+  {n:"La Bergerie",d:"Lit double, salle d'eau en pierre, accès direct au jardin.",cap:2,p:95,a:["Jardin","Douche","Clim"],img:"chambre-bergerie",alt:"Chambre aux murs de pierre avec grand lit"},
+  {n:"L'Oliveraie",d:"Grand lit, terrasse privée face aux oliviers et coin salon.",cap:3,p:115,a:["Terrasse","Baignoire","Clim"],img:"chambre-oliveraie",alt:"Vue sur les oliviers depuis la terrasse"},
+  {n:"Le Pigeonnier",d:"Suite familiale sur deux niveaux, vue sur les collines.",cap:4,p:145,a:["Vue","2 lits","Kitchenette"],img:"chambre-pigeonnier",alt:"Oliviers dorés au coucher du soleil"}
 ];
-const roomIll = c => `<svg class="ill" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="400" height="300" fill="${c[0]}"/><rect x="60" y="40" width="130" height="150" rx="65" fill="${c[2]}" opacity=".9"/><path d="M60 140c40-20 90-20 130 0v50H60z" fill="${c[1]}" opacity=".5"/><rect x="40" y="200" width="320" height="70" rx="8" fill="${c[2]}"/><rect x="40" y="186" width="320" height="22" rx="8" fill="${c[1]}"/><rect x="230" y="150" width="60" height="40" rx="8" fill="${c[2]}"/><rect x="295" y="150" width="60" height="40" rx="8" fill="${c[2]}"/></svg>`;
+const roomImg = r => `<div class="ph"><img src="images/gite/${r.img}.webp" alt="${r.alt}" width="800" height="600" loading="lazy" decoding="async"></div>`;
 const esc = s => String(s).replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
-rooms.innerHTML = ROOMS.map(r=>`<article class="room">${roomIll(r.c)}<div class="body"><h3>${r.n}</h3><p>${r.d}</p><div class="amen"><span>${r.cap} pers. max</span>${r.a.map(x=>`<span>${x}</span>`).join("")}</div><div class="price"><span>par nuit, petit-déj inclus</span><b>${r.p} €</b></div></div></article>`).join("");
+rooms.innerHTML = ROOMS.map(r=>`<article class="room">${roomImg(r)}<div class="body"><h3>${r.n}</h3><p>${r.d}</p><div class="amen"><span>${r.cap} pers. max</span>${r.a.map(x=>`<span>${x}</span>`).join("")}</div><div class="price"><span>par nuit, petit-déj inclus</span><b>${r.p} €</b></div></div></article>`).join("");
 roomSel.innerHTML = ROOMS.map((r,i)=>`<option value="${i}">${r.n} · ${r.p} €/nuit · ${r.cap} pers.</option>`).join("");
 
 // calendrier (réservations fictives déterministes)

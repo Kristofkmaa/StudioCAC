@@ -113,6 +113,7 @@ nav.links a:hover{color:var(--olive)}
 .hint{font-size:14px;color:var(--sage);margin:0}
 .ok{background:rgba(244,241,230,.12);border-radius:4px;padding:12px;margin:0;font-size:15px}
 
+.around .banner{width:100%;height:auto;aspect-ratio:15/7;object-fit:cover;border-radius:6px;display:block;margin:0 0 30px}
 .around .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
 .spot{border-top:2px solid var(--olive);padding-top:14px}
 .spot b{font-family:var(--f-display);font-weight:400;font-size:30px;color:var(--clay);font-variant-numeric:tabular-nums}
@@ -199,6 +200,7 @@ footer p{margin:0;opacity:.85;font-size:15px}
   <div class="in">
     <div class="kicker">Alentours</div>
     <h2>À faire, pas loin</h2>
+    <img class="banner" src="images/villa/village-rue.webp" alt="Rue en pente bordée de façades ocre et de volets verts, collines au fond" width="1500" height="700" loading="lazy" decoding="async">
     <div class="grid">
       <div class="spot"><b>10 min</b><h3>Le village</h3><p>Marché le samedi matin, épicerie et boulangerie.</p></div>
       <div class="spot"><b>20 min</b><h3>La plage</h3><p>Crique de sable, paillote ouverte de mai à septembre.</p></div>
@@ -220,8 +222,8 @@ footer p{margin:0;opacity:.85;font-size:15px}
 <script>
 const SPACES = [
   {n:"Les chambres",d:"Quatre chambres climatisées dont deux suites parentales, literie hôtelière et murs en pierre.",a:["4 chambres","2 suites","Clim"],img:"chambres",alt:"Chambre aux murs de pierre avec grand lit"},
-  {n:"Le jardin",d:"Un hectare d'oliviers centenaires, terrain de pétanque et coin barbecue à l'ombre.",a:["1 hectare","Pétanque","Barbecue"],img:"jardin",alt:"Oliviers centenaires dans le jardin de la villa"},
-  {n:"La terrasse",d:"Grande table pour dix sous la tonnelle, transats au bord de la piscine, coucher de soleil sur les collines.",a:["Piscine","Tonnelle","Vue"],img:"terrasse",alt:"Oliviers dorés au coucher du soleil"}
+  {n:"Le village à pied",d:"À dix minutes par le chemin des oliviers : ruelles fleuries, façades colorées et marché provençal le samedi matin.",a:["10 min à pied","Marché","Commerces"],img:"village-ruelle",alt:"Ruelle pavée et fleurie aux volets bleus dans le village"},
+  {n:"La vue d'en haut",d:"Depuis le sentier au-dessus de la villa, tout le vieux village s'étale à vos pieds, clocher compris.",a:["Randonnée","Panorama","Clocher"],img:"village-toits",alt:"Les toits du vieux village vus depuis les hauteurs"}
 ];
 const CAP = 8, CLEANING = 150, TAX = 2;
 const season = d => { const m = d.getMonth(); return m===6||m===7 ? {p:520,min:7} : (m===4||m===5||m===8) ? {p:390,min:3} : {p:290,min:3}; };

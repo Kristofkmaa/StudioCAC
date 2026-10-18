@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Durand Plomberie</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,600;75..100,800;75..100,900&family=Public+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Layout : artisan dépanneur, bandeaux bleu franc et blanc, gros chiffres condensés comme un camion d'intervention, bande d'urgence jaune. Thème clair assumé. */
+:root{
+  --blue:#1D4ED8; --blue-d:#14318F; --yellow:#FFD23F; --white:#FFFFFF; --ice:#EEF3FF;
+  --ink:#0E1733; --muted:#4A5677; --line:#D6DEF2;
+  --f-display:"Archivo","Arial Narrow",Arial,sans-serif;
+  --f-body:"Public Sans","Helvetica Neue",Arial,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--white)}
+body{background:var(--white);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.6}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
+.band{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.in{max-width:1120px;margin:0 auto}
+.demo{background:var(--ink);color:var(--white);font-size:13px;font-weight:600;text-align:center;padding-block:6px}
+.urgent{background:var(--yellow);color:var(--ink);font-weight:700;font-size:15px}
+.urgent .in{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;padding-block:9px;text-align:center}
+.urgent b{font-family:var(--f-display);font-stretch:80%;font-weight:900;font-size:18px;letter-spacing:.02em;user-select:all}
+
+header.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--white);border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:11;background:var(--white)}
+header.nav .in{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-block:12px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--f-display);font-weight:900;font-stretch:80%;font-size:24px;text-transform:uppercase;letter-spacing:.01em}
+.logo span{color:var(--blue)}
+nav.links{display:flex;gap:24px;font-weight:600;font-size:15px}
+nav.links a{text-decoration:none;color:var(--muted)}
+nav.links a:hover{color:var(--blue)}
+.btn{font:700 15px var(--f-body);display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 20px;border-radius:8px;border:0;cursor:pointer;text-decoration:none;background:var(--blue);color:var(--white)}
+.btn:hover{background:var(--blue-d)}
+.btn.y{background:var(--yellow);color:var(--ink)}
+.btn.y:hover{background:#F5C514}
+.btn.line{background:transparent;color:var(--white);border:2px solid rgba(255,255,255,.6)}
+
+.hero{background:var(--blue);color:var(--white);position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-80px;top:-80px;width:520px;height:520px;border-radius:50%;border:60px solid rgba(255,255,255,.06)}
+.hero .in{display:grid;grid-template-columns:1.2fr 1fr;gap:48px;align-items:center;padding-block:60px;position:relative;z-index:1}
+.hero h1{font-family:var(--f-display);font-weight:900;font-stretch:78%;text-transform:uppercase;font-size:clamp(46px,8vw,96px);line-height:.9;margin:0 0 20px;letter-spacing:-.005em;text-wrap:balance}
+.hero h1 em{font-style:normal;color:var(--yellow)}
+.hero p{margin:0;max-width:44ch;opacity:.9}
+.hero .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.stat{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:20px}
+.stat b{display:block;font-family:var(--f-display);font-weight:900;font-stretch:80%;font-size:46px;line-height:1;color:var(--yellow)}
+.stat span{font-size:14px;opacity:.85}
+
+.sec{padding-block:80px}
+.kicker{font-family:var(--f-display);font-weight:800;font-stretch:85%;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--blue)}
+.sec h2{font-family:var(--f-display);font-weight:900;font-stretch:80%;text-transform:uppercase;font-size:clamp(34px,5vw,56px);line-height:.95;margin:8px 0 32px;text-wrap:balance}
+
+.services{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.svc{border:2px solid var(--line);border-radius:12px;padding:22px;display:flex;flex-direction:column;gap:10px;transition:border-color .2s}
+.svc:hover{border-color:var(--blue)}
+.svc svg{width:40px;height:40px}
+.svc h3{font-family:var(--f-display);font-weight:800;font-stretch:85%;font-size:22px;margin:0;text-transform:uppercase}
+.svc p{margin:0;color:var(--muted);font-size:15px}
+.svc .from{margin-top:auto;font-weight:700;font-size:14px;color:var(--blue);font-variant-numeric:tabular-nums}
+
+.zone{background:var(--ice)}
+.zone .in{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.zone p{color:var(--muted);max-width:50ch;margin:0 0 20px}
+.radar{position:relative;aspect-ratio:1;max-width:100%;width:min(400px,100%);justify-self:center}
+.radar svg{width:100%;height:100%}
+.checks{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.checks li{display:flex;gap:10px;align-items:start;font-weight:600}
+.checks li::before{content:"";flex:none;width:22px;height:22px;margin-top:2px;border-radius:6px;background:var(--blue) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12l4 4 8-8' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/16px no-repeat}
+
+.devis .in{display:grid;grid-template-columns:1fr 1.15fr;gap:48px;align-items:start}
+form.q{background:var(--white);border:2px solid var(--ink);border-radius:14px;padding:28px;display:grid;gap:16px;box-shadow:8px 8px 0 var(--blue)}
+form.q h3{font-family:var(--f-display);font-weight:900;font-stretch:80%;font-size:30px;text-transform:uppercase;margin:0}
+.lbl{font-size:14px;font-weight:700;color:var(--muted);margin-bottom:6px;display:block}
+.choices{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.choice{font:600 15px var(--f-body);text-align:left;padding:12px 14px;border:2px solid var(--line);border-radius:10px;background:var(--white);color:var(--ink);cursor:pointer}
+.choice[aria-pressed="true"]{border-color:var(--blue);background:var(--ice);color:var(--blue)}
+.urg{display:flex;gap:8px;flex-wrap:wrap}
+.urg .choice{flex:1;min-width:120px;text-align:center}
+.urg .choice.hot[aria-pressed="true"]{border-color:#D9480F;background:#FFF0E6;color:#B83A0A}
+form.q input,form.q textarea{font:16px var(--f-body);padding:12px 14px;border:2px solid var(--line);border-radius:10px;width:100%;background:var(--white);color:var(--ink)}
+form.q input:focus,form.q textarea:focus{outline:none;border-color:var(--blue)}
+form.q textarea{min-height:90px;resize:vertical}
+.ok{background:var(--ice);border-radius:10px;padding:14px;margin:0;font-size:15px}
+.faq{display:grid;gap:10px;margin-top:8px}
+.faq details{border-bottom:2px solid var(--line);padding-block:14px}
+.faq summary{cursor:pointer;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:12px}
+.faq summary::after{content:"+";font-family:var(--f-display);font-weight:900;font-size:22px;color:var(--blue);line-height:1}
+.faq details[open] summary::after{content:"–"}
+.faq p{margin:8px 0 0;color:var(--muted)}
+
+footer{background:var(--ink);color:var(--white)}
+footer .in{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;padding-block:48px}
+footer h4{font-family:var(--f-display);font-weight:800;font-stretch:85%;text-transform:uppercase;font-size:16px;letter-spacing:.06em;margin:0 0 8px;color:var(--yellow)}
+footer p{margin:0;opacity:.8;font-size:15px}
+.bottom{background:#080E22;color:rgba(255,255,255,.6);font-size:13px}
+.bottom .in{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-block:14px}
+
+@media (max-width:900px){
+  nav.links{display:none}
+  .hero .in,.zone .in,.devis .in{grid-template-columns:1fr;gap:36px}
+  .services{grid-template-columns:1fr 1fr}
+  footer .in{grid-template-columns:1fr}
+  .sec{padding-block:56px}
+}
+@media (max-width:520px){.services,.choices{grid-template-columns:1fr}.stat b{font-size:36px}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<div class="demo band">Site de démonstration réalisé par StudioCac · entreprise fictive</div>
+<div class="urgent band"><div class="in">Fuite, canalisation bouchée, plus d'eau chaude ? <span>Urgences 7j/7 :</span> <b>06 00 00 00 00</b></div></div>
+
+<header class="nav band">
+  <div class="in">
+    <a class="logo" href="#top">
+      <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><rect width="34" height="34" rx="8" fill="#1D4ED8"/><path d="M17 7c4 6 7 9.5 7 13a7 7 0 01-14 0c0-3.5 3-7 7-13z" fill="#FFD23F"/></svg>
+      Durand<span>Plomberie</span>
+    </a>
+    <nav class="links"><a href="#services">Services</a><a href="#zone">Zone</a><a href="#devis">Devis</a><a href="#faq">Questions</a></nav>
+    <a class="btn" href="#devis">Devis gratuit</a>
+  </div>
+</header>
+
+<section class="hero band" id="top">
+  <div class="in">
+    <div>
+      <h1>Dépannage en <em>moins de 2 h</em></h1>
+      <p>Plomberie, chauffage et salle de bain. Un artisan qui décroche, se déplace vite et vous donne le prix avant de commencer.</p>
+      <div class="cta"><a class="btn y" href="#devis">Demander une intervention</a><a class="btn line" href="#services">Nos services</a></div>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>&lt; 2 h</b><span>délai moyen d'intervention</span></div>
+      <div class="stat"><b>7j/7</b><span>pour les urgences</span></div>
+      <div class="stat"><b>15 ans</b><span>de métier</span></div>
+      <div class="stat"><b>0 €</b><span>le devis, toujours</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec band" id="services">
+  <div class="in">
+    <div class="kicker">Services</div>
+    <h2>Ce qu'on répare, installe et entretient</h2>
+    <div class="services">
+      <div class="svc"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 6c6 9 10 14 10 19a10 10 0 01-20 0c0-5 4-10 10-19z" fill="#1D4ED8"/><path d="M15 26a5 5 0 005 5" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg><h3>Fuites</h3><p>Recherche et réparation de fuite, robinetterie, joints, WC qui coule.</p><span class="from">À partir de 89 €</span></div>
+      <div class="svc"><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="6" y="16" width="28" height="8" rx="4" fill="#1D4ED8"/><circle cx="20" cy="20" r="3" fill="#FFD23F"/><path d="M12 10v6M28 24v6" stroke="#1D4ED8" stroke-width="3" stroke-linecap="round"/></svg><h3>Débouchage</h3><p>Évier, douche, WC, canalisations. Furet et hydrocurage si besoin.</p><span class="from">À partir de 99 €</span></div>
+      <div class="svc"><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="11" y="5" width="18" height="30" rx="5" fill="#1D4ED8"/><path d="M20 14c3 4 4 6 4 8a4 4 0 01-8 0c0-2 1-4 4-8z" fill="#FFD23F"/></svg><h3>Chauffe-eau</h3><p>Dépannage, détartrage et remplacement de cumulus ou chaudière.</p><span class="from">À partir de 120 €</span></div>
+      <div class="svc"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 20h24v6a8 8 0 01-8 8h-8a8 8 0 01-8-8z" fill="#1D4ED8"/><path d="M12 20V10a4 4 0 018 0" stroke="#1D4ED8" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="28" cy="12" r="2" fill="#FFD23F"/><circle cx="24" cy="8" r="1.5" fill="#FFD23F"/></svg><h3>Salle de bain</h3><p>Rénovation complète, douche à l'italienne, adaptation PMR.</p><span class="from">Sur devis</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec band zone" id="zone">
+  <div class="in">
+    <div class="radar">
+      <svg viewBox="0 0 400 400" aria-hidden="true">
+        <circle cx="200" cy="200" r="190" fill="#DCE6FF"/>
+        <circle cx="200" cy="200" r="130" fill="#C3D3FF"/>
+        <circle cx="200" cy="200" r="70" fill="#1D4ED8"/>
+        <circle cx="200" cy="200" r="190" fill="none" stroke="#1D4ED8" stroke-width="2" stroke-dasharray="6 8"/>
+        <path d="M200 176c8 12 13 19 13 26a13 13 0 01-26 0c0-7 5-14 13-26z" fill="#FFD23F"/>
+        <text x="200" y="250" text-anchor="middle" font-family="Public Sans, Arial" font-weight="700" font-size="13" fill="#fff">Atelier</text>
+        <text x="200" y="98" text-anchor="middle" font-family="Public Sans, Arial" font-weight="700" font-size="13" fill="#14318F">15 km · moins d'1 h</text>
+        <text x="200" y="36" text-anchor="middle" font-family="Public Sans, Arial" font-weight="700" font-size="13" fill="#14318F">25 km · moins de 2 h</text>
+      </svg>
+    </div>
+    <div>
+      <div class="kicker">Zone d'intervention</div>
+      <h2>On se déplace dans un rayon de 25 km</h2>
+      <p>Particuliers, syndics, commerces et locations saisonnières. Au-delà de la zone, appelez quand même : on s'arrange souvent.</p>
+      <ul class="checks">
+        <li>Devis gratuit et prix annoncé avant travaux</li>
+        <li>Assurance décennale et responsabilité civile pro</li>
+        <li>Facture détaillée, paiement CB ou virement</li>
+        <li>Pièces garanties, travail propre, chantier nettoyé</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="sec band devis" id="devis">
+  <div class="in">
+    <div>
+      <div class="kicker">Devis gratuit</div>
+      <h2>Décrivez le problème, on vous rappelle</h2>
+      <div class="faq" id="faq">
+        <details open><summary>Combien coûte un déplacement ?</summary><p>Le déplacement est inclus dans le prix de l'intervention dans notre zone. Vous connaissez le tarif avant qu'on commence.</p></details>
+        <details><summary>Intervenez-vous le week-end ?</summary><p>Oui, pour les urgences (fuite importante, plus d'eau, refoulement). Une majoration s'applique et elle vous est annoncée au téléphone.</p></details>
+        <details><summary>Faites-vous les dossiers d'aides ?</summary><p>Pour un remplacement de chauffe-eau ou une adaptation de salle de bain, on vous aide à monter le dossier d'aide.</p></details>
+        <details><summary>Quel délai pour une rénovation ?</summary><p>Comptez une visite sous une semaine, le devis sous 48 h, puis 5 à 10 jours de travaux selon la salle de bain.</p></details>
+      </div>
+    </div>
+    <form class="q" id="q" novalidate>
+      <h3>Demande d'intervention</h3>
+      <div><span class="lbl">Type de problème</span><div class="choices" id="type"></div></div>
+      <div><span class="lbl">Urgence</span><div class="urg" id="urg"></div></div>
+      <div><label class="lbl" for="qDesc">En quelques mots</label><textarea id="qDesc" placeholder="Ex. : l'évier de la cuisine ne se vide plus depuis ce matin"></textarea></div>
+      <div><label class="lbl" for="qTel">Votre téléphone</label><input id="qTel" type="tel" placeholder="06 00 00 00 00" autocomplete="tel"></div>
+      <button class="btn" type="submit">Envoyer ma demande</button>
+      <p class="ok" id="ok" hidden></p>
+    </form>
+  </div>
+</section>
+
+<footer class="band">
+  <div class="in">
+    <div><h4>Durand Plomberie</h4><p>12 rue des Artisans<br>Atelier ouvert du lundi au vendredi, 8h – 18h</p></div>
+    <div><h4>Téléphone</h4><p style="user-select:all;font-weight:700">06 00 00 00 00</p><p>Urgences 7j/7</p></div>
+    <div><h4>Garanties</h4><p>Décennale · RC Pro · Devis gratuit<br>SIRET fictif 000 000 000 00000</p></div>
+  </div>
+</footer>
+<div class="bottom band"><div class="in"><span>© Durand Plomberie · Entreprise fictive</span><span>Site réalisé par StudioCac</span></div></div>
+
+<script>
+const TYPES = ["Fuite","Débouchage","Eau chaude","Salle de bain","Robinet / WC","Autre"];
+const URG = [["Aujourd'hui","hot"],["Cette semaine",""],["Pas pressé",""]];
+let type = "Fuite", urg = "Aujourd'hui";
+function pick(id, items, cur, cls){ document.getElementById(id).innerHTML = items.map(x=>{const [v,c] = Array.isArray(x)?x:[x,""]; return `<button type="button" class="choice ${c}" aria-pressed="${v===cur}" data-v="${v}">${v}</button>`;}).join(""); }
+pick("type", TYPES, type); pick("urg", URG, urg);
+document.getElementById("type").addEventListener("click", e=>{const b=e.target.closest(".choice"); if(!b) return; type=b.dataset.v; pick("type", TYPES, type);});
+document.getElementById("urg").addEventListener("click", e=>{const b=e.target.closest(".choice"); if(!b) return; urg=b.dataset.v; pick("urg", URG, urg);});
+q.addEventListener("submit", e=>{
+  e.preventDefault(); ok.hidden=false;
+  if(!qTel.value.trim()){ ok.textContent="Indiquez un numéro pour qu'on puisse vous rappeler."; qTel.focus(); return; }
+  ok.textContent = urg==="Aujourd'hui"
+    ? `Demande « ${type} » reçue en urgence : rappel sous 15 minutes. (Démo : rien n'est réellement envoyé.)`
+    : `Demande « ${type} » reçue : on vous rappelle dans la journée pour fixer un créneau. (Démo : rien n'est réellement envoyé.)`;
+});
+</script>
+
+</body>
+</html>

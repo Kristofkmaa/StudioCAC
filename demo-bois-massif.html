@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Atelier Bois Massif</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout : atelier de menuiserie, fond lin et bois sombre, grande typo serif fine, cotes techniques en mono comme sur un plan d'atelier. Thème clair assumé. */
+:root{
+  --linen:#EDE4D6; --linen-2:#F6F1E8; --walnut:#2F2A24; --walnut-2:#4A3F33; --oak:#C49A6C; --chestnut:#8E5A34; --white:#FFFDF8;
+  --ink:#231F1A; --muted:#6A5F52; --line:#D5C8B4;
+  --f-display:"Instrument Serif",Georgia,"Times New Roman",serif;
+  --f-body:"Work Sans","Helvetica Neue",Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--linen-2)}
+body{background:var(--linen-2);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.65}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--chestnut);outline-offset:3px}
+.band{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.in{max-width:1140px;margin:0 auto}
+.demo{background:var(--walnut);color:var(--linen);font-size:13px;font-weight:600;text-align:center;padding-block:6px}
+.mono{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+
+header.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--linen-2);border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:11;background:var(--linen-2)}
+header.nav .in{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-block:14px}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;font-family:var(--f-display);font-size:26px;line-height:1}
+nav.links{display:flex;gap:28px;font-size:15px;font-weight:500}
+nav.links a{text-decoration:none;color:var(--muted)}
+nav.links a:hover{color:var(--ink)}
+.btn{font:600 15px var(--f-body);display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:13px 22px;border:1.5px solid var(--walnut);background:var(--walnut);color:var(--linen);cursor:pointer;text-decoration:none}
+.btn:hover{background:var(--chestnut);border-color:var(--chestnut)}
+.btn.out{background:transparent;color:var(--walnut)}
+.btn.out:hover{background:var(--walnut);color:var(--linen)}
+
+.hero .in{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;padding-block:64px}
+.hero h1{font-family:var(--f-display);font-weight:400;font-size:clamp(50px,8vw,104px);line-height:.92;margin:14px 0 22px;letter-spacing:-.02em;text-wrap:balance}
+.hero h1 i{color:var(--chestnut)}
+.hero p{max-width:44ch;color:var(--muted);margin:0;font-size:17px}
+.hero .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+.plan{position:relative;background:var(--walnut);aspect-ratio:1;max-width:100%;width:min(480px,100%);justify-self:center;padding:28px}
+.plan svg{width:100%;height:100%}
+
+.sec{padding-block:84px}
+.sec h2{font-family:var(--f-display);font-weight:400;font-size:clamp(38px,5.4vw,62px);line-height:1;margin:10px 0 36px;letter-spacing:-.01em;text-wrap:balance}
+.sec h2 i{color:var(--chestnut)}
+
+.works{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.work{display:flex;flex-direction:column;gap:12px}
+.work .ill{aspect-ratio:4/5;max-width:100%;background:var(--linen);display:block;width:100%}
+.work .top{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.work h3{font-family:var(--f-display);font-weight:400;font-size:26px;margin:0}
+.work p{margin:0;color:var(--muted);font-size:15px}
+.dims{display:flex;gap:14px;flex-wrap:wrap}
+
+.wood{background:var(--walnut);color:var(--linen)}
+.wood .mono{color:var(--oak)}
+.wood-grid{display:grid;grid-template-columns:280px 1fr;gap:40px;align-items:start}
+.essences{display:flex;flex-direction:column;border-top:1px solid rgba(237,228,214,.2)}
+.ess{font:400 28px var(--f-display);text-align:left;padding:16px 0;border:0;border-bottom:1px solid rgba(237,228,214,.2);background:transparent;color:rgba(237,228,214,.55);cursor:pointer;display:flex;align-items:center;gap:14px}
+.ess i{width:18px;height:18px;border-radius:50%;flex:none}
+.ess[aria-pressed="true"]{color:var(--linen)}
+.ess:hover{color:var(--linen)}
+.ess-card{display:grid;grid-template-columns:1fr 1fr;gap:32px;min-width:0}
+.swatch{aspect-ratio:1;max-width:100%;width:100%;display:block}
+.ess-card h3{font-family:var(--f-display);font-weight:400;font-size:44px;margin:0 0 6px}
+.ess-card p{color:rgba(237,228,214,.78);margin:0 0 18px}
+.meter{display:grid;grid-template-columns:110px 1fr;gap:8px 14px;align-items:center;font-size:14px}
+.meter .bar{height:6px;background:rgba(237,228,214,.15);position:relative}
+.meter .bar span{position:absolute;inset:0 auto 0 0;background:var(--oak)}
+.ess-card .use{margin-top:18px;font-size:14px;color:var(--oak)}
+
+.process{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;counter-reset:s}
+.stp{border-top:1.5px solid var(--walnut);padding-top:16px}
+.stp h3{font-family:var(--f-display);font-weight:400;font-size:26px;margin:6px 0}
+.stp p{margin:0;color:var(--muted);font-size:15px}
+
+.project{background:var(--linen)}
+.project .in.g{display:grid;grid-template-columns:1fr 1.2fr;gap:48px;align-items:start}
+form.pj{background:var(--white);border:1.5px solid var(--walnut);padding:28px;display:grid;gap:18px}
+.lbl{display:block;font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.choices{display:flex;flex-wrap:wrap;gap:8px}
+.ch{font:500 15px var(--f-body);padding:9px 14px;border:1.5px solid var(--line);background:var(--white);color:var(--ink);cursor:pointer}
+.ch[aria-pressed="true"]{border-color:var(--walnut);background:var(--walnut);color:var(--linen)}
+input[type=range]{width:100%;accent-color:var(--chestnut)}
+.budget{display:flex;justify-content:space-between;font-family:var(--f-mono);font-size:13px;color:var(--muted)}
+.budget b{font-family:var(--f-display);font-weight:400;font-size:30px;color:var(--ink)}
+form.pj input[type=text],form.pj input[type=tel],form.pj textarea{font:16px var(--f-body);padding:12px 14px;border:1.5px solid var(--line);width:100%;background:var(--white);color:var(--ink)}
+form.pj input:focus,form.pj textarea:focus{outline:none;border-color:var(--walnut)}
+form.pj textarea{min-height:90px;resize:vertical}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ok{background:var(--linen);padding:14px;margin:0;font-size:15px}
+.contact-list{display:grid;gap:18px;margin-top:8px}
+.contact-list div{border-top:1px solid var(--line);padding-top:12px}
+.contact-list p{margin:4px 0 0}
+
+footer{background:var(--walnut);color:var(--linen)}
+footer .in{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-block:22px;font-size:13px;opacity:.8}
+
+@media (max-width:900px){
+  nav.links{display:none}
+  .hero .in,.project .in.g{grid-template-columns:1fr;gap:36px}
+  .works{grid-template-columns:1fr 1fr}
+  .wood-grid{grid-template-columns:1fr}
+  .essences{flex-direction:row;flex-wrap:wrap;gap:6px 18px;border:0}
+  .ess{font-size:22px;border:0;padding:6px 0}
+  .ess-card{grid-template-columns:1fr}
+  .swatch{max-width:280px}
+  .process{grid-template-columns:1fr 1fr}
+  .sec{padding-block:58px}
+}
+@media (max-width:540px){.works,.process,.two{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<div class="demo band">Site de démonstration réalisé par StudioCac · atelier fictif</div>
+
+<header class="nav band">
+  <div class="in">
+    <a class="logo" href="#top"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><rect x="2" y="2" width="26" height="26" fill="#2F2A24"/><path d="M6 10c6-3 12 3 18 0M6 15c6-3 12 3 18 0M6 20c6-3 12 3 18 0" stroke="#C49A6C" stroke-width="1.6" fill="none"/></svg>Bois Massif</a>
+    <nav class="links"><a href="#realisations">Réalisations</a><a href="#essences">Essences</a><a href="#methode">Méthode</a><a href="#projet">Projet</a></nav>
+    <a class="btn" href="#projet">Parler de mon projet</a>
+  </div>
+</header>
+
+<section class="hero band" id="top">
+  <div class="in">
+    <div>
+      <div class="mono">Menuiserie · Ébénisterie · Agencement</div>
+      <h1>Meubles sur mesure en <i>bois local.</i></h1>
+      <p>Cuisines, tables, bibliothèques et escaliers dessinés pour votre maison et fabriqués à la main dans notre atelier, avec des bois choisis chez les scieurs de la région.</p>
+      <div class="cta"><a class="btn" href="#projet">Décrire mon projet</a><a class="btn out" href="#realisations">Voir l'atelier</a></div>
+    </div>
+    <div class="plan" aria-hidden="true">
+      <svg viewBox="0 0 400 400">
+        <defs><pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="#4A3F33" stroke-width="1"/></pattern></defs>
+        <rect width="400" height="400" fill="url(#grid)"/>
+        <rect x="60" y="150" width="280" height="22" fill="#C49A6C"/>
+        <path d="M60 158c40-4 80 6 140 0s100-4 140 2" stroke="#8E5A34" stroke-width="1.5" fill="none"/>
+        <path d="M60 165c50-3 90 4 140-1s90 2 140-1" stroke="#8E5A34" stroke-width="1" fill="none"/>
+        <rect x="80" y="172" width="18" height="150" fill="#A97F55"/>
+        <rect x="302" y="172" width="18" height="150" fill="#A97F55"/>
+        <rect x="98" y="240" width="204" height="10" fill="#A97F55"/>
+        <g stroke="#EDE4D6" stroke-width="1" fill="#EDE4D6" font-family="IBM Plex Mono, monospace" font-size="12">
+          <path d="M60 120h280M60 114v12M340 114v12"/><text x="200" y="110" text-anchor="middle" stroke="none">2000 mm</text>
+          <path d="M370 150v172M364 150h12M364 322h12"/><text x="384" y="240" stroke="none" transform="rotate(90 384 240)" text-anchor="middle">750 mm</text>
+          <text x="60" y="360" stroke="none">TABLE · CHÊNE MASSIF · HUILE</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="sec band" id="realisations">
+  <div class="in">
+    <div class="mono">Réalisations récentes</div>
+    <h2>Fait à la main, <i>fait pour durer</i></h2>
+    <div class="works" id="works"></div>
+  </div>
+</section>
+
+<section class="sec band wood" id="essences">
+  <div class="in">
+    <div class="mono">Les essences</div>
+    <h2 style="color:var(--linen)">Le bon bois pour <i style="color:var(--oak)">le bon meuble</i></h2>
+    <div class="wood-grid">
+      <div class="essences" id="essList"></div>
+      <div class="ess-card" id="essCard"></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec band" id="methode">
+  <div class="in">
+    <div class="mono">Comment on travaille</div>
+    <h2>Du croquis à <i>la pose</i></h2>
+    <div class="process">
+      <div class="stp"><div class="mono">Semaine 1</div><h3>Visite</h3><p>On vient chez vous, on mesure, on écoute vos envies et vos contraintes.</p></div>
+      <div class="stp"><div class="mono">Semaine 2</div><h3>Plan &amp; devis</h3><p>Plan coté, choix de l'essence et de la finition, devis détaillé.</p></div>
+      <div class="stp"><div class="mono">4 à 8 semaines</div><h3>Fabrication</h3><p>Débit, assemblage et finition à l'atelier. Vous pouvez passer voir l'avancée.</p></div>
+      <div class="stp"><div class="mono">1 jour</div><h3>Pose</h3><p>Livraison et installation, ajustements sur place, atelier nettoyé derrière nous.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec band project" id="projet">
+  <div class="in g">
+    <div>
+      <div class="mono">Votre projet</div>
+      <h2>Parlons de <i>votre meuble</i></h2>
+      <p style="color:var(--muted);max-width:44ch">Quelques infos suffisent pour qu'on vous rappelle avec une première estimation. La visite et le devis sont gratuits.</p>
+      <div class="contact-list">
+        <div><span class="mono">Atelier</span><p>ZA des Scieries, bâtiment 3<br>Visites sur rendez-vous</p></div>
+        <div><span class="mono">Téléphone</span><p style="user-select:all;font-weight:600">06 00 00 00 00</p></div>
+      </div>
+    </div>
+    <form class="pj" id="pj" novalidate>
+      <div><span class="lbl">Type de projet</span><div class="choices" id="kind"></div></div>
+      <div><span class="lbl">Essence souhaitée</span><div class="choices" id="woodPick"></div></div>
+      <div><span class="lbl">Budget indicatif</span><div class="budget"><b id="bOut">3 000 €</b><span>1 000 € · 15 000 €+</span></div><input type="range" id="budget" min="1000" max="15000" step="500" value="3000" aria-label="Budget indicatif"></div>
+      <div><label class="lbl" for="pDesc">Dimensions, envies, contraintes</label><textarea id="pDesc" placeholder="Ex. : table de 8 couverts, plateau d'un seul tenant, pieds en métal noir"></textarea></div>
+      <div class="two"><input type="text" id="pName" placeholder="Votre nom" autocomplete="name"><input type="tel" id="pTel" placeholder="Téléphone" autocomplete="tel"></div>
+      <button class="btn" type="submit">Envoyer ma demande</button>
+      <p class="ok" id="ok" hidden></p>
+    </form>
+  </div>
+</section>
+
+<footer class="band"><div class="in"><span>© Atelier Bois Massif · Atelier fictif</span><span>Site réalisé par StudioCac</span></div></footer>
+
+<script>
+const grain = (base, line, dark) => `<svg class="ill" viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="400" height="500" fill="${base}"/>${Array.from({length:14},(_,i)=>{const y=30+i*34; return `<path d="M0 ${y}c80 ${i%2?-14:12} 160 ${i%3?16:-10} 240 0s110 ${i%2?10:-12} 160 4" stroke="${line}" stroke-width="${1+i%3}" fill="none" opacity=".7"/>`;}).join("")}<ellipse cx="${120+Math.random()*0}" cy="230" rx="22" ry="9" fill="none" stroke="${dark}" stroke-width="2"/><ellipse cx="120" cy="230" rx="10" ry="4" fill="${dark}" opacity=".5"/></svg>`;
+const WORKS = [
+  {n:"Table de ferme",w:"Chêne massif, huile naturelle",d:"L 2200 · l 950 · H 750",ill:["#C49A6C","#A97F55","#7A5532"]},
+  {n:"Bibliothèque murale",w:"Noyer, assemblages tenon-mortaise",d:"L 3200 · H 2400 · P 350",ill:["#5C4130","#3E2B1F","#2A1C13"]},
+  {n:"Cuisine en châtaignier",w:"Façades massives, plan en chêne",d:"L 4100 · H 900 · P 650",ill:["#A8784A","#8E5A34","#5E3B21"]}
+];
+works.innerHTML = WORKS.map(w=>`<article class="work">${grain(...w.ill)}<div class="top"><h3>${w.n}</h3></div><p>${w.w}</p><div class="dims"><span class="mono">${w.d} mm</span></div></article>`).join("");
+
+const ESS = [
+  {n:"Chêne",c:"#C49A6C",l:"#A97F55",k:"#7A5532",d:"Dense et stable, il prend une belle patine avec les années. Le choix sûr pour une table ou un escalier.",dur:5,stab:4,prix:3,use:"Tables, escaliers, parquets"},
+  {n:"Noyer",c:"#5C4130",l:"#3E2B1F",k:"#2A1C13",d:"Teinte chocolat profonde et veinage spectaculaire. Plus rare, il donne du caractère à un meuble de salon.",dur:4,stab:4,prix:5,use:"Bibliothèques, buffets, bureaux"},
+  {n:"Châtaignier",c:"#A8784A",l:"#8E5A34",k:"#5E3B21",d:"Naturellement résistant à l'humidité et aux insectes, sans traitement. Idéal en cuisine et en extérieur.",dur:4,stab:3,prix:2,use:"Cuisines, bardage, mobilier extérieur"},
+  {n:"Frêne",c:"#E3CFA8",l:"#C7AE84",k:"#8F7550",d:"Clair, souple et nerveux, il apporte de la lumière. Très apprécié pour les chaises et les intérieurs scandinaves.",dur:4,stab:3,prix:3,use:"Chaises, lits, aménagements clairs"}
+];
+let cur = 0;
+function renderEss(){
+  essList.innerHTML = ESS.map((e,i)=>`<button type="button" class="ess" aria-pressed="${i===cur}" data-i="${i}"><i style="background:${e.c}"></i>${e.n}</button>`).join("");
+  const e = ESS[cur];
+  const m = (label,v)=>`<span>${label}</span><div class="bar"><span style="width:${v*20}%"></span></div>`;
+  essCard.innerHTML = `${grain(e.c,e.l,e.k).replace('class="ill"','class="swatch"').replace('viewBox="0 0 400 500"','viewBox="0 0 400 400"')}<div><h3>${e.n}</h3><p>${e.d}</p><div class="meter">${m("Dureté",e.dur)}${m("Stabilité",e.stab)}${m("Prix",e.prix)}</div><div class="use">Idéal pour : ${e.use}</div></div>`;
+}
+essList.addEventListener("click", ev=>{const b=ev.target.closest(".ess"); if(!b) return; cur=Number(b.dataset.i); renderEss();});
+renderEss();
+
+const KINDS = ["Table","Cuisine","Bibliothèque","Escalier","Dressing","Autre"];
+const WOODS = [...ESS.map(e=>e.n),"Je ne sais pas"];
+let kind = "Table", wood = "Chêne";
+function chips(el, list, val){ el.innerHTML = list.map(x=>`<button type="button" class="ch" aria-pressed="${x===val}" data-v="${x}">${x}</button>`).join(""); }
+chips(document.getElementById("kind"), KINDS, kind); chips(woodPick, WOODS, wood);
+document.getElementById("kind").onclick = e=>{const b=e.target.closest(".ch"); if(!b) return; kind=b.dataset.v; chips(document.getElementById("kind"), KINDS, kind);};
+woodPick.onclick = e=>{const b=e.target.closest(".ch"); if(!b) return; wood=b.dataset.v; chips(woodPick, WOODS, wood);};
+const fmtB = v => (v>=15000?"15 000 € et +":Number(v).toLocaleString("fr-FR")+" €");
+budget.oninput = ()=> bOut.textContent = fmtB(budget.value);
+pj.addEventListener("submit", e=>{
+  e.preventDefault(); ok.hidden=false;
+  if(!pName.value.trim()||!pTel.value.trim()){ ok.textContent="Indiquez votre nom et votre téléphone pour qu'on vous rappelle."; return; }
+  ok.textContent = `Merci ${pName.value.trim()} ! Projet « ${kind}${wood==="Je ne sais pas"?", essence à définir":" en "+wood.toLowerCase()} », budget ${fmtB(budget.value)}. On vous rappelle sous 48 h pour caler la visite. (Démo : rien n'est réellement envoyé.)`;
+});
+</script>
+
+</body>
+</html>

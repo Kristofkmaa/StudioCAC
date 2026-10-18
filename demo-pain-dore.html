@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Au Pain Doré</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caprasimo&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap">
+<style>
+/* Layout : boulangerie de quartier, jaune blé et brun croûte, typo ronde et généreuse, comptoir de commande à retirer avec panier qui se remplit. Thème clair assumé. */
+:root{
+  --wheat:#F6D58E; --wheat-2:#FBEBC4; --crust:#3B2A14; --crust-2:#5C4220; --flour:#FFFCF4; --tomato:#D9502B; --leaf:#4E7A3A;
+  --ink:#2B1E0E; --muted:#6E5A3C; --line:#EBD9AE;
+  --f-display:"Caprasimo","Cooper Black",Georgia,serif;
+  --f-body:"Nunito Sans","Helvetica Neue",Arial,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--flour)}
+body{background:var(--flour);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.6}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--tomato);outline-offset:2px;border-radius:6px}
+.band{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.in{max-width:1120px;margin:0 auto}
+.demo{background:var(--crust);color:var(--wheat);font-size:13px;font-weight:700;text-align:center;padding-block:6px}
+
+header.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--wheat)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:11;background:var(--wheat)}
+header.nav .in{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-block:12px}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--f-display);font-size:26px;text-decoration:none;color:var(--crust)}
+nav.links{display:flex;gap:24px;font-weight:700;font-size:15px}
+nav.links a{text-decoration:none;color:var(--crust-2)}
+.btn{font:800 15px var(--f-body);display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 22px;border-radius:999px;border:0;cursor:pointer;text-decoration:none;background:var(--crust);color:var(--wheat)}
+.btn:hover{background:var(--crust-2)}
+.btn.t{background:var(--tomato);color:var(--flour)}
+.btn.t:hover{background:#C2431F}
+.btn[disabled]{opacity:.4;cursor:not-allowed}
+
+.hero{background:var(--wheat);position:relative;overflow:hidden}
+.hero .in{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center;padding-block:48px 80px}
+.hero h1{font-family:var(--f-display);font-weight:400;font-size:clamp(46px,7.5vw,92px);line-height:.95;margin:0;color:var(--crust);text-wrap:balance}
+.hero p{max-width:42ch;color:var(--crust-2);margin:20px 0 0;font-size:18px}
+.hero .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.loaf{width:min(460px,100%);max-width:100%;justify-self:center}
+.scallop{display:block;width:100%;height:28px;background:radial-gradient(circle at 14px 0,var(--wheat) 14px,transparent 15px) 0 0/28px 28px repeat-x}
+
+.sec{padding-block:80px}
+.kicker{font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--tomato)}
+.sec h2{font-family:var(--f-display);font-weight:400;font-size:clamp(34px,5vw,56px);line-height:1;margin:8px 0 12px;color:var(--crust);text-wrap:balance}
+.lead{color:var(--muted);max-width:56ch;margin:0 0 36px}
+
+/* fournées */
+.oven{display:grid;grid-template-columns:repeat(5,1fr);gap:0;position:relative;margin-top:8px}
+.oven::before{content:"";position:absolute;left:0;right:0;top:19px;height:3px;background:var(--line)}
+.bake{position:relative;padding-right:12px}
+.bake i{display:block;width:40px;height:40px;border-radius:50%;background:var(--flour);border:3px solid var(--line);position:relative;z-index:1;display:grid;place-items:center;font-style:normal;font-size:12px}
+.bake.past i{background:var(--crust);border-color:var(--crust)}
+.bake.now i{background:var(--tomato);border-color:var(--tomato);box-shadow:0 0 0 6px rgba(217,80,43,.18)}
+.bake b{display:block;margin-top:12px;font-family:var(--f-display);font-weight:400;font-size:24px;color:var(--crust);font-variant-numeric:tabular-nums}
+.bake span{font-size:15px;color:var(--muted)}
+
+/* commande */
+.shop{background:var(--wheat-2)}
+.shop .in{display:grid;grid-template-columns:1fr 340px;gap:32px;align-items:start}
+.cats{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.cat{font:700 15px var(--f-body);padding:8px 16px;border-radius:999px;border:2px solid var(--crust);background:transparent;color:var(--crust);cursor:pointer}
+.cat[aria-pressed="true"]{background:var(--crust);color:var(--wheat)}
+.products{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
+.prod{background:var(--flour);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:8px;border:2px solid transparent}
+.prod.has{border-color:var(--crust)}
+.prod .ill{aspect-ratio:4/3;max-width:100%;border-radius:12px;background:var(--wheat);display:grid;place-items:center}
+.prod .ill svg{width:70%;height:70%}
+.prod h3{font-family:var(--f-display);font-weight:400;font-size:20px;margin:0;color:var(--crust);line-height:1.15}
+.prod p{margin:0;font-size:14px;color:var(--muted)}
+.prod .foot{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:6px}
+.prod .p{font-weight:800;font-variant-numeric:tabular-nums}
+.qty{display:flex;align-items:center;gap:6px}
+.qty button{width:34px;height:34px;border-radius:50%;border:2px solid var(--crust);background:var(--flour);color:var(--crust);font:800 18px var(--f-body);cursor:pointer;line-height:1}
+.qty button.add{background:var(--crust);color:var(--wheat)}
+.qty span{min-width:20px;text-align:center;font-weight:800;font-variant-numeric:tabular-nums}
+.badge{align-self:flex-start;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--leaf);background:rgba(78,122,58,.12);padding:3px 8px;border-radius:999px}
+
+.basket{position:sticky;top:calc(env(safe-area-inset-top,0px) + 84px);background:var(--crust);color:var(--wheat);border-radius:20px;padding:22px;display:flex;flex-direction:column;gap:14px}
+.basket h3{font-family:var(--f-display);font-weight:400;font-size:26px;margin:0}
+.lines{display:flex;flex-direction:column;gap:8px;font-size:15px}
+.line{display:flex;justify-content:space-between;gap:10px}
+.line span:last-child{font-variant-numeric:tabular-nums;white-space:nowrap}
+.empty{opacity:.7;font-size:15px;margin:0}
+.total{display:flex;justify-content:space-between;border-top:2px dashed rgba(246,213,142,.35);padding-top:12px;font-weight:800;font-size:20px;font-variant-numeric:tabular-nums}
+.basket label{font-size:13px;font-weight:700;opacity:.85;display:flex;flex-direction:column;gap:6px}
+.basket select,.basket input{font:16px var(--f-body);padding:10px 12px;border-radius:10px;border:0;background:var(--wheat-2);color:var(--ink);width:100%}
+.basket .btn{background:var(--wheat);color:var(--crust)}
+.basket .btn:hover{background:#FFE3A6}
+.ok{background:rgba(246,213,142,.15);border-radius:10px;padding:12px;margin:0;font-size:14px}
+
+.info .in{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
+.card{background:var(--wheat-2);border-radius:20px;padding:24px}
+.card h3{font-family:var(--f-display);font-weight:400;font-size:24px;margin:0 0 8px;color:var(--crust)}
+.card p{margin:0;color:var(--muted);font-size:15px}
+.card table{width:100%;border-collapse:collapse;font-size:15px;color:var(--muted)}
+.card td{padding:3px 0}
+.card td:last-child{text-align:right;font-variant-numeric:tabular-nums}
+.card tr.today td{color:var(--crust);font-weight:800}
+footer{background:var(--crust);color:var(--wheat)}
+footer .in{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-block:20px;font-size:14px;opacity:.85}
+
+@media (max-width:900px){
+  nav.links{display:none}
+  .hero .in{grid-template-columns:1fr;padding-block:36px 56px}
+  .loaf{width:min(320px,85%)}
+  .shop .in{grid-template-columns:1fr}
+  .basket{position:static}
+  .info .in{grid-template-columns:1fr}
+  .oven{grid-template-columns:1fr;gap:18px}
+  .oven::before{left:19px;right:auto;top:0;bottom:0;width:3px;height:auto}
+  .bake{display:grid;grid-template-columns:40px 1fr;column-gap:14px;align-items:center}
+  .bake b{margin:0;grid-column:2}
+  .bake span{grid-column:2}
+  .bake i{grid-row:1/3}
+  .sec{padding-block:56px}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<div class="demo band">Site de démonstration réalisé par StudioCac · boulangerie fictive</div>
+
+<header class="nav band">
+  <div class="in">
+    <a class="logo" href="#top"><svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><ellipse cx="17" cy="19" rx="15" ry="10" fill="#3B2A14"/><path d="M9 15l4 6M15 13l4 7M21 13l4 6" stroke="#F6D58E" stroke-width="2.2" stroke-linecap="round"/></svg>Au Pain Doré</a>
+    <nav class="links"><a href="#fournees">Fournées</a><a href="#commande">Commander</a><a href="#infos">Horaires</a></nav>
+    <a class="btn t" href="#commande">Commander</a>
+  </div>
+</header>
+
+<section class="hero band" id="top">
+  <div class="in">
+    <div>
+      <div class="kicker">Boulangerie · Pâtisserie</div>
+      <h1>Pains au levain cuits chaque matin.</h1>
+      <p>Farines de meuniers locaux, levain maison et fournées tout au long de la journée. Commandez la veille, on vous le met de côté.</p>
+      <div class="cta"><a class="btn" href="#commande">Commander à retirer</a></div>
+    </div>
+    <svg class="loaf" viewBox="0 0 400 300" aria-hidden="true">
+      <ellipse cx="200" cy="268" rx="170" ry="16" fill="#3B2A14" opacity=".15"/>
+      <path d="M40 200c0-80 70-130 160-130s160 50 160 130c0 40-40 60-160 60S40 240 40 200z" fill="#B8742F"/>
+      <path d="M60 196c0-68 62-110 140-110s140 42 140 110" fill="none" stroke="#D39A4E" stroke-width="10" stroke-linecap="round" opacity=".6"/>
+      <path d="M110 140c20 10 30 40 25 70M170 112c25 14 35 52 30 92M235 112c25 14 35 52 30 92M295 140c18 12 24 40 18 66" fill="none" stroke="#F6D58E" stroke-width="9" stroke-linecap="round"/>
+      <g fill="#FFFCF4" opacity=".85"><circle cx="150" cy="96" r="3"/><circle cx="220" cy="88" r="2.5"/><circle cx="270" cy="104" r="3"/><circle cx="120" cy="120" r="2"/><circle cx="310" cy="130" r="2.5"/></g>
+    </svg>
+  </div>
+</section>
+<span class="scallop" aria-hidden="true"></span>
+
+<section class="sec band" id="fournees">
+  <div class="in">
+    <div class="kicker">Les fournées du jour</div>
+    <h2>Toujours une fournée qui sort</h2>
+    <p class="lead">Le four tourne du matin au soir. Voici ce qui sort, et à quelle heure.</p>
+    <div class="oven" id="oven"></div>
+  </div>
+</section>
+
+<section class="sec band shop" id="commande">
+  <div class="in">
+    <div>
+      <div class="kicker">Click &amp; collect</div>
+      <h2>Commandez, on vous le garde</h2>
+      <p class="lead">Ajoutez vos produits, choisissez l'heure de retrait. Vous payez sur place.</p>
+      <div class="cats" id="cats"></div>
+      <div class="products" id="products"></div>
+    </div>
+    <aside class="basket" aria-live="polite">
+      <h3>Votre panier</h3>
+      <div class="lines" id="lines"></div>
+      <div class="total"><span>Total</span><span id="total">0,00 €</span></div>
+      <label>Retrait<select id="pickup"></select></label>
+      <label>Prénom<input id="pName" placeholder="Pour la mettre de côté" autocomplete="given-name"></label>
+      <button class="btn" type="button" id="order" disabled>Valider la commande</button>
+      <p class="ok" id="ok" hidden></p>
+    </aside>
+  </div>
+</section>
+
+<section class="sec band info" id="infos">
+  <div class="in">
+    <div class="card"><h3>Horaires</h3><table id="hrs"></table></div>
+    <div class="card"><h3>La boutique</h3><p>21 rue de l'Église<br>Face à la pharmacie, stationnement minute devant.</p><p style="margin-top:10px;user-select:all;font-weight:800;color:var(--crust)">04 00 00 00 00</p></div>
+    <div class="card"><h3>Commandes spéciales</h3><p>Pièces montées, gâteaux d'anniversaire, plateaux pour réunions et mariages. Passez en boutique ou appelez, 72 h à l'avance.</p></div>
+  </div>
+</section>
+
+<footer class="band"><div class="in"><span>© Au Pain Doré · Boulangerie fictive</span><span>Site réalisé par StudioCac</span></div></footer>
+
+<script>
+const BAKES = [[390,"Pains du matin","Baguettes, campagne, complet"],[420,"Viennoiseries","Croissants, pains au chocolat"],[690,"Fournée de midi","Baguettes, sandwichs, quiches"],[960,"Goûter","Chaussons, brioches, cookies"],[1050,"Fournée du soir","Baguettes tradition chaudes"]];
+const hm = m => `${Math.floor(m/60)}h${String(m%60).padStart(2,"0")}`;
+const nowM = new Date().getHours()*60+new Date().getMinutes();
+const nowIdx = BAKES.findIndex((b,i)=>nowM>=b[0] && (i===BAKES.length-1 || nowM<BAKES[i+1][0]));
+oven.innerHTML = BAKES.map(([m,t,d],i)=>`<div class="bake ${i<nowIdx?"past":i===nowIdx?"now":""}"><i></i><b>${hm(m)}</b><span><strong style="color:var(--crust)">${t}</strong><br>${d}</span></div>`).join("");
+
+const ILL = {
+  pain:'<svg viewBox="0 0 100 60"><path d="M6 36c0-16 20-26 44-26s44 10 44 26c0 10-12 14-44 14S6 46 6 36z" fill="#B8742F"/><path d="M28 24l8 14M46 20l8 16M64 22l8 14" stroke="#F6D58E" stroke-width="4" stroke-linecap="round"/></svg>',
+  baguette:'<svg viewBox="0 0 100 60"><rect x="4" y="22" width="92" height="18" rx="9" fill="#B8742F" transform="rotate(-10 50 31)"/><path d="M20 34l8-10M38 31l8-10M56 28l8-10M74 25l8-10" stroke="#F6D58E" stroke-width="3.5" stroke-linecap="round"/></svg>',
+  croissant:'<svg viewBox="0 0 100 60"><path d="M12 44c4-24 22-34 38-34s34 10 38 34c-8-6-14-8-18-6-6-10-14-14-20-14s-14 4-20 14c-4-2-10 0-18 6z" fill="#D08A3A"/><path d="M34 26l6 12M50 20v16M66 26l-6 12" stroke="#8C5320" stroke-width="3" stroke-linecap="round"/></svg>',
+  gateau:'<svg viewBox="0 0 100 60"><path d="M18 30h64v20H18z" fill="#E9C27A"/><path d="M18 30c8-12 56-12 64 0z" fill="#F6E7C8"/><path d="M18 40h64" stroke="#D9502B" stroke-width="4"/><circle cx="50" cy="16" r="5" fill="#D9502B"/></svg>',
+  tarte:'<svg viewBox="0 0 100 60"><ellipse cx="50" cy="38" rx="40" ry="14" fill="#C7883E"/><ellipse cx="50" cy="34" rx="34" ry="10" fill="#F2C94C"/><path d="M30 32h40M34 37h32" stroke="#E0A92B" stroke-width="3" stroke-linecap="round"/></svg>'
+};
+const PRODUCTS = [
+  {id:"trad",c:"Pains",n:"Baguette tradition",d:"Levain, croûte croustillante",p:1.30,i:"baguette",b:"Le best-seller"},
+  {id:"camp",c:"Pains",n:"Pain de campagne",d:"Levain naturel, 500 g",p:3.80,i:"pain"},
+  {id:"comp",c:"Pains",n:"Pain complet aux graines",d:"Lin, tournesol, courge, 400 g",p:4.20,i:"pain"},
+  {id:"croi",c:"Viennoiseries",n:"Croissant pur beurre",d:"Feuilletage maison",p:1.20,i:"croissant"},
+  {id:"pac",c:"Viennoiseries",n:"Pain au chocolat",d:"Deux barres de chocolat noir",p:1.35,i:"croissant"},
+  {id:"choux",c:"Pâtisseries",n:"Éclair au chocolat",d:"Crème pâtissière, glaçage",p:3.20,i:"gateau"},
+  {id:"citr",c:"Pâtisseries",n:"Tarte au citron (6 pers.)",d:"À commander la veille",p:22.00,i:"tarte",b:"La veille"},
+  {id:"fra",c:"Pâtisseries",n:"Fraisier (6 pers.)",d:"Selon saison, la veille",p:26.00,i:"gateau",b:"La veille"}
+];
+const cart = {};
+let cat = "Tous";
+const eur = n => n.toFixed(2).replace(".",",")+" €";
+function renderShop(){
+  const cs = ["Tous",...new Set(PRODUCTS.map(p=>p.c))];
+  cats.innerHTML = cs.map(c=>`<button type="button" class="cat" aria-pressed="${c===cat}" data-c="${c}">${c}</button>`).join("");
+  products.innerHTML = PRODUCTS.filter(p=>cat==="Tous"||p.c===cat).map(p=>{const q=cart[p.id]||0; return `
+    <div class="prod ${q?"has":""}">
+      <div class="ill">${ILL[p.i]}</div>
+      ${p.b?`<span class="badge">${p.b}</span>`:""}
+      <h3>${p.n}</h3><p>${p.d}</p>
+      <div class="foot"><span class="p">${eur(p.p)}</span>
+        <div class="qty">${q?`<button type="button" data-id="${p.id}" data-d="-1" aria-label="Retirer un ${p.n}">−</button><span>${q}</span>`:""}<button type="button" class="add" data-id="${p.id}" data-d="1" aria-label="Ajouter un ${p.n}">+</button></div>
+      </div>
+    </div>`;}).join("");
+  const items = PRODUCTS.filter(p=>cart[p.id]);
+  lines.innerHTML = items.length ? items.map(p=>`<div class="line"><span>${cart[p.id]} × ${p.n}</span><span>${eur(cart[p.id]*p.p)}</span></div>`).join("") : '<p class="empty">Votre panier est vide. Ajoutez une baguette pour commencer.</p>';
+  total.textContent = eur(items.reduce((a,p)=>a+cart[p.id]*p.p,0));
+  order.disabled = !items.length;
+}
+cats.addEventListener("click", e=>{const b=e.target.closest(".cat"); if(!b) return; cat=b.dataset.c; renderShop();});
+products.addEventListener("click", e=>{const b=e.target.closest("button[data-id]"); if(!b) return; const id=b.dataset.id; cart[id]=Math.max(0,(cart[id]||0)+Number(b.dataset.d)); if(!cart[id]) delete cart[id]; renderShop(); ok.hidden=true;});
+renderShop();
+
+// retrait : demain par défaut, créneaux toutes les 30 min
+const tm = new Date(); tm.setDate(tm.getDate()+1);
+const label = tm.toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"});
+const opts=[]; for(let m=420;m<=1140;m+=30) opts.push(`<option>${label}, ${hm(m)}</option>`);
+pickup.innerHTML = opts.join(""); pickup.selectedIndex = 3;
+order.addEventListener("click", ()=>{
+  ok.hidden=false;
+  if(!pName.value.trim()){ ok.textContent="Indiquez votre prénom pour qu'on mette la commande de côté."; pName.focus(); return; }
+  ok.textContent = `Merci ${pName.value.trim()} ! Commande de ${total.textContent} prête ${pickup.value}. Paiement en boutique. (Démo : rien n'est réellement envoyé.)`;
+});
+
+const HR = [["Lundi","6h30 – 19h30"],["Mardi","6h30 – 19h30"],["Mercredi","Fermé"],["Jeudi","6h30 – 19h30"],["Vendredi","6h30 – 19h30"],["Samedi","6h30 – 19h30"],["Dimanche","7h – 13h"]];
+const di = (new Date().getDay()+6)%7;
+hrs.innerHTML = HR.map(([d,h],i)=>`<tr class="${i===di?"today":""}"><td>${d}</td><td>${h}</td></tr>`).join("");
+</script>
+
+</body>
+</html>

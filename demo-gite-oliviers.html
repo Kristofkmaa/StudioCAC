@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gîte Les Oliviers</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Karla:wght@400;500;600;700&display=swap">
+<style>
+/* Layout : maison d'hôtes dans les oliviers, vert olive et pierre claire, typo lapidaire gravée, calendrier de disponibilités et simulateur de séjour. Thème clair assumé. */
+:root{
+  --olive:#3F5B3A; --olive-d:#2B4027; --sage:#A9B99A; --stone:#F4F1E6; --stone-2:#E9E4D2; --clay:#B86B4B; --white:#FFFEFA;
+  --ink:#1E2A1C; --muted:#5E6A57; --line:#D9D3BD;
+  --f-display:"Marcellus","Trajan Pro",Georgia,serif;
+  --f-body:"Karla","Helvetica Neue",Arial,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--stone)}
+body{background:var(--stone);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.65}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--clay);outline-offset:3px}
+.band{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.in{max-width:1120px;margin:0 auto}
+.demo{background:var(--olive-d);color:var(--stone);font-size:13px;font-weight:600;text-align:center;padding-block:6px}
+
+header.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--stone);border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:11;background:var(--stone)}
+header.nav .in{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-block:14px}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--f-display);font-size:22px;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;color:var(--olive-d)}
+nav.links{display:flex;gap:26px;font-weight:600;font-size:15px}
+nav.links a{text-decoration:none;color:var(--muted)}
+nav.links a:hover{color:var(--olive)}
+.btn{font:700 15px var(--f-body);display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 22px;border-radius:4px;border:0;cursor:pointer;text-decoration:none;background:var(--olive);color:var(--stone)}
+.btn:hover{background:var(--olive-d)}
+.btn.light{background:var(--stone);color:var(--olive-d)}
+
+.hero{position:relative;overflow:hidden;background:linear-gradient(180deg,#E7D8B5 0%,#F0E6CC 45%,var(--stone) 100%)}
+.hero .scene{position:absolute;inset:auto 0 0;width:100%;height:62%;display:block}
+.hero .in{position:relative;z-index:1;padding-block:72px 260px;text-align:left}
+.hero .kicker{color:var(--olive)}
+.hero h1{font-family:var(--f-display);font-weight:400;font-size:clamp(44px,7.5vw,92px);line-height:1;margin:12px 0 18px;color:var(--olive-d);max-width:13ch;text-wrap:balance}
+.hero p{max-width:44ch;color:var(--muted);margin:0}
+.hero .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+
+.sec{padding-block:80px}
+.kicker{font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--clay)}
+.sec h2{font-family:var(--f-display);font-weight:400;font-size:clamp(34px,5vw,54px);line-height:1.05;margin:10px 0 32px;color:var(--olive-d);text-wrap:balance}
+
+.rooms{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.room{background:var(--white);border:1px solid var(--line);border-radius:6px;overflow:hidden;display:flex;flex-direction:column}
+.room .ill{aspect-ratio:4/3;max-width:100%;display:block}
+.room .body{padding:20px;display:flex;flex-direction:column;gap:8px;flex:1}
+.room h3{font-family:var(--f-display);font-weight:400;font-size:24px;margin:0;color:var(--olive-d)}
+.room p{margin:0;color:var(--muted);font-size:15px}
+.amen{display:flex;gap:6px;flex-wrap:wrap}
+.amen span{font-size:12px;font-weight:600;padding:3px 9px;border-radius:999px;background:var(--stone-2);color:var(--muted)}
+.room .price{margin-top:auto;padding-top:10px;display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--line)}
+.room .price b{font-family:var(--f-display);font-weight:400;font-size:26px;color:var(--olive);font-variant-numeric:tabular-nums}
+.room .price span{font-size:14px;color:var(--muted)}
+
+.book{background:var(--olive);color:var(--stone)}
+.book .kicker{color:var(--sage)}
+.book h2{color:var(--stone)}
+.book .in.grid{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:start}
+.cal{background:var(--stone);color:var(--ink);border-radius:6px;padding:22px}
+.cal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.cal-head h3{font-family:var(--f-display);font-weight:400;font-size:22px;margin:0;color:var(--olive-d);text-transform:capitalize}
+.cal-head button{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--white);cursor:pointer;font-size:18px;color:var(--olive-d)}
+.cal-head button[disabled]{opacity:.35;cursor:not-allowed}
+.dow,.days{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.dow span{font-size:12px;font-weight:700;color:var(--muted);padding-bottom:6px;text-transform:uppercase}
+.d{font:600 14px var(--f-body);aspect-ratio:1;max-width:100%;border:0;border-radius:4px;background:var(--white);color:var(--ink);cursor:pointer;font-variant-numeric:tabular-nums}
+.d:hover:not([disabled]){outline:2px solid var(--olive)}
+.d.off{visibility:hidden}
+.d[disabled]{background:transparent;color:#B7B19C;cursor:not-allowed}
+.d.booked{background:repeating-linear-gradient(135deg,var(--stone-2) 0 4px,transparent 4px 8px);color:#A39D88;text-decoration:line-through}
+.d.sel{background:var(--olive);color:var(--stone)}
+.d.range{background:var(--sage);color:var(--olive-d)}
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;font-size:13px;color:var(--muted)}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:6px}
+.sim{display:flex;flex-direction:column;gap:16px}
+.sim label{display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:600;color:var(--sage)}
+.sim select{font:16px var(--f-body);padding:12px;border-radius:4px;border:0;background:var(--stone);color:var(--ink)}
+.stepper{display:flex;align-items:center;gap:12px}
+.stepper button{width:40px;height:40px;border-radius:50%;border:1px solid var(--sage);background:transparent;color:var(--stone);font-size:20px;cursor:pointer}
+.stepper b{font-size:20px;min-width:24px;text-align:center;font-variant-numeric:tabular-nums;color:var(--stone)}
+.quote{background:var(--olive-d);border-radius:6px;padding:20px;display:flex;flex-direction:column;gap:8px}
+.quote .r{display:flex;justify-content:space-between;gap:12px;font-size:15px;color:var(--sage)}
+.quote .r span:last-child{font-variant-numeric:tabular-nums;color:var(--stone)}
+.quote .t{display:flex;justify-content:space-between;border-top:1px solid rgba(169,185,154,.3);padding-top:10px;margin-top:4px;font-family:var(--f-display);font-size:26px}
+.hint{font-size:14px;color:var(--sage);margin:0}
+.ok{background:rgba(244,241,230,.12);border-radius:4px;padding:12px;margin:0;font-size:15px}
+
+.around .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.spot{border-top:2px solid var(--olive);padding-top:14px}
+.spot b{font-family:var(--f-display);font-weight:400;font-size:30px;color:var(--clay);font-variant-numeric:tabular-nums}
+.spot h3{font-size:17px;margin:4px 0;color:var(--olive-d)}
+.spot p{margin:0;color:var(--muted);font-size:15px}
+
+footer{background:var(--olive-d);color:var(--stone)}
+footer .in{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;padding-block:44px}
+footer h4{font-family:var(--f-display);font-weight:400;font-size:18px;letter-spacing:.06em;text-transform:uppercase;margin:0 0 8px;color:var(--sage)}
+footer p{margin:0;opacity:.85;font-size:15px}
+.bottom{background:#1F2F1C;color:rgba(244,241,230,.6);font-size:13px}
+.bottom .in{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-block:14px}
+
+@media (max-width:900px){
+  nav.links{display:none}
+  .rooms{grid-template-columns:1fr}
+  .book .in.grid{grid-template-columns:1fr}
+  .around .grid{grid-template-columns:1fr 1fr}
+  footer .in{grid-template-columns:1fr}
+  .hero .in{padding-block:48px 200px}
+  .sec{padding-block:56px}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<div class="demo band">Site de démonstration réalisé par StudioCac · gîte fictif</div>
+
+<header class="nav band">
+  <div class="in">
+    <a class="logo" href="#top"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path d="M15 28V12" stroke="#3F5B3A" stroke-width="2.5" stroke-linecap="round"/><ellipse cx="9" cy="10" rx="6" ry="2.6" transform="rotate(-30 9 10)" fill="#3F5B3A"/><ellipse cx="21" cy="10" rx="6" ry="2.6" transform="rotate(30 21 10)" fill="#A9B99A"/><ellipse cx="15" cy="5" rx="2.6" ry="5" fill="#3F5B3A"/><circle cx="19" cy="17" r="2" fill="#B86B4B"/></svg>Les Oliviers</a>
+    <nav class="links"><a href="#chambres">Chambres</a><a href="#dispo">Disponibilités</a><a href="#alentours">Alentours</a></nav>
+    <a class="btn" href="#dispo">Réserver</a>
+  </div>
+</header>
+
+<section class="hero band" id="top">
+  <svg class="scene" viewBox="0 0 1440 500" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <circle cx="1080" cy="150" r="70" fill="#F7E2A8"/>
+    <path d="M0 260c200-60 380-80 600-40s420 20 840-60v340H0z" fill="#C8C7A2"/>
+    <path d="M0 330c240-50 480-40 720-10s480 10 720-40v220H0z" fill="#A9B99A"/>
+    <g fill="#3F5B3A">
+      <ellipse cx="240" cy="300" rx="90" ry="54"/><rect x="232" y="320" width="16" height="70" fill="#5B4A36"/>
+      <ellipse cx="520" cy="320" rx="70" ry="42"/><rect x="514" y="336" width="12" height="56" fill="#5B4A36"/>
+      <ellipse cx="1240" cy="290" rx="100" ry="58"/><rect x="1230" y="312" width="18" height="80" fill="#5B4A36"/>
+    </g>
+    <g><rect x="760" y="250" width="260" height="140" fill="#EFE6CE"/><path d="M740 256l150-70 150 70z" fill="#B86B4B"/><rect x="800" y="300" width="40" height="50" fill="#3F5B3A"/><rect x="870" y="300" width="40" height="50" fill="#3F5B3A"/><rect x="940" y="300" width="40" height="90" fill="#5B4A36"/></g>
+    <rect x="1040" y="360" width="200" height="34" rx="4" fill="#7FB3C6"/>
+    <path d="M0 400c300-30 700-30 1440 0v100H0z" fill="#F4F1E6"/>
+  </svg>
+  <div class="in">
+    <div class="kicker">Maison d'hôtes · 3 chambres</div>
+    <h1>Trois chambres au calme, sous les oliviers.</h1>
+    <p>Une vieille bergerie en pierre restaurée, une piscine face aux collines et le petit-déjeuner maison servi sous la tonnelle.</p>
+    <div class="cta"><a class="btn" href="#dispo">Voir les disponibilités</a><a class="btn light" href="#chambres">Les chambres</a></div>
+  </div>
+</section>
+
+<section class="sec band" id="chambres">
+  <div class="in">
+    <div class="kicker">Les chambres</div>
+    <h2>Chacune avec sa vue</h2>
+    <div class="rooms" id="rooms"></div>
+  </div>
+</section>
+
+<section class="sec band book" id="dispo">
+  <div class="in">
+    <div class="kicker">Disponibilités</div>
+    <h2>Choisissez vos dates</h2>
+  </div>
+  <div class="in grid">
+    <div class="cal">
+      <div class="cal-head"><button type="button" id="prev" aria-label="Mois précédent">‹</button><h3 id="month"></h3><button type="button" id="nextM" aria-label="Mois suivant">›</button></div>
+      <div class="dow"><span>Lu</span><span>Ma</span><span>Me</span><span>Je</span><span>Ve</span><span>Sa</span><span>Di</span></div>
+      <div class="days" id="days"></div>
+      <div class="legend"><span><i style="background:var(--white);border:1px solid var(--line)"></i>Libre</span><span><i style="background:repeating-linear-gradient(135deg,var(--stone-2) 0 3px,transparent 3px 6px);border:1px solid var(--line)"></i>Réservé</span><span><i style="background:var(--olive)"></i>Votre séjour</span></div>
+    </div>
+    <div class="sim">
+      <label>Chambre<select id="roomSel"></select></label>
+      <div><label style="margin-bottom:6px">Voyageurs</label><div class="stepper"><button type="button" id="gm" aria-label="Moins de voyageurs">−</button><b id="guests">2</b><button type="button" id="gp" aria-label="Plus de voyageurs">+</button></div></div>
+      <div class="quote" id="quote"></div>
+      <button class="btn light" type="button" id="send">Demander ces dates</button>
+      <p class="ok" id="ok" hidden></p>
+    </div>
+  </div>
+</section>
+
+<section class="sec band around" id="alentours">
+  <div class="in">
+    <div class="kicker">Alentours</div>
+    <h2>À faire, pas loin</h2>
+    <div class="grid">
+      <div class="spot"><b>10 min</b><h3>Le village</h3><p>Marché le samedi matin, épicerie et boulangerie.</p></div>
+      <div class="spot"><b>20 min</b><h3>La plage</h3><p>Crique de sable, paillote ouverte de mai à septembre.</p></div>
+      <div class="spot"><b>5 min</b><h3>Les sentiers</h3><p>Randonnées balisées au départ du gîte, cartes prêtées.</p></div>
+      <div class="spot"><b>15 min</b><h3>Le moulin</h3><p>Visite et dégustation d'huile d'olive chez le producteur.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer class="band">
+  <div class="in">
+    <div><h4>Gîte Les Oliviers</h4><p>Chemin des Oliviers<br>Arrivée à partir de 16h, départ avant 11h</p></div>
+    <div><h4>Contact</h4><p style="user-select:all;font-weight:700">06 00 00 00 00</p><p>Réponse sous 24 h</p></div>
+    <div><h4>Inclus</h4><p>Petit-déjeuner, linge de maison, Wi-Fi, parking. Animaux sur demande.</p></div>
+  </div>
+</footer>
+<div class="bottom band"><div class="in"><span>© Gîte Les Oliviers · Gîte fictif</span><span>Site réalisé par StudioCac</span></div></div>
+
+<script>
+const ROOMS = [
+  {n:"La Bergerie",d:"Lit double, salle d'eau en pierre, accès direct au jardin.",cap:2,p:95,a:["Jardin","Douche","Clim"],c:["#C8C7A2","#3F5B3A","#EFE6CE"]},
+  {n:"L'Oliveraie",d:"Grand lit, terrasse privée face aux oliviers et coin salon.",cap:3,p:115,a:["Terrasse","Baignoire","Clim"],c:["#A9B99A","#2B4027","#F4F1E6"]},
+  {n:"Le Pigeonnier",d:"Suite familiale sur deux niveaux, vue sur les collines.",cap:4,p:145,a:["Vue","2 lits","Kitchenette"],c:["#E7D8B5","#B86B4B","#FFFEFA"]}
+];
+const roomIll = c => `<svg class="ill" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="400" height="300" fill="${c[0]}"/><rect x="60" y="40" width="130" height="150" rx="65" fill="${c[2]}" opacity=".9"/><path d="M60 140c40-20 90-20 130 0v50H60z" fill="${c[1]}" opacity=".5"/><rect x="40" y="200" width="320" height="70" rx="8" fill="${c[2]}"/><rect x="40" y="186" width="320" height="22" rx="8" fill="${c[1]}"/><rect x="230" y="150" width="60" height="40" rx="8" fill="${c[2]}"/><rect x="295" y="150" width="60" height="40" rx="8" fill="${c[2]}"/></svg>`;
+const esc = s => String(s).replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+rooms.innerHTML = ROOMS.map(r=>`<article class="room">${roomIll(r.c)}<div class="body"><h3>${r.n}</h3><p>${r.d}</p><div class="amen"><span>${r.cap} pers. max</span>${r.a.map(x=>`<span>${x}</span>`).join("")}</div><div class="price"><span>par nuit, petit-déj inclus</span><b>${r.p} €</b></div></div></article>`).join("");
+roomSel.innerHTML = ROOMS.map((r,i)=>`<option value="${i}">${r.n} · ${r.p} €/nuit · ${r.cap} pers.</option>`).join("");
+
+// calendrier (réservations fictives déterministes)
+const today = new Date(); today.setHours(0,0,0,0);
+let view = new Date(today.getFullYear(), today.getMonth(), 1);
+let start = null, end = null, guests = 2;
+const key = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+const isBooked = d => { const n = d.getDate() + d.getMonth()*31 + Number(roomSel.value)*11; return (n % 9 === 0) || (n % 9 === 1) || (n % 13 === 4); };
+function renderCal(){
+  month.textContent = view.toLocaleDateString("fr-FR",{month:"long",year:"numeric"});
+  prev.disabled = view <= new Date(today.getFullYear(), today.getMonth(), 1);
+  const first = (view.getDay()+6)%7, dim = new Date(view.getFullYear(), view.getMonth()+1, 0).getDate();
+  let html = ""; for(let i=0;i<first;i++) html += `<button class="d off" type="button" tabindex="-1" aria-hidden="true"></button>`;
+  for(let day=1; day<=dim; day++){
+    const d = new Date(view.getFullYear(), view.getMonth(), day);
+    const past = d < today, booked = !past && isBooked(d);
+    let cls = "d"; if(booked) cls += " booked";
+    if(start && key(d)===key(start) || end && key(d)===key(end)) cls += " sel";
+    else if(start && end && d>start && d<end) cls += " range";
+    html += `<button class="${cls}" type="button" data-k="${key(d)}" ${past||booked?"disabled":""} aria-label="${d.toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"})}${booked?", réservé":""}">${day}</button>`;
+  }
+  days.innerHTML = html; renderQuote();
+}
+function rangeFree(a,b){ for(let d=new Date(a); d<b; d.setDate(d.getDate()+1)){ if(isBooked(d)) return false; } return true; }
+days.addEventListener("click", e=>{
+  const b = e.target.closest(".d"); if(!b||b.disabled||!b.dataset.k) return;
+  const d = new Date(b.dataset.k+"T00:00");
+  if(!start || end || d<=start){ start=d; end=null; }
+  else if(rangeFree(start,d)){ end=d; }
+  else { start=d; end=null; }
+  ok.hidden = true; renderCal();
+});
+prev.onclick = ()=>{ view = new Date(view.getFullYear(), view.getMonth()-1, 1); renderCal(); };
+nextM.onclick = ()=>{ view = new Date(view.getFullYear(), view.getMonth()+1, 1); renderCal(); };
+roomSel.onchange = ()=>{ const cap = ROOMS[roomSel.value].cap; guests = Math.min(guests, cap); start=end=null; renderCal(); };
+gm.onclick = ()=>{ guests = Math.max(1, guests-1); renderQuote(); };
+gp.onclick = ()=>{ guests = Math.min(ROOMS[roomSel.value].cap, guests+1); renderQuote(); };
+const eur = n => n.toLocaleString("fr-FR")+" €";
+function renderQuote(){
+  document.getElementById("guests").textContent = guests;
+  const r = ROOMS[roomSel.value];
+  if(!start || !end){ quote.innerHTML = `<p class="hint">${start?"Choisissez maintenant votre date de départ.":"Touchez votre date d'arrivée dans le calendrier, puis votre date de départ."}</p>`; send.disabled = true; return; }
+  const nights = Math.round((end-start)/864e5);
+  const base = nights*r.p, taxe = +(nights*guests*1.5).toFixed(2), menage = 40, remise = nights>=7 ? Math.round(base*.1) : 0;
+  const fd = d => d.toLocaleDateString("fr-FR",{day:"numeric",month:"short"});
+  quote.innerHTML = `<div class="r"><span>${fd(start)} → ${fd(end)} · ${nights} nuit${nights>1?"s":""}</span><span>${eur(base)}</span></div>
+    ${remise?`<div class="r"><span>Remise semaine (−10 %)</span><span>−${eur(remise)}</span></div>`:""}
+    <div class="r"><span>Ménage de fin de séjour</span><span>${eur(menage)}</span></div>
+    <div class="r"><span>Taxe de séjour (${guests} pers.)</span><span>${eur(taxe)}</span></div>
+    <div class="t"><span>Total</span><span>${eur(base-remise+menage+taxe)}</span></div>`;
+  send.disabled = false;
+}
+send.onclick = ()=>{ ok.hidden=false; ok.textContent = `Demande envoyée pour ${ROOMS[roomSel.value].n}. Réponse sous 24 h avec le lien de paiement de l'acompte. (Démo : rien n'est réellement envoyé.)`; };
+renderCal();
+</script>
+
+</body>
+</html>

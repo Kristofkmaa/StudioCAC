@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Studio Coupe & Co</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,700;1,6..96,500&family=Manrope:wght@400;500;600;700&display=swap">
+<style>
+/* Layout : salon de coiffure, rose poudré et noir, grande typo didone en italique, prise de RDV en trois étapes comme un carnet de rendez-vous. Thème clair assumé. */
+:root{
+  --blush:#F2D7D0; --blush-2:#F8E9E5; --black:#151214; --white:#FFFDFC; --rose:#C9667A; --gold:#B08A57;
+  --ink:#151214; --muted:#6B5D60; --line:#E6CFC9;
+  --f-display:"Bodoni Moda",Didot,"Times New Roman",serif;
+  --f-body:"Manrope","Helvetica Neue",Arial,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--white)}
+body{background:var(--white);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.65}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--rose);outline-offset:3px}
+.band{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.in{max-width:1100px;margin:0 auto}
+.demo{background:var(--black);color:var(--blush);font-size:13px;font-weight:600;text-align:center;padding-block:6px}
+
+header.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--white);border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:11;background:var(--white)}
+header.nav .in{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-block:16px}
+.logo{font-family:var(--f-display);font-size:24px;text-decoration:none;letter-spacing:.01em}
+.logo i{color:var(--rose)}
+nav.links{display:flex;gap:28px;font-size:14px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+nav.links a{text-decoration:none;color:var(--muted)}
+nav.links a:hover{color:var(--ink)}
+.btn{font:700 14px var(--f-body);letter-spacing:.06em;text-transform:uppercase;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 22px;border:1.5px solid var(--black);background:var(--black);color:var(--white);cursor:pointer;text-decoration:none}
+.btn:hover{background:var(--rose);border-color:var(--rose)}
+.btn.out{background:transparent;color:var(--black)}
+.btn.out:hover{background:var(--black);color:var(--white)}
+.btn[disabled]{opacity:.35;cursor:not-allowed;background:var(--black);border-color:var(--black)}
+
+.hero{background:var(--blush)}
+.hero .in{display:grid;grid-template-columns:1.25fr 1fr;gap:40px;align-items:end;padding-block:64px 0}
+.hero h1{font-family:var(--f-display);font-weight:500;font-size:clamp(52px,9vw,118px);line-height:.88;margin:0;letter-spacing:-.02em}
+.hero h1 i{color:var(--rose);font-weight:500}
+.hero p{max-width:40ch;color:var(--muted);margin:24px 0 0}
+.hero .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px;padding-bottom:64px}
+.portrait{align-self:end;justify-self:center;width:min(380px,100%);max-width:100%;aspect-ratio:3/4;background:var(--black);border-radius:200px 200px 0 0;position:relative;overflow:hidden}
+.portrait svg{position:absolute;inset:0;width:100%;height:100%}
+
+.sec{padding-block:88px}
+.kicker{font-size:12px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--rose)}
+.sec h2{font-family:var(--f-display);font-weight:500;font-size:clamp(36px,5vw,58px);line-height:1;margin:10px 0 36px;letter-spacing:-.01em;text-wrap:balance}
+.sec h2 i{color:var(--rose)}
+
+.price-head{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap}
+.tabs{display:flex;gap:0;border:1.5px solid var(--black);margin-bottom:36px}
+.tab{font:700 13px var(--f-body);letter-spacing:.08em;text-transform:uppercase;padding:10px 18px;border:0;background:transparent;color:var(--ink);cursor:pointer}
+.tab[aria-selected="true"]{background:var(--black);color:var(--white)}
+.prices{display:grid;grid-template-columns:1fr 1fr;gap:0 64px}
+.row{display:flex;align-items:baseline;gap:12px;padding-block:16px;border-bottom:1px solid var(--line)}
+.row h3{font-family:var(--f-display);font-weight:500;font-size:22px;margin:0}
+.row small{display:block;font-size:13px;color:var(--muted);font-family:var(--f-body)}
+.row .dots{flex:1;border-bottom:1px dotted var(--line);transform:translateY(-6px)}
+.row .p{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+
+.book-sec{background:var(--blush-2)}
+.booker{display:grid;grid-template-columns:260px 1fr;border:1.5px solid var(--black);background:var(--white)}
+.steps{border-right:1.5px solid var(--black);padding:28px;display:flex;flex-direction:column;gap:22px}
+.step{display:flex;gap:12px;align-items:start;color:var(--muted)}
+.step b{flex:none;width:30px;height:30px;border-radius:50%;border:1.5px solid currentColor;display:grid;place-items:center;font-family:var(--f-display);font-size:15px}
+.step.on{color:var(--ink)}
+.step.on b{background:var(--black);color:var(--white);border-color:var(--black)}
+.step.done{color:var(--rose)}
+.step span{font-weight:600;font-size:15px}
+.step small{display:block;font-weight:500;color:var(--muted);font-size:13px}
+.panel{padding:28px;min-width:0;display:flex;flex-direction:column;gap:20px}
+.panel h3{font-family:var(--f-display);font-weight:500;font-size:28px;margin:0}
+.opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+.opt{font:600 15px var(--f-body);text-align:left;padding:14px 16px;border:1.5px solid var(--line);background:var(--white);color:var(--ink);cursor:pointer;display:flex;flex-direction:column;gap:2px}
+.opt small{font-weight:500;color:var(--muted);font-size:13px}
+.opt[aria-pressed="true"]{border-color:var(--black);background:var(--blush-2)}
+.days{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
+.day{flex:none;font:600 14px var(--f-body);width:72px;padding:10px 0;border:1.5px solid var(--line);background:var(--white);color:var(--ink);cursor:pointer;text-align:center;line-height:1.3}
+.day b{display:block;font-family:var(--f-display);font-size:24px;font-weight:500}
+.day[aria-pressed="true"]{background:var(--black);color:var(--white);border-color:var(--black)}
+.day[disabled]{opacity:.35;cursor:not-allowed;text-decoration:line-through}
+.slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px}
+.slot{font:600 14px var(--f-body);padding:10px 0;border:1.5px solid var(--line);background:var(--white);color:var(--ink);cursor:pointer;font-variant-numeric:tabular-nums}
+.slot[aria-pressed="true"]{background:var(--rose);border-color:var(--rose);color:var(--white)}
+.slot[disabled]{opacity:.3;cursor:not-allowed;text-decoration:line-through}
+.panel input{font:16px var(--f-body);padding:12px 14px;border:1.5px solid var(--line);width:100%;background:var(--white);color:var(--ink)}
+.panel input:focus{outline:none;border-color:var(--black)}
+.nav-row{display:flex;justify-content:space-between;gap:10px;margin-top:auto;flex-wrap:wrap}
+.summary{background:var(--blush-2);padding:16px;font-size:15px}
+.done-msg{font-family:var(--f-display);font-size:24px;line-height:1.3}
+
+.info .in{display:grid;grid-template-columns:repeat(3,1fr);gap:40px}
+.info h3{font-family:var(--f-display);font-weight:500;font-size:24px;margin:0 0 10px}
+.info p,.info td{color:var(--muted);font-size:15px}
+.info table{border-collapse:collapse;width:100%}
+.info td{padding:4px 0}
+.info td:last-child{text-align:right;font-variant-numeric:tabular-nums}
+footer{background:var(--black);color:var(--blush)}
+footer .in{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-block:22px;font-size:13px;opacity:.8}
+
+@media (max-width:860px){
+  nav.links{display:none}
+  .hero .in{grid-template-columns:1fr}
+  .hero .cta{padding-bottom:0}
+  .portrait{width:min(300px,80%)}
+  .prices{grid-template-columns:1fr}
+  .booker{grid-template-columns:1fr}
+  .steps{border-right:0;border-bottom:1.5px solid var(--black);flex-direction:row;flex-wrap:wrap;gap:14px}
+  .step small{display:none}
+  .info .in{grid-template-columns:1fr}
+  .sec{padding-block:60px}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<div class="demo band">Site de démonstration réalisé par StudioCac · salon fictif</div>
+
+<header class="nav band">
+  <div class="in">
+    <a class="logo" href="#top">Coupe <i>&amp;</i> Co</a>
+    <nav class="links"><a href="#tarifs">Tarifs</a><a href="#rdv">Rendez-vous</a><a href="#infos">Infos</a></nav>
+    <a class="btn" href="#rdv">Prendre RDV</a>
+  </div>
+</header>
+
+<section class="hero band" id="top">
+  <div class="in">
+    <div>
+      <div class="kicker">Salon de coiffure · Mixte</div>
+      <h1>Coupe,<br><i>couleur,</i><br>soin.</h1>
+      <p>Un salon lumineux, des conseils honnêtes et le temps de bien faire. Réservez en ligne en trente secondes, sans appeler.</p>
+      <div class="cta"><a class="btn" href="#rdv">Réserver en ligne</a><a class="btn out" href="#tarifs">Voir les tarifs</a></div>
+    </div>
+    <div class="portrait" aria-hidden="true">
+      <svg viewBox="0 0 300 400" preserveAspectRatio="xMidYMax slice">
+        <circle cx="150" cy="150" r="120" fill="#C9667A" opacity=".25"/>
+        <path d="M150 70c-55 0-85 40-85 95 0 40 10 80 0 130h170c-10-50 0-90 0-130 0-55-30-95-85-95z" fill="#2A2226"/>
+        <ellipse cx="150" cy="170" rx="48" ry="58" fill="#E8B9A8"/>
+        <path d="M100 160c0-55 25-75 55-75 35 0 55 30 52 70-20-25-55-40-107 5z" fill="#2A2226"/>
+        <path d="M120 222c10 20 50 20 60 0v40h-60z" fill="#E8B9A8"/>
+        <path d="M70 400c0-70 35-130 80-130s80 60 80 130z" fill="#F2D7D0"/>
+        <path d="M200 120c25 10 40 40 30 75" stroke="#B08A57" stroke-width="3" fill="none" stroke-linecap="round"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="sec band" id="tarifs">
+  <div class="in">
+    <div class="price-head"><div><div class="kicker">Tarifs</div><h2>Prix clairs, <i>sans surprise</i></h2></div><div class="tabs" role="tablist" id="tabs"></div></div>
+    <div class="prices" id="prices"></div>
+  </div>
+</section>
+
+<section class="sec band book-sec" id="rdv">
+  <div class="in">
+    <div class="kicker">Rendez-vous</div>
+    <h2>Réservez <i>votre créneau</i></h2>
+    <div class="booker">
+      <div class="steps" id="steps"></div>
+      <div class="panel" id="panel"></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec band info" id="infos">
+  <div class="in">
+    <div><h3>Le salon</h3><p>8 place du Marché<br>Au rez-de-chaussée, accès poussette et fauteuil</p><p style="user-select:all;font-weight:700;color:var(--ink)">04 00 00 00 00</p></div>
+    <div><h3>Horaires</h3><table id="hrs"></table></div>
+    <div><h3>Nos produits</h3><p>Soins sans sulfates, colorations à base végétale disponibles. On vous conseille la routine qui va avec votre coupe, sans obligation d'achat.</p></div>
+  </div>
+</section>
+
+<footer class="band"><div class="in"><span>© Studio Coupe &amp; Co · Salon fictif</span><span>Site réalisé par StudioCac</span></div></footer>
+
+<script>
+const PRICES = {
+  "Femme":[["Coupe + brushing","Shampooing, coupe, coiffage",45,45],["Brushing seul","Cheveux courts à longs",28,30],["Couleur racines","Coloration + brushing",62,75],["Balayage","Éclaircissement naturel + soin",95,120],["Soin profond","Masque et massage crânien",22,20]],
+  "Homme":[["Coupe classique","Shampooing, coupe, coiffage",25,30],["Coupe + barbe","Taille et contours au rasoir",35,45],["Barbe seule","Taille, contours, soin",15,20],["Dégradé américain","Tondeuse et ciseaux",28,35]],
+  "Enfant":[["Coupe enfant","Jusqu'à 12 ans",16,20],["Coupe ado","13 à 17 ans",20,25]]
+};
+const esc = s => String(s).replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+let cat = "Femme";
+function renderPrices(){
+  tabs.innerHTML = Object.keys(PRICES).map(k=>`<button class="tab" role="tab" type="button" aria-selected="${k===cat}" data-k="${k}">${k}</button>`).join("");
+  prices.innerHTML = PRICES[cat].map(([n,d,p])=>`<div class="row"><h3>${esc(n)}<small>${esc(d)}</small></h3><span class="dots"></span><span class="p">${p} €</span></div>`).join("");
+}
+tabs.addEventListener("click", e=>{const b=e.target.closest(".tab"); if(!b) return; cat=b.dataset.k; renderPrices();});
+renderPrices();
+
+// horaires : 0=dimanche
+const OPEN = {2:[9,19],3:[9,19],4:[9,19],5:[9,20],6:[9,18]};
+const DN = ["Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi"];
+hrs.innerHTML = [1,2,3,4,5,6,0].map(i=>`<tr><td>${DN[i]}</td><td>${OPEN[i]?`${OPEN[i][0]}h – ${OPEN[i][1]}h`:"Fermé"}</td></tr>`).join("");
+
+// prise de RDV
+const SERVICES = Object.entries(PRICES).flatMap(([c,l])=>l.map(([n,,p,m])=>({c,n,p,m})));
+const state = {step:0, svc:null, day:null, slot:null, name:"", tel:"", done:false};
+const STEPS = [["Prestation","Ce que vous souhaitez"],["Date & heure","Le créneau qui vous va"],["Coordonnées","Pour confirmer"]];
+function days(){ const out=[]; const d=new Date(); for(let i=0;out.length<10;i++){ const x=new Date(d); x.setDate(d.getDate()+i); out.push(x);} return out; }
+function slotsFor(date, minutes){
+  const o = OPEN[date.getDay()]; if(!o) return [];
+  const res=[]; const seed = date.getDate()*7 + date.getMonth();
+  for(let m=o[0]*60; m+minutes<=o[1]*60; m+=30){ const taken = ((m/30 + seed) % 5 === 0) || ((m/30*3 + seed) % 7 === 0); res.push({m, taken}); }
+  return res;
+}
+const hm = m => `${Math.floor(m/60)}h${String(m%60).padStart(2,"0")}`;
+const dLabel = d => d.toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"});
+function render(){
+  steps.innerHTML = STEPS.map(([t,s],i)=>`<div class="step ${state.done||i<state.step?"done":i===state.step?"on":""}"><b>${i+1}</b><div><span>${t}</span><small>${s}</small></div></div>`).join("");
+  if(state.done){
+    panel.innerHTML = `<div class="done-msg">À ${esc(dLabel(state.day))}, ${hm(state.slot)}.</div><div class="summary">${esc(state.svc.n)} · ${state.svc.p} € · environ ${state.svc.m} min<br>Un SMS de confirmation est envoyé au ${esc(state.tel)}. (Démo : rien n'est réellement envoyé.)</div><div class="nav-row"><button class="btn out" type="button" id="again">Prendre un autre RDV</button></div>`;
+    again.onclick = ()=>{Object.assign(state,{step:0,svc:null,day:null,slot:null,done:false}); render();};
+    return;
+  }
+  if(state.step===0){
+    panel.innerHTML = `<h3>Choisissez une prestation</h3><div class="opts">${SERVICES.map((s,i)=>`<button type="button" class="opt" aria-pressed="${state.svc===s}" data-i="${i}">${esc(s.n)}<small>${s.c} · ${s.p} € · ${s.m} min</small></button>`).join("")}</div><div class="nav-row"><span></span><button class="btn" type="button" id="next" ${state.svc?"":"disabled"}>Continuer</button></div>`;
+    panel.querySelector(".opts").onclick = e=>{const b=e.target.closest(".opt"); if(!b) return; state.svc=SERVICES[b.dataset.i]; render();};
+  } else if(state.step===1){
+    const ds = days();
+    if(!state.day){ state.day = ds.find(d=>OPEN[d.getDay()]); }
+    const sl = slotsFor(state.day, state.svc.m);
+    panel.innerHTML = `<h3>Quand passez-vous ?</h3>
+      <div class="days">${ds.map((d,i)=>`<button type="button" class="day" data-i="${i}" ${OPEN[d.getDay()]?"":"disabled"} aria-pressed="${state.day&&d.toDateString()===state.day.toDateString()}">${d.toLocaleDateString("fr-FR",{weekday:"short"})}<b>${d.getDate()}</b></button>`).join("")}</div>
+      <div class="slots">${sl.map(s=>`<button type="button" class="slot" data-m="${s.m}" ${s.taken?"disabled":""} aria-pressed="${state.slot===s.m}">${hm(s.m)}</button>`).join("")}</div>
+      <div class="nav-row"><button class="btn out" type="button" id="back">Retour</button><button class="btn" type="button" id="next" ${state.slot!=null?"":"disabled"}>Continuer</button></div>`;
+    panel.querySelector(".days").onclick = e=>{const b=e.target.closest(".day"); if(!b||b.disabled) return; state.day=ds[b.dataset.i]; state.slot=null; render();};
+    panel.querySelector(".slots").onclick = e=>{const b=e.target.closest(".slot"); if(!b||b.disabled) return; state.slot=Number(b.dataset.m); render();};
+  } else {
+    panel.innerHTML = `<h3>Vos coordonnées</h3><div class="summary">${esc(state.svc.n)} · ${state.svc.p} €<br>${esc(dLabel(state.day))} à ${hm(state.slot)}</div>
+      <input id="bName" placeholder="Prénom et nom" autocomplete="name" value="${esc(state.name)}">
+      <input id="bTel" type="tel" placeholder="Téléphone mobile" autocomplete="tel" value="${esc(state.tel)}">
+      <div class="nav-row"><button class="btn out" type="button" id="back">Retour</button><button class="btn" type="button" id="next">Confirmer le RDV</button></div>`;
+    bName.oninput = ()=>state.name=bName.value; bTel.oninput = ()=>state.tel=bTel.value;
+  }
+  const nx = document.getElementById("next"), bk = document.getElementById("back");
+  if(bk) bk.onclick = ()=>{state.step--; render();};
+  if(nx) nx.onclick = ()=>{
+    if(state.step===2){ if(!state.name.trim()||!state.tel.trim()){ bName.style.borderColor = state.name.trim()?"":"var(--rose)"; bTel.style.borderColor = state.tel.trim()?"":"var(--rose)"; return; } state.done=true; }
+    else state.step++;
+    render();
+  };
+}
+render();
+</script>
+
+</body>
+</html>

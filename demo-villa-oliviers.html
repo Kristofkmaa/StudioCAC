@@ -3,20 +3,20 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Gîte Les Oliviers · Démo StudioCac</title>
-<meta name="description" content="Démo de site vitrine pour gîte : chambres, disponibilités et simulateur de séjour. Réalisé par StudioCac.">
+<title>Villa Les Oliviers · Démo StudioCac</title>
+<meta name="description" content="Démo de site vitrine pour villa en location saisonnière : la villa, tarifs par saison, disponibilités et devis instantané. Réalisé par StudioCac.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fr_FR">
 <meta property="og:site_name" content="StudioCac">
-<meta property="og:title" content="Gîte Les Oliviers · Démo StudioCac">
-<meta property="og:description" content="Démo de site vitrine pour gîte : chambres, disponibilités et simulateur de séjour. Réalisé par StudioCac.">
+<meta property="og:title" content="Villa Les Oliviers · Démo StudioCac">
+<meta property="og:description" content="Démo de site vitrine pour villa en location saisonnière : la villa, tarifs par saison, disponibilités et devis instantané. Réalisé par StudioCac.">
 <meta name="theme-color" content="#3F5B3A">
-<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Crect%20width=%2264%22%20height=%2264%22%20rx=%2214%22%20fill=%22%233F5B3A%22/%3E%3Ctext%20x=%2232%22%20y=%2244%22%20font-family=%22Georgia,serif%22%20font-size=%2238%22%20font-weight=%22700%22%20text-anchor=%22middle%22%20fill=%22%23F4F1E6%22%3EO%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Crect%20width=%2264%22%20height=%2264%22%20rx=%2214%22%20fill=%22%233F5B3A%22/%3E%3Ctext%20x=%2232%22%20y=%2244%22%20font-family=%22Georgia,serif%22%20font-size=%2238%22%20font-weight=%22700%22%20text-anchor=%22middle%22%20fill=%22%23F4F1E6%22%3EV%3C/text%3E%3C/svg%3E">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Karla:wght@400;500;600;700&display=swap">
 <style>
-/* Layout : maison d'hôtes dans les oliviers, vert olive et pierre claire, typo lapidaire gravée, calendrier de disponibilités et simulateur de séjour. Thème clair assumé. */
+/* Layout : villa à louer dans les oliviers, vert olive et pierre claire, typo lapidaire gravée, calendrier de disponibilités et simulateur de séjour. Thème clair assumé. */
 :root{
   --olive:#3F5B3A; --olive-d:#2B4027; --sage:#A9B99A; --stone:#F4F1E6; --stone-2:#E9E4D2; --clay:#B86B4B; --white:#FFFEFA;
   --ink:#1E2A1C; --muted:#5E6A57; --line:#D9D3BD;
@@ -57,6 +57,14 @@ nav.links a:hover{color:var(--olive)}
 .kicker{font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--clay)}
 .sec h2{font-family:var(--f-display);font-weight:400;font-size:clamp(34px,5vw,54px);line-height:1.05;margin:10px 0 32px;color:var(--olive-d);text-wrap:balance}
 
+.facts{display:flex;flex-wrap:wrap;gap:10px 34px;margin:-8px 0 30px;padding:18px 0;border-block:1px solid var(--line)}
+.facts div{display:flex;flex-direction:column}
+.facts b{font-family:var(--f-display);font-weight:400;font-size:30px;line-height:1.1;color:var(--olive);font-variant-numeric:tabular-nums}
+.facts span{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.rates{background:var(--olive-d);border-radius:6px;padding:16px 20px;display:flex;flex-direction:column;gap:6px}
+.rates h3{margin:0 0 4px;font-size:14px;font-weight:600;color:var(--sage)}
+.rates .r{display:flex;justify-content:space-between;gap:12px;font-size:15px;color:var(--sage)}
+.rates .r b{color:var(--stone);font-variant-numeric:tabular-nums;font-weight:600}
 .rooms{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
 .room{background:var(--white);border:1px solid var(--line);border-radius:6px;overflow:hidden;display:flex;flex-direction:column}
 .room .ph{aspect-ratio:4/3;overflow:hidden;background:var(--stone-2)}
@@ -124,7 +132,7 @@ footer p{margin:0;opacity:.85;font-size:15px}
   .book .in.grid{grid-template-columns:1fr}
   .around .grid{grid-template-columns:1fr 1fr}
   footer .in{grid-template-columns:1fr}
-  .hero .in{padding-block:48px 200px}
+  .hero .in{padding-block:56px 72px}
   .sec{padding-block:56px}
 }
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
@@ -132,30 +140,31 @@ footer p{margin:0;opacity:.85;font-size:15px}
 </head>
 <body>
 
-<div class="demo band">Site de démonstration réalisé par StudioCac · gîte fictif</div>
+<div class="demo band">Site de démonstration réalisé par StudioCac · villa fictive</div>
 
 <header class="nav band">
   <div class="in">
     <a class="logo" href="#top"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path d="M15 28V12" stroke="#3F5B3A" stroke-width="2.5" stroke-linecap="round"/><ellipse cx="9" cy="10" rx="6" ry="2.6" transform="rotate(-30 9 10)" fill="#3F5B3A"/><ellipse cx="21" cy="10" rx="6" ry="2.6" transform="rotate(30 21 10)" fill="#A9B99A"/><ellipse cx="15" cy="5" rx="2.6" ry="5" fill="#3F5B3A"/><circle cx="19" cy="17" r="2" fill="#B86B4B"/></svg>Les Oliviers</a>
-    <nav class="links"><a href="#chambres">Chambres</a><a href="#dispo">Disponibilités</a><a href="#alentours">Alentours</a></nav>
+    <nav class="links"><a href="#villa">La villa</a><a href="#dispo">Disponibilités</a><a href="#alentours">Alentours</a></nav>
     <a class="btn" href="#dispo">Réserver</a>
   </div>
 </header>
 
 <section class="hero band" id="top">
-  <img class="photo" src="images/gite/oliveraie-hero.webp" alt="Oliviers centenaires dans la lumière du soir" width="1500" height="1000" fetchpriority="high">
+  <img class="photo" src="images/villa/oliveraie-hero.webp" alt="Oliviers centenaires dans la lumière du soir" width="1500" height="1000" fetchpriority="high">
   <div class="in">
-    <div class="kicker">Maison d'hôtes · 3 chambres</div>
-    <h1>Trois chambres au calme, sous les oliviers.</h1>
-    <p>Une vieille bergerie en pierre restaurée, une piscine face aux collines et le petit-déjeuner maison servi sous la tonnelle.</p>
-    <div class="cta"><a class="btn" href="#dispo">Voir les disponibilités</a><a class="btn light" href="#chambres">Les chambres</a></div>
+    <div class="kicker">Villa à louer · jusqu'à 8 personnes</div>
+    <h1>Une villa pour vous seuls, sous les oliviers.</h1>
+    <p>Un mas en pierre restauré, quatre chambres, une piscine privée face aux collines et un hectare d'oliviers centenaires. Louée en entier, à la semaine ou pour un long week-end.</p>
+    <div class="cta"><a class="btn" href="#dispo">Voir les disponibilités</a><a class="btn light" href="#villa">Découvrir la villa</a></div>
   </div>
 </section>
 
-<section class="sec band" id="chambres">
+<section class="sec band" id="villa">
   <div class="in">
-    <div class="kicker">Les chambres</div>
-    <h2>Chacune avec sa vue</h2>
+    <div class="kicker">La villa</div>
+    <h2>Tout l'espace, rien qu'à vous</h2>
+    <div class="facts"><div><b>220 m²</b><span>Habitables</span></div><div><b>4</b><span>Chambres</span></div><div><b>3</b><span>Salles de bain</span></div><div><b>8</b><span>Voyageurs</span></div><div><b>12 × 5 m</b><span>Piscine chauffée</span></div></div>
     <div class="rooms" id="rooms"></div>
   </div>
 </section>
@@ -173,8 +182,12 @@ footer p{margin:0;opacity:.85;font-size:15px}
       <div class="legend"><span><i style="background:var(--white);border:1px solid var(--line)"></i>Libre</span><span><i style="background:repeating-linear-gradient(135deg,var(--stone-2) 0 3px,transparent 3px 6px);border:1px solid var(--line)"></i>Réservé</span><span><i style="background:var(--olive)"></i>Votre séjour</span></div>
     </div>
     <div class="sim">
-      <label>Chambre<select id="roomSel"></select></label>
-      <div><label style="margin-bottom:6px">Voyageurs</label><div class="stepper"><button type="button" id="gm" aria-label="Moins de voyageurs">−</button><b id="guests">2</b><button type="button" id="gp" aria-label="Plus de voyageurs">+</button></div></div>
+      <div class="rates"><h3>Tarifs par nuit, villa entière</h3>
+        <div class="r"><span>Basse saison · oct. → avril · 3 nuits min.</span><b>290 €</b></div>
+        <div class="r"><span>Moyenne saison · mai, juin, sept. · 3 nuits min.</span><b>390 €</b></div>
+        <div class="r"><span>Haute saison · juillet, août · 7 nuits min.</span><b>520 €</b></div>
+      </div>
+      <div><label style="margin-bottom:6px">Voyageurs</label><div class="stepper"><button type="button" id="gm" aria-label="Moins de voyageurs">−</button><b id="guests">4</b><button type="button" id="gp" aria-label="Plus de voyageurs">+</button></div></div>
       <div class="quote" id="quote"></div>
       <button class="btn light" type="button" id="send">Demander ces dates</button>
       <p class="ok" id="ok" hidden></p>
@@ -189,7 +202,7 @@ footer p{margin:0;opacity:.85;font-size:15px}
     <div class="grid">
       <div class="spot"><b>10 min</b><h3>Le village</h3><p>Marché le samedi matin, épicerie et boulangerie.</p></div>
       <div class="spot"><b>20 min</b><h3>La plage</h3><p>Crique de sable, paillote ouverte de mai à septembre.</p></div>
-      <div class="spot"><b>5 min</b><h3>Les sentiers</h3><p>Randonnées balisées au départ du gîte, cartes prêtées.</p></div>
+      <div class="spot"><b>5 min</b><h3>Les sentiers</h3><p>Randonnées balisées au départ de la villa, cartes prêtées.</p></div>
       <div class="spot"><b>15 min</b><h3>Le moulin</h3><p>Visite et dégustation d'huile d'olive chez le producteur.</p></div>
     </div>
   </div>
@@ -197,30 +210,31 @@ footer p{margin:0;opacity:.85;font-size:15px}
 
 <footer class="band">
   <div class="in">
-    <div><h4>Gîte Les Oliviers</h4><p>Chemin des Oliviers<br>Arrivée à partir de 16h, départ avant 11h</p></div>
+    <div><h4>Villa Les Oliviers</h4><p>Chemin des Oliviers<br>Arrivée à partir de 16h, départ avant 10h</p></div>
     <div><h4>Contact</h4><p style="user-select:all;font-weight:700">06 00 00 00 00</p><p>Réponse sous 24 h</p></div>
-    <div><h4>Inclus</h4><p>Petit-déjeuner, linge de maison, Wi-Fi, parking. Animaux sur demande.</p></div>
+    <div><h4>Inclus</h4><p>Linge de lit et de toilette, ménage final, Wi-Fi fibre, climatisation, parking 3 voitures. Caution 1 500 €.</p></div>
   </div>
 </footer>
-<div class="bottom band"><div class="in"><span>© Gîte Les Oliviers · Gîte fictif</span><span>Site réalisé par StudioCac</span></div></div>
+<div class="bottom band"><div class="in"><span>© Villa Les Oliviers · Villa fictive</span><span>Site réalisé par StudioCac</span></div></div>
 
 <script>
-const ROOMS = [
-  {n:"La Bergerie",d:"Lit double, salle d'eau en pierre, accès direct au jardin.",cap:2,p:95,a:["Jardin","Douche","Clim"],img:"chambre-bergerie",alt:"Chambre aux murs de pierre avec grand lit"},
-  {n:"L'Oliveraie",d:"Grand lit, terrasse privée face aux oliviers et coin salon.",cap:3,p:115,a:["Terrasse","Baignoire","Clim"],img:"chambre-oliveraie",alt:"Vue sur les oliviers depuis la terrasse"},
-  {n:"Le Pigeonnier",d:"Suite familiale sur deux niveaux, vue sur les collines.",cap:4,p:145,a:["Vue","2 lits","Kitchenette"],img:"chambre-pigeonnier",alt:"Oliviers dorés au coucher du soleil"}
+const SPACES = [
+  {n:"Les chambres",d:"Quatre chambres climatisées dont deux suites parentales, literie hôtelière et murs en pierre.",a:["4 chambres","2 suites","Clim"],img:"chambres",alt:"Chambre aux murs de pierre avec grand lit"},
+  {n:"Le jardin",d:"Un hectare d'oliviers centenaires, terrain de pétanque et coin barbecue à l'ombre.",a:["1 hectare","Pétanque","Barbecue"],img:"jardin",alt:"Oliviers centenaires dans le jardin de la villa"},
+  {n:"La terrasse",d:"Grande table pour dix sous la tonnelle, transats au bord de la piscine, coucher de soleil sur les collines.",a:["Piscine","Tonnelle","Vue"],img:"terrasse",alt:"Oliviers dorés au coucher du soleil"}
 ];
-const roomImg = r => `<div class="ph"><img src="images/gite/${r.img}.webp" alt="${r.alt}" width="800" height="600" loading="lazy" decoding="async"></div>`;
+const CAP = 8, CLEANING = 150, TAX = 2;
+const season = d => { const m = d.getMonth(); return m===6||m===7 ? {p:520,min:7} : (m===4||m===5||m===8) ? {p:390,min:3} : {p:290,min:3}; };
+const spaceImg = r => `<div class="ph"><img src="images/villa/${r.img}.webp" alt="${r.alt}" width="800" height="600" loading="lazy" decoding="async"></div>`;
 const esc = s => String(s).replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
-rooms.innerHTML = ROOMS.map(r=>`<article class="room">${roomImg(r)}<div class="body"><h3>${r.n}</h3><p>${r.d}</p><div class="amen"><span>${r.cap} pers. max</span>${r.a.map(x=>`<span>${x}</span>`).join("")}</div><div class="price"><span>par nuit, petit-déj inclus</span><b>${r.p} €</b></div></div></article>`).join("");
-roomSel.innerHTML = ROOMS.map((r,i)=>`<option value="${i}">${r.n} · ${r.p} €/nuit · ${r.cap} pers.</option>`).join("");
+rooms.innerHTML = SPACES.map(r=>`<article class="room">${spaceImg(r)}<div class="body"><h3>${r.n}</h3><p>${r.d}</p><div class="amen">${r.a.map(x=>`<span>${x}</span>`).join("")}</div></div></article>`).join("");
 
 // calendrier (réservations fictives déterministes)
 const today = new Date(); today.setHours(0,0,0,0);
 let view = new Date(today.getFullYear(), today.getMonth(), 1);
-let start = null, end = null, guests = 2;
+let start = null, end = null, guests = 4;
 const key = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
-const isBooked = d => { const n = d.getDate() + d.getMonth()*31 + Number(roomSel.value)*11; return (n % 9 === 0) || (n % 9 === 1) || (n % 13 === 4); };
+const isBooked = d => { const w = Math.floor((Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()) - Date.UTC(2024,0,6))/6048e5); return (w*37+11)%5 < 2; }; // locations fictives, du samedi au samedi
 function renderCal(){
   month.textContent = view.toLocaleDateString("fr-FR",{month:"long",year:"numeric"});
   prev.disabled = view <= new Date(today.getFullYear(), today.getMonth(), 1);
@@ -228,11 +242,11 @@ function renderCal(){
   let html = ""; for(let i=0;i<first;i++) html += `<button class="d off" type="button" tabindex="-1" aria-hidden="true"></button>`;
   for(let day=1; day<=dim; day++){
     const d = new Date(view.getFullYear(), view.getMonth(), day);
-    const past = d < today, booked = !past && isBooked(d);
+    const past = d < today, booked = !past && isBooked(d), departOnly = booked && !isBooked(new Date(d.getFullYear(), d.getMonth(), day-1));
     let cls = "d"; if(booked) cls += " booked";
     if(start && key(d)===key(start) || end && key(d)===key(end)) cls += " sel";
     else if(start && end && d>start && d<end) cls += " range";
-    html += `<button class="${cls}" type="button" data-k="${key(d)}" ${past||booked?"disabled":""} aria-label="${d.toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"})}${booked?", réservé":""}">${day}</button>`;
+    html += `<button class="${cls}" type="button" data-k="${key(d)}" ${past||(booked&&!departOnly)?"disabled":""} aria-label="${d.toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"})}${booked?", réservé":""}">${day}</button>`;
   }
   days.innerHTML = html; renderQuote();
 }
@@ -240,32 +254,34 @@ function rangeFree(a,b){ for(let d=new Date(a); d<b; d.setDate(d.getDate()+1)){ 
 days.addEventListener("click", e=>{
   const b = e.target.closest(".d"); if(!b||b.disabled||!b.dataset.k) return;
   const d = new Date(b.dataset.k+"T00:00");
-  if(!start || end || d<=start){ start=d; end=null; }
+  const isStart = !start || end || d<=start;
+  if(isStart && b.classList.contains("booked")) return;
+  if(isStart){ start=d; end=null; }
   else if(rangeFree(start,d)){ end=d; }
   else { start=d; end=null; }
   ok.hidden = true; renderCal();
 });
 prev.onclick = ()=>{ view = new Date(view.getFullYear(), view.getMonth()-1, 1); renderCal(); };
 nextM.onclick = ()=>{ view = new Date(view.getFullYear(), view.getMonth()+1, 1); renderCal(); };
-roomSel.onchange = ()=>{ const cap = ROOMS[roomSel.value].cap; guests = Math.min(guests, cap); start=end=null; renderCal(); };
 gm.onclick = ()=>{ guests = Math.max(1, guests-1); renderQuote(); };
-gp.onclick = ()=>{ guests = Math.min(ROOMS[roomSel.value].cap, guests+1); renderQuote(); };
+gp.onclick = ()=>{ guests = Math.min(CAP, guests+1); renderQuote(); };
 const eur = n => n.toLocaleString("fr-FR")+" €";
 function renderQuote(){
   document.getElementById("guests").textContent = guests;
-  const r = ROOMS[roomSel.value];
   if(!start || !end){ quote.innerHTML = `<p class="hint">${start?"Choisissez maintenant votre date de départ.":"Touchez votre date d'arrivée dans le calendrier, puis votre date de départ."}</p>`; send.disabled = true; return; }
-  const nights = Math.round((end-start)/864e5);
-  const base = nights*r.p, taxe = +(nights*guests*1.5).toFixed(2), menage = 40, remise = nights>=7 ? Math.round(base*.1) : 0;
+  const nights = Math.round((end-start)/864e5), min = season(start).min;
+  if(nights < min){ quote.innerHTML = `<p class="hint">À cette période, la villa se loue ${min} nuits minimum. Choisissez une date de départ plus tardive.</p>`; send.disabled = true; return; }
+  let base = 0; for(let d=new Date(start); d<end; d.setDate(d.getDate()+1)) base += season(d).p;
+  const taxe = nights*guests*TAX, remise = nights>=7 ? Math.round(base*.1) : 0;
   const fd = d => d.toLocaleDateString("fr-FR",{day:"numeric",month:"short"});
-  quote.innerHTML = `<div class="r"><span>${fd(start)} → ${fd(end)} · ${nights} nuit${nights>1?"s":""}</span><span>${eur(base)}</span></div>
+  quote.innerHTML = `<div class="r"><span>${fd(start)} → ${fd(end)} · ${nights} nuits</span><span>${eur(base)}</span></div>
     ${remise?`<div class="r"><span>Remise semaine (−10 %)</span><span>−${eur(remise)}</span></div>`:""}
-    <div class="r"><span>Ménage de fin de séjour</span><span>${eur(menage)}</span></div>
+    <div class="r"><span>Ménage de fin de séjour</span><span>${eur(CLEANING)}</span></div>
     <div class="r"><span>Taxe de séjour (${guests} pers.)</span><span>${eur(taxe)}</span></div>
-    <div class="t"><span>Total</span><span>${eur(base-remise+menage+taxe)}</span></div>`;
+    <div class="t"><span>Total</span><span>${eur(base-remise+CLEANING+taxe)}</span></div>`;
   send.disabled = false;
 }
-send.onclick = ()=>{ ok.hidden=false; ok.textContent = `Demande envoyée pour ${ROOMS[roomSel.value].n}. Réponse sous 24 h avec le lien de paiement de l'acompte. (Démo : rien n'est réellement envoyé.)`; };
+send.onclick = ()=>{ ok.hidden=false; ok.textContent = `Demande envoyée pour la villa, ${guests} voyageurs. Réponse sous 24 h avec le contrat et le lien de paiement de l'acompte (30 %). (Démo : rien n'est réellement envoyé.)`; };
 renderCal();
 </script>
 

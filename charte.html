@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<!-- construction de la page : le fond est peint dès la toute première image, avant transition.js -->
+<script>(()=>{const d=document.documentElement;let t;try{t=localStorage.getItem("saitora-theme")}catch(e){}d.dataset.theme=t||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");if(!matchMedia("(prefers-reduced-motion: reduce)").matches)d.classList.add("sc-pending")})()</script>
+<style>html.sc-pending,html.sc-pending body{background:#FAFAF9}html[data-theme=dark].sc-pending,html[data-theme=dark].sc-pending body{background:#0C0C0D}</style>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>Votre charte graphique, Saitora</title>
+<meta name="description" content="Logo, couleurs, typographie : présentez l'identité de votre commerce, ou créons-la ensemble. Aperçu en direct de votre site.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="Saitora">
+<meta property="og:title" content="Votre charte graphique, Saitora">
+<meta property="og:description" content="Logo, couleurs, typographie : présentez l'identité de votre commerce, avec un aperçu en direct de votre site.">
+<meta property="og:image" content="https://saitora.fr/images/partage.jpg?v=2">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#FAFAF9">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Cormorant+Garamond:wght@500;600&family=Young+Serif&family=Caveat:wght@600;700&family=Archivo+Narrow:wght@600;700&display=swap">
+<link rel="stylesheet" href="theme.css?v=2">
+<style>
+/* Charte graphique. À gauche, ce que le commerçant a déjà (ou choisit) ; à droite, son site qui se dessine en direct
+   avec ses couleurs, son logo et sa typographie. Le logo ne quitte jamais l'appareil : il est lu sur place pour en tirer les couleurs. */
+html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(a,button,[role="button"],summary,label,select,input[type="range"]){touch-action:manipulation}
+:where(button,.btn,[role="button"]){-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+:where(button:not([disabled]),.btn):active{opacity:.82}
+:where(.page){padding-inline:env(safe-area-inset-left,0px) env(safe-area-inset-right,0px)}
+:root{--font:"Jost","Futura","Helvetica Neue",Arial,sans-serif;--ease-out:cubic-bezier(.23,1,.32,1);--page:min(1180px,100% - 2 * clamp(20px,4vw,40px))}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.6;overflow-x:hidden}
+h1,h2,h3,p,ul,dl,dd,figure{margin:0}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+.page{width:var(--page);margin-inline:auto}
+.dot{display:inline-block;width:.2em;height:.2em;border-radius:50%;background:var(--accent);margin-left:.04em}
+
+.bar{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--line)}
+.bar .page{display:flex;align-items:center;justify-content:space-between;gap:24px;height:68px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink)}
+.brand .mark{height:26px;width:auto;display:block}
+.brand img{display:block;height:18px;width:auto;filter:var(--logo-filter)}
+.bar .right{display:flex;align-items:center;gap:20px}
+.back{font-size:15px;color:var(--muted);text-decoration:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;font:500 16px var(--font);padding:13px 22px;border-radius:4px;border:1px solid var(--line-hi);background:none;color:var(--ink);cursor:pointer;text-decoration:none;transition:background-color 160ms ease,border-color 160ms ease}
+.btn.primary{border-color:transparent;background:var(--accent);color:var(--on-accent)}
+
+.intro{padding-block:clamp(48px,7vw,88px) clamp(32px,4vw,48px)}
+.intro h1{font-weight:400;font-size:clamp(2.6rem,1.6rem + 4vw,4.4rem);line-height:1.02;letter-spacing:-.03em;max-width:16ch}
+.intro p{margin-top:20px;color:var(--muted);font-size:1.15rem;max-width:54ch}
+
+.work{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,56px);align-items:start;padding-bottom:clamp(64px,8vw,104px)}
+.form{display:flex;flex-direction:column;gap:40px}
+fieldset{border:0;margin:0;padding:0;min-width:0}
+legend{padding:0;font-weight:500;font-size:1.35rem;letter-spacing:-.01em;margin-bottom:6px}
+.hint{color:var(--muted);font-size:15px;margin-bottom:14px}
+.field{display:flex;flex-direction:column;gap:6px;font-size:15px;color:var(--muted);margin-top:12px}
+.field input[type=text]{font:16px var(--font);padding:12px 14px;border:1px solid var(--line-hi);border-radius:4px;background:var(--bg);color:var(--ink)}
+.field input:focus{outline:none;border-color:var(--accent)}
+.choices{display:flex;flex-wrap:wrap;gap:8px}
+.choice{font:500 15px var(--font);padding:9px 14px;border-radius:4px;border:1px solid var(--line-hi);background:var(--bg);color:var(--ink);cursor:pointer}
+.choice[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+.drop{display:flex;align-items:center;gap:16px;margin-top:14px;padding:16px;border:1.5px dashed var(--line-hi);border-radius:6px;cursor:pointer}
+.drop.over{border-color:var(--accent);background:var(--bg-alt)}
+.drop img{width:72px;height:72px;object-fit:contain;background:#fff;border-radius:4px;border:1px solid var(--line)}
+.drop .ph{width:72px;height:72px;border-radius:4px;background:var(--bg-alt);display:grid;place-items:center;color:var(--faint);font-size:28px;flex:none}
+.drop b{display:block;font-weight:500}
+.drop small{color:var(--muted);font-size:14px}
+.drop input{position:absolute;width:1px;height:1px;opacity:0}
+.found{margin-top:10px;font-size:14.5px;color:var(--accent-text)}
+
+.colors{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.col{display:flex;flex-direction:column;gap:6px;font-size:14.5px;color:var(--muted)}
+.col input[type=color]{width:100%;height:56px;padding:0;border:1px solid var(--line-hi);border-radius:4px;background:none;cursor:pointer}
+.col input[type=color]::-webkit-color-swatch-wrapper{padding:0}
+.col input[type=color]::-webkit-color-swatch{border:0;border-radius:3px}
+.col code{font:13px ui-monospace,monospace;color:var(--ink)}
+.presets{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.preset{display:flex;align-items:center;gap:8px;font:500 14px var(--font);padding:7px 10px;border:1px solid var(--line-hi);border-radius:4px;background:var(--bg);color:var(--ink);cursor:pointer}
+.preset i{display:flex}
+.preset i span{width:12px;height:12px;border-radius:50%;margin-left:-3px;border:1.5px solid var(--bg)}
+.warn{margin-top:10px;font-size:14.5px;color:var(--warn)}
+
+.fonts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.font{text-align:left;padding:12px 14px;border:1px solid var(--line-hi);border-radius:4px;background:var(--bg);color:var(--ink);cursor:pointer}
+.font b{display:block;font-size:1.5rem;line-height:1.1;font-weight:500}
+.font small{font:14px var(--font);color:var(--muted)}
+.font[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+
+/* l'aperçu, qui suit le défilement */
+.side{position:sticky;top:88px;display:flex;flex-direction:column;gap:16px}
+.side .lbl{font-size:14px;color:var(--muted)}
+.mock{--c1:#1E4E6B;--c2:#F4F8FA;--c3:#E4572E;--tf:"Jost";border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--c2);color:var(--c1);box-shadow:0 30px 60px -36px rgba(0,0,0,.35)}
+.mock .chrome{height:28px;background:var(--bg-alt);display:flex;align-items:center;gap:6px;padding-inline:12px}
+.mock .chrome i{width:9px;height:9px;border-radius:50%;background:var(--line-hi)}
+.mock .top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 20px;border-bottom:1px solid color-mix(in srgb,var(--c1) 14%,transparent)}
+.mock .logo{display:flex;align-items:center;gap:10px;font:600 17px/1.1 var(--tf),var(--font);color:var(--c1);min-width:0}
+.mock .logo img{height:32px;width:auto;max-width:120px;object-fit:contain}
+.mock .nav{display:flex;gap:14px;font:13px var(--font);opacity:.75}
+.mock .hero{padding:34px 22px 30px}
+.mock h2{font:500 clamp(1.7rem,1.2rem + 1.6vw,2.4rem)/1.05 var(--tf),var(--font);letter-spacing:-.01em;color:var(--c1);max-width:16ch;overflow-wrap:anywhere}
+.mock p{font:15px/1.55 var(--font);margin-top:12px;opacity:.8;max-width:40ch}
+.mock .cta{display:inline-block;margin-top:20px;font:600 14px var(--font);padding:10px 16px;border-radius:4px;background:var(--c3);color:var(--on-c3,#fff)}
+.mock .band{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 22px 24px}
+.mock .band span{height:54px;border-radius:4px;background:color-mix(in srgb,var(--c1) 10%,var(--c2))}
+.swatches{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.sw{border:1px solid var(--line);border-radius:6px;overflow:hidden;font-size:13.5px}
+.sw span{display:block;height:44px}
+.sw p{padding:6px 10px;color:var(--muted)}
+.sw code{display:block;font:12.5px ui-monospace,monospace;color:var(--ink)}
+.actions{display:flex;flex-wrap:wrap;gap:10px}
+.ok{background:var(--bg-alt);border-left:3px solid var(--accent);padding:12px 14px;font-size:15px}
+
+/* fiche imprimable (« Télécharger ma charte ») */
+.sheet{display:none}
+@media print{
+  @page{margin:16mm}
+  body{background:#fff;color:#111}
+  .bar,.intro,.work{display:none!important}
+  .sheet{display:block;font-family:var(--font);color:#111}
+  .sheet h1{font-weight:400;font-size:28px;letter-spacing:-.01em}
+  .sheet .meta{color:#666;font-size:13px;margin-top:4px}
+  .sheet .logo-big{margin:24px 0;height:90px}
+  .sheet .logo-big img{height:90px;width:auto}
+  .sheet h2{font-size:15px;font-weight:600;margin:22px 0 8px}
+  .sheet .row{display:flex;gap:12px}
+  .sheet .row div{flex:1;border:1px solid #ddd;border-radius:6px;overflow:hidden;font-size:12px}
+  .sheet .row span{display:block;height:60px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .sheet .row p{padding:6px 8px}
+  .sheet .sample{font-size:30px;line-height:1.1}
+  .sheet .foot{margin-top:28px;color:#666;font-size:12px}
+}
+
+@media (max-width:900px){
+  .work{grid-template-columns:1fr}
+  .side{position:static}
+  .back{display:none}
+}
+@media (max-width:520px){.colors{grid-template-columns:1fr 1fr 1fr}.fonts{grid-template-columns:1fr}.mock .nav{display:none}}
+@media (hover:hover) and (pointer:fine){.btn:hover{border-color:var(--ink)}.btn.primary:hover{background:var(--accent-hover)}.back:hover{color:var(--ink)}.choice:hover,.preset:hover,.font:hover{border-color:var(--ink)}}
+@media (pointer:coarse){.brand{padding-block:9px;margin-block:-9px}.theme-toggle{width:44px;height:44px}.choice,.preset{min-height:44px}}
+</style>
+</head>
+<body>
+<script src="transition.js?v=13"></script>
+<script src="theme.js?v=1" defer></script>
+
+<header class="bar">
+  <div class="page">
+    <a class="brand" href="accueil.html" data-transition="Retour à l'accueil" aria-label="Saitora, accueil"><svg class="mark" viewBox="246 330 740 590" aria-hidden="true"><path d="M262 901L624 341L695 456L407 901Z M725 504L970 901L828 901L653 613Z" fill="currentColor"/><circle cx="620" cy="818" r="55" fill="var(--accent)"/></svg><img src="images/marque/saitora-noir.png" alt="Saitora" width="1165" height="162"></a>
+    <div class="right">
+      <a class="back" href="tarifs.html" data-transition="Les tarifs">Tarifs</a>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Changer de thème"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.6A8.2 8.2 0 0 1 9.4 4a8.2 8.2 0 1 0 10.6 10.6z"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="intro page" aria-labelledby="t-charte">
+    <h1 id="t-charte">Votre charte graphique<span class="dot" aria-hidden="true"></span></h1>
+    <p>Votre logo, vos couleurs, vos lettres : c'est ce qui fait qu'on reconnaît votre commerce. Vous en avez déjà une ? Montrez-la-moi. Pas encore ? On la pose ensemble. Un aperçu de votre site se dessine au fur et à mesure.</p>
+  </section>
+
+  <div class="work page">
+    <form class="form" id="form" novalidate>
+      <fieldset>
+        <legend>Votre commerce</legend>
+        <label class="field">Nom du commerce<input type="text" id="name" autocomplete="organization" placeholder="Par exemple : Boulangerie Martin"></label>
+        <label class="field">Une phrase qui vous résume (facultatif)<input type="text" id="tagline" placeholder="Par exemple : Le pain au levain du quartier depuis 1998"></label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Votre logo</legend>
+        <div class="choices" id="hasLogo" role="group" aria-label="Avez-vous un logo ?">
+          <button type="button" class="choice" data-v="oui" aria-pressed="false">J'ai un logo</button>
+          <button type="button" class="choice" data-v="non" aria-pressed="false">Pas encore, il m'en faut un</button>
+        </div>
+        <label class="drop" id="drop" hidden>
+          <span class="ph" id="logoPh" aria-hidden="true">+</span><img id="logoImg" alt="Votre logo" hidden>
+          <span><b>Choisir le fichier de votre logo</b><small>PNG, JPG ou SVG. Il reste sur votre appareil : je lis juste ses couleurs. Vous me l'enverrez avec votre demande.</small></span>
+          <input type="file" id="logoFile" accept="image/png,image/jpeg,image/svg+xml,image/webp">
+        </label>
+        <p class="found" id="found" hidden></p>
+        <p class="hint" id="noLogo" hidden style="margin-top:12px">Pas de souci : je vous propose deux ou trois pistes de logo à partir de vos couleurs et de votre style, avant de commencer le site.</p>
+      </fieldset>
+
+      <fieldset>
+        <legend>Vos couleurs</legend>
+        <p class="hint">Si vous avez déjà des couleurs (enseigne, cartes de visite, devanture), mettez-les ici. Sinon, partez d'une idée ci-dessous.</p>
+        <div class="colors">
+          <label class="col">Principale<input type="color" id="c1" value="#1E4E6B"><code id="c1t"></code></label>
+          <label class="col">Fond<input type="color" id="c2" value="#F4F8FA"><code id="c2t"></code></label>
+          <label class="col">Boutons<input type="color" id="c3" value="#E4572E"><code id="c3t"></code></label>
+        </div>
+        <p class="warn" id="warn" hidden></p>
+        <div class="presets" id="presets" role="group" aria-label="Idées de couleurs"></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Vos lettres</legend>
+        <p class="hint">Le style des titres. Le texte courant reste simple et lisible.</p>
+        <div class="fonts" id="fonts" role="group" aria-label="Style des titres"></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>L'ambiance</legend>
+        <p class="hint">Plusieurs choix possibles.</p>
+        <div class="choices" id="mood" role="group" aria-label="Ambiance"></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Ce que vous avez déjà</legend>
+        <p class="hint">Plusieurs choix possibles.</p>
+        <div class="choices" id="assets" role="group" aria-label="Ce que vous avez déjà"></div>
+        <label class="field">Votre page Facebook, Instagram ou Google (facultatif)<input type="text" id="social" inputmode="url" autocapitalize="none" placeholder="Lien vers votre page"></label>
+      </fieldset>
+    </form>
+
+    <aside class="side" aria-label="Aperçu de votre site">
+      <p class="lbl">Votre site, avec votre charte</p>
+      <div class="mock" id="mock" aria-hidden="true">
+        <div class="chrome"><i></i><i></i><i></i></div>
+        <div class="top"><span class="logo" id="mLogo">Votre commerce</span><span class="nav"><span>Accueil</span><span>Infos</span><span>Contact</span></span></div>
+        <div class="hero"><h2 id="mTitle">Votre commerce</h2><p id="mText">Une phrase qui vous résume, ce que vous faites et pour qui.</p><span class="cta">Nous contacter</span></div>
+        <div class="band"><span></span><span></span><span></span></div>
+      </div>
+      <div class="swatches" id="swatches"></div>
+      <div class="actions">
+        <a class="btn primary" id="toDevis" href="devis.html" data-transition="Construisons votre site">Continuer vers le devis</a>
+        <button class="btn" type="button" id="send">Envoyer ma charte</button>
+        <button class="btn" type="button" id="print">Télécharger en PDF</button>
+      </div>
+      <p class="ok" id="ok" hidden></p>
+    </aside>
+  </div>
+</main>
+
+<!-- fiche imprimable, remplie au moment de l'impression -->
+<section class="sheet" id="sheet" aria-hidden="true"></section>
+
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+const EMAIL = "contact@saitora.fr";
+const KEY = "saitora-charte";   // la charte est gardée sur l'appareil pour être jointe au devis
+
+const PRESETS = [["Bord de mer","#1E4E6B","#F4F8FA","#E4572E"],["Boulangerie","#3A2210","#FBF3E4","#D9932B"],["Nature","#2F3A24","#F2F1EA","#7E72B0"],["Chic","#141012","#F5E6E1","#7A2232"],["Artisan","#2B1E15","#F3EFE8","#B5814F"],["Moderne","#111111","#FFFFFF","#2F6BFF"]];
+const FONTS = [["moderne","Moderne","Jost","Net et actuel"],["elegante","Élégante","Cormorant Garamond","Raffiné, classique"],["chaleureuse","Chaleureuse","Young Serif","Généreux, accueillant"],["manuscrite","Manuscrite","Caveat","Fait main, convivial"],["affiche","Affiche","Archivo Narrow","Direct, qui se voit de loin"]];
+const MOODS = ["Chaleureux","Chic","Simple","Nature","Moderne","Familial","Haut de gamme","Artisanal","Coloré","Sobre"];
+const ASSETS = ["Des photos de qualité","Une enseigne","Des cartes de visite","Des menus ou flyers","Une page Facebook ou Instagram","Une fiche Google"];
+
+const state = { hasLogo: "", logoName: "", logoData: "", font: "moderne", mood: [], assets: [] };
+let saved = {}; try { saved = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (_) {}
+
+// choix
+$("presets").innerHTML = PRESETS.map(([n, a, b, c], i) => `<button type="button" class="preset" data-i="${i}"><i><span style="background:${a}"></span><span style="background:${b}"></span><span style="background:${c}"></span></i>${n}</button>`).join("");
+$("fonts").innerHTML = FONTS.map(([k, n, f, d]) => `<button type="button" class="font" data-k="${k}" aria-pressed="false"><b style="font-family:'${f}',var(--font)">${n}</b><small>${d}</small></button>`).join("");
+const chips = (id, list) => $(id).innerHTML = list.map(v => `<button type="button" class="choice" data-v="${esc(v)}" aria-pressed="false">${esc(v)}</button>`).join("");
+chips("mood", MOODS); chips("assets", ASSETS);
+
+$("hasLogo").addEventListener("click", e => { const b = e.target.closest(".choice"); if (!b) return; state.hasLogo = b.dataset.v; render(); });
+$("presets").addEventListener("click", e => { const b = e.target.closest(".preset"); if (!b) return; const [, a, c2, c3] = PRESETS[b.dataset.i]; $("c1").value = a; $("c2").value = c2; $("c3").value = c3; render(); });
+$("fonts").addEventListener("click", e => { const b = e.target.closest(".font"); if (!b) return; state.font = b.dataset.k; render(); });
+for (const id of ["mood", "assets"]) $(id).addEventListener("click", e => { const b = e.target.closest(".choice"); if (!b) return; const v = b.dataset.v, l = state[id]; state[id] = l.includes(v) ? l.filter(x => x !== v) : [...l, v]; render(); });
+["name", "tagline", "social", "c1", "c2", "c3"].forEach(id => $(id).addEventListener("input", render));
+
+// lisibilité : contraste entre deux couleurs (règle WCAG, 4,5 pour du texte)
+const lum = hex => { const v = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255).map(c => c <= .03928 ? c / 12.92 : ((c + .055) / 1.055) ** 2.4); return .2126 * v[0] + .7152 * v[1] + .0722 * v[2]; };
+const contrast = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((m, n) => n - m); return (x + .05) / (y + .05); };
+
+// le logo : lu sur place, on en tire les couleurs dominantes
+const toHex = (r, g, b) => "#" + [r, g, b].map(v => v.toString(16).padStart(2, "0")).join("").toUpperCase();
+function colorsOf(img){
+  const c = document.createElement("canvas"), n = 64; c.width = c.height = n;
+  const x = c.getContext("2d", { willReadFrequently: true }); x.drawImage(img, 0, 0, n, n);
+  const d = x.getImageData(0, 0, n, n).data, buckets = new Map();
+  for (let i = 0; i < d.length; i += 4) {
+    if (d[i + 3] < 200) continue;
+    const k = [d[i], d[i + 1], d[i + 2]].map(v => v >> 4).join(",");
+    const e = buckets.get(k) || { n: 0, r: 0, g: 0, b: 0 }; e.n++; e.r += d[i]; e.g += d[i + 1]; e.b += d[i + 2]; buckets.set(k, e);
+  }
+  const all = [...buckets.values()].sort((a, b) => b.n - a.n).map(e => [Math.round(e.r / e.n), Math.round(e.g / e.n), Math.round(e.b / e.n)]);
+  const out = [];
+  for (const c of all) { if (out.every(o => Math.hypot(o[0] - c[0], o[1] - c[1], o[2] - c[2]) > 70)) out.push(c); if (out.length === 4) break; }
+  return out.map(c => toHex(...c));
+}
+function useLogoColors(list){
+  const light = h => lum(h) > .7, sat = h => { const v = [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16)); return Math.max(...v) - Math.min(...v); };
+  const colored = list.filter(h => !light(h));
+  if (!colored.length) return false;
+  const main = colored.reduce((a, b) => lum(a) < lum(b) ? a : b);                          // la plus foncée : titres et texte
+  const rest = colored.filter(h => h !== main);
+  const accent = rest.length ? rest.reduce((a, b) => sat(a) > sat(b) ? a : b) : main;      // la plus vive : boutons
+  const bg = list.find(light) || "#FFFFFF";
+  $("c1").value = main; $("c2").value = bg; $("c3").value = accent;
+  return true;
+}
+function loadLogo(file){
+  if (!file || !file.type.startsWith("image/")) return;
+  const r = new FileReader();
+  r.onload = () => {
+    state.logoData = r.result; state.logoName = file.name;
+    const img = new Image();
+    img.onload = () => {
+      let msg = "Logo ajouté.";
+      try { const cs = colorsOf(img); if (useLogoColors(cs)) msg = `Couleurs trouvées dans votre logo : ${cs.join(", ")}. Je les ai reprises ci-dessous, vous pouvez les modifier.`; } catch (_) {}
+      $("found").hidden = false; $("found").textContent = msg; render();
+    };
+    img.src = r.result;
+  };
+  r.readAsDataURL(file);
+}
+$("logoFile").addEventListener("change", e => loadLogo(e.target.files[0]));
+["dragenter", "dragover"].forEach(t => $("drop").addEventListener(t, e => { e.preventDefault(); $("drop").classList.add("over"); }));
+["dragleave", "drop"].forEach(t => $("drop").addEventListener(t, e => { e.preventDefault(); $("drop").classList.remove("over"); }));
+$("drop").addEventListener("drop", e => loadLogo(e.dataTransfer.files[0]));
+
+const fontOf = k => FONTS.find(f => f[0] === k);
+function data(){
+  return { nom: $("name").value.trim(), phrase: $("tagline").value.trim(), logo: state.hasLogo === "oui" ? (state.logoName || "oui, à envoyer") : state.hasLogo === "non" ? "à créer" : "",
+    principale: $("c1").value.toUpperCase(), fond: $("c2").value.toUpperCase(), boutons: $("c3").value.toUpperCase(),
+    titres: fontOf(state.font)[1], ambiance: state.mood.join(", "), deja: state.assets.join(", "), reseaux: $("social").value.trim() };
+}
+function render(){
+  const d = data(), f = fontOf(state.font);
+  document.querySelectorAll("#hasLogo .choice").forEach(b => b.setAttribute("aria-pressed", b.dataset.v === state.hasLogo));
+  document.querySelectorAll("#fonts .font").forEach(b => b.setAttribute("aria-pressed", b.dataset.k === state.font));
+  for (const id of ["mood", "assets"]) document.querySelectorAll(`#${id} .choice`).forEach(b => b.setAttribute("aria-pressed", state[id].includes(b.dataset.v)));
+  $("drop").hidden = state.hasLogo !== "oui"; $("noLogo").hidden = state.hasLogo !== "non";
+  if (state.logoData) { $("logoImg").src = state.logoData; $("logoImg").hidden = false; $("logoPh").hidden = true; }
+  ["c1", "c2", "c3"].forEach(id => $(id + "t").textContent = $(id).value.toUpperCase());
+
+  // aperçu
+  const m = $("mock").style;
+  m.setProperty("--c1", d.principale); m.setProperty("--c2", d.fond); m.setProperty("--c3", d.boutons); m.setProperty("--tf", `"${f[2]}"`);
+  m.setProperty("--on-c3", contrast(d.boutons, "#FFFFFF") >= contrast(d.boutons, "#111111") ? "#FFFFFF" : "#111111");
+  $("mLogo").innerHTML = state.logoData && state.hasLogo === "oui" ? `<img src="${state.logoData}" alt="">` : esc(d.nom || "Votre commerce");
+  $("mTitle").textContent = d.nom || "Votre commerce";
+  $("mText").textContent = d.phrase || "Une phrase qui vous résume, ce que vous faites et pour qui.";
+  $("swatches").innerHTML = [["Principale", d.principale], ["Fond", d.fond], ["Boutons", d.boutons]].map(([n, h]) => `<div class="sw"><span style="background:${h}"></span><p>${n}<code>${h}</code></p></div>`).join("");
+
+  // lisibilité
+  const c = contrast(d.principale, d.fond);
+  $("warn").hidden = c >= 4.5;
+  $("warn").textContent = c < 4.5 ? `Le texte se lira mal sur ce fond (contraste ${c.toFixed(1).replace(".", ",")} sur 4,5 conseillé). Prenez une couleur principale plus foncée ou un fond plus clair.` : "";
+
+  try { localStorage.setItem(KEY, JSON.stringify({ ...d, quand: Date.now() })); } catch (_) {}
+}
+
+const summary = () => { const d = data(); return [
+  `Commerce : ${d.nom || "à préciser"}`, d.phrase ? `Phrase : ${d.phrase}` : null,
+  `Logo : ${d.logo || "à préciser"}`,
+  `Couleurs : principale ${d.principale}, fond ${d.fond}, boutons ${d.boutons}`,
+  `Titres : ${d.titres}`, d.ambiance ? `Ambiance : ${d.ambiance}` : null, d.deja ? `Déjà disponible : ${d.deja}` : null, d.reseaux ? `En ligne : ${d.reseaux}` : null,
+].filter(Boolean).join("\n"); };
+
+$("send").addEventListener("click", () => {
+  const d = data();
+  location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(`Charte graphique, ${d.nom || "mon commerce"}`)}&body=${encodeURIComponent(summary() + (state.logoName ? "\n\n(Je joins mon logo à ce message.)" : ""))}`;
+  $("ok").hidden = false;
+  $("ok").textContent = state.logoName ? "Votre messagerie s'est ouverte avec votre charte. Pensez à joindre le fichier de votre logo avant d'envoyer." : "Votre messagerie s'est ouverte avec votre charte : il ne reste plus qu'à appuyer sur « Envoyer ».";
+});
+$("print").addEventListener("click", () => {
+  const d = data(), f = fontOf(state.font);
+  $("sheet").innerHTML = `<h1>Charte graphique${d.nom ? ", " + esc(d.nom) : ""}</h1><p class="meta">Préparée avec Saitora, le ${new Date().toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}</p>
+    ${state.logoData && state.hasLogo === "oui" ? `<div class="logo-big"><img src="${state.logoData}" alt=""></div>` : ""}
+    ${d.phrase ? `<h2>Phrase</h2><p>${esc(d.phrase)}</p>` : ""}
+    <h2>Couleurs</h2><div class="row">${[["Principale", d.principale], ["Fond", d.fond], ["Boutons", d.boutons]].map(([n, h]) => `<div><span style="background:${h}"></span><p>${n}<br>${h}</p></div>`).join("")}</div>
+    <h2>Titres : ${esc(f[1])} (${esc(f[2])})</h2><p class="sample" style="font-family:'${f[2]}'">${esc(d.nom || "Votre commerce")}</p>
+    ${d.ambiance ? `<h2>Ambiance</h2><p>${esc(d.ambiance)}</p>` : ""}${d.deja ? `<h2>Déjà disponible</h2><p>${esc(d.deja)}</p>` : ""}
+    <p class="foot">Saitora, sites vitrines pour les commerces de quartier. contact@saitora.fr</p>`;
+  print();
+});
+
+// on retrouve ce qui avait été saisi
+if (saved.nom) $("name").value = saved.nom;
+if (saved.phrase) $("tagline").value = saved.phrase;
+if (saved.principale) { $("c1").value = saved.principale; $("c2").value = saved.fond; $("c3").value = saved.boutons; }
+if (saved.reseaux) $("social").value = saved.reseaux;
+if (saved.titres) { const f = FONTS.find(x => x[1] === saved.titres); if (f) state.font = f[0]; }
+if (saved.ambiance) state.mood = saved.ambiance.split(", ").filter(v => MOODS.includes(v));
+if (saved.deja) state.assets = saved.deja.split(", ").filter(v => ASSETS.includes(v));
+if (saved.logo) state.hasLogo = saved.logo === "à créer" ? "non" : "oui";
+render();
+</script>
+</body>
+</html>

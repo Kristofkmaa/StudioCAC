@@ -216,7 +216,7 @@ a{color:inherit}
 
       <section class="step" data-step="3">
         <h2>Quel style vous parle le plus ?</h2>
-        <p class="hint">Une base de départ : on l'adapte ensuite à vos couleurs et à vos photos.</p>
+        <p class="hint">Juste pour connaître vos goûts : votre site sera fait à votre image. Vous avez déjà un logo et des couleurs ? <a href="charte.html" target="_blank" rel="noopener">Présentez votre charte graphique</a>, elle sera jointe à cette demande.</p>
         <div class="opts styles" id="style" role="group" aria-label="Style préféré"></div>
       </section>
 
@@ -271,7 +271,12 @@ const SECTORS = [["Restaurant, bar, café","Carte, réservation, horaires"],["Ar
 const NEEDS = [["Présenter mon activité","Qui vous êtes, ce que vous faites"],["Être trouvé sur Google","Référencement local de base"],["Réservation ou prise de RDV","Vos clients réservent en ligne"],["Commande à retirer","Click & collect, paiement sur place"],["Demande de devis","Formulaire guidé pour vos clients"],["Galerie photos","Vos réalisations, votre lieu"],["Carte ou tarifs","Toujours à jour, facile à modifier"],["Avis clients","Mettre en avant vos avis"]];
 const STYLES = [["table-du-port","La Table du Port","L'ardoise du bord de mer"],["durand-plomberie","Durand Plomberie","Franc et direct"],["coupe-and-co","Coupe & Co","Magazine de mode"],["pain-dore","Au Pain Doré","Gourmand et chaleureux"],["villa-oliviers","Villa Les Oliviers","Nature et élégant"],["bois-massif","Bois Massif","Artisanal et sobre"],["","Je ne sais pas encore","Conseillez-moi"]];
 const SITUATION = { site:["Pas encore","Oui, à refaire"], domain:["Oui","Non","Je ne sais pas"], when:["Au plus vite","Dans le mois","Pas pressé"] };
-const LABELS = { sector:"Activité", needs:"Besoins", style:"Style", site:"Site actuel", domain:"Nom de domaine", when:"Délai", contact:"Contact" };
+const LABELS = { sector:"Activité", needs:"Besoins", style:"Style", charte:"Charte graphique", site:"Site actuel", domain:"Nom de domaine", when:"Délai", contact:"Contact" };
+// charte graphique préparée sur charte.html (gardée sur l'appareil quelques jours), jointe à la demande
+function charte() {
+  try { const c = JSON.parse(localStorage.getItem("saitora-charte") || "null"); return c && c.quand > Date.now() - 14 * 864e5 && (c.nom || c.logo || c.ambiance) ? c : null; } catch (_) { return null; }
+}
+const charteText = c => c ? [`logo ${c.logo || "à préciser"}`, `couleurs ${c.principale}, ${c.fond}, ${c.boutons}`, `titres ${c.titres}`, c.ambiance && `ambiance ${c.ambiance}`, c.deja && `déjà : ${c.deja}`, c.reseaux && `en ligne : ${c.reseaux}`].filter(Boolean).join(" ; ") : "";
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
@@ -338,7 +343,8 @@ function refresh() {
   document.querySelectorAll(".pills").forEach(p => p.querySelectorAll(".pill").forEach(b => b.setAttribute("aria-pressed", b.dataset.v === state[p.dataset.key])));
   $("next").disabled = step < 5 && !valid(step);   // à la dernière étape, on explique ce qui manque au clic
   const contact = [$("fName").value.trim(), $("fBiz").value.trim()].filter(Boolean).join(" · ");
-  const rows = { sector: sectorText(), needs: state.needs.join(", "), style: state.style || "", site: state.site, domain: state.domain, when: state.when, contact };
+  const ch = charte();
+  const rows = { sector: sectorText(), needs: state.needs.join(", "), style: state.style || "", ...(ch ? { charte: `Jointe : ${ch.logo === "à créer" ? "logo à créer" : "logo fourni"}, couleurs ${ch.principale}, ${ch.boutons}` } : {}), site: state.site, domain: state.domain, when: state.when, contact };
   renderOffer();
   $("recap").innerHTML = Object.entries(rows).map(([k, v]) => `<div><dt>${LABELS[k]}</dt><dd class="${v ? "" : "empty"}">${v ? esc(v) : "À préciser"}</dd></div>`).join("");
 }
@@ -363,6 +369,7 @@ function recapText() {
     `Site actuel : ${state.site}`,
     `Nom de domaine : ${state.domain}`,
     `Délai : ${state.when}`,
+    charte() ? `Charte graphique : ${charteText(charte())}` : null,
     offerKey() ? `Formule ${state.offer ? "choisie" : "conseillée"} : ${OFFRES[offerKey()].nom}, ${prixTexte(offerKey())} (estimation)` : null,
     "",
     `Nom : ${$("fName").value.trim()}`,
@@ -407,6 +414,7 @@ async function send() {
         _replyto: $("fMail").value.trim(),
         nom: $("fName").value.trim(), entreprise: $("fBiz").value.trim(), email: $("fMail").value.trim(), telephone: $("fTel").value.trim(),
         activite: sectorText(), besoins: state.needs.join(", "), style: state.style,
+        charte_graphique: charteText(charte()),
         site_actuel: state.site, nom_de_domaine: state.domain, delai: state.when, message: $("fMsg").value.trim(),
         formule: offerKey() ? `${OFFRES[offerKey()].nom} (${state.offer ? "choisie" : "conseillée"}), ${prixTexte(offerKey())}` : "",
       }),

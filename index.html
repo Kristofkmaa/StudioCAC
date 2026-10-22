@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <!-- construction de la page : le fond nuit est peint dès la toute première image, avant transition.js -->
 <script>if(!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("sc-pending")</script>
-<style>html.sc-pending,html.sc-pending body{background:#1f081b}</style>
+<style>html.sc-pending,html.sc-pending body{background:#380D31}</style>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Saitora · Sites vitrines pour commerces et artisans</title>
 <meta name="description" content="Sites vitrines rapides et sur mesure pour restaurants, artisans et commerces de proximité. Découvrez les démos et demandez un devis gratuit.">
@@ -13,250 +13,271 @@
 <meta property="og:site_name" content="Saitora">
 <meta property="og:title" content="Saitora · Sites vitrines pour commerces et artisans">
 <meta property="og:description" content="Sites vitrines rapides et sur mesure pour restaurants, artisans et commerces de proximité. Découvrez les démos et demandez un devis gratuit.">
-<meta name="theme-color" content="#1f081b">
+<meta name="theme-color" content="#380D31">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap">
 <style>
-/* Layout : fond nuit avec halos de couleur qui dérivent, tout le contenu posé sur des plaques de verre dépoli. Design volontairement sombre (un seul thème). */
+/* Saitora — direction : la vitrine de quartier, vue de l'intérieur du studio.
+   Couleurs du logo (aubergine #380D31, orchidée #B174B2), une seule police (Jost, géométrique comme le logo).
+   Signature : le point orchidée du logo, qui ferme le grand titre et marque ce qui est actif.
+   Aplats francs, pas de halos ni de verre ; un seul moment animé : la construction de la page (transition.js). */
 :root{
-  --night:#1f081b; --night-2:#380D31;
-  --glass:rgba(255,255,255,.07); --glass-hi:rgba(255,255,255,.12); --edge:rgba(255,255,255,.16); --edge-hi:rgba(255,255,255,.32);
-  --ink:#fbf3fa; --muted:rgba(251,243,250,.72); --faint:rgba(251,243,250,.48);
-  --g1:#6e2a65; --g2:#B174B2; --g3:#8d4686; --g4:#f3e3f2;
-  --ok:#4ADE9A; --warn:#FFC266; --idle:#A1A8C3;
-  --f-display:"Jost","Futura","Helvetica Neue",Arial,sans-serif;
-  --f-body:"Jost","Futura","Helvetica Neue",Arial,sans-serif;
-  --f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
-  --ease-out:cubic-bezier(.23,1,.32,1);   /* courbe de sortie forte (Emil Kowalski) pour toute l'interface */
+  --aubergine:#380D31; --aubergine-deep:#270823; --aubergine-raised:#47153F;
+  --orchid:#B174B2; --orchid-pale:#E8CDE7; --blush:#F7EDF5;
+  --ink:#FCF5FB; --muted:#D9C4D6; --ink-dark:#2A0A26; --muted-dark:#6B4A66;
+  --night:var(--aubergine);                    /* fond de recouvrement de transition.js */
+  --font:"Jost","Futura","Helvetica Neue",Arial,sans-serif;
+  --ease-out:cubic-bezier(.23,1,.32,1);
+  --step-0:1rem; --step-1:1.1875rem; --step-2:1.5rem; --step-3:clamp(2rem,1.4rem + 2.4vw,3rem); --step-4:clamp(2.75rem,1.6rem + 4.6vw,5.25rem);
+  --page:min(1180px,100% - 2 * clamp(20px,4vw,40px));
   color-scheme:dark;
 }
-*{box-sizing:border-box}
-html{background:var(--night)}
-body{background:var(--night);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;min-height:100%;overflow-x:hidden;
-  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{background:var(--aubergine)}
+body{margin:0;background:var(--aubergine);color:var(--ink);font-family:var(--font);font-size:var(--step-0);line-height:1.6;overflow-x:hidden}
+h1,h2,h3,p,ul,ol,figure{margin:0}
 a{color:inherit}
-:focus-visible{outline:2px solid var(--g2);outline-offset:3px;border-radius:8px}
+img,video{display:block;max-width:100%}
+:focus-visible{outline:2px solid var(--orchid);outline-offset:3px;border-radius:2px}
+::selection{background:var(--orchid);color:var(--aubergine-deep)}
+.page{width:var(--page);margin-inline:auto}
+.dot{display:inline-block;width:.2em;height:.2em;border-radius:50%;background:var(--orchid);margin-left:.04em;vertical-align:baseline}
 
-/* halos de fond */
-.aurora{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;contain:strict;transform:translateZ(0);will-change:transform;background:radial-gradient(ellipse at 50% 120%,var(--night-2),var(--night) 60%)}
-.aurora span{position:absolute;border-radius:50%;opacity:.55}
-.aurora span:nth-child(1){width:60vmax;height:60vmax;background:radial-gradient(circle,var(--g1),transparent 65%);top:-22vmax;left:-18vmax}
-.aurora span:nth-child(2){width:50vmax;height:50vmax;background:radial-gradient(circle,var(--g2),transparent 65%);top:4vmax;right:-20vmax;opacity:.4}
-.aurora span:nth-child(3){width:46vmax;height:46vmax;background:radial-gradient(circle,var(--g3),transparent 65%);bottom:-20vmax;left:14vmax;opacity:.38}
-.aurora span:nth-child(4){width:28vmax;height:28vmax;background:radial-gradient(circle,var(--g4),transparent 65%);top:36vh;left:40vw;opacity:.25}
-
-.glass{background:linear-gradient(135deg,rgba(110,42,101,.38),rgba(56,13,49,.55));border:1px solid var(--edge);border-radius:22px;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.18)}
-header.top.glass{background:rgba(44,11,39,.92)}
-
-.wrap{position:relative;z-index:1;max-width:1140px;margin:0 auto;padding-block:20px 64px;display:flex;flex-direction:column;gap:64px}
-
-header.top{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);z-index:5;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:10px 12px 10px 18px;border-radius:999px}
-.brand{font-family:var(--f-display);font-weight:800;font-size:19px;display:flex;align-items:center;gap:10px}
-.brand img{display:block;height:20px;width:auto}
-nav.top{display:flex;gap:4px}
-nav.top a{text-decoration:none;color:var(--muted);font-size:15px;padding:8px 14px;border-radius:999px}
-nav.top a:hover{color:var(--ink);background:var(--glass)}
-
-.hero{display:grid;grid-template-columns:1.25fr 1fr;gap:40px;align-items:center;padding-top:28px}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;font:500 13px var(--f-mono);color:var(--muted);padding:6px 12px;border-radius:999px;border:1px solid var(--edge);background:var(--glass);margin-bottom:20px}
-.eyebrow::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 10px var(--ok)}
-.hero h1{font-family:var(--f-display);font-weight:800;font-size:clamp(40px,6.4vw,76px);line-height:.96;letter-spacing:-.035em;margin:0;text-wrap:balance}
-.hero h1 em{font-style:normal;background:linear-gradient(100deg,var(--g4),var(--g2) 55%,#e3bfe2);-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero p{margin:20px 0 0;color:var(--muted);max-width:46ch;font-size:17px}
-.cta{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap}
-.btn{font:600 15px var(--f-body);padding:12px 20px;border-radius:999px;border:1px solid var(--edge-hi);background:var(--glass);color:var(--ink);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:transform 160ms var(--ease-out),background-color 160ms ease}
-.btn:hover{background:var(--glass-hi)}
+/* barre */
+.bar{position:sticky;top:0;z-index:10;background:var(--aubergine);border-bottom:1px solid rgba(232,205,231,.14)}
+.bar .page{display:flex;align-items:center;gap:32px;height:68px}
+.brand img{height:18px;width:auto}
+.bar nav{display:flex;gap:28px;margin-left:auto;font-size:15px}
+.bar nav a{text-decoration:none;color:var(--muted)}
+.bar nav a:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;font:500 16px var(--font);padding:13px 22px;border-radius:4px;border:0;cursor:pointer;text-decoration:none;
+  background:var(--orchid);color:var(--aubergine-deep);transition:transform 160ms var(--ease-out),background-color 160ms ease}
+.btn:hover{background:var(--orchid-pale)}
 .btn:active{transform:scale(.97)}
-.btn.primary{border-color:transparent;background:linear-gradient(110deg,var(--g1),var(--g3));box-shadow:0 10px 30px -8px rgba(177,116,178,.8)}
-.btn.sm{padding:8px 14px;font-size:14px}
+.btn.small{padding:9px 16px;font-size:15px}
+.link{color:var(--ink);text-decoration:underline;text-decoration-color:var(--orchid);text-decoration-thickness:2px;text-underline-offset:5px;font-weight:500}
+.link:hover{text-decoration-color:var(--ink)}
 
-/* pile de cartes flottantes du hero */
-.reel{position:relative;margin:0;border-radius:18px;overflow:hidden;aspect-ratio:8/5;border:1px solid var(--edge-hi);
-  box-shadow:0 30px 80px -20px rgba(0,0,0,.7),0 0 0 6px rgba(255,255,255,.04),0 0 90px -10px rgba(177,116,178,.55);
-  transition:transform 300ms var(--ease-out);background:#2c0b27;z-index:2}
-.reel video{display:block;width:100%;height:100%;object-fit:cover}
-@media (prefers-reduced-motion:reduce){.reel{transform:none;transition:none}}
+/* première page */
+.hero{display:grid;grid-template-columns:1.05fr 1fr;gap:56px;align-items:center;padding-block:clamp(56px,9vw,120px) clamp(64px,9vw,120px)}
+.hero h1{font-weight:400;font-size:var(--step-4);line-height:1.02;letter-spacing:-.025em;max-width:13ch}
+.hero .lead{margin-top:28px;font-size:var(--step-1);line-height:1.55;color:var(--muted);max-width:40ch}
+.hero .cta{display:flex;align-items:center;gap:28px;margin-top:36px;flex-wrap:wrap}
+.reel{margin:0;position:relative;aspect-ratio:8/5;border-radius:10px;overflow:hidden;background:var(--aubergine-deep);
+  transition:transform 300ms var(--ease-out);z-index:1}
+.reel video{width:100%;height:100%;object-fit:cover}
+.reel figcaption{position:absolute;left:0;right:0;bottom:0;padding:10px 14px;font-size:14px;color:var(--muted);background:rgba(39,8,35,.82)}
 
-
-.sec-head{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin-bottom:24px}
-.sec-head h2{font-family:var(--f-display);font-weight:700;font-size:clamp(28px,3.4vw,38px);letter-spacing:-.025em;margin:4px 0 0}
-.label{font-family:var(--f-mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
-
-.chips{display:flex;gap:6px;flex-wrap:wrap;padding:6px;border-radius:999px}
-.chip{font:500 14px var(--f-body);padding:7px 14px;border-radius:999px;border:0;background:transparent;color:var(--muted);cursor:pointer;transition:background .2s,color .2s}
+/* réalisations */
+.work{padding-block:clamp(72px,9vw,120px) clamp(80px,10vw,140px)}
+.work-head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:40px}
+.work-head h2{font-weight:400;font-size:var(--step-3);line-height:1.08;letter-spacing:-.02em;max-width:18ch}
+.work-head p{color:var(--muted);max-width:42ch;margin-top:12px}
+.filters{display:flex;gap:6px 22px;flex-wrap:wrap;font-size:15px}
+.chip{font:inherit;color:var(--muted);background:none;border:0;padding:6px 0;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.chip::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--orchid);transform:scale(0);transition:transform 180ms var(--ease-out)}
 .chip:hover{color:var(--ink)}
-.chip[aria-pressed="true"]{background:rgba(255,255,255,.16);color:var(--ink);box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}
+.chip[aria-pressed="true"]{color:var(--ink)}
+.chip[aria-pressed="true"]::before{transform:scale(1)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.proj{position:relative;display:flex;flex-direction:column;min-height:520px;padding:32px 32px 0;border-radius:12px;overflow:hidden;
+  background:var(--bg);color:var(--fg);text-decoration:none;transition:transform 250ms var(--ease-out)}
+.proj .sector{font-size:15px;opacity:.75}
+.proj h3{font-weight:500;font-size:clamp(1.75rem,1.3rem + 1.2vw,2.25rem);line-height:1.1;letter-spacing:-.02em;margin:6px 0 12px}
+.proj p{max-width:44ch;font-size:16px;line-height:1.55;opacity:.85}
+.proj .feats{margin-top:14px;font-size:15px;font-weight:500}
+.proj .stage{position:relative;margin-top:auto;height:270px}
+.proj .win{position:absolute;left:0;right:64px;top:36px;border-radius:8px 8px 0 0;overflow:hidden;background:#fff;transform:translateY(20px);transition:transform 300ms var(--ease-out)}
+.proj .win img{width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;object-position:top}
+.proj .phone{position:absolute;right:0;top:64px;width:118px;padding:5px;border-radius:20px;background:#120310;transform:translateY(30px);transition:transform 340ms var(--ease-out) 40ms}
+.proj .phone img{width:100%;height:auto;aspect-ratio:300/585;object-fit:cover;object-position:top;border-radius:15px}
 
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
-/* carte projet : aux couleurs du site présenté, écrans qui dépassent en bas */
-.proj{position:relative;display:flex;flex-direction:column;min-height:560px;padding:28px 30px 0;border-radius:28px;overflow:hidden;isolation:isolate;
-  background:var(--bg);color:var(--fg);text-decoration:none;box-shadow:0 30px 60px -36px rgba(0,0,0,.9);transition:transform 250ms var(--ease-out)}
-.proj::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(520px circle at 100% 0,rgba(255,255,255,.16),transparent 62%)}
-.proj .top{display:flex;align-items:center;gap:12px;font:500 13px var(--f-mono)}
-.proj .num{opacity:.6}
-.proj .sec{padding:5px 12px;border-radius:999px;border:1px solid color-mix(in srgb,var(--fg) 30%,transparent)}
-.proj .go{margin-left:auto;width:46px;height:46px;border-radius:50%;background:var(--ac);color:var(--bg);display:grid;place-items:center;transition:transform 200ms var(--ease-out)}
-.proj .go svg{width:18px;height:18px}
-.proj h3{font:800 clamp(28px,3vw,38px)/1.02 var(--f-display);letter-spacing:-.03em;margin:24px 0 10px}
-.proj p{margin:0;max-width:42ch;opacity:.78;font-size:16px}
-.proj .feats{list-style:none;padding:0;margin:18px 0 0;display:flex;gap:8px;flex-wrap:wrap}
-.proj .feats li{font-size:13px;font-weight:600;padding:6px 12px;border-radius:999px;background:color-mix(in srgb,var(--fg) 12%,transparent)}
-.proj .stage{position:relative;margin-top:auto;height:290px}
-.proj .win{position:absolute;left:0;right:64px;top:36px;border-radius:14px 14px 0 0;overflow:hidden;background:#2c0b27;box-shadow:0 -12px 40px -14px rgba(0,0,0,.5);
-  transform:translateY(22px);transition:transform 300ms var(--ease-out)}
-.proj .win .bar{height:24px;display:flex;align-items:center;gap:6px;padding:0 12px;background:#42153c}
-.proj .win .bar i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.35)}
-.proj .win img{display:block;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;object-position:top}
-.proj .phone{position:absolute;right:0;top:70px;width:122px;padding:6px;border-radius:22px;background:#2c0b27;box-shadow:0 24px 40px -12px rgba(0,0,0,.65);
-  transform:translateY(34px) rotate(5deg);transition:transform 340ms var(--ease-out) 40ms}
-.proj .phone img{display:block;width:100%;height:auto;aspect-ratio:300/585;object-fit:cover;object-position:top;border-radius:16px}
-/* survols qui bougent : seulement avec une vraie souris, et sans demande de réduction des animations */
+/* méthode : section claire */
+.method{background:var(--blush);color:var(--ink-dark);padding-block:clamp(80px,10vw,140px)}
+.method h2{font-weight:400;font-size:var(--step-3);line-height:1.08;letter-spacing:-.02em;max-width:20ch}
+.method .intro{color:var(--muted-dark);max-width:52ch;margin-top:16px;font-size:var(--step-1)}
+.steps{list-style:none;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:48px;margin-top:64px;counter-reset:s}
+.steps li{counter-increment:s}
+.steps li::before{content:counter(s);display:block;font-weight:300;font-size:clamp(3.5rem,2.6rem + 3vw,5.5rem);line-height:1;color:var(--orchid);margin-bottom:20px}
+.steps h3{font-weight:500;font-size:var(--step-2);letter-spacing:-.01em;margin-bottom:10px}
+.steps p{color:var(--muted-dark);max-width:34ch}
+
+/* contact */
+.contact{background:var(--aubergine-deep);padding-block:clamp(80px,10vw,140px)}
+.contact .page{display:grid;grid-template-columns:1.2fr 1fr;gap:56px;align-items:end}
+.contact h2{font-weight:400;font-size:var(--step-3);line-height:1.08;letter-spacing:-.02em}
+.mail{display:inline-block;margin-top:28px;font-size:clamp(1.5rem,1.1rem + 1.6vw,2.375rem);font-weight:400;letter-spacing:-.01em;text-decoration:underline;text-decoration-color:var(--orchid);text-decoration-thickness:2px;text-underline-offset:8px;overflow-wrap:anywhere}
+.contact .copy{display:block;margin-top:14px;font:15px var(--font);color:var(--muted);background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:4px}
+.contact .side p{color:var(--muted);margin-top:14px;max-width:34ch}
+
+/* pied de page */
+.foot{background:var(--aubergine-deep);border-top:1px solid rgba(232,205,231,.12)}
+.foot .page{display:flex;align-items:center;gap:28px;flex-wrap:wrap;padding-block:28px;font-size:14px;color:var(--muted)}
+.foot img{height:14px;width:auto}
+.foot nav{display:flex;gap:22px;margin-left:auto}
+.foot a{text-decoration:none}
+.foot a:hover{color:var(--ink)}
+
+/* survols qui bougent : vraie souris uniquement */
 @media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
-  .btn:hover{transform:translateY(-2px)}
-  .btn:active{transform:translateY(-2px) scale(.97)}
-  .proj:hover{transform:translateY(-6px)}
-  .proj:hover .go{transform:rotate(45deg) scale(1.08)}
+  .proj:hover{transform:translateY(-4px)}
   .proj:hover .win{transform:translateY(0)}
-  .proj:hover .phone{transform:translateY(0) rotate(0)}
+  .proj:hover .phone{transform:translateY(0)}
 }
 
-.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-.step{padding:24px}
-.step b{display:inline-grid;place-items:center;width:36px;height:36px;border-radius:12px;font:500 14px var(--f-mono);background:linear-gradient(135deg,var(--g1),var(--g2));box-shadow:0 0 20px rgba(177,116,178,.4)}
-.step h3{font-family:var(--f-display);font-size:21px;margin:16px 0 6px}
-.step p{margin:0;color:var(--muted);font-size:15px}
-
-.contact{padding:36px;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;position:relative;overflow:hidden}
-.contact::before{content:"";position:absolute;width:420px;height:420px;right:-120px;top:-200px;border-radius:50%;background:radial-gradient(var(--g3),transparent 65%);opacity:.45;pointer-events:none}
-.contact h2{font-family:var(--f-display);font-size:clamp(26px,3vw,34px);margin:0 0 4px;letter-spacing:-.02em}
-.contact p{margin:0;color:var(--muted)}
-.contact .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;position:relative}
-.mail{font:500 15px var(--f-mono);user-select:all;padding:11px 16px;border:1px solid var(--edge);border-radius:999px;background:rgba(0,0,0,.2)}
-
-/* ===== Espace pro ===== */
-#admin{gap:22px}
-.admin-top{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-top:12px}
-.admin-top h1{font-family:var(--f-display);font-size:clamp(30px,4vw,42px);margin:4px 0 0;letter-spacing:-.03em}
+/* ===== Espace pro (#admin) ===== */
+.wrap#admin{width:var(--page);margin:0 auto;padding-block:40px 64px;display:flex;flex-direction:column;gap:22px}
+.surface{background:var(--aubergine-raised);border-radius:10px}
+.admin-top{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.admin-top h1{font-weight:500;font-size:clamp(30px,4vw,42px);letter-spacing:-.02em}
+.admin-top p{color:var(--muted);font-size:14px}
 .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-.kpi{padding:18px 20px;border-radius:18px}
-.kpi .v{font-family:var(--f-display);font-weight:700;font-size:34px;font-variant-numeric:tabular-nums;margin-top:6px}
-.kpi.mrr .v{background:linear-gradient(100deg,var(--g2),var(--g1));-webkit-background-clip:text;background-clip:text;color:transparent}
-.table-wrap{overflow-x:auto;border-radius:18px}
-table{width:100%;border-collapse:collapse;font-size:14px;min-width:760px}
-th{text-align:left;font:500 11px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--faint);padding:14px 16px;border-bottom:1px solid var(--edge)}
-td{padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.07);vertical-align:middle}
+.kpi{padding:18px 20px}
+.kpi .k{font-size:14px;color:var(--muted)}
+.kpi .v{font-weight:500;font-size:34px;font-variant-numeric:tabular-nums;margin-top:6px}
+.kpi.mrr .v{color:var(--orchid-pale)}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:15px;min-width:760px}
+th{text-align:left;font-weight:500;font-size:14px;color:var(--muted);padding:14px 16px;border-bottom:1px solid rgba(232,205,231,.16)}
+td{padding:14px 16px;border-bottom:1px solid rgba(232,205,231,.08);vertical-align:middle}
 tr:last-child td{border-bottom:0}
-tbody tr:hover{background:rgba(255,255,255,.04)}
-td.num{font:500 14px var(--f-mono);font-variant-numeric:tabular-nums}
-td a{color:var(--g2);text-decoration:none}
-.pill{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.06)}
-.pill::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;box-shadow:0 0 8px currentColor}
-.pill.ligne{color:var(--ok)} .pill.maquette{color:var(--warn)} .pill.pause{color:var(--idle)}
-.soon{color:var(--warn);font-weight:600}
-.del{background:none;border:0;color:var(--faint);cursor:pointer;font:13px var(--f-body);text-decoration:underline}
+td.num{font-variant-numeric:tabular-nums}
+td a{color:var(--orchid-pale)}
+.pill{display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:500}
+.pill::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.pill.ligne{color:#9FE0B1}.pill.maquette{color:#F0CF8A}.pill.pause{color:var(--muted)}
+.soon{color:#F0CF8A;font-weight:500}
+.ex{font-size:13px;color:var(--muted)}
+.del{background:none;border:0;color:var(--muted);cursor:pointer;font:14px var(--font);text-decoration:underline}
 .del:hover{color:var(--ink)}
-.del.confirm{color:var(--g3)}
-form.add{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;padding:18px;border-radius:18px;align-items:end}
-form.add label{display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--muted);min-width:0}
-form.add input,form.add select{font:15px var(--f-body);padding:10px 12px;border:1px solid var(--edge);border-radius:12px;background:rgba(0,0,0,.25);color:var(--ink);width:100%}
-form.add input:focus,form.add select:focus{outline:none;border-color:var(--g2);box-shadow:0 0 0 3px rgba(177,116,178,.2)}
-.note{font-size:13px;color:var(--faint);margin:0}
+.del.confirm{color:var(--orchid-pale)}
+form.add{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;padding:18px;align-items:end}
+form.add label{display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--muted);min-width:0}
+form.add input,form.add select{font:15px var(--font);padding:10px 12px;border:1px solid rgba(232,205,231,.2);border-radius:4px;background:var(--aubergine-deep);color:var(--ink);width:100%}
+form.add input:focus,form.add select:focus{outline:none;border-color:var(--orchid)}
+.note{font-size:14px;color:var(--muted)}
 
-@media (max-width:860px){.grid{grid-template-columns:1fr}.proj{min-height:0}.proj .stage{height:250px}}
-@media (max-width:860px){
-  .hero{grid-template-columns:1fr;gap:24px}
-  .steps{grid-template-columns:1fr}
+@media (max-width:900px){
+  .bar nav{display:none}
+  .bar .btn{margin-left:auto}
+  .hero{grid-template-columns:1fr;gap:40px}
+  .grid{grid-template-columns:1fr}
+  .proj{min-height:0}
+  .proj .stage{height:240px}
+  .steps{grid-template-columns:1fr;gap:36px}
+  .contact .page{grid-template-columns:1fr;gap:32px}
   .kpis{grid-template-columns:repeat(2,1fr)}
   form.add{grid-template-columns:1fr 1fr}
-  nav.top{display:none}
 }
+@media (max-width:520px){.proj{padding:24px 22px 0}.foot nav{margin-left:0}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition-property:opacity,color,background-color,border-color!important;transition-duration:200ms!important}.btn:active{transform:none}}
 </style>
 </head>
 <body>
-<script src="transition.js?v=9"></script>
+<script src="transition.js?v=10"></script>
 
-<div class="aurora" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
-
-<div class="wrap" id="public">
-  <header class="top glass">
-    <a class="brand" href="index.html" aria-label="Saitora, accueil"><img src="images/marque/saitora-blanc.png" alt="Saitora" width="1165" height="162"></a>
-    <nav class="top"><a href="#vitrines">Réalisations</a><a href="#methode">Méthode</a><a href="#contact">Contact</a></nav>
-    <a class="btn sm primary" href="devis.html" data-transition="Construisons votre site">Devis gratuit</a>
+<div id="public">
+  <header class="bar">
+    <div class="page">
+      <a class="brand" href="index.html" aria-label="Saitora, accueil"><img src="images/marque/saitora-blanc.png" alt="Saitora" width="1165" height="162"></a>
+      <nav aria-label="Sections"><a href="#vitrines">Réalisations</a><a href="#methode">Méthode</a><a href="#contact">Contact</a></nav>
+      <a class="btn small" href="devis.html" data-transition="Construisons votre site">Demander un devis</a>
+    </div>
   </header>
 
-  <section class="hero">
-    <div>
-      <div class="eyebrow">Disponible pour de nouveaux projets</div>
-      <h1>Votre commerce mérite une <em>vitrine qui brille</em> en ligne.</h1>
-      <p>Sites vitrines rapides et sur mesure pour restaurants, artisans et commerces de proximité. Choisissez un style, on l'adapte à votre activité.</p>
-      <div class="cta">
-        <a class="btn primary" href="#vitrines">Voir les démos</a>
-        <a class="btn" href="devis.html" data-transition="Construisons votre site">Demander un devis</a>
+  <main>
+    <section class="hero page">
+      <div>
+        <h1>Des sites qui donnent envie de pousser la porte<span class="dot" aria-hidden="true"></span></h1>
+        <p class="lead">Saitora crée des sites vitrines sur mesure pour les restaurants, les artisans et les commerces de quartier.</p>
+        <div class="cta">
+          <a class="btn" href="devis.html" data-transition="Construisons votre site">Demander un devis</a>
+          <a class="link" href="#vitrines">Voir les sites réalisés</a>
+        </div>
       </div>
-    </div>
-    <figure class="reel">
-      <video id="reel" autoplay muted loop playsinline preload="auto" poster="media/showreel-poster.webp" aria-label="Film de présentation : de la demande du client au site en ligne, en cinq étapes">
-        <source src="media/showreel.webm" type="video/webm">
-        <source src="media/showreel.mp4" type="video/mp4">
-      </video>
-    </figure>
-  </section>
+      <figure class="reel">
+        <video id="reel" autoplay muted loop playsinline preload="auto" poster="media/showreel-poster.webp" aria-label="Film : de la demande du client au site en ligne, en cinq étapes">
+          <source src="media/showreel.webm" type="video/webm">
+          <source src="media/showreel.mp4" type="video/mp4">
+        </video>
+      </figure>
+    </section>
 
-  <section id="vitrines">
-    <div class="sec-head">
-      <div><div class="label">Réalisations &amp; démos</div><h2>Choisissez votre style</h2></div>
-      <div class="chips glass" id="chips" role="group" aria-label="Filtrer par secteur"></div>
-    </div>
-    <div class="grid" id="grid"></div>
-  </section>
+    <section class="work page" id="vitrines">
+      <div class="work-head">
+        <div>
+          <h2>Six commerces, six sites qui leur ressemblent</h2>
+          <p>Chaque démo part d'un vrai métier. Choisissez celle qui vous parle, on l'adapte à vos couleurs et à vos photos.</p>
+        </div>
+        <div class="filters" id="chips" role="group" aria-label="Filtrer par métier"></div>
+      </div>
+      <div class="grid" id="grid"></div>
+    </section>
 
-  <section id="methode">
-    <div class="sec-head"><div><div class="label">Comment ça se passe</div><h2>En ligne en trois étapes</h2></div></div>
-    <div class="steps">
-      <div class="step glass"><b>1</b><h3>On échange</h3><p>Votre activité, vos clients, vos photos. Un appel de 20 minutes suffit.</p></div>
-      <div class="step glass"><b>2</b><h3>Maquette</h3><p>Vous recevez une première version à partir du style choisi, puis on ajuste ensemble.</p></div>
-      <div class="step glass"><b>3</b><h3>Mise en ligne</h3><p>Nom de domaine, hébergement et mises à jour gérés pour vous, sans souci technique.</p></div>
-    </div>
-  </section>
+    <section class="method" id="methode">
+      <div class="page">
+        <h2>Trois étapes, un seul interlocuteur</h2>
+        <p class="intro">Vous vous occupez de votre commerce, je m'occupe de votre site, du premier appel à la mise en ligne.</p>
+        <ol class="steps">
+          <li><h3>On échange</h3><p>Votre activité, vos clients, vos photos. Un appel de vingt minutes suffit pour cadrer le projet.</p></li>
+          <li><h3>Vous recevez une maquette</h3><p>Une première version à partir du style choisi, avec vos couleurs. On l'ajuste ensemble jusqu'à ce qu'elle vous plaise.</p></li>
+          <li><h3>Le site est en ligne</h3><p>Nom de domaine, hébergement et mises à jour sont gérés pour vous. Vous n'avez rien de technique à faire.</p></li>
+        </ol>
+      </div>
+    </section>
 
-  <section class="contact glass" id="contact">
-    <div style="position:relative"><h2>Un projet de site ?</h2><p>Écrivez-moi, je réponds sous 24 h.</p></div>
-    <div class="row">
-      <span class="mail" id="mail">contact@studiocac.fr</span>
-      <button class="btn sm" id="copyMail" type="button">Copier l'adresse</button>
-      <a class="btn sm primary" href="devis.html" data-transition="Construisons votre site">Devis guidé en 2 min →</a>
+    <section class="contact" id="contact">
+      <div class="page">
+        <div>
+          <h2>Un projet de site ? Écrivez-moi.</h2>
+          <a class="mail" id="mail" href="mailto:contact@studiocac.fr">contact@studiocac.fr</a>
+          <button class="copy" id="copyMail" type="button">Copier l'adresse</button>
+        </div>
+        <div class="side">
+          <a class="btn" href="devis.html" data-transition="Construisons votre site">Faire ma demande de devis</a>
+          <p>Deux minutes de questions, une réponse sous 24 heures. Le devis est gratuit et sans engagement.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="page">
+      <img src="images/marque/saitora-blanc.png" alt="Saitora" width="1165" height="162">
+      <span>Sites vitrines pour les commerces de quartier</span>
+      <nav aria-label="Pied de page"><a href="#vitrines">Réalisations</a><a href="devis.html" data-transition="Construisons votre site">Devis</a><a href="mailto:contact@studiocac.fr">Contact</a></nav>
+      <span>© 2026 Saitora</span>
     </div>
-  </section>
+  </footer>
 </div>
 
 <div class="wrap" id="admin" hidden>
   <div class="admin-top">
-    <div><div class="label">Espace pro · accessible via #admin</div><h1>Mes sites clients</h1></div>
-    <a class="btn sm" href="#" id="toPublic">Voir la vitrine publique</a>
+    <div><h1>Mes sites clients</h1><p>Espace pro, accessible via #admin. Les données restent dans ce navigateur.</p></div>
+    <a class="btn small" href="#" id="toPublic">Voir la vitrine publique</a>
   </div>
   <div class="kpis">
-    <div class="kpi glass"><div class="label">Sites en ligne</div><div class="v" id="kOnline">0</div></div>
-    <div class="kpi glass"><div class="label">En maquette</div><div class="v" id="kDraft">0</div></div>
-    <div class="kpi glass mrr"><div class="label">Revenu mensuel</div><div class="v" id="kMrr">0 €</div></div>
-    <div class="kpi glass"><div class="label">Renouvellements &lt; 30 j</div><div class="v" id="kSoon">0</div></div>
+    <div class="kpi surface"><div class="k">Sites en ligne</div><div class="v" id="kOnline">0</div></div>
+    <div class="kpi surface"><div class="k">En maquette</div><div class="v" id="kDraft">0</div></div>
+    <div class="kpi surface mrr"><div class="k">Revenu mensuel</div><div class="v" id="kMrr">0 €</div></div>
+    <div class="kpi surface"><div class="k">Renouvellements sous 30 jours</div><div class="v" id="kSoon">0</div></div>
   </div>
-  <div class="table-wrap glass">
+  <div class="table-wrap surface">
     <table>
       <thead><tr><th>Client</th><th>Site</th><th>Statut</th><th>Abonnement</th><th>Renouvellement domaine</th><th></th></tr></thead>
       <tbody id="rows"></tbody>
     </table>
   </div>
-  <form class="add glass" id="addForm">
+  <form class="add surface" id="addForm">
     <label>Client<input id="fName" required placeholder="Boulangerie Martin"></label>
     <label>Adresse du site<input id="fUrl" placeholder="boulangerie-martin.fr"></label>
     <label>Statut<select id="fStatus"><option value="maquette">Maquette</option><option value="ligne">En ligne</option><option value="pause">En pause</option></select></label>
     <label>€ / mois<input id="fPrice" type="number" min="0" step="1" value="29"></label>
     <label>Renouvellement<input id="fRenew" type="date"></label>
-    <button class="btn primary" type="submit">Ajouter</button>
+    <button class="btn" type="submit">Ajouter</button>
   </form>
   <p class="note">Les lignes marquées « exemple » servent de démo : supprime-les quand tu ajoutes tes vrais clients. Ces données restent dans ce navigateur uniquement.</p>
 </div>
@@ -282,17 +303,16 @@ function renderChips(){
   const sectors = ["Tous", ...new Set(DEMOS.map(d=>d.sector))];
   chips.innerHTML = sectors.map(s=>`<button class="chip" type="button" aria-pressed="${s===filter}" data-s="${esc(s)}">${esc(s)}</button>`).join("");
 }
-const ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg>';
 function renderGrid(){
-  grid.innerHTML = DEMOS.map((d, i) => [d, i]).filter(([d]) => filter === "Tous" || d.sector === filter).map(([d, i]) => {
+  grid.innerHTML = DEMOS.filter(d => filter === "Tous" || d.sector === filter).map(d => {
     const slug = esc(d.url.replace(/^demo-|\.html$/g, ""));   // aperçus générés par outils/apercus.js
     return `<a class="proj" href="${esc(d.url)}" target="_blank" rel="noopener" style="--bg:${d.bg};--fg:${d.fg};--ac:${d.ac}" aria-label="Ouvrir la démo ${esc(d.name)}">
-      <div class="top"><span class="num">${String(i + 1).padStart(2, "0")}</span><span class="sec">${esc(d.sector)}</span><span class="go" aria-hidden="true">${ARROW}</span></div>
+      <span class="sector">${esc(d.sector)}</span>
       <h3>${esc(d.name)}</h3>
       <p>${esc(d.desc)}</p>
-      <ul class="feats">${d.feats.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
+      <p class="feats">${d.feats.map(esc).join(", ")}</p>
       <div class="stage" aria-hidden="true">
-        <div class="win"><div class="bar"><i></i><i></i><i></i></div><img src="media/apercus/${slug}.webp" alt="" width="720" height="450" loading="lazy" decoding="async"></div>
+        <div class="win"><img src="media/apercus/${slug}.webp" alt="" width="720" height="450" loading="lazy" decoding="async"></div>
         <div class="phone"><img src="media/apercus/${slug}-mobile.webp" alt="" width="300" height="585" loading="lazy" decoding="async"></div>
       </div>
     </a>`;

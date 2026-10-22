@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <!-- construction de la page : le fond nuit est peint dès la toute première image, avant transition.js -->
 <script>if(!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("sc-pending")</script>
-<style>html.sc-pending,html.sc-pending body{background:#1f081b}</style>
+<style>html.sc-pending,html.sc-pending body{background:#380D31}</style>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Demande de devis · Saitora</title>
 <meta name="description" content="Décrivez votre projet de site vitrine en 5 étapes et recevez un devis gratuit sous 24 h.">
@@ -13,127 +13,121 @@
 <meta property="og:site_name" content="Saitora">
 <meta property="og:title" content="Demande de devis · Saitora">
 <meta property="og:description" content="Décrivez votre projet de site vitrine en 5 étapes et recevez un devis gratuit sous 24 h.">
-<meta name="theme-color" content="#1f081b">
+<meta name="theme-color" content="#380D31">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap">
 <style>
-/* Devis guidé : même univers que l'accueil (nuit, halos, verre dépoli). Questionnaire en 5 étapes à gauche,
-   résumé du projet qui se remplit à droite. */
+/* Devis guidé : même univers que l'accueil (aplats aubergine, point orchidée du logo, une seule police).
+   Questionnaire en 5 étapes à gauche, résumé du projet qui se remplit à droite. */
 :root{
-  --night:#1f081b; --night-2:#380D31;
-  --glass:rgba(255,255,255,.07); --glass-hi:rgba(255,255,255,.12); --edge:rgba(255,255,255,.16); --edge-hi:rgba(255,255,255,.32);
-  --ink:#fbf3fa; --muted:rgba(251,243,250,.72); --faint:rgba(251,243,250,.48);
-  --g1:#6e2a65; --g2:#B174B2; --g3:#8d4686; --g4:#f3e3f2; --ok:#4ADE9A; --warn:#FFC266;
-  --f-display:"Jost","Futura","Helvetica Neue",Arial,sans-serif;
-  --f-body:"Jost","Futura","Helvetica Neue",Arial,sans-serif;
-  --f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
-  --ease-out:cubic-bezier(.23,1,.32,1);   /* courbe de sortie forte (Emil Kowalski) pour toute l'interface */
+  --aubergine:#380D31; --aubergine-deep:#270823; --aubergine-raised:#47153F;
+  --orchid:#B174B2; --orchid-pale:#E8CDE7;
+  --ink:#FCF5FB; --muted:#D9C4D6; --faint:rgba(252,245,251,.55);
+  --line:rgba(232,205,231,.18); --line-hi:rgba(232,205,231,.4); --warn:#F0CF8A;
+  --night:var(--aubergine);                    /* fond de recouvrement de transition.js */
+  --font:"Jost","Futura","Helvetica Neue",Arial,sans-serif;
+  --ease-out:cubic-bezier(.23,1,.32,1);
+  --page:min(1180px,100% - 2 * clamp(20px,4vw,40px));
   color-scheme:dark;
 }
-*{box-sizing:border-box}
+*,*::before,*::after{box-sizing:border-box}
 [hidden]{display:none!important}
-html{background:var(--night)}
-body{margin:0;background:var(--night);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;min-height:100vh;overflow-x:hidden;
-  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+html{background:var(--aubergine)}
+body{margin:0;background:var(--aubergine);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.6;min-height:100vh;overflow-x:hidden}
+h1,h2,h3,p{margin:0}
 a{color:inherit}
-:focus-visible{outline:2px solid var(--g2);outline-offset:3px;border-radius:8px}
-.aurora{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;background:radial-gradient(ellipse at 50% 120%,var(--night-2),var(--night) 60%)}
-.aurora span{position:absolute;border-radius:50%;opacity:.5}
-.aurora span:nth-child(1){width:60vmax;height:60vmax;background:radial-gradient(circle,var(--g1),transparent 65%);top:-26vmax;left:-20vmax}
-.aurora span:nth-child(2){width:50vmax;height:50vmax;background:radial-gradient(circle,var(--g2),transparent 65%);bottom:-26vmax;right:-18vmax;opacity:.35}
-.glass{background:linear-gradient(135deg,rgba(110,42,101,.38),rgba(56,13,49,.55));border:1px solid var(--edge);border-radius:22px;box-shadow:inset 0 1px 0 rgba(255,255,255,.18)}
-.wrap{position:relative;z-index:1;max-width:1140px;margin:0 auto;padding-block:20px 64px}
-header.top{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:10px 12px 10px 18px;border-radius:999px;background:rgba(44,11,39,.92)}
-.brand{font-family:var(--f-display);font-weight:800;font-size:19px;display:flex;align-items:center;gap:10px;text-decoration:none}
-.brand img{display:block;height:20px;width:auto}
-.btn{font:600 15px var(--f-body);padding:12px 20px;border-radius:999px;border:1px solid var(--edge-hi);background:var(--glass);color:var(--ink);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:transform 160ms var(--ease-out),background-color 160ms ease,opacity 160ms ease}
-.btn:hover{background:var(--glass-hi)}
+:focus-visible{outline:2px solid var(--orchid);outline-offset:3px;border-radius:2px}
+::selection{background:var(--orchid);color:var(--aubergine-deep)}
+.page{width:var(--page);margin-inline:auto}
+.dot{display:inline-block;width:.2em;height:.2em;border-radius:50%;background:var(--orchid);margin-left:.04em}
+
+.bar{position:sticky;top:0;z-index:10;background:var(--aubergine);border-bottom:1px solid rgba(232,205,231,.14)}
+.bar .page{display:flex;align-items:center;justify-content:space-between;gap:24px;height:68px}
+.brand img{display:block;height:18px;width:auto}
+.back{font-size:15px;color:var(--muted);text-decoration:none}
+.back:hover{color:var(--ink)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;font:500 16px var(--font);padding:13px 22px;border-radius:4px;cursor:pointer;text-decoration:none;
+  border:1px solid var(--line-hi);background:none;color:var(--ink);transition:transform 160ms var(--ease-out),background-color 160ms ease,border-color 160ms ease,opacity 160ms ease}
+.btn:hover{border-color:var(--ink)}
 .btn:active:not([disabled]){transform:scale(.97)}
-.btn.primary{border-color:transparent;background:linear-gradient(110deg,var(--g1),var(--g3));box-shadow:0 10px 30px -8px rgba(177,116,178,.8)}
-.btn.sm{padding:8px 14px;font-size:14px}
-.btn[disabled]{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
-.label{font-family:var(--f-mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.btn.primary{border-color:transparent;background:var(--orchid);color:var(--aubergine-deep)}
+.btn.primary:hover{background:var(--orchid-pale)}
+.btn[disabled]{opacity:.4;cursor:not-allowed;transform:none}
 
-.intro{margin:56px 0 28px;max-width:720px}
-.intro h1{font-family:var(--f-display);font-weight:800;font-size:clamp(36px,5.4vw,60px);line-height:1;letter-spacing:-.035em;margin:10px 0 12px}
-.intro h1 em{font-style:normal;background:linear-gradient(100deg,var(--g4),var(--g2) 55%,#e3bfe2);-webkit-background-clip:text;background-clip:text;color:transparent}
-.intro p{margin:0;color:var(--muted);font-size:17px}
+.intro{padding-block:clamp(48px,7vw,88px) 40px;max-width:760px}
+.intro h1{font-weight:400;font-size:clamp(2.5rem,1.6rem + 3.6vw,4.25rem);line-height:1.02;letter-spacing:-.025em}
+.intro p{margin-top:20px;color:var(--muted);font-size:1.1875rem;max-width:46ch}
 
-.layout{display:grid;grid-template-columns:1.65fr 1fr;gap:24px;align-items:start}
-.wizard{padding:30px 32px 26px;min-height:520px;display:flex;flex-direction:column}
-.progress{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:26px}
-.progress span{height:4px;border-radius:4px;background:rgba(255,255,255,.12);overflow:hidden;position:relative}
-.progress span::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--g2),var(--g1));transform:scaleX(0);transform-origin:left;transition:transform 300ms var(--ease-out)}
+.layout{display:grid;grid-template-columns:1.65fr 1fr;gap:20px;align-items:start;padding-bottom:clamp(64px,8vw,112px)}
+.surface{background:var(--aubergine-raised);border-radius:10px}
+.wizard{padding:32px 36px 28px;min-height:540px;display:flex;flex-direction:column}
+.progress{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:28px}
+.progress span{height:3px;background:var(--line);position:relative;overflow:hidden}
+.progress span::after{content:"";position:absolute;inset:0;background:var(--orchid);transform:scaleX(0);transform-origin:left;transition:transform 300ms var(--ease-out)}
 .progress span.ok::after,.progress span.cur::after{transform:scaleX(1)}
-.step{display:none;flex-direction:column;gap:18px;flex:1}
+.step{display:none;flex-direction:column;gap:20px;flex:1}
 .step.on{display:flex;animation:stepIn 220ms var(--ease-out)}
 .step.back{animation-name:stepBack}
 @keyframes stepIn{from{opacity:0;transform:translateX(12px)}to{opacity:1;transform:none}}
 @keyframes stepBack{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:none}}
 @keyframes fadeOnly{from{opacity:0}to{opacity:1}}
-.step h2{font-family:var(--f-display);font-weight:700;font-size:clamp(24px,3vw,32px);letter-spacing:-.025em;margin:0;line-height:1.1}
-.step .hint{margin:-10px 0 0;color:var(--muted)}
+.step h2{font-weight:400;font-size:clamp(1.75rem,1.3rem + 1.4vw,2.375rem);letter-spacing:-.02em;line-height:1.1}
+.step .hint{margin-top:-12px;color:var(--muted)}
 
 .opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
-.opt{position:relative;text-align:left;font:inherit;color:inherit;cursor:pointer;padding:16px 16px 14px;border-radius:16px;border:1px solid var(--edge);background:rgba(255,255,255,.04);display:flex;flex-direction:column;gap:4px;transition:border-color 150ms ease,background-color 150ms ease,transform 160ms var(--ease-out)}
-.opt:hover{border-color:var(--edge-hi);background:rgba(255,255,255,.07)}
+.opt{position:relative;text-align:left;font:inherit;color:inherit;cursor:pointer;padding:16px 16px 14px;border-radius:6px;border:1px solid var(--line);background:var(--aubergine);display:flex;flex-direction:column;gap:2px;transition:border-color 150ms ease,background-color 150ms ease,transform 160ms var(--ease-out)}
+.opt:hover{border-color:var(--line-hi)}
 .opt:active{transform:scale(.98)}
-.opt b{font-weight:600;font-size:16px;padding-right:26px}
-.opt small{color:var(--muted);font-size:13.5px;line-height:1.35}
-.opt::after{content:"";position:absolute;right:14px;top:16px;width:18px;height:18px;border-radius:50%;border:1.5px solid var(--edge-hi);transition:background-color 150ms ease,border-color 150ms ease}
-.opt.multi::after{border-radius:6px}
-.opt[aria-pressed="true"]{border-color:var(--g2);background:rgba(177,116,178,.09);box-shadow:0 0 0 1px var(--g2) inset}
-.opt[aria-pressed="true"]::after{background:var(--g2) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4 8-9' fill='none' stroke='%231f081b' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/12px no-repeat;border-color:var(--g2)}
+.opt b{font-weight:500;font-size:16px;padding-right:22px}
+.opt small{color:var(--muted);font-size:14px;line-height:1.4}
+.opt::after{content:"";position:absolute;right:16px;top:21px;width:9px;height:9px;border-radius:50%;background:var(--orchid);transform:scale(0);transition:transform 180ms var(--ease-out)}
+.opt[aria-pressed="true"]{border-color:var(--orchid);background:var(--aubergine-deep)}
+.opt[aria-pressed="true"]::after{transform:scale(1)}
 .styles{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
 .styles .opt{padding:8px 8px 12px}
-.styles .opt img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;border-radius:10px;display:block;margin-bottom:6px}
+.styles .opt img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;border-radius:3px;display:block;margin-bottom:8px}
 .styles .opt b,.styles .opt small{padding-left:6px}
-.styles .opt::after{top:16px;right:16px;background-color:rgba(7,10,26,.6)}
+.styles .opt::after{top:auto;bottom:18px;right:14px}
 .group{display:flex;flex-direction:column;gap:10px}
+.group b{font-weight:500}
 .pills{display:flex;flex-wrap:wrap;gap:8px}
-.pill{font:500 15px var(--f-body);color:var(--ink);cursor:pointer;padding:10px 16px;border-radius:999px;border:1px solid var(--edge);background:rgba(255,255,255,.04);transition:background-color 150ms ease,color 150ms ease,border-color 150ms ease,transform 160ms var(--ease-out)}
+.pill{font:400 15px var(--font);color:var(--ink);cursor:pointer;padding:9px 16px;border-radius:4px;border:1px solid var(--line);background:var(--aubergine);transition:background-color 150ms ease,color 150ms ease,border-color 150ms ease,transform 160ms var(--ease-out)}
 .pill:active{transform:scale(.97)}
-.pill:hover{border-color:var(--edge-hi)}
-.pill[aria-pressed="true"]{background:var(--ink);color:var(--night);border-color:var(--ink)}
-.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.fields label{display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--muted);font-weight:500}
+.pill:hover{border-color:var(--line-hi)}
+.pill[aria-pressed="true"]{background:var(--orchid);color:var(--aubergine-deep);border-color:var(--orchid)}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.fields label{display:flex;flex-direction:column;gap:6px;font-size:15px;color:var(--muted)}
 .fields .full{grid-column:1/-1}
-.fields input,.fields textarea,#otherSector{font:16px var(--f-body);color:var(--ink);background:rgba(255,255,255,.05);border:1px solid var(--edge);border-radius:12px;padding:12px 14px;width:100%}
+.fields input,.fields textarea,#otherSector{font:16px var(--font);color:var(--ink);background:var(--aubergine-deep);border:1px solid var(--line);border-radius:4px;padding:12px 14px;width:100%}
 .fields textarea{min-height:96px;resize:vertical}
-.fields input:focus,.fields textarea:focus,#otherSector:focus{outline:none;border-color:var(--g2);box-shadow:0 0 0 3px rgba(177,116,178,.18)}
-.fields .err{color:var(--warn);font-size:13px;min-height:1em}
-.nav{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:auto;padding-top:24px}
-.nav .count{font-family:var(--f-mono);font-size:13px;color:var(--faint)}
+.fields input:focus,.fields textarea:focus,#otherSector:focus{outline:none;border-color:var(--orchid)}
+.fields .err{color:var(--warn);font-size:14px;min-height:1em}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:auto;padding-top:28px}
+.nav .count{font-size:15px;color:var(--muted)}
 
-.summary{padding:24px;position:sticky;top:20px;display:flex;flex-direction:column;gap:16px}
-.summary h3{font-family:var(--f-display);font-size:20px;margin:0;display:flex;align-items:center;gap:10px}
-.summary h3 i{width:10px;height:10px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 4px rgba(74,222,154,.2)}
-.summary dl{margin:0;display:flex;flex-direction:column;gap:12px}
-.summary dl div{display:flex;flex-direction:column;gap:2px;padding-bottom:12px;border-bottom:1px dashed var(--edge)}
-.summary dt{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
-.summary dd{margin:0;font-size:15px}
+.summary{padding:28px;position:sticky;top:88px;display:flex;flex-direction:column;gap:18px;background:var(--aubergine-deep);border-radius:10px}
+.summary h3{font-weight:500;font-size:20px}
+.summary dl{margin:0;display:flex;flex-direction:column}
+.summary dl div{display:flex;flex-direction:column;gap:2px;padding-block:11px;border-bottom:1px solid var(--line)}
+.summary dl div:first-child{padding-top:0}
+.summary dt{font-size:14px;color:var(--muted)}
+.summary dd{margin:0;font-size:16px}
 .summary dd.empty{color:var(--faint)}
-.summary .promise{font-size:14px;color:var(--muted);display:flex;flex-direction:column;gap:6px}
-.summary .promise span::before{content:"✓ ";color:var(--ok);font-weight:700}
+.summary .promise{font-size:15px;color:var(--muted);line-height:1.5}
 
-.done{display:none;text-align:center;padding:30px 10px;flex-direction:column;align-items:center;gap:16px}
+.done{display:none;padding:40px 0 10px;flex-direction:column;align-items:flex-start;gap:18px}
 .done.on{display:flex;animation:stepIn 300ms var(--ease-out)}
-.done .check{width:76px;height:76px;border-radius:50%;background:linear-gradient(135deg,var(--ok),var(--g2));display:grid;place-items:center;box-shadow:0 0 50px rgba(74,222,154,.5)}
-.done h2{font-family:var(--f-display);font-size:clamp(26px,3.4vw,36px);margin:0;letter-spacing:-.025em}
-.done p{margin:0;color:var(--muted);max-width:46ch}
-.done .row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:6px}
-
+.done h2{font-weight:400;font-size:clamp(2rem,1.5rem + 1.8vw,2.75rem);letter-spacing:-.02em;line-height:1.05}
+.done p{color:var(--muted);max-width:46ch}
+.done .row{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
 
 @media (max-width:900px){
   .layout{grid-template-columns:1fr}
   .summary{position:static}
-  .wizard{padding:22px 18px;min-height:0}
+  .wizard{padding:24px 20px;min-height:0}
   .fields{grid-template-columns:1fr}
-}
-@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
-  .btn:hover:not([disabled]){transform:translateY(-2px)}
-  .opt:hover{transform:translateY(-2px)}
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{transition-property:opacity,color,background-color,border-color!important;transition-duration:200ms!important}
@@ -143,88 +137,82 @@ header.top{display:flex;justify-content:space-between;align-items:center;gap:16p
 </style>
 </head>
 <body>
-<script src="transition.js?v=9"></script>
-<div class="aurora" aria-hidden="true"><span></span><span></span></div>
+<script src="transition.js?v=10"></script>
 
-<div class="wrap">
-  <header class="top">
+<header class="bar">
+  <div class="page">
     <a class="brand" href="index.html" data-transition="Retour aux réalisations" aria-label="Saitora, accueil"><img src="images/marque/saitora-blanc.png" alt="Saitora" width="1165" height="162"></a>
-    <a class="btn sm" href="index.html#vitrines" data-transition="Retour aux réalisations">← Voir les réalisations</a>
-  </header>
+    <a class="back" href="index.html#vitrines" data-transition="Retour aux réalisations">Voir les réalisations</a>
+  </div>
+</header>
 
+<main class="page">
   <section class="intro">
-    <div class="label">Devis gratuit · 2 minutes</div>
-    <h1>Construisons <em>votre site</em> ensemble.</h1>
-    <p>Cinq questions rapides pour comprendre votre activité. Je vous réponds sous 24 h avec une proposition sur mesure.</p>
+    <h1>Parlons de votre futur site<span class="dot" aria-hidden="true"></span></h1>
+    <p>Cinq questions sur votre activité, deux minutes en tout. Je vous réponds sous 24 h avec un devis gratuit et sur mesure.</p>
   </section>
 
   <div class="layout">
-    <form class="wizard glass" id="wizard" novalidate>
+    <form class="wizard surface" id="wizard" novalidate>
       <div class="progress" id="progress" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
 
       <section class="step" data-step="1">
-        <div class="label">Étape 1 · Votre activité</div>
         <h2>Quelle est votre activité ?</h2>
         <div class="opts" id="sector" role="group" aria-label="Votre activité"></div>
         <input id="otherSector" type="text" placeholder="Précisez votre activité" hidden>
       </section>
 
       <section class="step" data-step="2">
-        <div class="label">Étape 2 · Vos besoins</div>
         <h2>Que doit faire votre site ?</h2>
         <p class="hint">Plusieurs choix possibles.</p>
         <div class="opts" id="needs" role="group" aria-label="Fonctionnalités souhaitées"></div>
       </section>
 
       <section class="step" data-step="3">
-        <div class="label">Étape 3 · Votre style</div>
         <h2>Quel style vous parle le plus ?</h2>
         <p class="hint">Une base de départ : on l'adapte ensuite à vos couleurs et à vos photos.</p>
         <div class="opts styles" id="style" role="group" aria-label="Style préféré"></div>
       </section>
 
       <section class="step" data-step="4">
-        <div class="label">Étape 4 · Votre situation</div>
         <h2>Où en êtes-vous ?</h2>
         <div class="group"><b>Avez-vous déjà un site ?</b><div class="pills" data-key="site"></div></div>
-        <div class="group"><b>Un nom de domaine (ex. mon-commerce.fr) ?</b><div class="pills" data-key="domain"></div></div>
+        <div class="group"><b>Un nom de domaine (par exemple mon-commerce.fr) ?</b><div class="pills" data-key="domain"></div></div>
         <div class="group"><b>Pour quand ?</b><div class="pills" data-key="when"></div></div>
       </section>
 
       <section class="step" data-step="5">
-        <div class="label">Étape 5 · Vos coordonnées</div>
         <h2>Comment vous recontacter ?</h2>
         <div class="fields">
           <label>Prénom et nom *<input id="fName" autocomplete="name" required></label>
           <label>Entreprise<input id="fBiz" autocomplete="organization"></label>
           <label>E-mail *<input id="fMail" type="email" autocomplete="email" required></label>
           <label>Téléphone<input id="fTel" type="tel" autocomplete="tel"></label>
-          <label class="full">Un mot sur votre projet<textarea id="fMsg" placeholder="Ce qui compte pour vous, vos idées, vos questions…"></textarea></label>
+          <label class="full">Un mot sur votre projet<textarea id="fMsg" placeholder="Ce qui compte pour vous, vos idées, vos questions"></textarea></label>
           <div class="err full" id="err" role="alert"></div>
         </div>
       </section>
 
       <section class="done" id="done" aria-live="polite">
-        <div class="check"><svg width="34" height="34" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#1f081b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <h2>Merci, c'est noté !</h2>
+        <h2>Merci, c'est noté<span class="dot" aria-hidden="true"></span></h2>
         <p id="doneText">Votre messagerie s'est ouverte avec le récapitulatif : il ne reste plus qu'à appuyer sur « Envoyer ». Je vous réponds sous 24 h.</p>
-        <div class="row"><button class="btn" type="button" id="copy">Copier le récapitulatif</button><a class="btn primary" href="index.html#vitrines" data-transition="Retour aux réalisations">Revoir les réalisations</a></div>
+        <div class="row"><a class="btn primary" href="index.html#vitrines" data-transition="Retour aux réalisations">Revoir les réalisations</a><button class="btn" type="button" id="copy">Copier le récapitulatif</button></div>
       </section>
 
       <div class="nav" id="nav">
-        <button class="btn" type="button" id="prev">← Retour</button>
+        <button class="btn" type="button" id="prev">Retour</button>
         <span class="count" id="count"></span>
-        <button class="btn primary" type="submit" id="next">Continuer →</button>
+        <button class="btn primary" type="submit" id="next">Continuer</button>
       </div>
     </form>
 
-    <aside class="summary glass" aria-live="polite">
-      <h3><i></i>Votre projet</h3>
+    <aside class="summary" aria-live="polite">
+      <h3>Votre projet</h3>
       <dl id="recap"></dl>
-      <div class="promise"><span>Devis gratuit et sans engagement</span><span>Réponse sous 24 h</span><span>Une première maquette avant de vous décider</span></div>
+      <p class="promise">Le devis est gratuit et sans engagement. Vous voyez une première maquette avant de vous décider.</p>
     </aside>
   </div>
-</div>
+</main>
 
 <script>
 const EMAIL = "contact@studiocac.fr";
@@ -280,8 +268,8 @@ function show(n, dir) {
   document.querySelectorAll(".step").forEach(s => { const on = Number(s.dataset.step) === n; s.classList.toggle("on", on); s.classList.toggle("back", on && dir < 0); });
   [...$("progress").children].forEach((s, i) => { s.className = i + 1 < n ? "ok" : i + 1 === n ? "cur" : ""; });
   $("prev").style.visibility = n === 1 ? "hidden" : "visible";
-  $("next").textContent = n === 5 ? "Envoyer ma demande" : "Continuer →";
-  $("count").textContent = `${n} / 5`;
+  $("next").textContent = n === 5 ? "Envoyer ma demande" : "Continuer";
+  $("count").textContent = `Étape ${n} sur 5`;
   $("err").textContent = "";
   refresh();
 }

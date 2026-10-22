@@ -1,10 +1,10 @@
-// Transition « chantier » entre les pages StudioCac (liens avec data-transition) : la page quittée s'efface
+// Transition « chantier » entre les pages Saitora (liens avec data-transition) : la page quittée s'efface
 // vers le fond nuit, puis la nouvelle page se construit en environ 1,2 s (maquette tracée, titres écrits
 // lettre par lettre, textes ligne par ligne, images du flou au net, boutons qui se posent).
 // Un clic ou une touche termine tout. À inclure au tout début du <body>.
 (() => {
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const NIGHT = "#070A1A";   // fond du site
+  const NIGHT = "#380D31";   // fond du site
 
   const style = document.createElement("style");
   style.textContent = `
@@ -47,9 +47,9 @@
   const SEL = {
     title: "h1, h2",
     media: "img, video",
-    ctrl: ".btn, .chip, .pill, .opt, .go, .proj .feats li",
-    text: "p, h3, li, dt, dd, label, .label, .eyebrow, .kicker, .count, .brand, nav a, .proj .top .num, .proj .top .sec",
-    frame: ".glass, .proj, .reel, .step b",
+    ctrl: ".btn, .chip, .pill, .opt, .back, nav a",
+    text: "p, h3, li, dt, dd, label, .count, .brand, .sector, .mail",
+    frame: ".surface, .summary, .proj, .reel",
   };
 
   function build() {
@@ -121,7 +121,8 @@
             const frag = document.createDocumentFragment();
             for (const ch of c.textContent) { const sp = document.createElement("span"); sp.textContent = ch; sp.style.visibility = "hidden"; frag.appendChild(sp); chars.push(sp); }
             c.replaceWith(frag);
-          } else if (c.nodeType === 1) walk(c);
+          } else if (c.nodeType === 1 && !c.textContent) { c.style.visibility = "hidden"; chars.push(c); }   // le point du logo arrive en dernier
+          else if (c.nodeType === 1) walk(c);
         }
       };
       walk(it.n);

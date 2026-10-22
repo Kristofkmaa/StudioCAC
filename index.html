@@ -56,6 +56,21 @@ h1 .d{display:inline-block;width:.2em;height:.2em;border-radius:50%;background:v
   .word{animation-delay:760ms}h1{animation-delay:900ms}.enter{animation-delay:1060ms}.sub{animation-delay:1140ms}
   body.leaving .door,body.leaving .top,body.leaving .foot{opacity:0;transform:scale(.985);transition:opacity 220ms ease,transform 220ms ease}
 }
+/* en fond : nos sites qui défilent sur un mur incliné, sous un voile pour garder le logo lisible */
+.wall{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.wall .tilt{position:absolute;left:50%;top:50%;width:max(1800px,190vw);display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(16px,2vw,32px);
+  transform:translate(-50%,-50%) perspective(1600px) rotateX(38deg) rotateZ(-14deg)}
+.wall .col{display:flex;flex-direction:column;gap:clamp(16px,2vw,32px)}
+.wall img{width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;object-position:top;border-radius:8px;display:block;box-shadow:0 20px 50px -20px rgba(0,0,0,.35)}
+.wall::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 75% 70% at 50% 50%,color-mix(in srgb,var(--bg) 95%,transparent) 30%,color-mix(in srgb,var(--bg) 86%,transparent) 65%,color-mix(in srgb,var(--bg) 74%,transparent))}
+.top,.door,.foot{position:relative;z-index:1}
+@media (prefers-reduced-motion:no-preference){
+  .wall .col{animation:scroll 70s linear infinite}
+  .wall .col:nth-child(even){animation-direction:reverse;animation-duration:85s}
+  .wall{animation:show 1200ms ease both}
+  body.leaving .wall{opacity:0;transition:opacity 220ms ease}
+}
+@keyframes scroll{from{transform:translateY(0)}to{transform:translateY(-50%)}}
 @keyframes rise{from{transform:translateY(60px);opacity:0}to{transform:none;opacity:1}}
 @keyframes drop{from{transform:translateY(-160px);opacity:0}to{transform:none;opacity:1}}
 @keyframes show{from{transform:translateY(10px);opacity:0}to{transform:none;opacity:1}}
@@ -63,6 +78,8 @@ h1 .d{display:inline-block;width:.2em;height:.2em;border-radius:50%;background:v
 </head>
 <body>
 <script src="theme.js?v=1" defer></script>
+
+<div class="wall" aria-hidden="true"><div class="tilt" id="tilt"></div></div>
 
 <div class="top">
   <button class="theme-toggle" type="button" data-theme-toggle aria-label="Changer de thème"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.6A8.2 8.2 0 0 1 9.4 4a8.2 8.2 0 1 0 10.6 10.6z"/></svg></button>
@@ -79,6 +96,14 @@ h1 .d{display:inline-block;width:.2em;height:.2em;border-radius:50%;background:v
 <p class="foot">Sites vitrines pour les restaurants, les artisans et les commerces de quartier</p>
 
 <script>
+// le mur de fond : nos six sites, deux fois par colonne pour que le défilement boucle sans couture
+const SITES = ["table-du-port","durand-plomberie","coupe-and-co","pain-dore","villa-oliviers","bois-massif"];
+document.getElementById("tilt").innerHTML = [0,1,2,3].map(c => {
+  const list = [0,1,2,3].map(i => SITES[(c * 2 + i) % SITES.length]);
+  const imgs = list.map(n => `<img src="media/apercus/${n}.webp" alt="" width="720" height="450" decoding="async">`).join("");
+  return `<div class="col">${imgs}${imgs}</div>`;
+}).join("");
+
 // on entre : la porte s'efface, puis la page d'accueil se construit (transition.js, côté accueil)
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 document.querySelectorAll('a[href="accueil.html"], a[href="devis.html"]').forEach(a => a.addEventListener("click", e => {

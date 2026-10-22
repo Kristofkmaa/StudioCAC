@@ -56,7 +56,21 @@ nav.links a:hover{opacity:1}
 .open-now{display:inline-flex;align-items:center;gap:8px;margin-top:22px;font-size:14px;opacity:.9}
 .open-now i{width:9px;height:9px;border-radius:50%;background:#5CD08B;box-shadow:0 0 0 4px rgba(92,208,139,.2)}
 .open-now.closed i{background:#E8775A;box-shadow:0 0 0 4px rgba(232,119,90,.2)}
-.plate{aspect-ratio:1;max-width:100%;width:min(440px,100%);justify-self:center}
+.hero-ph{position:relative;margin:0;width:min(420px,100%);justify-self:center}
+.hero-ph img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:200px 200px 22px 22px;box-shadow:0 30px 60px -20px rgba(0,0,0,.6)}
+.hero-ph figcaption{position:absolute;left:-22px;bottom:34px;display:flex;align-items:center;gap:10px;background:var(--foam);color:var(--navy);font-size:14px;font-weight:700;padding:12px 16px;border-radius:12px;box-shadow:0 14px 30px -10px rgba(0,0,0,.45);max-width:80%}
+.hero-ph figcaption i{width:10px;height:10px;border-radius:50%;background:var(--sun);flex:none;box-shadow:0 0 0 4px rgba(242,179,61,.25)}
+.stars{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:56px}
+.star{background:var(--white,#fff);border-radius:18px;overflow:hidden;border:1px solid rgba(15,42,61,.1);display:flex;flex-direction:column;box-shadow:0 20px 40px -28px rgba(15,42,61,.5)}
+.star .img{aspect-ratio:4/3;overflow:hidden}
+.star img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s ease}
+.star:hover img{transform:scale(1.05)}
+.star .body{padding:22px 24px 26px;display:grid;grid-template-columns:1fr auto;gap:6px 16px;align-items:baseline}
+.star .tag{grid-column:1/-1;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#C2410C}
+.star h3{font-family:var(--f-display);font-weight:400;font-size:26px;margin:0;color:var(--navy)}
+.star .p{font-family:var(--f-display);font-size:26px;color:var(--navy);font-variant-numeric:tabular-nums}
+.star p{grid-column:1/-1;margin:0;color:var(--muted);font-size:15.5px}
+@media (prefers-reduced-motion:reduce){.star img{transition:none}}
 .waves{position:absolute;left:0;right:0;bottom:-1px;height:80px;display:block;width:100%}
 
 .sec{padding-block:80px}
@@ -82,9 +96,7 @@ nav.links a:hover{opacity:1}
 .facts{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px}
 .fact b{display:block;font-family:var(--f-display);font-weight:400;font-size:34px;color:var(--navy);line-height:1}
 .fact span{font-size:14px;color:var(--muted)}
-.window{border-radius:200px 200px 18px 18px;overflow:hidden;aspect-ratio:4/5;max-width:100%;width:min(420px,100%);justify-self:center;background:linear-gradient(180deg,#F7D58A 0%,#F2B33D 30%,#E9915A 52%,#7FB3AE 53%,#3E7C83 75%,#173B53 100%);position:relative}
-.window::before{content:"";position:absolute;width:34%;aspect-ratio:1;border-radius:50%;background:#FFF1C9;left:33%;top:26%}
-.window::after{content:"";position:absolute;inset:auto 0 0;height:47%;background:repeating-linear-gradient(180deg,transparent 0 14px,rgba(255,255,255,.18) 14px 16px)}
+.window{border-radius:200px 200px 18px 18px;aspect-ratio:4/5;width:min(420px,100%);height:auto;object-fit:cover;display:block;justify-self:center;box-shadow:0 30px 60px -30px rgba(15,42,61,.6)}
 
 /* réservation */
 .resa .in{display:grid;grid-template-columns:1fr 1.1fr;gap:56px;align-items:start}
@@ -118,7 +130,9 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;pa
   nav.links{display:none}
   .hero .in,.lieu .in,.resa .in{grid-template-columns:1fr;gap:36px}
   .hero .in{padding-block:40px 100px}
-  .plate{width:min(300px,80%)}
+  .hero-ph{width:min(340px,86%)}
+  .hero-ph figcaption{left:-8px}
+  .stars{grid-template-columns:1fr}
   .slate{grid-template-columns:1fr}
   .acces .in{grid-template-columns:1fr}
   .sec{padding-block:56px}
@@ -151,24 +165,24 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;pa
       <div class="cta"><a class="btn" href="#resa">Réserver une table</a><a class="btn ghost" href="#carte">Voir la carte</a></div>
       <div class="open-now" id="openNow"><i></i><span>Chargement des horaires…</span></div>
     </div>
-    <svg class="plate" viewBox="0 0 400 400" aria-hidden="true">
-      <circle cx="200" cy="200" r="190" fill="#173B53"/>
-      <circle cx="200" cy="200" r="160" fill="#FBFCFB"/>
-      <circle cx="200" cy="200" r="138" fill="none" stroke="#E4EFEC" stroke-width="4"/>
-      <path d="M110 215c30-50 120-70 180-20-50 40-140 50-180 20z" fill="#7FB3AE"/>
-      <path d="M290 195l34-26v58z" fill="#7FB3AE"/>
-      <circle cx="140" cy="205" r="5" fill="#0F2A3D"/>
-      <path d="M170 196c15 6 15 22 0 28M200 192c15 7 15 27 0 34M230 194c15 6 15 24 0 30" fill="none" stroke="#3E7C83" stroke-width="3" stroke-linecap="round"/>
-      <circle cx="150" cy="280" r="16" fill="#F2B33D"/><circle cx="182" cy="292" r="11" fill="#E9915A"/>
-      <path d="M240 280c10-14 30-14 40 0" fill="none" stroke="#5C9A6B" stroke-width="5" stroke-linecap="round"/>
-      <path d="M246 296c10-12 26-12 34 0" fill="none" stroke="#5C9A6B" stroke-width="5" stroke-linecap="round"/>
-    </svg>
+    <figure class="hero-ph">
+      <img src="images/port/port-barques.webp" alt="Barques de pêche bleues amarrées au quai, filets posés sur le pont" width="576" height="720" fetchpriority="high">
+      <figcaption><i></i>Pêche du matin, sur l'ardoise à midi</figcaption>
+    </figure>
   </div>
   <svg class="waves" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true"><path d="M0 40c120 30 240 30 360 0s240-30 360 0 240 30 360 0 240-30 360 0v40H0z" fill="#FBFCFB"/></svg>
 </section>
 
 <section class="sec band" id="carte">
   <div class="in">
+    <div class="kicker">Les incontournables</div>
+    <h2>Nos plats vedettes</h2>
+    <div class="stars">
+      <article class="star"><div class="img"><img src="images/port/plat-daurade.webp" alt="Filet de daurade poêlé sur épinards et écrasé de pommes de terre, beurre blanc à la ciboulette" width="900" height="810" loading="lazy" decoding="async"></div>
+        <div class="body"><span class="tag">Plat vedette · pêche locale</span><h3>Filet de daurade, beurre blanc</h3><span class="p">26 €</span><p>Poêlé sur peau, épinards fondants, écrasé de pommes de terre et beurre blanc à la ciboulette.</p></div></article>
+      <article class="star"><div class="img"><img src="images/port/plat-pastilla.webp" alt="Pastilla dorée garnie d'une crevette, de fromage râpé et de quartiers de citron vert" width="900" height="857" loading="lazy" decoding="async"></div>
+        <div class="body"><span class="tag">Plat vedette · maison</span><h3>Pastilla aux crevettes</h3><span class="p">19 €</span><p>Feuilles de brick croustillantes, crevettes, épices douces, gratinée et relevée au citron vert.</p></div></article>
+    </div>
     <div class="sec-head">
       <div><div class="kicker">La carte</div><h2>Ce soir à l'ardoise</h2></div>
       <div class="tabs" role="tablist" id="tabs"></div>
@@ -180,7 +194,7 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;pa
 
 <section class="sec band lieu" id="lieu">
   <div class="in">
-    <div class="window" role="img" aria-label="Illustration du coucher de soleil sur le port"></div>
+    <img class="window" src="images/port/terrasse-coucher.webp" alt="Table dressée en terrasse face à la mer au coucher du soleil" width="682" height="853" loading="lazy" decoding="async">
     <div>
       <div class="kicker">Le lieu</div>
       <h2>Une adresse de quai, depuis 2009</h2>
@@ -233,9 +247,9 @@ const MENU = {
     ["Poulpe grillé","Pois chiches, paprika fumé",15]
   ],
   "Plats":[
-    ["Poisson du jour à la plancha","Selon la pêche, légumes du marché",26,"Pêche locale"],
-    ["Linguine aux palourdes","Ail, persil, vin blanc",22],
-    ["Seiche à la sétoise","Riz pilaf, sauce tomate épicée",21],
+    ["Filet de daurade, beurre blanc","Épinards, écrasé de pommes de terre, ciboulette",26,"Vedette"],
+    ["Pastilla aux crevettes","Brick croustillante, épices douces, citron vert",19,"Vedette"],
+    ["Poisson du jour à la plancha","Selon la pêche, légumes du marché",24,"Pêche locale"],
     ["Risotto aux champignons","Parmesan 24 mois",19,"Végé"]
   ],
   "Desserts":[

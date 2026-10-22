@@ -67,7 +67,8 @@ body{background:#070A1A;color:#F3F5FF;font-family:"Instrument Sans",system-ui,sa
 .s4 .pg img{display:block;width:1000px}
 .s4 .bp{position:absolute;left:0;right:0;top:0;background-color:#0A1438;background-image:linear-gradient(rgba(96,165,250,.16) 1px,transparent 1px),linear-gradient(90deg,rgba(96,165,250,.16) 1px,transparent 1px);background-size:40px 40px}
 .s4 .scan{position:absolute;left:0;right:0;height:3px;background:#22D3EE;box-shadow:0 0 22px 4px rgba(34,211,238,.8)}
-.s4 .code{position:absolute;right:40px;bottom:120px;width:400px;border-radius:14px;background:rgba(13,17,40,.94);border:1px solid rgba(255,255,255,.14);padding:18px 20px;font:500 17px/1.6 "JetBrains Mono";color:#C7D2FE;box-shadow:0 30px 60px -20px rgba(0,0,0,.8)}
+.s4 .code{position:absolute;right:40px;bottom:120px;width:400px;height:206px;white-space:pre;overflow:hidden;border-radius:14px;background:rgba(13,17,40,.94);border:1px solid rgba(255,255,255,.14);padding:18px 20px;font:500 17px/1.6 "JetBrains Mono";color:#C7D2FE;box-shadow:0 30px 60px -20px rgba(0,0,0,.8)}
+.s4 .code .caret{display:inline-block;width:2px;height:18px;background:#22D3EE;vertical-align:-3px;margin-left:1px}
 .s4 .code .k{color:#FF5FA2}.s4 .code .a{color:#22D3EE}.s4 .code .s{color:#FFC266}
 .s4 .pct{position:absolute;left:56px;top:96px;display:none}
 
@@ -243,14 +244,17 @@ function s3(u) {
 }
 
 // 4. la construction : le vrai site se révèle pendant qu'on le parcourt
+// code tapé caractère par caractère : [classe, texte] par morceau, une ligne par tableau
 const CODE = [
-  ['<span class="k">&lt;section</span> <span class="a">id</span>=<span class="s">"plats-vedettes"</span><span class="k">&gt;</span>'],
-  ['  <span class="k">&lt;h2&gt;</span>Nos plats vedettes<span class="k">&lt;/h2&gt;</span>'],
-  ['  <span class="k">&lt;article</span> <span class="a">class</span>=<span class="s">"plat"</span><span class="k">&gt;</span>'],
-  ['    Filet de daurade · 26 €'],
-  ['  <span class="k">&lt;/article&gt;</span>'],
-  ['  <span class="k">&lt;form</span> <span class="a">id</span>=<span class="s">"reservation"</span><span class="k">&gt;</span>'],
+  [["k", "<section "], ["a", "id"], ["", "="], ["s", '"plats-vedettes"'], ["k", ">"]],
+  [["", "  "], ["k", "<h2>"], ["", "Nos plats vedettes"], ["k", "</h2>"]],
+  [["", "  "], ["k", "<article "], ["a", "class"], ["", "="], ["s", '"plat"'], ["k", ">"]],
+  [["", "    Filet de daurade · 26 €"]],
+  [["", "  "], ["k", "</article>"]],
+  [["", "  "], ["k", "<form "], ["a", "id"], ["", "="], ["s", '"reservation"'], ["k", ">"]],
 ];
+const CODE_LEN = CODE.flat().reduce((n, [, t]) => n + t.length, 0);
+const escH = t => t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 function s4(u) {
   const H = (SH.deskH || 3800) * (1000 / 1280);
   const scroll = ease((u - 0.9) / 3.4) * Math.min(1150, H - 560);
@@ -260,8 +264,16 @@ function s4(u) {
   $("bp").style.top = reveal + "px"; $("bp").style.height = Math.max(0, H - reveal) + "px";
   $("scan").style.top = reveal + "px";
   $("win").style.transform = `perspective(1800px) rotateY(${lerp(-10, 0, ease(u / 4))}deg) rotateX(${lerp(5, 0, ease(u / 4))}deg) scale(${lerp(0.94, 1, ease(u / 4))})`;
-  const lines = 1 + Math.floor(clamp((u - 1.0) / 2.6) * (CODE.length - 1) * 1.0001);
-  $("code").innerHTML = CODE.slice(0, lines).map(l => l[0]).join("<br>") + (lines < CODE.length ? '<span style="background:#22D3EE;color:#22D3EE">▌</span>' : "");
+  let left = Math.round(clamp((u - 1.05) / 2.8) * CODE_LEN), caretDone = false;
+  $("code").innerHTML = CODE.map(line => {
+    let html = "";
+    for (const [c, t] of line) {
+      const part = t.slice(0, Math.max(0, left)); left -= t.length;
+      if (part) html += `<span class="${c}">${escH(part)}</span>`;
+    }
+    if (left <= 0 && !caretDone) { caretDone = true; html += '<span class="caret"></span>'; }   // curseur au bout du texte tapé
+    return html;
+  }).join("\n");
   const cp = out((u - 0.9) / 0.4); $("code").style.opacity = cp * (1 - out((u - 4.4) / 0.3)); $("code").style.transform = `translateY(${(1 - cp) * 30}px)`;
 }
 

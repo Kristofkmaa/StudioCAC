@@ -3,259 +3,287 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Durand Plomberie · Démo Saitora</title>
-<meta name="description" content="Démo de site vitrine pour artisan plombier : services, zone d'intervention et dépannage. Réalisé par Saitora.">
+<title>Durand Plomberie, démo Saitora</title>
+<meta name="description" content="Démo de site vitrine pour artisan plombier : appel d'urgence, délai d'arrivée selon la commune, tarifs et demande d'intervention. Réalisé par Saitora.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fr_FR">
 <meta property="og:site_name" content="Saitora">
-<meta property="og:title" content="Durand Plomberie · Démo Saitora">
-<meta property="og:description" content="Démo de site vitrine pour artisan plombier : services, zone d'intervention et dépannage. Réalisé par Saitora.">
-<meta name="theme-color" content="#1D4ED8">
-<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Crect%20width=%2264%22%20height=%2264%22%20rx=%2214%22%20fill=%22%231D4ED8%22/%3E%3Ctext%20x=%2232%22%20y=%2244%22%20font-family=%22Georgia,serif%22%20font-size=%2238%22%20font-weight=%22700%22%20text-anchor=%22middle%22%20fill=%22%23FFFFFF%22%3ED%3C/text%3E%3C/svg%3E">
-<meta name="claude:viewport-fit-sides" content="cover">
+<meta property="og:title" content="Durand Plomberie, démo Saitora">
+<meta property="og:description" content="Démo de site vitrine pour artisan plombier : appel d'urgence, délai d'arrivée selon la commune, tarifs et demande d'intervention. Réalisé par Saitora.">
+<meta name="theme-color" content="#1846C9">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Crect%20width=%2264%22%20height=%2264%22%20rx=%2210%22%20fill=%22%231846C9%22/%3E%3Cpath%20d=%22M32%2012c8%2012%2013%2019%2013%2026a13%2013%200%2001-26%200c0-7%205-14%2013-26z%22%20fill=%22%23FFC93C%22/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,600;75..100,800;75..100,900&family=Public+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..100,400..900&display=swap">
 <style>
-/* Layout : artisan dépanneur, bandeaux bleu franc et blanc, gros chiffres condensés comme un camion d'intervention, bande d'urgence jaune. Thème clair assumé. */
+/* Durand Plomberie. Idée : le numéro de téléphone est le site. Il occupe la première page en très grand, et un seul
+   tuyau jaune court le long de la page pour relier tarifs, zone et demande. Une seule famille, Archivo :
+   étroite et grasse pour l'affichage, pleine largeur pour le texte. Bleu de la camionnette, jaune signal. */
 :root{
-  --blue:#1D4ED8; --blue-d:#14318F; --yellow:#FFD23F; --white:#FFFFFF; --ice:#EEF3FF;
-  --ink:#0E1733; --muted:#4A5677; --line:#D6DEF2;
-  --f-display:"Archivo","Arial Narrow",Arial,sans-serif;
-  --f-body:"Public Sans","Helvetica Neue",Arial,sans-serif;
+  --blue:#1846C9; --blue-deep:#0F2F8F; --ink:#0B1636; --muted:#4A5675; --yellow:#FFC93C; --paper:#FFFFFF; --mist:#EEF2FA; --rule:#D6DDEC; --red:#D93A2B;
+  --font:"Archivo","Arial Narrow",Arial,sans-serif;
   color-scheme:light;
 }
-*{box-sizing:border-box}
-html{scroll-behavior:smooth;background:var(--white)}
-body{background:var(--white);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.6}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--paper)}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.6;font-variation-settings:"wdth" 100}
+h1,h2,h3,p,ul,figure{margin:0}
 a{color:inherit}
-:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
-.band{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-.in{max-width:1120px;margin:0 auto}
-.demo{background:var(--ink);color:var(--white);font-size:13px;font-weight:600;text-align:center;padding-block:6px}
-.urgent{background:var(--yellow);color:var(--ink);font-weight:700;font-size:15px}
-.urgent .in{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;padding-block:9px;text-align:center}
-.urgent b{font-family:var(--f-display);font-stretch:80%;font-weight:900;font-size:18px;letter-spacing:.02em;user-select:all}
+img{display:block;max-width:100%}
+:focus-visible{outline:3px solid var(--yellow);outline-offset:3px}
+.in{width:min(1180px,100% - 2 * clamp(16px,4vw,40px));margin-inline:auto}
+.narrow{font-stretch:62%;font-variation-settings:"wdth" 62}
 
-header.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--white);border-bottom:1px solid var(--line)}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:11;background:var(--white)}
-header.nav .in{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-block:12px}
-.logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--f-display);font-weight:900;font-stretch:80%;font-size:24px;text-transform:uppercase;letter-spacing:.01em}
-.logo span{color:var(--blue)}
-nav.links{display:flex;gap:24px;font-weight:600;font-size:15px}
-nav.links a{text-decoration:none;color:var(--muted)}
-nav.links a:hover{color:var(--blue)}
-.btn{font:700 15px var(--f-body);display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 20px;border-radius:8px;border:0;cursor:pointer;text-decoration:none;background:var(--blue);color:var(--white)}
-.btn:hover{background:var(--blue-d)}
-.btn.y{background:var(--yellow);color:var(--ink)}
-.btn.y:hover{background:#F5C514}
-.btn.line{background:transparent;color:var(--white);border:2px solid rgba(255,255,255,.6)}
+.demo{background:var(--ink);color:rgba(255,255,255,.7);font-size:13px;text-align:center;padding:6px 16px}
 
-.hero{background:var(--blue);color:var(--white);position:relative;overflow:hidden}
-.hero::after{content:"";position:absolute;right:-80px;top:-80px;width:520px;height:520px;border-radius:50%;border:60px solid rgba(255,255,255,.06)}
-.hero .in{display:grid;grid-template-columns:1.1fr 1fr;gap:56px;align-items:center;padding-block:64px 80px;position:relative;z-index:1}
-.hero h1{font-family:var(--f-display);font-weight:900;font-stretch:78%;text-transform:uppercase;font-size:clamp(46px,8vw,96px);line-height:.9;margin:0 0 20px;letter-spacing:-.005em;text-wrap:balance}
-.hero h1 em{font-style:normal;color:var(--yellow)}
-.hero p{margin:0;max-width:44ch;opacity:.9}
-.hero .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:36px;max-width:520px}
-.stat{border-left:3px solid var(--yellow);padding:4px 0 4px 14px}
-.stat b{display:block;font-family:var(--f-display);font-weight:900;font-stretch:80%;font-size:34px;line-height:1;color:var(--white)}
-.hero-ph{position:relative;margin:0}
-.hero-ph img{display:block;width:100%;height:auto;aspect-ratio:5/4;object-fit:cover;border-radius:16px;border:6px solid rgba(255,255,255,.12);box-shadow:0 30px 60px -24px rgba(0,0,0,.55)}
-.hero-ph figcaption{position:absolute;left:-26px;bottom:-22px;background:var(--yellow);color:#0B1B3F;border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:14px;box-shadow:0 16px 30px -12px rgba(0,0,0,.5)}
-.hero-ph figcaption b{font-family:var(--f-display);font-weight:900;font-stretch:80%;font-size:40px;line-height:1}
-.hero-ph figcaption span{font-size:13px;font-weight:700;line-height:1.3}
-.stat span{font-size:14px;opacity:.85}
+.top{background:var(--blue);color:#fff;position:sticky;top:0;z-index:10;border-bottom:1px solid rgba(255,255,255,.15)}
+.top .in{display:flex;align-items:center;gap:28px;height:64px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;font:800 24px/1 var(--font);font-variation-settings:"wdth" 62;letter-spacing:.01em}
+.logo span{font-weight:500;opacity:.8}
+.top nav{display:flex;gap:24px;margin-left:auto;font-size:15px}
+.top nav a{text-decoration:none;opacity:.8}
+.top nav a:hover{opacity:1}
+.call{display:inline-flex;align-items:center;gap:8px;font:800 18px/1 var(--font);font-variation-settings:"wdth" 70;background:var(--yellow);color:var(--ink);text-decoration:none;padding:12px 18px;border-radius:2px}
+.call svg{width:16px;height:16px}
 
-.sec{padding-block:80px}
-.kicker{font-family:var(--f-display);font-weight:800;font-stretch:85%;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--blue)}
-.sec h2{font-family:var(--f-display);font-weight:900;font-stretch:80%;text-transform:uppercase;font-size:clamp(34px,5vw,56px);line-height:.95;margin:8px 0 32px;text-wrap:balance}
+/* première page : le numéro */
+.hero{background:var(--blue);color:#fff;overflow:hidden}
+.hero .in{display:grid;grid-template-columns:1.2fr .8fr;gap:clamp(24px,4vw,56px);align-items:end;padding-block:clamp(40px,6vw,80px) 0}
+.hero h1{font:800 clamp(2rem,1.4rem + 2.4vw,3.4rem)/1 var(--font);font-variation-settings:"wdth" 62;letter-spacing:.005em;max-width:20ch}
+.hero .lead{margin-top:16px;max-width:46ch;color:rgba(255,255,255,.85);font-size:1.1rem}
+.number{display:block;margin-top:clamp(20px,3vw,32px);font:900 clamp(3.6rem,1.4rem + 9.2vw,9.6rem)/.86 var(--font);font-variation-settings:"wdth" 62;letter-spacing:-.01em;color:var(--yellow);text-decoration:none;white-space:nowrap}
+.number:hover{color:#fff}
+.status{display:flex;align-items:center;gap:10px;margin-top:20px;font-size:1.05rem;font-weight:500}
+.status i{width:10px;height:10px;border-radius:50%;background:#5BE08A;flex:none}
+.status.night i{background:var(--yellow)}
+.hero figure{align-self:stretch;position:relative;min-height:360px}
+.hero figure img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:30% center;border-radius:2px 2px 0 0}
+.hero .line{grid-column:1/-1;height:clamp(40px,5vw,64px)}
 
-.services{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.svc{border:2px solid var(--line);border-radius:12px;padding:0 22px 22px;display:flex;flex-direction:column;gap:10px;transition:border-color .2s;overflow:hidden;background:var(--white)}
-.svc .ph{margin:0 -22px;aspect-ratio:3/2;overflow:hidden}
-.svc .ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease}
-.svc:hover .ph img{transform:scale(1.06)}
-@media (prefers-reduced-motion:reduce){.svc .ph img{transition:none}}
-.svc:hover{border-color:var(--blue)}
-.svc svg{width:52px;height:52px;margin-top:-30px;position:relative;background:var(--white);border-radius:12px;padding:6px;box-shadow:0 8px 18px -8px rgba(11,27,63,.4)}
-.svc h3{font-family:var(--f-display);font-weight:800;font-stretch:85%;font-size:22px;margin:0;text-transform:uppercase}
-.svc p{margin:0;color:var(--muted);font-size:15px}
-.svc .from{margin-top:auto;font-weight:700;font-size:14px;color:var(--blue);font-variant-numeric:tabular-nums}
+/* commune : délai d'arrivée */
+.eta{background:var(--yellow);color:var(--ink)}
+.eta .in{display:flex;align-items:center;gap:20px 32px;flex-wrap:wrap;padding-block:22px}
+.eta label{font:800 1.5rem/1.1 var(--font);font-variation-settings:"wdth" 62}
+.eta select{font:600 17px var(--font);padding:11px 40px 11px 14px;border:2px solid var(--ink);border-radius:2px;background:#fff;color:var(--ink);appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 9l6 6 6-6' fill='none' stroke='%230B1636' stroke-width='2.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;background-size:18px}
+.eta output{font-size:1.1rem;font-weight:500;flex:1;min-width:240px}
+.eta output b{font-weight:800}
 
-.zone{background:var(--ice)}
-.zone .in{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
-.zone p{color:var(--muted);max-width:50ch;margin:0 0 20px}
-.radar{position:relative;aspect-ratio:1;max-width:100%;width:min(400px,100%);justify-self:center}
-.radar svg{width:100%;height:100%}
-.checks{list-style:none;padding:0;margin:0;display:grid;gap:10px}
-.checks li{display:flex;gap:10px;align-items:start;font-weight:600}
-.checks li::before{content:"";flex:none;width:22px;height:22px;margin-top:2px;border-radius:6px;background:var(--blue) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12l4 4 8-8' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/16px no-repeat}
+/* le tuyau */
+.run{position:relative;padding-left:clamp(44px,6vw,72px)}
+.run::before{content:"";position:absolute;left:clamp(8px,1.6vw,18px);top:0;bottom:0;width:12px;background:var(--yellow);border-radius:0 0 6px 6px}
+.sec{padding-block:clamp(56px,7vw,96px)}
+.sec h2{position:relative;font:800 clamp(2rem,1.3rem + 2.8vw,3.6rem)/1 var(--font);font-variation-settings:"wdth" 62;letter-spacing:.005em;max-width:22ch}
+.sec h2::before{content:"";position:absolute;left:calc(-1 * clamp(44px,6vw,72px) + clamp(8px,1.6vw,18px) - 7px);top:.3em;width:26px;height:26px;border-radius:50%;background:var(--paper);border:6px solid var(--ink)}
+.sec .intro{margin-top:14px;color:var(--muted);max-width:56ch}
 
-.devis .in{display:grid;grid-template-columns:1fr 1.15fr;gap:48px;align-items:start}
-form.q{background:var(--white);border:2px solid var(--ink);border-radius:14px;padding:28px;display:grid;gap:16px;box-shadow:8px 8px 0 var(--blue)}
-form.q h3{font-family:var(--f-display);font-weight:900;font-stretch:80%;font-size:30px;text-transform:uppercase;margin:0}
-.lbl{font-size:14px;font-weight:700;color:var(--muted);margin-bottom:6px;display:block}
-.choices{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-.choice{font:600 15px var(--f-body);text-align:left;padding:12px 14px;border:2px solid var(--line);border-radius:10px;background:var(--white);color:var(--ink);cursor:pointer}
-.choice[aria-pressed="true"]{border-color:var(--blue);background:var(--ice);color:var(--blue)}
-.urg{display:flex;gap:8px;flex-wrap:wrap}
-.urg .choice{flex:1;min-width:120px;text-align:center}
-.urg .choice.hot[aria-pressed="true"]{border-color:#D9480F;background:#FFF0E6;color:#B83A0A}
-form.q input,form.q textarea{font:16px var(--f-body);padding:12px 14px;border:2px solid var(--line);border-radius:10px;width:100%;background:var(--white);color:var(--ink)}
-form.q input:focus,form.q textarea:focus{outline:none;border-color:var(--blue)}
+/* tarifs */
+.prices{margin-top:36px;border-top:2px solid var(--ink)}
+.price{display:grid;grid-template-columns:150px 1fr auto;gap:24px;align-items:center;padding-block:20px;border-bottom:1px solid var(--rule)}
+.price img{width:150px;height:100px;object-fit:cover;border-radius:2px}
+.price h3{font:800 1.6rem/1.05 var(--font);font-variation-settings:"wdth" 62}
+.price p{color:var(--muted);margin-top:4px;max-width:52ch}
+.price .amount{text-align:right;white-space:nowrap}
+.price .amount small{display:block;font-size:14px;color:var(--muted)}
+.price .amount b{font:800 2rem/1 var(--font);font-variation-settings:"wdth" 62}
+.note{margin-top:14px;font-size:15px;color:var(--muted)}
+
+/* zone et garanties */
+.zone{background:var(--mist)}
+.zone .grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,72px);align-items:start;margin-top:34px}
+.rings{width:100%;max-width:420px;height:auto}
+.checks{list-style:none;padding:0;display:grid;gap:14px}
+.checks li{display:grid;grid-template-columns:28px 1fr;gap:12px;font-size:1.05rem}
+.checks li::before{content:"";width:22px;height:22px;margin-top:3px;border-radius:2px;background:var(--blue) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4 8-9' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/16px no-repeat}
+
+/* demande */
+.ask .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(32px,5vw,72px);align-items:start;margin-top:34px}
+form.q{background:var(--ink);color:#fff;padding:clamp(22px,3vw,34px);display:flex;flex-direction:column;gap:20px;border-radius:2px}
+form.q h3{font:800 1.8rem/1 var(--font);font-variation-settings:"wdth" 62}
+.lbl{display:block;font-size:15px;font-weight:600;color:rgba(255,255,255,.75);margin-bottom:8px}
+.choices{display:flex;flex-wrap:wrap;gap:6px}
+.choice{font:600 15px var(--font);padding:9px 14px;border-radius:2px;border:1.5px solid rgba(255,255,255,.3);background:none;color:#fff;cursor:pointer}
+.choice[aria-pressed="true"]{background:var(--yellow);border-color:var(--yellow);color:var(--ink)}
+.choice.hot[aria-pressed="true"]{background:var(--red);border-color:var(--red);color:#fff}
+form.q textarea,form.q input{font:16px var(--font);width:100%;padding:12px 14px;border-radius:2px;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.06);color:#fff}
 form.q textarea{min-height:90px;resize:vertical}
-.ok{background:var(--ice);border-radius:10px;padding:14px;margin:0;font-size:15px}
-.faq{display:grid;gap:10px;margin-top:8px}
-.faq details{border-bottom:2px solid var(--line);padding-block:14px}
-.faq summary{cursor:pointer;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:12px}
-.faq summary::after{content:"+";font-family:var(--f-display);font-weight:900;font-size:22px;color:var(--blue);line-height:1}
-.faq details[open] summary::after{content:"–"}
-.faq p{margin:8px 0 0;color:var(--muted)}
+form.q textarea:focus,form.q input:focus{outline:none;border-color:var(--yellow)}
+form.q .send{font:800 1.2rem/1 var(--font);font-variation-settings:"wdth" 70;padding:16px;border:0;border-radius:2px;background:var(--yellow);color:var(--ink);cursor:pointer}
+form.q .send:active{transform:scale(.98)}
+.ok{background:rgba(255,201,60,.14);border-left:3px solid var(--yellow);padding:12px 14px;font-size:15px}
+.faq details{border-bottom:1px solid var(--rule)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px;padding-block:18px;font:700 1.15rem/1.3 var(--font)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-weight:800;font-size:1.4rem;line-height:1;color:var(--blue)}
+.faq details[open] summary::after{content:"−"}
+.faq p{color:var(--muted);padding-bottom:18px;max-width:56ch}
 
-footer{background:var(--ink);color:var(--white)}
-footer .in{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;padding-block:48px}
-footer h4{font-family:var(--f-display);font-weight:800;font-stretch:85%;text-transform:uppercase;font-size:16px;letter-spacing:.06em;margin:0 0 8px;color:var(--yellow)}
-footer p{margin:0;opacity:.8;font-size:15px}
-.bottom{background:#080E22;color:rgba(255,255,255,.6);font-size:13px}
-.bottom .in{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-block:14px}
+footer{background:var(--blue-deep);color:rgba(255,255,255,.85)}
+footer .in{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;padding-block:52px}
+footer h3{font:800 1.4rem/1 var(--font);font-variation-settings:"wdth" 62;color:var(--yellow);margin-bottom:10px}
+footer a{text-decoration:none;font-weight:700;font-size:1.2rem}
+.bottom{background:var(--ink);color:rgba(255,255,255,.55);font-size:14px}
+.bottom .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:16px}
 
-@media (max-width:900px){
-  nav.links{display:none}
-  .hero .in,.zone .in,.devis .in{grid-template-columns:1fr;gap:36px}
-  .services{grid-template-columns:1fr 1fr}
+@media (max-width:860px){
+  .top nav{display:none}
+  .call{margin-left:auto}
+  .hero .in,.zone .grid,.ask .grid{grid-template-columns:1fr}
+  .hero figure{min-height:260px}
+  .price{grid-template-columns:96px 1fr;gap:6px 16px;align-items:start}
+  .price img{width:96px;height:72px;grid-row:span 2}
+  .price .amount{text-align:left}
   footer .in{grid-template-columns:1fr}
-  .sec{padding-block:56px}
 }
-@media (max-width:520px){.services,.choices{grid-template-columns:1fr}.stat b{font-size:28px}.hero-ph figcaption{left:-6px}}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+@media (max-width:420px){.logo span{display:none}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}form.q .send:active{transform:none}}
 </style>
 </head>
 <body>
 
-<div class="demo band">Site de démonstration réalisé par Saitora · entreprise fictive</div>
-<div class="urgent band"><div class="in">Fuite, canalisation bouchée, plus d'eau chaude ? <span>Urgences 7j/7 :</span> <b>06 00 00 00 00</b></div></div>
+<div class="demo">Site de démonstration réalisé par Saitora, entreprise fictive</div>
 
-<header class="nav band">
+<header class="top">
   <div class="in">
-    <a class="logo" href="#top">
-      <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><rect width="34" height="34" rx="8" fill="#1D4ED8"/><path d="M17 7c4 6 7 9.5 7 13a7 7 0 01-14 0c0-3.5 3-7 7-13z" fill="#FFD23F"/></svg>
-      Durand<span>Plomberie</span>
-    </a>
-    <nav class="links"><a href="#services">Services</a><a href="#zone">Zone</a><a href="#devis">Devis</a><a href="#faq">Questions</a></nav>
-    <a class="btn" href="#devis">Devis gratuit</a>
+    <a class="logo" href="#top"><svg width="28" height="28" viewBox="0 0 34 34" aria-hidden="true"><path d="M17 4c5 7.5 8.5 12 8.5 16.5a8.5 8.5 0 01-17 0C8.5 16 12 11.5 17 4z" fill="#FFC93C"/></svg>Durand <span>Plomberie</span></a>
+    <nav aria-label="Sections"><a href="#tarifs">Tarifs</a><a href="#zone">Zone</a><a href="#demande">Demande</a><a href="#questions">Questions</a></nav>
+    <a class="call" href="tel:+33600000000"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 006.6 6.6l2.2-2.2a1 1 0 011-.25 11.4 11.4 0 003.6.6 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.4 11.4 0 00.6 3.6 1 1 0 01-.25 1z" fill="currentColor"/></svg>Appeler</a>
   </div>
 </header>
 
-<section class="hero band" id="top">
-  <div class="in">
-    <div>
-      <h1>Dépannage en <em>moins de 2 h</em></h1>
-      <p>Plomberie, chauffage et salle de bain. Un artisan qui décroche, se déplace vite et vous donne le prix avant de commencer.</p>
-      <div class="cta"><a class="btn y" href="#devis">Demander une intervention</a><a class="btn line" href="#services">Nos services</a></div>
-      <div class="stats">
-      <div class="stat"><b>7j/7</b><span>pour les urgences</span></div>
-      <div class="stat"><b>15 ans</b><span>de métier</span></div>
-      <div class="stat"><b>0 €</b><span>le devis, toujours</span></div>
+<main id="top">
+  <section class="hero">
+    <div class="in">
+      <div>
+        <h1>Fuite, évier bouché, plus d'eau chaude ? Appelez, on décroche.</h1>
+        <p class="lead">Jérôme Durand, plombier chauffagiste. Je me déplace vite et je vous donne le prix avant de commencer.</p>
+        <a class="number" href="tel:+33600000000" aria-label="Appeler le 06 00 00 00 00">06 00 00 00 00</a>
+        <p class="status" id="status"><i></i><span>Urgences 7 jours sur 7</span></p>
+      </div>
+      <figure><img src="images/plomberie/artisan.webp" alt="Jérôme répare le robinet d'un évier de cuisine" width="1000" height="800" fetchpriority="high"></figure>
+      <div class="line" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <section class="eta" aria-label="Délai d'arrivée">
+    <div class="in">
+      <label for="town">Je peux être chez vous quand ?</label>
+      <select id="town"></select>
+      <output id="etaOut" for="town" aria-live="polite"></output>
+    </div>
+  </section>
+
+  <div class="in run">
+    <section class="sec" id="tarifs" aria-labelledby="t-tarifs">
+      <h2 id="t-tarifs">Les prix, avant de commencer</h2>
+      <p class="intro">Déplacement compris dans la zone. Je vous annonce le montant au téléphone ou sur place, et vous décidez.</p>
+      <div class="prices">
+        <article class="price"><img src="images/plomberie/fuite.webp" alt="Robinet qui goutte" width="600" height="400" loading="lazy" decoding="async"><div><h3>Fuite</h3><p>Recherche et réparation, robinetterie, joints, chasse d'eau qui coule.</p></div><p class="amount"><small>à partir de</small><b>89 €</b></p></article>
+        <article class="price"><img src="images/plomberie/debouchage.webp" alt="Bonde d'évier en inox" width="600" height="400" loading="lazy" decoding="async"><div><h3>Débouchage</h3><p>Évier, douche, WC, canalisations. Furet, et hydrocurage si besoin.</p></div><p class="amount"><small>à partir de</small><b>99 €</b></p></article>
+        <article class="price"><img src="images/plomberie/chauffe-eau.webp" alt="Vannes et tuyaux d'une installation d'eau chaude" width="600" height="400" loading="lazy" decoding="async"><div><h3>Chauffe-eau</h3><p>Dépannage, détartrage, remplacement de cumulus ou de chaudière.</p></div><p class="amount"><small>à partir de</small><b>120 €</b></p></article>
+        <article class="price"><img src="images/plomberie/salle-de-bain.webp" alt="Salle de bain rénovée au carrelage bleu canard" width="600" height="400" loading="lazy" decoding="async"><div><h3>Salle de bain</h3><p>Rénovation complète, douche à l'italienne, adaptation pour une personne âgée.</p></div><p class="amount"><small>visite gratuite</small><b>Sur devis</b></p></article>
+      </div>
+      <p class="note">Le soir après 19 h, le dimanche et les jours fériés : majoration de 40 €, annoncée avant le déplacement.</p>
+    </section>
+  </div>
+
+  <section class="zone" id="zone" aria-labelledby="t-zone">
+    <div class="in run">
+      <div class="sec">
+        <h2 id="t-zone">Dans un rayon de 25 km autour de l'atelier</h2>
+        <p class="intro">Particuliers, syndics, commerces et locations saisonnières. Plus loin, appelez quand même : on s'arrange souvent.</p>
+        <div class="grid">
+          <svg class="rings" viewBox="0 0 400 400" role="img" aria-label="Zone d'intervention : moins d'une heure jusqu'à 15 km, moins de deux heures jusqu'à 25 km">
+            <circle cx="200" cy="200" r="190" fill="#DCE5FA"/>
+            <circle cx="200" cy="200" r="120" fill="#B9CBF5"/>
+            <circle cx="200" cy="200" r="190" fill="none" stroke="#1846C9" stroke-width="2" stroke-dasharray="4 7"/>
+            <circle cx="200" cy="200" r="16" fill="#FFC93C" stroke="#0B1636" stroke-width="4"/>
+            <text x="200" y="244" text-anchor="middle" font-family="Archivo, Arial" font-weight="700" font-size="15" fill="#0B1636">Atelier</text>
+            <text x="200" y="118" text-anchor="middle" font-family="Archivo, Arial" font-weight="700" font-size="15" fill="#0F2F8F">15 km, moins d'une heure</text>
+            <text x="200" y="54" text-anchor="middle" font-family="Archivo, Arial" font-weight="700" font-size="15" fill="#0F2F8F">25 km, moins de deux heures</text>
+          </svg>
+          <ul class="checks">
+            <li>Devis gratuit, prix annoncé avant les travaux</li>
+            <li>Assurance décennale et responsabilité civile professionnelle</li>
+            <li>Facture détaillée, paiement par carte ou virement</li>
+            <li>Pièces garanties, chantier laissé propre</li>
+            <li>Aide pour monter les dossiers d'aides (chauffe-eau, salle de bain adaptée)</li>
+          </ul>
+        </div>
       </div>
     </div>
-    <figure class="hero-ph">
-      <img src="images/plomberie/artisan.webp" alt="Plombier en train de réparer le robinet d'un évier de cuisine" width="1000" height="800" fetchpriority="high">
-      <figcaption><b>&lt; 2 h</b><span>en moyenne entre votre appel<br>et notre arrivée</span></figcaption>
-    </figure>
-  </div>
-</section>
+  </section>
 
-<section class="sec band" id="services">
-  <div class="in">
-    <div class="kicker">Services</div>
-    <h2>Ce qu'on répare, installe et entretient</h2>
-    <div class="services">
-      <div class="svc"><div class="ph"><img src="images/plomberie/fuite.webp" alt="Robinet qui goutte" width="600" height="400" loading="lazy" decoding="async"></div><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 6c6 9 10 14 10 19a10 10 0 01-20 0c0-5 4-10 10-19z" fill="#1D4ED8"/><path d="M15 26a5 5 0 005 5" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg><h3>Fuites</h3><p>Recherche et réparation de fuite, robinetterie, joints, WC qui coule.</p><span class="from">À partir de 89 €</span></div>
-      <div class="svc"><div class="ph"><img src="images/plomberie/debouchage.webp" alt="Bonde d'évier en inox" width="600" height="400" loading="lazy" decoding="async"></div><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="6" y="16" width="28" height="8" rx="4" fill="#1D4ED8"/><circle cx="20" cy="20" r="3" fill="#FFD23F"/><path d="M12 10v6M28 24v6" stroke="#1D4ED8" stroke-width="3" stroke-linecap="round"/></svg><h3>Débouchage</h3><p>Évier, douche, WC, canalisations. Furet et hydrocurage si besoin.</p><span class="from">À partir de 99 €</span></div>
-      <div class="svc"><div class="ph"><img src="images/plomberie/chauffe-eau.webp" alt="Vannes et tuyaux d'une installation d'eau chaude" width="600" height="400" loading="lazy" decoding="async"></div><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="11" y="5" width="18" height="30" rx="5" fill="#1D4ED8"/><path d="M20 14c3 4 4 6 4 8a4 4 0 01-8 0c0-2 1-4 4-8z" fill="#FFD23F"/></svg><h3>Chauffe-eau</h3><p>Dépannage, détartrage et remplacement de cumulus ou chaudière.</p><span class="from">À partir de 120 €</span></div>
-      <div class="svc"><div class="ph"><img src="images/plomberie/salle-de-bain.webp" alt="Salle de bain rénovée au carrelage bleu canard" width="600" height="400" loading="lazy" decoding="async"></div><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 20h24v6a8 8 0 01-8 8h-8a8 8 0 01-8-8z" fill="#1D4ED8"/><path d="M12 20V10a4 4 0 018 0" stroke="#1D4ED8" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="28" cy="12" r="2" fill="#FFD23F"/><circle cx="24" cy="8" r="1.5" fill="#FFD23F"/></svg><h3>Salle de bain</h3><p>Rénovation complète, douche à l'italienne, adaptation PMR.</p><span class="from">Sur devis</span></div>
-    </div>
-  </div>
-</section>
-
-<section class="sec band zone" id="zone">
-  <div class="in">
-    <div class="radar">
-      <svg viewBox="0 0 400 400" aria-hidden="true">
-        <circle cx="200" cy="200" r="190" fill="#DCE6FF"/>
-        <circle cx="200" cy="200" r="130" fill="#C3D3FF"/>
-        <circle cx="200" cy="200" r="70" fill="#1D4ED8"/>
-        <circle cx="200" cy="200" r="190" fill="none" stroke="#1D4ED8" stroke-width="2" stroke-dasharray="6 8"/>
-        <path d="M200 176c8 12 13 19 13 26a13 13 0 01-26 0c0-7 5-14 13-26z" fill="#FFD23F"/>
-        <text x="200" y="250" text-anchor="middle" font-family="Public Sans, Arial" font-weight="700" font-size="13" fill="#fff">Atelier</text>
-        <text x="200" y="98" text-anchor="middle" font-family="Public Sans, Arial" font-weight="700" font-size="13" fill="#14318F">15 km · moins d'1 h</text>
-        <text x="200" y="36" text-anchor="middle" font-family="Public Sans, Arial" font-weight="700" font-size="13" fill="#14318F">25 km · moins de 2 h</text>
-      </svg>
-    </div>
-    <div>
-      <div class="kicker">Zone d'intervention</div>
-      <h2>On se déplace dans un rayon de 25 km</h2>
-      <p>Particuliers, syndics, commerces et locations saisonnières. Au-delà de la zone, appelez quand même : on s'arrange souvent.</p>
-      <ul class="checks">
-        <li>Devis gratuit et prix annoncé avant travaux</li>
-        <li>Assurance décennale et responsabilité civile pro</li>
-        <li>Facture détaillée, paiement CB ou virement</li>
-        <li>Pièces garanties, travail propre, chantier nettoyé</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<section class="sec band devis" id="devis">
-  <div class="in">
-    <div>
-      <div class="kicker">Devis gratuit</div>
-      <h2>Décrivez le problème, on vous rappelle</h2>
-      <div class="faq" id="faq">
-        <details open><summary>Combien coûte un déplacement ?</summary><p>Le déplacement est inclus dans le prix de l'intervention dans notre zone. Vous connaissez le tarif avant qu'on commence.</p></details>
-        <details><summary>Intervenez-vous le week-end ?</summary><p>Oui, pour les urgences (fuite importante, plus d'eau, refoulement). Une majoration s'applique et elle vous est annoncée au téléphone.</p></details>
-        <details><summary>Faites-vous les dossiers d'aides ?</summary><p>Pour un remplacement de chauffe-eau ou une adaptation de salle de bain, on vous aide à monter le dossier d'aide.</p></details>
-        <details><summary>Quel délai pour une rénovation ?</summary><p>Comptez une visite sous une semaine, le devis sous 48 h, puis 5 à 10 jours de travaux selon la salle de bain.</p></details>
+  <div class="in run">
+    <section class="sec ask" id="demande" aria-labelledby="t-ask">
+      <h2 id="t-ask">Pas urgent ? Décrivez le problème, je vous rappelle</h2>
+      <div class="grid">
+        <form class="q" id="q" novalidate>
+          <h3>Demande d'intervention</h3>
+          <div><span class="lbl">Le problème</span><div class="choices" id="type" role="group" aria-label="Le problème"></div></div>
+          <div><span class="lbl">Pour quand</span><div class="choices" id="urg" role="group" aria-label="Pour quand"></div></div>
+          <div><label class="lbl" for="qDesc">En quelques mots</label><textarea id="qDesc" placeholder="Par exemple : l'évier de la cuisine ne se vide plus depuis ce matin"></textarea></div>
+          <div><label class="lbl" for="qTel">Votre téléphone</label><input id="qTel" type="tel" placeholder="06 00 00 00 00" autocomplete="tel"></div>
+          <button class="send" type="submit">Envoyer ma demande</button>
+          <p class="ok" id="ok" hidden></p>
+        </form>
+        <div class="faq" id="questions">
+          <details open><summary>Combien coûte le déplacement ?</summary><p>Il est compris dans le prix de l'intervention dans la zone. Vous connaissez le montant avant que je commence.</p></details>
+          <details><summary>Vous venez le week-end ?</summary><p>Oui, pour les urgences : grosse fuite, plus d'eau, refoulement. La majoration vous est annoncée au téléphone.</p></details>
+          <details><summary>Vous m'aidez pour les aides ?</summary><p>Pour un chauffe-eau ou l'adaptation d'une salle de bain, je vous aide à monter le dossier.</p></details>
+          <details><summary>Quel délai pour une rénovation ?</summary><p>Une visite sous une semaine, le devis sous 48 h, puis 5 à 10 jours de travaux selon la pièce.</p></details>
+        </div>
       </div>
-    </div>
-    <form class="q" id="q" novalidate>
-      <h3>Demande d'intervention</h3>
-      <div><span class="lbl">Type de problème</span><div class="choices" id="type"></div></div>
-      <div><span class="lbl">Urgence</span><div class="urg" id="urg"></div></div>
-      <div><label class="lbl" for="qDesc">En quelques mots</label><textarea id="qDesc" placeholder="Ex. : l'évier de la cuisine ne se vide plus depuis ce matin"></textarea></div>
-      <div><label class="lbl" for="qTel">Votre téléphone</label><input id="qTel" type="tel" placeholder="06 00 00 00 00" autocomplete="tel"></div>
-      <button class="btn" type="submit">Envoyer ma demande</button>
-      <p class="ok" id="ok" hidden></p>
-    </form>
+    </section>
   </div>
-</section>
+</main>
 
-<footer class="band">
+<footer>
   <div class="in">
-    <div><h4>Durand Plomberie</h4><p>12 rue des Artisans<br>Atelier ouvert du lundi au vendredi, 8h – 18h</p></div>
-    <div><h4>Téléphone</h4><p style="user-select:all;font-weight:700">06 00 00 00 00</p><p>Urgences 7j/7</p></div>
-    <div><h4>Garanties</h4><p>Décennale · RC Pro · Devis gratuit<br>SIRET fictif 000 000 000 00000</p></div>
+    <div><h3>L'atelier</h3><p>12 rue des Artisans<br>Ouvert du lundi au vendredi, de 8 h à 18 h</p></div>
+    <div><h3>Téléphone</h3><a href="tel:+33600000000">06 00 00 00 00</a><p>Urgences 7 jours sur 7</p></div>
+    <div><h3>Garanties</h3><p>Décennale, responsabilité civile professionnelle<br>SIRET fictif 000 000 000 00000</p></div>
   </div>
 </footer>
-<div class="bottom band"><div class="in"><span>© Durand Plomberie · Entreprise fictive</span><span>Site réalisé par Saitora</span></div></div>
+<div class="bottom"><div class="in"><span>© Durand Plomberie, entreprise fictive</span><span>Site réalisé par Saitora</span></div></div>
 
 <script>
-const TYPES = ["Fuite","Débouchage","Eau chaude","Salle de bain","Robinet / WC","Autre"];
+// disponibilité en direct
+const now = new Date(), h = now.getHours();
+const night = h >= 19 || h < 8;
+const st = document.getElementById("status");
+st.classList.toggle("night", night);
+st.querySelector("span").textContent = night ? "Urgence de nuit : je décroche, majoration annoncée au téléphone" : "Disponible maintenant pour une urgence";
+
+// délai d'arrivée selon la commune (minutes de route depuis l'atelier)
+const TOWNS = [["Centre-ville",15],["Saint-Martin",25],["Les Aubiers",35],["Villeneuve",45],["Bellevue",55],["Le Port",70],["La Croix-Haute",95],["Hors zone (plus de 25 km)",0]];
+const town = document.getElementById("town"), etaOut = document.getElementById("etaOut");
+town.innerHTML = `<option value="">Choisissez votre commune</option>` + TOWNS.map(([n], i) => `<option value="${i}">${n}</option>`).join("");
+const hhmm = d => `${d.getHours()} h ${String(d.getMinutes()).padStart(2, "0")}`;
+function eta(){
+  if (town.value === "") { etaOut.textContent = "Choisissez votre commune pour voir l'heure d'arrivée."; return; }
+  const [name, min] = TOWNS[town.value];
+  if (!min) { etaOut.innerHTML = "Hors zone : appelez quand même, on trouve souvent une solution."; return; }
+  const arrive = new Date(Date.now() + (min + 20) * 60000);   // 20 min pour finir le chantier en cours et charger
+  arrive.setMinutes(Math.ceil(arrive.getMinutes() / 10) * 10, 0, 0);
+  etaOut.innerHTML = `${name} : <b>vers ${hhmm(arrive)}</b> si vous appelez maintenant. Déplacement compris.`;
+}
+town.addEventListener("change", eta); eta();
+
+// demande d'intervention
+const TYPES = ["Fuite","Débouchage","Eau chaude","Salle de bain","Robinet ou WC","Autre"];
 const URG = [["Aujourd'hui","hot"],["Cette semaine",""],["Pas pressé",""]];
-let type = "Fuite", urg = "Aujourd'hui";
-function pick(id, items, cur, cls){ document.getElementById(id).innerHTML = items.map(x=>{const [v,c] = Array.isArray(x)?x:[x,""]; return `<button type="button" class="choice ${c}" aria-pressed="${v===cur}" data-v="${v}">${v}</button>`;}).join(""); }
+let type = "Fuite", urg = "Cette semaine";
+function pick(id, items, cur){ document.getElementById(id).innerHTML = items.map(x => { const [v, c] = Array.isArray(x) ? x : [x, ""]; return `<button type="button" class="choice ${c}" aria-pressed="${v === cur}" data-v="${v}">${v}</button>`; }).join(""); }
 pick("type", TYPES, type); pick("urg", URG, urg);
-document.getElementById("type").addEventListener("click", e=>{const b=e.target.closest(".choice"); if(!b) return; type=b.dataset.v; pick("type", TYPES, type);});
-document.getElementById("urg").addEventListener("click", e=>{const b=e.target.closest(".choice"); if(!b) return; urg=b.dataset.v; pick("urg", URG, urg);});
-q.addEventListener("submit", e=>{
-  e.preventDefault(); ok.hidden=false;
-  if(!qTel.value.trim()){ ok.textContent="Indiquez un numéro pour qu'on puisse vous rappeler."; qTel.focus(); return; }
-  ok.textContent = urg==="Aujourd'hui"
-    ? `Demande « ${type} » reçue en urgence : rappel sous 15 minutes. (Démo : rien n'est réellement envoyé.)`
-    : `Demande « ${type} » reçue : on vous rappelle dans la journée pour fixer un créneau. (Démo : rien n'est réellement envoyé.)`;
+document.getElementById("type").addEventListener("click", e => { const b = e.target.closest(".choice"); if (!b) return; type = b.dataset.v; pick("type", TYPES, type); });
+document.getElementById("urg").addEventListener("click", e => { const b = e.target.closest(".choice"); if (!b) return; urg = b.dataset.v; pick("urg", URG, urg); });
+q.addEventListener("submit", e => {
+  e.preventDefault(); ok.hidden = false;
+  if (!qTel.value.trim()) { ok.textContent = "Indiquez un numéro pour que je puisse vous rappeler."; qTel.focus(); return; }
+  ok.textContent = urg === "Aujourd'hui"
+    ? `Demande « ${type} » reçue en urgence : je vous rappelle dans les 15 minutes. (Démo : rien n'est réellement envoyé.)`
+    : `Demande « ${type} » reçue : je vous rappelle dans la journée pour fixer un créneau. (Démo : rien n'est réellement envoyé.)`;
 });
 </script>
-
 </body>
 </html>

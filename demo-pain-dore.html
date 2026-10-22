@@ -50,7 +50,10 @@ nav.links a{text-decoration:none;color:var(--crust-2)}
 .hero h1{font-family:var(--f-display);font-weight:400;font-size:clamp(46px,7.5vw,92px);line-height:.95;margin:0;color:var(--crust);text-wrap:balance}
 .hero p{max-width:42ch;color:var(--crust-2);margin:20px 0 0;font-size:18px}
 .hero .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
-.loaf{width:min(460px,100%);max-width:100%;justify-self:center}
+.loaf{width:min(460px,100%);max-width:100%;justify-self:center;margin:0;position:relative}
+.loaf img{display:block;width:100%;height:auto;aspect-ratio:1;object-fit:cover;border-radius:46% 54% 42% 58% / 52% 44% 56% 48%;box-shadow:0 30px 60px -28px rgba(59,42,20,.6)}
+.loaf figcaption{position:absolute;right:4%;bottom:6%;width:112px;height:112px;border-radius:50%;background:var(--crust);color:var(--wheat);display:grid;place-content:center;text-align:center;font-size:12px;font-weight:700;line-height:1.2;transform:rotate(-8deg);box-shadow:0 12px 24px -10px rgba(0,0,0,.5)}
+.loaf figcaption b{display:block;font-family:var(--f-display);font-weight:400;font-size:28px}
 .scallop{display:block;width:100%;height:28px;background:radial-gradient(circle at 14px 0,var(--wheat) 14px,transparent 15px) 0 0/28px 28px repeat-x}
 
 .sec{padding-block:80px}
@@ -77,8 +80,10 @@ nav.links a{text-decoration:none;color:var(--crust-2)}
 .products{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
 .prod{background:var(--flour);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:8px;border:2px solid transparent}
 .prod.has{border-color:var(--crust)}
-.prod .ill{aspect-ratio:4/3;max-width:100%;border-radius:12px;background:var(--wheat);display:grid;place-items:center}
-.prod .ill svg{width:70%;height:70%}
+.prod .ill{aspect-ratio:4/3;max-width:100%;border-radius:12px;background:var(--wheat);overflow:hidden}
+.prod .ill img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease}
+.prod:hover .ill img{transform:scale(1.06)}
+@media (prefers-reduced-motion:reduce){.prod .ill img{transition:none}}
 .prod h3{font-family:var(--f-display);font-weight:400;font-size:20px;margin:0;color:var(--crust);line-height:1.15}
 .prod p{margin:0;font-size:14px;color:var(--muted)}
 .prod .foot{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:6px}
@@ -151,13 +156,10 @@ footer .in{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;pa
       <p>Farines de meuniers locaux, levain maison et fournées tout au long de la journée. Commandez la veille, on vous le met de côté.</p>
       <div class="cta"><a class="btn" href="#commande">Commander à retirer</a></div>
     </div>
-    <svg class="loaf" viewBox="0 0 400 300" aria-hidden="true">
-      <ellipse cx="200" cy="268" rx="170" ry="16" fill="#3B2A14" opacity=".15"/>
-      <path d="M40 200c0-80 70-130 160-130s160 50 160 130c0 40-40 60-160 60S40 240 40 200z" fill="#B8742F"/>
-      <path d="M60 196c0-68 62-110 140-110s140 42 140 110" fill="none" stroke="#D39A4E" stroke-width="10" stroke-linecap="round" opacity=".6"/>
-      <path d="M110 140c20 10 30 40 25 70M170 112c25 14 35 52 30 92M235 112c25 14 35 52 30 92M295 140c18 12 24 40 18 66" fill="none" stroke="#F6D58E" stroke-width="9" stroke-linecap="round"/>
-      <g fill="#FFFCF4" opacity=".85"><circle cx="150" cy="96" r="3"/><circle cx="220" cy="88" r="2.5"/><circle cx="270" cy="104" r="3"/><circle cx="120" cy="120" r="2"/><circle cx="310" cy="130" r="2.5"/></g>
-    </svg>
+    <figure class="loaf">
+      <img src="images/boulangerie/miches.webp" alt="Miches de pain au levain farinées, croûte dorée" width="857" height="857" fetchpriority="high">
+      <figcaption><b>6 h 30</b>première fournée</figcaption>
+    </figure>
   </div>
 </section>
 <span class="scallop" aria-hidden="true"></span>
@@ -209,22 +211,15 @@ const nowM = new Date().getHours()*60+new Date().getMinutes();
 const nowIdx = BAKES.findIndex((b,i)=>nowM>=b[0] && (i===BAKES.length-1 || nowM<BAKES[i+1][0]));
 oven.innerHTML = BAKES.map(([m,t,d],i)=>`<div class="bake ${i<nowIdx?"past":i===nowIdx?"now":""}"><i></i><b>${hm(m)}</b><span><strong style="color:var(--crust)">${t}</strong><br>${d}</span></div>`).join("");
 
-const ILL = {
-  pain:'<svg viewBox="0 0 100 60"><path d="M6 36c0-16 20-26 44-26s44 10 44 26c0 10-12 14-44 14S6 46 6 36z" fill="#B8742F"/><path d="M28 24l8 14M46 20l8 16M64 22l8 14" stroke="#F6D58E" stroke-width="4" stroke-linecap="round"/></svg>',
-  baguette:'<svg viewBox="0 0 100 60"><rect x="4" y="22" width="92" height="18" rx="9" fill="#B8742F" transform="rotate(-10 50 31)"/><path d="M20 34l8-10M38 31l8-10M56 28l8-10M74 25l8-10" stroke="#F6D58E" stroke-width="3.5" stroke-linecap="round"/></svg>',
-  croissant:'<svg viewBox="0 0 100 60"><path d="M12 44c4-24 22-34 38-34s34 10 38 34c-8-6-14-8-18-6-6-10-14-14-20-14s-14 4-20 14c-4-2-10 0-18 6z" fill="#D08A3A"/><path d="M34 26l6 12M50 20v16M66 26l-6 12" stroke="#8C5320" stroke-width="3" stroke-linecap="round"/></svg>',
-  gateau:'<svg viewBox="0 0 100 60"><path d="M18 30h64v20H18z" fill="#E9C27A"/><path d="M18 30c8-12 56-12 64 0z" fill="#F6E7C8"/><path d="M18 40h64" stroke="#D9502B" stroke-width="4"/><circle cx="50" cy="16" r="5" fill="#D9502B"/></svg>',
-  tarte:'<svg viewBox="0 0 100 60"><ellipse cx="50" cy="38" rx="40" ry="14" fill="#C7883E"/><ellipse cx="50" cy="34" rx="34" ry="10" fill="#F2C94C"/><path d="M30 32h40M34 37h32" stroke="#E0A92B" stroke-width="3" stroke-linecap="round"/></svg>'
-};
 const PRODUCTS = [
-  {id:"trad",c:"Pains",n:"Baguette tradition",d:"Levain, croûte croustillante",p:1.30,i:"baguette",b:"Le best-seller"},
-  {id:"camp",c:"Pains",n:"Pain de campagne",d:"Levain naturel, 500 g",p:3.80,i:"pain"},
-  {id:"comp",c:"Pains",n:"Pain complet aux graines",d:"Lin, tournesol, courge, 400 g",p:4.20,i:"pain"},
-  {id:"croi",c:"Viennoiseries",n:"Croissant pur beurre",d:"Feuilletage maison",p:1.20,i:"croissant"},
-  {id:"pac",c:"Viennoiseries",n:"Pain au chocolat",d:"Deux barres de chocolat noir",p:1.35,i:"croissant"},
-  {id:"choux",c:"Pâtisseries",n:"Éclair au chocolat",d:"Crème pâtissière, glaçage",p:3.20,i:"gateau"},
-  {id:"citr",c:"Pâtisseries",n:"Tarte au citron (6 pers.)",d:"À commander la veille",p:22.00,i:"tarte",b:"La veille"},
-  {id:"fra",c:"Pâtisseries",n:"Fraisier (6 pers.)",d:"Selon saison, la veille",p:26.00,i:"gateau",b:"La veille"}
+  {id:"trad",c:"Pains",n:"Baguette tradition",d:"Levain, croûte croustillante",p:1.30,a:"Baguettes tradition dans une corbeille",b:"Le best-seller"},
+  {id:"camp",c:"Pains",n:"Pain de campagne",d:"Levain naturel, 500 g",p:3.80,a:"Pain de campagne rond au levain"},
+  {id:"comp",c:"Pains",n:"Pain complet aux graines",d:"Lin, tournesol, courge, 400 g",p:4.20,a:"Tranches de pain complet aux graines"},
+  {id:"croi",c:"Viennoiseries",n:"Croissant pur beurre",d:"Feuilletage maison",p:1.20,a:"Croissants pur beurre dorés"},
+  {id:"pac",c:"Viennoiseries",n:"Pain au chocolat",d:"Deux barres de chocolat noir",p:1.35,a:"Pain au chocolat"},
+  {id:"choux",c:"Pâtisseries",n:"Éclair au chocolat",d:"Crème pâtissière, glaçage",p:3.20,a:"Éclair au chocolat"},
+  {id:"citr",c:"Pâtisseries",n:"Tarte au citron (6 pers.)",d:"À commander la veille",p:22.00,a:"Tarte au citron meringuée",b:"La veille"},
+  {id:"fra",c:"Pâtisseries",n:"Fraisier (6 pers.)",d:"Selon saison, la veille",p:26.00,a:"Fraisier aux fraises fraîches",b:"La veille"}
 ];
 const cart = {};
 let cat = "Tous";
@@ -234,7 +229,7 @@ function renderShop(){
   cats.innerHTML = cs.map(c=>`<button type="button" class="cat" aria-pressed="${c===cat}" data-c="${c}">${c}</button>`).join("");
   products.innerHTML = PRODUCTS.filter(p=>cat==="Tous"||p.c===cat).map(p=>{const q=cart[p.id]||0; return `
     <div class="prod ${q?"has":""}">
-      <div class="ill">${ILL[p.i]}</div>
+      <div class="ill"><img src="images/boulangerie/${p.id}.webp" alt="${p.a}" width="480" height="360" loading="lazy" decoding="async"></div>
       ${p.b?`<span class="badge">${p.b}</span>`:""}
       <h3>${p.n}</h3><p>${p.d}</p>
       <div class="foot"><span class="p">${eur(p.p)}</span>

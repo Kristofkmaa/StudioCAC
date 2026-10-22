@@ -262,7 +262,7 @@ a{color:inherit}
   </div>
 </main>
 
-<script src="offres.js?v=3"></script>
+<script src="offres.js?v=4"></script>
 <script>
 const EMAIL = "contact@saitora.fr";
 // Adresse du formulaire Formspree (https://formspree.io/f/xxxxxxx). Vide : la demande part par la messagerie du visiteur.
@@ -331,6 +331,7 @@ function renderOffer() {
     ${mine && a ? `<p class="why">Conseillée d'après vos réponses : ${OFFRES[a.k].nom}.</p>` : a ? `<p class="why">${esc(a.why)}</p>` : ""}
     ${k === "essentiel" ? `<p class="alt">Ou sans avance : ${prixTexte("sansavance")}.</p>` : ""}
     <div class="switch" role="group" aria-label="Changer de formule">${Object.keys(OFFRES).map(x => `<button type="button" data-k="${x}" aria-pressed="${x === k}">${OFFRES[x].nom}</button>`).join("")}</div>
+    ${charte() ? `<p class="alt">Votre charte graphique sera finalisée, offerte avec votre site.</p>` : ""}
     <p class="est">Estimation, confirmée après notre échange.</p>`;
   $("offerMini").innerHTML = `Formule ${mine ? "choisie" : "conseillée"} : <b>${o.nom}</b>, ${prixTexte(k)}. Estimation confirmée après notre échange.`;
 }

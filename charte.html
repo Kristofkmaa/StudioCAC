@@ -168,6 +168,10 @@ input[type=color]::-webkit-color-swatch{border:0;border-radius:3px}
 .post{aspect-ratio:1/1;border-radius:6px;background:var(--c3);color:var(--on-c3);padding:10%;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 20px 40px -24px rgba(0,0,0,.4)}
 .post b{font:500 clamp(1.3rem,1rem + 1.2vw,2rem)/1.05 var(--tf),var(--font)}
 .post small{font:13px var(--font);opacity:.85}
+.finish{margin-top:44px;padding:clamp(20px,3vw,28px);background:var(--bg);border-radius:6px;border-left:3px solid var(--accent);max-width:760px}
+.finish h3{font-weight:500;font-size:1.25rem}
+.finish p{color:var(--muted);margin-top:6px}
+.finish b{color:var(--ink);font-weight:500}
 .final{display:flex;flex-wrap:wrap;gap:10px;margin-top:40px;align-items:center}
 .ok{background:var(--bg);border-left:3px solid var(--accent);padding:12px 14px;font-size:15px;margin-top:14px}
 
@@ -310,7 +314,7 @@ input[type=color]::-webkit-color-swatch{border:0;border-radius:3px}
           <div class="row"><button class="btn small" type="button" id="dlColor">Télécharger le logo (couleur)</button><button class="btn small" type="button" id="dlWhite">Version blanche</button></div>
           <p class="tip" style="margin-top:0">Fichiers PNG à fond transparent, prêts pour vos cartes, vos réseaux ou votre imprimeur. On pourra l'affiner ensemble.</p>
         </div>
-        <p class="tip" id="noLogo" hidden>Très bien : à partir de votre charte, je vous proposerai deux ou trois pistes de logo avant de commencer le site.</p>
+        <p class="tip" id="noLogo" hidden>Très bien : à partir de votre charte, je vous proposerai deux ou trois pistes de logo, offertes si vous faites votre site avec moi (<span class="cprix">49 €</span> sinon).</p>
 
         <p class="label" style="margin-top:28px">L'ambiance, en quelques mots (plusieurs choix possibles)</p>
         <div class="choices" id="mood" role="group" aria-label="Ambiance"></div>
@@ -347,9 +351,13 @@ input[type=color]::-webkit-color-swatch{border:0;border-radius:3px}
         <figure><div class="sign" id="aSign"></div><figcaption>Enseigne ou devanture</figcaption></figure>
         <figure><div class="post" id="aPost"></div><figcaption>Publication Instagram</figcaption></figure>
       </div>
+      <div class="finish">
+        <h3>Je la finalise pour vous</h3>
+        <p>Deux ou trois pistes de logo, le logo retenu en fichiers propres (couleur, blanc, noir) et la fiche validée pour votre imprimeur. <b>Offert avec votre site.</b> Seule, la charte finalisée coûte <span class="cprix">49 €</span>, déduits si vous commandez votre site dans les <span class="cmois">3</span> mois.</p>
+      </div>
       <div class="final">
         <button class="btn" type="button" id="print">Télécharger ma charte en PDF</button>
-        <button class="btn" type="button" id="send">Me l'envoyer pour la valider</button>
+        <button class="btn" type="button" id="send">Me l'envoyer pour que je la finalise</button>
         <a class="btn primary" id="toDevis" href="devis.html" data-transition="Construisons votre site">Continuer vers le devis</a>
       </div>
       <p class="ok" id="ok" hidden></p>
@@ -360,8 +368,11 @@ input[type=color]::-webkit-color-swatch{border:0;border-radius:3px}
 <!-- fiche imprimable, remplie au moment de l'impression -->
 <section class="sheet" id="sheet" aria-hidden="true"></section>
 
+<script src="offres.js?v=4"></script>
 <script>
 const $ = id => document.getElementById(id);
+document.querySelectorAll(".cprix").forEach(el => el.textContent = eur(CHARTE.prix));
+document.querySelectorAll(".cmois").forEach(el => el.textContent = CHARTE.deductionMois);
 const esc = s => String(s).replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
 const EMAIL = "contact@saitora.fr";
 const KEY = "saitora-charte";   // la charte est gardée sur l'appareil, pour y revenir et pour être jointe au devis

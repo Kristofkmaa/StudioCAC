@@ -6,9 +6,17 @@
 <script>(()=>{const d=document.documentElement;let t;try{t=localStorage.getItem("saitora-theme")}catch(e){}d.dataset.theme=t||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");if(!matchMedia("(prefers-reduced-motion: reduce)").matches)d.classList.add("sc-pending")})()</script>
 <style>html.sc-pending,html.sc-pending body{background:#FAFAF9}html[data-theme=dark].sc-pending,html[data-theme=dark].sc-pending body{background:#0C0C0D}</style>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
-<title>Tarifs, Saitora (page de test)</title>
-<!-- page de travail : pas reliée au menu et pas indexée par Google tant que les prix ne sont pas arrêtés -->
-<meta name="robots" content="noindex, nofollow">
+<title>Tarifs, Saitora</title>
+<meta name="description" content="Les prix de Saitora : création du site vitrine puis abonnement mensuel (hébergement, nom de domaine, modifications). Formules Essentiel, Pro, Sur mesure et sans avance.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="Saitora">
+<meta property="og:title" content="Tarifs, Saitora">
+<meta property="og:description" content="Création du site puis un petit abonnement : hébergement, nom de domaine et modifications compris.">
+<meta property="og:image" content="https://saitora.fr/images/partage.jpg?v=2">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#FAFAF9">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,7 +41,6 @@ a{color:inherit}
 .page{width:var(--page);margin-inline:auto}
 .dot{display:inline-block;width:.2em;height:.2em;border-radius:50%;background:var(--accent);margin-left:.04em}
 
-.test{background:var(--accent);color:var(--on-accent);font-size:14px;text-align:center;padding:6px 16px}
 .bar{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--line)}
 .bar .page{display:flex;align-items:center;justify-content:space-between;gap:24px;height:68px}
 .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink)}
@@ -134,7 +141,6 @@ a{color:inherit}
 <script src="transition.js?v=12"></script>
 <script src="theme.js?v=1" defer></script>
 
-<p class="test">Page de test : pas encore reliée au site, les prix sont à valider.</p>
 <header class="bar">
   <div class="page">
     <a class="brand" href="accueil.html" data-transition="Retour à l'accueil" aria-label="Saitora, accueil"><svg class="mark" viewBox="246 330 740 590" aria-hidden="true"><path d="M262 901L624 341L695 456L407 901Z M725 504L970 901L828 901L653 613Z" fill="currentColor"/><circle cx="620" cy="818" r="55" fill="var(--accent)"/></svg><img src="images/marque/saitora-noir.png" alt="Saitora" width="1165" height="162"></a>

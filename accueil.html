@@ -119,6 +119,7 @@ img,video{display:block;max-width:100%}
 .timeline h3{font-weight:500;font-size:var(--step-2);letter-spacing:-.01em;margin:6px 0 10px}
 .timeline p{color:var(--muted);max-width:34ch}
 .included{margin-top:clamp(64px,8vw,104px);padding-top:clamp(40px,5vw,56px);border-top:1px solid var(--line-hi)}
+.inc-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap}
 .included h3{font-weight:400;font-size:clamp(1.6rem,1.2rem + 1.4vw,2.2rem);letter-spacing:-.015em}
 .included ul{list-style:none;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:28px 48px;margin-top:32px}
 .included li{color:var(--muted);font-size:15.5px;line-height:1.55;padding-left:22px;position:relative}
@@ -245,7 +246,7 @@ form.add input:focus,form.add select:focus{outline:none;border-color:var(--accen
   <header class="bar">
     <div class="page">
       <a class="brand" href="accueil.html" aria-label="Saitora, accueil"><svg class="mark" viewBox="246 330 740 590" aria-hidden="true"><path d="M262 901L624 341L695 456L407 901Z M725 504L970 901L828 901L653 613Z" fill="currentColor"/><circle cx="620" cy="818" r="55" fill="var(--accent)"/></svg><img src="images/marque/saitora-noir.png" alt="Saitora" width="1165" height="162"></a>
-      <nav aria-label="Sections"><a href="#vitrines">Réalisations</a><a href="#methode">Méthode</a><a href="#contact">Contact</a></nav>
+      <nav aria-label="Sections"><a href="#vitrines">Réalisations</a><a href="#methode">Méthode</a><a href="tarifs.html" data-transition="Les tarifs">Tarifs</a><a href="#contact">Contact</a></nav>
       <button class="theme-toggle" type="button" data-theme-toggle aria-label="Changer de thème"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.6A8.2 8.2 0 0 1 9.4 4a8.2 8.2 0 1 0 10.6 10.6z"/></svg></button>
       <a class="btn small" href="devis.html" data-transition="Construisons votre site">Demander un devis</a>
     </div>
@@ -292,7 +293,7 @@ form.add input:focus,form.add select:focus{outline:none;border-color:var(--accen
           <li><span class="when">En deux à trois semaines</span><h3>Le site est en ligne</h3><p>Vous validez, je mets le site en ligne à votre adresse. Vous n'avez rien de technique à faire.</p></li>
         </ol>
         <div class="included">
-          <h3>Compris dans chaque site</h3>
+          <div class="inc-head"><h3>Compris dans chaque site</h3><a class="link" href="tarifs.html" data-transition="Les tarifs">Voir les tarifs</a></div>
           <ul>
             <li><b>Pensé pour le téléphone</b>La plupart de vos clients vous cherchent depuis leur poche.</li>
             <li><b>Votre nom de domaine</b>Une adresse à votre nom, du type votre-commerce.fr.</li>
@@ -335,7 +336,7 @@ form.add input:focus,form.add select:focus{outline:none;border-color:var(--accen
           <a class="foot-brand" href="#accueil-haut" aria-label="Revenir en haut"><svg class="mark" viewBox="246 330 740 590" aria-hidden="true"><path d="M262 901L624 341L695 456L407 901Z M725 504L970 901L828 901L653 613Z" fill="currentColor"/><circle cx="620" cy="818" r="55" fill="var(--accent)"/></svg><img src="images/marque/saitora-noir.png" alt="Saitora" width="1165" height="162"></a>
           <p>Sites vitrines sur mesure pour les restaurants, les artisans et les commerces de quartier.</p>
         </div>
-        <nav aria-label="Le site"><h3>Le site</h3><a href="#vitrines">Réalisations</a><a href="#methode">Méthode</a><a href="#contact">Contact</a><a href="devis.html" data-transition="Construisons votre site">Demander un devis</a></nav>
+        <nav aria-label="Le site"><h3>Le site</h3><a href="#vitrines">Réalisations</a><a href="#methode">Méthode</a><a href="tarifs.html" data-transition="Les tarifs">Tarifs</a><a href="#contact">Contact</a><a href="devis.html" data-transition="Construisons votre site">Demander un devis</a></nav>
         <nav aria-label="Les démos"><h3>Les démos</h3><a href="demo-table-du-port.html" target="_blank" rel="noopener">La Table du Port</a><a href="demo-durand-plomberie.html" target="_blank" rel="noopener">Durand Plomberie</a><a href="demo-coupe-and-co.html" target="_blank" rel="noopener">Studio Coupe &amp; Co</a><a href="demo-pain-dore.html" target="_blank" rel="noopener">Au Pain Doré</a><a href="demo-villa-oliviers.html" target="_blank" rel="noopener">Villa Les Oliviers</a><a href="demo-bois-massif.html" target="_blank" rel="noopener">Atelier Bois Massif</a></nav>
         <div class="foot-contact"><h3>Contact</h3><a href="mailto:contact@saitora.fr">contact@saitora.fr</a><p>Réponse sous 24 heures</p></div>
       </div>

@@ -153,7 +153,9 @@ a{color:inherit}
   .opt:hover{border-color:var(--line-hi)}
   .pill:hover{border-color:var(--line-hi)}
 }
+@media (max-width:420px){.back.long{display:none}}
 @media (pointer:coarse){
+  .back{padding-block:10px;margin-block:-10px}
   .brand{padding-block:9px;margin-block:-9px}
   .pill{min-height:44px}
   .theme-toggle{width:44px;height:44px}
@@ -168,7 +170,8 @@ a{color:inherit}
   <div class="page">
     <a class="brand" href="accueil.html" data-transition="Retour aux réalisations" aria-label="Saitora, accueil"><svg class="mark" viewBox="246 330 740 590" aria-hidden="true"><path d="M262 901L624 341L695 456L407 901Z M725 504L970 901L828 901L653 613Z" fill="currentColor"/><circle cx="620" cy="818" r="55" fill="var(--accent)"/></svg><img src="images/marque/saitora-noir.png" alt="Saitora" width="1165" height="162"></a>
     <div class="right">
-      <a class="back" href="accueil.html#vitrines" data-transition="Retour aux réalisations">Voir les réalisations</a>
+      <a class="back" href="tarifs.html" data-transition="Les tarifs">Tarifs</a>
+      <a class="back long" href="accueil.html#vitrines" data-transition="Retour aux réalisations">Réalisations</a>
       <button class="theme-toggle" type="button" data-theme-toggle aria-label="Changer de thème"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.6A8.2 8.2 0 0 1 9.4 4a8.2 8.2 0 1 0 10.6 10.6z"/></svg></button>
     </div>
   </div>

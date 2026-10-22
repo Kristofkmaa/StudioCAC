@@ -46,7 +46,7 @@
 
   const SEL = {
     title: "h1, h2",
-    media: "img, video",
+    media: "img, video, .big-mark",
     ctrl: ".btn, .chip, .pill, .opt, .back, nav a",
     text: "p, h3, li, dt, dd, label, .count, .brand, .sector, .mail",
     frame: ".surface, .summary, .proj, .reel",

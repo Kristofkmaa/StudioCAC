@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Mentions légales et confidentialité, {{NOM_COMMERCE}}</title>
+<!--
+  MODÈLE SAITORA : mentions légales et politique de confidentialité d'un site client.
+  1. Remplacer chaque {{...}} (voir la liste dans LISEZMOI.md).
+  2. Garder un seul des deux blocs « Éditeur » (entreprise individuelle OU société) et supprimer l'autre.
+  3. Supprimer les paragraphes marqués [SI ...] qui ne concernent pas ce client.
+  4. Reprendre les couleurs et les polices du site du client ; ce fichier n'a qu'une mise en forme minimale.
+  Ce modèle est une base sérieuse, pas un conseil juridique : en cas de doute (activité réglementée, vente aux particuliers), faire relire.
+-->
+<style>
+body{margin:0;font:16px/1.65 system-ui,sans-serif;color:#1d1d1f;background:#fff}
+main{max-width:760px;margin:0 auto;padding:48px 20px 80px}
+h1{font-weight:500;font-size:2.2rem;line-height:1.1;margin:0}
+h2{font-weight:600;font-size:1.25rem;margin:40px 0 0;padding-top:20px;border-top:1px solid #ddd}
+h3{font-weight:600;font-size:1.05rem;margin:22px 0 0}
+p,ul{margin:10px 0 0}
+.muted{color:#666}
+</style>
+</head>
+<body>
+<main>
+  <h1>Mentions légales et confidentialité</h1>
+
+  <h2>L'éditeur du site</h2>
+  <!-- Bloc A : entreprise individuelle ou micro-entreprise -->
+  <p>{{PRENOM_NOM}}, entrepreneur individuel (EI), exerçant sous le nom commercial {{NOM_COMMERCE}}.<br>
+  {{ADRESSE_POSTALE}}<br>
+  SIRET : {{SIRET}}<br>
+  {{SI_ARTISAN : Immatriculé au registre national des entreprises (RNE), métier : {{METIER}}}}<br>
+  Téléphone : {{TELEPHONE}}. E-mail : {{EMAIL}}</p>
+  <!-- Bloc B : société -->
+  <p>{{RAISON_SOCIALE}}, {{FORME}} (SARL, SAS, EURL…) au capital de {{CAPITAL}} €, exerçant sous le nom commercial {{NOM_COMMERCE}}.<br>
+  Siège : {{ADRESSE_POSTALE}}<br>
+  RCS {{VILLE_RCS}} {{SIREN}}. N° de TVA intracommunautaire : {{TVA_INTRA}}<br>
+  Téléphone : {{TELEPHONE}}. E-mail : {{EMAIL}}</p>
+  <p>Responsable de la publication : {{PRENOM_NOM_RESPONSABLE}}.</p>
+  <!-- [SI activité réglementée : ordre ou chambre professionnelle, titre, règles professionnelles ; SI assurance décennale (BTP) : assureur et zone couverte] -->
+  <p>{{MENTIONS_ACTIVITE_REGLEMENTEE}}</p>
+
+  <h2>Réalisation et hébergement</h2>
+  <p>Site réalisé et maintenu par Saitora, Ajaccio (Corse), contact@saitora.fr.</p>
+  <p>Hébergement : GitHub, Inc. (service GitHub Pages), 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.</p>
+  <p>Nom de domaine enregistré auprès d'OVH SAS, 2 rue Kellermann, 59100 Roubaix, France.</p>
+
+  <h2>Propriété des contenus</h2>
+  <p>Les textes, photographies, logos et la mise en page de ce site appartiennent à {{NOM_COMMERCE}} ou sont utilisés avec l'accord de leurs auteurs. Merci de ne pas les reprendre sans autorisation.</p>
+  <!-- [SI photos libres de droits : préciser la source, par exemple « Certaines photographies proviennent de Pixabay, sous une licence qui permet l'usage commercial. »] -->
+
+  <h2>Vos données personnelles</h2>
+  <p>Le responsable du traitement de vos données est {{NOM_COMMERCE}} ({{EMAIL}}).</p>
+  <p>Ce site ne dépose aucun cookie, ne mesure pas l'audience à l'aide de cookies et n'affiche aucune publicité.</p>
+
+  <!-- [SI formulaire de contact / devis / réservation / commande à retirer] -->
+  <h3>Quand vous nous écrivez ou réservez</h3>
+  <p>Les informations que vous saisissez dans le formulaire ({{CHAMPS_DU_FORMULAIRE}} : par exemple nom, téléphone, e-mail, date, nombre de personnes, message) servent uniquement à {{FINALITE}} (par exemple : répondre à votre demande, gérer votre réservation). Elles ne sont ni vendues, ni utilisées pour vous envoyer de la publicité.</p>
+  <p>Elles sont transmises par e-mail à {{NOM_COMMERCE}}, par l'intermédiaire de {{SERVICE_FORMULAIRE}} (service de réception des formulaires) et de Saitora, qui assure le fonctionnement du site pour son compte. Elles sont conservées {{DUREE}} (par exemple : trois ans après notre dernier échange), puis supprimées.</p>
+
+  <!-- [SI carte, vidéo ou widget d'un service tiers intégré : Google Maps, YouTube, Instagram, avis Google…] -->
+  <h3>Les contenus d'autres services</h3>
+  <p>{{SERVICE_TIERS}} (par exemple : la carte Google Maps) ne s'affiche que si vous le choisissez. Il est alors chargé depuis les serveurs de ce service, qui peut déposer ses propres cookies et reçoit votre adresse IP.</p>
+  <!-- Rappel : sans bouton « afficher la carte », un Google Maps intégré oblige à un bandeau de consentement. Préférer une image de carte avec un lien. -->
+
+  <h3>Ce que voit l'hébergeur</h3>
+  <p>Comme tout hébergeur, GitHub enregistre l'adresse IP des visiteurs dans ses journaux techniques, pour la sécurité du service.</p>
+
+  <h3>Vos droits</h3>
+  <p>Vous pouvez à tout moment demander à consulter, corriger ou supprimer vos données, ou vous opposer à leur utilisation, en écrivant à {{EMAIL}}. Une réponse vous est apportée sous un mois. Si vous estimez que vos droits ne sont pas respectés, vous pouvez saisir la CNIL sur cnil.fr.</p>
+
+  <!-- [SI avis clients affichés sur le site] -->
+  <h2>Les avis clients</h2>
+  <p>Les avis présentés sur ce site proviennent de {{SOURCE_AVIS}} (par exemple : notre fiche Google). Ils sont reproduits tels quels, sans tri selon leur note, et datés.</p>
+
+  <p class="muted" style="margin-top:40px">Dernière mise à jour : {{DATE}}.</p>
+</main>
+</body>
+</html>

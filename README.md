@@ -11,6 +11,9 @@ Site 100 % statique : pas de build, pas de dépendance, chaque page est un fichi
 | `accueil.html` | Page d'accueil du portfolio (démos, méthode, contact). L'espace pro `accueil.html#admin` sert à suivre ses clients ; ses données restent dans le navigateur. |
 | `tarifs.html` | Tarifs : formules, calcul du coût sur la durée, ce que paie l'abonnement, questions fréquentes. |
 | `mentions-legales.html` | Mentions légales et politique de confidentialité (SIRET à ajouter dès l'immatriculation). |
+| `cgv.html` | Conditions générales de vente (devis, paiement, rétractation, abonnement, domaine, cession des droits, données des clients, responsabilités). |
+| `polices/` | Polices hébergées sur le site, générées par `python3 outils/polices.py` (à relancer si on ajoute une police). |
+| `outils/modeles/` | Modèle de mentions légales et liste de vérification pour les sites clients. |
 | `404.html`, `robots.txt`, `sitemap.xml` | Page introuvable (servie par GitHub Pages), consignes et plan du site pour les moteurs de recherche. |
 | `charte.html` | Outil gratuit de charte graphique en six étapes : couleurs, lettres, logo (lu sur l'appareil ou dessiné sur place, avec ses activités). À la fin, une charte complète en huit chapitres : versions du logo, zone de protection, tailles minimales, interdits illustrés, codes couleurs HEX, RVB et CMJN, lettres, applications, règles. PDF, envoi par e-mail ou ajout au devis. `charte.html?exemple` montre la charte d'Ostrale, une entreprise imaginaire (rien n'est enregistré). |
 | `offres.js` | Les formules et leurs prix, lus à la fois par la page Tarifs et par le devis (qui conseille une formule d'après les réponses). Un prix se change ici. |

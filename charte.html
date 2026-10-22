@@ -17,8 +17,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#FAFAF9">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Cormorant+Garamond:wght@500;600&family=Young+Serif&family=Caveat:wght@600;700&family=Archivo+Narrow:wght@600;700&display=swap">
+<link rel="stylesheet" href="polices/jost-cormorant-garamond-young-serif-caveat-archivo-narrow-d19907.css">
 <link rel="stylesheet" href="theme.css?v=2">
 <style>
 /* Créer sa charte graphique. Un tutoriel court, puis six étapes : chacune explique ce qu'on choisit et pourquoi.
@@ -71,6 +70,7 @@ a{color:inherit}
 .step h2{font-weight:400;font-size:clamp(1.6rem,1.3rem + 1vw,2.1rem);letter-spacing:-.015em;line-height:1.1;margin-top:2px}
 .tip{margin-top:10px;color:var(--muted);font-size:15.5px;max-width:58ch}
 .tip b{color:var(--ink);font-weight:500}
+.tip a{color:var(--ink);text-underline-offset:3px;text-decoration-color:var(--accent)}
 .field{display:flex;flex-direction:column;gap:6px;font-size:15px;color:var(--muted);margin-top:14px}
 .field input[type=text]{font:16px var(--font);padding:12px 14px;border:1px solid var(--line-hi);border-radius:4px;background:var(--bg);color:var(--ink)}
 .field input:focus{outline:none;border-color:var(--accent)}
@@ -510,6 +510,7 @@ figcaption b{display:block;color:var(--ink);font-weight:500;font-size:15px}
           </div>
           <div class="row"><button class="btn small" type="button" id="dlColor">Télécharger le logo (couleur)</button><button class="btn small" type="button" id="dlWhite">Version blanche</button><button class="btn small" type="button" id="dlMono">Une couleur</button><button class="btn small" type="button" id="dlSym">Symbole seul</button></div>
           <p class="tip" style="margin-top:0">Fichiers PNG à fond transparent, prêts pour vos cartes, vos réseaux ou votre imprimeur. Toutes les versions sont présentées dans votre charte, à l'étape 6. On pourra l'affiner ensemble.</p>
+          <p class="tip" style="margin-top:0"><b>Avant de le déposer comme marque</b> ou de le faire graver sur une enseigne, vérifiez sur <a href="https://data.inpi.fr" target="_blank" rel="noopener">data.inpi.fr</a> qu'aucune marque de votre métier ne lui ressemble : les formes simples et les initiales sont courantes.</p>
         </div>
         <p class="tip" id="noLogo" hidden>Très bien : avec vos couleurs et vos lettres, on pourra en parler ensemble au moment de faire votre site.</p>
 
@@ -953,6 +954,7 @@ function rules(d){
     "Les mêmes couleurs partout : site, enseigne, cartes de visite, réseaux sociaux.",
     "Avant d'imprimer, demandez une épreuve à l'imprimeur (le BAT, bon à tirer) et vérifiez-la.",
   ];
+  if (state.logoMode === "creer") dos.push("Avant de déposer le logo comme marque, vérifiez sur data.inpi.fr qu'aucune marque de votre métier ne lui ressemble.");
   if (state.multi && activities().length > 1) dos.splice(4, 0, "Chaque activité garde sa couleur, la même sur les devis, les affiches et les pages du site.");
   const donts = [
     "Déformer le logo, le tourner, changer ses couleurs ou lui ajouter des effets (ombre, contour, dégradé).",

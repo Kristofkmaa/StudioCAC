@@ -6,13 +6,13 @@
 <script>(()=>{const d=document.documentElement;let t;try{t=localStorage.getItem("saitora-theme")}catch(e){}d.dataset.theme=t||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");if(!matchMedia("(prefers-reduced-motion: reduce)").matches)d.classList.add("sc-pending")})()</script>
 <style>html.sc-pending,html.sc-pending body{background:#FAFAF9}html[data-theme=dark].sc-pending,html[data-theme=dark].sc-pending body{background:#0C0C0D}</style>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
-<title>Votre charte graphique, Saitora</title>
-<meta name="description" content="Logo, couleurs, typographie : présentez l'identité de votre commerce, ou créons-la ensemble. Aperçu en direct de votre site.">
+<title>Créez votre charte graphique, Saitora</title>
+<meta name="description" content="Créez la charte graphique de votre commerce en six étapes guidées : personnalité, couleurs, typographie, logo, règles d'usage. Aperçu en direct, fiche PDF.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fr_FR">
 <meta property="og:site_name" content="Saitora">
-<meta property="og:title" content="Votre charte graphique, Saitora">
-<meta property="og:description" content="Logo, couleurs, typographie : présentez l'identité de votre commerce, avec un aperçu en direct de votre site.">
+<meta property="og:title" content="Créez votre charte graphique, Saitora">
+<meta property="og:description" content="Six étapes guidées pour créer l'identité de votre commerce : couleurs, typographie, logo et règles d'usage.">
 <meta property="og:image" content="https://saitora.fr/images/partage.jpg?v=2">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#FAFAF9">
@@ -21,8 +21,9 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Cormorant+Garamond:wght@500;600&family=Young+Serif&family=Caveat:wght@600;700&family=Archivo+Narrow:wght@600;700&display=swap">
 <link rel="stylesheet" href="theme.css?v=2">
 <style>
-/* Charte graphique. À gauche, ce que le commerçant a déjà (ou choisit) ; à droite, son site qui se dessine en direct
-   avec ses couleurs, son logo et sa typographie. Le logo ne quitte jamais l'appareil : il est lu sur place pour en tirer les couleurs. */
+/* Créer sa charte graphique. Un tutoriel court, puis six étapes : chacune explique ce qu'on choisit et pourquoi.
+   À droite, l'aperçu du site suit chaque réglage ; à la fin, la charte complète (règles, applications, fiche PDF).
+   Le logo du client n'est jamais envoyé : il est lu sur l'appareil (couleurs) ou dessiné sur place. */
 html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 :where(a,button,[role="button"],summary,label,select,input[type="range"]){touch-action:manipulation}
 :where(button,.btn,[role="button"]){-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
@@ -31,9 +32,9 @@ html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-
 :root{--font:"Jost","Futura","Helvetica Neue",Arial,sans-serif;--ease-out:cubic-bezier(.23,1,.32,1);--page:min(1180px,100% - 2 * clamp(20px,4vw,40px))}
 *,*::before,*::after{box-sizing:border-box}
 [hidden]{display:none!important}
-html{background:var(--bg)}
+html{background:var(--bg);scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.6;overflow-x:hidden}
-h1,h2,h3,p,ul,dl,dd,figure{margin:0}
+h1,h2,h3,p,ul,ol,dl,dd,figure{margin:0}
 a{color:inherit}
 :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
 .page{width:var(--page);margin-inline:auto}
@@ -48,24 +49,68 @@ a{color:inherit}
 .back{font-size:15px;color:var(--muted);text-decoration:none}
 .btn{display:inline-flex;align-items:center;justify-content:center;font:500 16px var(--font);padding:13px 22px;border-radius:4px;border:1px solid var(--line-hi);background:none;color:var(--ink);cursor:pointer;text-decoration:none;transition:background-color 160ms ease,border-color 160ms ease}
 .btn.primary{border-color:transparent;background:var(--accent);color:var(--on-accent)}
+.btn.small{padding:9px 14px;font-size:15px}
 
-.intro{padding-block:clamp(48px,7vw,88px) clamp(32px,4vw,48px)}
-.intro h1{font-weight:400;font-size:clamp(2.6rem,1.6rem + 4vw,4.4rem);line-height:1.02;letter-spacing:-.03em;max-width:16ch}
-.intro p{margin-top:20px;color:var(--muted);font-size:1.15rem;max-width:54ch}
+/* le tutoriel */
+.intro{padding-block:clamp(48px,7vw,88px) clamp(28px,4vw,40px)}
+.intro h1{font-weight:400;font-size:clamp(2.6rem,1.6rem + 4vw,4.4rem);line-height:1.02;letter-spacing:-.03em;max-width:17ch}
+.intro .lead{margin-top:20px;color:var(--muted);font-size:1.15rem;max-width:56ch}
+.what{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,3vw,40px);margin-top:clamp(32px,4vw,48px);padding-top:28px;border-top:1px solid var(--line-hi)}
+.what dt{font-weight:500;font-size:1.1rem}
+.what dd{color:var(--muted);font-size:15.5px;margin-top:4px}
+.route{list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:8px 10px;margin-top:28px;counter-reset:r}
+.route li{counter-increment:r}
+.route a{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-size:15px;padding:7px 12px;border:1px solid var(--line-hi);border-radius:999px}
+.route a::before{content:counter(r);display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--accent);color:var(--on-accent);font-size:13px;font-weight:500}
 
-.work{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,56px);align-items:start;padding-bottom:clamp(64px,8vw,104px)}
-.form{display:flex;flex-direction:column;gap:40px}
-fieldset{border:0;margin:0;padding:0;min-width:0}
-legend{padding:0;font-weight:500;font-size:1.35rem;letter-spacing:-.01em;margin-bottom:6px}
-.hint{color:var(--muted);font-size:15px;margin-bottom:14px}
-.field{display:flex;flex-direction:column;gap:6px;font-size:15px;color:var(--muted);margin-top:12px}
+/* les étapes et l'aperçu */
+.work{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,56px);align-items:start;padding-block:clamp(24px,3vw,40px) clamp(48px,6vw,80px)}
+.form{display:flex;flex-direction:column;gap:56px}
+.step{scroll-margin-top:88px}
+.n{font-size:14px;font-weight:500;color:var(--accent-text)}
+.step h2{font-weight:400;font-size:clamp(1.6rem,1.3rem + 1vw,2.1rem);letter-spacing:-.015em;line-height:1.1;margin-top:2px}
+.tip{margin-top:10px;color:var(--muted);font-size:15.5px;max-width:58ch}
+.tip b{color:var(--ink);font-weight:500}
+.field{display:flex;flex-direction:column;gap:6px;font-size:15px;color:var(--muted);margin-top:14px}
 .field input[type=text]{font:16px var(--font);padding:12px 14px;border:1px solid var(--line-hi);border-radius:4px;background:var(--bg);color:var(--ink)}
 .field input:focus{outline:none;border-color:var(--accent)}
+.label{font-size:15px;color:var(--muted);margin:18px 0 8px}
 .choices{display:flex;flex-wrap:wrap;gap:8px}
 .choice{font:500 15px var(--font);padding:9px 14px;border-radius:4px;border:1px solid var(--line-hi);background:var(--bg);color:var(--ink);cursor:pointer}
 .choice[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 
-.drop{display:flex;align-items:center;gap:16px;margin-top:14px;padding:16px;border:1.5px dashed var(--line-hi);border-radius:6px;cursor:pointer}
+.sliders{display:grid;gap:18px;margin-top:18px}
+.slider{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;font-size:15px}
+.slider span:first-child{text-align:right;color:var(--muted)}
+.slider span:last-child{color:var(--muted)}
+.slider input{width:min(240px,42vw);accent-color:var(--accent)}
+.propose{margin-top:20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.propose p{font-size:14.5px;color:var(--muted)}
+
+.colors{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+.col{display:flex;flex-direction:column;gap:6px;font-size:14.5px;color:var(--muted)}
+input[type=color]{width:100%;height:56px;padding:0;border:1px solid var(--line-hi);border-radius:4px;background:none;cursor:pointer}
+input[type=color]::-webkit-color-swatch-wrapper{padding:0}
+input[type=color]::-webkit-color-swatch{border:0;border-radius:3px}
+.col code{font:13px ui-monospace,monospace;color:var(--ink)}
+.gen{display:grid;grid-template-columns:120px 1fr;gap:14px;align-items:end;margin-top:20px;padding:16px;background:var(--bg-alt);border-radius:6px}
+.gen .col input{height:44px}
+.presets{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.preset{display:flex;align-items:center;gap:8px;font:500 14px var(--font);padding:7px 10px;border:1px solid var(--line-hi);border-radius:4px;background:var(--bg);color:var(--ink);cursor:pointer}
+.preset i{display:flex}
+.preset i span{width:12px;height:12px;border-radius:50%;margin-left:-3px;border:1.5px solid var(--bg)}
+.ratio{display:flex;height:34px;border-radius:4px;overflow:hidden;margin-top:12px;border:1px solid var(--line)}
+.ratio span{display:grid;place-items:center;font-size:12.5px;font-weight:500}
+.warn{margin-top:10px;font-size:14.5px;color:var(--warn)}
+.okc{margin-top:10px;font-size:14.5px;color:var(--ok)}
+
+.fonts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px}
+.font{text-align:left;padding:12px 14px;border:1px solid var(--line-hi);border-radius:4px;background:var(--bg);color:var(--ink);cursor:pointer}
+.font b{display:block;font-size:1.5rem;line-height:1.1;font-weight:500}
+.font small{font:14px var(--font);color:var(--muted)}
+.font[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+
+.drop{position:relative;display:flex;align-items:center;gap:16px;margin-top:14px;padding:16px;border:1.5px dashed var(--line-hi);border-radius:6px;cursor:pointer}
 .drop.over{border-color:var(--accent);background:var(--bg-alt)}
 .drop img{width:72px;height:72px;object-fit:contain;background:#fff;border-radius:4px;border:1px solid var(--line)}
 .drop .ph{width:72px;height:72px;border-radius:4px;background:var(--bg-alt);display:grid;place-items:center;color:var(--faint);font-size:28px;flex:none}
@@ -73,77 +118,92 @@ legend{padding:0;font-weight:500;font-size:1.35rem;letter-spacing:-.01em;margin-
 .drop small{color:var(--muted);font-size:14px}
 .drop input{position:absolute;width:1px;height:1px;opacity:0}
 .found{margin-top:10px;font-size:14.5px;color:var(--accent-text)}
+.maker{margin-top:16px;display:grid;gap:14px}
+.maker canvas{width:100%;height:auto;max-width:520px;border:1px solid var(--line);border-radius:6px;background:repeating-conic-gradient(var(--bg-alt) 0 25%,var(--bg) 0 50%) 0 0/16px 16px}
+.maker .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 
-.colors{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.col{display:flex;flex-direction:column;gap:6px;font-size:14.5px;color:var(--muted)}
-.col input[type=color]{width:100%;height:56px;padding:0;border:1px solid var(--line-hi);border-radius:4px;background:none;cursor:pointer}
-.col input[type=color]::-webkit-color-swatch-wrapper{padding:0}
-.col input[type=color]::-webkit-color-swatch{border:0;border-radius:3px}
-.col code{font:13px ui-monospace,monospace;color:var(--ink)}
-.presets{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-.preset{display:flex;align-items:center;gap:8px;font:500 14px var(--font);padding:7px 10px;border:1px solid var(--line-hi);border-radius:4px;background:var(--bg);color:var(--ink);cursor:pointer}
-.preset i{display:flex}
-.preset i span{width:12px;height:12px;border-radius:50%;margin-left:-3px;border:1.5px solid var(--bg)}
-.warn{margin-top:10px;font-size:14.5px;color:var(--warn)}
-
-.fonts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.font{text-align:left;padding:12px 14px;border:1px solid var(--line-hi);border-radius:4px;background:var(--bg);color:var(--ink);cursor:pointer}
-.font b{display:block;font-size:1.5rem;line-height:1.1;font-weight:500}
-.font small{font:14px var(--font);color:var(--muted)}
-.font[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
-
-/* l'aperçu, qui suit le défilement */
-.side{position:sticky;top:88px;display:flex;flex-direction:column;gap:16px}
+/* l'aperçu qui suit le défilement */
+.side{position:sticky;top:88px;display:flex;flex-direction:column;gap:14px}
 .side .lbl{font-size:14px;color:var(--muted)}
-.mock{--c1:#1E4E6B;--c2:#F4F8FA;--c3:#E4572E;--tf:"Jost";border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--c2);color:var(--c1);box-shadow:0 30px 60px -36px rgba(0,0,0,.35)}
-.mock .chrome{height:28px;background:var(--bg-alt);display:flex;align-items:center;gap:6px;padding-inline:12px}
+.mock{--c1:#1E4E6B;--c2:#F4F8FA;--c3:#E4572E;--tf:"Jost";--on-c3:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--c2);color:var(--c1);box-shadow:0 30px 60px -36px rgba(0,0,0,.35)}
+.mock .chrome{height:26px;background:var(--bg-alt);display:flex;align-items:center;gap:6px;padding-inline:12px}
 .mock .chrome i{width:9px;height:9px;border-radius:50%;background:var(--line-hi)}
-.mock .top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 20px;border-bottom:1px solid color-mix(in srgb,var(--c1) 14%,transparent)}
+.mock .top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 20px;border-bottom:1px solid color-mix(in srgb,var(--c1) 14%,transparent)}
 .mock .logo{display:flex;align-items:center;gap:10px;font:600 17px/1.1 var(--tf),var(--font);color:var(--c1);min-width:0}
-.mock .logo img{height:32px;width:auto;max-width:120px;object-fit:contain}
+.mock .logo img{height:34px;width:auto;max-width:170px;object-fit:contain}
 .mock .nav{display:flex;gap:14px;font:13px var(--font);opacity:.75}
-.mock .hero{padding:34px 22px 30px}
-.mock h2{font:500 clamp(1.7rem,1.2rem + 1.6vw,2.4rem)/1.05 var(--tf),var(--font);letter-spacing:-.01em;color:var(--c1);max-width:16ch;overflow-wrap:anywhere}
-.mock p{font:15px/1.55 var(--font);margin-top:12px;opacity:.8;max-width:40ch}
-.mock .cta{display:inline-block;margin-top:20px;font:600 14px var(--font);padding:10px 16px;border-radius:4px;background:var(--c3);color:var(--on-c3,#fff)}
-.mock .band{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 22px 24px}
-.mock .band span{height:54px;border-radius:4px;background:color-mix(in srgb,var(--c1) 10%,var(--c2))}
+.mock .hero{padding:30px 22px 26px}
+.mock h3{font:500 clamp(1.6rem,1.2rem + 1.4vw,2.3rem)/1.05 var(--tf),var(--font);letter-spacing:-.01em;color:var(--c1);max-width:16ch;overflow-wrap:anywhere}
+.mock p{font:15px/1.55 var(--font);margin-top:10px;opacity:.8;max-width:40ch}
+.mock .cta{display:inline-block;margin-top:18px;font:600 14px var(--font);padding:10px 16px;border-radius:4px;background:var(--c3);color:var(--on-c3)}
+.mock .band{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 22px 22px}
+.mock .band span{height:50px;border-radius:4px;background:color-mix(in srgb,var(--c1) 10%,var(--c2))}
 .swatches{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .sw{border:1px solid var(--line);border-radius:6px;overflow:hidden;font-size:13.5px}
-.sw span{display:block;height:44px}
+.sw span{display:block;height:40px}
 .sw p{padding:6px 10px;color:var(--muted)}
 .sw code{display:block;font:12.5px ui-monospace,monospace;color:var(--ink)}
-.actions{display:flex;flex-wrap:wrap;gap:10px}
-.ok{background:var(--bg-alt);border-left:3px solid var(--accent);padding:12px 14px;font-size:15px}
+.side .next{font-size:14.5px;color:var(--muted)}
 
-/* fiche imprimable (« Télécharger ma charte ») */
+/* la charte terminée */
+.done{background:var(--bg-alt);padding-block:clamp(56px,7vw,96px);scroll-margin-top:68px}
+.done h2{font-weight:400;font-size:clamp(2rem,1.4rem + 2.2vw,3rem);line-height:1.06;letter-spacing:-.02em}
+.done .sub{color:var(--muted);margin-top:12px;max-width:58ch}
+.rules{display:grid;grid-template-columns:1fr 1fr;gap:28px 56px;margin-top:36px}
+.rules h3{font-weight:500;font-size:1.15rem;margin-bottom:10px}
+.rules ul{list-style:none;padding:0;display:grid;gap:8px;font-size:15.5px}
+.rules li{padding-left:22px;position:relative}
+.rules li::before{content:"";position:absolute;left:0;top:.6em;width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.rules .no li::before{background:var(--warn);border-radius:1px;width:10px;height:2px;top:.75em}
+.apps{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:20px;margin-top:44px;align-items:end}
+.apps figcaption{font-size:14px;color:var(--muted);margin-top:8px}
+.card{aspect-ratio:85/55;border-radius:6px;background:var(--c2);color:var(--c1);padding:7% 8%;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 20px 40px -24px rgba(0,0,0,.4);border:1px solid var(--line)}
+.card .lg img{height:clamp(26px,3vw,40px);width:auto;max-width:75%}
+.card .lg span{font:600 1.2rem var(--tf),var(--font)}
+.card .who{font:13px/1.4 var(--font)}
+.card .who b{display:block;font-weight:600;color:var(--c3)}
+.sign{aspect-ratio:3/1.3;border-radius:6px;background:var(--c1);display:grid;place-items:center;padding:8%;box-shadow:0 20px 40px -24px rgba(0,0,0,.4)}
+.sign img{max-height:100%;max-width:100%;object-fit:contain}
+.sign span{font:600 clamp(1.3rem,1rem + 1vw,1.9rem)/1 var(--tf),var(--font);color:var(--c2);text-align:center}
+.post{aspect-ratio:1/1;border-radius:6px;background:var(--c3);color:var(--on-c3);padding:10%;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 20px 40px -24px rgba(0,0,0,.4)}
+.post b{font:500 clamp(1.3rem,1rem + 1.2vw,2rem)/1.05 var(--tf),var(--font)}
+.post small{font:13px var(--font);opacity:.85}
+.final{display:flex;flex-wrap:wrap;gap:10px;margin-top:40px;align-items:center}
+.ok{background:var(--bg);border-left:3px solid var(--accent);padding:12px 14px;font-size:15px;margin-top:14px}
+
+/* fiche imprimable (« Télécharger ma charte en PDF ») */
 .sheet{display:none}
 @media print{
-  @page{margin:16mm}
+  @page{margin:14mm}
   body{background:#fff;color:#111}
-  .bar,.intro,.work{display:none!important}
-  .sheet{display:block;font-family:var(--font);color:#111}
-  .sheet h1{font-weight:400;font-size:28px;letter-spacing:-.01em}
-  .sheet .meta{color:#666;font-size:13px;margin-top:4px}
-  .sheet .logo-big{margin:24px 0;height:90px}
-  .sheet .logo-big img{height:90px;width:auto}
-  .sheet h2{font-size:15px;font-weight:600;margin:22px 0 8px}
-  .sheet .row{display:flex;gap:12px}
-  .sheet .row div{flex:1;border:1px solid #ddd;border-radius:6px;overflow:hidden;font-size:12px}
-  .sheet .row span{display:block;height:60px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .bar,.intro,.work,.done{display:none!important}
+  .sheet{display:block;font-family:var(--font);color:#111;font-size:12.5px;line-height:1.5}
+  .sheet h1{font-weight:400;font-size:26px;letter-spacing:-.01em}
+  .sheet .meta{color:#666;font-size:12px;margin-top:2px}
+  .sheet .logo-big{margin:18px 0}
+  .sheet .logo-big img{height:80px;width:auto}
+  .sheet h2{font-size:14px;font-weight:600;margin:18px 0 6px}
+  .sheet .row{display:flex;gap:10px}
+  .sheet .row div{flex:1;border:1px solid #ddd;border-radius:6px;overflow:hidden;font-size:11.5px}
+  .sheet .row span{display:block;height:54px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
   .sheet .row p{padding:6px 8px}
-  .sheet .sample{font-size:30px;line-height:1.1}
-  .sheet .foot{margin-top:28px;color:#666;font-size:12px}
+  .sheet .sample{font-size:28px;line-height:1.1}
+  .sheet ul{padding-left:18px;margin:0}
+  .sheet .foot{margin-top:24px;color:#666;font-size:11px}
 }
 
 @media (max-width:900px){
   .work{grid-template-columns:1fr}
   .side{position:static}
+  .what,.rules{grid-template-columns:1fr}
+  .apps{grid-template-columns:1fr 1fr}
+  .apps figure:first-child{grid-column:1/-1}
   .back{display:none}
 }
-@media (max-width:520px){.colors{grid-template-columns:1fr 1fr 1fr}.fonts{grid-template-columns:1fr}.mock .nav{display:none}}
-@media (hover:hover) and (pointer:fine){.btn:hover{border-color:var(--ink)}.btn.primary:hover{background:var(--accent-hover)}.back:hover{color:var(--ink)}.choice:hover,.preset:hover,.font:hover{border-color:var(--ink)}}
-@media (pointer:coarse){.brand{padding-block:9px;margin-block:-9px}.theme-toggle{width:44px;height:44px}.choice,.preset{min-height:44px}}
+@media (max-width:520px){.fonts{grid-template-columns:1fr}.mock .nav{display:none}.slider{grid-template-columns:1fr 1fr;row-gap:2px}.slider span:first-child{text-align:left}.slider span:last-child{text-align:right}.slider input{grid-column:1/-1;grid-row:2;width:100%}.gen{grid-template-columns:1fr}}
+@media (hover:hover) and (pointer:fine){.btn:hover{border-color:var(--ink)}.btn.primary:hover{background:var(--accent-hover)}.back:hover{color:var(--ink)}.choice:hover,.preset:hover,.font:hover,.route a:hover{border-color:var(--ink)}}
+@media (pointer:coarse){.brand{padding-block:9px;margin-block:-9px}.theme-toggle{width:44px;height:44px}.choice,.preset,.route a,.btn.small{min-height:44px}.side .next a{display:inline-block;padding-block:10px;margin-block:-10px}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
@@ -162,23 +222,80 @@ legend{padding:0;font-weight:500;font-size:1.35rem;letter-spacing:-.01em;margin-
 
 <main>
   <section class="intro page" aria-labelledby="t-charte">
-    <h1 id="t-charte">Votre charte graphique<span class="dot" aria-hidden="true"></span></h1>
-    <p>Votre logo, vos couleurs, vos lettres : c'est ce qui fait qu'on reconnaît votre commerce. Vous en avez déjà une ? Montrez-la-moi. Pas encore ? On la pose ensemble. Un aperçu de votre site se dessine au fur et à mesure.</p>
+    <h1 id="t-charte">Créez la charte graphique de votre commerce<span class="dot" aria-hidden="true"></span></h1>
+    <p class="lead">Pas besoin d'être graphiste : six étapes, une explication à chaque fois, et votre site qui se dessine au fur et à mesure. Vous avez déjà un logo et des couleurs ? Renseignez-les, on part de là.</p>
+    <dl class="what">
+      <div><dt>Une charte graphique, c'est quoi ?</dt><dd>Les quelques règles qui font qu'on reconnaît votre commerce : votre logo, vos couleurs, vos lettres, et la façon de les utiliser.</dd></div>
+      <div><dt>À quoi ça sert ?</dt><dd>À ce que votre site, votre enseigne, vos cartes de visite et vos publications se ressemblent. Un client qui vous voit deux fois vous reconnaît.</dd></div>
+      <div><dt>Combien de temps ?</dt><dd>Une dizaine de minutes. Tout est gardé sur votre appareil : vous pouvez revenir plus tard, rien n'est perdu.</dd></div>
+    </dl>
+    <ol class="route" aria-label="Les six étapes">
+      <li><a href="#e1">Votre commerce</a></li><li><a href="#e2">Sa personnalité</a></li><li><a href="#e3">Les couleurs</a></li><li><a href="#e4">Les lettres</a></li><li><a href="#e5">Le logo</a></li><li><a href="#charte">Votre charte</a></li>
+    </ol>
   </section>
 
   <div class="work page">
     <form class="form" id="form" novalidate>
-      <fieldset>
-        <legend>Votre commerce</legend>
+      <section class="step" id="e1" aria-labelledby="t1">
+        <p class="n">Étape 1 sur 6</p>
+        <h2 id="t1">Votre commerce</h2>
+        <p class="tip">Le nom tel que vos clients le disent. La phrase, c'est ce qu'on doit comprendre en trois secondes : ce que vous faites, et ce qui vous rend différent.</p>
         <label class="field">Nom du commerce<input type="text" id="name" autocomplete="organization" placeholder="Par exemple : Boulangerie Martin"></label>
         <label class="field">Une phrase qui vous résume (facultatif)<input type="text" id="tagline" placeholder="Par exemple : Le pain au levain du quartier depuis 1998"></label>
-      </fieldset>
+        <p class="label">Votre métier</p>
+        <div class="choices" id="trade" role="group" aria-label="Votre métier"></div>
+      </section>
 
-      <fieldset>
-        <legend>Votre logo</legend>
-        <div class="choices" id="hasLogo" role="group" aria-label="Avez-vous un logo ?">
-          <button type="button" class="choice" data-v="oui" aria-pressed="false">J'ai un logo</button>
-          <button type="button" class="choice" data-v="non" aria-pressed="false">Pas encore, il m'en faut un</button>
+      <section class="step" id="e2" aria-labelledby="t2">
+        <p class="n">Étape 2 sur 6</p>
+        <h2 id="t2">Sa personnalité</h2>
+        <p class="tip">Pensez à ce que vos clients doivent ressentir en poussant la porte. Placez chaque curseur, puis demandez une proposition : couleurs et lettres sont choisies pour aller ensemble. <b>Vous pourrez tout modifier ensuite.</b></p>
+        <div class="sliders">
+          <label class="slider"><span>Traditionnel</span><input type="range" id="p1" min="0" max="100" value="50"><span>Moderne</span></label>
+          <label class="slider"><span>Sobre</span><input type="range" id="p2" min="0" max="100" value="50"><span>Coloré</span></label>
+          <label class="slider"><span>Doux</span><input type="range" id="p3" min="0" max="100" value="50"><span>Énergique</span></label>
+          <label class="slider"><span>Accessible</span><input type="range" id="p4" min="0" max="100" value="50"><span>Haut de gamme</span></label>
+        </div>
+        <div class="propose"><button class="btn primary small" type="button" id="suggest">Me proposer une charte</button><p id="suggested"></p></div>
+      </section>
+
+      <section class="step" id="e3" aria-labelledby="t3">
+        <p class="n">Étape 3 sur 6</p>
+        <h2 id="t3">Les couleurs</h2>
+        <p class="tip"><b>Trois couleurs suffisent.</b> Une couleur principale pour les titres et le texte, une couleur de fond, et une couleur vive réservée aux boutons, pour qu'on sache tout de suite où cliquer. Vous avez déjà des couleurs (enseigne, devanture, cartes) ? Reprenez-les.</p>
+        <div class="colors">
+          <label class="col">Principale<input type="color" id="c1" value="#1E4E6B"><code id="c1t"></code></label>
+          <label class="col">Fond<input type="color" id="c2" value="#F4F8FA"><code id="c2t"></code></label>
+          <label class="col">Boutons<input type="color" id="c3" value="#E4572E"><code id="c3t"></code></label>
+        </div>
+        <p class="warn" id="warn" hidden></p><p class="okc" id="okc" hidden></p>
+        <div class="gen">
+          <label class="col">Partir d'une couleur<input type="color" id="base" value="#2B6B8C"></label>
+          <div><p class="tip" style="margin:0 0 8px">Trois façons de l'accorder :</p><div class="choices" id="harmony" role="group" aria-label="Accord des couleurs">
+            <button type="button" class="choice" data-h="comp">Contrastée</button><button type="button" class="choice" data-h="voisines">Douce</button><button type="button" class="choice" data-h="camaieu">Camaïeu</button>
+          </div></div>
+        </div>
+        <p class="label">Ou une idée toute prête</p>
+        <div class="presets" id="presets" role="group" aria-label="Idées de couleurs"></div>
+        <p class="tip" style="margin-top:20px"><b>La règle du 60-30-10 :</b> environ 60 % de fond, 30 % de couleur principale, 10 % de couleur vive. C'est ce qui rend une page équilibrée.</p>
+        <div class="ratio" id="ratio" aria-hidden="true"></div>
+      </section>
+
+      <section class="step" id="e4" aria-labelledby="t4">
+        <p class="n">Étape 4 sur 6</p>
+        <h2 id="t4">Les lettres</h2>
+        <p class="tip"><b>Deux polices au maximum :</b> une avec du caractère pour les titres, une très lisible pour le texte (ici, la même pour tous : simple et claire sur téléphone). Choisissez le style des titres.</p>
+        <div class="fonts" id="fonts" role="group" aria-label="Style des titres"></div>
+      </section>
+
+      <section class="step" id="e5" aria-labelledby="t5">
+        <p class="n">Étape 5 sur 6</p>
+        <h2 id="t5">Le logo</h2>
+        <p class="tip">Un bon logo de commerce est <b>simple, lisible de loin et beau en petit</b> (sur un téléphone, un tampon, une enseigne). Pas besoin d'un dessin compliqué : beaucoup de commerces ont juste leur nom bien écrit, avec une initiale.</p>
+        <div class="choices" id="logoMode" role="group" aria-label="Votre logo">
+          <button type="button" class="choice" data-v="oui" aria-pressed="false">J'ai déjà un logo</button>
+          <button type="button" class="choice" data-v="creer" aria-pressed="false">Je le crée ici</button>
+          <button type="button" class="choice" data-v="non" aria-pressed="false">On le fera ensemble</button>
         </div>
         <label class="drop" id="drop" hidden>
           <span class="ph" id="logoPh" aria-hidden="true">+</span><img id="logoImg" alt="Votre logo" hidden>
@@ -186,39 +303,21 @@ legend{padding:0;font-weight:500;font-size:1.35rem;letter-spacing:-.01em;margin-
           <input type="file" id="logoFile" accept="image/png,image/jpeg,image/svg+xml,image/webp">
         </label>
         <p class="found" id="found" hidden></p>
-        <p class="hint" id="noLogo" hidden style="margin-top:12px">Pas de souci : je vous propose deux ou trois pistes de logo à partir de vos couleurs et de votre style, avant de commencer le site.</p>
-      </fieldset>
-
-      <fieldset>
-        <legend>Vos couleurs</legend>
-        <p class="hint">Si vous avez déjà des couleurs (enseigne, cartes de visite, devanture), mettez-les ici. Sinon, partez d'une idée ci-dessous.</p>
-        <div class="colors">
-          <label class="col">Principale<input type="color" id="c1" value="#1E4E6B"><code id="c1t"></code></label>
-          <label class="col">Fond<input type="color" id="c2" value="#F4F8FA"><code id="c2t"></code></label>
-          <label class="col">Boutons<input type="color" id="c3" value="#E4572E"><code id="c3t"></code></label>
+        <div class="maker" id="maker" hidden>
+          <canvas id="logoCanvas" width="1040" height="400" aria-label="Votre logo"></canvas>
+          <div><p class="label" style="margin-top:0">Le symbole</p><div class="choices" id="shape" role="group" aria-label="Symbole du logo"></div></div>
+          <div><p class="label" style="margin-top:0">La disposition</p><div class="choices" id="layout" role="group" aria-label="Disposition du logo"></div></div>
+          <div class="row"><button class="btn small" type="button" id="dlColor">Télécharger le logo (couleur)</button><button class="btn small" type="button" id="dlWhite">Version blanche</button></div>
+          <p class="tip" style="margin-top:0">Fichiers PNG à fond transparent, prêts pour vos cartes, vos réseaux ou votre imprimeur. On pourra l'affiner ensemble.</p>
         </div>
-        <p class="warn" id="warn" hidden></p>
-        <div class="presets" id="presets" role="group" aria-label="Idées de couleurs"></div>
-      </fieldset>
+        <p class="tip" id="noLogo" hidden>Très bien : à partir de votre charte, je vous proposerai deux ou trois pistes de logo avant de commencer le site.</p>
 
-      <fieldset>
-        <legend>Vos lettres</legend>
-        <p class="hint">Le style des titres. Le texte courant reste simple et lisible.</p>
-        <div class="fonts" id="fonts" role="group" aria-label="Style des titres"></div>
-      </fieldset>
-
-      <fieldset>
-        <legend>L'ambiance</legend>
-        <p class="hint">Plusieurs choix possibles.</p>
+        <p class="label" style="margin-top:28px">L'ambiance, en quelques mots (plusieurs choix possibles)</p>
         <div class="choices" id="mood" role="group" aria-label="Ambiance"></div>
-      </fieldset>
-
-      <fieldset>
-        <legend>Ce que vous avez déjà</legend>
-        <p class="hint">Plusieurs choix possibles.</p>
+        <p class="label">Ce que vous avez déjà (plusieurs choix possibles)</p>
         <div class="choices" id="assets" role="group" aria-label="Ce que vous avez déjà"></div>
         <label class="field">Votre page Facebook, Instagram ou Google (facultatif)<input type="text" id="social" inputmode="url" autocapitalize="none" placeholder="Lien vers votre page"></label>
-      </fieldset>
+      </section>
     </form>
 
     <aside class="side" aria-label="Aperçu de votre site">
@@ -226,18 +325,36 @@ legend{padding:0;font-weight:500;font-size:1.35rem;letter-spacing:-.01em;margin-
       <div class="mock" id="mock" aria-hidden="true">
         <div class="chrome"><i></i><i></i><i></i></div>
         <div class="top"><span class="logo" id="mLogo">Votre commerce</span><span class="nav"><span>Accueil</span><span>Infos</span><span>Contact</span></span></div>
-        <div class="hero"><h2 id="mTitle">Votre commerce</h2><p id="mText">Une phrase qui vous résume, ce que vous faites et pour qui.</p><span class="cta">Nous contacter</span></div>
+        <div class="hero"><h3 id="mTitle">Votre commerce</h3><p id="mText">Une phrase qui vous résume, ce que vous faites et pour qui.</p><span class="cta">Nous contacter</span></div>
         <div class="band"><span></span><span></span><span></span></div>
       </div>
       <div class="swatches" id="swatches"></div>
-      <div class="actions">
-        <a class="btn primary" id="toDevis" href="devis.html" data-transition="Construisons votre site">Continuer vers le devis</a>
-        <button class="btn" type="button" id="send">Envoyer ma charte</button>
-        <button class="btn" type="button" id="print">Télécharger en PDF</button>
-      </div>
-      <p class="ok" id="ok" hidden></p>
+      <p class="next"><a href="#charte">Voir ma charte complète</a> : règles d'usage, carte de visite, enseigne, publication.</p>
     </aside>
   </div>
+
+  <section class="done" id="charte" aria-labelledby="t6">
+    <div class="page">
+      <p class="n">Étape 6 sur 6</p>
+      <h2 id="t6">Votre charte</h2>
+      <p class="sub">Les règles qui vont avec vos choix, à garder sous la main (et à donner à votre imprimeur). Elles se mettent à jour si vous changez quelque chose plus haut.</p>
+      <div class="rules">
+        <div><h3>À faire</h3><ul id="dos"></ul></div>
+        <div class="no"><h3>À éviter</h3><ul id="donts"></ul></div>
+      </div>
+      <div class="apps" id="apps">
+        <figure><div class="card" id="aCard"></div><figcaption>Carte de visite</figcaption></figure>
+        <figure><div class="sign" id="aSign"></div><figcaption>Enseigne ou devanture</figcaption></figure>
+        <figure><div class="post" id="aPost"></div><figcaption>Publication Instagram</figcaption></figure>
+      </div>
+      <div class="final">
+        <button class="btn" type="button" id="print">Télécharger ma charte en PDF</button>
+        <button class="btn" type="button" id="send">Me l'envoyer pour la valider</button>
+        <a class="btn primary" id="toDevis" href="devis.html" data-transition="Construisons votre site">Continuer vers le devis</a>
+      </div>
+      <p class="ok" id="ok" hidden></p>
+    </div>
+  </section>
 </main>
 
 <!-- fiche imprimable, remplie au moment de l'impression -->
@@ -247,34 +364,52 @@ legend{padding:0;font-weight:500;font-size:1.35rem;letter-spacing:-.01em;margin-
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
 const EMAIL = "contact@saitora.fr";
-const KEY = "saitora-charte";   // la charte est gardée sur l'appareil pour être jointe au devis
+const KEY = "saitora-charte";   // la charte est gardée sur l'appareil, pour y revenir et pour être jointe au devis
 
+const TRADES = ["Restaurant","Boulangerie","Beauté","Artisan","Boutique","Location","Autre"];
 const PRESETS = [["Bord de mer","#1E4E6B","#F4F8FA","#E4572E"],["Boulangerie","#3A2210","#FBF3E4","#D9932B"],["Nature","#2F3A24","#F2F1EA","#7E72B0"],["Chic","#141012","#F5E6E1","#7A2232"],["Artisan","#2B1E15","#F3EFE8","#B5814F"],["Moderne","#111111","#FFFFFF","#2F6BFF"]];
 const FONTS = [["moderne","Moderne","Jost","Net et actuel"],["elegante","Élégante","Cormorant Garamond","Raffiné, classique"],["chaleureuse","Chaleureuse","Young Serif","Généreux, accueillant"],["manuscrite","Manuscrite","Caveat","Fait main, convivial"],["affiche","Affiche","Archivo Narrow","Direct, qui se voit de loin"]];
+const SHAPES = [["rond","Initiale ronde"],["carre","Initiale carrée"],["arche","Arche"],["aucun","Nom seul"]];
+const LAYOUTS = [["ligne","Côte à côte"],["pile","Empilé"]];
 const MOODS = ["Chaleureux","Chic","Simple","Nature","Moderne","Familial","Haut de gamme","Artisanal","Coloré","Sobre"];
 const ASSETS = ["Des photos de qualité","Une enseigne","Des cartes de visite","Des menus ou flyers","Une page Facebook ou Instagram","Une fiche Google"];
+// teinte de départ par métier (degrés sur le cercle des couleurs)
+const HUE = { Restaurant: 200, Boulangerie: 32, "Beauté": 340, Artisan: 212, Boutique: 280, Location: 95, Autre: 222 };
 
-const state = { hasLogo: "", logoName: "", logoData: "", font: "moderne", mood: [], assets: [] };
-let saved = {}; try { saved = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (_) {}
+const state = { trade: "", logoMode: "", logoName: "", logoData: "", shape: "rond", layout: "ligne", font: "moderne", mood: [], assets: [] };
 
-// choix
-$("presets").innerHTML = PRESETS.map(([n, a, b, c], i) => `<button type="button" class="preset" data-i="${i}"><i><span style="background:${a}"></span><span style="background:${b}"></span><span style="background:${c}"></span></i>${n}</button>`).join("");
-$("fonts").innerHTML = FONTS.map(([k, n, f, d]) => `<button type="button" class="font" data-k="${k}" aria-pressed="false"><b style="font-family:'${f}',var(--font)">${n}</b><small>${d}</small></button>`).join("");
-const chips = (id, list) => $(id).innerHTML = list.map(v => `<button type="button" class="choice" data-v="${esc(v)}" aria-pressed="false">${esc(v)}</button>`).join("");
-chips("mood", MOODS); chips("assets", ASSETS);
-
-$("hasLogo").addEventListener("click", e => { const b = e.target.closest(".choice"); if (!b) return; state.hasLogo = b.dataset.v; render(); });
-$("presets").addEventListener("click", e => { const b = e.target.closest(".preset"); if (!b) return; const [, a, c2, c3] = PRESETS[b.dataset.i]; $("c1").value = a; $("c2").value = c2; $("c3").value = c3; render(); });
-$("fonts").addEventListener("click", e => { const b = e.target.closest(".font"); if (!b) return; state.font = b.dataset.k; render(); });
-for (const id of ["mood", "assets"]) $(id).addEventListener("click", e => { const b = e.target.closest(".choice"); if (!b) return; const v = b.dataset.v, l = state[id]; state[id] = l.includes(v) ? l.filter(x => x !== v) : [...l, v]; render(); });
-["name", "tagline", "social", "c1", "c2", "c3"].forEach(id => $(id).addEventListener("input", render));
-
-// lisibilité : contraste entre deux couleurs (règle WCAG, 4,5 pour du texte)
-const lum = hex => { const v = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255).map(c => c <= .03928 ? c / 12.92 : ((c + .055) / 1.055) ** 2.4); return .2126 * v[0] + .7152 * v[1] + .0722 * v[2]; };
+// ——— couleurs : conversions, contraste, accords
+const hex2rgb = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
+const rgb2hex = (r, g, b) => "#" + [r, g, b].map(v => Math.round(Math.max(0, Math.min(255, v))).toString(16).padStart(2, "0")).join("").toUpperCase();
+function hsl2hex(h, s, l){ h = ((h % 360) + 360) % 360; s /= 100; l /= 100; const k = n => (n + h / 30) % 12, a = s * Math.min(l, 1 - l), f = n => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1))); return rgb2hex(f(0) * 255, f(8) * 255, f(4) * 255); }
+function hex2hsl(hex){ const [r, g, b] = hex2rgb(hex).map(v => v / 255); const mx = Math.max(r, g, b), mn = Math.min(r, g, b), l = (mx + mn) / 2; let h = 0, s = 0; if (mx !== mn) { const d = mx - mn; s = l > .5 ? d / (2 - mx - mn) : d / (mx + mn); h = mx === r ? (g - b) / d + (g < b ? 6 : 0) : mx === g ? (b - r) / d + 2 : (r - g) / d + 4; h *= 60; } return [h, s * 100, l * 100]; }
+const lum = hex => { const v = hex2rgb(hex).map(c => c / 255).map(c => c <= .03928 ? c / 12.92 : ((c + .055) / 1.055) ** 2.4); return .2126 * v[0] + .7152 * v[1] + .0722 * v[2]; };
 const contrast = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((m, n) => n - m); return (x + .05) / (y + .05); };
+const onColor = c => contrast(c, "#FFFFFF") >= contrast(c, "#111111") ? "#FFFFFF" : "#111111";
+const fmt = n => n.toFixed(1).replace(".", ",");
 
-// le logo : lu sur place, on en tire les couleurs dominantes
-const toHex = (r, g, b) => "#" + [r, g, b].map(v => v.toString(16).padStart(2, "0")).join("").toUpperCase();
+function harmony(base, kind){
+  const [h, s] = hex2hsl(base);
+  const sat = Math.max(35, Math.min(70, s));
+  if (kind === "comp") return [hsl2hex(h, sat, 22), hsl2hex(h, 25, 97), hsl2hex(h + 180, Math.max(60, sat), 50)];
+  if (kind === "voisines") return [hsl2hex(h, sat * .8, 24), hsl2hex(h + 30, 30, 96), hsl2hex(h + 35, Math.max(45, sat), 52)];
+  return [hsl2hex(h, sat, 18), hsl2hex(h, 30, 96), hsl2hex(h, Math.max(50, sat), 45)];   // camaïeu
+}
+
+// ——— proposition d'après la personnalité et le métier
+function suggest(){
+  const [mod, col, nrj, lux] = ["p1", "p2", "p3", "p4"].map(id => Number($(id).value) / 100);
+  const h = HUE[state.trade] ?? 222;
+  const sat = 18 + col * 55;
+  $("c1").value = hsl2hex(h, sat * .9, lux > .6 ? 14 : 22 - col * 4);
+  $("c2").value = mod > .55 ? hsl2hex(h, 12, 98) : hsl2hex(40, 40, 96 - lux * 2);
+  $("c3").value = nrj > .5 ? hsl2hex(h + 170 + nrj * 20, 55 + col * 30, 48) : hsl2hex(h + 12, 45 + col * 30, 46);
+  state.font = lux > .6 ? (mod > .6 ? "moderne" : "elegante") : mod > .65 ? (nrj > .6 ? "affiche" : "moderne") : (nrj < .4 && ["Boulangerie", "Restaurant"].includes(state.trade) ? "manuscrite" : "chaleureuse");
+  $("suggested").textContent = `Proposition faite : titres « ${fontOf(state.font)[1]} » et trois couleurs accordées. Ajustez-les aux étapes 3 et 4.`;
+  render();
+}
+
+// ——— le logo du client : lu sur place, on en tire les couleurs dominantes
 function colorsOf(img){
   const c = document.createElement("canvas"), n = 64; c.width = c.height = n;
   const x = c.getContext("2d", { willReadFrequently: true }); x.drawImage(img, 0, 0, n, n);
@@ -284,20 +419,18 @@ function colorsOf(img){
     const k = [d[i], d[i + 1], d[i + 2]].map(v => v >> 4).join(",");
     const e = buckets.get(k) || { n: 0, r: 0, g: 0, b: 0 }; e.n++; e.r += d[i]; e.g += d[i + 1]; e.b += d[i + 2]; buckets.set(k, e);
   }
-  const all = [...buckets.values()].sort((a, b) => b.n - a.n).map(e => [Math.round(e.r / e.n), Math.round(e.g / e.n), Math.round(e.b / e.n)]);
+  const all = [...buckets.values()].sort((a, b) => b.n - a.n).map(e => [e.r / e.n, e.g / e.n, e.b / e.n]);
   const out = [];
   for (const c of all) { if (out.every(o => Math.hypot(o[0] - c[0], o[1] - c[1], o[2] - c[2]) > 70)) out.push(c); if (out.length === 4) break; }
-  return out.map(c => toHex(...c));
+  return out.map(c => rgb2hex(...c));
 }
 function useLogoColors(list){
-  const light = h => lum(h) > .7, sat = h => { const v = [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16)); return Math.max(...v) - Math.min(...v); };
+  const light = h => lum(h) > .7, sat = h => { const v = hex2rgb(h); return Math.max(...v) - Math.min(...v); };
   const colored = list.filter(h => !light(h));
   if (!colored.length) return false;
-  const main = colored.reduce((a, b) => lum(a) < lum(b) ? a : b);                          // la plus foncée : titres et texte
+  const main = colored.reduce((a, b) => lum(a) < lum(b) ? a : b);
   const rest = colored.filter(h => h !== main);
-  const accent = rest.length ? rest.reduce((a, b) => sat(a) > sat(b) ? a : b) : main;      // la plus vive : boutons
-  const bg = list.find(light) || "#FFFFFF";
-  $("c1").value = main; $("c2").value = bg; $("c3").value = accent;
+  $("c1").value = main; $("c2").value = list.find(light) || "#FFFFFF"; $("c3").value = rest.length ? rest.reduce((a, b) => sat(a) > sat(b) ? a : b) : main;
   return true;
 }
 function loadLogo(file){
@@ -308,85 +441,204 @@ function loadLogo(file){
     const img = new Image();
     img.onload = () => {
       let msg = "Logo ajouté.";
-      try { const cs = colorsOf(img); if (useLogoColors(cs)) msg = `Couleurs trouvées dans votre logo : ${cs.join(", ")}. Je les ai reprises ci-dessous, vous pouvez les modifier.`; } catch (_) {}
+      try { const cs = colorsOf(img); if (useLogoColors(cs)) msg = `Couleurs trouvées dans votre logo : ${cs.join(", ")}. Je les ai reprises à l'étape 3, vous pouvez les modifier.`; } catch (_) {}
       $("found").hidden = false; $("found").textContent = msg; render();
     };
     img.src = r.result;
   };
   r.readAsDataURL(file);
 }
-$("logoFile").addEventListener("change", e => loadLogo(e.target.files[0]));
-["dragenter", "dragover"].forEach(t => $("drop").addEventListener(t, e => { e.preventDefault(); $("drop").classList.add("over"); }));
-["dragleave", "drop"].forEach(t => $("drop").addEventListener(t, e => { e.preventDefault(); $("drop").classList.remove("over"); }));
-$("drop").addEventListener("drop", e => loadLogo(e.dataTransfer.files[0]));
 
+// ——— le logo créé ici : une initiale dans un symbole, et le nom, dans les lettres et les couleurs choisies
+function drawLogo(cv, white){
+  const x = cv.getContext("2d"), W = cv.width, H = cv.height, d = data(), f = fontOf(state.font)[2];
+  const ink = white ? "#FFFFFF" : d.principale, accent = white ? "#FFFFFF" : d.boutons, name = d.nom || "Votre commerce";
+  const initial = (name.match(/[A-Za-zÀ-ÿ0-9]/) || ["V"])[0].toUpperCase();
+  x.clearRect(0, 0, W, H);
+  const stack = state.layout === "pile", mark = state.shape !== "aucun";
+  const S = stack ? H * .46 : H * .62;                    // taille du symbole
+  let size = stack ? H * .2 : H * .3;                      // taille du nom, réduite s'il est long
+  x.font = `600 ${size}px "${f}"`;
+  const maxW = stack ? W * .9 : W - (mark ? S + H * .2 : 0) - H * .16;
+  while (x.measureText(name).width > maxW && size > 18) { size -= 2; x.font = `600 ${size}px "${f}"`; }
+  const tw = x.measureText(name).width;
+  const total = stack ? Math.max(S, tw) : (mark ? S + H * .12 : 0) + tw;
+  const mx = stack ? (W - S) / 2 : (W - total) / 2, my = stack ? H * .08 : (H - S) / 2;
+  if (mark) {
+    x.fillStyle = accent; x.beginPath();
+    if (state.shape === "rond") x.arc(mx + S / 2, my + S / 2, S / 2, 0, Math.PI * 2);
+    if (state.shape === "carre") { if (x.roundRect) x.roundRect(mx, my, S, S, S * .18); else x.rect(mx, my, S, S); }
+    if (state.shape === "arche") { x.moveTo(mx, my + S); x.lineTo(mx, my + S / 2); x.arc(mx + S / 2, my + S / 2, S / 2, Math.PI, 0); x.lineTo(mx + S, my + S); x.closePath(); }
+    x.fill();
+    x.fillStyle = onColor(d.boutons);
+    if (white) x.globalCompositeOperation = "destination-out";   // version blanche : l'initiale est découpée dans le symbole
+    x.font = `600 ${S * .56}px "${f}"`; x.textAlign = "center"; x.textBaseline = "middle";
+    x.fillText(initial, mx + S / 2, my + S * (state.shape === "arche" ? .6 : .54));
+    x.globalCompositeOperation = "source-over";
+  }
+  x.fillStyle = ink; x.font = `600 ${size}px "${f}"`; x.textBaseline = "middle";
+  if (stack) { x.textAlign = "center"; x.fillText(name, W / 2, mark ? my + S + H * .2 : H / 2); }
+  else { x.textAlign = "left"; x.fillText(name, mark ? mx + S + H * .12 : (W - tw) / 2, H / 2 + size * .04); }
+}
+function download(white){
+  const cv = document.createElement("canvas"); cv.width = 2080; cv.height = 800; drawLogo(cv, white);
+  const a = document.createElement("a"); a.href = cv.toDataURL("image/png");
+  a.download = `logo-${(data().nom || "commerce").toLowerCase().normalize("NFD").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}${white ? "-blanc" : ""}.png`; a.click();
+}
+// recadre un logo dessiné sur ce qu'il contient (sans marges vides), pour l'afficher en petit
+function trimmed(cv){
+  const x = cv.getContext("2d", { willReadFrequently: true }), { width: W, height: H } = cv, d = x.getImageData(0, 0, W, H).data;
+  let t = H, l = W, r = 0, b = 0;
+  for (let y = 0; y < H; y += 2) for (let i = 0; i < W; i += 2) if (d[(y * W + i) * 4 + 3] > 8) { if (y < t) t = y; if (y > b) b = y; if (i < l) l = i; if (i > r) r = i; }
+  if (r <= l || b <= t) return cv.toDataURL("image/png");
+  const pad = 6, o = document.createElement("canvas"); o.width = r - l + pad * 2; o.height = b - t + pad * 2;
+  o.getContext("2d").drawImage(cv, l - pad, t - pad, o.width, o.height, 0, 0, o.width, o.height);
+  return o.toDataURL("image/png");
+}
+const logoImage = () => state.logoMode === "oui" && state.logoData ? state.logoData : state.logoMode === "creer" ? trimmed($("logoCanvas")) : "";
+
+// ——— toutes les réponses
 const fontOf = k => FONTS.find(f => f[0] === k);
 function data(){
-  return { nom: $("name").value.trim(), phrase: $("tagline").value.trim(), logo: state.hasLogo === "oui" ? (state.logoName || "oui, à envoyer") : state.hasLogo === "non" ? "à créer" : "",
+  return { nom: $("name").value.trim(), phrase: $("tagline").value.trim(), metier: state.trade,
+    logo: state.logoMode === "oui" ? (state.logoName || "oui, à envoyer") : state.logoMode === "creer" ? "créé avec l'outil" : state.logoMode === "non" ? "à créer" : "",
     principale: $("c1").value.toUpperCase(), fond: $("c2").value.toUpperCase(), boutons: $("c3").value.toUpperCase(),
-    titres: fontOf(state.font)[1], ambiance: state.mood.join(", "), deja: state.assets.join(", "), reseaux: $("social").value.trim() };
+    titres: fontOf(state.font)[1], ambiance: state.mood.join(", "), deja: state.assets.join(", "), reseaux: $("social").value.trim(),
+    perso: ["p1", "p2", "p3", "p4"].map(id => $(id).value).join(","), forme: state.shape, dispo: state.layout };
 }
+
+// ——— les règles d'usage, déduites des choix
+function rules(d){
+  const f = fontOf(state.font), cText = contrast(d.principale, d.fond), cBtn = contrast(d.boutons, onColor(d.boutons));
+  const dos = [
+    f[2] === "Jost" ? "Titres et texte en Jost : une seule police, simple et cohérente partout." : `Titres en ${f[2]} (${f[1].toLowerCase()}), texte en Jost : jamais plus de ces deux polices.`,
+    `Fond ${d.fond} pour la plupart des pages, texte et titres en ${d.principale}.`,
+    `Le ${d.boutons} est réservé aux boutons et à ce qui doit attirer l'œil : environ 10 % de la surface.`,
+    `Texte des boutons en ${onColor(d.boutons) === "#FFFFFF" ? "blanc" : "noir"}, pour qu'il se lise bien.`,
+    state.logoMode && state.logoMode !== "non" ? "Logo en couleur sur fond clair, version blanche sur fond foncé ou sur une photo." : "Le nom du commerce, toujours écrit de la même façon, dans la police des titres.",
+    "Autour du logo, un espace vide au moins égal à la hauteur de sa première lettre.",
+    "Les mêmes couleurs partout : site, enseigne, cartes de visite, réseaux sociaux.",
+  ];
+  const donts = [
+    "Déformer le logo (l'étirer, le tourner) ou changer ses couleurs.",
+    "Ajouter d'autres couleurs vives : elles brouillent celle des boutons.",
+    "Écrire de longs textes en majuscules : c'est difficile à lire.",
+    "Mettre du texte sur une photo chargée sans bandeau ni fond derrière.",
+  ];
+  if (cText < 4.5) donts.unshift(`Utiliser ${d.principale} sur ${d.fond} pour du texte : trop peu lisible (contraste ${fmt(cText)}, il faut 4,5). Changez l'une des deux couleurs.`);
+  if (cBtn < 3) donts.unshift(`Écrire sur les boutons ${d.boutons} : le texte ressort mal. Choisissez une couleur de bouton plus foncée ou plus claire.`);
+  return { dos, donts };
+}
+
+// ——— affichage
 function render(){
-  const d = data(), f = fontOf(state.font);
-  document.querySelectorAll("#hasLogo .choice").forEach(b => b.setAttribute("aria-pressed", b.dataset.v === state.hasLogo));
-  document.querySelectorAll("#fonts .font").forEach(b => b.setAttribute("aria-pressed", b.dataset.k === state.font));
-  for (const id of ["mood", "assets"]) document.querySelectorAll(`#${id} .choice`).forEach(b => b.setAttribute("aria-pressed", state[id].includes(b.dataset.v)));
-  $("drop").hidden = state.hasLogo !== "oui"; $("noLogo").hidden = state.hasLogo !== "non";
+  const d = data(), f = fontOf(state.font), on3 = onColor(d.boutons);
+  const press = (sel, test) => document.querySelectorAll(sel).forEach(b => b.setAttribute("aria-pressed", test(b)));
+  press("#trade .choice", b => b.dataset.v === state.trade);
+  press("#fonts .font", b => b.dataset.k === state.font);
+  press("#logoMode .choice", b => b.dataset.v === state.logoMode);
+  press("#shape .choice", b => b.dataset.v === state.shape);
+  press("#layout .choice", b => b.dataset.v === state.layout);
+  for (const id of ["mood", "assets"]) press(`#${id} .choice`, b => state[id].includes(b.dataset.v));
+  $("drop").hidden = state.logoMode !== "oui"; $("maker").hidden = state.logoMode !== "creer"; $("noLogo").hidden = state.logoMode !== "non";
   if (state.logoData) { $("logoImg").src = state.logoData; $("logoImg").hidden = false; $("logoPh").hidden = true; }
   ["c1", "c2", "c3"].forEach(id => $(id + "t").textContent = $(id).value.toUpperCase());
+  if (state.logoMode === "creer") drawLogo($("logoCanvas"));
 
-  // aperçu
-  const m = $("mock").style;
-  m.setProperty("--c1", d.principale); m.setProperty("--c2", d.fond); m.setProperty("--c3", d.boutons); m.setProperty("--tf", `"${f[2]}"`);
-  m.setProperty("--on-c3", contrast(d.boutons, "#FFFFFF") >= contrast(d.boutons, "#111111") ? "#FFFFFF" : "#111111");
-  $("mLogo").innerHTML = state.logoData && state.hasLogo === "oui" ? `<img src="${state.logoData}" alt="">` : esc(d.nom || "Votre commerce");
+  // lisibilité et proportions
+  const c = contrast(d.principale, d.fond);
+  $("warn").hidden = c >= 4.5; $("okc").hidden = c < 4.5;
+  $("warn").textContent = `Le texte se lira mal sur ce fond (contraste ${fmt(c)}, il faut au moins 4,5). Prenez une couleur principale plus foncée ou un fond plus clair.`;
+  $("okc").textContent = `Bonne lisibilité : contraste de ${fmt(c)} entre le texte et le fond.`;
+  $("ratio").innerHTML = `<span style="flex:6;background:${d.fond};color:${d.principale}">60 % fond</span><span style="flex:3;background:${d.principale};color:${d.fond}">30 %</span><span style="flex:1;background:${d.boutons};color:${on3}">10 %</span>`;
+
+  // aperçu du site
+  const m = $("mock").style, img = logoImage();
+  m.setProperty("--c1", d.principale); m.setProperty("--c2", d.fond); m.setProperty("--c3", d.boutons); m.setProperty("--tf", `"${f[2]}"`); m.setProperty("--on-c3", on3);
+  $("mLogo").innerHTML = img ? `<img src="${img}" alt="">` : esc(d.nom || "Votre commerce");
   $("mTitle").textContent = d.nom || "Votre commerce";
   $("mText").textContent = d.phrase || "Une phrase qui vous résume, ce que vous faites et pour qui.";
   $("swatches").innerHTML = [["Principale", d.principale], ["Fond", d.fond], ["Boutons", d.boutons]].map(([n, h]) => `<div class="sw"><span style="background:${h}"></span><p>${n}<code>${h}</code></p></div>`).join("");
 
-  // lisibilité
-  const c = contrast(d.principale, d.fond);
-  $("warn").hidden = c >= 4.5;
-  $("warn").textContent = c < 4.5 ? `Le texte se lira mal sur ce fond (contraste ${c.toFixed(1).replace(".", ",")} sur 4,5 conseillé). Prenez une couleur principale plus foncée ou un fond plus clair.` : "";
+  // la charte : règles et applications
+  const r = rules(d);
+  $("dos").innerHTML = r.dos.map(t => `<li>${esc(t)}</li>`).join(""); $("donts").innerHTML = r.donts.map(t => `<li>${esc(t)}</li>`).join("");
+  const a = $("apps").style; a.setProperty("--c1", d.principale); a.setProperty("--c2", d.fond); a.setProperty("--c3", d.boutons); a.setProperty("--tf", `"${f[2]}"`); a.setProperty("--on-c3", on3);
+  let white = "";
+  if (state.logoMode === "creer") { const cv = document.createElement("canvas"); cv.width = 1040; cv.height = 400; drawLogo(cv, true); white = trimmed(cv); }
+  $("aCard").innerHTML = `<div class="lg">${img ? `<img src="${img}" alt="">` : `<span>${esc(d.nom || "Votre commerce")}</span>`}</div><div class="who"><b>Prénom Nom</b>${esc(d.phrase || "Votre métier")}<br>06 00 00 00 00</div>`;
+  $("aSign").innerHTML = white ? `<img src="${white}" alt="">` : `<span>${esc(d.nom || "Votre commerce")}</span>`;
+  $("aPost").innerHTML = `<small>${esc(d.nom || "Votre commerce")}</small><b>${esc(d.phrase || "Nouveau : venez découvrir la carte de saison")}</b><small>Ouvert du mardi au samedi</small>`;
 
   try { localStorage.setItem(KEY, JSON.stringify({ ...d, quand: Date.now() })); } catch (_) {}
 }
 
-const summary = () => { const d = data(); return [
-  `Commerce : ${d.nom || "à préciser"}`, d.phrase ? `Phrase : ${d.phrase}` : null,
+// ——— choix et écoute
+const chips = (id, list) => $(id).innerHTML = list.map(v => { const [k, n] = Array.isArray(v) ? v : [v, v]; return `<button type="button" class="choice" data-v="${esc(k)}" aria-pressed="false">${esc(n)}</button>`; }).join("");
+chips("trade", TRADES); chips("mood", MOODS); chips("assets", ASSETS); chips("shape", SHAPES); chips("layout", LAYOUTS);
+$("presets").innerHTML = PRESETS.map(([n, a, b, c], i) => `<button type="button" class="preset" data-i="${i}"><i><span style="background:${a}"></span><span style="background:${b}"></span><span style="background:${c}"></span></i>${n}</button>`).join("");
+$("fonts").innerHTML = FONTS.map(([k, n, f, d]) => `<button type="button" class="font" data-k="${k}" aria-pressed="false"><b style="font-family:'${f}',var(--font)">${n}</b><small>${d}</small></button>`).join("");
+
+const one = (id, key) => $(id).addEventListener("click", e => { const b = e.target.closest(".choice"); if (!b) return; state[key] = b.dataset.v; render(); });
+one("trade", "trade"); one("logoMode", "logoMode"); one("shape", "shape"); one("layout", "layout");
+for (const id of ["mood", "assets"]) $(id).addEventListener("click", e => { const b = e.target.closest(".choice"); if (!b) return; const v = b.dataset.v, l = state[id]; state[id] = l.includes(v) ? l.filter(x => x !== v) : [...l, v]; render(); });
+$("fonts").addEventListener("click", e => { const b = e.target.closest(".font"); if (!b) return; state.font = b.dataset.k; render(); });
+$("presets").addEventListener("click", e => { const b = e.target.closest(".preset"); if (!b) return; const [, a, c2, c3] = PRESETS[b.dataset.i]; $("c1").value = a; $("c2").value = c2; $("c3").value = c3; render(); });
+$("harmony").addEventListener("click", e => { const b = e.target.closest(".choice"); if (!b) return; [$("c1").value, $("c2").value, $("c3").value] = harmony($("base").value, b.dataset.h); render(); });
+$("suggest").addEventListener("click", suggest);
+["name", "tagline", "social", "c1", "c2", "c3", "p1", "p2", "p3", "p4"].forEach(id => $(id).addEventListener("input", render));
+$("logoFile").addEventListener("change", e => loadLogo(e.target.files[0]));
+["dragenter", "dragover"].forEach(t => $("drop").addEventListener(t, e => { e.preventDefault(); $("drop").classList.add("over"); }));
+["dragleave", "drop"].forEach(t => $("drop").addEventListener(t, e => { e.preventDefault(); $("drop").classList.remove("over"); }));
+$("drop").addEventListener("drop", e => loadLogo(e.dataTransfer.files[0]));
+$("dlColor").addEventListener("click", () => download(false)); $("dlWhite").addEventListener("click", () => download(true));
+
+// ——— envoi et fiche PDF
+const summary = () => { const d = data(), r = rules(d); return [
+  `Commerce : ${d.nom || "à préciser"}${d.metier ? ` (${d.metier})` : ""}`, d.phrase ? `Phrase : ${d.phrase}` : null,
   `Logo : ${d.logo || "à préciser"}`,
   `Couleurs : principale ${d.principale}, fond ${d.fond}, boutons ${d.boutons}`,
   `Titres : ${d.titres}`, d.ambiance ? `Ambiance : ${d.ambiance}` : null, d.deja ? `Déjà disponible : ${d.deja}` : null, d.reseaux ? `En ligne : ${d.reseaux}` : null,
-].filter(Boolean).join("\n"); };
-
+  "", "Règles d'usage :", ...r.dos.map(t => "- " + t),
+].filter(x => x !== null).join("\n"); };
 $("send").addEventListener("click", () => {
   const d = data();
-  location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(`Charte graphique, ${d.nom || "mon commerce"}`)}&body=${encodeURIComponent(summary() + (state.logoName ? "\n\n(Je joins mon logo à ce message.)" : ""))}`;
+  location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(`Charte graphique, ${d.nom || "mon commerce"}`)}&body=${encodeURIComponent(summary() + (state.logoMode === "oui" || state.logoMode === "creer" ? "\n\n(Je joins mon logo à ce message.)" : ""))}`;
   $("ok").hidden = false;
-  $("ok").textContent = state.logoName ? "Votre messagerie s'est ouverte avec votre charte. Pensez à joindre le fichier de votre logo avant d'envoyer." : "Votre messagerie s'est ouverte avec votre charte : il ne reste plus qu'à appuyer sur « Envoyer ».";
+  $("ok").textContent = state.logoMode === "creer" ? "Votre messagerie s'est ouverte avec votre charte. Téléchargez votre logo (étape 5) et joignez-le au message avant d'envoyer."
+    : state.logoMode === "oui" ? "Votre messagerie s'est ouverte avec votre charte. Pensez à joindre le fichier de votre logo avant d'envoyer."
+    : "Votre messagerie s'est ouverte avec votre charte : il ne reste plus qu'à appuyer sur « Envoyer ».";
 });
 $("print").addEventListener("click", () => {
-  const d = data(), f = fontOf(state.font);
+  const d = data(), f = fontOf(state.font), r = rules(d), img = logoImage(), rgb = h => hex2rgb(h).join(", ");
   $("sheet").innerHTML = `<h1>Charte graphique${d.nom ? ", " + esc(d.nom) : ""}</h1><p class="meta">Préparée avec Saitora, le ${new Date().toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}</p>
-    ${state.logoData && state.hasLogo === "oui" ? `<div class="logo-big"><img src="${state.logoData}" alt=""></div>` : ""}
+    ${img ? `<div class="logo-big"><img src="${img}" alt=""></div>` : ""}
     ${d.phrase ? `<h2>Phrase</h2><p>${esc(d.phrase)}</p>` : ""}
-    <h2>Couleurs</h2><div class="row">${[["Principale", d.principale], ["Fond", d.fond], ["Boutons", d.boutons]].map(([n, h]) => `<div><span style="background:${h}"></span><p>${n}<br>${h}</p></div>`).join("")}</div>
-    <h2>Titres : ${esc(f[1])} (${esc(f[2])})</h2><p class="sample" style="font-family:'${f[2]}'">${esc(d.nom || "Votre commerce")}</p>
-    ${d.ambiance ? `<h2>Ambiance</h2><p>${esc(d.ambiance)}</p>` : ""}${d.deja ? `<h2>Déjà disponible</h2><p>${esc(d.deja)}</p>` : ""}
-    <p class="foot">Saitora, sites vitrines pour les commerces de quartier. contact@saitora.fr</p>`;
+    <h2>Couleurs</h2><div class="row">${[["Principale (30 %)", d.principale], ["Fond (60 %)", d.fond], ["Boutons (10 %)", d.boutons]].map(([n, h]) => `<div><span style="background:${h}"></span><p>${n}<br>${h}<br>RVB ${rgb(h)}</p></div>`).join("")}</div>
+    <h2>Lettres</h2><p>Titres : ${esc(f[2])} (${esc(f[1].toLowerCase())}). Texte : Jost.</p><p class="sample" style="font-family:'${f[2]}'">${esc(d.nom || "Votre commerce")}</p>
+    <h2>À faire</h2><ul>${r.dos.map(t => `<li>${esc(t)}</li>`).join("")}</ul>
+    <h2>À éviter</h2><ul>${r.donts.map(t => `<li>${esc(t)}</li>`).join("")}</ul>
+    ${d.ambiance ? `<h2>Ambiance</h2><p>${esc(d.ambiance)}</p>` : ""}
+    <p class="foot">Saitora, sites vitrines pour les commerces de quartier. contact@saitora.fr. Polices gratuites, disponibles sur Google Fonts.</p>`;
   print();
 });
 
-// on retrouve ce qui avait été saisi
+// ——— on retrouve ce qui avait été saisi
+let saved = {}; try { saved = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (_) {}
 if (saved.nom) $("name").value = saved.nom;
 if (saved.phrase) $("tagline").value = saved.phrase;
+if (saved.metier) state.trade = saved.metier;
 if (saved.principale) { $("c1").value = saved.principale; $("c2").value = saved.fond; $("c3").value = saved.boutons; }
 if (saved.reseaux) $("social").value = saved.reseaux;
 if (saved.titres) { const f = FONTS.find(x => x[1] === saved.titres); if (f) state.font = f[0]; }
 if (saved.ambiance) state.mood = saved.ambiance.split(", ").filter(v => MOODS.includes(v));
 if (saved.deja) state.assets = saved.deja.split(", ").filter(v => ASSETS.includes(v));
-if (saved.logo) state.hasLogo = saved.logo === "à créer" ? "non" : "oui";
+if (saved.perso) saved.perso.split(",").forEach((v, i) => { if ($("p" + (i + 1))) $("p" + (i + 1)).value = v; });
+if (saved.forme) state.shape = saved.forme;
+if (saved.dispo) state.layout = saved.dispo;
+if (saved.logo) state.logoMode = saved.logo === "à créer" ? "non" : saved.logo === "créé avec l'outil" ? "creer" : "oui";
 render();
+document.fonts.ready.then(render);   // le logo dessiné attend que les polices soient chargées
 </script>
 </body>
 </html>

@@ -1,26 +1,17 @@
-// Transition « chantier » entre les pages StudioCac (liens avec data-transition="Texte affiché") :
-// au départ, des panneaux de plan d'architecte descendent et recouvrent la page ; à l'arrivée, la nouvelle
-// page se construit en environ 1,2 s sur son vrai fond (maquette tracée, titres écrits lettre par lettre,
-// textes ligne par ligne, images du flou au net, boutons qui se posent). Un clic ou une touche termine tout.
-// À inclure au tout début du <body> pour que le plan couvre la page avant son premier affichage.
+// Transition « chantier » entre les pages StudioCac (liens avec data-transition) : la page quittée s'efface
+// vers le fond nuit, puis la nouvelle page se construit en environ 1,2 s (maquette tracée, titres écrits
+// lettre par lettre, textes ligne par ligne, images du flou au net, boutons qui se posent).
+// Un clic ou une touche termine tout. À inclure au tout début du <body>.
 (() => {
   const KEY = "studiocac-transition";
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const BP = "#0A1438";   // bleu plan
+  const NIGHT = "#070A1A";   // fond du site
 
   const style = document.createElement("style");
   style.textContent = `
 .sc-site{position:fixed;inset:0;z-index:9999;pointer-events:none}
-.sc-site.cover{background:${BP};background-image:linear-gradient(rgba(96,165,250,.16) 1px,transparent 1px),linear-gradient(90deg,rgba(96,165,250,.16) 1px,transparent 1px);background-size:24px 24px}
-.sc-cols{position:absolute;inset:0;display:flex}
-.sc-cols i{flex:1;background:${BP};transform-origin:top;transform:scaleY(0);border-right:1px solid rgba(125,211,252,.18);
-  background-image:linear-gradient(rgba(96,165,250,.16) 1px,transparent 1px),linear-gradient(90deg,rgba(96,165,250,.16) 1px,transparent 1px);background-size:24px 24px}
-.sc-site svg{position:absolute;inset:0;width:100%;height:100%;display:block}
-.sc-lab{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:14px;color:#E0F2FE;opacity:0;
-  font:500 13px "JetBrains Mono",ui-monospace,monospace;letter-spacing:.14em;text-transform:uppercase;text-align:center}
-.sc-lab b{font:800 clamp(24px,3.6vw,40px)/1.1 "Bricolage Grotesque",system-ui,sans-serif;letter-spacing:-.02em;text-transform:none;color:#fff}
-.sc-lab u{display:block;width:220px;height:3px;border-radius:3px;background:rgba(255,255,255,.14);overflow:hidden;text-decoration:none}
-.sc-lab u span{display:block;height:100%;width:0;background:linear-gradient(90deg,#22D3EE,#7C5CFF)}`;
+.sc-site.cover{background:${NIGHT}}
+.sc-site svg{position:absolute;inset:0;width:100%;height:100%;display:block}`;
   document.head.appendChild(style);
 
   const clamp = x => x < 0 ? 0 : x > 1 ? 1 : x;
@@ -29,34 +20,24 @@
   const NS = "http://www.w3.org/2000/svg";
   const el = (tag, attrs, parent) => { const n = document.createElementNS(NS, tag); for (const k in attrs) n.setAttribute(k, attrs[k]); parent && parent.appendChild(n); return n; };
 
-  function overlay(text) {
+  function overlay() {
     const box = document.createElement("div");
     box.className = "sc-site";
     box.setAttribute("aria-hidden", "true");
-    box.innerHTML = `<div class="sc-lab"><span>Construction de la page</span><b></b><u><span></span></u></div>`;
-    box.querySelector("b").textContent = text || "";
     return box;
   }
 
-  // ——— départ : les panneaux du plan descendent en quinconce, la barre se remplit, puis on change de page
+  // ——— départ : la page s'efface rapidement vers le fond nuit, puis on change de page
   document.addEventListener("click", e => {
     const a = e.target.closest("a[data-transition]");
     if (!a || reduce || e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     e.preventDefault();
-    const box = overlay(a.dataset.transition);
-    const cols = document.createElement("div"); cols.className = "sc-cols";
-    const N = innerWidth < 700 ? 4 : 7;
-    cols.innerHTML = "<i></i>".repeat(N);
-    box.prepend(cols);
+    const box = overlay();
+    box.classList.add("cover");
+    box.style.opacity = 0;
     document.body.appendChild(box);
-    const lab = box.querySelector(".sc-lab"), bar = box.querySelector("u span");
-    try { sessionStorage.setItem(KEY, JSON.stringify({ label: a.dataset.transition })); } catch (_) {}
-    tick(t => {
-      [...cols.children].forEach((c, i) => { c.style.transform = `scaleY(${ease((t - i * 45) / 380)})`; });
-      lab.style.opacity = clamp((t - 520) / 180);   // le texte n'apparaît qu'une fois la page couverte
-      bar.style.width = ease((t - 520) / 300) * 35 + "%";
-      return t < 780;
-    }, () => { location.href = a.href; });
+    try { sessionStorage.setItem(KEY, "1"); } catch (_) {}
+    tick(t => { box.style.opacity = ease(t / 180); return t < 200; }, () => { location.href = a.href; });
   });
 
   // retour arrière du navigateur : la page restaurée ne doit pas rester couverte
@@ -66,14 +47,12 @@
   // Les maquettes se tracent, les fonds se posent, les grands titres s'écrivent lettre par lettre,
   // les textes arrivent ligne par ligne, les images passent du flou au net, les boutons se posent.
   let arrival = null;
-  try { arrival = JSON.parse(sessionStorage.getItem(KEY)); sessionStorage.removeItem(KEY); } catch (_) {}
+  try { arrival = sessionStorage.getItem(KEY); sessionStorage.removeItem(KEY); } catch (_) {}
   if (!arrival || reduce) { document.documentElement.classList.remove("sc-pending"); return; }
 
-  const box = overlay(arrival.label);
-  box.classList.add("cover");   // plan opaque dès la première image, le temps que la page se mette en place
+  const box = overlay();
+  box.classList.add("cover");   // fond nuit opaque le temps que la page se mette en place, sans flash
   document.body.appendChild(box);
-  const lab = box.querySelector(".sc-lab");
-  lab.style.opacity = 1;
 
   const SEL = {
     title: "h1, h2",
@@ -173,7 +152,7 @@
 
     tick(t => {
       if (skip) t = END + 1;
-      box.style.opacity = 1 - outQuart(t / 180);           // le plan bleu se dissipe très vite
+      box.style.opacity = 1 - outQuart(t / 140);           // le fond se dissipe aussitôt sous la maquette
       for (const it of items) {
         const p = (t - it.s) / it.len;
         it.wire.setAttribute("opacity", clamp((t - it.d) / 90) * (1 - clamp(p * 3)));

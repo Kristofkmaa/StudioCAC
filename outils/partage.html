@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Image de partage Saitora</title>
+<!-- Image d'aperçu des liens (WhatsApp, iMessage, Messenger…), 1200 × 630.
+     Rendu : node outils/partage.js → images/partage.jpg -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400&display=swap">
+<style>
+*{box-sizing:border-box;margin:0}
+html,body{width:1200px;height:630px;overflow:hidden;background:#0C0C0D;color:#F5F5F3;font-family:"Jost",sans-serif}
+.wall{position:absolute;inset:0;overflow:hidden}
+.tilt{position:absolute;left:50%;top:50%;width:2300px;display:grid;grid-template-columns:repeat(4,1fr);gap:28px;transform:translate(-50%,-46%) perspective(1600px) rotateX(38deg) rotateZ(-14deg)}
+.col{display:flex;flex-direction:column;gap:28px}
+.col:nth-child(2){margin-top:-180px}.col:nth-child(3){margin-top:-60px}.col:nth-child(4){margin-top:-240px}
+.tilt img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;border-radius:10px;display:block}
+.wall::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 58% 70% at 50% 50%,rgba(12,12,13,.95) 35%,rgba(12,12,13,.84) 70%,rgba(12,12,13,.7))}
+.door{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.mark{height:190px;width:auto;display:block}
+.word{height:52px;width:auto;display:block;margin-top:26px;filter:invert(1)}
+h1{margin-top:34px;font-weight:400;font-size:46px;line-height:1.1;letter-spacing:-.02em}
+h1 .d{display:inline-block;width:.2em;height:.2em;border-radius:50%;background:#B174B2;margin-left:.04em}
+</style>
+</head>
+<body>
+<div class="wall"><div class="tilt" id="tilt"></div></div>
+<div class="door">
+  <svg class="mark" viewBox="246 330 740 590" aria-hidden="true"><path d="M262 901L624 341L695 456L407 901Z M725 504L970 901L828 901L653 613Z" fill="#F5F5F3"/><circle cx="620" cy="818" r="55" fill="#B174B2"/></svg>
+  <img class="word" src="../images/marque/saitora-noir.png" alt="Saitora">
+  <h1>Des sites qui donnent envie de pousser la porte<span class="d"></span></h1>
+</div>
+<script>
+const SITES = ["table-du-port","durand-plomberie","coupe-and-co","pain-dore","villa-oliviers","bois-massif"];
+document.getElementById("tilt").innerHTML = [0,1,2,3].map(c => `<div class="col">${[0,1,2,3].map(i => `<img src="../media/apercus/${SITES[(c * 2 + i) % 6]}.webp" alt="">`).join("")}</div>`).join("");
+</script>
+</body>
+</html>

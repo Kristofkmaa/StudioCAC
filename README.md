@@ -47,3 +47,7 @@ Ouvrir `index.html` dans un navigateur, ou lancer `python3 -m http.server` puis 
 
 GitHub Pages : Settings → Pages → Source « Deploy from a branch » → choisir la branche et `/ (root)`.
 Le fichier `.nojekyll` évite tout traitement Jekyll.
+
+## Image d'aperçu des liens
+
+`images/partage.jpg` (1200 × 630) s'affiche quand on partage le lien du site. Pour la refaire après un changement de démos : `node outils/partage.js` (modèle : `outils/partage.html`).

@@ -3,293 +3,301 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>La Table du Port · Démo Saitora</title>
-<meta name="description" content="Démo de site vitrine pour restaurant : carte, horaires en direct et réservation. Réalisé par Saitora.">
+<title>La Table du Port, démo Saitora</title>
+<meta name="description" content="Démo de site vitrine pour restaurant : l'ardoise du jour, la carte, les horaires en direct et la réservation. Réalisé par Saitora.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fr_FR">
 <meta property="og:site_name" content="Saitora">
-<meta property="og:title" content="La Table du Port · Démo Saitora">
-<meta property="og:description" content="Démo de site vitrine pour restaurant : carte, horaires en direct et réservation. Réalisé par Saitora.">
-<meta name="theme-color" content="#0F2A3D">
-<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Crect%20width=%2264%22%20height=%2264%22%20rx=%2214%22%20fill=%22%230F2A3D%22/%3E%3Ctext%20x=%2232%22%20y=%2244%22%20font-family=%22Georgia,serif%22%20font-size=%2238%22%20font-weight=%22700%22%20text-anchor=%22middle%22%20fill=%22%23E4EFEC%22%3ET%3C/text%3E%3C/svg%3E">
-<meta name="claude:viewport-fit-sides" content="cover">
+<meta property="og:title" content="La Table du Port, démo Saitora">
+<meta property="og:description" content="Démo de site vitrine pour restaurant : l'ardoise du jour, la carte, les horaires en direct et la réservation. Réalisé par Saitora.">
+<meta name="theme-color" content="#24302F">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Crect%20width=%2264%22%20height=%2264%22%20rx=%226%22%20fill=%22%2324302F%22/%3E%3Cpath%20d=%22M10%2038c6%200%206-5%2011-5s5%205%2011%205%206-5%2011-5%205%205%2011%205%22%20fill=%22none%22%20stroke=%22%23F3F2EC%22%20stroke-width=%224%22%20stroke-linecap=%22round%22/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Figtree:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Familjen+Grotesk:wght@400;500;600;700&display=swap">
 <style>
-/* Layout : site de restaurant en bord de mer, bandes horizontales bleu nuit / écume / blanc, menu en ardoise. Thème clair assumé (un seul thème). */
+/* La Table du Port. Idée : l'ardoise posée devant le restaurant. Ce qui est écrit à la craie (la pêche du jour, les prix,
+   les petits mots) est en Caveat ; tout le reste en Familjen Grotesk. Ardoise, craie, bleu des barques, orange de bouée. */
 :root{
-  --navy:#0F2A3D; --navy-2:#173B53; --foam:#E4EFEC; --sea:#7FB3AE; --sun:#F2B33D; --paper:#FBFCFB;
-  --ink:#10222F; --muted:#4D6270; --line:#D3E1DD;
-  --f-display:"Young Serif", Georgia, "Times New Roman", serif;
-  --f-body:"Figtree", "Helvetica Neue", Arial, sans-serif;
+  --slate:#24302F; --slate-2:#2E3B3A; --chalk:#F3F2EC; --chalk-dim:rgba(243,242,236,.7);
+  --harbour:#2B6B8C; --harbour-deep:#1C4A62; --buoy:#E4572E; --spray:#F6F8F8; --ink:#142022; --muted:#55666A; --rule:#D5DEDF;
+  --hand:"Caveat","Segoe Print",cursive;
+  --sans:"Familjen Grotesk","Helvetica Neue",Arial,sans-serif;
   color-scheme:light;
 }
-*{box-sizing:border-box}
-html{scroll-behavior:smooth;background:var(--paper)}
-body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.6}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--spray)}
+body{margin:0;background:var(--spray);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.6}
+h1,h2,h3,p,ul,ol,figure{margin:0}
 a{color:inherit}
-:focus-visible{outline:2px solid var(--sun);outline-offset:3px;border-radius:4px}
-.band{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-.in{max-width:1100px;margin:0 auto}
+img{display:block;max-width:100%}
+:focus-visible{outline:3px solid var(--buoy);outline-offset:3px}
+.in{width:min(1160px,100% - 2 * clamp(16px,4vw,40px));margin-inline:auto}
 
-.demo{background:var(--sun);color:var(--navy);font-size:13px;font-weight:600;text-align:center;padding-block:6px}
+.demo{background:var(--ink);color:var(--chalk-dim);font-size:13px;text-align:center;padding:6px 16px}
 
-header.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--navy);color:var(--foam)}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:11;background:var(--navy)}
-header.nav .in{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-block:14px}
-.logo{font-family:var(--f-display);font-size:22px;line-height:1;text-decoration:none;display:flex;align-items:center;gap:10px}
-.logo svg{flex:none}
-nav.links{display:flex;gap:24px;font-size:15px}
-nav.links a{text-decoration:none;opacity:.8}
-nav.links a:hover{opacity:1}
-.btn{font:600 15px var(--f-body);display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:999px;border:0;cursor:pointer;text-decoration:none;background:var(--sun);color:var(--navy)}
-.btn:hover{filter:brightness(1.05)}
-.btn.ghost{background:transparent;color:inherit;border:1.5px solid currentColor}
+/* en-tête */
+.top{background:var(--spray);border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:10}
+.top .in{display:flex;align-items:center;gap:28px;height:64px}
+.name{font:600 20px/1 var(--sans);letter-spacing:-.01em;text-decoration:none;display:flex;align-items:center;gap:10px}
+.name svg{flex:none}
+.top nav{display:flex;gap:24px;margin-left:auto;font-size:15px}
+.top nav a{text-decoration:none;color:var(--muted)}
+.top nav a:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;font:600 16px var(--sans);padding:12px 22px;border-radius:3px;border:0;cursor:pointer;text-decoration:none;background:var(--buoy);color:#fff;transition:transform 140ms ease,background-color 140ms ease}
+.btn:hover{background:#CC4721}
+.btn:active{transform:scale(.97)}
 
-.hero{background:var(--navy);color:var(--foam);position:relative;overflow:hidden}
-.hero .in{display:grid;grid-template-columns:1.1fr 1fr;gap:48px;align-items:center;padding-block:56px 120px}
-.kicker{font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--sea)}
-.hero h1{font-family:var(--f-display);font-weight:400;font-size:clamp(42px,7vw,84px);line-height:1;letter-spacing:-.01em;margin:14px 0 18px;text-wrap:balance}
-.hero h1 span{color:var(--sun)}
-.hero p{max-width:42ch;opacity:.85;margin:0}
-.hero .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
-.open-now{display:inline-flex;align-items:center;gap:8px;margin-top:22px;font-size:14px;opacity:.9}
-.open-now i{width:9px;height:9px;border-radius:50%;background:#5CD08B;box-shadow:0 0 0 4px rgba(92,208,139,.2)}
-.open-now.closed i{background:#E8775A;box-shadow:0 0 0 4px rgba(232,119,90,.2)}
-.hero-ph{position:relative;margin:0;width:min(420px,100%);justify-self:center}
-.hero-ph img{display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;border-radius:200px 200px 22px 22px;box-shadow:0 30px 60px -20px rgba(0,0,0,.6)}
-.hero-ph figcaption{position:absolute;left:-22px;bottom:34px;display:flex;align-items:center;gap:10px;background:var(--foam);color:var(--navy);font-size:14px;font-weight:700;padding:12px 16px;border-radius:12px;box-shadow:0 14px 30px -10px rgba(0,0,0,.45);max-width:80%}
-.hero-ph figcaption i{width:10px;height:10px;border-radius:50%;background:var(--sun);flex:none;box-shadow:0 0 0 4px rgba(242,179,61,.25)}
-.stars{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:56px}
-.star{background:var(--white,#fff);border-radius:18px;overflow:hidden;border:1px solid rgba(15,42,61,.1);display:flex;flex-direction:column;box-shadow:0 20px 40px -28px rgba(15,42,61,.5)}
-.star .img{aspect-ratio:4/3;overflow:hidden}
-.star img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s ease}
-.star:hover img{transform:scale(1.05)}
-.star .body{padding:22px 24px 26px;display:grid;grid-template-columns:1fr auto;gap:6px 16px;align-items:baseline}
-.star .tag{grid-column:1/-1;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#C2410C}
-.star h3{font-family:var(--f-display);font-weight:400;font-size:26px;margin:0;color:var(--navy)}
-.star .p{font-family:var(--f-display);font-size:26px;color:var(--navy);font-variant-numeric:tabular-nums}
-.star p{grid-column:1/-1;margin:0;color:var(--muted);font-size:15.5px}
-@media (prefers-reduced-motion:reduce){.star img{transition:none}}
-.waves{position:absolute;left:0;right:0;bottom:-1px;height:80px;display:block;width:100%}
+/* ardoise du jour */
+.hero{padding-block:clamp(28px,4vw,48px) clamp(56px,7vw,96px)}
+.hero-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:clamp(20px,3vw,36px);align-items:stretch}
+.hero h1{font:600 clamp(2.4rem,1.6rem + 3.4vw,4.4rem)/1 var(--sans);letter-spacing:-.035em;max-width:16ch;margin-bottom:clamp(24px,3vw,36px)}
+.board{position:relative;background:var(--slate);color:var(--chalk);border-radius:6px;padding:clamp(28px,4vw,52px);
+  border:14px solid #6E5236;box-shadow:inset 0 0 0 1px rgba(0,0,0,.4),inset 0 0 80px rgba(0,0,0,.35);
+  background-image:radial-gradient(ellipse 60% 40% at 30% 20%,rgba(255,255,255,.05),transparent 70%),radial-gradient(ellipse 50% 50% at 80% 80%,rgba(255,255,255,.04),transparent 70%)}
+.board .chalk{font-family:var(--hand);text-shadow:0 0 1px rgba(243,242,236,.55)}
+.board .date{font:700 clamp(1.7rem,1.3rem + 1.2vw,2.4rem)/1.1 var(--hand);color:var(--chalk)}
+.board .sub{font-size:16px;color:var(--chalk-dim);margin-top:6px}
+.catch{list-style:none;padding:0;margin-top:clamp(20px,3vw,30px)}
+.catch li{display:flex;align-items:baseline;gap:14px;padding-block:8px;font:500 clamp(1.6rem,1.2rem + 1.3vw,2.3rem)/1.15 var(--hand)}
+.catch li .lead{flex:1;border-bottom:2px dotted rgba(243,242,236,.35);transform:translateY(-6px)}
+.catch li .p{font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}
+.catch li small{display:block;font:400 15px/1.4 var(--sans);color:var(--chalk-dim);margin-top:2px}
+.catch li.out{opacity:.45;text-decoration:line-through;text-decoration-thickness:2px}
+.board .note{margin-top:22px;font:700 1.5rem/1.2 var(--hand);color:#F5C66B;transform:rotate(-2deg);display:inline-block}
+.board .open{display:flex;align-items:center;gap:10px;margin-top:26px;font-size:15px;color:var(--chalk-dim)}
+.board .open i{width:9px;height:9px;border-radius:50%;background:#7BD389}
+.board .open.closed i{background:#E8775A}
+.photo{position:relative;border-radius:6px;overflow:hidden;min-height:420px}
+.photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.photo::after{content:"";position:absolute;inset:auto 0 0;height:45%;background:linear-gradient(transparent,rgba(20,32,34,.75))}
+.photo figcaption{z-index:1;position:absolute;left:16px;right:16px;bottom:16px;font:700 1.6rem/1.15 var(--hand);color:#fff;text-shadow:0 1px 12px rgba(0,0,0,.6)}
+.hero .actions{display:flex;align-items:center;gap:22px;margin-top:28px;flex-wrap:wrap}
+.hero .actions a.more{color:var(--ink);font-weight:500;text-underline-offset:5px;text-decoration-color:var(--harbour);text-decoration-thickness:2px}
 
-.sec{padding-block:80px}
-.sec-head{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:32px}
-.sec h2{font-family:var(--f-display);font-weight:400;font-size:clamp(32px,4.4vw,50px);line-height:1.05;margin:8px 0 0;text-wrap:balance}
+/* plats vedettes */
+.stars{background:var(--harbour-deep);color:var(--spray);padding-block:clamp(64px,8vw,110px)}
+.stars h2,.sec h2{font:600 clamp(2rem,1.5rem + 2vw,3.2rem)/1.04 var(--sans);letter-spacing:-.03em;max-width:20ch}
+.stars .intro{margin-top:14px;max-width:52ch;color:rgba(246,248,248,.78)}
+.plates{display:grid;grid-template-columns:1.15fr 1fr;gap:clamp(20px,3vw,40px);margin-top:44px;align-items:end}
+.plate img{width:100%;height:auto;aspect-ratio:10/9;object-fit:cover;border-radius:4px}
+.plate:nth-child(2) img{aspect-ratio:1/1}
+.plate .row{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-top:16px}
+.plate h3{font:600 1.5rem/1.15 var(--sans);letter-spacing:-.02em}
+.plate .p{font:700 2.2rem/1 var(--hand);color:#F5C66B;white-space:nowrap}
+.plate p{color:rgba(246,248,248,.75);margin-top:6px;max-width:46ch}
 
-/* carte */
-.tabs{display:flex;gap:6px;background:var(--foam);padding:5px;border-radius:999px;flex-wrap:wrap}
-.tab{font:600 15px var(--f-body);padding:9px 18px;border-radius:999px;border:0;background:transparent;color:var(--muted);cursor:pointer}
-.tab[aria-selected="true"]{background:var(--navy);color:var(--foam)}
-.slate{background:var(--navy);color:var(--foam);border-radius:18px;padding:clamp(24px,4vw,44px);display:grid;grid-template-columns:1fr 1fr;gap:8px 56px}
-.dish{display:grid;grid-template-columns:1fr auto;gap:2px 16px;padding-block:16px;border-bottom:1px dashed rgba(228,239,236,.2)}
-.dish h3{font-family:var(--f-display);font-weight:400;font-size:21px;margin:0}
-.dish .p{font-weight:700;color:var(--sun);font-variant-numeric:tabular-nums}
-.dish p{grid-column:1/-1;margin:0;font-size:15px;opacity:.72}
-.dish .tag{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--sea);margin-left:8px;vertical-align:middle}
-.menu-note{margin:16px 0 0;font-size:14px;color:var(--muted)}
+/* la carte imprimée */
+.sec{padding-block:clamp(64px,8vw,110px)}
+.carte .head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:28px}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--rule)}
+.tab{font:500 16px var(--sans);padding:10px 16px;border:0;border-bottom:3px solid transparent;margin-bottom:-1px;background:none;color:var(--muted);cursor:pointer}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--harbour)}
+.menu{background:#fff;border:1px solid var(--rule);padding:clamp(24px,4vw,48px) clamp(20px,5vw,64px);display:grid;grid-template-columns:1fr 1fr;gap:0 64px}
+.dish{padding-block:18px;border-bottom:1px solid var(--rule)}
+.dish .l{display:flex;align-items:baseline;gap:10px}
+.dish h3{font:600 1.15rem/1.3 var(--sans)}
+.dish .dots{flex:1;border-bottom:2px dotted #B9C6C8;transform:translateY(-5px);min-width:20px}
+.dish .p{font-weight:600;font-variant-numeric:tabular-nums}
+.dish p{color:var(--muted);font-size:15.5px;margin-top:2px}
+.dish .hand{font:700 1.25rem/1 var(--hand);color:var(--harbour);margin-left:6px}
+.menu-note{margin-top:16px;font-size:15px;color:var(--muted)}
 
 /* le lieu */
-.lieu{background:var(--foam)}
-.lieu .in{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
-.lieu p{color:var(--muted);max-width:52ch}
-.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px}
-.fact b{display:block;font-family:var(--f-display);font-weight:400;font-size:34px;color:var(--navy);line-height:1}
-.fact span{font-size:14px;color:var(--muted)}
-.window{border-radius:200px 200px 18px 18px;aspect-ratio:4/5;width:min(420px,100%);height:auto;object-fit:cover;display:block;justify-self:center;box-shadow:0 30px 60px -30px rgba(15,42,61,.6)}
+.lieu{background:var(--slate);color:var(--chalk)}
+.lieu .in{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,6vw,80px);align-items:center}
+.lieu img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;border-radius:4px}
+.lieu p{color:var(--chalk-dim);margin-top:18px;max-width:50ch}
+.lieu .sign{font:700 2rem/1 var(--hand);color:var(--chalk);margin-top:26px}
 
-/* réservation */
-.resa .in{display:grid;grid-template-columns:1fr 1.1fr;gap:56px;align-items:start}
-.hours{width:100%;border-collapse:collapse;margin-top:24px;font-size:16px}
-.hours td{padding:10px 0;border-bottom:1px solid var(--line)}
+/* horaires et réservation */
+.resa .in{display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(32px,6vw,80px);align-items:start}
+.hours{width:100%;border-collapse:collapse;margin-top:26px}
+.hours td{padding:11px 0;border-bottom:1px solid var(--rule)}
 .hours td:last-child{text-align:right;font-variant-numeric:tabular-nums;color:var(--muted)}
-.hours tr.today td{font-weight:700;color:var(--navy)}
-.hours tr.today td:last-child{color:var(--navy)}
-form.book{background:#fff;border:1px solid var(--line);border-radius:18px;padding:28px;display:grid;grid-template-columns:1fr 1fr;gap:16px;box-shadow:0 24px 60px -36px rgba(15,42,61,.45)}
-form.book h3{grid-column:1/-1;font-family:var(--f-display);font-weight:400;font-size:26px;margin:0}
-form.book label{display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:600;color:var(--muted);min-width:0}
+.hours tr.today td{font-weight:600;color:var(--ink)}
+.hours tr.today td:first-child::after{content:"aujourd'hui";font:700 1.15rem/1 var(--hand);color:var(--buoy);margin-left:10px}
+form.book{background:#fff;border:1px solid var(--rule);padding:clamp(22px,3vw,34px);display:grid;grid-template-columns:1fr 1fr;gap:16px}
+form.book h3{grid-column:1/-1;font:600 1.5rem/1.2 var(--sans);letter-spacing:-.02em}
+form.book label,form.book .lbl{display:flex;flex-direction:column;gap:6px;font-size:15px;font-weight:500;color:var(--muted);min-width:0}
 form.book .full{grid-column:1/-1}
-form.book input,form.book select{font:16px var(--f-body);padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--paper);color:var(--ink);width:100%}
-form.book input:focus,form.book select:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 3px rgba(15,42,61,.12)}
-.covers{display:flex;gap:8px;flex-wrap:wrap}
-.covers button{font:600 15px var(--f-body);width:44px;height:44px;border-radius:10px;border:1px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer}
-.covers button[aria-pressed="true"]{background:var(--navy);color:var(--foam);border-color:var(--navy)}
-form.book .btn{grid-column:1/-1;justify-content:center;padding-block:14px;font-size:16px}
-.ok{grid-column:1/-1;background:var(--foam);border-radius:10px;padding:14px;font-size:15px;margin:0}
+form.book input,form.book select{font:16px var(--sans);padding:12px 14px;border:1px solid #BAC6C8;border-radius:3px;background:var(--spray);color:var(--ink);width:100%}
+form.book input:focus,form.book select:focus{outline:none;border-color:var(--harbour);box-shadow:0 0 0 3px rgba(43,107,140,.18)}
+.covers{display:flex;gap:6px;flex-wrap:wrap}
+.covers button{font:600 16px var(--sans);width:46px;height:46px;border-radius:3px;border:1px solid #BAC6C8;background:var(--spray);color:var(--ink);cursor:pointer}
+.covers button[aria-pressed="true"]{background:var(--harbour);color:#fff;border-color:var(--harbour)}
+form.book .btn{grid-column:1/-1;padding-block:15px}
+.ok{grid-column:1/-1;background:#EAF2F4;border-left:3px solid var(--harbour);padding:12px 14px;font-size:15px}
 
 /* accès */
-.acces{background:var(--navy);color:var(--foam)}
-.acces .in{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;padding-block:64px}
-.acces h3{font-family:var(--f-display);font-weight:400;font-size:22px;margin:0 0 8px;color:var(--sun)}
-.acces p{margin:0;opacity:.85}
-.sel{user-select:all;font-weight:600}
-footer{background:var(--navy-2);color:var(--foam);font-size:14px}
-footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:20px;opacity:.75}
+.acces{background:var(--ink);color:var(--chalk)}
+.acces .in{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;padding-block:56px}
+.acces h3{font:700 1.7rem/1 var(--hand);color:#F5C66B;margin-bottom:8px}
+.acces p{color:var(--chalk-dim)}
+.acces .tel{font-size:1.4rem;font-weight:600;color:var(--chalk);text-decoration:none}
+footer{background:var(--ink);color:rgba(243,242,236,.5);font-size:14px;border-top:1px solid rgba(243,242,236,.12)}
+footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:18px}
 
 @media (max-width:860px){
-  nav.links{display:none}
-  .hero .in,.lieu .in,.resa .in{grid-template-columns:1fr;gap:36px}
-  .hero .in{padding-block:40px 100px}
-  .hero-ph{width:min(340px,86%)}
-  .hero-ph figcaption{left:-8px}
-  .stars{grid-template-columns:1fr}
-  .slate{grid-template-columns:1fr}
+  .top nav{display:none}
+  .top .btn{margin-left:auto}
+  .hero-grid,.plates,.lieu .in,.resa .in{grid-template-columns:1fr}
+  .photo{min-height:300px}
+  .menu{grid-template-columns:1fr}
   .acces .in{grid-template-columns:1fr}
-  .sec{padding-block:56px}
 }
-@media (max-width:480px){form.book{grid-template-columns:1fr;padding:20px}.facts{grid-template-columns:1fr 1fr 1fr;gap:10px}.fact b{font-size:26px}}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+@media (max-width:480px){form.book{grid-template-columns:1fr}.board{border-width:10px}.name span{display:none}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn:active{transform:none}}
 </style>
 </head>
 <body>
 
-<div class="demo band">Site de démonstration réalisé par Saitora · restaurant fictif</div>
+<div class="demo">Site de démonstration réalisé par Saitora, restaurant fictif</div>
 
-<header class="nav band">
+<header class="top">
   <div class="in">
-    <a class="logo" href="#top">
-      <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="14" fill="none" stroke="#F2B33D" stroke-width="2"/><path d="M5 18c3 0 3-2 5-2s2 2 5 2 3-2 5-2 2 2 5 2" fill="none" stroke="#7FB3AE" stroke-width="2" stroke-linecap="round"/><circle cx="15" cy="11" r="3.5" fill="#F2B33D"/></svg>
-      La Table du Port
-    </a>
-    <nav class="links"><a href="#carte">La carte</a><a href="#lieu">Le lieu</a><a href="#resa">Horaires</a><a href="#acces">Accès</a></nav>
+    <a class="name" href="#top"><svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="3" fill="#24302F"/><path d="M4 17c3 0 3-2.5 5-2.5s2 2.5 5 2.5 3-2.5 5-2.5 2 2.5 5 2.5" fill="none" stroke="#F3F2EC" stroke-width="2" stroke-linecap="round"/></svg>La Table du Port</a>
+    <nav aria-label="Sections"><a href="#carte">La carte</a><a href="#lieu">Le lieu</a><a href="#resa">Horaires</a><a href="#acces">Accès</a></nav>
     <a class="btn" href="#resa">Réserver</a>
   </div>
 </header>
 
-<section class="hero band" id="top">
-  <div class="in">
-    <div>
-      <div class="kicker">Poissons du jour · Cuisine du marché</div>
-      <h1>Ce que la mer apporte, <span>le jour même.</span></h1>
-      <p>Une petite salle face aux bateaux, une terrasse au soleil, et une carte qui change selon la pêche et le marché du matin.</p>
-      <div class="cta"><a class="btn" href="#resa">Réserver une table</a><a class="btn ghost" href="#carte">Voir la carte</a></div>
-      <div class="open-now" id="openNow"><i></i><span>Chargement des horaires…</span></div>
+<main id="top">
+  <section class="hero">
+    <div class="in">
+      <h1>Ce que la mer apporte, le jour même</h1>
+      <div class="hero-grid">
+        <div class="board" aria-labelledby="ardoise">
+          <p class="date chalk" id="ardoise">Aujourd'hui</p>
+          <p class="sub">Arrivé ce matin au quai, cuisiné à midi et ce soir.</p>
+          <ul class="catch" id="catchList"></ul>
+          <p class="note chalk">Quand c'est fini, c'est fini !</p>
+          <p class="open" id="openNow"><i></i><span>Horaires du jour</span></p>
+        </div>
+        <figure class="photo">
+          <img src="images/port/port-barques.webp" alt="Barques de pêche bleues amarrées au quai, filets posés sur le pont" width="576" height="720" fetchpriority="high">
+          <figcaption>Les barques de Gilles et Paco, à quai à 6 h</figcaption>
+        </figure>
+      </div>
+      <div class="actions"><a class="btn" href="#resa">Réserver une table</a><a class="more" href="#carte">Voir toute la carte</a></div>
     </div>
-    <figure class="hero-ph">
-      <img src="images/port/port-barques.webp" alt="Barques de pêche bleues amarrées au quai, filets posés sur le pont" width="576" height="720" fetchpriority="high">
-      <figcaption><i></i>Pêche du matin, sur l'ardoise à midi</figcaption>
-    </figure>
-  </div>
-  <svg class="waves" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true"><path d="M0 40c120 30 240 30 360 0s240-30 360 0 240 30 360 0 240-30 360 0v40H0z" fill="#FBFCFB"/></svg>
-</section>
+  </section>
 
-<section class="sec band" id="carte">
-  <div class="in">
-    <div class="kicker">Les incontournables</div>
-    <h2>Nos plats vedettes</h2>
-    <div class="stars">
-      <article class="star"><div class="img"><img src="images/port/plat-daurade.webp" alt="Filet de daurade poêlé sur épinards et écrasé de pommes de terre, beurre blanc à la ciboulette" width="900" height="810" loading="lazy" decoding="async"></div>
-        <div class="body"><span class="tag">Plat vedette · pêche locale</span><h3>Filet de daurade, beurre blanc</h3><span class="p">26 €</span><p>Poêlé sur peau, épinards fondants, écrasé de pommes de terre et beurre blanc à la ciboulette.</p></div></article>
-      <article class="star"><div class="img"><img src="images/port/plat-pastilla.webp" alt="Pastilla dorée garnie d'une crevette, de fromage râpé et de quartiers de citron vert" width="900" height="857" loading="lazy" decoding="async"></div>
-        <div class="body"><span class="tag">Plat vedette · maison</span><h3>Pastilla aux crevettes</h3><span class="p">19 €</span><p>Feuilles de brick croustillantes, crevettes, épices douces, gratinée et relevée au citron vert.</p></div></article>
-    </div>
-    <div class="sec-head">
-      <div><div class="kicker">La carte</div><h2>Ce soir à l'ardoise</h2></div>
-      <div class="tabs" role="tablist" id="tabs"></div>
-    </div>
-    <div class="slate" id="slate" role="tabpanel"></div>
-    <p class="menu-note">Prix nets, service compris. Les poissons varient selon la pêche du jour : demandez l'ardoise en salle.</p>
-  </div>
-</section>
-
-<section class="sec band lieu" id="lieu">
-  <div class="in">
-    <img class="window" src="images/port/terrasse-coucher.webp" alt="Table dressée en terrasse face à la mer au coucher du soleil" width="682" height="853" loading="lazy" decoding="async">
-    <div>
-      <div class="kicker">Le lieu</div>
-      <h2>Une adresse de quai, depuis 2009</h2>
-      <p>Marion en salle, Julien aux fourneaux. Chaque matin, on passe voir les pêcheurs du port avant d'écrire l'ardoise. Le pain vient de la boulangerie d'à côté, les légumes des maraîchers du marché.</p>
-      <div class="facts">
-        <div class="fact"><b>32</b><span>couverts en salle</span></div>
-        <div class="fact"><b>24</b><span>places en terrasse</span></div>
-        <div class="fact"><b>0 km</b><span>du bateau à l'assiette</span></div>
+  <section class="stars" aria-labelledby="t-stars">
+    <div class="in">
+      <h2 id="t-stars">Les deux plats qu'on ne retire jamais de la carte</h2>
+      <p class="intro">Les habitués les commandent sans ouvrir le menu.</p>
+      <div class="plates">
+        <article class="plate">
+          <img src="images/port/plat-daurade.webp" alt="Filet de daurade poêlé sur épinards et écrasé de pommes de terre, beurre blanc à la ciboulette" width="900" height="810" loading="lazy" decoding="async">
+          <div class="row"><h3>Filet de daurade, beurre blanc</h3><span class="p">26 €</span></div>
+          <p>Poêlé sur peau, épinards fondants, écrasé de pommes de terre et beurre blanc à la ciboulette.</p>
+        </article>
+        <article class="plate">
+          <img src="images/port/plat-pastilla.webp" alt="Pastilla dorée garnie d'une crevette, de fromage râpé et de quartiers de citron vert" width="900" height="857" loading="lazy" decoding="async">
+          <div class="row"><h3>Pastilla aux crevettes</h3><span class="p">19 €</span></div>
+          <p>Feuilles de brick croustillantes, crevettes, épices douces, gratinée et relevée au citron vert.</p>
+        </article>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="sec band resa" id="resa">
-  <div class="in">
-    <div>
-      <div class="kicker">Horaires</div>
-      <h2>Midi et soir, sauf le lundi</h2>
-      <table class="hours" id="hours"></table>
+  <section class="sec carte" id="carte" aria-labelledby="t-carte">
+    <div class="in">
+      <div class="head">
+        <h2 id="t-carte">La carte</h2>
+        <div class="tabs" role="tablist" id="tabs" aria-label="Partie du repas"></div>
+      </div>
+      <div class="menu" id="menu" role="tabpanel"></div>
+      <p class="menu-note">Prix nets, service compris. Le poisson du jour suit l'ardoise.</p>
     </div>
-    <form class="book" id="book" novalidate>
-      <h3>Réserver une table</h3>
-      <label>Date<input type="date" id="rDate" required></label>
-      <label>Service<select id="rTime"><option>12:00</option><option>12:30</option><option>13:00</option><option>19:30</option><option selected>20:00</option><option>20:30</option><option>21:00</option></select></label>
-      <div class="full"><label style="margin-bottom:6px">Couverts</label><div class="covers" id="covers" role="group" aria-label="Nombre de couverts"></div></div>
-      <label class="full">Nom<input id="rName" required placeholder="Votre nom" autocomplete="name"></label>
-      <label class="full">Téléphone<input id="rTel" type="tel" required placeholder="06 00 00 00 00" autocomplete="tel"></label>
-      <button class="btn" type="submit">Demander la réservation</button>
-      <p class="ok" id="ok" hidden></p>
-    </form>
-  </div>
-</section>
+  </section>
 
-<section class="acces band" id="acces">
+  <section class="sec lieu" id="lieu" aria-labelledby="t-lieu">
+    <div class="in">
+      <img src="images/port/terrasse-coucher.webp" alt="Table dressée en terrasse face à la mer au coucher du soleil" width="682" height="853" loading="lazy" decoding="async">
+      <div>
+        <h2 id="t-lieu">Une adresse de quai, depuis 2009</h2>
+        <p>Marion en salle, Julien aux fourneaux. Chaque matin, on passe voir les pêcheurs du port avant d'écrire l'ardoise. Le pain vient de la boulangerie d'à côté, les légumes des maraîchers du marché.</p>
+        <p>32 couverts en salle, 24 en terrasse face aux bateaux, chauffée l'hiver.</p>
+        <p class="sign">Marion et Julien</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec resa" id="resa" aria-labelledby="t-resa">
+    <div class="in">
+      <div>
+        <h2 id="t-resa">Midi et soir, sauf le lundi</h2>
+        <table class="hours" id="hours"></table>
+      </div>
+      <form class="book" id="book" novalidate>
+        <h3>Réserver une table</h3>
+        <label>Date<input type="date" id="rDate" required></label>
+        <label>Heure<select id="rTime"><option>12:00</option><option>12:30</option><option>13:00</option><option>19:30</option><option selected>20:00</option><option>20:30</option><option>21:00</option></select></label>
+        <div class="full lbl">Couverts<div class="covers" id="covers" role="group" aria-label="Nombre de couverts"></div></div>
+        <label class="full">Nom<input id="rName" required autocomplete="name"></label>
+        <label class="full">Téléphone<input id="rTel" type="tel" required placeholder="06 00 00 00 00" autocomplete="tel"></label>
+        <button class="btn" type="submit">Demander la réservation</button>
+        <p class="ok" id="ok" hidden></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<section class="acces" id="acces" aria-label="Accès et contact">
   <div class="in">
     <div><h3>Adresse</h3><p>4 quai des Pêcheurs<br>Sur le port, face aux bateaux</p></div>
-    <div><h3>Téléphone</h3><p class="sel">04 00 00 00 00</p><p style="font-size:14px;margin-top:6px">Réservations conseillées le week-end</p></div>
-    <div><h3>Bon à savoir</h3><p>Terrasse chauffée en hiver<br>Menu enfant · Accès PMR · CB acceptée</p></div>
+    <div><h3>Téléphone</h3><a class="tel" href="tel:+33400000000">04 00 00 00 00</a><p>Réservation conseillée le week-end</p></div>
+    <div><h3>Bon à savoir</h3><p>Menu enfant, accès en fauteuil roulant, carte bancaire acceptée</p></div>
   </div>
 </section>
-
-<footer class="band"><div class="in"><span>© La Table du Port · Restaurant fictif</span><span>Site réalisé par Saitora</span></div></footer>
+<footer><div class="in"><span>© La Table du Port, restaurant fictif</span><span>Site réalisé par Saitora</span></div></footer>
 
 <script>
-const MENU = {
-  "Entrées":[
-    ["Tartare de daurade","Agrumes, fenouil croquant, huile d'olive",14,"Signature"],
-    ["Soupe de poissons de roche","Rouille maison, croûtons à l'ail",11],
-    ["Burrata et tomates anciennes","Basilic, fleur de sel",12,"Végé"],
-    ["Poulpe grillé","Pois chiches, paprika fumé",15]
-  ],
-  "Plats":[
-    ["Filet de daurade, beurre blanc","Épinards, écrasé de pommes de terre, ciboulette",26,"Vedette"],
-    ["Pastilla aux crevettes","Brick croustillante, épices douces, citron vert",19,"Vedette"],
-    ["Poisson du jour à la plancha","Selon la pêche, légumes du marché",24,"Pêche locale"],
-    ["Risotto aux champignons","Parmesan 24 mois",19,"Végé"]
-  ],
-  "Desserts":[
-    ["Tarte au citron meringuée","Citrons de saison",9,"Maison"],
-    ["Fiadone","Brocciu, zeste de citron",8],
-    ["Moelleux au chocolat","Cœur coulant, glace vanille",9],
-    ["Assiette de fromages","Sélection du fromager",10]
-  ]
-};
 const esc = s => String(s).replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
-let current = "Entrées";
+
+// l'ardoise du jour : la date du jour, la pêche, et ce qui est déjà parti
+const CATCH = [["Daurade royale","entière, grillée au fenouil",26],["Rougets barbets","poêlés, sauce vierge",24],["Poulpe de roche","braisé, pommes grenaille",22],["Sardines du golfe","à la plancha, fleur de sel",16],["Loup de ligne","pour deux, au four",58]];
+const today = new Date();
+ardoise.textContent = today.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" }).replace(/^./, c => c.toUpperCase());
+const gone = today.getHours() >= 20 ? 1 : -1;   // le soir, le loup est souvent parti
+catchList.innerHTML = CATCH.map(([n, d, p], i) => `<li class="${i === CATCH.length - 1 && gone > 0 ? "out" : ""}"><span>${esc(n)}<small>${esc(d)}</small></span><span class="lead"></span><span class="p">${p} €</span></li>`).join("");
+
+// la carte
+const MENU = {
+  "Entrées":[["Tartare de daurade","Agrumes, fenouil croquant, huile d'olive",14,"la signature"],["Soupe de poissons de roche","Rouille maison, croûtons à l'ail",11],["Burrata et tomates anciennes","Basilic, fleur de sel",12,"végé"],["Poulpe grillé","Pois chiches, paprika fumé",15]],
+  "Plats":[["Filet de daurade, beurre blanc","Épinards, écrasé de pommes de terre, ciboulette",26],["Pastilla aux crevettes","Brick croustillante, épices douces, citron vert",19],["Poisson du jour à la plancha","Selon l'ardoise, légumes du marché",24],["Risotto aux champignons","Parmesan 24 mois",19,"végé"]],
+  "Desserts":[["Tarte au citron meringuée","Citrons de saison",9,"maison"],["Fiadone","Brocciu, zeste de citron",8],["Moelleux au chocolat","Cœur coulant, glace vanille",9],["Assiette de fromages","Sélection du fromager",10]]
+};
+let part = "Entrées";
 function renderMenu(){
-  tabs.innerHTML = Object.keys(MENU).map(k=>`<button class="tab" role="tab" type="button" aria-selected="${k===current}" data-k="${k}">${k}</button>`).join("");
-  slate.innerHTML = MENU[current].map(([n,d,p,t])=>`<div class="dish"><h3>${esc(n)}${t?`<span class="tag">${esc(t)}</span>`:""}</h3><span class="p">${p} €</span><p>${esc(d)}</p></div>`).join("");
+  tabs.innerHTML = Object.keys(MENU).map(k => `<button class="tab" role="tab" type="button" aria-selected="${k === part}" data-k="${k}">${k}</button>`).join("");
+  menu.innerHTML = MENU[part].map(([n, d, p, t]) => `<div class="dish"><div class="l"><h3>${esc(n)}${t ? `<span class="hand">${esc(t)}</span>` : ""}</h3><span class="dots"></span><span class="p">${p} €</span></div><p>${esc(d)}</p></div>`).join("");
 }
-tabs.addEventListener("click", e=>{const b=e.target.closest(".tab"); if(!b) return; current=b.dataset.k; renderMenu();});
+tabs.addEventListener("click", e => { const b = e.target.closest(".tab"); if (!b) return; part = b.dataset.k; renderMenu(); });
 renderMenu();
 
-// horaires : [jour, [[ouverture, fermeture] en minutes]]
+// horaires en direct : [jour, [[ouverture, fermeture] en minutes]]
 const H = [["Dimanche",[[720,870]]],["Lundi",[]],["Mardi",[[720,870],[1170,1350]]],["Mercredi",[[720,870],[1170,1350]]],["Jeudi",[[720,870],[1170,1350]]],["Vendredi",[[720,870],[1170,1380]]],["Samedi",[[720,870],[1170,1380]]]];
-const fmt = m => `${Math.floor(m/60)}h${String(m%60).padStart(2,"0")}`;
-const now = new Date(), d = now.getDay(), mins = now.getHours()*60+now.getMinutes();
-hours.innerHTML = [1,2,3,4,5,6,0].map(i=>`<tr class="${i===d?"today":""}"><td>${H[i][0]}${i===d?" · aujourd'hui":""}</td><td>${H[i][1].length?H[i][1].map(([a,b])=>`${fmt(a)} – ${fmt(b)}`).join(" · "):"Fermé"}</td></tr>`).join("");
-const slot = H[d][1].find(([a,b])=>mins>=a&&mins<b);
-const next = H[d][1].find(([a])=>mins<a);
+const fmt = m => `${Math.floor(m / 60)} h ${String(m % 60).padStart(2, "0")}`;
+const d = today.getDay(), mins = today.getHours() * 60 + today.getMinutes();
+hours.innerHTML = [1,2,3,4,5,6,0].map(i => `<tr class="${i === d ? "today" : ""}"><td>${H[i][0]}</td><td>${H[i][1].length ? H[i][1].map(([a, b]) => `${fmt(a)} à ${fmt(b)}`).join(", ") : "Fermé"}</td></tr>`).join("");
+const slot = H[d][1].find(([a, b]) => mins >= a && mins < b), next = H[d][1].find(([a]) => mins < a);
 openNow.classList.toggle("closed", !slot);
-openNow.querySelector("span").textContent = slot ? `Ouvert maintenant, jusqu'à ${fmt(slot[1])}` : next ? `Fermé, ouverture aujourd'hui à ${fmt(next[0])}` : "Fermé pour aujourd'hui";
+openNow.querySelector("span").textContent = slot ? `Ouvert, jusqu'à ${fmt(slot[1])}` : next ? `Fermé, on ouvre à ${fmt(next[0])}` : "Fermé pour aujourd'hui";
 
+// réservation
 let covers = 2;
-document.getElementById("covers").innerHTML = [1,2,3,4,5,6,"8+"].map(n=>`<button type="button" aria-pressed="${n===covers}" data-n="${n}">${n}</button>`).join("");
-document.getElementById("covers").addEventListener("click", e=>{const b=e.target.closest("button"); if(!b) return; covers=b.dataset.n; document.querySelectorAll("#covers button").forEach(x=>x.setAttribute("aria-pressed", x===b));});
-const t = new Date(); t.setDate(t.getDate()+1); rDate.value = t.toISOString().slice(0,10); rDate.min = new Date().toISOString().slice(0,10);
-book.addEventListener("submit", e=>{
+document.getElementById("covers").innerHTML = [1,2,3,4,5,6,"8+"].map(n => `<button type="button" aria-pressed="${n === covers}" data-n="${n}">${n}</button>`).join("");
+document.getElementById("covers").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; covers = b.dataset.n; document.querySelectorAll("#covers button").forEach(x => x.setAttribute("aria-pressed", x === b)); });
+const t = new Date(); t.setDate(t.getDate() + 1); rDate.value = t.toISOString().slice(0, 10); rDate.min = new Date().toISOString().slice(0, 10);
+book.addEventListener("submit", e => {
   e.preventDefault();
-  if(!rName.value.trim() || !rTel.value.trim()){ ok.hidden=false; ok.textContent="Indiquez votre nom et votre téléphone pour qu'on puisse confirmer."; return; }
-  const day = new Date(rDate.value+"T00:00").toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"});
-  ok.hidden=false;
-  ok.textContent = `Demande enregistrée : ${covers} couvert${covers==1?"":"s"}, ${day} à ${rTime.value}. (Démo : aucune réservation n'est réellement envoyée.)`;
+  ok.hidden = false;
+  if (!rName.value.trim() || !rTel.value.trim()) { ok.textContent = "Indiquez votre nom et votre téléphone pour qu'on puisse vous confirmer la table."; return; }
+  const day = new Date(rDate.value + "T00:00").toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" });
+  ok.textContent = `Demande envoyée : ${covers} couvert${covers == 1 ? "" : "s"}, ${day} à ${rTime.value.replace(":", " h ")}. On vous rappelle pour confirmer. (Démo : rien n'est réellement envoyé.)`;
 });
 </script>
-
 </body>
 </html>

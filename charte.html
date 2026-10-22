@@ -118,8 +118,28 @@ input[type=color]::-webkit-color-swatch{border:0;border-radius:3px}
 .drop small{color:var(--muted);font-size:14px}
 .drop input{position:absolute;width:1px;height:1px;opacity:0}
 .found{margin-top:10px;font-size:14.5px;color:var(--accent-text)}
-.maker{margin-top:16px;display:grid;gap:14px}
-.maker canvas{width:100%;height:auto;max-width:520px;border:1px solid var(--line);border-radius:6px;background:repeating-conic-gradient(var(--bg-alt) 0 25%,var(--bg) 0 50%) 0 0/16px 16px}
+.maker{margin-top:16px;display:grid;gap:22px}
+.maker canvas{display:block;width:100%;height:auto}
+.ideas{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.idea{padding:6px;border:1px solid var(--line-hi);border-radius:6px;background:var(--c2,#fff);cursor:pointer}
+.idea[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.more{margin-top:10px}
+.try{display:grid;gap:10px}
+.try>canvas{max-width:560px;border:1px solid var(--line);border-radius:6px;background:var(--c2,#fff)}
+.tests{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:560px}
+.tests figcaption{font-size:13.5px;margin-top:4px}
+.t-small,.t-dark{height:64px;border-radius:6px;display:flex;align-items:center;justify-content:center;gap:14px;border:1px solid var(--line)}
+.t-small{background:var(--c2,#fff)}
+.t-small img:first-child{height:22px;width:auto}
+.t-small img+img{height:16px;width:16px}
+.t-dark{background:var(--c1,#222)}
+.t-dark img{height:36px;width:auto;max-width:90%}
+.hint{font-size:14.5px;color:var(--warn);max-width:56ch}
+.tune{display:grid;gap:4px}
+.tune .label{margin:12px 0 8px}
+.label .aside{color:var(--faint)}
+.pictos .choice{display:inline-flex;align-items:center;gap:8px}
+.pictos canvas{width:22px;height:22px}
 .maker .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 
 /* l'aperçu qui suit le défilement */
@@ -345,7 +365,7 @@ figcaption b{display:block;color:var(--ink);font-weight:500;font-size:15px}
   .a-sign,.a-post,.a-tee{grid-column:auto}
   .back{display:none}
 }
-@media (max-width:520px){.palette,.versions{grid-template-columns:1fr}.sizes li{grid-template-columns:110px 1fr}.fonts{grid-template-columns:1fr}.mock .nav{display:none}.slider{grid-template-columns:1fr 1fr;row-gap:2px}.slider span:first-child{text-align:left}.slider span:last-child{text-align:right}.slider input{grid-column:1/-1;grid-row:2;width:100%}.gen{grid-template-columns:1fr}}
+@media (max-width:520px){.ideas{grid-template-columns:1fr 1fr}.idea:nth-child(9){display:none}.palette,.versions{grid-template-columns:1fr}.sizes li{grid-template-columns:110px 1fr}.fonts{grid-template-columns:1fr}.mock .nav{display:none}.slider{grid-template-columns:1fr 1fr;row-gap:2px}.slider span:first-child{text-align:left}.slider span:last-child{text-align:right}.slider input{grid-column:1/-1;grid-row:2;width:100%}.gen{grid-template-columns:1fr}}
 @media (hover:hover) and (pointer:fine){.btn:hover{border-color:var(--ink)}.btn.primary:hover{background:var(--accent-hover)}.back:hover{color:var(--ink)}.choice:hover,.preset:hover,.font:hover,.route a:hover,.toc button:hover{border-color:var(--ink)}}
 @media (pointer:coarse){.brand{padding-block:9px;margin-block:-9px}.theme-toggle{width:44px;height:44px}.choice,.preset,.route a,.btn.small,.toc button{min-height:44px}.side .next a{display:inline-block;padding-block:10px;margin-block:-10px}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
@@ -466,10 +486,28 @@ figcaption b{display:block;color:var(--ink);font-weight:500;font-size:15px}
         </label>
         <p class="found" id="found" hidden></p>
         <div class="maker" id="maker" hidden>
-          <canvas id="logoCanvas" width="1040" height="400" aria-label="Votre logo"></canvas>
-          <div><p class="label" style="margin-top:0">Le symbole</p><div class="choices" id="shape" role="group" aria-label="Symbole du logo"></div></div>
-          <div><p class="label" style="margin-top:0">La disposition</p><div class="choices" id="layout" role="group" aria-label="Disposition du logo"></div></div>
-          <div id="lineBox" hidden><p class="label" style="margin-top:0">Sous le nom</p><div class="choices" id="baseLine" role="group" aria-label="Ligne sous le nom"></div></div>
+          <div>
+            <p class="label" style="margin-top:0">Des idées avec votre nom et vos couleurs. Choisissez celle qui vous parle, puis ajustez-la.</p>
+            <div class="ideas" id="ideas" role="group" aria-label="Idées de logo"></div>
+            <button class="btn small more" type="button" id="moreIdeas">D'autres idées</button>
+          </div>
+          <div class="try">
+            <canvas id="logoCanvas" width="1040" height="400" aria-label="Votre logo"></canvas>
+            <div class="tests" aria-hidden="true">
+              <figure><div class="t-small" id="tSmall"></div><figcaption>En petit, comme sur un téléphone</figcaption></figure>
+              <figure><div class="t-dark" id="tDark"></div><figcaption>Sur fond foncé</figcaption></figure>
+            </div>
+            <p class="hint" id="logoHint" hidden></p>
+          </div>
+          <div class="tune">
+            <div><p class="label">Le symbole</p><div class="choices" id="shape" role="group" aria-label="Symbole du logo"></div></div>
+            <div id="contentBox"><p class="label">Dans le symbole</p><div class="choices" id="content" role="group" aria-label="Contenu du symbole"></div></div>
+            <div id="pictoBox" hidden><p class="label">Le dessin</p><div class="choices pictos" id="picto" role="group" aria-label="Dessin du symbole"></div></div>
+            <div><p class="label">Les lettres <span class="aside">(elles deviennent aussi celles de vos titres)</span></p><div class="choices" id="lfont" role="group" aria-label="Lettres du logo"></div></div>
+            <div><p class="label">Le nom</p><div class="choices" id="casse" role="group" aria-label="Majuscules"></div><div class="choices" id="espace" role="group" aria-label="Espacement des lettres" style="margin-top:8px"></div></div>
+            <div><p class="label">La disposition</p><div class="choices" id="layout" role="group" aria-label="Disposition du logo"></div></div>
+            <div id="lineBox" hidden><p class="label">Sous le nom</p><div class="choices" id="baseLine" role="group" aria-label="Ligne sous le nom"></div></div>
+          </div>
           <div class="row"><button class="btn small" type="button" id="dlColor">Télécharger le logo (couleur)</button><button class="btn small" type="button" id="dlWhite">Version blanche</button><button class="btn small" type="button" id="dlMono">Une couleur</button><button class="btn small" type="button" id="dlSym">Symbole seul</button></div>
           <p class="tip" style="margin-top:0">Fichiers PNG à fond transparent, prêts pour vos cartes, vos réseaux ou votre imprimeur. Toutes les versions sont présentées dans votre charte, à l'étape 6. On pourra l'affiner ensemble.</p>
         </div>
@@ -595,21 +633,27 @@ const KEY = "saitora-charte";   // la charte est gardée sur l'appareil, pour y 
 const TRADES = ["Restaurant","Boulangerie","Beauté","Artisan","Boutique","Location","Autre"];
 const PRESETS = [["Bord de mer","#1E4E6B","#F4F8FA","#E4572E"],["Boulangerie","#3A2210","#FBF3E4","#D9932B"],["Nature","#2F3A24","#F2F1EA","#7E72B0"],["Chic","#141012","#F5E6E1","#7A2232"],["Artisan","#2B1E15","#F3EFE8","#B5814F"],["Moderne","#111111","#FFFFFF","#2F6BFF"]];
 const FONTS = [["moderne","Moderne","Jost","Net et actuel"],["elegante","Élégante","Cormorant Garamond","Raffiné, classique"],["chaleureuse","Chaleureuse","Young Serif","Généreux, accueillant"],["manuscrite","Manuscrite","Caveat","Fait main, convivial"],["affiche","Affiche","Archivo Narrow","Direct, qui se voit de loin"]];
-const SHAPES = [["rond","Initiale ronde"],["carre","Initiale carrée"],["arche","Arche"],["aucun","Nom seul"]];
+const SHAPES = [["rond","Rond"],["carre","Carré"],["arche","Arche"],["losange","Losange"],["hexa","Hexagone"],["ecusson","Écusson"],["contour","Cercle tracé"],["aucun","Pas de symbole"]];
+const CONTENTS = [["initiale","L'initiale"],["deux","Deux initiales"],["picto","Un dessin"]];
+// petits dessins, tracés dans une grille de 24 sur 24
+const PICTOS = [["maison","Maison","une maison"],["marteau","Marteau","un marteau"],["couverts","Couverts","des couverts"],["epi","Épi","un épi de blé"],["ciseaux","Ciseaux","des ciseaux"],["tasse","Tasse","une tasse"],["sac","Sac","un sac"],["feuille","Feuille","une feuille"],["fleur","Fleur","une fleur"],["vague","Vague","des vagues"],["etoile","Étoile","une étoile"]];
+const TRADE_PICTO = { Restaurant: "couverts", Boulangerie: "epi", "Beauté": "ciseaux", Artisan: "marteau", Boutique: "sac", Location: "maison", Autre: "etoile" };
+const CASSES = [["normal","Comme écrit"],["maj","Majuscules"]];
+const ESPACES = [["serre","Serré"],["normal","Normal"],["large","Espacé"]];
 const LAYOUTS = [["ligne","Côte à côte"],["pile","Empilé"]];
 const MOODS = ["Chaleureux","Chic","Simple","Nature","Moderne","Familial","Haut de gamme","Artisanal","Coloré","Sobre"];
 const ASSETS = ["Des photos de qualité","Une enseigne","Des cartes de visite","Des menus ou flyers","Une page Facebook ou Instagram","Une fiche Google"];
 // teinte de départ par métier (degrés sur le cercle des couleurs)
 const HUE = { Restaurant: 200, Boulangerie: 32, "Beauté": 340, Artisan: 212, Boutique: 280, Location: 95, Autre: 222 };
 
-const state = { trade: "", logoMode: "", logoName: "", logoData: "", logoEl: null, shape: "rond", layout: "ligne", font: "moderne", mood: [], assets: [], multi: false, actColors: [], baseline: true };
+const state = { trade: "", logoMode: "", logoName: "", logoData: "", logoEl: null, shape: "rond", content: "initiale", picto: "", casse: "normal", espace: "normal", ideaSeed: 1, layout: "ligne", font: "moderne", mood: [], assets: [], multi: false, actColors: [], baseline: true };
 let step = 0;
 // ?exemple : la charte d'une entreprise imaginaire, pour montrer le résultat complet (rien n'est enregistré)
 const EXEMPLE = new URLSearchParams(location.search).has("exemple");
 const SAMPLE = { nom: "OSTRALE", phrase: "Vos murs, votre toit, votre confort, depuis 2009", metier: "Artisan", activites: "Maçonnerie, Toiture, Isolation",
   principale: "#2E3740", fond: "#F6F5F1", boutons: "#C4552D", titres: "Affiche", ambiance: "Sobre, Moderne", deja: "Une enseigne, Des cartes de visite",
   perso: "70,40,60,45", forme: "carre", dispo: "ligne", logo: "créé avec l'outil", multi: true, couleursActivites: "#C4552D, #46627A, #5E8C31", ligne: true };
-const SHAPE_SAYS = { rond: "Une initiale dans un rond : une forme douce, qui se reconnaît même en tout petit.", carre: "Une initiale dans un carré : une forme solide et nette, comme un travail bien fait.", arche: "Une initiale sous une arche, comme une porte ou une vitrine : on entre chez vous.", aucun: "Le nom seul, sans symbole : direct, il se retient." };
+const SHAPE_SAYS = { rond: "Un symbole rond : une forme douce, qui se reconnaît même en tout petit.", carre: "Un symbole carré : une forme solide et nette, comme un travail bien fait.", arche: "Une arche, comme une porte ou une vitrine : on entre chez vous.", losange: "Un losange : une forme vive, qui attire l'œil.", hexa: "Un hexagone : une forme technique et solide, comme un assemblage.", ecusson: "Un écusson, comme un blason : la tradition et le savoir-faire.", contour: "Un cercle simplement tracé : léger et élégant.", aucun: "Le nom seul, sans symbole : direct, il se retient." };
 
 // ——— couleurs : conversions, contraste, accords
 const hex2rgb = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
@@ -706,36 +750,80 @@ function loadLogo(file){
 
 // ——— le logo créé ici : une initiale dans un symbole, le nom, et la ligne des activités, dans les lettres et les couleurs choisies
 // o.v : "couleur" (principale), "blanc" (sur fond foncé), "mono" (une seule couleur) ; o.symbol : le symbole seul ; o.layout : autre disposition
+const pictoOf = L => L.picto || TRADE_PICTO[state.trade] || "etoile";
+// un petit dessin centré en (cx, cy), de taille s, avec la couleur et le mode de composition en cours
+function drawPicto(x, kind, cx, cy, s){
+  x.save(); x.translate(cx - s / 2, cy - s / 2); x.scale(s / 24, s / 24);
+  x.lineWidth = 2.2; x.lineCap = "round"; x.lineJoin = "round"; x.strokeStyle = x.fillStyle;
+  const F = d => x.fill(new Path2D(d)), K = d => x.stroke(new Path2D(d));
+  if (kind === "maison") F("M12 2.5L22.5 11.5H19.5V21.5H14.5V15H9.5V21.5H4.5V11.5H1.5Z");
+  if (kind === "marteau") { F("M3 3.5H15L20 7L15 10H3Z"); F("M8 10H11.5V21.5H8Z"); }
+  if (kind === "couverts") { K("M5 2.5V8Q5 10.5 7.5 10.5Q10 10.5 10 8V2.5M7.5 2.5V21.5"); F("M16 2.5C19.5 4 20.5 8 20.5 13H17.5V21.5H15V3.2C15 2.7 15.5 2.4 16 2.5Z"); }
+  if (kind === "epi") { K("M12 22V6"); [7, 10.5, 14, 17.5].forEach(y => [-1, 1].forEach(sd => { x.beginPath(); x.ellipse(12 + sd * 2.7, y, 1.7, 3, sd * .6, 0, Math.PI * 2); x.fill(); })); x.beginPath(); x.ellipse(12, 3.6, 1.5, 2.6, 0, 0, Math.PI * 2); x.fill(); }
+  if (kind === "ciseaux") { K("M8.6 14.8L18 2.5M15.4 14.8L6 2.5"); x.beginPath(); x.arc(6.5, 17.8, 3.2, 0, Math.PI * 2); x.stroke(); x.beginPath(); x.arc(17.5, 17.8, 3.2, 0, Math.PI * 2); x.stroke(); }
+  if (kind === "tasse") { F("M3.5 9H16.5V15A5.5 5.5 0 0 1 11 20.5H9A5.5 5.5 0 0 1 3.5 15Z"); K("M16.5 11H18A2.6 2.6 0 0 1 18 16.2H16.5M7.5 2.5Q9.2 4 7.5 6M12 2.5Q13.7 4 12 6"); }
+  if (kind === "sac") { F("M4.5 8H19.5L18.5 21.5H5.5Z"); K("M8.5 8V6.5A3.5 3.5 0 0 1 15.5 6.5V8"); }
+  if (kind === "feuille") { F("M3.5 20.5C3.5 11 10 3.5 21 3.5C21 14 14 20.5 3.5 20.5Z"); }
+  if (kind === "fleur") { for (let i = 0; i < 5; i++) { const t = -Math.PI / 2 + i * Math.PI * 2 / 5; x.beginPath(); x.arc(12 + Math.cos(t) * 5.4, 12 + Math.sin(t) * 5.4, 4.4, 0, Math.PI * 2); x.fill(); } }
+  if (kind === "vague") { x.lineWidth = 2.6; K("M1.5 8.5Q4.25 5.5 7 8.5T12.5 8.5T18 8.5T23 8.5M1.5 15.5Q4.25 12.5 7 15.5T12.5 15.5T18 15.5T23 15.5"); }
+  if (kind === "etoile") { x.beginPath(); for (let i = 0; i < 10; i++) { const t = -Math.PI / 2 + i * Math.PI / 5, r = i % 2 ? 4.4 : 10.5; x.lineTo(12 + Math.cos(t) * r, 12.8 + Math.sin(t) * r); } x.closePath(); x.fill(); }
+  x.restore();
+}
+// le logo : un symbole (forme et contenu), le nom, et la ligne des activités, dans les lettres et les couleurs choisies
+// o.v : "couleur" (principale), "blanc" (sur fond foncé), "mono" (une seule couleur) ; o.symbol : le symbole seul ;
+// o.layout : autre disposition ; o.st : réglages qui remplacent ceux en cours (pour dessiner les idées)
 function drawLogo(cv, o = {}){
-  const x = cv.getContext("2d"), W = cv.width, H = cv.height, d = data(), f = fontOf(state.font)[2], v = o.v || "couleur";
-  const ink = v === "blanc" ? "#FFFFFF" : d.principale, accent = v === "couleur" ? d.boutons : ink, name = d.nom || "Votre commerce";
-  const initial = (name.match(/[A-Za-zÀ-ÿ0-9]/) || ["V"])[0].toUpperCase();
+  const L = { ...state, ...(o.st || {}) };
+  const x = cv.getContext("2d"), W = cv.width, H = cv.height, d = data(), f = fontOf(L.font)[2], v = o.v || "couleur";
+  const ink = v === "blanc" ? "#FFFFFF" : d.principale, accent = v === "couleur" ? d.boutons : ink;
+  const raw = d.nom || "Votre commerce", name = L.casse === "maj" ? raw.toLocaleUpperCase("fr") : raw;
+  const words = raw.split(/[\s'’-]+/).filter(w => /[A-Za-zÀ-ÿ0-9]/.test(w));
+  const firstOf = w => (w.match(/[A-Za-zÀ-ÿ0-9]/) || ["V"])[0].toUpperCase();
+  const mono2 = words.length > 1 ? firstOf(words[0]) + firstOf(words[1]) : (raw.match(/[A-Za-zÀ-ÿ0-9]/g) || ["V"]).slice(0, 2).join("").toUpperCase();
   const acts = state.baseline && !o.symbol ? activities().map(a => a.toUpperCase()) : [], cols = actColors();
   const actCol = i => v !== "couleur" ? ink : state.multi ? cols[i] : d.boutons;
+  const ls = { serre: -.02, normal: 0, large: .1 }[L.espace] || 0, spaced = "letterSpacing" in x;
   x.clearRect(0, 0, W, H);
+  // la forme du symbole, dans un carré de côté S
+  const shapePath = (mx, my, S) => {
+    x.beginPath(); const c = [mx + S / 2, my + S / 2];
+    if (L.shape === "rond" || L.shape === "contour") x.arc(c[0], c[1], L.shape === "contour" ? S / 2 - S * .035 : S / 2, 0, Math.PI * 2);
+    if (L.shape === "carre") { if (x.roundRect) x.roundRect(mx, my, S, S, S * .18); else x.rect(mx, my, S, S); }
+    if (L.shape === "arche") { x.moveTo(mx, my + S); x.lineTo(mx, my + S / 2); x.arc(c[0], c[1], S / 2, Math.PI, 0); x.lineTo(mx + S, my + S); x.closePath(); }
+    if (L.shape === "losange") { x.moveTo(c[0], my); x.lineTo(mx + S, c[1]); x.lineTo(c[0], my + S); x.lineTo(mx, c[1]); x.closePath(); }
+    if (L.shape === "hexa") { for (let i = 0; i < 6; i++) { const t = -Math.PI / 2 + i * Math.PI / 3; x.lineTo(c[0] + Math.cos(t) * S / 2, c[1] + Math.sin(t) * S / 2); } x.closePath(); }
+    if (L.shape === "ecusson") { x.moveTo(mx + S * .08, my); x.lineTo(mx + S * .92, my); x.lineTo(mx + S * .92, my + S * .55); x.quadraticCurveTo(mx + S * .92, my + S * .84, c[0], my + S); x.quadraticCurveTo(mx + S * .08, my + S * .84, mx + S * .08, my + S * .55); x.closePath(); }
+  };
+  // ce qu'il y a dans le symbole : l'initiale, deux initiales ou un dessin
+  const inner = (cx, cy, S, k) => {
+    if (L.content === "picto") { drawPicto(x, pictoOf(L), cx, cy, S * k * 1.05); return; }
+    const t = L.content === "deux" ? mono2 : firstOf(words[0] || raw);
+    x.font = `600 ${S * k * (t.length > 1 ? .78 : 1)}px "${f}"`; x.textAlign = "center"; x.textBaseline = "middle";
+    x.fillText(t, cx, cy + S * .03);
+  };
   const symbol = (mx, my, S) => {
-    if (state.shape === "aucun") { x.fillStyle = ink; x.font = `600 ${S * .78}px "${f}"`; x.textAlign = "center"; x.textBaseline = "middle"; x.fillText(initial, mx + S / 2, my + S / 2); return; }
-    x.fillStyle = accent; x.beginPath();
-    if (state.shape === "rond") x.arc(mx + S / 2, my + S / 2, S / 2, 0, Math.PI * 2);
-    if (state.shape === "carre") { if (x.roundRect) x.roundRect(mx, my, S, S, S * .18); else x.rect(mx, my, S, S); }
-    if (state.shape === "arche") { x.moveTo(mx, my + S); x.lineTo(mx, my + S / 2); x.arc(mx + S / 2, my + S / 2, S / 2, Math.PI, 0); x.lineTo(mx + S, my + S); x.closePath(); }
-    x.fill();
+    const K = { losange: .42, hexa: .5, ecusson: .5, contour: .5 }[L.shape] || .56;
+    const cy = my + S * ({ arche: .6, ecusson: .45 }[L.shape] || .5);
+    if (L.shape === "aucun") { x.fillStyle = ink; inner(mx + S / 2, my + S / 2, S, .8); return; }
+    if (L.shape === "contour") { shapePath(mx, my, S); x.strokeStyle = accent; x.lineWidth = S * .07; x.stroke(); x.fillStyle = accent; inner(mx + S / 2, cy, S, K); return; }
+    shapePath(mx, my, S); x.fillStyle = accent; x.fill();
     x.fillStyle = onColor(d.boutons);
-    if (v !== "couleur") x.globalCompositeOperation = "destination-out";   // versions blanche et une couleur : l'initiale est découpée dans le symbole
-    x.font = `600 ${S * .56}px "${f}"`; x.textAlign = "center"; x.textBaseline = "middle";
-    x.fillText(initial, mx + S / 2, my + S * (state.shape === "arche" ? .6 : .54));
+    if (v !== "couleur") x.globalCompositeOperation = "destination-out";   // versions blanche et une couleur : le contenu est découpé dans la forme
+    inner(mx + S / 2, cy, S, K);
     x.globalCompositeOperation = "source-over";
   };
   if (o.symbol) { const S = Math.min(W, H) * .9; symbol((W - S) / 2, (H - S) / 2, S); return; }
-  const stack = (o.layout || state.layout) === "pile", mark = state.shape !== "aucun";
+  const stack = (o.layout || L.layout) === "pile", mark = L.shape !== "aucun";
   const S = stack ? H * (acts.length ? .4 : .46) : H * .62;                    // taille du symbole
   let size = stack ? H * .2 : H * .3;                                           // taille du nom, réduite s'il est long
-  x.font = `600 ${size}px "${f}"`;
+  const setN = () => { x.font = `600 ${size}px "${f}"`; if (spaced) x.letterSpacing = `${(size * ls).toFixed(1)}px`; };
+  setN();
   const maxW = stack ? W * .9 : W - (mark ? S + H * .2 : 0) - H * .16;
-  while (x.measureText(name).width > maxW && size > 18) { size -= 2; x.font = `600 ${size}px "${f}"`; }
-  const tw = x.measureText(name).width;
+  while (x.measureText(name).width > maxW && size > 18) { size -= 2; setN(); }
+  const tw = x.measureText(name).width - (spaced ? size * ls : 0);
+  if (spaced) x.letterSpacing = "0px";
   // la ligne des activités, en petites capitales espacées, à peu près de la largeur du nom
-  const SEP = "  -  ", spaced = "letterSpacing" in x;
+  const SEP = "  -  ";
   let bs = size * .3;
   const setB = () => { x.font = `600 ${bs}px "Jost"`; if (spaced) x.letterSpacing = `${(bs * .12).toFixed(1)}px`; };
   const bw = () => { setB(); const w = x.measureText(acts.join(SEP)).width; if (spaced) x.letterSpacing = "0px"; return w; };
@@ -747,19 +835,57 @@ function drawLogo(cv, o = {}){
     acts.forEach((t, i) => { if (i) { x.fillStyle = ink; x.fillText(SEP, cx, cy); cx += x.measureText(SEP).width; } x.fillStyle = actCol(i); x.fillText(t, cx, cy); cx += x.measureText(t).width; });
     if (spaced) x.letterSpacing = "0px";
   };
-  x.textBaseline = "middle";
+  const nameAt = (left, cy) => { x.fillStyle = ink; setN(); x.textAlign = "left"; x.textBaseline = "middle"; x.fillText(name, left, cy); if (spaced) x.letterSpacing = "0px"; };
   if (stack) {
     const my = H * (acts.length ? .05 : .08);
     if (mark) symbol((W - S) / 2, my, S);
     const ny = mark ? my + S + H * .17 : H / 2 - (acts.length ? (gap + bs) / 2 : 0);
-    x.fillStyle = ink; x.font = `600 ${size}px "${f}"`; x.textAlign = "center"; x.fillText(name, W / 2, ny);
+    nameAt((W - tw) / 2, ny);
     if (acts.length) line((W - lineW) / 2, ny + size / 2 + gap + bs / 2);
   } else {
     const total = (mark ? S + H * .12 : 0) + blockW, mx = (W - total) / 2, tx = mark ? mx + S + H * .12 : mx, top = H / 2 - blockH / 2;
     if (mark) symbol(mx, (H - S) / 2, S);
-    x.fillStyle = ink; x.font = `600 ${size}px "${f}"`; x.textAlign = "left"; x.fillText(name, tx, top + size / 2 + size * .04);
+    nameAt(tx, top + size / 2 + size * .04);
     if (acts.length) line(tx, top + size + gap + bs / 2);
   }
+}
+// des idées de logo : des combinaisons tirées au sort, toujours avec le nom et les couleurs du client
+function ideas(seed){
+  let t = seed * 9301 + 49297; const rnd = () => (t = (t * 9301 + 49297) % 233280) / 233280, pick = l => l[Math.floor(rnd() * l.length)];
+  const own = TRADE_PICTO[state.trade] || "etoile", out = [], seen = new Set();
+  for (let n = 0; out.length < 9 && n < 200; n++) {
+    const shape = n === 0 ? "rond" : pick(SHAPES)[0];
+    const content = shape === "aucun" ? "initiale" : n === 0 ? "picto" : pick(["initiale", "initiale", "deux", "picto", "picto"]);
+    const font = n < 2 ? state.font : pick(FONTS)[0];
+    const casse = font === "manuscrite" ? "normal" : pick(["normal", "maj"]);
+    const idea = { shape, content, picto: content === "picto" ? (rnd() < .6 ? own : pick(PICTOS)[0]) : state.picto, font, casse,
+      espace: casse === "maj" ? pick(["normal", "large"]) : "normal", layout: shape === "aucun" ? "ligne" : pick(["ligne", "ligne", "pile"]) };
+    const k = JSON.stringify(idea); if (!seen.has(k)) { seen.add(k); out.push(idea); }
+  }
+  return out;
+}
+let ideaList = [], ideaKey = "";
+function renderIdeas(d){
+  const key = [state.ideaSeed, d.nom, d.principale, d.fond, d.boutons, state.trade, activities().join(), state.baseline, state.multi, actColors().join()].join("|");
+  if (key !== ideaKey) {
+    ideaKey = key; ideaList = ideas(state.ideaSeed);
+    $("ideas").innerHTML = ideaList.map((_, i) => `<button type="button" class="idea" data-i="${i}" aria-pressed="false" aria-label="Idée ${i + 1}"><canvas width="520" height="200"></canvas></button>`).join("");
+    $("ideas").querySelectorAll("canvas").forEach((cv, i) => drawLogo(cv, { st: ideaList[i] }));
+  }
+  const cur = ["shape", "content", "picto", "font", "casse", "espace", "layout"];
+  $("ideas").querySelectorAll(".idea").forEach((b, i) => b.setAttribute("aria-pressed", cur.every(k => k === "picto" && ideaList[i].content !== "picto" ? true : ideaList[i][k] === state[k])));
+}
+// les essais sous le logo : en petit, sur fond foncé, et ce qui pourrait gêner
+function renderTests(d){
+  const mk = (o, w = 1040, h = 400) => { const cv = document.createElement("canvas"); cv.width = w; cv.height = h; drawLogo(cv, o); return trimmed(cv); };
+  $("tSmall").innerHTML = `<img src="${trimmed($("logoCanvas"))}" alt=""><img src="${mk({ symbol: true }, 200, 200)}" alt="">`;
+  $("tDark").innerHTML = `<img src="${mk({ v: "blanc" })}" alt="">`;
+  const name = d.nom || "", hints = [];
+  if (name.length > 18 && state.layout === "ligne" && state.shape !== "aucun") hints.push("Votre nom est long : en disposition empilée, il restera plus lisible en petit.");
+  if (state.shape !== "aucun" && contrast(d.boutons, d.fond) < 2) hints.push("Le symbole ressort peu sur votre fond : prenez une couleur vive plus marquée à l'étape 3.");
+  if (state.font === "manuscrite" && state.casse === "maj") hints.push("Les lettres manuscrites se lisent mal en majuscules : gardez le nom comme écrit.");
+  if (state.font === "elegante" && state.espace === "serre") hints.push("Ces lettres fines se collent en petit : essayez l'espacement normal.");
+  $("logoHint").hidden = !hints.length; $("logoHint").textContent = hints.join(" ");
 }
 const slug = () => (data().nom || "commerce").toLowerCase().normalize("NFD").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 function download(o, suffix){
@@ -809,7 +935,7 @@ function data(){
     logo: state.logoMode === "oui" ? (state.logoName || "oui, à envoyer") : state.logoMode === "creer" ? "créé avec l'outil" : state.logoMode === "non" ? "à créer" : "",
     principale: $("c1").value.toUpperCase(), fond: $("c2").value.toUpperCase(), boutons: $("c3").value.toUpperCase(),
     titres: fontOf(state.font)[1], ambiance: state.mood.join(", "), deja: state.assets.join(", "), reseaux: $("social").value.trim(),
-    perso: ["p1", "p2", "p3", "p4"].map(id => $(id).value).join(","), forme: state.shape, dispo: state.layout,
+    perso: ["p1", "p2", "p3", "p4"].map(id => $(id).value).join(","), forme: state.shape, dispo: state.layout, contenu: state.content, dessin: state.picto, casse: state.casse, espace: state.espace,
     activites: activities().join(", "), multi: state.multi, couleursActivites: state.multi ? actColors().join(", ") : "", ligne: state.baseline };
 }
 
@@ -853,7 +979,17 @@ function render(){
   $("drop").hidden = state.logoMode !== "oui"; $("maker").hidden = state.logoMode !== "creer"; $("noLogo").hidden = state.logoMode !== "non";
   if (state.logoData) { $("logoImg").src = state.logoData; $("logoImg").hidden = false; $("logoPh").hidden = true; }
   ["c1", "c2", "c3"].forEach(id => $(id + "t").textContent = $(id).value.toUpperCase());
-  if (state.logoMode === "creer") drawLogo($("logoCanvas"));
+  if (state.logoMode === "creer") {
+    drawLogo($("logoCanvas"));
+    const mk = $("maker").style; mk.setProperty("--c1", d.principale); mk.setProperty("--c2", d.fond);
+    if (step === 5) { renderIdeas(d); renderTests(d); }
+  }
+  press("#content .choice", b => b.dataset.v === state.content);
+  press("#picto .choice", b => b.dataset.v === pictoOf(state));
+  press("#lfont .choice", b => b.dataset.v === state.font);
+  press("#casse .choice", b => b.dataset.v === state.casse);
+  press("#espace .choice", b => b.dataset.v === state.espace);
+  $("contentBox").hidden = state.shape === "aucun"; $("pictoBox").hidden = state.shape === "aucun" || state.content !== "picto";
   const acts = activities();
   $("multiBox").hidden = acts.length < 2; $("lineBox").hidden = !acts.length; $("multi").checked = state.multi;
   const key = acts.join("|");
@@ -910,7 +1046,7 @@ function charter(d){
   // 1. présentation
   $("pIntro").textContent = `Cette charte rassemble les règles qui font qu'on reconnaît ${name} au premier coup d'œil : le logo, les couleurs, les lettres, et la façon de les utiliser. Donnez-la à toute personne qui fabrique quelque chose à votre nom : imprimeur, brodeur, fabricant d'enseigne, graphiste.`;
   $("pWhy").innerHTML = [
-    ["Le logo", state.logoMode === "creer" ? SHAPE_SAYS[state.shape] : sent ? "Votre logo reste la base de tout : on ne le redessine pas, on fixe la façon de l'utiliser." : "Votre nom, toujours écrit de la même façon dans la police des titres, tient lieu de logo."],
+    ["Le logo", state.logoMode === "creer" ? SHAPE_SAYS[state.shape] + (state.shape !== "aucun" && state.content === "picto" ? ` Dedans, ${PICTOS.find(p => p[0] === pictoOf(state))[2]} dit votre métier avant même qu'on lise le nom.` : "") : sent ? "Votre logo reste la base de tout : on ne le redessine pas, on fixe la façon de l'utiliser." : "Votre nom, toujours écrit de la même façon dans la police des titres, tient lieu de logo."],
     acts.length && state.baseline ? ["La ligne sous le nom", `Elle reprend vos activités : en un coup d'œil, on sait ce que vous faites.${state.multi && acts.length > 1 ? " Chaque activité a sa couleur, qu'on retrouve partout où on en parle." : ""}`] : null,
     ["Les lettres", `${f[2]} pour les titres : ${f[3].toLowerCase()}.${f[2] === "Jost" ? "" : " Jost, très lisible, pour le texte."}`],
     ["Les couleurs", `Trois couleurs, toujours les mêmes et dans les mêmes proportions : ${says(d.principale).split(", ")[0]} pour la principale, ${says(d.boutons).split(", ")[0]} pour la couleur vive.`],
@@ -974,12 +1110,20 @@ function charter(d){
 
 // ——— choix et écoute
 const chips = (id, list) => $(id).innerHTML = list.map(v => { const [k, n] = Array.isArray(v) ? v : [v, v]; return `<button type="button" class="choice" data-v="${esc(k)}" aria-pressed="false">${esc(n)}</button>`; }).join("");
+chips("content", CONTENTS); chips("casse", CASSES); chips("espace", ESPACES); chips("lfont", FONTS.map(([k, n]) => [k, n]));
+$("lfont").querySelectorAll(".choice").forEach(b => b.style.fontFamily = `'${fontOf(b.dataset.v)[2]}',var(--font)`);
+$("picto").innerHTML = PICTOS.map(([k, n]) => `<button type="button" class="choice" data-v="${k}" aria-pressed="false"><canvas width="44" height="44" aria-hidden="true"></canvas>${n}</button>`).join("");
+const drawPictoChips = () => $("picto").querySelectorAll("canvas").forEach(cv => { const x = cv.getContext("2d"); x.clearRect(0, 0, 44, 44); x.fillStyle = getComputedStyle(document.body).color; drawPicto(x, cv.parentNode.dataset.v, 22, 22, 40); });
+drawPictoChips(); new MutationObserver(drawPictoChips).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 chips("trade", TRADES); chips("mood", MOODS); chips("assets", ASSETS); chips("shape", SHAPES); chips("layout", LAYOUTS); chips("baseLine", [["oui", "Avec vos activités"], ["non", "Sans"]]);
 $("presets").innerHTML = PRESETS.map(([n, a, b, c], i) => `<button type="button" class="preset" data-i="${i}"><i><span style="background:${a}"></span><span style="background:${b}"></span><span style="background:${c}"></span></i>${n}</button>`).join("");
 $("fonts").innerHTML = FONTS.map(([k, n, f, d]) => `<button type="button" class="font" data-k="${k}" aria-pressed="false"><b style="font-family:'${f}',var(--font)">${n}</b><small>${d}</small></button>`).join("");
 
 const one = (id, key) => $(id).addEventListener("click", e => { const b = e.target.closest(".choice"); if (!b) return; state[key] = b.dataset.v; render(); });
 one("trade", "trade"); one("logoMode", "logoMode"); one("shape", "shape"); one("layout", "layout");
+one("content", "content"); one("picto", "picto"); one("lfont", "font"); one("casse", "casse"); one("espace", "espace");
+$("ideas").addEventListener("click", e => { const b = e.target.closest(".idea"); if (!b) return; Object.assign(state, ideaList[b.dataset.i]); render(); });
+$("moreIdeas").addEventListener("click", () => { state.ideaSeed++; render(); });
 $("baseLine").addEventListener("click", e => { const b = e.target.closest(".choice"); if (!b) return; state.baseline = b.dataset.v === "oui"; render(); });
 $("multi").addEventListener("change", e => { state.multi = e.target.checked; if (state.multi) state.actColors = actColors(); render(); });
 $("actCols").addEventListener("input", e => { if (e.target.dataset.i == null) return; state.actColors = actColors(); state.actColors[e.target.dataset.i] = e.target.value.toUpperCase(); render(); });
@@ -1032,6 +1176,7 @@ if (saved.deja) state.assets = saved.deja.split(", ").filter(v => ASSETS.include
 if (saved.perso) saved.perso.split(",").forEach((v, i) => { if ($("p" + (i + 1))) $("p" + (i + 1)).value = v; });
 if (saved.forme) state.shape = saved.forme;
 if (saved.dispo) state.layout = saved.dispo;
+for (const [k, s] of [["contenu", "content"], ["dessin", "picto"], ["casse", "casse"], ["espace", "espace"]]) if (saved[k]) state[s] = saved[k];
 if (saved.logo) state.logoMode = saved.logo === "à créer" ? "non" : saved.logo === "créé avec l'outil" ? "creer" : "oui";
 // ——— un écran par étape (0 : présentation, 1 à 5 : étapes, 6 : la charte)
 const TITLES = ["", "Votre commerce", "Sa personnalité", "Les couleurs", "Les lettres", "Le logo", "Votre charte"];
@@ -1062,7 +1207,8 @@ const fromHash = Number((location.hash.match(/etape-(\d)/) || [])[1]) || (EXEMPL
 if (EXEMPLE) { $("demo").hidden = false; $("mine").hidden = false; $("send").hidden = true; $("nextDevis").hidden = true; }
 history.replaceState({ step: fromHash }, "", location.href);
 go(fromHash, false);
-document.fonts.ready.then(render);   // le logo dessiné attend que les polices soient chargées
+// le logo et les idées sont dessinés sur un canevas : on charge les cinq polices, puis on redessine
+Promise.all(FONTS.map(f => document.fonts.load(`600 40px "${f[2]}"`))).catch(() => {}).then(() => { ideaKey = ""; render(); });
 </script>
 </body>
 </html>

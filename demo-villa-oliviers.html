@@ -80,6 +80,14 @@ nav.links a:hover{color:var(--olive)}
 .room .price b{font-family:var(--f-display);font-weight:400;font-size:26px;color:var(--olive);font-variant-numeric:tabular-nums}
 .room .price span{font-size:14px;color:var(--muted)}
 
+.bento{display:grid;grid-template-columns:1.3fr 1fr 1fr;grid-template-rows:repeat(2,minmax(0,220px));gap:14px}
+.bento figure{margin:0;position:relative;border-radius:6px;overflow:hidden;background:var(--stone-2)}
+.bento .big{grid-row:span 2}
+.bento img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s ease}
+.bento figure:hover img{transform:scale(1.04)}
+.bento figcaption{position:absolute;left:12px;bottom:12px;background:rgba(255,254,250,.92);color:var(--olive-d);font-size:13px;font-weight:700;padding:6px 12px;border-radius:999px}
+@media (max-width:900px){.bento{grid-template-columns:1fr 1fr;grid-template-rows:none;grid-auto-rows:180px}.bento .big{grid-column:span 2;grid-row:span 1;}}
+@media (prefers-reduced-motion:reduce){.bento img{transition:none}}
 .book{background:var(--olive);color:var(--stone)}
 .book .kicker{color:var(--sage)}
 .book h2{color:var(--stone)}
@@ -146,7 +154,7 @@ footer p{margin:0;opacity:.85;font-size:15px}
 <header class="nav band">
   <div class="in">
     <a class="logo" href="#top"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path d="M15 28V12" stroke="#3F5B3A" stroke-width="2.5" stroke-linecap="round"/><ellipse cx="9" cy="10" rx="6" ry="2.6" transform="rotate(-30 9 10)" fill="#3F5B3A"/><ellipse cx="21" cy="10" rx="6" ry="2.6" transform="rotate(30 21 10)" fill="#A9B99A"/><ellipse cx="15" cy="5" rx="2.6" ry="5" fill="#3F5B3A"/><circle cx="19" cy="17" r="2" fill="#B86B4B"/></svg>Les Oliviers</a>
-    <nav class="links"><a href="#villa">La villa</a><a href="#dispo">Disponibilités</a><a href="#alentours">Alentours</a></nav>
+    <nav class="links"><a href="#villa">La villa</a><a href="#galerie">Photos</a><a href="#dispo">Disponibilités</a><a href="#alentours">Alentours</a></nav>
     <a class="btn" href="#dispo">Réserver</a>
   </div>
 </header>
@@ -167,6 +175,20 @@ footer p{margin:0;opacity:.85;font-size:15px}
     <h2>Tout l'espace, rien qu'à vous</h2>
     <div class="facts"><div><b>220 m²</b><span>Habitables</span></div><div><b>4</b><span>Chambres</span></div><div><b>3</b><span>Salles de bain</span></div><div><b>8</b><span>Voyageurs</span></div><div><b>12 × 5 m</b><span>Piscine chauffée</span></div></div>
     <div class="rooms" id="rooms"></div>
+  </div>
+</section>
+
+<section class="sec band" id="galerie" style="padding-top:0">
+  <div class="in">
+    <div class="kicker">En images</div>
+    <h2>La vie à la villa</h2>
+    <div class="bento">
+      <figure class="big"><img src="images/villa/piscine.webp" alt="Mas en pierre et sa piscine privée sous le ciel bleu" width="1100" height="1000" loading="lazy" decoding="async"><figcaption>La piscine chauffée, 12 × 5 m</figcaption></figure>
+      <figure><img src="images/villa/sejour.webp" alt="Séjour rustique aux murs de pierre et poutres apparentes" width="640" height="480" loading="lazy" decoding="async"><figcaption>Le séjour</figcaption></figure>
+      <figure><img src="images/villa/chambre-2.webp" alt="Chambre méditerranéenne avec armoire en bois et murs blancs" width="640" height="480" loading="lazy" decoding="async"><figcaption>Suite parentale</figcaption></figure>
+      <figure><img src="images/villa/terrasse.webp" alt="Terrasse en pierre avec tables face à la mer" width="640" height="480" loading="lazy" decoding="async"><figcaption>Dîner en terrasse</figcaption></figure>
+      <figure><img src="images/villa/lavande.webp" alt="Champ de lavande devant un mas provençal" width="640" height="480" loading="lazy" decoding="async"><figcaption>Les lavandes en juillet</figcaption></figure>
+    </div>
   </div>
 </section>
 

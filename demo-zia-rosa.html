@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>Épicerie Zia Rosa, démo Saitora</title>
+<meta name="description" content="Démo de site vitrine pour une épicerie traditionnelle de village en Corse : les rayons, la journée du magasin, la tournée dans les hameaux et la commande par téléphone. Réalisé par Saitora.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="Saitora">
+<meta property="og:title" content="Épicerie Zia Rosa, démo Saitora">
+<meta property="og:description" content="Une épicerie de village de la vallée du Prunelli, depuis 1952. Démo réalisée par Saitora.">
+<meta name="theme-color" content="#161C1A">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Crect%20width=%2264%22%20height=%2264%22%20fill=%22%23161C1A%22/%3E%3Cpath%20d=%22M14%2018l4-4%204%204%204-4%204%204%204-4%204%204%204-4%204%204%204-4V56H14Z%22%20fill=%22%23C8A577%22/%3E%3C/svg%3E">
+<link rel="stylesheet" href="polices/bebas-neue-eb-garamond-9dbcac.css">
+<style>
+/* Téléphone : pas de flash gris au toucher, pas de texte grossi en paysage, réponse dès que le doigt se pose,
+   libellés des boutons non sélectionnables, contenu tenu hors de l'encoche en paysage. */
+html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(a,button,[role="button"],label,select,input,textarea){touch-action:manipulation}
+:where(button,.btn){-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+
+/* Épicerie Zia Rosa. Idée : le sac en papier kraft de l'épicerie, tamponné à son nom et fermé par un bord dentelé,
+   porte tout ce qu'on doit savoir ; les tickets de caisse montrent les vrais prix ; le bon de commande se découpe.
+   Direction « la page est l'objet » : Bebas Neue (le tampon) et EB Garamond (l'écriture), vert très sombre et os. */
+:root{
+  --bg:#161C1A; --surface:#1F2725; --ink:#E3E2DA; --muted:#A3A9A2; --accent:#9FC7B8; --accent-ink:#161C1A;
+  --kraft:#C8A577; --kraft-2:#B8945F; --kraft-ink:#1E1A14; --slip:#F2F0E8;
+  --display:"Bebas Neue",Impact,"Arial Narrow",sans-serif;
+  --text:"EB Garamond",Garamond,Georgia,serif;
+  --step-small:.875rem;
+  --step-body:clamp(1.125rem,1.05rem + .3vw,1.3125rem);
+  --step-lead:clamp(1.375rem,1.2rem + .7vw,1.875rem);
+  --step-head:clamp(3rem,1.6rem + 5vw,6rem);
+  --m:clamp(16px,4vw,48px);
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 var(--step-body)/1.45 var(--text)}
+h1,h2,h3,p,ul,ol,figure{margin:0}
+a{color:inherit}
+img{display:block;max-width:100%}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.demo{background:#0C100F;color:var(--muted);font:400 var(--step-small)/1.4 var(--text);text-align:center;padding:6px 16px}
+.wrap{width:calc(100% - 2 * var(--m));margin-inline:auto}
+h2{font:400 var(--step-head)/.85 var(--display);letter-spacing:-.02em;text-transform:uppercase}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 26px;border:0;background:var(--accent);color:var(--accent-ink);font:500 var(--step-body) var(--text);text-decoration:none;cursor:pointer;transition:transform 160ms cubic-bezier(.23,1,.32,1),background-color 160ms ease}
+.btn:active{transform:scale(.97)}
+
+/* le sac kraft sur la pénombre du magasin : bord du haut dentelé, comme le sac coupé à la machine */
+.hero{position:relative;min-height:calc(100svh - 32px);display:grid;place-items:center;padding:56px var(--m);overflow:hidden}
+.hero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.55)}
+.bag{position:relative;width:min(760px,100%);background:var(--kraft);color:var(--kraft-ink);padding:44px 40px 32px;
+  clip-path:polygon(0 14px,2.5% 0,5% 14px,7.5% 0,10% 14px,12.5% 0,15% 14px,17.5% 0,20% 14px,22.5% 0,25% 14px,27.5% 0,30% 14px,32.5% 0,35% 14px,37.5% 0,40% 14px,42.5% 0,45% 14px,47.5% 0,50% 14px,52.5% 0,55% 14px,57.5% 0,60% 14px,62.5% 0,65% 14px,67.5% 0,70% 14px,72.5% 0,75% 14px,77.5% 0,80% 14px,82.5% 0,85% 14px,87.5% 0,90% 14px,92.5% 0,95% 14px,97.5% 0,100% 14px,100% 100%,0 100%)}
+.bag h1{display:flex;justify-content:space-between;gap:12px;font:400 var(--step-head)/.85 var(--display);letter-spacing:-.01em;text-transform:uppercase}
+.bag .facts{display:grid;grid-template-columns:auto 1fr;gap:28px;margin-top:28px;align-items:start}
+.bag .facts p:first-child{font:400 var(--step-lead)/1.05 var(--display);letter-spacing:.01em;text-transform:uppercase}
+.bag .lead{font-size:var(--step-lead);line-height:1.25;max-width:30ch}
+.bag .foot{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:32px}
+.bag .open{font-style:italic}
+.bag .open b{font-style:normal;font-weight:500}
+.bag .btn{background:var(--kraft-ink);color:var(--kraft)}
+.bag .more{text-underline-offset:4px}
+
+/* les rayons : des cartes en teintes voisines, côte à côte */
+.shelves{padding-block:clamp(120px,14vw,200px) 0}
+.shelves .intro{margin-top:20px;max-width:52ch}
+.deck{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:48px}
+.card{padding:32px;min-height:360px;display:flex;flex-direction:column;gap:14px}
+.card:nth-child(3n+1){background:#1F2725}
+.card.wide{grid-column:span 2;display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.card.wide>div{display:flex;flex-direction:column;gap:14px}
+.card.wide figure{margin:-32px -32px -32px 0;overflow:hidden}
+.card.wide img{width:100%;height:100%;object-fit:cover}
+.card:nth-child(3n+2){background:#26302D}
+.card:nth-child(3n){background:#2D3834}
+.card h3{font:400 var(--step-lead)/.95 var(--display);text-transform:uppercase;letter-spacing:.005em}
+.card p{color:var(--muted)}
+.card ul{list-style:none;padding:0;display:grid;gap:8px;margin-top:auto}
+.card li{display:flex;justify-content:space-between;gap:16px}
+.card li span:last-child{font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--ink)}
+.card li small{display:block;color:var(--muted);font-size:var(--step-small)}
+.shelves .count{margin-top:28px;color:var(--muted)}
+
+/* la journée du magasin : une rangée qui se fait glisser */
+.day{padding-block:clamp(120px,14vw,200px) 0}
+.day .row-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px}
+.day .arrows{display:flex;gap:8px}
+.day .arrows button{width:48px;height:48px;border:0;background:var(--surface);color:var(--ink);font:400 1.5rem/1 var(--text);cursor:pointer;transition:background-color 160ms ease}
+.bar{height:6px;background:var(--surface);margin-top:20px}
+.bar i{display:block;height:100%;width:20%;background:var(--ink);transition:width 120ms linear}
+.moments{display:flex;gap:32px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:var(--m);overscroll-behavior-x:contain;padding:32px 0 8px;margin-top:4px;scrollbar-width:none}
+.moment:first-child{margin-left:var(--m)}
+.moment:last-child{margin-right:var(--m)}
+.moments::-webkit-scrollbar{display:none}
+.moment{flex:none;width:300px;scroll-snap-align:start;display:flex;flex-direction:column}
+.moment h3{font:500 var(--step-lead)/1.15 var(--text)}
+.moment p{color:var(--muted);margin-top:6px}
+.moment figure{margin-top:var(--gap,96px);aspect-ratio:4/5;overflow:hidden}
+.moment img{width:100%;height:100%;object-fit:cover}
+
+/* les tickets de caisse au bord de la vallée */
+.tickets{position:relative;margin-top:clamp(120px,14vw,200px);height:96svh;min-height:640px;overflow:hidden}
+.tickets>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.62)}
+.tickets .say{position:relative;margin-left:18%;padding:56px 32px 32px 0;max-width:560px}
+.tickets .say p{font-size:var(--step-lead);line-height:1.25;color:#fff}
+.tickets .say p+p{margin-top:16px;font-size:var(--step-body);line-height:1.45}
+.tickets .say h2{color:#fff;margin-bottom:18px}
+.slips{position:absolute;left:0;right:0;bottom:0;display:flex;gap:12px;padding:0 var(--m);align-items:flex-end}
+.slip{flex:1;min-width:0;background:var(--slip);color:#222;padding:16px 16px 0;font:400 var(--step-small)/1.4 var(--text);overflow:hidden}
+.slip:nth-child(2){transform:rotate(-1.5deg)}
+.slip:nth-child(5){transform:rotate(1.2deg)}
+.slip b{display:block;font-weight:500}
+.slip .cut{letter-spacing:.1em;color:#555;margin:4px 0}
+.slip .l{display:flex;justify-content:space-between;gap:8px;font-variant-numeric:tabular-nums}
+.slip .tot{font-weight:500;margin-top:4px}
+
+/* le bon de commande à découper */
+.coupon{position:relative;margin:120px auto;width:calc(100% - 2 * var(--m));max-width:1100px;display:grid;grid-template-columns:46fr 54fr;background:var(--kraft);color:var(--kraft-ink)}
+.coupon::before,.coupon::after{content:"";position:absolute;left:46%;width:28px;height:28px;border-radius:50%;background:var(--bg);transform:translateX(-50%)}
+.coupon::before{top:-14px}
+.coupon::after{bottom:-14px}
+.coupon .l{padding:48px;display:flex;flex-direction:column;justify-content:space-between;gap:28px;border-right:5px dotted var(--bg)}
+
+.next{background:var(--kraft-2);padding:16px 18px}
+.next b{display:block;font:400 var(--step-lead)/1 var(--display);text-transform:uppercase;letter-spacing:.01em}
+.coupon form{padding:48px;display:grid;gap:10px;align-content:start}
+.coupon input,.coupon select,.coupon textarea{width:100%;min-height:52px;border:0;padding:12px 16px;font:400 1rem/1.4 var(--text);background:#D9BE96;color:var(--kraft-ink);border-radius:0}
+.coupon textarea{min-height:120px;resize:vertical}
+.coupon ::placeholder{color:#6A5636}
+.coupon button{min-height:56px;border:0;background:var(--kraft-ink);color:var(--kraft);font:500 var(--step-body) var(--text);cursor:pointer;transition:transform 160ms ease}
+.coupon button:active{transform:scale(.98)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.ok{min-height:1.4em}
+
+/* le dos du sac */
+footer{background:var(--kraft);color:var(--kraft-ink);padding:56px var(--m) 28px;
+  clip-path:polygon(0 14px,2.5% 0,5% 14px,7.5% 0,10% 14px,12.5% 0,15% 14px,17.5% 0,20% 14px,22.5% 0,25% 14px,27.5% 0,30% 14px,32.5% 0,35% 14px,37.5% 0,40% 14px,42.5% 0,45% 14px,47.5% 0,50% 14px,52.5% 0,55% 14px,57.5% 0,60% 14px,62.5% 0,65% 14px,67.5% 0,70% 14px,72.5% 0,75% 14px,77.5% 0,80% 14px,82.5% 0,85% 14px,87.5% 0,90% 14px,92.5% 0,95% 14px,97.5% 0,100% 14px,100% 100%,0 100%)}
+footer .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
+footer h3{font:400 var(--step-lead)/1 var(--display);text-transform:uppercase;letter-spacing:.01em;margin-bottom:10px}
+footer table{border-collapse:collapse;width:100%;max-width:340px}
+footer td{padding:2px 0;vertical-align:top}
+footer td:last-child{text-align:right;font-variant-numeric:tabular-nums}
+footer tr.now td{font-weight:500}
+footer .stamp{font:400 clamp(4rem,2rem + 13vw,15rem)/.8 var(--display);text-transform:uppercase;letter-spacing:-.02em;margin-top:48px;white-space:nowrap;overflow:hidden}
+footer .fine{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:20px;font-size:var(--step-small)}
+
+/* entrées une fois, en cascade */
+.js .rise{opacity:0;transform:translateY(24px);transition:opacity 700ms cubic-bezier(.23,1,.32,1),transform 700ms cubic-bezier(.23,1,.32,1);transition-delay:calc(var(--i,0) * 75ms)}
+.js .rise.on{opacity:1;transform:none}
+.js .slip.rise{transform:translateY(60px)}
+.js .slip.rise.on:nth-child(2){transform:rotate(-1.5deg)}
+.js .slip.rise.on:nth-child(5){transform:rotate(1.2deg)}
+@media (prefers-reduced-motion:no-preference){.hero>img,.tickets>img{animation:drift 26s ease-in-out infinite alternate}}
+@keyframes drift{from{transform:scale(1)}to{transform:scale(1.06)}}
+
+@media (max-width:900px){
+  .hero{padding:24px 16px}
+  .bag{padding:36px 22px 22px}
+  .bag h1{flex-wrap:wrap;column-gap:.25em;justify-content:flex-start;font-size:13vw}
+  .bag .facts{grid-template-columns:1fr;gap:16px}
+  .bag .foot{flex-direction:column;align-items:stretch;text-align:center}
+  .deck{grid-template-columns:1fr}
+  .card.wide{grid-column:auto;grid-template-columns:1fr}
+  .card.wide figure{margin:0 -32px -32px;aspect-ratio:4/3}
+  .card{min-height:0}
+  .day .arrows{display:none}
+  .moment{width:72vw}
+  .moment figure{margin-top:calc(var(--gap,96px) / 2.5)}
+  .tickets{height:100svh}
+  .tickets .say{margin-left:var(--m);padding-top:40px}
+  .slips{overflow-x:auto;scrollbar-width:none;padding-bottom:0}
+  .slip{flex:none;width:44vw}
+  .coupon{grid-template-columns:1fr}
+  .coupon::before,.coupon::after{display:none}
+  .coupon .l{border-right:0;border-bottom:5px dotted var(--bg);padding:32px 24px}
+  .coupon form{padding:24px}
+  footer .cols{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.js .rise{opacity:1;transform:none;transition:none}}
+@media (hover:hover) and (pointer:fine){
+  .btn:hover{background:#B9DCCF}
+  .bag .btn:hover{background:#000}
+  .day .arrows button:hover{background:#2D3834}
+  .coupon button:hover{background:#000}
+  .bag .more:hover,footer a:hover{text-decoration-thickness:2px}
+}
+@media (pointer:coarse){.bag .more,footer a{display:inline-block;padding-block:10px;margin-block:-10px}}
+</style>
+</head>
+<body>
+<script>document.documentElement.classList.add("js")</script>
+
+<div class="demo">Site de démonstration réalisé par Saitora, épicerie fictive</div>
+
+<main>
+  <section class="hero" aria-labelledby="t-hero">
+    <img src="images/zia-rosa/interieur.webp" alt="Étagères d'une épicerie de village, bocaux et conserves alignés" width="1600" height="1000" fetchpriority="high">
+    <div class="bag rise">
+      <h1 id="t-hero"><span>Épicerie</span><span>Zia</span><span>Rosa</span></h1>
+      <div class="facts">
+        <p>Place de la fontaine<br>Vallée du Prunelli<br>Depuis 1952</p>
+        <p class="lead">Le pain du matin, la coupe, les légumes du jardin, et la tournée des hameaux deux fois par semaine.</p>
+      </div>
+      <div class="foot">
+        <p class="open" id="open"></p>
+        <a class="btn" href="#commande">Commander pour la tournée</a>
+        <a class="more" href="#rayons">Les rayons</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="shelves wrap" id="rayons" aria-labelledby="t-sh">
+    <h2 class="rise" id="t-sh">Les rayons</h2>
+    <p class="intro rise" style="--i:1">Tout ce qu'il faut pour ne pas descendre à Ajaccio, et ce qu'on ne trouve pas ailleurs. Les prix ci-dessous sont ceux de la semaine.</p>
+    <div class="deck" id="deck"></div>
+    <p class="count" id="count"></p>
+  </section>
+
+  <section class="day" id="journee" aria-labelledby="t-day">
+    <div class="wrap row-head">
+      <h2 class="rise" id="t-day">Une journée au magasin</h2>
+      <div class="arrows"><button type="button" id="prevM" aria-label="Moment précédent">‹</button><button type="button" id="nextM" aria-label="Moment suivant">›</button></div>
+    </div>
+    <div class="wrap bar" aria-hidden="true"><i id="barI"></i></div>
+    <div class="moments" id="moments" tabindex="0" aria-label="Les moments de la journée"></div>
+  </section>
+
+  <section class="tickets" id="tournee" aria-labelledby="t-tk">
+    <img src="images/zia-rosa/vallee.webp" alt="Route de montagne qui descend vers la vallée, entre chênes verts et maquis" width="1600" height="1000" loading="lazy">
+    <div class="say">
+      <h2 class="rise" id="t-tk">La tournée</h2>
+      <p class="rise" style="--i:1">Le mardi et le vendredi, la camionnette monte dans les hameaux avec le pain, la coupe et vos commandes de la veille.</p>
+      <p class="rise" style="--i:2">Vous payez à la livraison, en espèces, par carte ou à la fin du mois, comme avant. Voici les tickets d'un vendredi ordinaire.</p>
+    </div>
+    <div class="slips" id="slips"></div>
+  </section>
+
+  <section class="coupon" id="commande" aria-labelledby="t-cp">
+    <div class="l">
+      <h2 id="t-cp">Votre commande</h2>
+      <div class="next" id="next" aria-live="polite"></div>
+      <p>Commandez la veille avant 18 h. On vous rappelle si un produit manque, et on vous propose ce qu'il y a.</p>
+    </div>
+    <form id="order" novalidate>
+      <label class="sr" for="oHam">Votre hameau</label><select id="oHam"></select>
+      <label class="sr" for="oName">Prénom et nom</label><input id="oName" autocomplete="name" placeholder="Prénom et nom">
+      <label class="sr" for="oTel">Téléphone</label><input id="oTel" type="tel" autocomplete="tel" placeholder="Téléphone">
+      <label class="sr" for="oList">Votre liste</label><textarea id="oList" placeholder="Votre liste, par exemple : un pain de campagne, 200 g de coppa, une tomme de brebis, un litre d'huile d'olive"></textarea>
+      <button type="submit">Envoyer ma liste</button>
+      <p class="ok" id="oOk" aria-live="polite"></p>
+    </form>
+  </section>
+</main>
+
+<footer id="infos">
+  <div class="cols">
+    <div><h3>Adresse</h3><p>Place de la fontaine<br>Vallée du Prunelli, Corse-du-Sud</p><p style="margin-top:10px"><a href="tel:+33400000000">04 00 00 00 00</a></p></div>
+    <div><h3>Horaires</h3><table id="hrs"></table></div>
+    <div><h3>Paiement</h3><p>Espèces, carte, ou sur le carnet à régler en fin de mois pour les habitués. Retrait de colis et dépôt de pain toute la journée.</p></div>
+  </div>
+  <p class="stamp" aria-hidden="true">Zia Rosa</p>
+  <div class="fine"><span>© Épicerie Zia Rosa, épicerie fictive</span><span>Site réalisé par Saitora</span></div>
+</footer>
+
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+const eur = n => n.toLocaleString("fr-FR", { minimumFractionDigits: 2 }) + " €";
+
+// ——— les rayons : [nom, phrase, [[produit, détail, prix], …]]
+const SHELVES = [
+  ["La coupe", "Tranchée devant vous, aussi fine que vous voulez.", [["Coppa", "les 100 g", 6.2], ["Lonzu", "les 100 g", 6.5], ["Prisuttu affiné 18 mois", "les 100 g", 8.9], ["Figatellu", "de décembre à mars, la pièce", 7.5]], "coupe-comptoir", "Charcuterie corse tranchée sur le comptoir"],
+  ["Les fromages", "De brebis et de chèvre, de la vallée et du Niolu.", [["Tomme de brebis", "le kilo", 26], ["Brocciu frais", "de novembre à juin, la faisselle", 7], ["Venachese", "le kilo", 32]]],
+  ["Le pain", "Livré à 7 heures par le four du village d'en bas.", [["Pain de campagne", "le pain de 800 g", 3.6], ["Baguette", "la pièce", 1.2], ["Canistrelli au vin blanc", "le sachet de 250 g", 4.9]]],
+  ["L'épicerie", "Ce qu'il faut toujours avoir, et quelques douceurs d'ici.", [["Farine de châtaigne", "le paquet de 500 g", 8.5], ["Huile d'olive de Corse", "le litre", 19], ["Confiture de figue", "le pot de 350 g", 6.8]]],
+  ["Le comptoir", "Le café debout, et tout ce qui évite un voyage en ville.", [["Café", "au comptoir", 1.2], ["Recharge de gaz", "13 kg, consigne en plus", 32], ["Timbre lettre verte", "la pièce", 1.29]]],
+  ["Le jardin", "Les légumes du potager d'à côté, selon ce qui pousse.", [["Tomates", "en été, le kilo", 4.5], ["Courgettes", "le kilo", 3.2], ["Châtaignes", "en automne, le kilo", 6]]],
+  ["La cave", "Les vins des domaines de l'île, et de quoi trinquer.", [["Vin rouge, Ajaccio AOP", "la bouteille", 14], ["Vin rosé de Corse", "la bouteille", 11], ["Liqueur de myrte", "la bouteille de 50 cl", 21]], "cave", "Bouteilles de vin rangées sur une étagère en bois"],
+];
+const list = items => `<ul>${items.map(([p, x, pr]) => `<li><span>${esc(p)}<small>${esc(x)}</small></span><span>${eur(pr)}</span></li>`).join("")}</ul>`;
+$("deck").innerHTML = SHELVES.map(([n, d, items, img, alt], i) => img
+  ? `<article class="card wide rise"><div><h3>${esc(n)}</h3><p>${esc(d)}</p>${list(items)}</div><figure><img src="images/zia-rosa/${img}.webp" alt="${esc(alt)}" width="700" height="700" loading="lazy"></figure></article>`
+  : `<article class="card rise" style="--i:${i % 3}"><h3>${esc(n)}</h3><p>${esc(d)}</p>${list(items)}</article>`).join("");
+$("count").textContent = `Sept rayons, ${SHELVES.reduce((a, s) => a + s[2].length, 0)} produits montrés ici sur plus de quatre cents au magasin.`;
+
+// photos-dynamiques: images/zia-rosa/coupe-comptoir.webp images/zia-rosa/cave.webp images/zia-rosa/pain.webp images/zia-rosa/journaux.webp images/zia-rosa/coupe.webp images/zia-rosa/camionnette.webp images/zia-rosa/legumes.webp images/zia-rosa/village.webp
+// ——— la journée : [heure, ce qui se passe, photo, espace au-dessus]
+const MOMENTS = [
+  ["7 heures, le pain", "Le four du village d'en bas dépose les pains devant la porte. Les premiers clients attendent avec leur café.", "pain", 96],
+  ["8 heures, les journaux", "Corse-Matin, les mots fléchés, et les nouvelles de la vallée qui ne sont dans aucun journal.", "journaux", 140],
+  ["10 heures, la coupe", "On sort la coppa et le lonzu. On tranche à la demande, et on fait goûter.", "coupe", 80],
+  ["Mardi et vendredi, la tournée", "La camionnette part à 10 heures vers les hameaux, avec les commandes de la veille.", "camionnette", 120],
+  ["17 heures, le jardin", "Le voisin apporte ce qu'il a cueilli. Ça se vend avant la fermeture.", "legumes", 100],
+  ["19 heures 30, on ferme", "On rentre les cagettes, on écrit les commandes du lendemain sur le cahier.", "village", 136],
+];
+$("moments").innerHTML = MOMENTS.map(([t, d, img, g], i) => `<article class="moment rise" style="--gap:${g}px;--i:${i}"><h3>${esc(t)}</h3><p>${esc(d)}</p><figure><img src="images/zia-rosa/${img}.webp" alt="" width="600" height="750" loading="lazy"></figure></article>`).join("");
+const mv = $("moments"), bar = () => { const max = mv.scrollWidth - mv.clientWidth; $("barI").style.width = `${Math.max(12, max ? (mv.scrollLeft / max) * 100 : 100)}%`; };
+mv.addEventListener("scroll", bar, { passive: true }); bar(); addEventListener("resize", bar);
+const step = d => mv.scrollBy({ left: d * 332, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+$("prevM").onclick = () => step(-1); $("nextM").onclick = () => step(1);
+
+// ——— les tickets d'un vendredi
+const SLIPS = [
+  ["Tolla, 10 h", [["Pain de campagne", 3.6], ["Coppa 150 g", 9.3], ["Tomme 300 g", 7.8]]],
+  ["Ocana, 10 h 40", [["Baguette ×2", 2.4], ["Courgettes 1 kg", 3.2], ["Journal", 1.5], ["Timbres ×4", 5.16]]],
+  ["Eccica, 11 h 15", [["Farine de châtaigne", 8.5], ["Œufs ×6", 3.4]]],
+  ["Suarella, 11 h 40", [["Pain de campagne", 3.6], ["Lonzu 100 g", 6.5], ["Vin rouge AOP", 14], ["Canistrelli", 4.9], ["Recharge de gaz", 32]]],
+  ["Cauro, 12 h 10", [["Baguette", 1.2], ["Confiture de figue", 6.8], ["Café moulu", 4.2]]],
+  ["Au comptoir, 12 h 25", [["Café", 1.2], ["Croissant", 1.1]]],
+];
+const heights = [36, 26, 44, 30, 40, 28];
+$("slips").innerHTML = SLIPS.map(([who, items], i) => `<div class="slip rise" style="height:${heights[i]}svh;--i:${i}"><b>Zia Rosa, ${esc(who)}</b><div class="cut" aria-hidden="true">- - - - - - - - - - -</div>${items.map(([n, p]) => `<div class="l"><span>${esc(n)}</span><span>${eur(p)}</span></div>`).join("")}<div class="l tot"><span>Total</span><span>${eur(items.reduce((a, x) => a + x[1], 0))}</span></div></div>`).join("");
+
+// ——— la tournée : chaque hameau a son jour et son heure ; on calcule le prochain passage
+const HAMLETS = [["Tolla", 2, "10 h"], ["Ocana", 2, "10 h 40"], ["Eccica", 5, "11 h 15"], ["Suarella", 5, "11 h 40"], ["Cauro", 5, "12 h 10"]];
+$("oHam").innerHTML = HAMLETS.map(([n, d, h], i) => `<option value="${i}">${n}, le ${["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"][d]} vers ${h}</option>`).join("");
+function nextRound(){
+  const [n, day, hour] = HAMLETS[$("oHam").value], now = new Date();
+  // commande la veille avant 18 h : on cherche le premier jour de tournée qui laisse ce délai
+  for (let i = 1; i <= 8; i++) {
+    const d = new Date(now); d.setDate(now.getDate() + i);
+    if (d.getDay() !== day) continue;
+    const eve = new Date(d); eve.setDate(d.getDate() - 1); eve.setHours(18, 0, 0, 0);
+    if (now < eve) return { n, d, hour, eve };
+  }
+}
+function showNext(){
+  const r = nextRound(), fmt = d => d.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" });
+  $("next").innerHTML = `<b>Prochain passage à ${esc(r.n)}</b>${fmt(r.d)} vers ${r.hour}. Commande avant ${fmt(r.eve).split(" ")[0]} 18 h.`;
+}
+$("oHam").addEventListener("change", showNext); showNext();
+$("order").addEventListener("submit", e => {
+  e.preventDefault();
+  const miss = ["oName", "oTel", "oList"].filter(id => !$(id).value.trim());
+  ["oName", "oTel", "oList"].forEach(id => $(id).style.outline = miss.includes(id) ? "3px solid #1E1A14" : "");
+  const r = nextRound();
+  $("oOk").textContent = miss.length ? "Il manque votre nom, votre téléphone ou votre liste." : `Liste reçue. Elle part avec la camionnette ${r.d.toLocaleDateString("fr-FR", { weekday: "long" })}, vers ${r.hour} à ${r.n}. (Démo : rien n'est envoyé.)`;
+});
+
+// ——— horaires et ouverture (0 = dimanche)
+const OPEN = { 0: [[7.5, 12]], 1: [[7, 12.5], [16, 19.5]], 2: [[7, 12.5], [16, 19.5]], 3: [[7, 12.5], [16, 19.5]], 4: [[7, 12.5], [16, 19.5]], 5: [[7, 12.5], [16, 19.5]], 6: [[7, 12.5], [16, 19.5]] };
+const hh = x => `${Math.floor(x)} h${x % 1 ? " " + String(Math.round(x % 1 * 60)).padStart(2, "0") : ""}`;
+const DN = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
+const now = new Date(), t = now.getHours() + now.getMinutes() / 60;
+$("hrs").innerHTML = [1, 2, 3, 4, 5, 6, 0].map(i => `<tr class="${i === now.getDay() ? "now" : ""}"><td>${DN[i]}</td><td>${OPEN[i].map(([a, b]) => `${hh(a)} à ${hh(b)}`).join(", ")}</td></tr>`).join("");
+const today = OPEN[now.getDay()], cur = today.find(([a, b]) => t >= a && t < b), nxt = today.find(([a]) => t < a);
+$("open").innerHTML = cur ? `<b>Ouvert</b> jusqu'à ${hh(cur[1])}` : nxt ? `Fermé, on rouvre à <b>${hh(nxt[0])}</b>` : `Fermé, on rouvre demain à <b>${hh(OPEN[(now.getDay() + 1) % 7][0][0])}</b>`;
+
+// ——— entrées
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("on"); io.unobserve(e.target); } }), { threshold: .1 });
+document.querySelectorAll(".rise").forEach(el => io.observe(el));
+</script>
+</body>
+</html>

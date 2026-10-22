@@ -73,8 +73,8 @@ nav.top a:hover{color:var(--ink);background:var(--glass)}
 /* pile de cartes flottantes du hero */
 .reel{position:relative;margin:0;border-radius:18px;overflow:hidden;aspect-ratio:8/5;border:1px solid var(--edge-hi);
   box-shadow:0 30px 80px -20px rgba(0,0,0,.7),0 0 0 6px rgba(255,255,255,.04),0 0 90px -10px rgba(124,92,255,.55);
-  transform:perspective(1400px) rotateY(-9deg) rotateX(3deg);transition:transform .6s ease;background:#0E1230}
-.reel:hover{transform:perspective(1400px) rotateY(0) rotateX(0)}
+  transition:transform .5s cubic-bezier(.2,.8,.2,1),box-shadow .5s ease;background:#0E1230;z-index:2}
+.reel.hover{box-shadow:0 40px 90px -20px rgba(0,0,0,.75),0 0 0 6px rgba(255,255,255,.06),0 0 120px -10px rgba(124,92,255,.75)}
 .reel video{display:block;width:100%;height:100%;object-fit:cover}
 @media (prefers-reduced-motion:reduce){.reel{transform:none;transition:none}}
 
@@ -161,7 +161,6 @@ form.add input:focus,form.add select:focus{outline:none;border-color:var(--g2);b
 
 @media (max-width:860px){
   .hero{grid-template-columns:1fr;gap:24px}
-  .reel{transform:none}
   .steps{grid-template-columns:1fr}
   .kpis{grid-template-columns:repeat(2,1fr)}
   form.add{grid-template-columns:1fr 1fr}
@@ -292,6 +291,18 @@ function renderGrid(){
 }
 chips.addEventListener("click", e=>{const b=e.target.closest(".chip"); if(!b) return; filter=b.dataset.s; renderChips(); renderGrid();});
 renderChips(); renderGrid();
+
+// vidéo d'accueil : droite au repos, zoom et légère inclinaison vers la souris au survol
+const reelBox = document.querySelector(".reel");
+if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  reelBox.addEventListener("pointermove", e => {
+    if (e.pointerType !== "mouse") return;
+    const r = reelBox.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+    reelBox.classList.add("hover");
+    reelBox.style.transform = `perspective(1400px) rotateX(${(.5 - y) * 6}deg) rotateY(${(x - .5) * 8}deg) scale(1.06)`;
+  });
+  reelBox.addEventListener("pointerleave", () => { reelBox.classList.remove("hover"); reelBox.style.transform = ""; });
+}
 
 // reflet qui suit la souris + légère inclinaison
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;

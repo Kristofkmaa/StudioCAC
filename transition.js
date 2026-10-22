@@ -9,7 +9,7 @@
   const style = document.createElement("style");
   style.textContent = `
 .sc-site{position:fixed;inset:0;z-index:9999;pointer-events:none}
-.sc-site.cover{background:${NIGHT}}
+.sc-site.cover{background:var(--night,${NIGHT})}
 .sc-site svg{position:absolute;inset:0;width:100%;height:100%;display:block}`;
   document.head.appendChild(style);
 
@@ -82,7 +82,7 @@
 
     // maquette : barres pour le texte, cadres barrés pour les images, pastilles pour les boutons
     const svg = el("svg", { viewBox: `0 0 ${w} ${h}`, "aria-hidden": "true" });
-    const wire = { stroke: "rgba(125,211,252,.55)", fill: "none", "stroke-width": 1.2 };
+    const wire = { stroke: "rgba(164,144,194,.6)", fill: "none", "stroke-width": 1.2 };
     for (const it of items) {
       const { left: x, top: y, width: bw, height: bh } = it.r;
       const g = it.wire = el("g", { opacity: 0 }, svg);
@@ -90,7 +90,7 @@
         const lh = parseFloat(getComputedStyle(it.n).lineHeight) || parseFloat(getComputedStyle(it.n).fontSize) * 1.3 || 20;
         const lines = Math.max(1, Math.min(4, Math.round(bh / lh)));
         const th = Math.min(it.kind === "title" ? 14 : 6, lh * .45);
-        for (let i = 0; i < lines; i++) el("rect", { x, y: y + (i + .5) * (bh / lines) - th / 2, width: bw * (i === lines - 1 && lines > 1 ? .6 : 1), height: th, rx: th / 2, fill: "rgba(125,211,252,.22)" }, g);
+        for (let i = 0; i < lines; i++) el("rect", { x, y: y + (i + .5) * (bh / lines) - th / 2, width: bw * (i === lines - 1 && lines > 1 ? .6 : 1), height: th, rx: th / 2, fill: "rgba(164,144,194,.25)" }, g);
       } else if (it.kind === "media") {
         el("rect", { x, y, width: bw, height: bh, rx: 8, ...wire }, g);
         el("path", { d: `M${x} ${y}L${x + bw} ${y + bh}M${x + bw} ${y}L${x} ${y + bh}`, ...wire, opacity: .5 }, g);
@@ -130,7 +130,7 @@
       walk(it.n);
       it.chars = chars;
       it.caret = document.createElement("span");
-      it.caret.style.cssText = "display:inline-block;width:.07em;height:.9em;margin-right:-.07em;vertical-align:-.08em;background:#22D3EE;border-radius:2px";
+      it.caret.style.cssText = "display:inline-block;width:.07em;height:.9em;margin-right:-.07em;vertical-align:-.08em;background:#a490c2;border-radius:2px";
       it.s = 240 + i * 90; it.len = 560;                   // même durée quelle que soit la longueur
     });
     const END = Math.max(...items.map(i => i.s + i.len), 900);

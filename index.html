@@ -45,6 +45,8 @@ img,video{display:block;max-width:100%}
 /* barre */
 .bar{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--line)}
 .bar .page{display:flex;align-items:center;gap:20px;height:68px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink)}
+.brand .mark{height:26px;width:auto;display:block}
 .brand img{height:18px;width:auto;filter:var(--logo-filter)}
 .bar nav{display:flex;gap:28px;margin-left:auto;margin-right:12px;font-size:15px}
 .bar nav a{text-decoration:none;color:var(--muted)}
@@ -113,6 +115,8 @@ img,video{display:block;max-width:100%}
 /* pied de page */
 .foot{border-top:1px solid var(--line)}
 .foot .page{display:flex;align-items:center;gap:28px;flex-wrap:wrap;padding-block:28px;font-size:14px;color:var(--muted)}
+.foot-brand{display:flex;align-items:center;gap:10px;color:var(--ink)}
+.foot .mark{height:20px;width:auto;display:block}
 .foot img{height:14px;width:auto;filter:invert(1)}
 .foot nav{display:flex;gap:22px;margin-left:auto}
 .foot a{text-decoration:none}
@@ -180,7 +184,7 @@ form.add input:focus,form.add select:focus{outline:none;border-color:var(--accen
 <div id="public">
   <header class="bar">
     <div class="page">
-      <a class="brand" href="index.html" aria-label="Saitora, accueil"><img src="images/marque/saitora-noir.png" alt="Saitora" width="1165" height="162"></a>
+      <a class="brand" href="index.html" aria-label="Saitora, accueil"><svg class="mark" viewBox="246 330 740 590" aria-hidden="true"><path d="M262 901L624 341L695 456L407 901Z M725 504L970 901L828 901L653 613Z" fill="currentColor"/><circle cx="620" cy="818" r="55" fill="var(--accent)"/></svg><img src="images/marque/saitora-noir.png" alt="Saitora" width="1165" height="162"></a>
       <nav aria-label="Sections"><a href="#vitrines">Réalisations</a><a href="#methode">Méthode</a><a href="#contact">Contact</a></nav>
       <button class="theme-toggle" type="button" data-theme-toggle aria-label="Changer de thème"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.6A8.2 8.2 0 0 1 9.4 4a8.2 8.2 0 1 0 10.6 10.6z"/></svg></button>
       <a class="btn small" href="devis.html" data-transition="Construisons votre site">Demander un devis</a>
@@ -247,7 +251,7 @@ form.add input:focus,form.add select:focus{outline:none;border-color:var(--accen
 
   <footer class="foot">
     <div class="page">
-      <img src="images/marque/saitora-noir.png" alt="Saitora" width="1165" height="162">
+      <span class="foot-brand"><svg class="mark" viewBox="246 330 740 590" aria-hidden="true"><path d="M262 901L624 341L695 456L407 901Z M725 504L970 901L828 901L653 613Z" fill="currentColor"/><circle cx="620" cy="818" r="55" fill="var(--accent)"/></svg><img src="images/marque/saitora-noir.png" alt="Saitora" width="1165" height="162"></span>
       <span>Sites vitrines pour les commerces de quartier</span>
       <nav aria-label="Pied de page"><a href="#vitrines">Réalisations</a><a href="devis.html" data-transition="Construisons votre site">Devis</a><a href="mailto:contact@studiocac.fr">Contact</a></nav>
       <span>© 2026 Saitora</span>

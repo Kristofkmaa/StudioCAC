@@ -83,6 +83,7 @@ a{color:inherit}
 .zero h2{font-weight:400;font-size:clamp(1.6rem,1.2rem + 1.4vw,2.2rem);letter-spacing:-.015em}
 .zero p{color:var(--muted);margin-top:10px;max-width:50ch}
 .zero .price{margin-top:0}
+.zero-side{display:flex;flex-direction:column;gap:18px;align-items:flex-start}
 
 /* le calcul sur la durée */
 .calc{padding-block:clamp(64px,8vw,104px)}
@@ -162,7 +163,7 @@ a{color:inherit}
       <article class="plan">
         <p class="for">Pour un artisan ou un petit commerce qui veut être trouvé.</p>
         <h2>Essentiel</h2><p class="tag"></p>
-        <div class="price"><span class="big">490 €</span><span class="then">puis <b>29 €</b> par mois</span></div>
+        <div class="price"><span class="big" data-o="essentiel.creation">490 €</span><span class="then">puis <b data-o="essentiel.mois">29 €</b> par mois</span></div>
         <ul>
           <li>Un site d'une page, pensé pour le téléphone</li>
           <li>Visible sur Google</li>
@@ -171,12 +172,12 @@ a{color:inherit}
           <li>Une petite modification par mois</li>
           <li class="no">Réservation, rendez-vous ou commande</li>
         </ul>
-        <div class="cta"><a class="btn" href="devis.html" data-transition="Construisons votre site">Choisir Essentiel</a></div>
+        <div class="cta"><a class="btn" href="devis.html?offre=essentiel" data-transition="Construisons votre site">Choisir Essentiel</a></div>
       </article>
       <article class="plan best">
         <p class="for">Pour un restaurant, un salon, une boulangerie, un artisan qui reçoit des demandes.</p>
         <h2>Pro</h2><p class="tag">Celle que je conseille</p>
-        <div class="price"><span class="big">890 €</span><span class="then">puis <b>49 €</b> par mois</span></div>
+        <div class="price"><span class="big" data-o="pro.creation">890 €</span><span class="then">puis <b data-o="pro.mois">49 €</b> par mois</span></div>
         <ul>
           <li>Plusieurs pages, à vos couleurs et avec vos photos</li>
           <li>La fonction de votre métier : réservation, rendez-vous, commande à retirer ou devis</li>
@@ -184,7 +185,7 @@ a{color:inherit}
           <li>Nom de domaine et hébergement compris</li>
           <li>Modifications sans compter, dans la limite du raisonnable</li>
         </ul>
-        <div class="cta"><a class="btn primary" href="devis.html" data-transition="Construisons votre site">Choisir Pro</a></div>
+        <div class="cta"><a class="btn primary" href="devis.html?offre=pro" data-transition="Construisons votre site">Choisir Pro</a></div>
       </article>
       <article class="plan">
         <p class="for">Pour une location, plusieurs adresses ou un projet particulier.</p>
@@ -196,7 +197,7 @@ a{color:inherit}
           <li>Rédaction des textes et séance photo possibles</li>
           <li>Un interlocuteur unique du début à la fin</li>
         </ul>
-        <div class="cta"><a class="btn" href="devis.html" data-transition="Construisons votre site">Décrire mon projet</a></div>
+        <div class="cta"><a class="btn" href="devis.html?offre=surmesure" data-transition="Construisons votre site">Décrire mon projet</a></div>
       </article>
     </div>
 
@@ -205,7 +206,7 @@ a{color:inherit}
         <h2>Pas de trésorerie pour la création ? Formule sans avance.</h2>
         <p>Le site Essentiel sans rien payer au départ : tout est réparti sur l'abonnement, avec un engagement de 24 mois. Ensuite, l'abonnement passe au tarif Essentiel normal.</p>
       </div>
-      <div class="price"><span class="big">0 € <small>au départ</small></span><span class="then">puis <b>69 €</b> par mois pendant 24 mois</span></div>
+      <div class="zero-side"><div class="price"><span class="big"><span data-o="sansavance.creation">0 €</span> <small>au départ</small></span><span class="then">puis <b data-o="sansavance.mois">69 €</b> par mois pendant <span data-o="sansavance.duree" data-unit="mois">24 mois</span></span></div><a class="btn" href="devis.html?offre=sansavance" data-transition="Construisons votre site">Choisir sans avance</a></div>
     </div>
   </section>
 
@@ -251,14 +252,17 @@ a{color:inherit}
   </section>
 </main>
 
+<script src="offres.js?v=1"></script>
 <script>
+// les prix viennent de offres.js (une seule source avec le devis)
+document.querySelectorAll("[data-o]").forEach(el => { const [k, f] = el.dataset.o.split("."), v = OFFRES[k][f]; el.textContent = el.dataset.unit ? `${v} ${el.dataset.unit}` : eur(v); });
+
 // le total payé sur la durée, création comprise
-const PLANS = [
-  { n: "Essentiel", setup: 490, month: 29 },
-  { n: "Pro", setup: 890, month: 49 },
-  { n: "Sans avance", setup: 0, month: 69, until: 24, after: 29, zero: true },
+const O = OFFRES, PLANS = [
+  { n: O.essentiel.nom, setup: O.essentiel.creation, month: O.essentiel.mois },
+  { n: O.pro.nom, setup: O.pro.creation, month: O.pro.mois },
+  { n: O.sansavance.nom, setup: O.sansavance.creation, month: O.sansavance.mois, until: O.sansavance.duree, after: O[O.sansavance.ensuite].mois, zero: true },
 ];
-const eur = n => n.toLocaleString("fr-FR") + " €";
 const total = (p, m) => p.setup + (p.until ? Math.min(m, p.until) * p.month + Math.max(0, m - p.until) * p.after : m * p.month);
 const months = document.getElementById("months");
 function render(){

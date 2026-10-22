@@ -126,6 +126,20 @@ a{color:inherit}
 .summary dt{font-size:14px;color:var(--muted)}
 .summary dd{margin:0;font-size:16px}
 .summary dd.empty{color:var(--faint)}
+/* la formule conseillée, en tête du résumé */
+.offer{padding:20px;margin:-8px -8px 4px;background:var(--surface);border:1px solid var(--line);border-radius:8px;display:flex;flex-direction:column;gap:6px}
+.offer .lbl{font-size:14px;color:var(--accent-text);font-weight:500}
+.offer .wait{color:var(--muted);font-size:15px}
+.offer .name{font-size:1.9rem;line-height:1.1;letter-spacing:-.01em}
+.offer .cost{font-size:16px}
+.offer .why,.offer .alt{font-size:14.5px;color:var(--muted);line-height:1.45}
+.offer .switch{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.offer .switch button{font:500 14px var(--font);padding:7px 11px;border-radius:4px;border:1px solid var(--line-hi);background:none;color:var(--ink);cursor:pointer}
+.offer .switch button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.offer .est{font-size:13.5px;color:var(--faint);margin-top:4px}
+.offer-mini{background:var(--bg-alt);border-left:3px solid var(--accent);padding:12px 14px;font-size:15px;margin-top:-6px}
+.offer-mini:empty{display:none}
+.offer-mini b{font-weight:500}
 .summary .promise{font-size:15px;color:var(--muted);line-height:1.5}
 
 .done{display:none;padding:40px 0 10px;flex-direction:column;align-items:flex-start;gap:18px}
@@ -155,6 +169,7 @@ a{color:inherit}
 }
 @media (max-width:420px){.back.long{display:none}}
 @media (pointer:coarse){
+  .offer .switch button{min-height:44px}
   .back{padding-block:10px;margin-block:-10px}
   .brand{padding-block:9px;margin-block:-9px}
   .pill{min-height:44px}
@@ -214,6 +229,7 @@ a{color:inherit}
 
       <section class="step" data-step="5">
         <h2>Comment vous recontacter ?</h2>
+        <p class="offer-mini" id="offerMini"></p>
         <div class="fields">
           <label>Prénom et nom *<input id="fName" autocomplete="name" required></label>
           <label>Entreprise<input id="fBiz" autocomplete="organization"></label>
@@ -238,6 +254,7 @@ a{color:inherit}
     </form>
 
     <aside class="summary" aria-live="polite">
+      <div class="offer" id="offer"></div>
       <h3>Votre projet</h3>
       <dl id="recap"></dl>
       <p class="promise">Le devis est gratuit et sans engagement. Vous voyez une première maquette avant de vous décider.</p>
@@ -245,6 +262,7 @@ a{color:inherit}
   </div>
 </main>
 
+<script src="offres.js?v=1"></script>
 <script>
 const EMAIL = "contact@saitora.fr";
 // Adresse du formulaire Formspree (https://formspree.io/f/xxxxxxx). Vide : la demande part par la messagerie du visiteur.
@@ -257,7 +275,7 @@ const LABELS = { sector:"Activité", needs:"Besoins", style:"Style", site:"Site 
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
-const state = { sector:"", needs:[], style:null, site:"", domain:"", when:"" };
+const state = { sector:"", needs:[], style:null, site:"", domain:"", when:"", offer:null };   // offer : formule choisie à la main (sinon on suit le conseil)
 let step = 1;
 
 const opt = (val, title, sub, multi, img) => `<button type="button" class="opt${multi ? " multi" : ""}" aria-pressed="false" data-v="${esc(val)}">${img ? `<img src="media/apercus/${img}.webp" alt="" loading="lazy">` : ""}<b>${esc(title)}</b><small>${esc(sub)}</small></button>`;
@@ -283,6 +301,36 @@ function valid(n) {
   return $("fName").value.trim() && mailOk();
 }
 
+// la formule conseillée, d'après l'activité et les besoins
+const METIER = ["Réservation ou prise de RDV", "Commande à retirer", "Demande de devis"];
+function advice() {
+  if (state.sector === "Location, hébergement") return { k: "surmesure", why: "Une location demande un calendrier et des prix selon la saison : on le construit sur mesure." };
+  const m = METIER.find(n => state.needs.includes(n));
+  if (m) return { k: "pro", why: `« ${m} » fait partie de la formule Pro.` };
+  if (state.needs.length >= 4) return { k: "pro", why: "Avec autant de choses à montrer, il vous faut plusieurs pages." };
+  if (state.sector || state.needs.length) return { k: "essentiel", why: "Une page claire suffit pour être trouvé et contacté." };
+  return null;
+}
+const offerKey = () => state.offer || advice()?.k || null;
+function renderOffer() {
+  const a = advice(), k = offerKey();
+  if (!k) {
+    $("offer").innerHTML = `<p class="lbl">Formule conseillée</p><p class="wait">Répondez aux premières questions : je vous conseille une formule et son prix.</p>`;
+    $("offerMini").textContent = "";
+    return;
+  }
+  const o = OFFRES[k], mine = state.offer && (!a || state.offer !== a.k);
+  $("offer").innerHTML = `<p class="lbl">${mine ? "Formule choisie" : "Formule conseillée"}</p>
+    <p class="name">${o.nom}</p>
+    <p class="cost">${prixTexte(k)}</p>
+    ${mine && a ? `<p class="why">Conseillée d'après vos réponses : ${OFFRES[a.k].nom}.</p>` : a ? `<p class="why">${esc(a.why)}</p>` : ""}
+    ${k === "essentiel" ? `<p class="alt">Ou sans avance : ${prixTexte("sansavance")}.</p>` : ""}
+    <div class="switch" role="group" aria-label="Changer de formule">${Object.keys(OFFRES).map(x => `<button type="button" data-k="${x}" aria-pressed="${x === k}">${OFFRES[x].nom}</button>`).join("")}</div>
+    <p class="est">Estimation, confirmée après notre échange.</p>`;
+  $("offerMini").innerHTML = `Formule ${mine ? "choisie" : "conseillée"} : <b>${o.nom}</b>, ${prixTexte(k)}. Estimation confirmée après notre échange.`;
+}
+$("offer").addEventListener("click", e => { const b = e.target.closest("button[data-k]"); if (!b) return; const a = advice(); state.offer = a && b.dataset.k === a.k ? null : b.dataset.k; renderOffer(); });
+
 function refresh() {
   document.querySelectorAll("#sector .opt").forEach(b => b.setAttribute("aria-pressed", b.dataset.v === state.sector));
   document.querySelectorAll("#needs .opt").forEach(b => b.setAttribute("aria-pressed", state.needs.includes(b.dataset.v)));
@@ -291,6 +339,7 @@ function refresh() {
   $("next").disabled = step < 5 && !valid(step);   // à la dernière étape, on explique ce qui manque au clic
   const contact = [$("fName").value.trim(), $("fBiz").value.trim()].filter(Boolean).join(" · ");
   const rows = { sector: sectorText(), needs: state.needs.join(", "), style: state.style || "", site: state.site, domain: state.domain, when: state.when, contact };
+  renderOffer();
   $("recap").innerHTML = Object.entries(rows).map(([k, v]) => `<div><dt>${LABELS[k]}</dt><dd class="${v ? "" : "empty"}">${v ? esc(v) : "À préciser"}</dd></div>`).join("");
 }
 
@@ -314,6 +363,7 @@ function recapText() {
     `Site actuel : ${state.site}`,
     `Nom de domaine : ${state.domain}`,
     `Délai : ${state.when}`,
+    offerKey() ? `Formule ${state.offer ? "choisie" : "conseillée"} : ${OFFRES[offerKey()].nom}, ${prixTexte(offerKey())} (estimation)` : null,
     "",
     `Nom : ${$("fName").value.trim()}`,
     $("fBiz").value.trim() ? `Entreprise : ${$("fBiz").value.trim()}` : null,
@@ -358,6 +408,7 @@ async function send() {
         nom: $("fName").value.trim(), entreprise: $("fBiz").value.trim(), email: $("fMail").value.trim(), telephone: $("fTel").value.trim(),
         activite: sectorText(), besoins: state.needs.join(", "), style: state.style,
         site_actuel: state.site, nom_de_domaine: state.domain, delai: state.when, message: $("fMsg").value.trim(),
+        formule: offerKey() ? `${OFFRES[offerKey()].nom} (${state.offer ? "choisie" : "conseillée"}), ${prixTexte(offerKey())}` : "",
       }),
     });
     if (!r.ok) throw new Error(r.status);
@@ -374,8 +425,10 @@ $("copy").addEventListener("click", () => {
   try { navigator.clipboard.writeText(`À envoyer à ${EMAIL}\n\n${t}`).then(ok).catch(() => {}); } catch (_) {}
 });
 
-// préremplissage depuis une démo : devis.html?style=villa-oliviers
+// préremplissage depuis une démo (devis.html?style=villa-oliviers) ou depuis les tarifs (devis.html?offre=pro)
 const pre = new URLSearchParams(location.search).get("style");
+const preOffer = new URLSearchParams(location.search).get("offre");
+if (preOffer && OFFRES[preOffer]) state.offer = preOffer;
 const preStyle = STYLES.find(([k]) => k && k === pre);
 if (preStyle) state.style = preStyle[1];
 show(1, 1);

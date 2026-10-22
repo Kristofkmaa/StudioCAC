@@ -8,7 +8,7 @@ Site 100 % statique : pas de build, pas de dépendance, chaque page est un fichi
 | Fichier | Rôle |
 | --- | --- |
 | `index.html` | Page d'accueil du portfolio (démos, méthode, contact). L'espace pro `index.html#admin` sert à suivre ses clients ; ses données restent dans le navigateur. |
-| `devis.html` | Demande de devis guidée en 5 étapes (activité, besoins, style, situation, coordonnées). L'envoi ouvre la messagerie du visiteur avec le récapitulatif pré-rempli vers contact@studiocac.fr. `devis.html?style=villa-oliviers` présélectionne un style. |
+| `devis.html` | Demande de devis guidée en 5 étapes (activité, besoins, style, situation, coordonnées). Envoi via Formspree si `FORM_ENDPOINT` est renseigné en haut du script de `devis.html` ; sinon (ou en cas d’échec) la messagerie du visiteur s’ouvre avec le récapitulatif pré-rempli vers contact@studiocac.fr. `devis.html?style=villa-oliviers` présélectionne un style. |
 | `transition.js` | Transition « chantier » : la page quittée s'efface vers le fond nuit, puis la page se construit en ~1,2 s à chaque affichage (arrivée sur le site, lien, retour/avant, rechargement) (maquette, titres h1/h2 écrits lettre par lettre, textes ligne par ligne, images du flou au net, boutons). Un clic termine l'animation. pour les liens `data-transition`. |
 | `demo-*.html` | Une démo de site vitrine par secteur. |
 | `media/showreel.*` | Vidéo de présentation affichée sur la page d'accueil (MP4 + WebM + image d'attente). |

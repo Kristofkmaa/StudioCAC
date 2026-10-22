@@ -193,7 +193,7 @@ header.top{display:flex;justify-content:space-between;align-items:center;gap:16p
 
       <section class="done" id="done" aria-live="polite">
         <div class="check"><svg width="34" height="34" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#070A1A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <h2>Merci, votre demande est prête !</h2>
+        <h2>Merci, c'est noté !</h2>
         <p id="doneText">Votre messagerie s'est ouverte avec le récapitulatif : il ne reste plus qu'à appuyer sur « Envoyer ». Je vous réponds sous 24 h.</p>
         <div class="row"><button class="btn" type="button" id="copy">Copier le récapitulatif</button><a class="btn primary" href="index.html#vitrines" data-transition="Retour aux réalisations">Revoir les réalisations</a></div>
       </section>
@@ -215,6 +215,8 @@ header.top{display:flex;justify-content:space-between;align-items:center;gap:16p
 
 <script>
 const EMAIL = "contact@studiocac.fr";
+// Adresse du formulaire Formspree (https://formspree.io/f/xxxxxxx). Vide : la demande part par la messagerie du visiteur.
+const FORM_ENDPOINT = "";
 const SECTORS = [["Restaurant, bar, café","Carte, réservation, horaires"],["Artisan, BTP","Services, zone, devis"],["Beauté, bien-être","Tarifs, prise de rendez-vous"],["Commerce, boutique","Produits, commande à retirer"],["Location, hébergement","Photos, calendrier, tarifs"],["Autre activité","On s'adapte à votre métier"]];
 const NEEDS = [["Présenter mon activité","Qui vous êtes, ce que vous faites"],["Être trouvé sur Google","Référencement local de base"],["Réservation ou prise de RDV","Vos clients réservent en ligne"],["Commande à retirer","Click & collect, paiement sur place"],["Demande de devis","Formulaire guidé pour vos clients"],["Galerie photos","Vos réalisations, votre lieu"],["Carte ou tarifs","Toujours à jour, facile à modifier"],["Avis clients","Mettre en avant vos avis"]];
 const STYLES = [["table-du-port","La Table du Port","Chaleureux, bord de mer"],["durand-plomberie","Durand Plomberie","Franc et efficace"],["coupe-and-co","Coupe & Co","Chic et éditorial"],["pain-dore","Au Pain Doré","Gourmand et rond"],["villa-oliviers","Villa Les Oliviers","Nature et élégant"],["bois-massif","Bois Massif","Artisanal et sobre"],["","Je ne sais pas encore","Conseillez-moi"]];
@@ -296,13 +298,44 @@ $("wizard").addEventListener("submit", e => {
     return;
   }
   if (step < 5) return show(step + 1, 1);
-  // pas de serveur : la demande part par la messagerie du visiteur, récapitulatif pré-rempli
-  const subject = `Demande de devis · ${$("fBiz").value.trim() || sectorText()}`;
-  location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(recapText())}`;
+  send();
+});
+
+const subject = () => `Demande de devis · ${$("fBiz").value.trim() || sectorText()}`;
+function finish(text) {
+  $("doneText").textContent = text;
   document.querySelectorAll(".step").forEach(s => s.classList.remove("on"));
   $("nav").hidden = true; $("progress").hidden = true;
   $("done").classList.add("on");
-});
+}
+// secours sans serveur : la messagerie du visiteur s'ouvre avec le récapitulatif pré-rempli
+function sendByMail() {
+  location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(subject())}&body=${encodeURIComponent(recapText())}`;
+  finish("Votre messagerie s'est ouverte avec le récapitulatif : il ne reste plus qu'à appuyer sur « Envoyer ». Je vous réponds sous 24 h.");
+}
+async function send() {
+  if (!FORM_ENDPOINT) return sendByMail();
+  $("next").disabled = true; $("next").textContent = "Envoi en cours…";
+  try {
+    const r = await fetch(FORM_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify({
+        _subject: subject(),
+        _replyto: $("fMail").value.trim(),
+        nom: $("fName").value.trim(), entreprise: $("fBiz").value.trim(), email: $("fMail").value.trim(), telephone: $("fTel").value.trim(),
+        activite: sectorText(), besoins: state.needs.join(", "), style: state.style,
+        site_actuel: state.site, nom_de_domaine: state.domain, delai: state.when, message: $("fMsg").value.trim(),
+      }),
+    });
+    if (!r.ok) throw new Error(r.status);
+    finish(`Votre demande est bien arrivée. Je vous réponds sous 24 h à ${$("fMail").value.trim()}.`);
+  } catch (_) {
+    $("next").disabled = false; $("next").textContent = "Envoyer ma demande";
+    $("err").textContent = "L'envoi n'a pas abouti. Votre messagerie va s'ouvrir avec la demande pré-remplie.";
+    setTimeout(sendByMail, 1600);
+  }
+}
 
 $("copy").addEventListener("click", () => {
   const t = recapText(), ok = () => { $("copy").textContent = "Récapitulatif copié"; setTimeout(() => $("copy").textContent = "Copier le récapitulatif", 1800); };

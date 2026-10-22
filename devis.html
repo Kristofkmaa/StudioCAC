@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Demande de devis · StudioCac</title>
+<meta name="description" content="Décrivez votre projet de site vitrine en 5 étapes et recevez un devis gratuit sous 24 h.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="StudioCac">
+<meta property="og:title" content="Demande de devis · StudioCac">
+<meta property="og:description" content="Décrivez votre projet de site vitrine en 5 étapes et recevez un devis gratuit sous 24 h.">
+<meta name="theme-color" content="#070A1A">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Devis guidé : même univers que l'accueil (nuit, halos, verre dépoli). Questionnaire en 5 étapes à gauche,
+   résumé du projet qui se remplit à droite. */
+:root{
+  --night:#070A1A; --night-2:#0E1230;
+  --glass:rgba(255,255,255,.07); --glass-hi:rgba(255,255,255,.12); --edge:rgba(255,255,255,.16); --edge-hi:rgba(255,255,255,.32);
+  --ink:#F3F5FF; --muted:rgba(226,231,255,.66); --faint:rgba(226,231,255,.42);
+  --g1:#7C5CFF; --g2:#22D3EE; --g3:#FF5FA2; --ok:#4ADE9A; --warn:#FFC266;
+  --f-display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --f-body:"Instrument Sans","Helvetica Neue",Arial,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{background:var(--night)}
+body{margin:0;background:var(--night);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;min-height:100vh;overflow-x:hidden;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--g2);outline-offset:3px;border-radius:8px}
+.aurora{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;background:radial-gradient(ellipse at 50% 120%,var(--night-2),var(--night) 60%)}
+.aurora span{position:absolute;border-radius:50%;opacity:.5}
+.aurora span:nth-child(1){width:60vmax;height:60vmax;background:radial-gradient(circle,var(--g1),transparent 65%);top:-26vmax;left:-20vmax}
+.aurora span:nth-child(2){width:50vmax;height:50vmax;background:radial-gradient(circle,var(--g2),transparent 65%);bottom:-26vmax;right:-18vmax;opacity:.35}
+.glass{background:linear-gradient(135deg,rgba(40,46,92,.62),rgba(18,22,52,.5));border:1px solid var(--edge);border-radius:22px;box-shadow:inset 0 1px 0 rgba(255,255,255,.18)}
+.wrap{position:relative;z-index:1;max-width:1140px;margin:0 auto;padding-block:20px 64px}
+header.top{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:10px 12px 10px 18px;border-radius:999px;background:rgba(16,20,48,.92)}
+.brand{font-family:var(--f-display);font-weight:800;font-size:19px;display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand i{width:26px;height:26px;border-radius:8px;background:conic-gradient(from 210deg,var(--g1),var(--g2),var(--g3),var(--g1));box-shadow:0 0 18px rgba(124,92,255,.7)}
+.btn{font:600 15px var(--f-body);padding:12px 20px;border-radius:999px;border:1px solid var(--edge-hi);background:var(--glass);color:var(--ink);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:transform .2s,box-shadow .2s,background .2s,opacity .2s}
+.btn:hover{transform:translateY(-2px);background:var(--glass-hi)}
+.btn.primary{border-color:transparent;background:linear-gradient(110deg,var(--g1),var(--g3));box-shadow:0 10px 30px -8px rgba(124,92,255,.8)}
+.btn.sm{padding:8px 14px;font-size:14px}
+.btn[disabled]{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+.label{font-family:var(--f-mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+
+.intro{margin:56px 0 28px;max-width:720px}
+.intro h1{font-family:var(--f-display);font-weight:800;font-size:clamp(36px,5.4vw,60px);line-height:1;letter-spacing:-.035em;margin:10px 0 12px}
+.intro h1 em{font-style:normal;background:linear-gradient(100deg,var(--g2),var(--g1) 45%,var(--g3));-webkit-background-clip:text;background-clip:text;color:transparent}
+.intro p{margin:0;color:var(--muted);font-size:17px}
+
+.layout{display:grid;grid-template-columns:1.65fr 1fr;gap:24px;align-items:start}
+.wizard{padding:30px 32px 26px;min-height:520px;display:flex;flex-direction:column}
+.progress{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:26px}
+.progress span{height:4px;border-radius:4px;background:rgba(255,255,255,.12);overflow:hidden;position:relative}
+.progress span::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--g2),var(--g1));transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.progress span.ok::after,.progress span.cur::after{transform:scaleX(1)}
+.step{display:none;flex-direction:column;gap:18px;flex:1}
+.step.on{display:flex;animation:stepIn .5s cubic-bezier(.2,.8,.2,1)}
+.step.back{animation-name:stepBack}
+@keyframes stepIn{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:none}}
+@keyframes stepBack{from{opacity:0;transform:translateX(-28px)}to{opacity:1;transform:none}}
+.step h2{font-family:var(--f-display);font-weight:700;font-size:clamp(24px,3vw,32px);letter-spacing:-.025em;margin:0;line-height:1.1}
+.step .hint{margin:-10px 0 0;color:var(--muted)}
+
+.opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
+.opt{position:relative;text-align:left;font:inherit;color:inherit;cursor:pointer;padding:16px 16px 14px;border-radius:16px;border:1px solid var(--edge);background:rgba(255,255,255,.04);display:flex;flex-direction:column;gap:4px;transition:border-color .2s,background .2s,transform .2s}
+.opt:hover{border-color:var(--edge-hi);background:rgba(255,255,255,.07);transform:translateY(-2px)}
+.opt b{font-weight:600;font-size:16px;padding-right:26px}
+.opt small{color:var(--muted);font-size:13.5px;line-height:1.35}
+.opt::after{content:"";position:absolute;right:14px;top:16px;width:18px;height:18px;border-radius:50%;border:1.5px solid var(--edge-hi);transition:all .2s}
+.opt.multi::after{border-radius:6px}
+.opt[aria-pressed="true"]{border-color:var(--g2);background:rgba(34,211,238,.09);box-shadow:0 0 0 1px var(--g2) inset}
+.opt[aria-pressed="true"]::after{background:var(--g2) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4 8-9' fill='none' stroke='%23070A1A' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/12px no-repeat;border-color:var(--g2)}
+.styles{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+.styles .opt{padding:8px 8px 12px}
+.styles .opt img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;border-radius:10px;display:block;margin-bottom:6px}
+.styles .opt b,.styles .opt small{padding-left:6px}
+.styles .opt::after{top:16px;right:16px;background-color:rgba(7,10,26,.6)}
+.group{display:flex;flex-direction:column;gap:10px}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pill{font:500 15px var(--f-body);color:var(--ink);cursor:pointer;padding:10px 16px;border-radius:999px;border:1px solid var(--edge);background:rgba(255,255,255,.04);transition:all .2s}
+.pill:hover{border-color:var(--edge-hi)}
+.pill[aria-pressed="true"]{background:var(--ink);color:var(--night);border-color:var(--ink)}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fields label{display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--muted);font-weight:500}
+.fields .full{grid-column:1/-1}
+.fields input,.fields textarea,#otherSector{font:16px var(--f-body);color:var(--ink);background:rgba(255,255,255,.05);border:1px solid var(--edge);border-radius:12px;padding:12px 14px;width:100%}
+.fields textarea{min-height:96px;resize:vertical}
+.fields input:focus,.fields textarea:focus,#otherSector:focus{outline:none;border-color:var(--g2);box-shadow:0 0 0 3px rgba(34,211,238,.18)}
+.fields .err{color:var(--warn);font-size:13px;min-height:1em}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:auto;padding-top:24px}
+.nav .count{font-family:var(--f-mono);font-size:13px;color:var(--faint)}
+
+.summary{padding:24px;position:sticky;top:20px;display:flex;flex-direction:column;gap:16px}
+.summary h3{font-family:var(--f-display);font-size:20px;margin:0;display:flex;align-items:center;gap:10px}
+.summary h3 i{width:10px;height:10px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 4px rgba(74,222,154,.2)}
+.summary dl{margin:0;display:flex;flex-direction:column;gap:12px}
+.summary dl div{display:flex;flex-direction:column;gap:2px;padding-bottom:12px;border-bottom:1px dashed var(--edge)}
+.summary dt{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.summary dd{margin:0;font-size:15px}
+.summary dd.empty{color:var(--faint)}
+.summary .promise{font-size:14px;color:var(--muted);display:flex;flex-direction:column;gap:6px}
+.summary .promise span::before{content:"✓ ";color:var(--ok);font-weight:700}
+
+.done{display:none;text-align:center;padding:30px 10px;flex-direction:column;align-items:center;gap:16px}
+.done.on{display:flex;animation:stepIn .5s cubic-bezier(.2,.8,.2,1)}
+.done .check{width:76px;height:76px;border-radius:50%;background:linear-gradient(135deg,var(--ok),var(--g2));display:grid;place-items:center;box-shadow:0 0 50px rgba(74,222,154,.5)}
+.done h2{font-family:var(--f-display);font-size:clamp(26px,3.4vw,36px);margin:0;letter-spacing:-.025em}
+.done p{margin:0;color:var(--muted);max-width:46ch}
+.done .row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:6px}
+
+/* entrée après la transition depuis l'accueil */
+.sc-arrive .intro,.sc-arrive .wizard,.sc-arrive .summary{animation:rise .8s cubic-bezier(.2,.8,.2,1) both}
+.sc-arrive .intro{animation-delay:.45s}.sc-arrive .wizard{animation-delay:.58s}.sc-arrive .summary{animation-delay:.7s}
+@keyframes rise{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+
+@media (max-width:900px){
+  .layout{grid-template-columns:1fr}
+  .summary{position:static}
+  .wizard{padding:22px 18px;min-height:0}
+  .fields{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<script src="transition.js"></script>
+<div class="aurora" aria-hidden="true"><span></span><span></span></div>
+
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="index.html" data-transition="Retour aux réalisations"><i></i>StudioCac</a>
+    <a class="btn sm" href="index.html#vitrines" data-transition="Retour aux réalisations">← Voir les réalisations</a>
+  </header>
+
+  <section class="intro">
+    <div class="label">Devis gratuit · 2 minutes</div>
+    <h1>Construisons <em>votre site</em> ensemble.</h1>
+    <p>Cinq questions rapides pour comprendre votre activité. Je vous réponds sous 24 h avec une proposition sur mesure.</p>
+  </section>
+
+  <div class="layout">
+    <form class="wizard glass" id="wizard" novalidate>
+      <div class="progress" id="progress" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+
+      <section class="step" data-step="1">
+        <div class="label">Étape 1 · Votre activité</div>
+        <h2>Quelle est votre activité ?</h2>
+        <div class="opts" id="sector" role="group" aria-label="Votre activité"></div>
+        <input id="otherSector" type="text" placeholder="Précisez votre activité" hidden>
+      </section>
+
+      <section class="step" data-step="2">
+        <div class="label">Étape 2 · Vos besoins</div>
+        <h2>Que doit faire votre site ?</h2>
+        <p class="hint">Plusieurs choix possibles.</p>
+        <div class="opts" id="needs" role="group" aria-label="Fonctionnalités souhaitées"></div>
+      </section>
+
+      <section class="step" data-step="3">
+        <div class="label">Étape 3 · Votre style</div>
+        <h2>Quel style vous parle le plus ?</h2>
+        <p class="hint">Une base de départ : on l'adapte ensuite à vos couleurs et à vos photos.</p>
+        <div class="opts styles" id="style" role="group" aria-label="Style préféré"></div>
+      </section>
+
+      <section class="step" data-step="4">
+        <div class="label">Étape 4 · Votre situation</div>
+        <h2>Où en êtes-vous ?</h2>
+        <div class="group"><b>Avez-vous déjà un site ?</b><div class="pills" data-key="site"></div></div>
+        <div class="group"><b>Un nom de domaine (ex. mon-commerce.fr) ?</b><div class="pills" data-key="domain"></div></div>
+        <div class="group"><b>Pour quand ?</b><div class="pills" data-key="when"></div></div>
+      </section>
+
+      <section class="step" data-step="5">
+        <div class="label">Étape 5 · Vos coordonnées</div>
+        <h2>Comment vous recontacter ?</h2>
+        <div class="fields">
+          <label>Prénom et nom *<input id="fName" autocomplete="name" required></label>
+          <label>Entreprise<input id="fBiz" autocomplete="organization"></label>
+          <label>E-mail *<input id="fMail" type="email" autocomplete="email" required></label>
+          <label>Téléphone<input id="fTel" type="tel" autocomplete="tel"></label>
+          <label class="full">Un mot sur votre projet<textarea id="fMsg" placeholder="Ce qui compte pour vous, vos idées, vos questions…"></textarea></label>
+          <div class="err full" id="err" role="alert"></div>
+        </div>
+      </section>
+
+      <section class="done" id="done" aria-live="polite">
+        <div class="check"><svg width="34" height="34" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#070A1A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h2>Merci, votre demande est prête !</h2>
+        <p id="doneText">Votre messagerie s'est ouverte avec le récapitulatif : il ne reste plus qu'à appuyer sur « Envoyer ». Je vous réponds sous 24 h.</p>
+        <div class="row"><button class="btn" type="button" id="copy">Copier le récapitulatif</button><a class="btn primary" href="index.html#vitrines" data-transition="Retour aux réalisations">Revoir les réalisations</a></div>
+      </section>
+
+      <div class="nav" id="nav">
+        <button class="btn" type="button" id="prev">← Retour</button>
+        <span class="count" id="count"></span>
+        <button class="btn primary" type="submit" id="next">Continuer →</button>
+      </div>
+    </form>
+
+    <aside class="summary glass" aria-live="polite">
+      <h3><i></i>Votre projet</h3>
+      <dl id="recap"></dl>
+      <div class="promise"><span>Devis gratuit et sans engagement</span><span>Réponse sous 24 h</span><span>Une première maquette avant de vous décider</span></div>
+    </aside>
+  </div>
+</div>
+
+<script>
+const EMAIL = "contact@studiocac.fr";
+const SECTORS = [["Restaurant, bar, café","Carte, réservation, horaires"],["Artisan, BTP","Services, zone, devis"],["Beauté, bien-être","Tarifs, prise de rendez-vous"],["Commerce, boutique","Produits, commande à retirer"],["Location, hébergement","Photos, calendrier, tarifs"],["Autre activité","On s'adapte à votre métier"]];
+const NEEDS = [["Présenter mon activité","Qui vous êtes, ce que vous faites"],["Être trouvé sur Google","Référencement local de base"],["Réservation ou prise de RDV","Vos clients réservent en ligne"],["Commande à retirer","Click & collect, paiement sur place"],["Demande de devis","Formulaire guidé pour vos clients"],["Galerie photos","Vos réalisations, votre lieu"],["Carte ou tarifs","Toujours à jour, facile à modifier"],["Avis clients","Mettre en avant vos avis"]];
+const STYLES = [["table-du-port","La Table du Port","Chaleureux, bord de mer"],["durand-plomberie","Durand Plomberie","Franc et efficace"],["coupe-and-co","Coupe & Co","Chic et éditorial"],["pain-dore","Au Pain Doré","Gourmand et rond"],["villa-oliviers","Villa Les Oliviers","Nature et élégant"],["bois-massif","Bois Massif","Artisanal et sobre"],["","Je ne sais pas encore","Conseillez-moi"]];
+const SITUATION = { site:["Pas encore","Oui, à refaire"], domain:["Oui","Non","Je ne sais pas"], when:["Au plus vite","Dans le mois","Pas pressé"] };
+const LABELS = { sector:"Activité", needs:"Besoins", style:"Style", site:"Site actuel", domain:"Nom de domaine", when:"Délai", contact:"Contact" };
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+const state = { sector:"", needs:[], style:null, site:"", domain:"", when:"" };
+let step = 1;
+
+const opt = (val, title, sub, multi, img) => `<button type="button" class="opt${multi ? " multi" : ""}" aria-pressed="false" data-v="${esc(val)}">${img ? `<img src="media/apercus/${img}.webp" alt="" loading="lazy">` : ""}<b>${esc(title)}</b><small>${esc(sub)}</small></button>`;
+$("sector").innerHTML = SECTORS.map(([t, s]) => opt(t, t, s)).join("");
+$("needs").innerHTML = NEEDS.map(([t, s]) => opt(t, t, s, true)).join("");
+$("style").innerHTML = STYLES.map(([k, t, s]) => opt(k ? t : "Conseillez-moi", t, s, false, k)).join("");
+document.querySelectorAll(".pills").forEach(p => { p.innerHTML = SITUATION[p.dataset.key].map(v => `<button type="button" class="pill" aria-pressed="false" data-v="${esc(v)}">${esc(v)}</button>`).join(""); });
+
+// choix
+$("sector").addEventListener("click", e => { const b = e.target.closest(".opt"); if (!b) return; state.sector = b.dataset.v; $("otherSector").hidden = state.sector !== "Autre activité"; if (!$("otherSector").hidden) $("otherSector").focus(); refresh(); });
+$("needs").addEventListener("click", e => { const b = e.target.closest(".opt"); if (!b) return; const v = b.dataset.v; state.needs = state.needs.includes(v) ? state.needs.filter(x => x !== v) : [...state.needs, v]; refresh(); });
+$("style").addEventListener("click", e => { const b = e.target.closest(".opt"); if (!b) return; state.style = b.dataset.v; refresh(); });
+document.querySelectorAll(".pills").forEach(p => p.addEventListener("click", e => { const b = e.target.closest(".pill"); if (!b) return; state[p.dataset.key] = b.dataset.v; refresh(); }));
+["otherSector", "fName", "fBiz", "fMail", "fTel", "fMsg"].forEach(id => $(id).addEventListener("input", () => { $("err").textContent = ""; refresh(); }));
+
+const sectorText = () => state.sector === "Autre activité" ? ($("otherSector").value.trim() || "Autre activité") : state.sector;
+const mailOk = () => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test($("fMail").value.trim());
+function valid(n) {
+  if (n === 1) return !!state.sector && (state.sector !== "Autre activité" || $("otherSector").value.trim());
+  if (n === 2) return state.needs.length > 0;
+  if (n === 3) return state.style !== null;
+  if (n === 4) return state.site && state.domain && state.when;
+  return $("fName").value.trim() && mailOk();
+}
+
+function refresh() {
+  document.querySelectorAll("#sector .opt").forEach(b => b.setAttribute("aria-pressed", b.dataset.v === state.sector));
+  document.querySelectorAll("#needs .opt").forEach(b => b.setAttribute("aria-pressed", state.needs.includes(b.dataset.v)));
+  document.querySelectorAll("#style .opt").forEach(b => b.setAttribute("aria-pressed", b.dataset.v === state.style));
+  document.querySelectorAll(".pills").forEach(p => p.querySelectorAll(".pill").forEach(b => b.setAttribute("aria-pressed", b.dataset.v === state[p.dataset.key])));
+  $("next").disabled = step < 5 && !valid(step);   // à la dernière étape, on explique ce qui manque au clic
+  const contact = [$("fName").value.trim(), $("fBiz").value.trim()].filter(Boolean).join(" · ");
+  const rows = { sector: sectorText(), needs: state.needs.join(", "), style: state.style || "", site: state.site, domain: state.domain, when: state.when, contact };
+  $("recap").innerHTML = Object.entries(rows).map(([k, v]) => `<div><dt>${LABELS[k]}</dt><dd class="${v ? "" : "empty"}">${v ? esc(v) : "À préciser"}</dd></div>`).join("");
+}
+
+function show(n, dir) {
+  step = n;
+  document.querySelectorAll(".step").forEach(s => { const on = Number(s.dataset.step) === n; s.classList.toggle("on", on); s.classList.toggle("back", on && dir < 0); });
+  [...$("progress").children].forEach((s, i) => { s.className = i + 1 < n ? "ok" : i + 1 === n ? "cur" : ""; });
+  $("prev").style.visibility = n === 1 ? "hidden" : "visible";
+  $("next").textContent = n === 5 ? "Envoyer ma demande" : "Continuer →";
+  $("count").textContent = `${n} / 5`;
+  $("err").textContent = "";
+  refresh();
+}
+$("prev").addEventListener("click", () => show(Math.max(1, step - 1), -1));
+
+function recapText() {
+  return [
+    `Activité : ${sectorText()}`,
+    `Besoins : ${state.needs.join(", ")}`,
+    `Style : ${state.style}`,
+    `Site actuel : ${state.site}`,
+    `Nom de domaine : ${state.domain}`,
+    `Délai : ${state.when}`,
+    "",
+    `Nom : ${$("fName").value.trim()}`,
+    $("fBiz").value.trim() ? `Entreprise : ${$("fBiz").value.trim()}` : null,
+    `E-mail : ${$("fMail").value.trim()}`,
+    $("fTel").value.trim() ? `Téléphone : ${$("fTel").value.trim()}` : null,
+    $("fMsg").value.trim() ? `\nMessage :\n${$("fMsg").value.trim()}` : null,
+  ].filter(x => x !== null).join("\n");
+}
+
+$("wizard").addEventListener("submit", e => {
+  e.preventDefault();
+  if (!valid(step)) {
+    if (step === 5) $("err").textContent = !$("fName").value.trim() ? "Indiquez votre nom pour qu'on sache qui recontacter." : "Cet e-mail ne semble pas valide.";
+    return;
+  }
+  if (step < 5) return show(step + 1, 1);
+  // pas de serveur : la demande part par la messagerie du visiteur, récapitulatif pré-rempli
+  const subject = `Demande de devis · ${$("fBiz").value.trim() || sectorText()}`;
+  location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(recapText())}`;
+  document.querySelectorAll(".step").forEach(s => s.classList.remove("on"));
+  $("nav").hidden = true; $("progress").hidden = true;
+  $("done").classList.add("on");
+});
+
+$("copy").addEventListener("click", () => {
+  const t = recapText(), ok = () => { $("copy").textContent = "Récapitulatif copié"; setTimeout(() => $("copy").textContent = "Copier le récapitulatif", 1800); };
+  try { navigator.clipboard.writeText(`À envoyer à ${EMAIL}\n\n${t}`).then(ok).catch(() => {}); } catch (_) {}
+});
+
+// préremplissage depuis une démo : devis.html?style=villa-oliviers
+const pre = new URLSearchParams(location.search).get("style");
+const preStyle = STYLES.find(([k]) => k && k === pre);
+if (preStyle) state.style = preStyle[1];
+show(1, 1);
+</script>
+</body>
+</html>

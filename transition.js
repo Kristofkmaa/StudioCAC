@@ -14,7 +14,6 @@
   document.head.appendChild(style);
 
   const clamp = x => x < 0 ? 0 : x > 1 ? 1 : x;
-  const ease = x => (x = clamp(x), x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
   const tick = (fn, done) => { const t0 = performance.now(); const f = () => { if (fn(performance.now() - t0) !== false) requestAnimationFrame(f); else done && done(); }; requestAnimationFrame(f); };
   const NS = "http://www.w3.org/2000/svg";
   const el = (tag, attrs, parent) => { const n = document.createElementNS(NS, tag); for (const k in attrs) n.setAttribute(k, attrs[k]); parent && parent.appendChild(n); return n; };
@@ -33,9 +32,9 @@
     e.preventDefault();
     const box = overlay();
     box.classList.add("cover");
-    box.style.opacity = 0;
     document.body.appendChild(box);
-    tick(t => { box.style.opacity = ease(t / 180); return t < 200; }, () => { location.href = a.href; });
+    box.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 180, easing: "ease", fill: "both" })
+      .finished.then(() => { location.href = a.href; });
   });
 
   // ——— arrivée (≈ 1,2 s), à chaque affichage de la page : arrivée sur le site, lien interne, rechargement,
@@ -52,8 +51,6 @@
     text: "p, h3, li, dt, dd, label, .label, .eyebrow, .kicker, .count, .brand, nav a, .proj .top .num, .proj .top .sec",
     frame: ".glass, .proj, .reel, .step b",
   };
-  const outBack = x => { x = clamp(x); const c = 1.9; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
-  const outQuart = x => 1 - Math.pow(1 - clamp(x), 4);
 
   function build() {
   const box = overlay();
@@ -135,34 +132,44 @@
     });
     const END = Math.max(...items.map(i => i.s + i.len), 900);
 
-    // état de départ : tout est masqué sous le plan, puis le plan disparaît
-    for (const it of items) { it.n.style.transition = "none"; if (it.kind !== "title") it.n.style.opacity = 0; }
+    // Les fondus, glissements, flous et la maquette sont confiés au navigateur (Web Animations API) :
+    // ils restent fluides même pendant le chargement de la page. Seule la frappe des titres reste en JS.
+    const OUT = "cubic-bezier(.23,1,.32,1)";          // courbe de sortie forte
+    const POP = "cubic-bezier(.34,1.25,.64,1)";       // léger rebond pour les boutons
+    const KEYS = {
+      frame: [{ opacity: 0, transform: "scale(.985)" }, { opacity: 1, transform: "none" }],
+      text:  [{ opacity: 0, transform: "translateY(8px)", clipPath: "inset(0 100% 0 0)" }, { opacity: 1, transform: "none", clipPath: "inset(0 0 0 0)" }],
+      media: [{ opacity: 0, transform: "scale(1.04)", filter: "blur(6px)" }, { opacity: 1, transform: "none", filter: "blur(0)" }],
+      ctrl:  [{ opacity: 0, transform: "scale(.95)" }, { opacity: 1, transform: "scale(1)", offset: .45 }, { opacity: 1, transform: "none" }],
+    };
+    for (const it of items) it.n.style.transition = "none";
+    const anims = [];
+    for (const it of items) {
+      if (it.kind !== "title") anims.push(it.n.animate(KEYS[it.kind], { delay: it.s, duration: it.len, easing: it.kind === "ctrl" ? POP : OUT, fill: "both" }));
+      // la maquette apparaît puis s'efface quand l'élément arrive
+      const from = it.d, to = Math.max(it.s + it.len / 3, from + 120), dur = to - from;
+      const show = Math.min(90 / dur, .9), hold = Math.min(Math.max((it.s - from) / dur, show), .95);
+      anims.push(it.wire.animate([{ opacity: 0 }, { opacity: 1, offset: show }, { opacity: 1, offset: hold }, { opacity: 0 }], { delay: from, duration: dur, fill: "both" }));
+    }
     document.body.appendChild(plan);
     box.classList.remove("cover");
     document.documentElement.classList.remove("sc-pending");
+    anims.push(box.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 140, easing: OUT, fill: "forwards" }));   // le fond se dissipe aussitôt
 
     let skip = false, cleaned = false;
-    const stop = () => { skip = true; };
+    const stop = () => { skip = true; anims.forEach(x => x.finish()); };
     addEventListener("pointerdown", stop, { once: true });
     addEventListener("keydown", stop, { once: true });
 
+    // frappe des titres, lettre par lettre
     tick(t => {
       if (skip) t = END + 1;
-      box.style.opacity = 1 - outQuart(t / 140);           // le fond se dissipe aussitôt sous la maquette
-      for (const it of items) {
+      for (const it of titles) {
         const p = (t - it.s) / it.len;
-        it.wire.setAttribute("opacity", clamp((t - it.d) / 90) * (1 - clamp(p * 3)));
-        const st = it.n.style;
-        if (it.kind === "frame") { const e = outQuart(p); st.opacity = e; st.transform = `scale(${.985 + .015 * e})`; }
-        else if (it.kind === "text") { const e = outQuart(p); st.opacity = e; st.transform = `translateY(${(1 - e) * 8}px)`; st.clipPath = `inset(0 ${(1 - e) * 100}% 0 0)`; }
-        else if (it.kind === "media") { const e = outQuart(p); st.opacity = e; st.filter = `blur(${(1 - e) * 14}px)`; st.transform = `scale(${1.04 - .04 * e})`; }
-        else if (it.kind === "ctrl") { st.opacity = clamp(p * 2.5); st.transform = `scale(${.82 + .18 * outBack(p)})`; }
-        else {
-          const n = Math.round(clamp(p) * it.chars.length);
-          it.chars.forEach((c, i) => { c.style.visibility = i < n ? "" : "hidden"; });
-          if (p > 0 && p < 1.15) { const at = it.chars[Math.max(0, n - 1)]; at.after(it.caret); it.caret.style.opacity = n === 0 ? 1 : (Math.floor(t / 90) % 2 ? .25 : 1); }
-          else it.caret.remove();
-        }
+        const n = Math.round(clamp(p) * it.chars.length);
+        it.chars.forEach((c, i) => { c.style.visibility = i < n ? "" : "hidden"; });
+        if (p > 0 && p < 1.15) { const at = it.chars[Math.max(0, n - 1)]; at.after(it.caret); it.caret.style.opacity = n === 0 ? 1 : (Math.floor(t / 90) % 2 ? .25 : 1); }
+        else it.caret.remove();
       }
       return t <= END + 60;
     }, cleanup);
@@ -170,6 +177,7 @@
       // on rend les éléments exactement comme avant
       if (cleaned) return;
       cleaned = true; skip = true; current = null;
+      anims.forEach(x => x.cancel());
       for (const it of items) { it.n.style.cssText = it.css; if (it.kind === "title") it.n.innerHTML = it.html; }
       removeEventListener("pointerdown", stop); removeEventListener("keydown", stop);
       plan.remove(); box.remove();

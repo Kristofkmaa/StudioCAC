@@ -29,6 +29,7 @@
   --f-display:"FreeSans","Helvetica Neue",Helvetica,Arial,sans-serif;
   --f-body:"FreeSans","Helvetica Neue",Helvetica,Arial,sans-serif;
   --f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  --ease-out:cubic-bezier(.23,1,.32,1);   /* courbe de sortie forte (Emil Kowalski) pour toute l'interface */
   color-scheme:dark;
 }
 *{box-sizing:border-box}
@@ -42,10 +43,9 @@ a{color:inherit}
 .aurora{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;contain:strict;transform:translateZ(0);will-change:transform;background:radial-gradient(ellipse at 50% 120%,var(--night-2),var(--night) 60%)}
 .aurora span{position:absolute;border-radius:50%;opacity:.55}
 .aurora span:nth-child(1){width:60vmax;height:60vmax;background:radial-gradient(circle,var(--g1),transparent 65%);top:-22vmax;left:-18vmax}
-.aurora span:nth-child(2){width:50vmax;height:50vmax;background:radial-gradient(circle,var(--g2),transparent 65%);top:4vmax;right:-20vmax;animation-duration:26s;opacity:.4}
-.aurora span:nth-child(3){width:46vmax;height:46vmax;background:radial-gradient(circle,var(--g3),transparent 65%);bottom:-20vmax;left:14vmax;animation-duration:30s;opacity:.38}
-.aurora span:nth-child(4){width:28vmax;height:28vmax;background:radial-gradient(circle,var(--g4),transparent 65%);top:36vh;left:40vw;animation-duration:19s;opacity:.25}
-@keyframes drift{to{transform:translate(6vmax,4vmax) scale(1.12)}}
+.aurora span:nth-child(2){width:50vmax;height:50vmax;background:radial-gradient(circle,var(--g2),transparent 65%);top:4vmax;right:-20vmax;opacity:.4}
+.aurora span:nth-child(3){width:46vmax;height:46vmax;background:radial-gradient(circle,var(--g3),transparent 65%);bottom:-20vmax;left:14vmax;opacity:.38}
+.aurora span:nth-child(4){width:28vmax;height:28vmax;background:radial-gradient(circle,var(--g4),transparent 65%);top:36vh;left:40vw;opacity:.25}
 
 .glass{background:linear-gradient(135deg,rgba(74,78,143,.42),rgba(43,30,62,.55));border:1px solid var(--edge);border-radius:22px;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.18)}
@@ -67,21 +67,19 @@ nav.top a:hover{color:var(--ink);background:var(--glass)}
 .hero h1 em{font-style:normal;background:linear-gradient(100deg,var(--g4),var(--g2) 55%,#c3b2e6);-webkit-background-clip:text;background-clip:text;color:transparent}
 .hero p{margin:20px 0 0;color:var(--muted);max-width:46ch;font-size:17px}
 .cta{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap}
-.btn{font:600 15px var(--f-body);padding:12px 20px;border-radius:999px;border:1px solid var(--edge-hi);background:var(--glass);color:var(--ink);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:transform .2s,box-shadow .2s,background .2s}
-.btn:hover{transform:translateY(-2px);background:var(--glass-hi)}
+.btn{font:600 15px var(--f-body);padding:12px 20px;border-radius:999px;border:1px solid var(--edge-hi);background:var(--glass);color:var(--ink);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:transform 160ms var(--ease-out),background-color 160ms ease}
+.btn:hover{background:var(--glass-hi)}
+.btn:active{transform:scale(.97)}
 .btn.primary{border-color:transparent;background:linear-gradient(110deg,var(--g1),var(--g3));box-shadow:0 10px 30px -8px rgba(164,144,194,.8)}
-.btn.primary:hover{box-shadow:0 14px 40px -8px rgba(164,144,194,.8)}
 .btn.sm{padding:8px 14px;font-size:14px}
 
 /* pile de cartes flottantes du hero */
 .reel{position:relative;margin:0;border-radius:18px;overflow:hidden;aspect-ratio:8/5;border:1px solid var(--edge-hi);
   box-shadow:0 30px 80px -20px rgba(0,0,0,.7),0 0 0 6px rgba(255,255,255,.04),0 0 90px -10px rgba(164,144,194,.55);
-  transition:transform .5s cubic-bezier(.2,.8,.2,1),box-shadow .5s ease;background:#241935;z-index:2}
-.reel.hover{box-shadow:0 40px 90px -20px rgba(0,0,0,.75),0 0 0 6px rgba(255,255,255,.06),0 0 120px -10px rgba(164,144,194,.75)}
+  transition:transform 300ms var(--ease-out);background:#241935;z-index:2}
 .reel video{display:block;width:100%;height:100%;object-fit:cover}
 @media (prefers-reduced-motion:reduce){.reel{transform:none;transition:none}}
 
-@keyframes bob{50%{translate:0 -10px}}
 
 .sec-head{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin-bottom:24px}
 .sec-head h2{font-family:var(--f-display);font-weight:700;font-size:clamp(28px,3.4vw,38px);letter-spacing:-.025em;margin:4px 0 0}
@@ -95,31 +93,35 @@ nav.top a:hover{color:var(--ink);background:var(--glass)}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
 /* carte projet : aux couleurs du site présenté, écrans qui dépassent en bas */
 .proj{position:relative;display:flex;flex-direction:column;min-height:560px;padding:28px 30px 0;border-radius:28px;overflow:hidden;isolation:isolate;
-  background:var(--bg);color:var(--fg);text-decoration:none;box-shadow:0 30px 60px -36px rgba(0,0,0,.9);transition:transform .5s cubic-bezier(.2,.8,.2,1),box-shadow .5s}
+  background:var(--bg);color:var(--fg);text-decoration:none;box-shadow:0 30px 60px -36px rgba(0,0,0,.9);transition:transform 250ms var(--ease-out)}
 .proj::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(520px circle at 100% 0,rgba(255,255,255,.16),transparent 62%)}
-.proj:hover{transform:translateY(-6px);box-shadow:0 40px 70px -30px rgba(0,0,0,.9)}
 .proj .top{display:flex;align-items:center;gap:12px;font:500 13px var(--f-mono)}
 .proj .num{opacity:.6}
 .proj .sec{padding:5px 12px;border-radius:999px;border:1px solid color-mix(in srgb,var(--fg) 30%,transparent)}
-.proj .go{margin-left:auto;width:46px;height:46px;border-radius:50%;background:var(--ac);color:var(--bg);display:grid;place-items:center;transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+.proj .go{margin-left:auto;width:46px;height:46px;border-radius:50%;background:var(--ac);color:var(--bg);display:grid;place-items:center;transition:transform 200ms var(--ease-out)}
 .proj .go svg{width:18px;height:18px}
-.proj:hover .go{transform:rotate(45deg) scale(1.08)}
 .proj h3{font:800 clamp(28px,3vw,38px)/1.02 var(--f-display);letter-spacing:-.03em;margin:24px 0 10px}
 .proj p{margin:0;max-width:42ch;opacity:.78;font-size:16px}
 .proj .feats{list-style:none;padding:0;margin:18px 0 0;display:flex;gap:8px;flex-wrap:wrap}
 .proj .feats li{font-size:13px;font-weight:600;padding:6px 12px;border-radius:999px;background:color-mix(in srgb,var(--fg) 12%,transparent)}
 .proj .stage{position:relative;margin-top:auto;height:290px}
 .proj .win{position:absolute;left:0;right:64px;top:36px;border-radius:14px 14px 0 0;overflow:hidden;background:#241935;box-shadow:0 -12px 40px -14px rgba(0,0,0,.5);
-  transform:translateY(22px);transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+  transform:translateY(22px);transition:transform 300ms var(--ease-out)}
 .proj .win .bar{height:24px;display:flex;align-items:center;gap:6px;padding:0 12px;background:#33264a}
 .proj .win .bar i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.35)}
 .proj .win img{display:block;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;object-position:top}
 .proj .phone{position:absolute;right:0;top:70px;width:122px;padding:6px;border-radius:22px;background:#241935;box-shadow:0 24px 40px -12px rgba(0,0,0,.65);
-  transform:translateY(34px) rotate(5deg);transition:transform .6s cubic-bezier(.2,.8,.2,1) .05s}
+  transform:translateY(34px) rotate(5deg);transition:transform 340ms var(--ease-out) 40ms}
 .proj .phone img{display:block;width:100%;height:auto;aspect-ratio:300/585;object-fit:cover;object-position:top;border-radius:16px}
-.proj:hover .win{transform:translateY(0)}
-.proj:hover .phone{transform:translateY(0) rotate(0)}
-@media (prefers-reduced-motion:reduce){.proj,.proj .win,.proj .phone,.proj .go{transition:none}}
+/* survols qui bougent : seulement avec une vraie souris, et sans demande de réduction des animations */
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  .btn:hover{transform:translateY(-2px)}
+  .btn:active{transform:translateY(-2px) scale(.97)}
+  .proj:hover{transform:translateY(-6px)}
+  .proj:hover .go{transform:rotate(45deg) scale(1.08)}
+  .proj:hover .win{transform:translateY(0)}
+  .proj:hover .phone{transform:translateY(0) rotate(0)}
+}
 
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
 .step{padding:24px}
@@ -171,11 +173,11 @@ form.add input:focus,form.add select:focus{outline:none;border-color:var(--g2);b
   form.add{grid-template-columns:1fr 1fr}
   nav.top{display:none}
 }
-@media (prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}.btn:hover{transform:none}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition-property:opacity,color,background-color,border-color!important;transition-duration:200ms!important}.btn:active{transform:none}}
 </style>
 </head>
 <body>
-<script src="transition.js?v=7"></script>
+<script src="transition.js?v=8"></script>
 
 <div class="aurora" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
 
@@ -301,7 +303,7 @@ renderChips(); renderGrid();
 
 // vidéo d'accueil : droite au repos, zoom et légère inclinaison vers la souris au survol
 const reelBox = document.querySelector(".reel");
-if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+if (!matchMedia("(prefers-reduced-motion: reduce)").matches && matchMedia("(hover: hover) and (pointer: fine)").matches) {
   reelBox.addEventListener("pointermove", e => {
     if (e.pointerType !== "mouse") return;
     const r = reelBox.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;

@@ -24,10 +24,11 @@
   --night:#2b1e3e; --night-2:#1e1530;
   --glass:rgba(255,255,255,.07); --glass-hi:rgba(255,255,255,.12); --edge:rgba(255,255,255,.16); --edge-hi:rgba(255,255,255,.32);
   --ink:#e6e6fa; --muted:rgba(230,230,250,.72); --faint:rgba(230,230,250,.48);
-  --g1:#4a4e8f; --g2:#a490c2; --g3:#6f5fa6; --ok:#4ADE9A; --warn:#FFC266;
+  --g1:#4a4e8f; --g2:#a490c2; --g3:#6f5fa6; --g4:#e6e6fa; --ok:#4ADE9A; --warn:#FFC266;
   --f-display:"FreeSans","Helvetica Neue",Helvetica,Arial,sans-serif;
   --f-body:"FreeSans","Helvetica Neue",Helvetica,Arial,sans-serif;
   --f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  --ease-out:cubic-bezier(.23,1,.32,1);   /* courbe de sortie forte (Emil Kowalski) pour toute l'interface */
   color-scheme:dark;
 }
 *{box-sizing:border-box}
@@ -46,8 +47,9 @@ a{color:inherit}
 header.top{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:10px 12px 10px 18px;border-radius:999px;background:rgba(36,25,52,.92)}
 .brand{font-family:var(--f-display);font-weight:800;font-size:19px;display:flex;align-items:center;gap:10px;text-decoration:none}
 .brand i{width:26px;height:26px;border-radius:8px;background:conic-gradient(from 210deg,var(--g1),var(--g2),var(--g3),var(--g1));box-shadow:0 0 18px rgba(164,144,194,.7)}
-.btn{font:600 15px var(--f-body);padding:12px 20px;border-radius:999px;border:1px solid var(--edge-hi);background:var(--glass);color:var(--ink);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:transform .2s,box-shadow .2s,background .2s,opacity .2s}
-.btn:hover{transform:translateY(-2px);background:var(--glass-hi)}
+.btn{font:600 15px var(--f-body);padding:12px 20px;border-radius:999px;border:1px solid var(--edge-hi);background:var(--glass);color:var(--ink);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:transform 160ms var(--ease-out),background-color 160ms ease,opacity 160ms ease}
+.btn:hover{background:var(--glass-hi)}
+.btn:active:not([disabled]){transform:scale(.97)}
 .btn.primary{border-color:transparent;background:linear-gradient(110deg,var(--g1),var(--g3));box-shadow:0 10px 30px -8px rgba(164,144,194,.8)}
 .btn.sm{padding:8px 14px;font-size:14px}
 .btn[disabled]{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
@@ -62,22 +64,24 @@ header.top{display:flex;justify-content:space-between;align-items:center;gap:16p
 .wizard{padding:30px 32px 26px;min-height:520px;display:flex;flex-direction:column}
 .progress{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:26px}
 .progress span{height:4px;border-radius:4px;background:rgba(255,255,255,.12);overflow:hidden;position:relative}
-.progress span::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--g2),var(--g1));transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.progress span::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--g2),var(--g1));transform:scaleX(0);transform-origin:left;transition:transform 300ms var(--ease-out)}
 .progress span.ok::after,.progress span.cur::after{transform:scaleX(1)}
 .step{display:none;flex-direction:column;gap:18px;flex:1}
-.step.on{display:flex;animation:stepIn .5s cubic-bezier(.2,.8,.2,1)}
+.step.on{display:flex;animation:stepIn 220ms var(--ease-out)}
 .step.back{animation-name:stepBack}
-@keyframes stepIn{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:none}}
-@keyframes stepBack{from{opacity:0;transform:translateX(-28px)}to{opacity:1;transform:none}}
+@keyframes stepIn{from{opacity:0;transform:translateX(12px)}to{opacity:1;transform:none}}
+@keyframes stepBack{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:none}}
+@keyframes fadeOnly{from{opacity:0}to{opacity:1}}
 .step h2{font-family:var(--f-display);font-weight:700;font-size:clamp(24px,3vw,32px);letter-spacing:-.025em;margin:0;line-height:1.1}
 .step .hint{margin:-10px 0 0;color:var(--muted)}
 
 .opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
-.opt{position:relative;text-align:left;font:inherit;color:inherit;cursor:pointer;padding:16px 16px 14px;border-radius:16px;border:1px solid var(--edge);background:rgba(255,255,255,.04);display:flex;flex-direction:column;gap:4px;transition:border-color .2s,background .2s,transform .2s}
-.opt:hover{border-color:var(--edge-hi);background:rgba(255,255,255,.07);transform:translateY(-2px)}
+.opt{position:relative;text-align:left;font:inherit;color:inherit;cursor:pointer;padding:16px 16px 14px;border-radius:16px;border:1px solid var(--edge);background:rgba(255,255,255,.04);display:flex;flex-direction:column;gap:4px;transition:border-color 150ms ease,background-color 150ms ease,transform 160ms var(--ease-out)}
+.opt:hover{border-color:var(--edge-hi);background:rgba(255,255,255,.07)}
+.opt:active{transform:scale(.98)}
 .opt b{font-weight:600;font-size:16px;padding-right:26px}
 .opt small{color:var(--muted);font-size:13.5px;line-height:1.35}
-.opt::after{content:"";position:absolute;right:14px;top:16px;width:18px;height:18px;border-radius:50%;border:1.5px solid var(--edge-hi);transition:all .2s}
+.opt::after{content:"";position:absolute;right:14px;top:16px;width:18px;height:18px;border-radius:50%;border:1.5px solid var(--edge-hi);transition:background-color 150ms ease,border-color 150ms ease}
 .opt.multi::after{border-radius:6px}
 .opt[aria-pressed="true"]{border-color:var(--g2);background:rgba(164,144,194,.09);box-shadow:0 0 0 1px var(--g2) inset}
 .opt[aria-pressed="true"]::after{background:var(--g2) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4 8-9' fill='none' stroke='%232b1e3e' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/12px no-repeat;border-color:var(--g2)}
@@ -88,7 +92,8 @@ header.top{display:flex;justify-content:space-between;align-items:center;gap:16p
 .styles .opt::after{top:16px;right:16px;background-color:rgba(7,10,26,.6)}
 .group{display:flex;flex-direction:column;gap:10px}
 .pills{display:flex;flex-wrap:wrap;gap:8px}
-.pill{font:500 15px var(--f-body);color:var(--ink);cursor:pointer;padding:10px 16px;border-radius:999px;border:1px solid var(--edge);background:rgba(255,255,255,.04);transition:all .2s}
+.pill{font:500 15px var(--f-body);color:var(--ink);cursor:pointer;padding:10px 16px;border-radius:999px;border:1px solid var(--edge);background:rgba(255,255,255,.04);transition:background-color 150ms ease,color 150ms ease,border-color 150ms ease,transform 160ms var(--ease-out)}
+.pill:active{transform:scale(.97)}
 .pill:hover{border-color:var(--edge-hi)}
 .pill[aria-pressed="true"]{background:var(--ink);color:var(--night);border-color:var(--ink)}
 .fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}
@@ -113,7 +118,7 @@ header.top{display:flex;justify-content:space-between;align-items:center;gap:16p
 .summary .promise span::before{content:"✓ ";color:var(--ok);font-weight:700}
 
 .done{display:none;text-align:center;padding:30px 10px;flex-direction:column;align-items:center;gap:16px}
-.done.on{display:flex;animation:stepIn .5s cubic-bezier(.2,.8,.2,1)}
+.done.on{display:flex;animation:stepIn 300ms var(--ease-out)}
 .done .check{width:76px;height:76px;border-radius:50%;background:linear-gradient(135deg,var(--ok),var(--g2));display:grid;place-items:center;box-shadow:0 0 50px rgba(74,222,154,.5)}
 .done h2{font-family:var(--f-display);font-size:clamp(26px,3.4vw,36px);margin:0;letter-spacing:-.025em}
 .done p{margin:0;color:var(--muted);max-width:46ch}
@@ -126,11 +131,19 @@ header.top{display:flex;justify-content:space-between;align-items:center;gap:16p
   .wizard{padding:22px 18px;min-height:0}
   .fields{grid-template-columns:1fr}
 }
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  .btn:hover:not([disabled]){transform:translateY(-2px)}
+  .opt:hover{transform:translateY(-2px)}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition-property:opacity,color,background-color,border-color!important;transition-duration:200ms!important}
+  .step.on,.done.on{animation:fadeOnly 200ms ease}
+  .btn:active,.opt:active,.pill:active{transform:none}
+}
 </style>
 </head>
 <body>
-<script src="transition.js?v=7"></script>
+<script src="transition.js?v=8"></script>
 <div class="aurora" aria-hidden="true"><span></span><span></span></div>
 
 <div class="wrap">

@@ -1,4 +1,5 @@
-// Capture le haut de chaque démo pour les cartes de la page d'accueil (media/apercus/*.webp).
+// Capture le haut de chaque démo, sur ordinateur et sur mobile, pour les cartes de la page d'accueil
+// (media/apercus/<démo>.webp et <démo>-mobile.webp).
 // Usage : npm i playwright && node outils/apercus.js   (ffmpeg requis pour la conversion WebP)
 const { chromium } = require("playwright");
 const { execFileSync } = require("child_process");
@@ -11,6 +12,7 @@ const DEMOS = fs.readdirSync(ROOT).filter(f => /^demo-.*\.html$/.test(f));
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "apercus-"));
   const browser = await chromium.launch(process.env.CHROMIUM ? { executablePath: process.env.CHROMIUM } : {});
   const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+  const phone = await browser.newPage({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2 });
   for (const file of DEMOS) {
     await page.goto("file://" + path.join(ROOT, file));
     await page.evaluate(() => document.fonts.ready);
@@ -22,6 +24,16 @@ const DEMOS = fs.readdirSync(ROOT).filter(f => /^demo-.*\.html$/.test(f));
     const out = path.join(ROOT, "media/apercus", file.replace(/^demo-|\.html$/g, "") + ".webp");
     execFileSync("ffmpeg", ["-y", "-loglevel", "error", "-i", png, "-vf", "scale=720:450:flags=lanczos", "-quality", "78", out]);
     console.log(out);
+
+    await phone.goto("file://" + path.join(ROOT, file));
+    await phone.evaluate(() => document.fonts.ready);
+    await phone.waitForTimeout(800);
+    const mtop = await phone.evaluate(() => { const d = document.querySelector(".demo"); return d ? d.offsetHeight : 0; });
+    const mpng = path.join(tmp, file.replace(".html", "-m.png"));
+    await phone.screenshot({ path: mpng, clip: { x: 0, y: mtop, width: 390, height: 760 } });
+    const mout = out.replace(".webp", "-mobile.webp");
+    execFileSync("ffmpeg", ["-y", "-loglevel", "error", "-i", mpng, "-vf", "scale=300:-2:flags=lanczos", "-quality", "78", mout]);
+    console.log(mout);
   }
   await browser.close();
   fs.rmSync(tmp, { recursive: true, force: true });

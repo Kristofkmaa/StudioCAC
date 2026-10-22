@@ -12,7 +12,7 @@ const FPS = 30;
   const browser = await chromium.launch(process.env.CHROMIUM ? { executablePath: process.env.CHROMIUM } : {});
   // captures de la démo racontée dans le film (ordinateur pleine page + mobile)
   const DEMO = "file://" + path.join(ROOT, "demo-table-du-port.html");
-  const shots = { thumbs: fs.readdirSync(path.join(ROOT, "media/apercus")).map(f => "../../media/apercus/" + f) };
+  const shots = { thumbs: fs.readdirSync(path.join(ROOT, "media/apercus")).filter(f => !f.includes("-mobile")).map(f => "../../media/apercus/" + f) };
   for (const [key, viewport, full] of [["desk", { width: 1280, height: 800 }, true], ["mob", { width: 390, height: 844 }, false]]) {
     const p = await browser.newPage({ viewport, deviceScaleFactor: key === "mob" ? 2 : 1 });
     await p.goto(DEMO);

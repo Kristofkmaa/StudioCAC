@@ -78,7 +78,6 @@ nav.top a:hover{color:var(--ink);background:var(--glass)}
 .reel video{display:block;width:100%;height:100%;object-fit:cover}
 @media (prefers-reduced-motion:reduce){.reel{transform:none;transition:none}}
 
-.card.soon .open{color:var(--faint)}
 @keyframes bob{50%{translate:0 -10px}}
 
 .sec-head{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin-bottom:24px}
@@ -90,32 +89,34 @@ nav.top a:hover{color:var(--ink);background:var(--glass)}
 .chip:hover{color:var(--ink)}
 .chip[aria-pressed="true"]{background:rgba(255,255,255,.16);color:var(--ink);box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}
 
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:22px}
-.card{display:flex;flex-direction:column;gap:14px;padding:14px 14px 18px;text-decoration:none;position:relative;transition:transform .35s cubic-bezier(.2,.8,.2,1),border-color .3s}
-.card::before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;background:radial-gradient(240px circle at var(--mx,50%) var(--my,0%),rgba(255,255,255,.55),transparent 60%);
-  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity .3s;pointer-events:none}
-.card:hover::before{opacity:1}
-.card:hover{border-color:var(--edge-hi)}
-.mini{aspect-ratio:16/10;max-width:100%;border-radius:14px;background:var(--c2);color:var(--c1);display:flex;flex-direction:column;padding:12px 14px;gap:8px;font-family:var(--mf);position:relative;overflow:hidden;box-shadow:0 8px 20px -12px var(--glow,rgba(0,0,0,.6))}
-.shot{position:relative;border-radius:14px;overflow:hidden;background:#161B3D;padding-top:22px;box-shadow:0 10px 26px -14px var(--glow)}
-.shot i{position:absolute;top:8px;width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.35)}
-.shot i:nth-child(1){left:10px}.shot i:nth-child(2){left:21px}.shot i:nth-child(3){left:32px}
-.shot img{display:block;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;object-position:top;transition:transform .6s ease}
-.card:hover .shot img{transform:scale(1.03)}
-@media (prefers-reduced-motion:reduce){.shot img{transition:none}}
-.mini::after{content:"";position:absolute;inset:0;background:linear-gradient(160deg,rgba(255,255,255,.22),transparent 40%);pointer-events:none}
-.mini .bar{display:flex;justify-content:space-between;align-items:center;font-size:11px;opacity:.9;font-family:var(--f-body)}
-.mini .bar span:last-child{display:flex;gap:8px}
-.mini .h{margin-top:auto;font-size:clamp(20px,2.4vw,25px);line-height:1.05;font-weight:700;max-width:14ch}
-.mini .s{font-size:11px;opacity:.8;max-width:30ch;font-family:var(--f-body)}
-.mini .b{align-self:flex-start;font:600 10px var(--f-body);padding:5px 10px;border-radius:999px;background:var(--c1);color:var(--c2)}
-.meta{display:flex;justify-content:space-between;align-items:start;gap:12px;padding:0 4px}
-.meta h3{font-family:var(--f-display);font-weight:700;font-size:19px;margin:0 0 2px}
-.meta p{margin:0;color:var(--muted);font-size:14px}
-.tag{font:500 11px var(--f-mono);padding:4px 9px;border:1px solid var(--edge);border-radius:999px;color:var(--muted);white-space:nowrap;background:var(--glass)}
-.ex{font:500 11px var(--f-mono);color:var(--warn)}
-.open{font-size:13px;color:var(--g2);font-weight:600;padding:0 4px;opacity:.8}
-.card:hover .open{opacity:1}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+/* carte projet : aux couleurs du site présenté, écrans qui dépassent en bas */
+.proj{position:relative;display:flex;flex-direction:column;min-height:560px;padding:28px 30px 0;border-radius:28px;overflow:hidden;isolation:isolate;
+  background:var(--bg);color:var(--fg);text-decoration:none;box-shadow:0 30px 60px -36px rgba(0,0,0,.9);transition:transform .5s cubic-bezier(.2,.8,.2,1),box-shadow .5s}
+.proj::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(520px circle at 100% 0,rgba(255,255,255,.16),transparent 62%)}
+.proj:hover{transform:translateY(-6px);box-shadow:0 40px 70px -30px rgba(0,0,0,.9)}
+.proj .top{display:flex;align-items:center;gap:12px;font:500 13px var(--f-mono)}
+.proj .num{opacity:.6}
+.proj .sec{padding:5px 12px;border-radius:999px;border:1px solid color-mix(in srgb,var(--fg) 30%,transparent)}
+.proj .go{margin-left:auto;width:46px;height:46px;border-radius:50%;background:var(--ac);color:var(--bg);display:grid;place-items:center;transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+.proj .go svg{width:18px;height:18px}
+.proj:hover .go{transform:rotate(45deg) scale(1.08)}
+.proj h3{font:800 clamp(28px,3vw,38px)/1.02 var(--f-display);letter-spacing:-.03em;margin:24px 0 10px}
+.proj p{margin:0;max-width:42ch;opacity:.78;font-size:16px}
+.proj .feats{list-style:none;padding:0;margin:18px 0 0;display:flex;gap:8px;flex-wrap:wrap}
+.proj .feats li{font-size:13px;font-weight:600;padding:6px 12px;border-radius:999px;background:color-mix(in srgb,var(--fg) 12%,transparent)}
+.proj .stage{position:relative;margin-top:auto;height:290px}
+.proj .win{position:absolute;left:0;right:64px;top:36px;border-radius:14px 14px 0 0;overflow:hidden;background:#11152F;box-shadow:0 -12px 40px -14px rgba(0,0,0,.5);
+  transform:translateY(22px);transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.proj .win .bar{height:24px;display:flex;align-items:center;gap:6px;padding:0 12px;background:#161B3D}
+.proj .win .bar i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.35)}
+.proj .win img{display:block;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;object-position:top}
+.proj .phone{position:absolute;right:0;top:70px;width:122px;padding:6px;border-radius:22px;background:#11152F;box-shadow:0 24px 40px -12px rgba(0,0,0,.65);
+  transform:translateY(34px) rotate(5deg);transition:transform .6s cubic-bezier(.2,.8,.2,1) .05s}
+.proj .phone img{display:block;width:100%;height:auto;aspect-ratio:300/585;object-fit:cover;object-position:top;border-radius:16px}
+.proj:hover .win{transform:translateY(0)}
+.proj:hover .phone{transform:translateY(0) rotate(0)}
+@media (prefers-reduced-motion:reduce){.proj,.proj .win,.proj .phone,.proj .go{transition:none}}
 
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
 .step{padding:24px}
@@ -159,6 +160,7 @@ form.add input,form.add select{font:15px var(--f-body);padding:10px 12px;border:
 form.add input:focus,form.add select:focus{outline:none;border-color:var(--g2);box-shadow:0 0 0 3px rgba(34,211,238,.2)}
 .note{font-size:13px;color:var(--faint);margin:0}
 
+@media (max-width:860px){.grid{grid-template-columns:1fr}.proj{min-height:0}.proj .stage{height:250px}}
 @media (max-width:860px){
   .hero{grid-template-columns:1fr;gap:24px}
   .steps{grid-template-columns:1fr}
@@ -255,18 +257,15 @@ form.add input:focus,form.add select:focus{outline:none;border-color:var(--g2);b
 <script>
 // Démos publiques : ajoute ici chaque nouveau site (url = lien de la démo en ligne)
 const DEMOS = [
-  {name:"La Table du Port", sector:"Restaurant", desc:"Carte, horaires en direct, réservation", url:"demo-table-du-port.html", c1:"#E4EFEC", c2:"#0F2A3D", glow:"rgba(242,179,61,.5)", mf:"Georgia, serif", h:"Ce que la mer apporte, le jour même.", s:"Midi et soir, sauf le lundi.", cta:"Réserver"},
-  {name:"Durand Plomberie", sector:"Artisan", desc:"Services, zone d'intervention, dépannage", url:"demo-durand-plomberie.html", c1:"#FFFFFF", c2:"#1D4ED8", glow:"rgba(60,110,255,.6)", mf:"var(--f-display)", h:"Dépannage en moins de 2 h", s:"Plomberie, chauffage, salle de bain.", cta:"Devis gratuit"},
-  {name:"Studio Coupe & Co", sector:"Beauté", desc:"Tarifs et prise de RDV en ligne", url:"demo-coupe-and-co.html", c1:"#151214", c2:"#F2D7D0", glow:"rgba(255,160,180,.55)", mf:"Georgia, serif", h:"Coupe, couleur, soin.", s:"Réservez en ligne en trente secondes.", cta:"Prendre RDV"},
-  {name:"Au Pain Doré", sector:"Commerce", desc:"Fournées du jour, commande à retirer", url:"demo-pain-dore.html", c1:"#3B2A14", c2:"#F6D58E", glow:"rgba(255,190,80,.55)", mf:"Georgia, serif", h:"Pains au levain cuits chaque matin.", s:"Commandez la veille, on vous le garde.", cta:"Commander"},
-  {name:"Villa Les Oliviers", sector:"Location", desc:"Villa entière, tarifs par saison, devis instantané", url:"demo-villa-oliviers.html", c1:"#F4F1E6", c2:"#3F5B3A", glow:"rgba(120,200,120,.5)", mf:"Georgia, serif", h:"Une villa pour vous seuls, sous les oliviers.", s:"Piscine privée, 4 chambres, 8 personnes.", cta:"Disponibilités"},
-  {name:"Atelier Bois Massif", sector:"Artisan", desc:"Réalisations, essences, demande de projet", url:"demo-bois-massif.html", c1:"#EDE4D6", c2:"#2F2A24", glow:"rgba(200,160,110,.45)", mf:"Georgia, serif", h:"Meubles sur mesure en bois local.", s:"Cuisines, tables, agencement.", cta:"Mon projet"}
+  {name:"La Table du Port", sector:"Restaurant", desc:"Un restaurant de port qui met ses plats en vitrine et remplit ses tables en ligne.", url:"demo-table-du-port.html", bg:"#0F2A3D", fg:"#FBFCFB", ac:"#F2B33D", feats:["Plats vedettes","Réservation","Horaires en direct"]},
+  {name:"Durand Plomberie", sector:"Artisan", desc:"Un plombier qu'on trouve et qu'on appelle en un clic, même en pleine urgence.", url:"demo-durand-plomberie.html", bg:"#1D4ED8", fg:"#FFFFFF", ac:"#FFD23F", feats:["Appel d'urgence","Zone d'intervention","Devis en ligne"]},
+  {name:"Studio Coupe & Co", sector:"Beauté", desc:"Un salon de coiffure chic où l'on réserve son créneau en trente secondes.", url:"demo-coupe-and-co.html", bg:"#F2D7D0", fg:"#151214", ac:"#151214", feats:["Tarifs clairs","Prise de RDV","Galerie du salon"]},
+  {name:"Au Pain Doré", sector:"Commerce", desc:"Une boulangerie de quartier qui prend les commandes la veille pour le lendemain.", url:"demo-pain-dore.html", bg:"#F6D58E", fg:"#3B2A14", ac:"#D9502B", feats:["Click & collect","Fournées du jour","Panier"]},
+  {name:"Villa Les Oliviers", sector:"Location", desc:"Une villa louée en direct, sans plateforme, avec devis instantané selon la saison.", url:"demo-villa-oliviers.html", bg:"#3F5B3A", fg:"#F4F1E6", ac:"#E9D9A6", feats:["Galerie photo","Calendrier","Devis instantané"]},
+  {name:"Atelier Bois Massif", sector:"Artisan", desc:"Un atelier d'ébéniste qui montre son savoir-faire et reçoit des projets qualifiés.", url:"demo-bois-massif.html", bg:"#2F2A24", fg:"#EDE4D6", ac:"#C8A06E", feats:["Réalisations","Essences de bois","Demande de projet"]}
 ];
 
 const esc = s => String(s).replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
-const mini = d => `<div class="mini" style="--c1:${d.c1};--c2:${d.c2};--mf:${d.mf};--glow:${d.glow}">
-  <div class="bar"><span>${esc(d.name)}</span><span><span>Accueil</span><span>Contact</span></span></div>
-  <div class="h">${esc(d.h)}</div><div class="s">${esc(d.s)}</div><div class="b">${esc(d.cta)}</div></div>`;
 
 // vidéo d'accueil : en pause si l'utilisateur limite les animations
 if (matchMedia("(prefers-reduced-motion: reduce)").matches) { reel.removeAttribute("autoplay"); reel.pause(); }
@@ -276,18 +275,21 @@ function renderChips(){
   const sectors = ["Tous", ...new Set(DEMOS.map(d=>d.sector))];
   chips.innerHTML = sectors.map(s=>`<button class="chip" type="button" aria-pressed="${s===filter}" data-s="${esc(s)}">${esc(s)}</button>`).join("");
 }
-// aperçu réel de la démo (généré par outils/apercus.js), sinon maquette en CSS
-const shot = d => `<div class="shot" style="--glow:${d.glow}"><i></i><i></i><i></i><img src="media/apercus/${esc(d.url.replace(/^demo-|\.html$/g,""))}.webp" alt="" width="720" height="450" loading="lazy" decoding="async"></div>`;
+const ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg>';
 function renderGrid(){
-  grid.innerHTML = DEMOS.filter(d=>filter==="Tous"||d.sector===filter).map(d=>`
-    <${d.url&&d.url!=="#"?`a class="card glass" href="${esc(d.url)}" target="_blank" rel="noopener" aria-label="Ouvrir la démo ${esc(d.name)}"`:'div class="card glass soon"'}>
-      ${d.url&&d.url!=="#"?shot(d):mini(d)}
-      <div class="meta">
-        <div><h3>${esc(d.name)}</h3><p>${esc(d.desc)}</p>${d.example?'<span class="ex">Démo exemple</span>':''}</div>
-        <span class="tag">${esc(d.sector)}</span>
+  grid.innerHTML = DEMOS.map((d, i) => [d, i]).filter(([d]) => filter === "Tous" || d.sector === filter).map(([d, i]) => {
+    const slug = esc(d.url.replace(/^demo-|\.html$/g, ""));   // aperçus générés par outils/apercus.js
+    return `<a class="proj" href="${esc(d.url)}" target="_blank" rel="noopener" style="--bg:${d.bg};--fg:${d.fg};--ac:${d.ac}" aria-label="Ouvrir la démo ${esc(d.name)}">
+      <div class="top"><span class="num">${String(i + 1).padStart(2, "0")}</span><span class="sec">${esc(d.sector)}</span><span class="go" aria-hidden="true">${ARROW}</span></div>
+      <h3>${esc(d.name)}</h3>
+      <p>${esc(d.desc)}</p>
+      <ul class="feats">${d.feats.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
+      <div class="stage" aria-hidden="true">
+        <div class="win"><div class="bar"><i></i><i></i><i></i></div><img src="media/apercus/${slug}.webp" alt="" width="720" height="450" loading="lazy" decoding="async"></div>
+        <div class="phone"><img src="media/apercus/${slug}-mobile.webp" alt="" width="300" height="585" loading="lazy" decoding="async"></div>
       </div>
-      <span class="open">${d.url&&d.url!=="#"?"Ouvrir la démo →":"Démo bientôt en ligne"}</span>
-    </${d.url&&d.url!=="#"?"a":"div"}>`).join("");
+    </a>`;
+  }).join("");
 }
 chips.addEventListener("click", e=>{const b=e.target.closest(".chip"); if(!b) return; filter=b.dataset.s; renderChips(); renderGrid();});
 renderChips(); renderGrid();
@@ -304,15 +306,6 @@ if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
   reelBox.addEventListener("pointerleave", () => { reelBox.classList.remove("hover"); reelBox.style.transform = ""; });
 }
 
-// reflet qui suit la souris + légère inclinaison
-const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-grid.addEventListener("pointermove", e=>{
-  const c = e.target.closest(".card"); if(!c) return;
-  const r = c.getBoundingClientRect(), x=(e.clientX-r.left)/r.width, y=(e.clientY-r.top)/r.height;
-  c.style.setProperty("--mx", x*100+"%"); c.style.setProperty("--my", y*100+"%");
-  if(!reduce) c.style.transform = `perspective(900px) rotateX(${(.5-y)*6}deg) rotateY(${(x-.5)*8}deg) translateY(-4px)`;
-});
-grid.addEventListener("pointerout", e=>{ const c=e.target.closest(".card"); if(c && !c.contains(e.relatedTarget)) c.style.transform=""; });
 
 copyMail.addEventListener("click", ()=>{
   const t = mail.textContent;

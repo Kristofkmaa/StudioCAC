@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<script>(()=>{const d=document.documentElement;let t;try{t=localStorage.getItem("saitora-theme")}catch(e){}d.dataset.theme=t||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");if(!matchMedia("(prefers-reduced-motion: reduce)").matches)d.classList.add("sc-pending")})()</script>
+<style>html,body{background:#FAFAF9}html[data-theme=dark],html[data-theme=dark] body{background:#0C0C0D}</style>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Page introuvable, Saitora</title>
+<meta name="description" content="Cette page n'existe pas.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="/theme.css?v=2">
+<style>
+html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:root{--font:"Jost","Futura","Helvetica Neue",Arial,sans-serif;--page:min(1180px,100% - 2 * clamp(20px,4vw,40px))}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.65}
+h1,h2,p,ul{margin:0}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+.page{width:var(--page);margin-inline:auto}
+.dot{display:inline-block;width:.2em;height:.2em;border-radius:50%;background:var(--accent);margin-left:.04em}
+.bar{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--line)}
+.bar .page{display:flex;align-items:center;justify-content:space-between;gap:24px;height:68px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink)}
+.brand .mark{height:26px;width:auto;display:block}
+.brand img{display:block;height:18px;width:auto;filter:var(--logo-filter)}
+.bar .right{display:flex;align-items:center;gap:20px}
+.back{font-size:15px;color:var(--muted);text-decoration:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;font:500 16px var(--font);padding:13px 22px;border-radius:4px;border:1px solid var(--line-hi);background:none;color:var(--ink);text-decoration:none}
+.btn.primary{border-color:transparent;background:var(--accent);color:var(--on-accent)}
+.lost{min-height:calc(100svh - 69px);display:flex;flex-direction:column;justify-content:center;padding-block:48px}
+.lost h1{font-weight:400;font-size:clamp(2.4rem,1.6rem + 3.4vw,4rem);line-height:1.04;letter-spacing:-.03em;max-width:16ch}
+.lost p{margin-top:16px;color:var(--muted);font-size:1.1rem;max-width:46ch}
+.lost .go{display:flex;flex-wrap:wrap;gap:10px;margin-top:32px}
+@media (hover:hover) and (pointer:fine){.back:hover{color:var(--ink)}.btn:hover{border-color:var(--ink)}.btn.primary:hover{background:var(--accent-hover)}}
+@media (pointer:coarse){.brand{padding-block:9px;margin-block:-9px}.theme-toggle{width:44px;height:44px}.back{padding-block:12px}}
+</style>
+</head>
+<body>
+<script src="/transition.js?v=13"></script>
+<script src="/theme.js?v=1" defer></script>
+
+<header class="bar">
+  <div class="page">
+    <a class="brand" href="/accueil.html" data-transition="Retour à l'accueil" aria-label="Saitora, accueil"><svg class="mark" viewBox="246 330 740 590" aria-hidden="true"><path d="M262 901L624 341L695 456L407 901Z M725 504L970 901L828 901L653 613Z" fill="currentColor"/><circle cx="620" cy="818" r="55" fill="var(--accent)"/></svg><img src="/images/marque/saitora-noir.png" alt="Saitora" width="1165" height="162"></a>
+    <div class="right">
+      <a class="back" href="/accueil.html" data-transition="Retour à l'accueil">Accueil</a>
+      <a class="back" href="/tarifs.html" data-transition="Les tarifs">Tarifs</a>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Changer de thème"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.6A8.2 8.2 0 0 1 9.4 4a8.2 8.2 0 1 0 10.6 10.6z"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main class="lost page">
+  <h1>Cette page n'existe pas, ou plus<span class="dot" aria-hidden="true"></span></h1>
+  <p>Le lien est peut-être incomplet. Tout le reste du site est là, à un clic.</p>
+  <div class="go"><a class="btn primary" href="/accueil.html">Revenir à l'accueil</a><a class="btn" href="/tarifs.html">Voir les tarifs</a><a class="btn" href="/devis.html">Demander un devis</a></div>
+</main>
+</body>
+</html>

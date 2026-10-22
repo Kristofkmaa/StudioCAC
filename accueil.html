@@ -6,13 +6,13 @@
 <script>(()=>{const d=document.documentElement;let t;try{t=localStorage.getItem("saitora-theme")}catch(e){}d.dataset.theme=t||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");if(!matchMedia("(prefers-reduced-motion: reduce)").matches)d.classList.add("sc-pending")})()</script>
 <style>html.sc-pending,html.sc-pending body{background:#FAFAF9}html[data-theme=dark].sc-pending,html[data-theme=dark].sc-pending body{background:#0C0C0D}</style>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
-<title>Saitora · Sites vitrines pour commerces et artisans</title>
-<meta name="description" content="Sites vitrines rapides et sur mesure pour restaurants, artisans et commerces de proximité. Découvrez les démos et demandez un devis gratuit.">
+<title>Saitora, sites vitrines pour les commerces de Corse</title>
+<meta name="description" content="Sites vitrines sur mesure pour les restaurants, artisans et commerces de Corse, depuis Ajaccio. Découvrez les démos, créez votre charte graphique et demandez un devis gratuit.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fr_FR">
 <meta property="og:site_name" content="Saitora">
-<meta property="og:title" content="Saitora · Sites vitrines pour commerces et artisans">
-<meta property="og:description" content="Sites vitrines rapides et sur mesure pour restaurants, artisans et commerces de proximité. Découvrez les démos et demandez un devis gratuit.">
+<meta property="og:title" content="Saitora, sites vitrines pour les commerces de Corse">
+<meta property="og:description" content="Sites vitrines sur mesure pour les restaurants, artisans et commerces de Corse, depuis Ajaccio.">
 <meta property="og:image" content="https://saitora.fr/images/partage.jpg?v=2">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -146,6 +146,19 @@ img,video{display:block;max-width:100%}
 .sw-bar{display:flex;height:14px;border-radius:7px;overflow:hidden;margin-top:32px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
 .sw-cap{margin:10px 0 0;font-size:14px;color:#5b6b60}
 @media (max-width:820px){.tool-grid{grid-template-columns:1fr}}
+.about{background:var(--bg-alt);padding-block:clamp(80px,10vw,140px)}
+.about-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:clamp(40px,6vw,96px);align-items:start}
+.about h2{font-weight:400;font-size:var(--step-3);line-height:1.08;letter-spacing:-.02em;max-width:18ch;margin:0}
+.about-text{display:grid;gap:16px;margin-top:24px;max-width:58ch;font-size:var(--step-1)}
+.about-text p{margin:0}
+.about-text p:last-child{color:var(--muted)}
+.where{border-top:1px solid var(--line-hi);padding-top:20px}
+.where-t{margin:0;font-size:1.35rem;line-height:1.2}
+.towns{list-style:none;padding:0;margin:20px 0 0;display:flex;flex-wrap:wrap;gap:8px}
+.towns li{padding:6px 12px;border:1px solid var(--line-hi);border-radius:999px;font-size:15px;background:var(--bg)}
+.towns li:last-child{border-style:dashed;color:var(--muted)}
+.where-n{margin:20px 0 0;color:var(--muted);max-width:36ch}
+@media (max-width:820px){.about-grid{grid-template-columns:1fr}}
 .contact{padding-block:clamp(96px,12vw,168px) clamp(72px,9vw,120px)}
 .contact h2{font-weight:400;font-size:var(--step-4);line-height:1.02;letter-spacing:-.03em;max-width:14ch}
 .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,6vw,96px);margin-top:clamp(40px,6vw,72px);align-items:start}
@@ -260,6 +273,7 @@ form.add input:focus,form.add select:focus{outline:none;border-color:var(--accen
   .contact .copy{padding-block:10px}
 }
 </style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfessionalService","name":"Saitora","url":"https://saitora.fr/","email":"contact@saitora.fr","logo":"https://saitora.fr/favicon.svg","image":"https://saitora.fr/images/partage.jpg","description":"Création de sites vitrines pour les restaurants, artisans et commerces de Corse.","address":{"@type":"PostalAddress","addressLocality":"Ajaccio","addressRegion":"Corse","addressCountry":"FR"},"areaServed":{"@type":"AdministrativeArea","name":"Corse"}}</script>
 </head>
 <body>
 <script src="transition.js?v=13"></script>
@@ -269,7 +283,7 @@ form.add input:focus,form.add select:focus{outline:none;border-color:var(--accen
   <header class="bar">
     <div class="page">
       <a class="brand" href="accueil.html" aria-label="Saitora, accueil"><svg class="mark" viewBox="246 330 740 590" aria-hidden="true"><path d="M262 901L624 341L695 456L407 901Z M725 504L970 901L828 901L653 613Z" fill="currentColor"/><circle cx="620" cy="818" r="55" fill="var(--accent)"/></svg><img src="images/marque/saitora-noir.png" alt="Saitora" width="1165" height="162"></a>
-      <nav aria-label="Sections"><a href="#vitrines">Réalisations</a><a href="#methode">Méthode</a><a href="tarifs.html" data-transition="Les tarifs">Tarifs</a><a href="#charte">Charte graphique</a><a href="#contact">Contact</a></nav>
+      <nav aria-label="Sections"><a href="#vitrines">Réalisations</a><a href="#methode">Méthode</a><a href="tarifs.html" data-transition="Les tarifs">Tarifs</a><a href="#charte">Charte graphique</a><a href="#apropos">À propos</a><a href="#contact">Contact</a></nav>
       <button class="theme-toggle" type="button" data-theme-toggle aria-label="Changer de thème"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.6A8.2 8.2 0 0 1 9.4 4a8.2 8.2 0 1 0 10.6 10.6z"/></svg></button>
       <a class="btn small" href="devis.html" data-transition="Construisons votre site"><span class="l">Demander un devis</span><span class="s">Devis gratuit</span></a>
     </div>
@@ -279,7 +293,7 @@ form.add input:focus,form.add select:focus{outline:none;border-color:var(--accen
     <section class="hero page">
       <div>
         <h1>Votre vitrine, ouverte jour et nuit<span class="dot" aria-hidden="true"></span></h1>
-        <p class="lead">Saitora crée des sites vitrines sur mesure pour les restaurants, les artisans et les commerces de quartier.</p>
+        <p class="lead">Saitora crée des sites vitrines sur mesure pour les restaurants, les artisans et les commerces de Corse, depuis Ajaccio.</p>
         <div class="cta">
           <a class="btn" href="devis.html" data-transition="Construisons votre site">Demander un devis</a>
           <a class="link" href="#vitrines">Voir les sites réalisés</a>
@@ -352,6 +366,26 @@ form.add input:focus,form.add select:focus{outline:none;border-color:var(--accen
       </div>
     </section>
 
+    <section class="about" id="apropos" aria-labelledby="t-apropos">
+      <div class="page about-grid">
+        <div>
+          <h2 id="t-apropos">Des sites faits à Ajaccio, pour les commerces de Corse</h2>
+          <div class="about-text">
+            <p>J'ai toujours travaillé dans l'informatique, et j'ai grandi avec les jeux vidéo : c'est là qu'est née l'envie de créer des choses à l'écran. Aujourd'hui, ce que j'aime le plus, c'est construire des sites.</p>
+            <p>Et les construire pour les commerçants d'ici. Un restaurant du port, un artisan de village, une boutique de centre-ville méritent un site aussi soigné que celui d'une grande enseigne : c'est souvent la première chose qu'un client voit d'eux. Aider les commerces corses à se développer, et donner à ce qui est local la qualité qu'il mérite, c'est pour ça que Saitora existe.</p>
+            <p>Vous avez un seul interlocuteur, du premier appel à la mise en ligne, et après.</p>
+          </div>
+        </div>
+        <aside class="where" aria-labelledby="t-where">
+          <p class="where-t" id="t-where">Depuis Ajaccio, partout en Corse<span class="dot" aria-hidden="true"></span></p>
+          <ul class="towns">
+            <li>Ajaccio</li><li>Bastia</li><li>Porto-Vecchio</li><li>Calvi</li><li>Corte</li><li>Propriano</li><li>Bonifacio</li><li>L'Île-Rousse</li><li>Sartène</li><li>Et ailleurs sur l'île</li>
+          </ul>
+          <p class="where-n">On peut se voir à votre commerce, ou tout faire par téléphone et par e-mail si vous préférez.</p>
+        </aside>
+      </div>
+    </section>
+
     <section class="contact" id="contact" aria-labelledby="t-contact">
       <div class="page">
         <h2 id="t-contact">Parlons de votre commerce<span class="dot" aria-hidden="true"></span></h2>
@@ -380,13 +414,13 @@ form.add input:focus,form.add select:focus{outline:none;border-color:var(--accen
       <div class="foot-grid">
         <div class="foot-about">
           <a class="foot-brand" href="#accueil-haut" aria-label="Revenir en haut"><svg class="mark" viewBox="246 330 740 590" aria-hidden="true"><path d="M262 901L624 341L695 456L407 901Z M725 504L970 901L828 901L653 613Z" fill="currentColor"/><circle cx="620" cy="818" r="55" fill="var(--accent)"/></svg><img src="images/marque/saitora-noir.png" alt="Saitora" width="1165" height="162"></a>
-          <p>Sites vitrines sur mesure pour les restaurants, les artisans et les commerces de quartier.</p>
+          <p>Sites vitrines sur mesure pour les restaurants, les artisans et les commerces de Corse. Depuis Ajaccio, partout sur l'île.</p>
         </div>
-        <nav aria-label="Le site"><h3>Le site</h3><a href="#vitrines">Réalisations</a><a href="#methode">Méthode</a><a href="tarifs.html" data-transition="Les tarifs">Tarifs</a><a href="charte.html" data-transition="Votre charte graphique">Créer ma charte graphique</a><a href="#contact">Contact</a><a href="devis.html" data-transition="Construisons votre site">Demander un devis</a></nav>
+        <nav aria-label="Le site"><h3>Le site</h3><a href="#vitrines">Réalisations</a><a href="#methode">Méthode</a><a href="tarifs.html" data-transition="Les tarifs">Tarifs</a><a href="charte.html" data-transition="Votre charte graphique">Créer ma charte graphique</a><a href="#apropos">À propos</a><a href="#contact">Contact</a><a href="devis.html" data-transition="Construisons votre site">Demander un devis</a></nav>
         <nav aria-label="Les démos"><h3>Les démos</h3><a href="demo-table-du-port.html" target="_blank" rel="noopener">La Table du Port</a><a href="demo-durand-plomberie.html" target="_blank" rel="noopener">Durand Plomberie</a><a href="demo-coupe-and-co.html" target="_blank" rel="noopener">Studio Coupe &amp; Co</a><a href="demo-pain-dore.html" target="_blank" rel="noopener">Au Pain Doré</a><a href="demo-villa-oliviers.html" target="_blank" rel="noopener">Villa Les Oliviers</a><a href="demo-bois-massif.html" target="_blank" rel="noopener">Atelier Bois Massif</a></nav>
         <div class="foot-contact"><h3>Contact</h3><a href="mailto:contact@saitora.fr">contact@saitora.fr</a><p>Réponse sous 24 heures</p></div>
       </div>
-      <div class="foot-bottom"><span>© 2026 Saitora</span><a href="#accueil-haut">Revenir en haut</a></div>
+      <div class="foot-bottom"><span>© 2026 Saitora, Ajaccio</span><a href="mentions-legales.html">Mentions légales et confidentialité</a><a href="#accueil-haut">Revenir en haut</a></div>
     </div>
   </footer>
 </div>

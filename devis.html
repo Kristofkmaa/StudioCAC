@@ -111,6 +111,9 @@ a{color:inherit}
 .fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .fields label{display:flex;flex-direction:column;gap:6px;font-size:15px;color:var(--muted)}
 .fields .full{grid-column:1/-1}
+.privacy{font-size:14px;color:var(--muted);margin:0}
+.privacy a{color:inherit;text-underline-offset:3px;text-decoration-color:var(--accent)}
+@media (pointer:coarse){.privacy a{display:inline-block;padding-block:10px;margin-block:-10px}}
 .fields input,.fields textarea,#otherSector{font:16px var(--font);color:var(--ink);background:var(--bg);border:1px solid var(--line-hi);border-radius:4px;padding:12px 14px;width:100%}
 .fields textarea{min-height:96px;resize:vertical}
 .fields input:focus,.fields textarea:focus,#otherSector:focus{outline:none;border-color:var(--accent)}
@@ -237,6 +240,7 @@ a{color:inherit}
           <label>Téléphone<input id="fTel" type="tel" enterkeyhint="next" autocomplete="tel"></label>
           <label class="full">Un mot sur votre projet<textarea id="fMsg" placeholder="Ce qui compte pour vous, vos idées, vos questions"></textarea></label>
           <div class="err full" id="err" role="alert"></div>
+          <p class="privacy full">Vos informations servent uniquement à vous répondre et à préparer votre devis, jamais à autre chose. <a href="mentions-legales.html" target="_blank" rel="noopener">Ce que j'en fais</a></p>
         </div>
       </section>
 

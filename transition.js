@@ -66,7 +66,7 @@
   // ——— arrivée : plan plein écran, puis construction bloc par bloc
   let arrival = null;
   try { arrival = JSON.parse(sessionStorage.getItem(KEY)); sessionStorage.removeItem(KEY); } catch (_) {}
-  if (!arrival || reduce) return;
+  if (!arrival || reduce) { document.documentElement.classList.remove("sc-pending"); return; }
 
   const box = overlay(arrival.label);
   const W = () => innerWidth, H = () => innerHeight;
@@ -91,6 +91,7 @@
     svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
     for (const r of [maskBg, bg, grid]) { r.setAttribute("width", w); r.setAttribute("height", h); }
     box.classList.remove("cover");
+    document.documentElement.classList.remove("sc-pending");
     // blocs visibles à l'écran, dans l'ordre de lecture
     const blocks = [...document.querySelectorAll("[data-build]")]
       .map(n => ({ n, r: n.getBoundingClientRect() }))

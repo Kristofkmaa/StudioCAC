@@ -2,6 +2,9 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
+<!-- transition « chantier » : si on arrive d'une autre page, le plan est peint dès la toute première image -->
+<script>try{if(sessionStorage.getItem("studiocac-transition"))document.documentElement.classList.add("sc-pending")}catch(e){}</script>
+<style>html.sc-pending,html.sc-pending body{background:linear-gradient(rgba(96,165,250,.16) 1px,transparent 1px) 0 0/24px 24px,linear-gradient(90deg,rgba(96,165,250,.16) 1px,transparent 1px) 0 0/24px 24px,#0A1438}</style>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Demande de devis · StudioCac</title>
 <meta name="description" content="Décrivez votre projet de site vitrine en 5 étapes et recevez un devis gratuit sous 24 h.">

@@ -4,7 +4,7 @@
 // Un clic ou une touche termine tout. À inclure au tout début du <body>.
 (() => {
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const NIGHT = "#380D31";   // fond du site
+  const NIGHT = "#FAFAF9";   // fond du site
 
   const style = document.createElement("style");
   style.textContent = `

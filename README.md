@@ -1,4 +1,4 @@
-# StudioCac
+# Saitora (dépôt StudioCAC)
 
 Portfolio de sites vitrines pour commerces de proximité, artisans et indépendants.
 Site 100 % statique : pas de build, pas de dépendance, chaque page est un fichier HTML autonome (CSS et JS inclus).

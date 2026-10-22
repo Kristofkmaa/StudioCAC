@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>Libecciu, location nautique, démo Saitora</title>
+<meta name="description" content="Démo de site vitrine pour un loueur de kayaks, paddles, bateaux et jet-skis du golfe d'Ajaccio : la mer du jour, la flotte, la réservation et les criques. Réalisé par Saitora.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="Saitora">
+<meta property="og:title" content="Libecciu, location nautique, démo Saitora">
+<meta property="og:description" content="Kayaks, paddles, bateaux et jet-skis depuis un ponton du golfe d'Ajaccio. Démo réalisée par Saitora.">
+<meta name="theme-color" content="#0B2A33">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Crect%20width=%2264%22%20height=%2264%22%20fill=%22%230B2A33%22/%3E%3Cpath%20d=%22M14%2040h36M14%2048h36%22%20stroke=%22%238FE3D6%22%20stroke-width=%225%22/%3E%3Cpath%20d=%22M22%2034L32%2012L42%2034Z%22%20fill=%22%23F4F1EA%22/%3E%3C/svg%3E">
+<link rel="stylesheet" href="polices/stix-two-text-fb7e33.css">
+<style>
+/* Téléphone : pas de flash gris au toucher, pas de texte grossi en paysage, réponse dès que le doigt se pose,
+   libellés des boutons non sélectionnables, contenu tenu hors de l'encoche en paysage. */
+html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(a,button,[role="button"],summary,label,select,input){touch-action:manipulation}
+:where(button,.btn,summary,[role="tab"]){-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+
+/* Libecciu. Idée : chaque matin, le ponton affiche son bulletin de mer, tapé à la machine et nommé d'après le vent
+   du sud-ouest qui décide de la journée. Ce bulletin devient la carte imprimée posée à côté de la mer, qui dit ce
+   qu'on peut louer aujourd'hui ; la mer, elle, reste à l'écran pendant toute la visite (moitié fixe).
+   Direction « split stage », une seule police (STIX Two Text), couleurs prises au golfe : bleu profond, sable, lagon. */
+:root{
+  --bg:#0B2A33; --surface:#123A45; --ink:#FFFFFF; --muted:#A9C2C6; --accent:#8FE3D6; --accent-ink:#0B2A33;
+  --paper:#EFEFEA; --paper-2:#E1E2DC; --paper-ink:#0B2A33; --paper-muted:#4C6168;
+  --green:#2E9E5B; --orange:#E5841F; --red:#D23B2C;
+  --font:"STIX Two Text","Times New Roman",Times,serif;
+  --step-small:.9375rem;
+  --step-body:clamp(1.0625rem,1.02rem + .25vw,1.1875rem);
+  --step-lead:clamp(1.25rem,1.1rem + .7vw,1.625rem);
+  --step-head:clamp(2.25rem,1.4rem + 2.6vw,3.5rem);
+  --m:12px;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 var(--step-body)/1.5 var(--font)}
+h1,h2,h3,p,ul,ol,dl,dd,figure{margin:0}
+a{color:inherit}
+img{display:block;max-width:100%}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+[hidden]{display:none!important}
+.demo{background:#000;color:#C9D6D8;font-size:var(--step-small);text-align:center;padding:6px 16px}
+
+/* la scène : la carte (qui défile) à gauche, la mer (fixe) à droite */
+.stage{display:grid;grid-template-columns:1fr 1fr;gap:var(--m);padding:var(--m)}
+.sea{position:sticky;top:var(--m);height:calc(100svh - 2 * var(--m));overflow:hidden;background:var(--surface);order:2}
+.sea img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.6s ease}
+.sea img.on{opacity:1}
+.sea figcaption{position:absolute;left:0;bottom:0;padding:10px 14px;background:rgba(11,42,51,.78);font-size:var(--step-small);color:#fff}
+.col{display:flex;flex-direction:column;gap:var(--m);min-width:0}
+
+/* le bulletin du ponton */
+.card{background:var(--paper);color:var(--paper-ink);min-height:calc(100svh - 2 * var(--m));display:flex;flex-direction:column}
+.stripe{display:flex;height:56px;flex:none}
+.stripe i{flex:1;background:var(--paper-ink)}
+.stripe i:nth-child(even){background:var(--paper)}
+.card-in{flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;padding:clamp(28px,4vw,56px) clamp(20px,4vw,56px) 28px}
+.word{font:600 var(--step-lead)/1 var(--font);letter-spacing:.32em;margin-right:-.32em}
+.card h1{margin-top:clamp(24px,4vh,44px);font:400 var(--step-head)/1.06 var(--font);letter-spacing:-.026em;max-width:13ch;text-wrap:balance}
+.card .lead{margin-top:20px;max-width:36ch;font-size:var(--step-body)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 26px;border:0;background:var(--paper-ink);color:var(--paper);font:600 var(--step-body) var(--font);text-decoration:none;cursor:pointer;transition:transform 160ms cubic-bezier(.23,1,.32,1),background-color 160ms ease}
+.btn:active{transform:scale(.97)}
+.card .btn{margin-top:28px}
+.bulletin{margin-top:clamp(28px,5vh,48px);width:min(100%,420px);text-align:left;background:var(--paper-2);padding:18px 20px}
+.bulletin h2{font:600 var(--step-body)/1.3 var(--font)}
+.bulletin dl{display:grid;grid-template-columns:auto 1fr;gap:4px 16px;margin-top:10px}
+.bulletin dt{color:var(--paper-muted)}
+.bulletin dd{font-variant-numeric:tabular-nums}
+.flag{display:inline-block;width:.8em;height:.8em;margin-right:.35em;vertical-align:-.05em}
+.bulletin .verdict{margin-top:12px}
+.links{margin-top:auto;padding-top:28px;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 22px;font-size:var(--step-small)}
+.links a{text-underline-offset:4px}
+.lang{display:flex;gap:4px}
+.lang button{font:600 var(--step-small) var(--font);min-width:40px;min-height:32px;border:0;background:var(--paper-2);color:var(--paper-ink);cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--paper-ink);color:var(--paper)}
+
+/* la flotte : le mot géant, puis des barres qui s'ouvrent */
+.fleet{background:var(--surface);padding:clamp(40px,5vw,64px) clamp(20px,4vw,56px);container-type:inline-size}
+.giant{font:400 22cqw/.8 var(--font);letter-spacing:-.04em;text-transform:uppercase;margin-left:-.04em}
+.fleet .lead{margin-top:20px;max-width:46ch;color:var(--muted)}
+.fleet .after{margin-top:24px;max-width:46ch}
+.bars{margin-top:24px;display:grid;gap:6px}
+.bars details{background:var(--bg)}
+.bars summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:56px;padding:0 18px;cursor:pointer;font-weight:600}
+.bars summary::-webkit-details-marker{display:none}
+.bars summary small{font-weight:400;color:var(--muted);margin-left:auto;margin-right:14px;white-space:nowrap}
+.bars summary b{width:18px;text-align:center;font-weight:400;transition:transform 200ms ease}
+.bars details[open] summary b{transform:rotate(45deg)}
+.panel{padding:4px 18px 20px}
+.bars details:not([open]) .panel{display:none}
+.panel p{color:var(--muted);max-width:46ch}
+.panel ul{list-style:none;padding:0;margin-top:12px;display:grid;gap:10px}
+.panel li{display:flex;justify-content:space-between;gap:16px;font-variant-numeric:tabular-nums}
+.panel .go{margin-top:16px;display:inline-block;color:var(--accent);text-underline-offset:4px}
+
+/* les formules et les extras : des prix comme sur une carte */
+.menu{background:var(--paper);color:var(--paper-ink);padding:clamp(48px,5vw,72px) clamp(20px,4vw,56px)}
+.menu h2,.book h2,.coves h2,.faq h2{font:400 var(--step-head)/1.05 var(--font);letter-spacing:-.026em}
+.menu .grp{margin-top:40px}
+.menu h3{font:600 var(--step-lead)/1.2 var(--font)}
+.menu ul{list-style:none;padding:0;margin-top:14px;display:grid;gap:18px}
+.menu li>div{display:flex;justify-content:space-between;gap:16px}
+.menu li>div span:last-child{font-variant-numeric:tabular-nums;white-space:nowrap}
+.menu li p{color:var(--paper-muted);font-size:var(--step-small);max-width:40ch}
+
+/* réserver : le bon de location se remplit (pleine largeur) */
+.book{background:#fff;color:var(--paper-ink);margin:0 var(--m);padding:clamp(48px,7vw,104px) clamp(20px,5vw,72px)}
+.book .head{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:end}
+.book .head p{color:var(--paper-muted);max-width:44ch}
+.planner{display:grid;grid-template-columns:1.25fr .75fr;gap:clamp(24px,4vw,64px);margin-top:44px;align-items:start}
+.planner>*,.book .head>*{min-width:0}
+.q{margin-top:28px}
+.q:first-child{margin-top:0}
+.q>p{font-weight:600;margin-bottom:10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:400 var(--step-small) var(--font);min-height:44px;padding:0 14px;border:0;background:var(--paper);color:var(--paper-ink);cursor:pointer;transition:background-color 160ms ease,transform 160ms cubic-bezier(.23,1,.32,1)}
+.chip:active{transform:scale(.97)}
+.chip[aria-pressed="true"]{background:var(--paper-ink);color:#fff}
+.chip[disabled]{opacity:.45;cursor:not-allowed;text-decoration:line-through}
+.days{display:flex;gap:6px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;padding-bottom:4px}
+.day{flex:none;scroll-snap-align:start;width:66px;padding:8px 0;border:0;background:var(--paper);color:var(--paper-ink);font:400 var(--step-small) var(--font);cursor:pointer;text-transform:capitalize}
+.day b{display:block;font:600 var(--step-lead)/1.15 var(--font)}
+.day i{display:block;width:10px;height:10px;margin:4px auto 0}
+.day[aria-pressed="true"]{background:var(--paper-ink);color:#fff}
+.day[disabled]{opacity:.45;cursor:not-allowed}
+.note{margin-top:10px;font-size:var(--step-small);color:var(--paper-muted)}
+.note.warn{color:#9C3B12}
+.count{display:flex;align-items:center;gap:6px}
+.count button{width:44px;height:44px;border:0;background:var(--paper);font:600 var(--step-lead) var(--font);color:var(--paper-ink);cursor:pointer}
+.count output{min-width:3ch;text-align:center;font-size:var(--step-lead);font-variant-numeric:tabular-nums}
+.voucher{position:sticky;top:20px;background:var(--paper);padding:0 0 22px}
+.voucher .stripe{height:28px}
+.voucher .stripe i{background:var(--paper-ink)}
+.voucher .stripe i:nth-child(even){background:var(--paper)}
+.voucher-in{padding:20px 22px 0}
+.voucher h3{font:600 var(--step-lead)/1.15 var(--font)}
+.voucher dl{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin-top:14px}
+.voucher dt{color:var(--paper-muted)}
+.voucher dd{text-align:right;font-variant-numeric:tabular-nums}
+.voucher .total{display:flex;justify-content:space-between;align-items:baseline;margin:24px -22px 0;padding:18px 22px;background:var(--paper-2);font-weight:600}
+.voucher .total b{font:600 var(--step-lead)/1 var(--font);font-variant-numeric:tabular-nums}
+.voucher input{width:100%;margin-top:10px;font:16px var(--font);padding:12px 14px;border:0;background:#fff;color:var(--paper-ink)}
+.voucher .btn{width:100%;margin-top:14px}
+.sent{margin-top:14px;font-size:var(--step-small)}
+
+/* les criques : la plaque carrée */
+.coves{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto 1fr;grid-template-areas:"fig title" "fig body";background:#000;color:#fff;min-height:88svh;margin:var(--m)}
+.coves figure{grid-area:fig;padding:clamp(20px,3vw,40px);display:grid;place-items:center}
+.coves .title{grid-area:title;padding:clamp(28px,4vw,56px) clamp(20px,4vw,56px) 0}
+.plate{position:relative;width:100%;aspect-ratio:1;overflow:hidden;background:var(--surface)}
+.plate img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .6s ease}
+.plate svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.coves .txt{grid-area:body;display:flex;flex-direction:column;justify-content:space-between;gap:32px;padding:24px clamp(20px,4vw,56px) clamp(28px,4vw,56px)}
+.tabs{display:flex;flex-wrap:wrap;gap:6px 24px}
+.tabs button{font:400 var(--step-body) var(--font);background:none;border:0;padding:8px 0;color:var(--muted);cursor:pointer;text-underline-offset:6px}
+.tabs button[aria-selected="true"]{color:#fff;text-decoration:underline;text-decoration-color:var(--accent);text-decoration-thickness:2px}
+.cove h3{font:600 var(--step-lead)/1.15 var(--font)}
+.cove p{margin-top:28px;max-width:40ch}
+.cove .times{margin-top:14px;color:var(--muted)}
+.cells{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.cells a{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:72px;padding:0 18px;text-decoration:none;font-weight:600;background:var(--surface);color:#fff;transition:background-color 160ms ease}
+.cells a:first-child{background:var(--accent);color:var(--accent-ink)}
+.cells a[aria-disabled="true"]{opacity:.55;pointer-events:none}
+
+/* les questions : du texte à lire */
+.faq{background:var(--paper);color:var(--paper-ink);margin:0 var(--m);padding:clamp(56px,8vw,120px) clamp(20px,5vw,72px);display:grid;grid-template-columns:3fr 9fr;gap:32px}
+.faq .txt{columns:2;column-gap:56px}
+.faq .txt p{break-inside:avoid;margin-bottom:20px;line-height:1.55}
+.faq .txt b{font-weight:600}
+
+/* écrire : l'adresse en grand */
+.contact{position:relative;min-height:100svh;background:var(--paper-ink);color:#fff;margin:var(--m);padding:clamp(24px,4vw,48px)}
+.contact .say{font-size:var(--step-lead);max-width:26ch}
+.contact .mail{position:absolute;left:clamp(24px,4vw,48px);right:clamp(24px,4vw,48px);bottom:calc(12vh + 40px);font:400 clamp(2.4rem,7.6vw,8.4rem)/1 var(--font);letter-spacing:-.03em;text-decoration:none;transition:color 200ms ease;overflow-wrap:anywhere}
+.contact .foot{position:absolute;left:clamp(24px,4vw,48px);right:clamp(24px,4vw,48px);bottom:clamp(20px,3vw,36px);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:var(--step-small);color:var(--muted)}
+.contact .foot a{color:#fff;text-underline-offset:4px}
+.contact .stripe{position:absolute;left:0;right:0;top:0;height:8px}
+.contact .stripe i{background:var(--accent)}
+.contact .stripe i:nth-child(even){background:var(--paper-ink)}
+
+/* entrées des sections : une fois, en cascade ; le contenu reste visible sans script */
+.js .rise{opacity:0;transform:translateY(24px);transition:opacity 700ms cubic-bezier(.23,1,.32,1),transform 700ms cubic-bezier(.23,1,.32,1);transition-delay:calc(var(--i,0) * 75ms)}
+.js .rise.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:no-preference){.sea img.on{animation:drift 22s ease-in-out infinite alternate}}
+@keyframes drift{from{transform:scale(1)}to{transform:scale(1.06)}}
+
+@media (max-width:900px){
+  .stage{grid-template-columns:1fr;padding:var(--m)}
+  .sea{order:0;position:relative;top:0;height:48svh}
+  .card{min-height:0;margin-top:-24px;position:relative}
+  .stripe{height:40px}
+  .card h1{font-size:clamp(2.1rem,8.4vw,2.6rem)}
+  .book .head,.planner{grid-template-columns:1fr}
+  .voucher{position:static}
+  .coves{grid-template-columns:1fr;grid-template-areas:"title" "fig" "body";min-height:0}
+  .cells{grid-template-columns:1fr}
+  .cells a{min-height:60px}
+  .faq{grid-template-columns:1fr}
+  .faq .txt{columns:1}
+  .contact{min-height:86svh}
+  .contact .mail{font-size:11.5vw;bottom:calc(10vh + 72px)}
+  .contact .foot{flex-direction:column;gap:12px}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.js .rise{opacity:1;transform:none;transition:none}.sea img{transition:none}}
+@media (hover:hover) and (pointer:fine){
+  .btn:hover{background:#000}
+  .chip:hover,.day:hover:not([disabled]){background:var(--paper-2)}
+  .chip[aria-pressed="true"]:hover,.day[aria-pressed="true"]:hover{background:var(--paper-ink)}
+  .bars summary:hover{background:#0E3440}
+  .cells a:hover{background:#1A4A57}
+  .cells a:first-child:hover{background:#B5F0E7}
+  .tabs button:hover{color:#fff}
+  .contact .mail:hover{color:var(--accent)}
+  .links a:hover{color:#000}
+}
+@media (pointer:coarse){.links a,.contact .foot a,.panel .go{display:inline-block;padding-block:10px;margin-block:-10px}.tabs button{min-height:44px}}
+</style>
+</head>
+<body>
+<script>document.documentElement.classList.add("js")</script>
+
+<div class="demo" data-t="demo">Site de démonstration réalisé par Saitora, loueur fictif</div>
+
+<div class="stage">
+  <figure class="sea" aria-label="La mer" id="sea">
+    <img class="on" data-k="mer" src="images/libecciu/mer.webp" alt="Bateau au mouillage dans une crique turquoise du golfe d'Ajaccio" width="1000" height="1500" fetchpriority="high">
+    <img data-k="kayak1" src="images/libecciu/kayak.webp" alt="Kayak sur une eau transparente" width="1000" height="1500" loading="lazy">
+    <img data-k="paddle" src="images/libecciu/paddle.webp" alt="Paddle sur une mer calme" width="1000" height="1500" loading="lazy">
+    <img data-k="bateau" src="images/libecciu/bateau.webp" alt="Petit bateau à moteur ancré près des rochers" width="1000" height="1500" loading="lazy">
+    <img data-k="semi" src="images/libecciu/semirigide.webp" alt="Semi-rigide filant sur la mer" width="1000" height="1500" loading="lazy">
+    <img data-k="jetski" src="images/libecciu/jetski.webp" alt="Jet-ski laissant un sillage blanc" width="1000" height="1500" loading="lazy">
+    <img data-k="coucher" src="images/libecciu/coucher.webp" alt="Coucher de soleil sur la mer et les îles" width="1000" height="1500" loading="lazy">
+    <figcaption id="seaCap" data-t="cap">Le golfe d'Ajaccio, depuis le ponton</figcaption>
+  </figure>
+
+  <div class="col">
+    <header class="card" id="top">
+      <div class="stripe" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="card-in">
+        <p class="word rise">LIBECCIU</p>
+        <h1 class="rise" style="--i:1" data-t="h1">Kayaks, bateaux et jet-skis</h1>
+        <p class="lead rise" style="--i:2" data-t="lead">À louer à l'heure ou à la journée, depuis le ponton de la plage, dans le golfe d'Ajaccio.</p>
+        <a class="btn rise" style="--i:3" href="#reserver" data-t="cta">Réserver une sortie</a>
+        <section class="bulletin rise" style="--i:4" aria-labelledby="t-bul">
+          <h2 id="t-bul"><span data-t="bulTitle">Le bulletin du ponton</span>, <span id="bulDate"></span></h2>
+          <dl id="bul"></dl>
+          <p class="verdict" id="verdict"></p>
+        </section>
+        <nav class="links" aria-label="Sections">
+          <a href="#flotte" data-t="nFleet">La flotte</a><a href="#criques" data-t="nCoves">Les criques</a><a href="#questions" data-t="nFaq">Questions</a>
+          <span class="lang" role="group" aria-label="Langue"><button type="button" data-l="fr" aria-pressed="true">FR</button><button type="button" data-l="en" aria-pressed="false">EN</button><button type="button" data-l="it" aria-pressed="false">IT</button></span>
+        </nav>
+      </div>
+    </header>
+
+    <section class="fleet" id="flotte" aria-labelledby="t-fleet">
+      <h2 class="giant rise" id="t-fleet" data-t="fleet">Flotte</h2>
+      <p class="lead rise" style="--i:1" data-t="fleetLead">Gilets, bidon étanche et carte des criques fournis avec chaque location. Ouvrez une ligne pour voir les prix.</p>
+      <div class="bars" id="bars"></div>
+      <p class="after" data-t="fleetAfter">Les prix sont par embarcation, pas par personne. L'essence des bateaux à moteur se règle au réel, à votre retour.</p>
+    </section>
+
+    <section class="menu" id="formules" aria-labelledby="t-menu" data-photo="coucher">
+      <h2 class="rise" id="t-menu" data-t="menu">Formules et extras</h2>
+      <div id="menu"></div>
+    </section>
+  </div>
+</div>
+
+<section class="book" id="reserver" aria-labelledby="t-book">
+  <div class="head">
+    <h2 class="rise" id="t-book" data-t="book">Préparer votre sortie</h2>
+    <p class="rise" style="--i:1" data-t="bookLead">Choisissez l'embarcation, la durée et le départ. Chaque jour a son drapeau : on ne vous fait pas partir si la mer ne s'y prête pas.</p>
+  </div>
+  <div class="planner">
+    <div id="choices"></div>
+    <aside class="voucher" aria-live="polite" aria-labelledby="t-vou">
+      <div class="stripe" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="voucher-in" id="voucher"></div>
+    </aside>
+  </div>
+</section>
+
+<section class="coves" id="criques" aria-labelledby="t-coves">
+  <figure class="rise">
+    <div class="plate" id="plate">
+      <img id="coveImg" src="images/libecciu/crique-pins.webp" alt="" width="900" height="900" loading="lazy">
+      <svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="43" fill="none" stroke="#fff" stroke-width=".7"/><circle cx="50" cy="50" r="1.6" fill="#8FE3D6"/></svg>
+    </div>
+  </figure>
+  <div class="title">
+    <h2 class="rise" id="t-coves" data-t="coves">Les criques</h2>
+    <div class="tabs rise" style="margin-top:18px;--i:1" role="tablist" aria-label="Criques" id="tabs"></div>
+  </div>
+  <div class="txt">
+    <div class="cove" id="cove" role="tabpanel"></div>
+    <div class="cells" id="cells"></div>
+  </div>
+</section>
+
+<section class="faq" id="questions" aria-labelledby="t-faq">
+  <h2 class="rise" id="t-faq" data-t="faq">Avant de partir</h2>
+  <div class="txt" id="faqTxt"></div>
+</section>
+
+<footer class="contact" aria-label="Contact">
+  <div class="stripe" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <p class="say" data-t="say">Une question sur une sortie, un groupe ou un anniversaire en mer ? Écrivez-nous.</p>
+  <a class="mail" href="mailto:ponton@libecciu.fr">ponton@libecciu.fr</a>
+  <div class="foot">
+    <span><a href="tel:+33400000000">04 00 00 00 00</a> <span data-t="where">Ponton de la plage, golfe d'Ajaccio</span></span>
+    <span data-t="hours">Avril à octobre, tous les jours de 9 h à 19 h</span>
+    <span data-t="made">Loueur fictif, site réalisé par Saitora</span>
+  </div>
+</footer>
+
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+
+// ——— textes en trois langues (les touristes du golfe lisent surtout l'anglais et l'italien)
+const T = {
+  fr: { fleetAfter:"Les prix sont par embarcation, pas par personne. L’essence des bateaux à moteur se règle au réel, à votre retour.", demo:"Site de démonstration réalisé par Saitora, loueur fictif", cap:"Le golfe d'Ajaccio, depuis le ponton", h1:"Kayaks, bateaux et jet-skis", lead:"À louer à l'heure ou à la journée, depuis le ponton de la plage, dans le golfe d'Ajaccio.", cta:"Réserver une sortie",
+    bulTitle:"Le bulletin du ponton", nFleet:"La flotte", nCoves:"Les criques", nFaq:"Questions", fleet:"Flotte", fleetLead:"Gilets, bidon étanche et carte des criques fournis avec chaque location. Ouvrez une ligne pour voir les prix.",
+    menu:"Formules et extras", book:"Préparer votre sortie", bookLead:"Choisissez l'embarcation, la durée et le départ. Chaque jour a son drapeau : on ne vous fait pas partir si la mer ne s'y prête pas.",
+    coves:"Les criques", faq:"Avant de partir", say:"Une question sur une sortie, un groupe ou un anniversaire en mer ? Écrivez-nous.", where:"Ponton de la plage, golfe d'Ajaccio", hours:"Avril à octobre, tous les jours de 9 h à 19 h", made:"Loueur fictif, site réalisé par Saitora",
+    wind:"Vent", sea:"Mer", water:"Eau", sunset:"Coucher du soleil", flag:"Drapeau", knots:"nœuds",
+    calm:"calme", slight:"peu agitée", moderate:"agitée", rough:"forte",
+    green:"vert", orange:"orange", red:"rouge",
+    vGreen:"Tout sort aujourd'hui : kayaks, paddles, bateaux et jet-skis.", vOrange:"Bateaux et jet-skis sortent ; kayaks dans la baie seulement, pas de paddle.", vRed:"Sorties suspendues aujourd'hui. Réservez un autre jour, on vous rembourse si la mer reste fermée.",
+    from:"dès", per:{1:"1 heure",2:"2 heures",4:"Demi-journée",8:"Journée","0.5":"30 minutes"}, people:"personnes", upTo:"jusqu'à", permit:"Permis bateau obligatoire", noPermit:"Sans permis", deposit:"Caution", idCard:"une pièce d'identité", reserve:"Réserver celle-ci",
+    qCraft:"L'embarcation", qDur:"La durée", qDay:"Le jour", qTime:"Le départ", qPeople:"Combien êtes-vous ?", over:"Au-delà de la capacité : prenez deux embarcations ou un modèle plus grand.",
+    vTitle:"Bon de location", vCraft:"Embarcation", vWhen:"Départ", vBack:"Retour avant", vPeople:"Personnes", vDeposit:"Caution", vFuel:"Essence", vFuelTxt:"au réel, à votre retour", total:"Total",
+    name:"Prénom et nom", tel:"Téléphone mobile", send:"Envoyer la demande", pick:"Choisissez un jour et une heure de départ.", sent:"Demande envoyée. On vous rappelle dans l'heure pour confirmer. (Démo : rien n'est réellement envoyé.)",
+    closedDay:"Drapeau rouge ce jour-là : choisissez un autre jour.", noSlot:"Plus de départ possible ce jour-là avant le coucher du soleil.", baySay:"Drapeau orange : sortie dans la baie seulement.",
+    byKayak:"En kayak", byBoat:"En bateau", min:"min", tooFar:"trop loin", reach:"Depuis le ponton", today:"aujourd'hui" },
+  en: { fleetAfter:"Prices are per craft, not per person. Fuel for motorboats is paid as used, when you come back.", demo:"Demo website made by Saitora, fictional rental", cap:"The Gulf of Ajaccio, from the pontoon", h1:"Kayaks, boats and jet skis", lead:"Rent by the hour or by the day, from the beach pontoon in the Gulf of Ajaccio.", cta:"Book a trip",
+    bulTitle:"Pontoon sea report", nFleet:"Fleet", nCoves:"Coves", nFaq:"Questions", fleet:"Fleet", fleetLead:"Life jackets, dry bag and a map of the coves come with every rental. Open a line to see prices.",
+    menu:"Packages and extras", book:"Plan your trip", bookLead:"Pick the craft, the duration and the start time. Every day has its flag: we won't send you out if the sea says no.",
+    coves:"The coves", faq:"Before you go", say:"A question about a trip, a group or a birthday at sea? Write to us.", where:"Beach pontoon, Gulf of Ajaccio", hours:"April to October, daily 9 am to 7 pm", made:"Fictional rental, website by Saitora",
+    wind:"Wind", sea:"Sea", water:"Water", sunset:"Sunset", flag:"Flag", knots:"knots",
+    calm:"calm", slight:"slight", moderate:"moderate", rough:"rough",
+    green:"green", orange:"orange", red:"red",
+    vGreen:"Everything goes out today: kayaks, paddles, boats and jet skis.", vOrange:"Boats and jet skis go out; kayaks inside the bay only, no paddleboards.", vRed:"Trips suspended today. Book another day, refunded if the sea stays closed.",
+    from:"from", per:{1:"1 hour",2:"2 hours",4:"Half day",8:"Full day","0.5":"30 minutes"}, people:"people", upTo:"up to", permit:"Boat licence required", noPermit:"No licence needed", deposit:"Deposit", idCard:"an ID card", reserve:"Book this one",
+    qCraft:"The craft", qDur:"Duration", qDay:"Day", qTime:"Start time", qPeople:"How many of you?", over:"Over capacity: take two crafts or a bigger one.",
+    vTitle:"Rental voucher", vCraft:"Craft", vWhen:"Start", vBack:"Back before", vPeople:"People", vDeposit:"Deposit", vFuel:"Fuel", vFuelTxt:"charged on return", total:"Total",
+    name:"Full name", tel:"Mobile phone", send:"Send the request", pick:"Pick a day and a start time.", sent:"Request sent. We'll call you within the hour to confirm. (Demo: nothing is actually sent.)",
+    closedDay:"Red flag that day: pick another day.", noSlot:"No more starts that day before sunset.", baySay:"Orange flag: inside the bay only.",
+    byKayak:"By kayak", byBoat:"By boat", min:"min", tooFar:"too far", reach:"From the pontoon", today:"today" },
+  it: { fleetAfter:"I prezzi sono per mezzo, non a persona. Il carburante delle barche a motore si paga a consumo, al rientro.", demo:"Sito dimostrativo realizzato da Saitora, noleggio fittizio", cap:"Il golfo di Ajaccio, dal pontile", h1:"Kayak, barche e moto d'acqua", lead:"A noleggio a ore o a giornata, dal pontile della spiaggia nel golfo di Ajaccio.", cta:"Prenota un'uscita",
+    bulTitle:"Il bollettino del pontile", nFleet:"La flotta", nCoves:"Le calette", nFaq:"Domande", fleet:"Flotta", fleetLead:"Giubbotti, sacca stagna e carta delle calette inclusi in ogni noleggio. Apri una riga per vedere i prezzi.",
+    menu:"Pacchetti ed extra", book:"Prepara la tua uscita", bookLead:"Scegli il mezzo, la durata e la partenza. Ogni giorno ha la sua bandiera: non ti facciamo uscire se il mare non lo permette.",
+    coves:"Le calette", faq:"Prima di partire", say:"Una domanda su un'uscita, un gruppo o un compleanno in mare? Scrivici.", where:"Pontile della spiaggia, golfo di Ajaccio", hours:"Da aprile a ottobre, tutti i giorni dalle 9 alle 19", made:"Noleggio fittizio, sito realizzato da Saitora",
+    wind:"Vento", sea:"Mare", water:"Acqua", sunset:"Tramonto", flag:"Bandiera", knots:"nodi",
+    calm:"calmo", slight:"poco mosso", moderate:"mosso", rough:"agitato",
+    green:"verde", orange:"arancione", red:"rossa",
+    vGreen:"Oggi esce tutto: kayak, sup, barche e moto d'acqua.", vOrange:"Barche e moto d'acqua escono; kayak solo nella baia, niente sup.", vRed:"Uscite sospese oggi. Prenota un altro giorno, rimborso se il mare resta chiuso.",
+    from:"da", per:{1:"1 ora",2:"2 ore",4:"Mezza giornata",8:"Giornata","0.5":"30 minuti"}, people:"persone", upTo:"fino a", permit:"Patente nautica obbligatoria", noPermit:"Senza patente", deposit:"Cauzione", idCard:"un documento d'identità", reserve:"Prenota questo",
+    qCraft:"Il mezzo", qDur:"La durata", qDay:"Il giorno", qTime:"La partenza", qPeople:"Quanti siete?", over:"Oltre la capienza: prendete due mezzi o uno più grande.",
+    vTitle:"Buono di noleggio", vCraft:"Mezzo", vWhen:"Partenza", vBack:"Rientro entro", vPeople:"Persone", vDeposit:"Cauzione", vFuel:"Carburante", vFuelTxt:"a consumo, al rientro", total:"Totale",
+    name:"Nome e cognome", tel:"Cellulare", send:"Invia la richiesta", pick:"Scegli un giorno e un orario di partenza.", sent:"Richiesta inviata. Ti richiamiamo entro un'ora per confermare. (Demo: non viene inviato nulla.)",
+    closedDay:"Bandiera rossa quel giorno: scegli un altro giorno.", noSlot:"Nessuna partenza possibile quel giorno prima del tramonto.", baySay:"Bandiera arancione: solo nella baia.",
+    byKayak:"In kayak", byBoat:"In barca", min:"min", tooFar:"troppo lontano", reach:"Dal pontile", today:"oggi" },
+};
+let L = "fr";
+const t = k => T[L][k] ?? T.fr[k];
+
+// ——— la flotte : [clé, nom fr/en/it, places, permis, {heures: prix}, caution, description fr/en/it]
+const FLEET = [
+  ["kayak1", ["Kayak une place","Single kayak","Kayak singolo"], 1, false, {1:15,2:25,4:40,8:60}, 0, ["Stable et léger, pour longer la côte jusqu'à la crique aux pins.","Stable and light, to follow the shore to the pine cove.","Stabile e leggero, per costeggiare fino alla caletta dei pini."]],
+  ["kayak2", ["Kayak deux places","Double kayak","Kayak doppio"], 3, false, {1:20,2:35,4:55,8:80}, 0, ["Pour deux adultes et un enfant assis au milieu, dès 6 ans.","For two adults and a child in the middle, from age 6.","Per due adulti e un bambino al centro, dai 6 anni."]],
+  ["paddle", ["Paddle","Paddleboard","Sup"], 1, false, {1:15,2:25,4:40}, 0, ["Le matin, quand la mer est d'huile. Pas de sortie par drapeau orange.","Best in the morning on a glassy sea. Not on orange-flag days.","Al mattino, con il mare piatto. Niente uscite con bandiera arancione."]],
+  ["bateau", ["Bateau sans permis, 6 cv","Boat, no licence, 6 hp","Barca senza patente, 6 cv"], 5, false, {2:90,4:140,8:220}, 500, ["Une coque ouverte et un taud pour l'ombre. On vous montre tout avant de partir.","An open hull with a sunshade. We show you everything before you leave.","Scafo aperto con tendalino. Vi mostriamo tutto prima di partire."]],
+  ["semi", ["Semi-rigide, 115 cv","RIB, 115 hp","Gommone, 115 cv"], 8, true, {4:290,8:450}, 1500, ["Pour aller jusqu'aux îles Sanguinaires et plus loin, en une demi-heure.","To reach the Sanguinaires islands and beyond, in half an hour.","Per arrivare alle isole Sanguinarie e oltre, in mezz'ora."]],
+  ["jetski", ["Jet-ski","Jet ski","Moto d'acqua"], 2, true, {1:120,2:220}, 1000, ["Au-delà de la bande des 300 mètres, avec votre permis côtier.","Beyond the 300-metre line, with your coastal licence.","Oltre la fascia dei 300 metri, con la vostra patente."]],
+  ["guide", ["Jet-ski accompagné, sans permis","Guided jet ski, no licence","Moto d'acqua guidata, senza patente"], 2, false, {"0.5":90,1:160}, 0, ["Derrière notre moniteur, jusqu'à la tour génoise. Conducteur de 16 ans et plus.","Behind our instructor, out to the Genoese tower. Drivers 16 and over.","Dietro al nostro istruttore, fino alla torre genovese. Conducente dai 16 anni."]],
+];
+const li = i => ({ fr: 0, en: 1, it: 2 })[L];
+const craft = k => FLEET.find(f => f[0] === k);
+const photoOf = k => ({ kayak1: "kayak1", kayak2: "kayak1", paddle: "paddle", bateau: "bateau", semi: "semi", jetski: "jetski", guide: "jetski" })[k];
+
+// ——— formules et extras : [groupe fr/en/it, [[nom, prix, détail], …] dans les trois langues]
+const MENU = {
+  fr: [["Formules", [["Coucher de soleil", "120 €", "Bateau sans permis, deux heures avant la nuit, glacière offerte."], ["Les Sanguinaires", "390 €", "Semi-rigide à la journée, carte des mouillages et conseils du matin."], ["Baptême de jet-ski", "90 €", "Trente minutes accompagné, sans permis."]]],
+       ["Extras", [["Masques et tubas", "5 €", "Par personne, pour la journée."], ["Glacière et pains de glace", "8 €", "À récupérer pleine au ponton."], ["Skipper", "150 €", "Pour la demi-journée, en semi-rigide."]]],
+       ["Cautions", [["Kayaks, paddles, jet-ski accompagné", "Pièce d'identité", "Gardée au ponton, rendue au retour."], ["Bateau sans permis", "500 €", "Par empreinte de carte, rien n'est débité."], ["Jet-ski et semi-rigide", "1 000 à 1 500 €", "Par empreinte de carte."]]]],
+  en: [["Packages", [["Sunset trip", "€120", "Boat without licence, two hours before nightfall, cool box included."], ["The Sanguinaires", "€390", "Full-day RIB, anchorage map and morning briefing."], ["First jet ski ride", "€90", "Thirty minutes with a guide, no licence."]]],
+       ["Extras", [["Mask and snorkel", "€5", "Per person, for the day."], ["Cool box and ice packs", "€8", "Picked up full at the pontoon."], ["Skipper", "€150", "Half day, on the RIB."]]],
+       ["Deposits", [["Kayaks, paddleboards, guided jet ski", "ID card", "Kept at the pontoon, returned when you're back."], ["Boat without licence", "€500", "Card pre-authorisation, nothing charged."], ["Jet ski and RIB", "€1,000 to €1,500", "Card pre-authorisation."]]]],
+  it: [["Pacchetti", [["Tramonto", "120 €", "Barca senza patente, due ore prima del buio, borsa frigo inclusa."], ["Le Sanguinarie", "390 €", "Gommone a giornata, carta degli ancoraggi e consigli del mattino."], ["Battesimo in moto d'acqua", "90 €", "Trenta minuti con la guida, senza patente."]]],
+       ["Extra", [["Maschera e boccaglio", "5 €", "A persona, per la giornata."], ["Borsa frigo e ghiaccio", "8 €", "Da ritirare piena al pontile."], ["Skipper", "150 €", "Mezza giornata, in gommone."]]],
+       ["Cauzioni", [["Kayak, sup, moto d'acqua guidata", "Documento", "Tenuto al pontile, restituito al rientro."], ["Barca senza patente", "500 €", "Preautorizzazione su carta, nessun addebito."], ["Moto d'acqua e gommone", "Da 1 000 a 1 500 €", "Preautorizzazione su carta."]]]],
+};
+
+// photos-dynamiques: images/libecciu/crique-pins.webp images/libecciu/crique-tour.webp images/libecciu/crique-sanguinaires.webp
+// ——— les criques : [clé, nom, texte fr/en/it, minutes en kayak (null : trop loin), minutes en bateau]
+const COVES = [
+  ["pins", "La crique aux pins", ["Une plage de galets à l'ombre des pins maritimes, à portée de pagaie. L'eau y est la plus claire le matin.","A pebble beach shaded by maritime pines, within paddling reach. The water is clearest in the morning.","Una spiaggia di ciottoli all'ombra dei pini marittimi, a portata di pagaia. L'acqua è più limpida al mattino."], 25, 5],
+  ["tour", "La tour génoise", ["Un promontoire de granit rose et sa tour du XVIe siècle. On mouille au pied, on monte à pied en dix minutes.","A pink granite headland and its 16th-century tower. Anchor below, walk up in ten minutes.","Un promontorio di granito rosa e la sua torre del Cinquecento. Si ancora sotto e si sale a piedi in dieci minuti."], 50, 12],
+  ["sanguinaires", "Les îles Sanguinaires", ["Quatre îles rouges au bout du golfe, et le phare. Trop loin en kayak : on y va en semi-rigide, au calme du matin.","Four red islands at the end of the gulf, and the lighthouse. Too far by kayak: go by RIB, in the morning calm.","Quattro isole rosse in fondo al golfo, e il faro. Troppo lontane in kayak: ci si va in gommone, con la calma del mattino."], null, 30],
+];
+
+// ——— FAQ dans les trois langues : [question, réponse]
+const FAQ = {
+  fr: [["Faut-il un permis ?", "Non pour les kayaks, les paddles, le bateau de 6 chevaux et le jet-ski accompagné. Oui pour le semi-rigide et le jet-ski seul : apportez votre permis côtier."], ["À partir de quel âge ?", "Kayak deux places dès 6 ans avec un adulte, kayak seul et paddle dès 12 ans, jet-ski accompagné dès 16 ans pour conduire."], ["Et si la météo tourne ?", "Si nous hissons le drapeau rouge, la sortie est remboursée ou reportée, au choix. Par drapeau orange, on adapte le parcours avec vous."], ["Que faut-il apporter ?", "Maillot, crème solaire, chapeau, eau, et des chaussures qui vont dans l'eau. Les gilets et le bidon étanche sont fournis."], ["Où se garer ?", "Le parking de la plage est à deux minutes à pied du ponton. Il se remplit vers 10 h en juillet et en août."], ["Peut-on venir avec un chien ?", "Oui, en bateau. Pas en kayak ni en paddle, pour sa sécurité."], ["Comment se passe le départ ?", "Rendez-vous au ponton un quart d'heure avant : on vous explique la zone, la carte des criques et le retour."], ["Peut-on payer sur place ?", "Oui, par carte ou en espèces, au retour. La caution se fait par empreinte de carte, sans débit."]],
+  en: [["Do I need a licence?", "Not for kayaks, paddleboards, the 6 hp boat or the guided jet ski. Yes for the RIB and a solo jet ski: bring your coastal licence."], ["From what age?", "Double kayak from 6 with an adult, single kayak and paddleboard from 12, guided jet ski from 16 to drive."], ["What if the weather turns?", "If we raise the red flag, your trip is refunded or moved, your choice. On orange-flag days we adapt the route with you."], ["What should I bring?", "Swimwear, sun cream, a hat, water and shoes that can get wet. Life jackets and a dry bag are provided."], ["Where do I park?", "The beach car park is two minutes' walk from the pontoon. It fills up around 10 am in July and August."], ["Can I bring my dog?", "Yes, on a boat. Not on a kayak or a paddleboard, for its safety."], ["How does the start work?", "Meet us at the pontoon fifteen minutes before: we explain the area, the cove map and the way back."], ["Can I pay on site?", "Yes, by card or cash, on your return. The deposit is a card pre-authorisation, nothing is charged."]],
+  it: [["Serve la patente?", "No per kayak, sup, barca da 6 cavalli e moto d'acqua guidata. Sì per il gommone e la moto d'acqua da soli: portate la patente nautica."], ["Da che età?", "Kayak doppio dai 6 anni con un adulto, kayak singolo e sup dai 12, moto d'acqua guidata dai 16 per guidare."], ["E se il tempo cambia?", "Se alziamo la bandiera rossa, l'uscita è rimborsata o rinviata, a vostra scelta. Con la bandiera arancione adattiamo il percorso insieme."], ["Cosa portare?", "Costume, crema solare, cappello, acqua e scarpe da scoglio. Giubbotti e sacca stagna sono forniti."], ["Dove parcheggiare?", "Il parcheggio della spiaggia è a due minuti a piedi dal pontile. Si riempie verso le 10 a luglio e agosto."], ["Si può venire con il cane?", "Sì, in barca. Non in kayak né sul sup, per la sua sicurezza."], ["Come si parte?", "Appuntamento al pontile un quarto d'ora prima: vi spieghiamo la zona, la carta delle calette e il rientro."], ["Si può pagare sul posto?", "Sì, con carta o contanti, al rientro. La cauzione è una preautorizzazione su carta, senza addebito."]],
+};
+
+// ——— la mer de chaque jour (démo : tirée du jour, toujours la même pour une date donnée)
+const dayOfYear = d => Math.round((d - new Date(d.getFullYear(), 0, 1)) / 864e5) + 1;
+function seaOf(d){
+  const n = d.getFullYear() * 400 + dayOfYear(d), r = x => ((Math.sin(n * x) * 10000) % 1 + 1) % 1;
+  const kn = Math.round(4 + r(12.9898) * 22), dir = ["Libecciu (sud-ouest)", "Maestrale (nord-ouest)", "Ponente (ouest)", "Sciroccu (sud-est)", "Tramuntana (nord)"][Math.floor(r(78.233) * 5)];
+  const doy = dayOfYear(d), sunset = 19.4 + 1.6 * Math.sin(2 * Math.PI * (doy - 80) / 365), water = 19 + 6 * Math.sin(2 * Math.PI * (doy - 140) / 365);
+  const flag = kn < 15 ? "green" : kn < 20 ? "orange" : "red";
+  const wave = Math.round(kn * .045 * 10) / 10;
+  return { kn, dir, flag, wave, state: wave < .3 ? "calm" : wave < .6 ? "slight" : wave < .9 ? "moderate" : "rough", sunset: Math.round(sunset * 60), water: Math.round(water) };
+}
+const hm = m => `${Math.floor(m / 60)}${L === "fr" ? " h " : ":"}${String(Math.round(m % 60)).padStart(2, "0")}`;   // 9 h 00 en français, 9:00 ailleurs
+const FLAGC = { green: "var(--green)", orange: "var(--orange)", red: "var(--red)" };
+const DIRS = { en: ["Libecciu (south-west)", "Maestrale (north-west)", "Ponente (west)", "Sciroccu (south-east)", "Tramuntana (north)"], it: ["Libeccio (sud-ovest)", "Maestrale (nord-ovest)", "Ponente (ovest)", "Scirocco (sud-est)", "Tramontana (nord)"] };
+const dirOf = s => L === "fr" ? s.dir : DIRS[L][["Libecciu (sud-ouest)", "Maestrale (nord-ouest)", "Ponente (ouest)", "Sciroccu (sud-est)", "Tramuntana (nord)"].indexOf(s.dir)];
+const locale = () => ({ fr: "fr-FR", en: "en-GB", it: "it-IT" })[L];
+
+function bulletin(){
+  const d = new Date(), s = seaOf(d);
+  $("bulDate").textContent = d.toLocaleDateString(locale(), { weekday: "long", day: "numeric", month: "long" });
+  $("bul").innerHTML = [[t("wind"), `${esc(dirOf(s))}, ${s.kn} ${t("knots")}`], [t("sea"), `${t(s.state)}, ${String(s.wave).replace(".", L === "en" ? "." : ",")} m`], [t("water"), `${s.water} °C`], [t("sunset"), hm(s.sunset)], [t("flag"), `<i class="flag" style="background:${FLAGC[s.flag]}"></i>${t(s.flag)}`]].map(([a, b]) => `<dt>${a}</dt><dd>${b}</dd>`).join("");
+  $("verdict").textContent = t({ green: "vGreen", orange: "vOrange", red: "vRed" }[s.flag]);
+}
+
+// ——— la flotte en barres, les formules, la FAQ
+const eur = n => L === "en" ? `€${n}` : `${n} €`;
+function fleet(){
+  $("bars").innerHTML = FLEET.map(([k, n, cap, permit, pr, dep, desc], i) => {
+    const min = Math.min(...Object.values(pr));
+    return `<details class="rise" style="--i:${i + 2}" ${i === 0 ? "open" : ""} data-k="${k}"><summary>${esc(n[li()])}<small>${t("from")} ${eur(min)}</small><b aria-hidden="true">+</b></summary>
+      <div class="panel"><p>${esc(desc[li()])}</p><ul>${Object.entries(pr).sort((a, b) => a[0] - b[0]).map(([h, p]) => `<li><span>${t("per")[h]}</span><span>${eur(p)}</span></li>`).join("")}
+      <li><span>${permit ? t("permit") : t("noPermit")}</span><span>${t("upTo")} ${cap} ${t("people")}</span></li><li><span>${t("deposit")}</span><span>${dep ? eur(dep.toLocaleString(locale())) : t("idCard")}</span></li></ul>
+      <a class="go" href="#reserver" data-pick="${k}">${t("reserve")}</a></div></details>`;
+  }).join("");
+  $("menu").innerHTML = MENU[L].map(([g, items]) => `<div class="grp rise"><h3>${esc(g)}</h3><ul>${items.map(([n, p, d]) => `<li><div><span>${esc(n)}</span><span>${esc(p)}</span></div><p>${esc(d)}</p></li>`).join("")}</ul></div>`).join("");
+  $("faqTxt").innerHTML = FAQ[L].map(([q, a], i) => `<p class="rise" style="--i:${i}"><b>${esc(q)}</b> ${esc(a)}</p>`).join("");
+}
+
+// ——— la mer à droite suit ce qu'on regarde
+const sea = (k) => { document.querySelectorAll("#sea img").forEach(i => i.classList.toggle("on", i.dataset.k === k)); };
+document.addEventListener("toggle", e => { const d = e.target; if (d.matches?.(".bars details") && d.open) { sea(photoOf(d.dataset.k)); document.querySelectorAll(".bars details").forEach(o => { if (o !== d) o.open = false; }); } }, true);
+
+// ——— le planificateur et son bon de location
+const st = { k: "kayak2", h: 2, day: 0, start: null, n: 2, name: "", tel: "", sent: false };
+const DAYS = Array.from({ length: 10 }, (_, i) => { const d = new Date(); d.setHours(12, 0, 0, 0); d.setDate(d.getDate() + i); return d; });
+function allowed(k, flag){ if (flag === "red") return false; if (flag === "orange" && k === "paddle") return false; return true; }
+function slots(){
+  const d = DAYS[st.day], s = seaOf(d), len = Number(st.h) * 60, out = [];
+  for (let m = 9 * 60; m <= 17 * 60; m += 60) {
+    const ok = m + len <= Math.min(19 * 60, s.sunset - 15), busy = ((m / 60 + d.getDate() + st.k.length) % 5) === 0;
+    if (ok) out.push({ m, busy });
+  }
+  return out;
+}
+function planner(){
+  const c = craft(st.k), durs = Object.keys(c[4]).sort((a, b) => a - b);
+  if (!durs.includes(String(st.h))) st.h = durs[0];
+  const d = DAYS[st.day], s = seaOf(d), sl = slots(), okDay = allowed(st.k, s.flag);
+  if (st.start != null && !sl.some(x => x.m === st.start && !x.busy)) st.start = null;
+  $("choices").innerHTML = `
+    <div class="q"><p>${t("qCraft")}</p><div class="chips" data-q="k">${FLEET.map(f => `<button type="button" class="chip" data-v="${f[0]}" aria-pressed="${f[0] === st.k}">${esc(f[1][li()])}</button>`).join("")}</div></div>
+    <div class="q"><p>${t("qDur")}</p><div class="chips" data-q="h">${durs.map(h => `<button type="button" class="chip" data-v="${h}" aria-pressed="${String(st.h) === h}">${t("per")[h]}, ${eur(c[4][h])}</button>`).join("")}</div></div>
+    <div class="q"><p>${t("qDay")}</p><div class="days" data-q="day">${DAYS.map((x, i) => { const f = seaOf(x).flag; return `<button type="button" class="day" data-v="${i}" aria-pressed="${i === st.day}" aria-label="${x.toLocaleDateString(locale(), { weekday: "long", day: "numeric", month: "long" })}, ${t("flag").toLowerCase()} ${t(f)}">${x.toLocaleDateString(locale(), { weekday: "short" }).replace(".", "")}<b>${x.getDate()}</b><i style="background:${FLAGC[f]}"></i></button>`; }).join("")}</div>
+      ${!okDay ? `<p class="note warn">${s.flag === "red" ? t("closedDay") : t("vOrange")}</p>` : s.flag === "orange" && st.k.startsWith("kayak") ? `<p class="note">${t("baySay")}</p>` : ""}</div>
+    <div class="q"><p>${t("qTime")}</p>${okDay && sl.length ? `<div class="chips" data-q="start">${sl.map(x => `<button type="button" class="chip" data-v="${x.m}" ${x.busy ? "disabled" : ""} aria-pressed="${st.start === x.m}">${hm(x.m)}</button>`).join("")}</div>` : `<p class="note">${okDay ? t("noSlot") : "—"}</p>`}</div>
+    <div class="q"><p>${t("qPeople")}</p><div class="count"><button type="button" data-n="-1" aria-label="−1">−</button><output>${st.n}</output><button type="button" data-n="1" aria-label="+1">+</button></div>${st.n > c[2] ? `<p class="note warn">${t("over")}</p>` : ""}</div>`;
+  const ready = okDay && st.start != null && st.n <= c[2], price = c[4][st.h];
+  $("voucher").innerHTML = `<h3>${t("vTitle")}</h3>
+    <dl><dt>${t("vCraft")}</dt><dd>${esc(c[1][li()])}</dd>
+    <dt>${t("vWhen")}</dt><dd>${st.start != null ? `${d.toLocaleDateString(locale(), { weekday: "short", day: "numeric", month: "short" })}, ${hm(st.start)}` : "—"}</dd>
+    <dt>${t("vBack")}</dt><dd>${st.start != null ? hm(st.start + Number(st.h) * 60) : "—"}</dd>
+    <dt>${t("sunset")}</dt><dd>${hm(s.sunset)}</dd>
+    <dt>${t("vPeople")}</dt><dd>${st.n}</dd>
+    <dt>${t("vDeposit")}</dt><dd>${c[5] ? eur(c[5].toLocaleString(locale())) : t("idCard")}</dd>
+    ${["bateau", "semi", "jetski"].includes(st.k) ? `<dt>${t("vFuel")}</dt><dd>${t("vFuelTxt")}</dd>` : ""}</dl>
+    <div class="total"><span>${t("total")}</span><b>${eur(price)}</b></div>
+    ${st.sent ? `<p class="sent">${t("sent")}</p>` : ready ? `<input id="vName" autocomplete="name" placeholder="${t("name")}" aria-label="${t("name")}" value="${esc(st.name)}"><input id="vTel" type="tel" autocomplete="tel" enterkeyhint="send" placeholder="${t("tel")}" aria-label="${t("tel")}" value="${esc(st.tel)}"><button class="btn" type="button" id="vSend">${t("send")}</button>` : `<p class="sent">${t("pick")}</p>`}`;
+  if ($("vName")) { $("vName").oninput = e => st.name = e.target.value; $("vTel").oninput = e => st.tel = e.target.value;
+    $("vSend").onclick = () => { if (!st.name.trim() || !st.tel.trim()) { ["vName", "vTel"].forEach(id => $(id).style.outline = $(id).value.trim() ? "" : "2px solid #9C3B12"); return; } st.sent = true; planner(); }; }
+}
+$("choices").addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b || b.disabled) return;
+  if (b.dataset.n) { st.n = Math.max(1, Math.min(9, st.n + Number(b.dataset.n))); }
+  else { const q = b.parentElement.dataset.q; const v = b.dataset.v; st[q] = q === "k" || q === "h" ? v : Number(v); if (q === "k") sea(photoOf(v)); if (q !== "start") st.start = null; }
+  st.sent = false; planner();
+});
+document.addEventListener("click", e => { const a = e.target.closest("[data-pick]"); if (a) { st.k = a.dataset.pick; st.start = null; st.sent = false; planner(); } });
+
+// ——— les criques
+let cove = 0;
+function coves(){
+  $("tabs").innerHTML = COVES.map((c, i) => `<button type="button" role="tab" aria-selected="${i === cove}" data-i="${i}">${esc(c[1])}</button>`).join("");
+  const [k, n, txt, kay, boat] = COVES[cove];
+  $("coveImg").src = `images/libecciu/crique-${k}.webp`; $("coveImg").alt = n;
+  $("cove").innerHTML = `<h3>${esc(n)}</h3><p>${esc(txt[li()])}</p><p class="times">${t("reach")}${L === "fr" ? " :" : ":"} ${t("byKayak").toLowerCase()} ${kay ? `${kay} ${t("min")}` : t("tooFar")}, ${t("byBoat").toLowerCase()} ${boat} ${t("min")}</p>`;
+  $("cells").innerHTML = `<a href="#reserver" data-pick="kayak2" ${kay ? "" : 'aria-disabled="true" tabindex="-1"'}>${t("byKayak")}<span>${kay ? `${kay} ${t("min")}` : t("tooFar")}</span></a><a href="#reserver" data-pick="${kay ? "bateau" : "semi"}">${t("byBoat")}<span>${boat} ${t("min")}</span></a>`;
+}
+$("tabs").addEventListener("click", e => { const b = e.target.closest("[data-i]"); if (b) { cove = Number(b.dataset.i); coves(); } });
+$("tabs").addEventListener("keydown", e => { if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return; cove = (cove + (e.key === "ArrowRight" ? 1 : COVES.length - 1)) % COVES.length; coves(); $("tabs").children[cove].focus(); });
+
+// ——— langue
+function lang(l){
+  L = l; document.documentElement.lang = l;
+  document.querySelectorAll("[data-t]").forEach(el => el.textContent = t(el.dataset.t));
+  document.querySelectorAll(".lang button").forEach(b => b.setAttribute("aria-pressed", b.dataset.l === l));
+  bulletin(); fleet(); planner(); coves();
+  if (typeof watch === "function") watch();
+}
+document.querySelector(".lang").addEventListener("click", e => { const b = e.target.closest("[data-l]"); if (b) lang(b.dataset.l); });
+
+// ——— la mer change avec la section qui arrive ; les sections entrent une fois
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .1 });
+const watch = () => document.querySelectorAll(".rise:not(.in)").forEach(el => io.observe(el));
+watch();
+const photoIO = new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting) return; const k = e.target.id === "top" ? "mer" : e.target.id === "formules" ? "coucher" : null; if (k) sea(k); }), { threshold: .5 });
+["top", "formules"].forEach(id => photoIO.observe($(id)));
+
+lang((navigator.language || "fr").slice(0, 2) === "it" ? "it" : (navigator.language || "fr").startsWith("en") ? "en" : "fr");
+</script>
+</body>
+</html>

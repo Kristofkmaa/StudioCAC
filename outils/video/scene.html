@@ -3,275 +3,313 @@
 <head>
 <meta charset="utf-8">
 <title>Showreel StudioCac</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500&family=Young+Serif&family=Figtree:wght@400;600;700&family=Marcellus&family=Karla:wght@400;600;700&family=Archivo:wdth,wght@75..100,600;75..100,800;75..100,900&family=Public+Sans:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&family=Young+Serif&family=Figtree:wght@400;600;700&display=swap">
 <style>
-/* Scène de la vidéo d'accueil : pour chaque client, sa demande à gauche et son site qui se construit à droite
-   (maquette en pointillés → sections réelles → mise en ligne). Pilotée image par image par render.js via window.render(t). */
+/* Film de présentation StudioCac : une seule histoire client racontée en plans plein écran
+   (la demande → le plan → la direction artistique → la construction → la mise en ligne → signature).
+   Rendu image par image par render.js via window.render(t). */
 *{box-sizing:border-box;margin:0}
 html,body{width:1280px;height:800px;overflow:hidden}
-body{background:#070A1A;font-family:"Instrument Sans",system-ui,sans-serif;color:#F3F5FF;position:relative}
-.aura{position:absolute;border-radius:50%;filter:blur(10px);opacity:.5}
+body{background:#070A1A;color:#F3F5FF;font-family:"Instrument Sans",system-ui,sans-serif;position:relative}
+.mono{font-family:"JetBrains Mono",monospace;font-weight:500;letter-spacing:.08em;text-transform:uppercase}
+.aura{position:absolute;border-radius:50%;pointer-events:none}
+.shot{position:absolute;inset:0;overflow:hidden;will-change:transform,opacity,filter}
+.hl{background-image:linear-gradient(100deg,rgba(34,211,238,.55),rgba(124,92,255,.55));background-repeat:no-repeat;background-position:0 88%;background-size:0% 38%;border-radius:4px}
 
-/* demande du client */
-.brief{position:absolute;left:40px;top:98px;width:340px;height:604px}
-.card{position:absolute;inset:0;border-radius:22px;padding:26px;background:linear-gradient(135deg,rgba(40,46,92,.75),rgba(18,22,52,.6));border:1px solid rgba(255,255,255,.16);box-shadow:inset 0 1px 0 rgba(255,255,255,.18);display:flex;flex-direction:column;gap:18px}
-.label{font:500 12px "JetBrains Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:rgba(226,231,255,.55)}
-.who{display:flex;gap:14px;align-items:center}
-.av{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font:800 20px "Bricolage Grotesque";color:#070A1A;flex:none}
-.who b{display:block;font:700 19px "Bricolage Grotesque"}
-.who span{font-size:14px;color:rgba(226,231,255,.66)}
-.bubble{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:4px 18px 18px 18px;padding:14px 16px;font-size:16px;line-height:1.45;min-height:94px}
-.bubble .caret{display:inline-block;width:2px;height:17px;background:#22D3EE;vertical-align:-3px;margin-left:1px}
-.needs{display:flex;flex-direction:column;gap:10px;margin-top:4px}
-.need{display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:14px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03);font-size:15.5px;font-weight:500}
-.need i{width:24px;height:24px;border-radius:50%;border:2px solid rgba(226,231,255,.35);flex:none;display:grid;place-items:center;font-style:normal;font-size:14px;font-weight:800;color:#070A1A}
-.need.on{border-color:rgba(34,211,238,.6);background:rgba(34,211,238,.08)}
-.sign{margin-top:auto;display:flex;gap:12px;align-items:center;padding-top:16px;border-top:1px solid rgba(255,255,255,.1)}
-.sign i{width:34px;height:34px;border-radius:10px;background:conic-gradient(from 210deg,#7C5CFF,#22D3EE,#FF5FA2,#7C5CFF);box-shadow:0 0 18px rgba(124,92,255,.7)}
-.sign b{display:block;font:800 16px "Bricolage Grotesque"}
-.sign span{font-size:13px;color:rgba(226,231,255,.66)}
-.need.done i{background:#4ADE9A;border-color:#4ADE9A}
+/* habillage commun */
+.brand{position:absolute;left:56px;top:44px;display:flex;align-items:center;gap:12px;font:800 22px "Bricolage Grotesque";z-index:50}
+.brand i{width:28px;height:28px;border-radius:8px;background:conic-gradient(from 210deg,#7C5CFF,#22D3EE,#FF5FA2,#7C5CFF);box-shadow:0 0 18px rgba(124,92,255,.7)}
+.track{position:absolute;left:56px;right:56px;bottom:40px;display:grid;grid-template-columns:repeat(5,1fr);gap:14px;z-index:50}
+.track div{display:flex;flex-direction:column;gap:10px;font:600 15px "JetBrains Mono";letter-spacing:.06em;text-transform:uppercase;color:rgba(226,231,255,.35)}
+.track div.on{color:#F3F5FF}
+.track div.done{color:rgba(226,231,255,.6)}
+.track b{display:block;height:3px;border-radius:3px;background:rgba(255,255,255,.12);overflow:hidden}
+.track b span{display:block;height:100%;width:0;background:linear-gradient(90deg,#22D3EE,#7C5CFF)}
+.eyebrow{position:absolute;right:56px;top:48px;font-size:15px;color:rgba(226,231,255,.6)}
 
-/* navigateur */
-.browser{position:absolute;left:420px;top:98px;width:820px;height:604px;border-radius:16px;overflow:hidden;background:#11152F;border:1px solid rgba(255,255,255,.18)}
-.bar{height:44px;background:#161B3D;display:flex;align-items:center;gap:7px;padding:0 16px;border-bottom:1px solid rgba(255,255,255,.08);position:relative;z-index:5}
-.bar > i{width:11px;height:11px;border-radius:50%}
-.url{margin-left:14px;width:420px;height:28px;border-radius:999px;background:rgba(255,255,255,.07);font:500 13px "JetBrains Mono",monospace;color:#E2E7FF;display:flex;align-items:center;padding:0 14px;gap:10px;white-space:nowrap;overflow:hidden}
-.url b{width:9px;height:11px;border:2px solid #FFC266;border-radius:3px 3px 2px 2px;flex:none}
-.url.live b{border-color:#4ADE9A}
-.status{margin-left:auto;display:flex;align-items:center;gap:10px;font:600 13px "Instrument Sans";color:#E2E7FF}
-.prog{width:110px;height:6px;border-radius:9px;background:rgba(255,255,255,.12);overflow:hidden}
-.prog span{display:block;height:100%;background:linear-gradient(90deg,#22D3EE,#7C5CFF)}
-.live-badge{position:absolute;right:16px;top:8px;height:28px;padding:0 12px;border-radius:999px;background:#4ADE9A;color:#05210F;font:700 13px "Instrument Sans";display:flex;align-items:center;gap:6px;opacity:0}
-.view{position:absolute;left:0;top:44px;width:820px;height:560px;overflow:hidden;
-  background-color:#11152F;background-image:linear-gradient(rgba(124,92,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(124,92,255,.08) 1px,transparent 1px);background-size:20px 20px}
-.site{position:absolute;inset:0}
-.site .fill{position:absolute;inset:0;background:var(--bg);opacity:0}
-.blk{position:absolute}
-.sk{position:absolute;inset:0;border:1.5px dashed rgba(124,92,255,.75);background:rgba(124,92,255,.07);border-radius:8px;padding:14px;display:flex;flex-direction:column;gap:10px;overflow:hidden}
-.sk em{font:500 10px "JetBrains Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:#A99BFF;font-style:normal}
-.sk s{display:block;height:10px;border-radius:5px;background:rgba(226,231,255,.16);text-decoration:none}
-.sk.img::after{content:"";position:absolute;inset:14px;top:34px;background:linear-gradient(to top right,transparent calc(50% - 1px),rgba(169,155,255,.35) 50%,transparent calc(50% + 1px)),linear-gradient(to bottom right,transparent calc(50% - 1px),rgba(169,155,255,.35) 50%,transparent calc(50% + 1px));border:1px solid rgba(169,155,255,.3);border-radius:4px}
-.real{position:absolute;inset:0;background:var(--bg);color:var(--ink);font-family:var(--fb);overflow:hidden}
-.scan{position:absolute;top:-4px;bottom:-4px;width:3px;background:#22D3EE;box-shadow:0 0 16px 3px rgba(34,211,238,.8);opacity:0}
+/* 1. la demande */
+.s1 .wrap{position:absolute;left:150px;right:150px;top:190px}
+.s1 .from{display:flex;align-items:center;gap:16px;margin-bottom:36px}
+.s1 .av{width:64px;height:64px;border-radius:50%;background:#F2B33D;color:#0F2A3D;display:grid;place-items:center;font:800 28px "Bricolage Grotesque"}
+.s1 .from b{display:block;font:700 24px "Bricolage Grotesque"}
+.s1 .from span{font-size:18px;color:rgba(226,231,255,.65)}
+.s1 .quote{font:700 62px/1.12 "Bricolage Grotesque";letter-spacing:-.02em;max-width:980px}
+.s1 .quote .q{color:#7C5CFF}
+.s1 .caret{display:inline-block;width:4px;height:56px;background:#22D3EE;vertical-align:-8px;margin-left:4px}
 
-/* contenus des sites */
-.nav{display:flex;align-items:center;justify-content:space-between;padding:0 6px;height:100%}
-.nav .logo{font:var(--logo);display:flex;align-items:center;gap:8px}
-.nav .logo i{width:18px;height:18px;border-radius:50%;background:var(--accent)}
-.nav .links{display:flex;gap:16px;font-size:12.5px;font-weight:600;opacity:.8}
-.nav .cta{font-size:12px;font-weight:700;padding:7px 12px;border-radius:var(--r);background:var(--accent);color:var(--on)}
-.hero-t{padding:8px 6px;display:flex;flex-direction:column;gap:10px;justify-content:center;height:100%}
-.hero-t .k{font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
-.hero-t h1{font:var(--h1);line-height:1.04}
-.hero-t h1 span{color:var(--accent)}
-.hero-t p{font-size:13px;opacity:.75;line-height:1.45}
-.hero-t .b{align-self:flex-start;font-size:13px;font-weight:700;padding:10px 16px;border-radius:var(--r);background:var(--accent);color:var(--on)}
-.ph{width:100%;height:100%;object-fit:cover;display:block;border-radius:var(--r)}
-.grid2{display:flex;flex-direction:column;gap:10px;height:100%;padding:2px}
-.grid2 h3{font:var(--h3)}
-.grid2 .row{display:grid;grid-template-columns:1fr 1fr;gap:12px;flex:1;min-height:0}
-.dish{border-radius:var(--r);overflow:hidden;background:var(--card);display:flex;flex-direction:column}
-.dish img{flex:1;min-height:0;width:100%;object-fit:cover;display:block}
-.dish div{padding:9px 11px;display:flex;justify-content:space-between;gap:8px;font-size:12.5px;font-weight:600}
-.dish div b{color:var(--accent);white-space:nowrap}
-.feat{height:100%;border-radius:var(--r);background:var(--card);padding:16px;display:flex;flex-direction:column;gap:9px}
-.feat h3{font:var(--h3);font-size:19px}
-.feat .f{display:flex;justify-content:space-between;font-size:12.5px;padding:8px 10px;border-radius:6px;background:var(--bg);border:1px solid var(--line)}
-.feat .f span{opacity:.65}
-.feat .go{margin-top:auto;text-align:center;font-size:13px;font-weight:700;padding:10px;border-radius:var(--r);background:var(--accent);color:var(--on)}
-.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
-.cal i{aspect-ratio:1;border-radius:3px;background:var(--bg);border:1px solid var(--line)}
-.cal i.x{background:repeating-linear-gradient(135deg,var(--line) 0 3px,transparent 3px 6px)}
-.cal i.s{background:var(--accent);border-color:var(--accent)}
-.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px;flex:1}
-.tile{border-radius:var(--r);background:var(--card);padding:12px;display:flex;flex-direction:column;justify-content:space-between;font-size:13px;font-weight:700}
-.tile i{width:30px;height:30px;border-radius:8px;background:var(--accent)}
-.tile span{font-weight:500;font-size:12px;opacity:.65}
-.urg{height:100%;border-radius:var(--r);background:var(--accent);color:#fff;padding:18px;display:grid;grid-template-columns:1fr 1fr;gap:10px;align-content:center}
-.urg div{background:rgba(255,255,255,.12);border-radius:8px;padding:10px}
-.urg b{display:block;font:900 26px "Archivo";font-stretch:80%}
-.urg span{font-size:11px;opacity:.85}
-.urg .call{grid-column:1/-1;background:#FACC15;color:#0B1B3F;text-align:center;font:800 17px "Archivo";padding:12px;border-radius:8px}
-.zone{flex:1;position:relative}
-.zone i{position:absolute;left:50%;top:50%;border-radius:50%;transform:translate(-50%,-50%);border:1.5px dashed var(--accent)}
-.zone i:nth-child(1){width:150px;height:150px;background:rgba(29,78,216,.06)}
-.zone i:nth-child(2){width:90px;height:90px;background:rgba(29,78,216,.1)}
-.zone i:nth-child(3){width:26px;height:26px;background:var(--accent);border-style:solid}
+/* 2. le plan */
+.s2{background:#0A1438}
+.s2 .grid{position:absolute;inset:-40px;background-image:linear-gradient(rgba(96,165,250,.13) 1px,transparent 1px),linear-gradient(90deg,rgba(96,165,250,.13) 1px,transparent 1px),linear-gradient(rgba(96,165,250,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(96,165,250,.06) 1px,transparent 1px);background-size:80px 80px,80px 80px,16px 16px,16px 16px}
+.s2 svg{position:absolute;inset:0}
+.s2 .note{position:absolute;display:flex;align-items:center;gap:10px;font:700 21px "Instrument Sans";color:#E0F2FE;background:rgba(10,20,56,.9);border:1.5px solid #22D3EE;border-radius:10px;padding:10px 16px;white-space:nowrap}
+.s2 .note i{width:10px;height:10px;border-radius:50%;background:#22D3EE;box-shadow:0 0 12px #22D3EE}
+.s2 .sheet{position:absolute;left:56px;top:96px;font-size:15px;color:#93C5FD}
 
-.cursor{position:absolute;left:0;top:0;z-index:20;width:26px;height:26px;filter:drop-shadow(0 4px 8px rgba(0,0,0,.5))}
-.ring{position:absolute;z-index:19;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;border:2px solid #22D3EE;opacity:0}
+/* 3. direction artistique */
+.s3{background:#0C0F24}
+.s3 .sw{position:absolute;top:210px;width:104px;height:290px;border-radius:14px;box-shadow:0 20px 40px -18px rgba(0,0,0,.7)}
+.s3 .sw span{position:absolute;left:0;right:0;bottom:-38px;text-align:center;font:600 15px "JetBrains Mono";color:rgba(226,231,255,.75)}
+.s3 .spec{position:absolute;left:560px;top:170px;width:300px}
+.s3 .spec .aa{font:400 200px/1 "Young Serif";color:#F2B33D}
+.s3 .spec p{font-size:20px;color:rgba(226,231,255,.75);margin-top:6px}
+.s3 .spec p b{color:#F3F5FF;font-weight:700}
+.s3 .ph{position:absolute;width:220px;height:280px;border-radius:14px;overflow:hidden;border:6px solid #F3F5FF;box-shadow:0 30px 50px -20px rgba(0,0,0,.8)}
+.s3 .ph img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* 4. la construction */
+.s4{background:#0B0E22}
+.s4 .win{position:absolute;left:70px;top:96px;width:1000px;height:600px;border-radius:14px;overflow:hidden;background:#0E1230;box-shadow:0 40px 90px -30px rgba(0,0,0,.9),0 0 0 1px rgba(255,255,255,.12);transform-origin:50% 50%}
+.s4 .bar{height:40px;background:#161B3D;display:flex;align-items:center;gap:7px;padding:0 16px}
+.s4 .bar i{width:11px;height:11px;border-radius:50%}
+.s4 .bar .u{margin-left:14px;font:500 14px "JetBrains Mono";color:#C7D2FE;background:rgba(255,255,255,.07);border-radius:99px;padding:5px 14px}
+.s4 .vp{position:absolute;left:0;right:0;top:40px;bottom:0;overflow:hidden}
+.s4 .pg{position:absolute;left:0;top:0;width:1000px}
+.s4 .pg img{display:block;width:1000px}
+.s4 .bp{position:absolute;left:0;right:0;top:0;background-color:#0A1438;background-image:linear-gradient(rgba(96,165,250,.16) 1px,transparent 1px),linear-gradient(90deg,rgba(96,165,250,.16) 1px,transparent 1px);background-size:40px 40px}
+.s4 .scan{position:absolute;left:0;right:0;height:3px;background:#22D3EE;box-shadow:0 0 22px 4px rgba(34,211,238,.8)}
+.s4 .code{position:absolute;right:40px;bottom:120px;width:400px;border-radius:14px;background:rgba(13,17,40,.94);border:1px solid rgba(255,255,255,.14);padding:18px 20px;font:500 17px/1.6 "JetBrains Mono";color:#C7D2FE;box-shadow:0 30px 60px -20px rgba(0,0,0,.8)}
+.s4 .code .k{color:#FF5FA2}.s4 .code .a{color:#22D3EE}.s4 .code .s{color:#FFC266}
+.s4 .pct{position:absolute;left:56px;top:96px;display:none}
+
+/* 5. mise en ligne */
+.s5{background:radial-gradient(ellipse at 50% 30%,#1A1F4A,#070A1A 70%)}
+.s5 .laptop{position:absolute;left:150px;top:150px;width:800px}
+.s5 .screen{border-radius:16px 16px 0 0;background:#0E1230;padding:14px 14px 0;box-shadow:0 0 0 2px #2A3060}
+.s5 .screen img{display:block;width:100%;height:440px;object-fit:cover;object-position:top;border-radius:6px 6px 0 0}
+.s5 .base{height:22px;margin:0 -50px;border-radius:0 0 18px 18px;background:linear-gradient(#2A3060,#161B3D)}
+.s5 .phone{position:absolute;left:880px;top:200px;width:236px;height:480px;border-radius:36px;background:#0E1230;padding:12px;box-shadow:0 0 0 2px #2A3060,0 40px 70px -20px rgba(0,0,0,.9)}
+.s5 .phone img{width:100%;height:100%;object-fit:cover;object-position:top;border-radius:26px;display:block}
+.s5 .live{position:absolute;left:150px;top:92px;display:flex;align-items:center;gap:14px}
+.s5 .live .b{background:#4ADE9A;color:#05210F;font:700 18px "Instrument Sans";border-radius:99px;padding:8px 18px}
+.s5 .live .u{font:500 18px "JetBrains Mono";color:#C7D2FE}
+.s5 .chips{position:absolute;left:150px;top:670px;display:flex;gap:12px}
+.s5 .chips span{font:600 17px "Instrument Sans";padding:9px 16px;border-radius:99px;background:rgba(74,222,154,.12);border:1px solid rgba(74,222,154,.5);color:#BBF7D0}
+
+/* 6. signature */
+.s6 .wall{position:absolute;left:50%;top:50%;width:1900px;display:grid;grid-template-columns:repeat(3,1fr);gap:40px;transform-origin:50% 50%}
+.s6 .wall img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;border-radius:16px;display:block;box-shadow:0 30px 60px -20px rgba(0,0,0,.8)}
+.s6 .veil{position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(7,10,26,.72),rgba(7,10,26,.96) 70%)}
+.s6 .end{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:26px}
+.s6 .logo{display:flex;align-items:center;gap:16px;font:800 40px "Bricolage Grotesque"}
+.s6 .logo i{width:48px;height:48px;border-radius:14px;background:conic-gradient(from 210deg,#7C5CFF,#22D3EE,#FF5FA2,#7C5CFF);box-shadow:0 0 30px rgba(124,92,255,.8)}
+.s6 h1{font:800 76px/1 "Bricolage Grotesque";letter-spacing:-.03em;max-width:15ch}
+.s6 h1 em{font-style:normal;background:linear-gradient(100deg,#22D3EE,#7C5CFF 45%,#FF5FA2);-webkit-background-clip:text;background-clip:text;color:transparent}
+.s6 .cta{font:700 22px "Instrument Sans";padding:14px 28px;border-radius:99px;background:linear-gradient(100deg,#7C5CFF,#FF5FA2);box-shadow:0 14px 40px -10px rgba(124,92,255,.8)}
 </style>
 </head>
 <body>
-<div class="aura" style="width:640px;height:640px;left:-220px;top:-260px;background:radial-gradient(circle,#7C5CFF,transparent 65%)"></div>
-<div class="aura" style="width:560px;height:560px;right:-200px;bottom:-240px;background:radial-gradient(circle,#22D3EE,transparent 65%)"></div>
-<div class="aura" style="width:420px;height:420px;left:520px;top:520px;background:radial-gradient(circle,#FF5FA2,transparent 65%);opacity:.3"></div>
+<div class="aura" id="a1" style="width:900px;height:900px;left:-300px;top:-380px;background:radial-gradient(circle,rgba(124,92,255,.55),transparent 62%)"></div>
+<div class="aura" id="a2" style="width:800px;height:800px;right:-300px;bottom:-360px;background:radial-gradient(circle,rgba(34,211,238,.4),transparent 62%)"></div>
 
-<div class="brief" id="brief"></div>
-<div class="browser">
-  <div class="bar"><i style="background:#FF5F57"></i><i style="background:#FEBC2E"></i><i style="background:#28C840"></i>
-    <div class="url" id="url"><b></b><span id="urlText"></span></div>
-    <div class="status" id="status"><span id="pct"></span><div class="prog"><span id="progBar"></span></div></div>
-    <div class="live-badge" id="live">● En ligne</div>
+<!-- 1. La demande -->
+<section class="shot s1" id="s1">
+  <div class="eyebrow mono">Nouveau message · 09:42</div>
+  <div class="wrap">
+    <div class="from"><div class="av">M</div><div><b>Marion</b><span>La Table du Port · restaurant sur le port</span></div></div>
+    <p class="quote" id="quote"></p>
   </div>
-  <div class="view" id="view"></div>
-</div>
-<svg class="cursor" id="cursor" viewBox="0 0 24 24"><path d="M4 2l16 9.5-7 1.6-3.6 6.9z" fill="#fff" stroke="#070A1A" stroke-width="1.4" stroke-linejoin="round"/></svg>
-<div class="ring" id="ring"></div>
+</section>
+
+<!-- 2. Le plan -->
+<section class="shot s2" id="s2">
+  <div class="grid" id="grid2"></div>
+  <div class="sheet mono">Plan · page d'accueil · v1</div>
+  <svg viewBox="0 0 1280 800" id="plan" fill="none" stroke="#7DD3FC" stroke-width="2" stroke-linecap="round">
+    <rect x="300" y="150" width="680" height="500" rx="8" pathLength="1"/>
+    <path d="M300 196H980" pathLength="1"/>
+    <rect x="320" y="164" width="120" height="18" rx="4" pathLength="1"/>
+    <rect x="880" y="162" width="82" height="22" rx="11" pathLength="1"/>
+    <path d="M330 250H600M330 282H560M330 314H590" stroke-width="8" pathLength="1"/>
+    <rect x="330" y="350" width="120" height="34" rx="17" pathLength="1"/>
+    <path d="M700 420V300a110 110 0 01220 0V420z" pathLength="1"/>
+    <path d="M700 420L920 300M700 300L920 420" stroke-width="1" stroke-opacity=".5" pathLength="1"/>
+    <rect x="320" y="456" width="190" height="170" rx="8" pathLength="1"/>
+    <rect x="526" y="456" width="190" height="170" rx="8" pathLength="1"/>
+    <rect x="740" y="456" width="220" height="170" rx="8" pathLength="1"/>
+    <path d="M760 500H940M760 540H940M760 580H940" stroke-width="1.5" pathLength="1"/>
+    <path d="M300 118H980M300 110V126M980 110V126" stroke="#22D3EE" stroke-width="1.5" pathLength="1"/>
+    <path id="lead1" d="M920 300C990 300 1010 260 1040 250" stroke="#22D3EE" stroke-width="1.5" pathLength="1"/>
+    <path id="lead2" d="M420 626C400 690 300 700 250 690" stroke="#22D3EE" stroke-width="1.5" pathLength="1"/>
+    <path id="lead3" d="M960 540C1010 540 1020 560 1040 560" stroke="#22D3EE" stroke-width="1.5" pathLength="1"/>
+    <path id="lead4" d="M330 250C290 250 270 230 250 220" stroke="#22D3EE" stroke-width="1.5" pathLength="1"/>
+  </svg>
+  <div class="mono" id="dim" style="position:absolute;left:600px;top:84px;font-size:15px;color:#7DD3FC">1280 px</div>
+  <div class="note" id="n1" style="left:1010px;top:212px"><i></i>Photo du port</div>
+  <div class="note" id="n2" style="left:60px;top:666px"><i></i>Plats vedettes ×2</div>
+  <div class="note" id="n3" style="left:1010px;top:536px"><i></i>Réservation en ligne</div>
+  <div class="note" id="n4" style="left:60px;top:186px"><i></i>Message d'accroche</div>
+</section>
+
+<!-- 3. Direction artistique -->
+<section class="shot s3" id="s3">
+  <div class="sw" id="sw0" style="left:86px;background:#0F2A3D"><span>#0F2A3D</span></div>
+  <div class="sw" id="sw1" style="left:204px;background:#F2B33D"><span>#F2B33D</span></div>
+  <div class="sw" id="sw2" style="left:322px;background:#7FB3AE"><span>#7FB3AE</span></div>
+  <div class="sw" id="sw3" style="left:440px;background:#E4EFEC"><span>#E4EFEC</span></div>
+  <div class="spec" id="spec"><div class="aa">Aa</div><p><b>Young Serif</b> pour les titres</p><p><b>Figtree</b> pour les textes</p></div>
+  <div class="ph" id="ph0" style="left:900px;top:100px"><img src="../../images/port/port-barques.webp" alt=""></div>
+  <div class="ph" id="ph1" style="left:1010px;top:280px"><img src="../../images/port/plat-daurade.webp" alt=""></div>
+  <div class="ph" id="ph2" style="left:880px;top:380px"><img src="../../images/port/plat-pastilla.webp" alt=""></div>
+</section>
+
+<!-- 4. La construction -->
+<section class="shot s4" id="s4">
+  <div class="win" id="win">
+    <div class="bar"><i style="background:#FF5F57"></i><i style="background:#FEBC2E"></i><i style="background:#28C840"></i><span class="u">la-table-du-port · en construction</span></div>
+    <div class="vp"><div class="pg" id="pg"><img id="deskFull" alt=""><div class="bp" id="bp"></div><div class="scan" id="scan"></div></div></div>
+  </div>
+  <div class="code" id="code"></div>
+</section>
+
+<!-- 5. Mise en ligne -->
+<section class="shot s5" id="s5">
+  <div class="live" id="live"><span class="b">● En ligne</span><span class="u">studiocac.fr/demos/la-table-du-port</span></div>
+  <div class="laptop" id="laptop"><div class="screen"><img id="deskTop" alt=""></div><div class="base"></div></div>
+  <div class="phone" id="phone"><img id="mob" alt=""></div>
+  <div class="chips" id="chips"><span>✓ Adapté au mobile</span><span>✓ Réservations activées</span><span>✓ Visible sur Google</span></div>
+</section>
+
+<!-- 6. Signature -->
+<section class="shot s6" id="s6">
+  <div class="wall" id="wall"></div>
+  <div class="veil"></div>
+  <div class="end">
+    <div class="logo" id="logo"><i></i>StudioCac</div>
+    <h1 id="h1">Votre site, <em>construit sur mesure.</em></h1>
+    <div class="cta" id="cta">Devis gratuit · réponse sous 24 h</div>
+  </div>
+</section>
+
+<div class="brand" id="brand"><i></i>StudioCac</div>
+<div class="track" id="track"></div>
 
 <script>
-const IMG = "../../images/";
-// zones de la page (dans la vue de 820 × 560)
-const BOX = {
-  nav:  [20, 14, 780, 40],
-  text: [20, 72, 380, 206],
-  img:  [418, 72, 382, 206],
-  cards:[20, 296, 520, 246],
-  feat: [558, 296, 242, 246],
-};
-const SK = { nav:["navigation",1,0], text:["en-tête",4,0], img:["visuel",0,1], cards:["contenu",2,1], feat:["fonction",3,0] };
-
-const CLIENTS = [
-  { initials:"M", color:"#F2B33D", name:"Marion", biz:"La Table du Port · restaurant",
-    ask:"On veut montrer nos plats et prendre les réservations en ligne.",
-    url:"studiocac.fr/demos/la-table-du-port",
-    needs:[["Une ambiance « bord de mer »",["nav","text"]],["Mettre nos plats vedettes en valeur",["img","cards"]],["Réservation en ligne",["feat"]]],
-    vars:"--bg:#0F2A3D;--ink:#FBFCFB;--accent:#F2B33D;--on:#0F2A3D;--card:#173B53;--line:rgba(255,255,255,.14);--r:10px;--fb:'Figtree';--logo:400 18px 'Young Serif';--h1:400 33px 'Young Serif';--h3:400 19px 'Young Serif'",
-    html:{
-      nav:`<div class="nav"><div class="logo"><i></i>La Table du Port</div><div class="links"><span>La carte</span><span>Le lieu</span><span>Horaires</span></div><div class="cta">Réserver</div></div>`,
-      text:`<div class="hero-t"><div class="k">Poissons du jour · cuisine du marché</div><h1>Ce que la mer apporte, <span>le jour même.</span></h1><p>Une petite salle face aux bateaux et une carte qui suit la pêche du matin.</p><div class="b">Réserver une table</div></div>`,
-      img:`<img class="ph" src="${IMG}port/plat-daurade.webp" style="object-position:50% 40%">`,
-      cards:`<div class="grid2"><h3>Nos plats vedettes</h3><div class="row"><div class="dish"><img src="${IMG}port/plat-pastilla.webp"><div>Pastilla aux crevettes<b>19 €</b></div></div><div class="dish"><img src="${IMG}port/plat-daurade.webp" style="object-position:50% 30%"><div>Daurade, beurre blanc<b>26 €</b></div></div></div></div>`,
-      feat:`<div class="feat"><h3>Réserver</h3><div class="f"><span>Date</span>ven. 24 oct.</div><div class="f"><span>Service</span>20 h 00</div><div class="f"><span>Couverts</span>4</div><div class="go">Confirmer</div></div>`,
-    }},
-  { initials:"C", color:"#A9B99A", name:"Claire", biz:"Villa Les Oliviers · location",
-    ask:"Je voudrais louer la villa en direct, sans passer par les plateformes.",
-    url:"studiocac.fr/demos/villa-les-oliviers",
-    needs:[["Un style pierre et olivier",["nav","text"]],["De belles photos de la villa",["img","cards"]],["Calendrier et tarifs par saison",["feat"]]],
-    vars:"--bg:#F4F1E6;--ink:#2B4027;--accent:#3F5B3A;--on:#F4F1E6;--card:#FFFEFA;--line:#D9D3BD;--r:6px;--fb:'Karla';--logo:400 18px 'Marcellus';--h1:400 34px 'Marcellus';--h3:400 19px 'Marcellus'",
-    html:{
-      nav:`<div class="nav"><div class="logo"><i></i>LES OLIVIERS</div><div class="links"><span>La villa</span><span>Disponibilités</span><span>Alentours</span></div><div class="cta">Réserver</div></div>`,
-      text:`<div class="hero-t"><div class="k">Villa à louer · 8 personnes</div><h1>Une villa pour vous seuls, sous les oliviers.</h1><p>Mas en pierre, piscine privée et un hectare d'oliviers centenaires.</p><div class="b">Voir les disponibilités</div></div>`,
-      img:`<img class="ph" src="${IMG}villa/oliveraie-hero.webp">`,
-      cards:`<div class="grid2"><h3>Tout l'espace, rien qu'à vous</h3><div class="row"><div class="dish"><img src="${IMG}villa/chambres.webp"><div>Les chambres<b>4</b></div></div><div class="dish"><img src="${IMG}villa/village-ruelle.webp"><div>Le village à pied<b>10 min</b></div></div></div></div>`,
-      feat:`<div class="feat"><h3>Disponibilités</h3><div class="cal">${Array.from({length:28},(_,i)=>`<i class="${[3,4,5,6,7,8,9,17,18,19].includes(i)?"x":[22,23,24,25].includes(i)?"s":""}"></i>`).join("")}</div><div class="f"><span>Moyenne saison</span>390 € / nuit</div><div class="go">Demander ces dates</div></div>`,
-    }},
-  { initials:"T", color:"#60A5FA", name:"Thomas", biz:"Durand Plomberie · artisan",
-    ask:"Mes clients m'appellent en urgence : il faut qu'ils me trouvent tout de suite.",
-    url:"studiocac.fr/demos/durand-plomberie",
-    needs:[["Un style franc et lisible",["nav","text"]],["Appel d'urgence en un clic",["img"]],["Services, zone et devis gratuit",["cards","feat"]]],
-    vars:"--bg:#FFFFFF;--ink:#0B1B3F;--accent:#1D4ED8;--on:#FFFFFF;--card:#EEF3FF;--line:#D5DEF5;--r:8px;--fb:'Public Sans';--logo:800 17px 'Archivo';--h1:900 38px 'Archivo';--h3:800 18px 'Archivo'",
-    html:{
-      nav:`<div class="nav"><div class="logo"><i></i>DURAND PLOMBERIE</div><div class="links"><span>Services</span><span>Zone</span><span>Devis</span></div><div class="cta">Devis gratuit</div></div>`,
-      text:`<div class="hero-t"><div class="k">Plombier · chauffagiste</div><h1 style="font-stretch:80%;text-transform:uppercase">Dépannage en moins de <span>2 h</span></h1><p>Fuite, chauffe-eau, débouchage : un artisan qui décroche et se déplace vite.</p><div class="b">Demander une intervention</div></div>`,
-      img:`<div class="urg"><div><b>&lt; 2 h</b><span>délai d'intervention</span></div><div><b>7j/7</b><span>pour les urgences</span></div><div class="call">Appeler · 06 00 00 00 00</div></div>`,
-      cards:`<div class="grid2"><h3>Nos services</h3><div class="tiles"><div class="tile"><i></i>Fuite d'eau<span>dès 79 €</span></div><div class="tile"><i></i>Débouchage<span>dès 89 €</span></div><div class="tile"><i></i>Chauffe-eau<span>sur devis</span></div><div class="tile"><i></i>Salle de bain<span>sur devis</span></div></div></div>`,
-      feat:`<div class="feat"><h3>Zone d'intervention</h3><div class="zone"><i></i><i></i><i></i></div><div class="f"><span>Rayon</span>25 km</div><div class="go">Devis gratuit</div></div>`,
-    }},
-];
-
-const D = 8, T = CLIENTS.length * D;
-const STEP0 = 1.9, STEP = 1.5, BUILD = 1.05, STAG = 0.28, LAUNCH = 6.55;
-const brief = document.getElementById("brief"), view = document.getElementById("view");
+const SH = window.SHOTS || {};   // captures de la démo, fournies par render.js
+const $ = id => document.getElementById(id);
 const clamp = x => x < 0 ? 0 : x > 1 ? 1 : x;
 const ease = x => (x = clamp(x), x < .5 ? 4*x*x*x : 1 - Math.pow(-2*x + 2, 3) / 2);
 const out = x => 1 - Math.pow(1 - clamp(x), 3);
+const lerp = (a, b, p) => a + (b - a) * p;
 
-// construction du DOM de chaque client
-const scenes = CLIENTS.map(c => {
-  const b = document.createElement("div"); b.className = "card";
-  b.innerHTML = `<div class="label">Le besoin du client</div>
-    <div class="who"><div class="av" style="background:${c.color}">${c.initials}</div><div><b>${c.name}</b><span>${c.biz}</span></div></div>
-    <div class="bubble"><span class="txt"></span><span class="caret"></span></div>
-    <div class="label" style="margin-top:6px">Ce qu'on construit</div>
-    <div class="needs">${c.needs.map(n => `<div class="need"><i></i><span>${n[0]}</span></div>`).join("")}</div>
-    <div class="sign"><i></i><div><b>StudioCac</b><span>Votre site, construit sur mesure</span></div></div>`;
-  brief.appendChild(b);
-  const s = document.createElement("div"); s.className = "site"; s.style.cssText = c.vars;
-  s.innerHTML = `<div class="fill"></div>` + Object.entries(BOX).map(([k, [x, y, w, h]]) => {
-    const [lab, bars, img] = SK[k];
-    const sk = `<div class="sk${img ? " img" : ""}"><em>${lab}</em>${Array.from({length:bars}, (_, i) => `<s style="width:${[70, 92, 55, 80][i % 4]}%"></s>`).join("")}</div>`;
-    return `<div class="blk" data-k="${k}" style="left:${x}px;top:${y}px;width:${w}px;height:${h}px">${sk}<div class="real">${c.html[k]}</div><div class="scan"></div></div>`;
-  }).join("");
-  view.appendChild(s);
-  // ordre et horaires de construction des blocs
-  const plan = {}; let idx = 0;
-  c.needs.forEach(([, keys], step) => keys.forEach((k, j) => { plan[k] = { start: STEP0 + step * STEP + j * STAG, step, order: idx++ }; }));
-  const blocks = [...s.querySelectorAll(".blk")].map(el => ({ el, k: el.dataset.k, sk: el.querySelector(".sk"), real: el.querySelector(".real"), scan: el.querySelector(".scan"), ...plan[el.dataset.k] }));
-  return { c, b, s, fill: s.querySelector(".fill"), txt: b.querySelector(".txt"), caret: b.querySelector(".caret"), needs: [...b.querySelectorAll(".need")], blocks };
-});
+// découpage du film (secondes)
+const SHOTS = [["s1", 0, 3.8], ["s2", 3.8, 7.8], ["s3", 7.8, 11.4], ["s4", 11.4, 16.4], ["s5", 16.4, 20.2], ["s6", 20.2, 24.2]];
+const T = 24.2, X = 0.5;   // durée totale, durée des fondus enchaînés
+const STEPS = ["La demande", "Le plan", "Le design", "La construction", "La mise en ligne"];
+$("track").innerHTML = STEPS.map((s, i) => `<div><span>0${i + 1} ${s}</span><b><span></span></b></div>`).join("");
 
-const cursor = document.getElementById("cursor"), ring = document.getElementById("ring");
-const VX = 420, VY = 98 + 44;   // origine de la vue dans la scène
-function centre(k) { const [x, y, w, h] = BOX[k]; return [VX + x + w * .55, VY + y + h * .5]; }
+// images
+if (SH.desk) { $("deskFull").src = SH.desk; $("deskTop").src = SH.desk; }
+if (SH.mob) $("mob").src = SH.mob;
+$("wall").innerHTML = (SH.thumbs || []).concat(SH.thumbs || []).slice(0, 9).map(u => `<img src="${u}" alt="">`).join("");
+
+// 1. la demande
+const QUOTE = [["« Je voudrais que nos clients "], ["voient nos plats", 1], [" avant de venir… et qu'ils puissent "], ["réserver en ligne", 1], [". »"]];
+const QLEN = QUOTE.reduce((n, [s]) => n + s.length, 0);
+function s1(u) {
+  let n = Math.round(clamp((u - 0.35) / 2.1) * QLEN), html = "";
+  for (const [s, hl] of QUOTE) {
+    const part = s.slice(0, Math.max(0, n)); n -= s.length;
+    html += hl ? `<span class="hl" style="background-size:${out((u - 2.55) / 0.5) * 100}% 38%">${part}</span>` : part;
+  }
+  const blink = u < 2.6 && Math.floor(u * 2.5) % 2 === 0;
+  $("quote").innerHTML = html + `<span class="caret" style="opacity:${blink ? 1 : 0}"></span>`;
+  $("s1").style.transform = `scale(${1 + u * 0.012})`;
+}
+
+// 2. le plan
+const planPaths = [...$("plan").children];
+function s2(u) {
+  planPaths.forEach((p, i) => {
+    const lead = p.id && p.id.startsWith("lead");
+    const st = lead ? 1.3 + Number(p.id.slice(4)) * 0.25 : 0.15 + i * 0.09;
+    p.style.strokeDasharray = 1; p.style.strokeDashoffset = 1 - ease((u - st) / (lead ? 0.4 : 0.7));
+  });
+  [1, 2, 3, 4].forEach(k => { const p = out((u - 1.55 - k * 0.25) / 0.35); $("n" + k).style.opacity = p; $("n" + k).style.transform = `translateY(${(1 - p) * 10}px) scale(${0.94 + p * 0.06})`; });
+  $("dim").style.opacity = out((u - 1.2) / 0.4);
+  $("s2").style.transform = `perspective(1600px) rotateX(${(1 - ease(u / 3.2)) * 10}deg) scale(${1.04 - u * 0.008})`;
+  $("grid2").style.transform = `translateY(${-u * 6}px)`;
+}
+
+// 3. direction artistique
+function s3(u) {
+  [0, 1, 2, 3].forEach(i => { const p = out((u - 0.1 - i * 0.12) / 0.5); $("sw" + i).style.transform = `translateY(${(1 - p) * -60}px)`; $("sw" + i).style.opacity = p; });
+  const sp = out((u - 0.7) / 0.5); $("spec").style.opacity = sp; $("spec").style.transform = `translateY(${(1 - sp) * 20}px)`;
+  [[0, -6], [1, 5], [2, -3]].forEach(([i, r]) => {
+    const p = out((u - 1.1 - i * 0.22) / 0.55);
+    $("ph" + i).style.opacity = p;
+    $("ph" + i).style.transform = `translateX(${(1 - p) * 180}px) rotate(${r * p + (1 - p) * 12}deg)`;
+  });
+  $("s3").style.transform = `translateX(${-u * 6}px)`;
+}
+
+// 4. la construction : le vrai site se révèle pendant qu'on le parcourt
+const CODE = [
+  ['<span class="k">&lt;section</span> <span class="a">id</span>=<span class="s">"plats-vedettes"</span><span class="k">&gt;</span>'],
+  ['  <span class="k">&lt;h2&gt;</span>Nos plats vedettes<span class="k">&lt;/h2&gt;</span>'],
+  ['  <span class="k">&lt;article</span> <span class="a">class</span>=<span class="s">"plat"</span><span class="k">&gt;</span>'],
+  ['    Filet de daurade · 26 €'],
+  ['  <span class="k">&lt;/article&gt;</span>'],
+  ['  <span class="k">&lt;form</span> <span class="a">id</span>=<span class="s">"reservation"</span><span class="k">&gt;</span>'],
+];
+function s4(u) {
+  const H = (SH.deskH || 3800) * (1000 / 1280);
+  const scroll = ease((u - 0.9) / 3.4) * Math.min(1150, H - 560);
+  // ligne de construction : descend dans la fenêtre puis accompagne le défilement, et termine la page à la fin
+  const reveal = scroll + 60 + ease((u - 0.2) / 1.1) * 400 + ease((u - 4.1) / 0.6) * 700;
+  $("pg").style.transform = `translateY(${-scroll}px)`;
+  $("bp").style.top = reveal + "px"; $("bp").style.height = Math.max(0, H - reveal) + "px";
+  $("scan").style.top = reveal + "px";
+  $("win").style.transform = `perspective(1800px) rotateY(${lerp(-10, 0, ease(u / 4))}deg) rotateX(${lerp(5, 0, ease(u / 4))}deg) scale(${lerp(0.94, 1, ease(u / 4))})`;
+  const lines = 1 + Math.floor(clamp((u - 1.0) / 2.6) * (CODE.length - 1) * 1.0001);
+  $("code").innerHTML = CODE.slice(0, lines).map(l => l[0]).join("<br>") + (lines < CODE.length ? '<span style="background:#22D3EE;color:#22D3EE">▌</span>' : "");
+  const cp = out((u - 0.9) / 0.4); $("code").style.opacity = cp * (1 - out((u - 4.4) / 0.3)); $("code").style.transform = `translateY(${(1 - cp) * 30}px)`;
+}
+
+// 5. mise en ligne
+function s5(u) {
+  const l = out(u / 0.7); $("laptop").style.transform = `translateY(${(1 - l) * 70}px)`; $("laptop").style.opacity = l;
+  const p = out((u - 0.4) / 0.6); $("phone").style.transform = `translate(${(1 - p) * 120}px,${(1 - p) * 30}px) rotate(${(1 - p) * 8}deg)`; $("phone").style.opacity = p;
+  const b = out((u - 0.9) / 0.35); $("live").style.opacity = b; $("live").style.transform = `scale(${0.85 + b * 0.15})`;
+  [...$("chips").children].forEach((c, i) => { const q = out((u - 1.3 - i * 0.2) / 0.35); c.style.opacity = q; c.style.transform = `translateY(${(1 - q) * 14}px)`; });
+  $("s5").style.transform = `scale(${1 + u * 0.01})`;
+}
+
+// 6. signature
+function s6(u) {
+  $("wall").style.transform = `translate(-50%,-50%) perspective(1600px) rotateX(38deg) rotateZ(-14deg) translateY(${-u * 26}px)`;
+  [["logo", 0.2], ["h1", 0.45], ["cta", 0.8]].forEach(([id, d]) => { const p = out((u - d) / 0.5); $(id).style.opacity = p; $(id).style.transform = `translateY(${(1 - p) * 24}px)`; });
+}
+const DRAW = { s1, s2, s3, s4, s5, s6 };
 
 window.render = t => {
   t = ((t % T) + T) % T;
-  const i = Math.floor(t / D), u = t - i * D;
-  scenes.forEach((sc, j) => { sc.b.style.display = sc.s.style.display = j === i ? "block" : "none"; });
-  const sc = scenes[i], c = sc.c;
-
-  // entrée / sortie de la scène
-  const vin = out(u / 0.5), vout = ease((u - 7.35) / 0.65);
-  sc.b.style.opacity = vin * (1 - vout);
-  sc.b.style.transform = `translateX(${(1 - vin) * -30 - vout * 30}px)`;
-  sc.s.style.opacity = 1 - vout;
-  sc.s.style.transform = `scale(${1 - vout * 0.04})`;
-
-  // message tapé
-  const n = Math.round(clamp((u - 0.35) / 1.3) * c.ask.length);
-  sc.txt.textContent = c.ask.slice(0, n);
-  sc.caret.style.opacity = u < 1.8 ? (Math.floor(u * 3) % 2 ? 0 : 1) : 0;
-
-  // besoins cochés
-  sc.needs.forEach((el, k) => {
-    const st = STEP0 + k * STEP, end = st + BUILD + (c.needs[k][1].length - 1) * STAG;
-    el.classList.toggle("on", u >= st - 0.3 && u < end);
-    el.classList.toggle("done", u >= end);
-    el.querySelector("i").textContent = u >= end ? "✓" : "";
-    el.style.opacity = 0.35 + 0.65 * out((u - 0.9 - k * 0.15) / 0.4);
+  SHOTS.forEach(([id, a, b]) => {
+    const d = b - a; let u = t - a;
+    if (u > T - X) u -= T;                      // le premier plan revient en fin de boucle
+    const el = $(id), vis = u > -X && u < d;
+    el.style.display = vis ? "block" : "none";
+    if (!vis) return;
+    const fin = ease((u + X) / X), fout = ease((u - (d - X)) / X);
+    el.style.opacity = Math.min(fin, 1 - fout);
+    el.style.filter = fout > 0 ? `blur(${fout * 8}px)` : "none";
+    el.style.zIndex = u < 0 ? 2 : 1;
+    el.style.transform = "";
+    DRAW[id](Math.max(0, u));
+    el.style.transform += ` scale(${1 + fout * 0.05})`;   // la caméra avance en sortant du plan
   });
-
-  // blocs : maquette pointillée puis construction réelle
-  let built = 0;
-  sc.blocks.forEach(b => {
-    const draw = out((u - 0.7 - b.order * 0.12) / 0.35);
-    b.sk.style.opacity = draw;
-    b.sk.style.transform = `scale(${0.94 + 0.06 * draw})`;
-    const p = ease((u - b.start) / BUILD);
-    b.real.style.clipPath = `inset(0 ${(1 - p) * 100}% 0 0 round 8px)`;
-    b.scan.style.left = `calc(${p * 100}% - 2px)`;
-    b.scan.style.opacity = p > 0 && p < 1 ? 1 : 0;
-    built += p;
+  // habillage : marque + frise des étapes (masqués sur la signature)
+  const hide = ease((t - (SHOTS[5][1] - X)) / X), back = ease((t - (T - X)) / X);   // retour au début de boucle
+  $("brand").style.opacity = $("track").style.opacity = Math.min(1, 1 - hide + back);
+  [...$("track").children].forEach((el, i) => {
+    const [, a, b] = SHOTS[i], p = clamp((t - a) / (b - a));
+    el.className = t >= b ? "done" : t >= a ? "on" : "";
+    el.querySelector("b span").style.width = (t >= T - X ? 0 : p * 100) + "%";
   });
-  const pct = built / sc.blocks.length, live = out((u - LAUNCH) / 0.4);
-  sc.fill.style.opacity = live;
-  document.getElementById("pct").textContent = u < 0.7 ? "Nouveau projet" : `Construction ${Math.round(pct * 100)} %`;
-  document.getElementById("progBar").style.width = `${pct * 100}%`;
-  document.getElementById("status").style.opacity = 1 - live;
-  const badge = document.getElementById("live");
-  badge.style.opacity = live; badge.style.transform = `scale(${0.8 + 0.2 * live})`;
-  document.getElementById("url").classList.toggle("live", u >= LAUNCH);
-  document.getElementById("urlText").textContent = u >= LAUNCH ? c.url.slice(0, Math.round(out((u - LAUNCH) / 0.5) * c.url.length)) : "nouveau-site · brouillon";
-
-  // curseur : va sur chaque bloc juste avant sa construction
-  const stops = [[0, 1080, 720], [1.2, 900, 600], ...sc.blocks.slice().sort((a, b) => a.start - b.start).map(b => [b.start - 0.05, ...centre(b.k)]), [LAUNCH - 0.2, 1218, 140], [8, 1080, 720]];
-  let k = 0; while (k < stops.length - 2 && u >= stops[k + 1][0]) k++;
-  const [t0, x0, y0] = stops[k], [t1, x1, y1] = stops[k + 1];
-  const dur = Math.min(0.45, t1 - t0), m = ease((u - (t1 - dur)) / dur);   // se déplace dans les 0,45 s avant l'arrêt
-  const cx = x0 + (x1 - x0) * m, cy = y0 + (y1 - y0) * m;
-  cursor.style.transform = `translate(${cx - 4}px,${cy - 2}px)`;
-  cursor.style.opacity = (1 - vout) * vin;
-  // impulsion de clic au début de chaque construction
-  const clicks = sc.blocks.map(b => b.start).concat(LAUNCH);
-  const last = clicks.filter(s => u >= s).sort((a, b) => b - a)[0];
-  const r = last === undefined ? 1 : clamp((u - last) / 0.45);
-  ring.style.left = cx + "px"; ring.style.top = cy + "px";
-  ring.style.opacity = r < 1 ? (1 - r) * (1 - vout) : 0;
-  ring.style.transform = `scale(${0.4 + r})`;
+  $("a1").style.transform = `translate(${Math.sin(t / 4) * 60}px,${Math.cos(t / 5) * 40}px)`;
+  $("a2").style.transform = `translate(${Math.cos(t / 4.5) * 60}px,${Math.sin(t / 3.5) * 40}px)`;
 };
 window.LOOP = T;
+window.POSTER = 18.6;
 render(0);
 </script>
 </body>

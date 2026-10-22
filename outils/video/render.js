@@ -10,12 +10,29 @@ const FPS = 30;
 (async () => {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "reel-"));
   const browser = await chromium.launch(process.env.CHROMIUM ? { executablePath: process.env.CHROMIUM } : {});
+  // captures de la démo racontée dans le film (ordinateur pleine page + mobile)
+  const DEMO = "file://" + path.join(ROOT, "demo-table-du-port.html");
+  const shots = { thumbs: fs.readdirSync(path.join(ROOT, "media/apercus")).map(f => "../../media/apercus/" + f) };
+  for (const [key, viewport, full] of [["desk", { width: 1280, height: 800 }, true], ["mob", { width: 390, height: 844 }, false]]) {
+    const p = await browser.newPage({ viewport, deviceScaleFactor: key === "mob" ? 2 : 1 });
+    await p.goto(DEMO);
+    await p.evaluate(() => document.querySelectorAll("img[loading=lazy]").forEach(i => i.loading = "eager"));
+    for (let y = 0; y < 6000; y += 600) { await p.evaluate(y => scrollTo(0, y), y); await p.waitForTimeout(80); }
+    await p.evaluate(() => scrollTo(0, 0)); await p.waitForTimeout(800);
+    const out = path.join(tmp, key + ".png");
+    await p.screenshot({ path: out, fullPage: full });
+    shots[key] = "file://" + out;
+    if (full) shots.deskH = await p.evaluate(() => document.documentElement.scrollHeight);
+    await p.close();
+  }
+
   const scene = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+  await scene.addInitScript(s => { window.SHOTS = s; }, shots);
   await scene.goto("file://" + path.join(__dirname, "scene.html"));
   await scene.evaluate(() => document.fonts.ready);
   await scene.evaluate(() => Promise.all([...document.images].map(i => i.decode().catch(() => {}))));
   await scene.waitForTimeout(500);
-  const loop = await scene.evaluate(() => window.LOOP);
+  const [loop, poster] = await scene.evaluate(() => [window.LOOP, window.POSTER]);
   const frames = Math.round(loop * FPS);
   for (let f = 0; f < frames; f++) {
     await scene.evaluate(t => window.render(t), f / FPS);
@@ -28,8 +45,8 @@ const FPS = 30;
   const ff = args => execFileSync("ffmpeg", ["-y", "-loglevel", "error", ...args]);
   ff([...input, ...scale, "-c:v", "libx264", "-preset", "slow", "-crf", "26", "-pix_fmt", "yuv420p", "-movflags", "+faststart", "-an", path.join(media, "showreel.mp4")]);
   ff([...input, ...scale, "-c:v", "libvpx-vp9", "-b:v", "0", "-crf", "38", "-row-mt", "1", "-deadline", "good", "-cpu-used", "2", "-pix_fmt", "yuv420p", "-an", path.join(media, "showreel.webm")]);
-  // image d'attente : le premier site terminé
-  ff(["-i", path.join(tmp, `f${String(Math.round(7 * FPS)).padStart(4, "0")}.jpg`), ...scale, "-quality", "80", path.join(media, "showreel-poster.webp")]);
+  // image d'attente : le site en ligne
+  ff(["-i", path.join(tmp, `f${String(Math.round(poster * FPS)).padStart(4, "0")}.jpg`), ...scale, "-quality", "80", path.join(media, "showreel-poster.webp")]);
   fs.rmSync(tmp, { recursive: true, force: true });
   console.log(`OK : ${frames} images, ${loop.toFixed(1)} s`);
 })();

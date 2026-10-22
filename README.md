@@ -12,7 +12,7 @@ Site 100 % statique : pas de build, pas de dépendance, chaque page est un fichi
 | `media/showreel.*` | Vidéo de présentation affichée sur la page d'accueil (MP4 + WebM + image d'attente). |
 | `media/apercus/` | Captures des démos affichées dans les cartes de la page d'accueil. |
 | `images/<démo>/` | Photos des démos (Pixabay, licence libre, usage commercial autorisé), en WebP. |
-| `outils/video/` | Scène animée (construction de sites clients) et script qui en fabrique la vidéo. |
+| `outils/video/` | Film de présentation (demande, plan, design, construction, mise en ligne) et script qui en fabrique la vidéo. |
 | `favicon.svg` | Icône de la page d'accueil (les démos ont chacune la leur, intégrée). |
 
 ## Ajouter une démo
@@ -27,7 +27,7 @@ Après avoir modifié une démo : `node outils/apercus.js` (Playwright + ffmpeg)
 
 ## Régénérer la vidéo d'accueil
 
-Les clients, leurs besoins et le contenu de leurs sites sont dans la liste `CLIENTS` de `outils/video/scene.html`. Après modification :
+Le film suit la démo La Table du Port : les plans et leurs durées sont dans `SHOTS` de `outils/video/scene.html`, les captures de la démo sont refaites à chaque rendu. Après modification :
 
 ```
 npm i playwright

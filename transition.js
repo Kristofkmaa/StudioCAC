@@ -48,7 +48,7 @@
     title: "h1, h2",
     media: "img, video",
     ctrl: ".btn, .chip, .pill, .opt, .back, nav a",
-    text: "p, h3, li, dt, dd, label, .count, .brand, .sector, .mail",
+    text: "p, h3, li, dt, dd, label, summary, output, .count, .brand, .sector, .mail, .price .big, .price .then, .bars .row",
     frame: ".surface, .summary, .proj, .reel",
   };
 

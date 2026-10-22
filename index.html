@@ -99,7 +99,7 @@ h1 .d{display:inline-block;width:.2em;height:.2em;border-radius:50%;background:v
   <img class="word" src="images/marque/saitora-noir.png" alt="Saitora" width="1165" height="162">
   <h1>Votre vitrine, ouverte jour et nuit<span class="d" aria-hidden="true"></span></h1>
   <a class="enter" id="enter" href="accueil.html">Entrer</a>
-  <p class="sub">ou directement <a href="devis.html">demander un devis</a></p>
+  <p class="sub"><a href="tarifs.html">Voir les tarifs</a> ou <a href="devis.html">demander un devis</a></p>
 </main>
 
 <p class="foot">Sites vitrines pour les restaurants, les artisans et les commerces de quartier</p>
@@ -121,7 +121,7 @@ track.innerHTML = Array.from({ length: cols }, (_, c) => {
 
 // on entre : la porte s'efface, puis la page d'accueil se construit (transition.js, côté accueil)
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-document.querySelectorAll('a[href="accueil.html"], a[href="devis.html"]').forEach(a => a.addEventListener("click", e => {
+document.querySelectorAll('a[href="accueil.html"], a[href="devis.html"], a[href="tarifs.html"]').forEach(a => a.addEventListener("click", e => {
   if (reduce || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
   e.preventDefault();
   document.body.classList.add("leaving");

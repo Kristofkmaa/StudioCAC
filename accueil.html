@@ -110,29 +110,51 @@ img,video{display:block;max-width:100%}
 .method{background:var(--bg-alt);color:var(--ink);padding-block:clamp(80px,10vw,140px)}
 .method h2{font-weight:400;font-size:var(--step-3);line-height:1.08;letter-spacing:-.02em;max-width:20ch}
 .method .intro{color:var(--muted);max-width:52ch;margin-top:16px;font-size:var(--step-1)}
-.steps{list-style:none;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:48px;margin-top:64px;counter-reset:s}
-.steps li{counter-increment:s}
-.steps li::before{content:counter(s);display:block;font-weight:300;font-size:clamp(3.5rem,2.6rem + 3vw,5.5rem);line-height:1;color:var(--accent);margin-bottom:20px}
-.steps h3{font-weight:500;font-size:var(--step-2);letter-spacing:-.01em;margin-bottom:10px}
-.steps p{color:var(--muted);max-width:34ch}
+/* la frise : un trait, et le point orchidée du logo à chaque étape */
+.timeline{list-style:none;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:48px;margin-top:64px;position:relative}
+.timeline::before{content:"";position:absolute;left:8px;right:0;top:8px;height:2px;background:linear-gradient(90deg,var(--accent),var(--line-hi))}
+.timeline li{position:relative;padding-top:40px}
+.timeline li::before{content:"";position:absolute;left:0;top:0;width:18px;height:18px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 6px var(--bg-alt)}
+.timeline .when{font-size:15px;color:var(--accent-text);font-weight:500}
+.timeline h3{font-weight:500;font-size:var(--step-2);letter-spacing:-.01em;margin:6px 0 10px}
+.timeline p{color:var(--muted);max-width:34ch}
+.included{margin-top:clamp(64px,8vw,104px);padding-top:clamp(40px,5vw,56px);border-top:1px solid var(--line-hi)}
+.included h3{font-weight:400;font-size:clamp(1.6rem,1.2rem + 1.4vw,2.2rem);letter-spacing:-.015em}
+.included ul{list-style:none;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:28px 48px;margin-top:32px}
+.included li{color:var(--muted);font-size:15.5px;line-height:1.55;padding-left:22px;position:relative}
+.included li::before{content:"";position:absolute;left:0;top:.55em;width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.included li b{display:block;color:var(--ink);font-weight:500;font-size:17px;margin-bottom:2px}
 
-/* contact */
+/* contact : la fin de page, en grand */
 .contact,.foot{--ink:var(--invert-ink);--muted:var(--invert-muted);--line:rgba(255,255,255,.12);background:var(--invert-bg);color:var(--ink)}
-.contact{padding-block:clamp(80px,10vw,140px)}
-.contact .page{display:grid;grid-template-columns:1.2fr 1fr;gap:56px;align-items:end}
-.contact h2{font-weight:400;font-size:var(--step-3);line-height:1.08;letter-spacing:-.02em}
-.mail{display:inline-block;margin-top:28px;font-size:clamp(1.5rem,1.1rem + 1.6vw,2.375rem);font-weight:400;letter-spacing:-.01em;text-decoration:underline;text-decoration-color:var(--accent);text-decoration-thickness:2px;text-underline-offset:8px;overflow-wrap:anywhere}
+.contact{padding-block:clamp(96px,12vw,168px) clamp(72px,9vw,120px)}
+.contact h2{font-weight:400;font-size:var(--step-4);line-height:1.02;letter-spacing:-.03em;max-width:14ch}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,6vw,96px);margin-top:clamp(40px,6vw,72px);align-items:start}
+.btn.big{font-size:18px;padding:18px 30px}
+.contact .how{color:var(--muted);margin-top:18px;max-width:38ch}
+.contact .or{color:var(--muted);font-size:15px}
+.mail{display:inline-block;margin-top:6px;font-size:clamp(1.5rem,1.1rem + 1.6vw,2.375rem);font-weight:400;letter-spacing:-.01em;text-decoration:underline;text-decoration-color:var(--accent);text-decoration-thickness:2px;text-underline-offset:8px;overflow-wrap:anywhere}
 .contact .copy{display:block;margin-top:14px;font:15px var(--font);color:var(--muted);background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:4px}
-.contact .side p{color:var(--muted);margin-top:14px;max-width:34ch}
+.promises{list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:12px 36px;margin-top:clamp(48px,6vw,72px);padding-top:28px;border-top:1px solid var(--line)}
+.promises li{display:flex;align-items:center;gap:10px;color:var(--ink)}
+.promises li::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent)}
 
 /* pied de page */
-.foot{border-top:1px solid var(--line)}
-.foot .page{display:flex;align-items:center;gap:28px;flex-wrap:wrap;padding-block:28px;font-size:14px;color:var(--muted)}
-.foot-brand{display:flex;align-items:center;gap:10px;color:var(--ink)}
-.foot .mark{height:20px;width:auto;display:block}
-.foot img{height:14px;width:auto;filter:invert(1)}
-.foot nav{display:flex;gap:22px;margin-left:auto}
+.foot{border-top:1px solid var(--line);font-size:15px}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;padding-block:clamp(48px,6vw,72px)}
+.foot-brand{display:inline-flex;align-items:center;gap:10px;color:var(--ink);text-decoration:none}
+.foot .mark{height:24px;width:auto;display:block}
+.foot img{height:16px;width:auto;filter:invert(1)}
+.foot-about p{color:var(--muted);margin-top:16px;max-width:30ch}
+.foot h3{font-size:15px;font-weight:500;color:var(--ink);margin-bottom:12px}
+.foot nav,.foot-contact{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.foot nav a,.foot-contact a{color:var(--muted);text-decoration:none}
+.foot-contact p{color:var(--muted)}
+.foot-bottom{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:22px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+.foot-bottom a{color:var(--muted);text-decoration:none}
 .foot a{text-decoration:none}
+/* les liens du menu s'arrêtent sous l'en-tête collant */
+section[id]{scroll-margin-top:68px}
 
 
 /* survols qui bougent : vraie souris uniquement */
@@ -177,12 +199,16 @@ form.add input:focus,form.add select:focus{outline:none;border-color:var(--accen
   .grid{grid-template-columns:1fr}
   .proj{min-height:0}
   .proj .stage{height:240px}
-  .steps{grid-template-columns:1fr;gap:36px}
-  .contact .page{grid-template-columns:1fr;gap:32px}
+  .timeline{grid-template-columns:1fr;gap:36px}
+  .timeline::before{left:8px;right:auto;top:8px;bottom:8px;width:2px;height:auto;background:linear-gradient(var(--accent),var(--line-hi))}
+  .timeline li{padding-top:0;padding-left:40px}
+  .included ul{grid-template-columns:1fr 1fr}
+  .contact-grid{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr 1fr}
   .kpis{grid-template-columns:repeat(2,1fr)}
   form.add{grid-template-columns:1fr 1fr}
 }
-@media (max-width:520px){.proj{padding:24px 22px 0}.foot nav{margin-left:0}.bar .page{gap:12px}.brand{gap:8px}.brand .mark{height:22px}.brand img{height:15px}.bar .btn.small{white-space:nowrap;padding-inline:14px}}
+@media (max-width:520px){.proj{padding:24px 22px 0}.included ul{grid-template-columns:1fr}.foot-grid{grid-template-columns:1fr}.bar .page{gap:12px}.brand{gap:8px}.brand .mark{height:22px}.brand img{height:15px}.bar .btn.small{white-space:nowrap;padding-inline:14px}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition-property:opacity,color,background-color,border-color!important;transition-duration:200ms!important}.btn:active{transform:none}}
 /* survols : souris uniquement, sinon l'état reste collé après un toucher */
 @media (hover:hover) and (pointer:fine){
@@ -190,7 +216,7 @@ form.add input:focus,form.add select:focus{outline:none;border-color:var(--accen
   .btn:hover{background:var(--accent-hover)}
   .link:hover{text-decoration-color:var(--ink)}
   .chip:hover{color:var(--ink)}
-  .foot a:hover{color:var(--ink)}
+  .foot a:hover,.foot nav a:hover,.foot-contact a:hover,.foot-bottom a:hover{color:var(--ink)}
   .del:hover{color:var(--ink)}
 }
 /* les cartes qui se soulèvent : vraie souris et animations autorisées */
@@ -200,6 +226,8 @@ form.add input:focus,form.add select:focus{outline:none;border-color:var(--accen
   .proj:hover .phone{transform:translateY(0)}
 }
 @media (pointer:coarse){
+  .foot-brand,.foot nav a,.foot-contact a,.foot-bottom a{padding-block:10px;margin-block:-10px}
+  .foot nav,.foot-contact{gap:20px}
   .brand{padding-block:9px;margin-block:-9px}
   .link,.foot nav a{display:inline-block;padding-block:10px;margin-block:-10px}
   .mail{padding-block:3px}
@@ -213,7 +241,7 @@ form.add input:focus,form.add select:focus{outline:none;border-color:var(--accen
 <script src="transition.js?v=11"></script>
 <script src="theme.js?v=1" defer></script>
 
-<div id="public">
+<div id="public"><span id="accueil-haut"></span>
   <header class="bar">
     <div class="page">
       <a class="brand" href="accueil.html" aria-label="Saitora, accueil"><svg class="mark" viewBox="246 330 740 590" aria-hidden="true"><path d="M262 901L624 341L695 456L407 901Z M725 504L970 901L828 901L653 613Z" fill="currentColor"/><circle cx="620" cy="818" r="55" fill="var(--accent)"/></svg><img src="images/marque/saitora-noir.png" alt="Saitora" width="1165" height="162"></a>
@@ -254,39 +282,64 @@ form.add input:focus,form.add select:focus{outline:none;border-color:var(--accen
       <div class="grid" id="grid"></div>
     </section>
 
-    <section class="method" id="methode">
+    <section class="method" id="methode" aria-labelledby="t-methode">
       <div class="page">
-        <h2>Trois étapes, un seul interlocuteur</h2>
+        <h2 id="t-methode">Trois étapes, un seul interlocuteur</h2>
         <p class="intro">Vous vous occupez de votre commerce, je m'occupe de votre site, du premier appel à la mise en ligne.</p>
-        <ol class="steps">
-          <li><h3>On échange</h3><p>Votre activité, vos clients, vos photos. Un appel de vingt minutes suffit pour cadrer le projet.</p></li>
-          <li><h3>Vous recevez une maquette</h3><p>Une première version à partir du style choisi, avec vos couleurs. On l'ajuste ensemble jusqu'à ce qu'elle vous plaise.</p></li>
-          <li><h3>Le site est en ligne</h3><p>Nom de domaine, hébergement et mises à jour sont gérés pour vous. Vous n'avez rien de technique à faire.</p></li>
+        <ol class="timeline">
+          <li><span class="when">Jour 1</span><h3>On échange</h3><p>Votre activité, vos clients, vos photos. Un appel de vingt minutes suffit pour cadrer le projet.</p></li>
+          <li><span class="when">Sous une semaine</span><h3>Vous recevez une maquette</h3><p>Une première version à partir du style choisi, avec vos couleurs. On l'ajuste ensemble jusqu'à ce qu'elle vous plaise.</p></li>
+          <li><span class="when">En deux à trois semaines</span><h3>Le site est en ligne</h3><p>Vous validez, je mets le site en ligne à votre adresse. Vous n'avez rien de technique à faire.</p></li>
         </ol>
+        <div class="included">
+          <h3>Compris dans chaque site</h3>
+          <ul>
+            <li><b>Pensé pour le téléphone</b>La plupart de vos clients vous cherchent depuis leur poche.</li>
+            <li><b>Votre nom de domaine</b>Une adresse à votre nom, du type votre-commerce.fr.</li>
+            <li><b>L'hébergement</b>Le site reste en ligne, rapide et sécurisé, sans que vous ayez à y penser.</li>
+            <li><b>Visible sur Google</b>Les réglages pour qu'on vous trouve quand on cherche votre métier près de chez soi.</li>
+            <li><b>Ce dont votre métier a besoin</b>Réservation, prise de rendez-vous, commande à retirer ou demande de devis.</li>
+            <li><b>Les mises à jour</b>Une nouvelle carte, des horaires d'été : un message et c'est changé.</li>
+          </ul>
+        </div>
       </div>
     </section>
 
-    <section class="contact" id="contact">
+    <section class="contact" id="contact" aria-labelledby="t-contact">
       <div class="page">
-        <div>
-          <h2>Un projet de site ? Écrivez-moi.</h2>
-          <a class="mail" id="mail" href="mailto:contact@studiocac.fr">contact@studiocac.fr</a>
-          <button class="copy" id="copyMail" type="button">Copier l'adresse</button>
+        <h2 id="t-contact">Parlons de votre commerce<span class="dot" aria-hidden="true"></span></h2>
+        <div class="contact-grid">
+          <div class="ways">
+            <a class="btn big" href="devis.html" data-transition="Construisons votre site">Faire ma demande de devis</a>
+            <p class="how">Deux minutes de questions sur votre activité, et je vous réponds avec une proposition.</p>
+          </div>
+          <div class="ways">
+            <p class="or">Ou par e-mail</p>
+            <a class="mail" id="mail" href="mailto:contact@saitora.fr">contact@saitora.fr</a>
+            <button class="copy" id="copyMail" type="button">Copier l'adresse</button>
+          </div>
         </div>
-        <div class="side">
-          <a class="btn" href="devis.html" data-transition="Construisons votre site">Faire ma demande de devis</a>
-          <p>Deux minutes de questions, une réponse sous 24 heures. Le devis est gratuit et sans engagement.</p>
-        </div>
+        <ul class="promises">
+          <li>Réponse sous 24 heures</li>
+          <li>Devis gratuit</li>
+          <li>Sans engagement</li>
+        </ul>
       </div>
     </section>
   </main>
 
   <footer class="foot">
     <div class="page">
-      <span class="foot-brand"><svg class="mark" viewBox="246 330 740 590" aria-hidden="true"><path d="M262 901L624 341L695 456L407 901Z M725 504L970 901L828 901L653 613Z" fill="currentColor"/><circle cx="620" cy="818" r="55" fill="var(--accent)"/></svg><img src="images/marque/saitora-noir.png" alt="Saitora" width="1165" height="162"></span>
-      <span>Sites vitrines pour les commerces de quartier</span>
-      <nav aria-label="Pied de page"><a href="#vitrines">Réalisations</a><a href="devis.html" data-transition="Construisons votre site">Devis</a><a href="mailto:contact@studiocac.fr">Contact</a></nav>
-      <span>© 2026 Saitora</span>
+      <div class="foot-grid">
+        <div class="foot-about">
+          <a class="foot-brand" href="#accueil-haut" aria-label="Revenir en haut"><svg class="mark" viewBox="246 330 740 590" aria-hidden="true"><path d="M262 901L624 341L695 456L407 901Z M725 504L970 901L828 901L653 613Z" fill="currentColor"/><circle cx="620" cy="818" r="55" fill="var(--accent)"/></svg><img src="images/marque/saitora-noir.png" alt="Saitora" width="1165" height="162"></a>
+          <p>Sites vitrines sur mesure pour les restaurants, les artisans et les commerces de quartier.</p>
+        </div>
+        <nav aria-label="Le site"><h3>Le site</h3><a href="#vitrines">Réalisations</a><a href="#methode">Méthode</a><a href="#contact">Contact</a><a href="devis.html" data-transition="Construisons votre site">Demander un devis</a></nav>
+        <nav aria-label="Les démos"><h3>Les démos</h3><a href="demo-table-du-port.html" target="_blank" rel="noopener">La Table du Port</a><a href="demo-durand-plomberie.html" target="_blank" rel="noopener">Durand Plomberie</a><a href="demo-coupe-and-co.html" target="_blank" rel="noopener">Studio Coupe &amp; Co</a><a href="demo-pain-dore.html" target="_blank" rel="noopener">Au Pain Doré</a><a href="demo-villa-oliviers.html" target="_blank" rel="noopener">Villa Les Oliviers</a><a href="demo-bois-massif.html" target="_blank" rel="noopener">Atelier Bois Massif</a></nav>
+        <div class="foot-contact"><h3>Contact</h3><a href="mailto:contact@saitora.fr">contact@saitora.fr</a><p>Réponse sous 24 heures</p></div>
+      </div>
+      <div class="foot-bottom"><span>© 2026 Saitora</span><a href="#accueil-haut">Revenir en haut</a></div>
     </div>
   </footer>
 </div>

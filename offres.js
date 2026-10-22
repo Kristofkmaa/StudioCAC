@@ -7,9 +7,6 @@ window.OFFRES = {
   surmesure:  { nom: "Sur mesure",  creation: null, mois: null },   // sur devis
   sansavance: { nom: "Sans avance", creation: 0,    mois: 39, duree: 24, ensuite: "essentiel" },
 };
-// Charte graphique finalisée par Saitora (pistes de logo, fichiers propres, fiche validée) :
-// offerte avec toute formule de site ; seule, au prix ci-dessous, déduit du site s'il est commandé dans le délai.
-window.CHARTE = { prix: 49, deductionMois: 3 };
 // Repères du marché pour un site vitrine, coût total sur 3 ans (création et maintenance).
 // Source : baromètre Les Créavores, juin 2026, 103 prix réels. À mettre à jour si on change de source.
 window.MARCHE = {

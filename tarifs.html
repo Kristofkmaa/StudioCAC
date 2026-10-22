@@ -85,9 +85,6 @@ a{color:inherit}
 .zero h2{font-weight:400;font-size:clamp(1.6rem,1.2rem + 1.4vw,2.2rem);letter-spacing:-.015em}
 .zero p{color:var(--muted);margin-top:10px;max-width:50ch}
 .zero .price{margin-top:0}
-.alone{margin-top:20px;display:grid;grid-template-columns:1.3fr 1fr;gap:clamp(24px,4vw,56px);align-items:center;padding:clamp(24px,3vw,36px);border:1px solid var(--line-hi);border-radius:6px}
-.alone h2{font-weight:400;font-size:clamp(1.6rem,1.2rem + 1.4vw,2.2rem);letter-spacing:-.015em}
-.alone p{color:var(--muted);margin-top:10px;max-width:54ch}
 .zero-side{display:flex;flex-direction:column;gap:18px;align-items:flex-start}
 
 /* le calcul sur la durée */
@@ -140,7 +137,7 @@ a{color:inherit}
   .plans{grid-template-columns:1fr}
   .plan{border-right:0;border-bottom:1px solid var(--line)}
   .plan .for{min-height:0}
-  .zero,.alone{grid-template-columns:1fr}
+  .zero{grid-template-columns:1fr}
   .what dl{grid-template-columns:1fr 1fr}
   .row{grid-template-columns:1fr 90px}
   .row .track{grid-column:1/-1;grid-row:2}
@@ -185,7 +182,6 @@ a{color:inherit}
           <li>Formulaire de contact et bouton d'appel</li>
           <li>Nom de domaine et hébergement compris</li>
           <li>Une petite modification par mois</li>
-          <li>Votre charte graphique finalisée, offerte</li>
           <li class="no">Réservation, rendez-vous ou commande</li>
         </ul>
         <div class="cta"><a class="btn" href="devis.html?offre=essentiel" data-transition="Construisons votre site">Choisir Essentiel</a></div>
@@ -200,7 +196,6 @@ a{color:inherit}
           <li>Fiche Google de votre commerce configurée</li>
           <li>Nom de domaine et hébergement compris</li>
           <li>Modifications sans compter, dans la limite du raisonnable</li>
-          <li>Votre charte graphique finalisée, offerte</li>
         </ul>
         <div class="cta"><a class="btn primary" href="devis.html?offre=pro" data-transition="Construisons votre site">Choisir Pro</a></div>
       </article>
@@ -209,7 +204,7 @@ a{color:inherit}
         <h2>Sur mesure</h2><p class="tag"></p>
         <div class="price"><span class="big">Sur devis</span><span class="then">selon le projet</span></div>
         <ul>
-          <li>Tout ce que comprend la formule Pro, charte graphique comprise</li>
+          <li>Tout ce que comprend la formule Pro</li>
           <li>Calendrier, devis instantané, plusieurs langues</li>
           <li>Rédaction des textes et séance photo possibles</li>
           <li>Un interlocuteur unique du début à la fin</li>
@@ -221,19 +216,9 @@ a{color:inherit}
     <div class="zero">
       <div>
         <h2>Pas de trésorerie pour la création ? Formule sans avance.</h2>
-        <p>Le site Essentiel sans rien payer au départ : tout est réparti sur l'abonnement, avec un engagement de 24 mois. Ensuite, l'abonnement passe au tarif Essentiel normal. Charte graphique finalisée offerte, comme pour les autres formules.</p>
+        <p>Le site Essentiel sans rien payer au départ : tout est réparti sur l'abonnement, avec un engagement de 24 mois. Ensuite, l'abonnement passe au tarif Essentiel normal.</p>
       </div>
       <div class="zero-side"><div class="price"><span class="big"><span data-o="sansavance.creation">0 €</span> <small>au départ</small></span><span class="then">puis <b data-o="sansavance.mois">39 €</b> par mois pendant <span data-o="sansavance.duree" data-unit="mois">24 mois</span></span></div><a class="btn" href="devis.html?offre=sansavance" data-transition="Construisons votre site">Choisir sans avance</a></div>
-    </div>
-  </section>
-
-  <section class="page" aria-labelledby="t-chartealone">
-    <div class="alone">
-      <div>
-        <h2 id="t-chartealone">Seulement votre charte graphique ?</h2>
-        <p>Créez-la gratuitement avec <a href="charte.html" data-transition="Votre charte graphique">l'outil en ligne</a>, puis je la finalise : deux ou trois pistes de logo, le logo retenu en fichiers propres (couleur, blanc, noir), et la fiche validée pour votre imprimeur. Si vous commandez ensuite votre site dans les <span data-c="deductionMois">3</span> mois, ce montant est déduit.</p>
-      </div>
-      <div class="zero-side"><div class="price"><span class="big" data-c="prix">49 €</span><span class="then">une fois, offerte avec un site</span></div><a class="btn" href="charte.html" data-transition="Votre charte graphique">Créer ma charte</a></div>
     </div>
   </section>
 
@@ -288,10 +273,9 @@ a{color:inherit}
   </section>
 </main>
 
-<script src="offres.js?v=4"></script>
+<script src="offres.js?v=5"></script>
 <script>
 // les prix viennent de offres.js (une seule source avec le devis)
-document.querySelectorAll("[data-c]").forEach(el => { const v = CHARTE[el.dataset.c]; el.textContent = el.dataset.c === "prix" ? eur(v) : v; });
 document.querySelectorAll("[data-o]").forEach(el => { const [k, f] = el.dataset.o.split("."), v = OFFRES[k][f]; el.textContent = el.dataset.unit ? `${v} ${el.dataset.unit}` : eur(v); });
 
 // face au marché, sur 3 ans

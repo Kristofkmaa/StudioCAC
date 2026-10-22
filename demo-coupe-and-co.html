@@ -54,7 +54,16 @@ nav.links a:hover{color:var(--ink)}
 .hero p{max-width:40ch;color:var(--muted);margin:24px 0 0}
 .hero .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px;padding-bottom:64px}
 .portrait{align-self:end;justify-self:center;width:min(380px,100%);max-width:100%;aspect-ratio:3/4;background:var(--black);border-radius:200px 200px 0 0;position:relative;overflow:hidden}
-.portrait svg{position:absolute;inset:0;width:100%;height:100%}
+.portrait{margin:0}
+.portrait img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.portrait figcaption{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);white-space:nowrap;background:var(--white);color:var(--ink);font-size:13px;font-weight:600;letter-spacing:.04em;padding:9px 16px;border-radius:999px;box-shadow:0 10px 24px -10px rgba(21,18,20,.5)}
+.gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.gallery figure{margin:0;position:relative;border-radius:160px 160px 14px 14px;overflow:hidden;aspect-ratio:4/5;background:var(--blush)}
+.gallery figure:nth-child(even){margin-top:40px}
+.gallery img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s ease}
+.gallery figure:hover img{transform:scale(1.05)}
+.gallery figcaption{position:absolute;inset:auto 0 0;padding:40px 16px 16px;background:linear-gradient(transparent,rgba(21,18,20,.7));color:var(--white);font-family:var(--f-display);font-size:20px}
+@media (prefers-reduced-motion:reduce){.gallery img{transition:none}}
 
 .sec{padding-block:88px}
 .kicker{font-size:12px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--rose)}
@@ -117,6 +126,8 @@ footer .in{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;pa
   .hero .in{grid-template-columns:1fr}
   .hero .cta{padding-bottom:0}
   .portrait{width:min(300px,80%)}
+  .gallery{grid-template-columns:1fr 1fr}
+  .gallery figure:nth-child(even){margin-top:24px}
   .prices{grid-template-columns:1fr}
   .booker{grid-template-columns:1fr}
   .steps{border-right:0;border-bottom:1.5px solid var(--black);flex-direction:row;flex-wrap:wrap;gap:14px}
@@ -134,7 +145,7 @@ footer .in{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;pa
 <header class="nav band">
   <div class="in">
     <a class="logo" href="#top">Coupe <i>&amp;</i> Co</a>
-    <nav class="links"><a href="#tarifs">Tarifs</a><a href="#rdv">Rendez-vous</a><a href="#infos">Infos</a></nav>
+    <nav class="links"><a href="#tarifs">Tarifs</a><a href="#salon">Le salon</a><a href="#rdv">Rendez-vous</a><a href="#infos">Infos</a></nav>
     <a class="btn" href="#rdv">Prendre RDV</a>
   </div>
 </header>
@@ -147,17 +158,10 @@ footer .in{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;pa
       <p>Un salon lumineux, des conseils honnêtes et le temps de bien faire. Réservez en ligne en trente secondes, sans appeler.</p>
       <div class="cta"><a class="btn" href="#rdv">Réserver en ligne</a><a class="btn out" href="#tarifs">Voir les tarifs</a></div>
     </div>
-    <div class="portrait" aria-hidden="true">
-      <svg viewBox="0 0 300 400" preserveAspectRatio="xMidYMax slice">
-        <circle cx="150" cy="150" r="120" fill="#C9667A" opacity=".25"/>
-        <path d="M150 70c-55 0-85 40-85 95 0 40 10 80 0 130h170c-10-50 0-90 0-130 0-55-30-95-85-95z" fill="#2A2226"/>
-        <ellipse cx="150" cy="170" rx="48" ry="58" fill="#E8B9A8"/>
-        <path d="M100 160c0-55 25-75 55-75 35 0 55 30 52 70-20-25-55-40-107 5z" fill="#2A2226"/>
-        <path d="M120 222c10 20 50 20 60 0v40h-60z" fill="#E8B9A8"/>
-        <path d="M70 400c0-70 35-130 80-130s80 60 80 130z" fill="#F2D7D0"/>
-        <path d="M200 120c25 10 40 40 30 75" stroke="#B08A57" stroke-width="3" fill="none" stroke-linecap="round"/>
-      </svg>
-    </div>
+    <figure class="portrait">
+      <img src="images/coupe/boucles.webp" alt="Longue chevelure bouclée et coiffée, vue de dos, dans le salon" width="760" height="1013" fetchpriority="high">
+      <figcaption>Brushing boucles · 45 min</figcaption>
+    </figure>
   </div>
 </section>
 
@@ -165,6 +169,19 @@ footer .in{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;pa
   <div class="in">
     <div class="price-head"><div><div class="kicker">Tarifs</div><h2>Prix clairs, <i>sans surprise</i></h2></div><div class="tabs" role="tablist" id="tabs"></div></div>
     <div class="prices" id="prices"></div>
+  </div>
+</section>
+
+<section class="sec band" id="salon">
+  <div class="in">
+    <div class="kicker">Le salon</div>
+    <h2>Un lieu pour <i>prendre son temps</i></h2>
+    <div class="gallery">
+      <figure><img src="images/coupe/salon.webp" alt="Salon lumineux avec fauteuils noirs et grands miroirs" width="600" height="750" loading="lazy" decoding="async"><figcaption>Le salon</figcaption></figure>
+      <figure><img src="images/coupe/couleur.webp" alt="Longs cheveux aux reflets roses et dorés" width="600" height="750" loading="lazy" decoding="async"><figcaption>Couleur &amp; balayage</figcaption></figure>
+      <figure><img src="images/coupe/chignon.webp" alt="Chignon tressé vu de dos" width="600" height="750" loading="lazy" decoding="async"><figcaption>Chignons &amp; mariage</figcaption></figure>
+      <figure><img src="images/coupe/homme.webp" alt="Coupe homme à la tondeuse" width="600" height="750" loading="lazy" decoding="async"><figcaption>Coupe homme</figcaption></figure>
+    </div>
   </div>
 </section>
 

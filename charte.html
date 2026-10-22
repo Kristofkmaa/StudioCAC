@@ -169,6 +169,9 @@ input[type=color]::-webkit-color-swatch{border:0;border-radius:3px}
 .post b{font:500 clamp(1.3rem,1rem + 1.2vw,2rem)/1.05 var(--tf),var(--font)}
 .post small{font:13px var(--font);opacity:.85}
 .final{display:flex;flex-wrap:wrap;gap:10px;margin-top:40px;align-items:center}
+.next{margin-top:28px;color:var(--muted);max-width:60ch}
+.next a{color:var(--ink);text-underline-offset:4px;text-decoration-color:var(--accent)}
+@media (pointer:coarse){.next a{display:inline-block;padding-block:10px;margin-block:-10px}}
 .ok{background:var(--bg);border-left:3px solid var(--accent);padding:12px 14px;font-size:15px;margin-top:14px}
 
 /* un écran par étape */
@@ -242,6 +245,7 @@ body[data-step="1"] .work,body[data-step="2"] .work,body[data-step="3"] .work,bo
   <div class="page">
     <a class="brand" href="accueil.html" data-transition="Retour à l'accueil" aria-label="Saitora, accueil"><svg class="mark" viewBox="246 330 740 590" aria-hidden="true"><path d="M262 901L624 341L695 456L407 901Z M725 504L970 901L828 901L653 613Z" fill="currentColor"/><circle cx="620" cy="818" r="55" fill="var(--accent)"/></svg><img src="images/marque/saitora-noir.png" alt="Saitora" width="1165" height="162"></a>
     <div class="right">
+      <a class="back" href="accueil.html#vitrines" data-transition="Les réalisations">Réalisations</a>
       <a class="back" href="tarifs.html" data-transition="Les tarifs">Tarifs</a>
       <button class="theme-toggle" type="button" data-theme-toggle aria-label="Changer de thème"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.6A8.2 8.2 0 0 1 9.4 4a8.2 8.2 0 1 0 10.6 10.6z"/></svg></button>
     </div>
@@ -251,7 +255,7 @@ body[data-step="1"] .work,body[data-step="2"] .work,body[data-step="3"] .work,bo
 <main>
   <section class="intro page" data-panel="0" aria-labelledby="t-charte">
     <h1 id="t-charte">Créez la charte graphique de votre commerce<span class="dot" aria-hidden="true"></span></h1>
-    <p class="lead">Pas besoin d'être graphiste : six étapes, une explication à chaque fois, et votre site qui se dessine au fur et à mesure. Vous avez déjà un logo et des couleurs ? Renseignez-les, on part de là.</p>
+    <p class="lead">Pas besoin d'être graphiste : six étapes, une explication à chaque fois, et votre site qui se dessine au fur et à mesure. Vous avez déjà un logo et des couleurs ? Renseignez-les, on part de là. C'est gratuit et sans inscription.</p>
     <dl class="what">
       <div><dt>Une charte graphique, c'est quoi ?</dt><dd>Les quelques règles qui font qu'on reconnaît votre commerce : votre logo, vos couleurs, vos lettres, et la façon de les utiliser.</dd></div>
       <div><dt>À quoi ça sert ?</dt><dd>À ce que votre site, votre enseigne, vos cartes de visite et vos publications se ressemblent. Un client qui vous voit deux fois vous reconnaît.</dd></div>
@@ -391,10 +395,10 @@ body[data-step="1"] .work,body[data-step="2"] .work,body[data-step="3"] .work,bo
       </div>
       <div class="final">
         <button class="btn" type="button" data-go="5">Précédent</button>
-        <button class="btn" type="button" id="print">Télécharger ma charte en PDF</button>
+        <button class="btn primary" type="button" id="print">Télécharger ma charte en PDF</button>
         <button class="btn" type="button" id="send">Me l'envoyer</button>
-        <a class="btn primary" id="toDevis" href="devis.html" data-transition="Construisons votre site">Continuer vers le devis</a>
       </div>
+      <p class="next">Votre charte est à vous, gratuitement, pour votre enseigne, vos cartes ou votre propre site. Envie d'un site à ces couleurs ? <a id="toDevis" href="devis.html" data-transition="Construisons votre site">Demander un devis</a>, la charte y sera jointe.</p>
       <p class="ok" id="ok" hidden></p>
     </div>
   </section>

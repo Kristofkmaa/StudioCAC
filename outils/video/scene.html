@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Showreel StudioCac</title>
+<style>
+/* Scène de la vidéo d'accueil : une fenêtre de navigateur qui fait défiler les démos.
+   Le rendu est piloté image par image par render.js via window.render(t). */
+*{box-sizing:border-box;margin:0}
+html,body{width:1280px;height:800px;overflow:hidden;background:#0E1230;font-family:"Segoe UI",system-ui,sans-serif}
+.bar{position:absolute;inset:0 0 auto;height:48px;background:#161B3D;display:flex;align-items:center;gap:8px;padding:0 18px;z-index:10;border-bottom:1px solid rgba(255,255,255,.08)}
+.bar i{width:12px;height:12px;border-radius:50%;display:block}
+.url{position:relative;margin-left:18px;flex:1;max-width:560px;height:30px;border-radius:999px;background:rgba(255,255,255,.07);color:#E2E7FF;font-size:15px;display:flex;align-items:center;padding:0 16px;overflow:hidden}
+.url span{position:absolute;left:40px;white-space:nowrap}
+.url::before{content:"";width:10px;height:12px;border:2px solid #4ADE9A;border-radius:3px 3px 2px 2px;margin-right:12px;flex:none}
+.view{position:absolute;inset:48px 0 0;overflow:hidden;background:#0E1230}
+.page{position:absolute;inset:0;overflow:hidden;will-change:transform;box-shadow:0 30px 80px rgba(0,0,0,.55);transform-origin:50% 0}
+.page img{display:block;width:1280px}
+.dim{position:absolute;inset:0;background:#070A1A;pointer-events:none}
+</style>
+</head>
+<body>
+<div class="bar"><i style="background:#FF5F57"></i><i style="background:#FEBC2E"></i><i style="background:#28C840"></i><div class="url" id="url"></div></div>
+<div class="view" id="view"></div>
+<script>
+const SITES = window.SITES || [];
+const D = 3.2, TR = 0.7, T = SITES.length * D;   // durée par site, durée de transition, boucle complète
+const view = document.getElementById("view"), url = document.getElementById("url");
+const ease = x => x<0?0:x>1?1:x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
+const pages = SITES.map(s => {
+  const p = document.createElement("div"); p.className = "page";
+  p.innerHTML = `<img src="${s.img}" alt=""><div class="dim"></div>`; view.appendChild(p);
+  const u = document.createElement("span"); u.textContent = s.url; url.appendChild(u);
+  return {p, img:p.querySelector("img"), dim:p.querySelector(".dim"), u, h:s.h};
+});
+window.render = t => {
+  t = ((t % T) + T) % T;
+  pages.forEach((o, i) => {
+    let u = ((t - i*D) % T + T) % T;          // temps local du site i
+    if (u > T - TR) u -= T;                   // il est en train d'entrer
+    const visible = u > -TR && u < D;
+    o.p.style.display = visible ? "block" : "none";
+    if (!visible) { o.u.style.opacity = 0; return; }
+    const enter = ease((u + TR) / TR);        // 0 → 1 pendant l'entrée
+    const leave = ease((u - (D - TR)) / TR);  // 0 → 1 pendant que le suivant entre
+    const scroll = ease((u - 0.35) / (D - TR - 0.5)) * Math.min(o.h - 752, 1500);
+    o.img.style.transform = `translateY(${-scroll}px)`;
+    const x = (1 - enter) * 1280, s = 0.92 + 0.08 * enter - 0.06 * leave;
+    o.p.style.transform = `translateX(${x}px) scale(${s})`;
+    o.p.style.borderRadius = `${(1 - enter) * 18 + leave * 18}px`;
+    o.p.style.zIndex = u < D - TR ? 2 : 1;      // le site qui entre passe devant
+    o.dim.style.opacity = leave * 0.55;
+    o.u.style.opacity = Math.min(enter, 1 - leave);
+    o.u.style.transform = `translateY(${(1 - enter) * 14 - leave * 14}px)`;
+  });
+};
+window.LOOP = T;
+render(0);
+</script>
+</body>
+</html>

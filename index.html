@@ -71,14 +71,14 @@ nav.top a:hover{color:var(--ink);background:var(--glass)}
 .btn.sm{padding:8px 14px;font-size:14px}
 
 /* pile de cartes flottantes du hero */
-.stack{position:relative;height:380px}
-.float{position:absolute;padding:14px;width:min(300px,78%)}
-.float .mini{border-radius:14px}
+.reel{position:relative;margin:0;border-radius:18px;overflow:hidden;aspect-ratio:8/5;border:1px solid var(--edge-hi);
+  box-shadow:0 30px 80px -20px rgba(0,0,0,.7),0 0 0 6px rgba(255,255,255,.04),0 0 90px -10px rgba(124,92,255,.55);
+  transform:perspective(1400px) rotateY(-9deg) rotateX(3deg);transition:transform .6s ease;background:#0E1230}
+.reel:hover{transform:perspective(1400px) rotateY(0) rotateX(0)}
+.reel video{display:block;width:100%;height:100%;object-fit:cover}
+@media (prefers-reduced-motion:reduce){.reel{transform:none;transition:none}}
 
 .card.soon .open{color:var(--faint)}
-.float:nth-child(1){top:0;right:0;transform:rotate(4deg)}
-.float:nth-child(2){top:110px;left:0;transform:rotate(-5deg)}
-.float:nth-child(3){bottom:0;right:8%;transform:rotate(2deg)}
 @keyframes bob{50%{translate:0 -10px}}
 
 .sec-head{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin-bottom:24px}
@@ -155,7 +155,7 @@ form.add input:focus,form.add select:focus{outline:none;border-color:var(--g2);b
 
 @media (max-width:860px){
   .hero{grid-template-columns:1fr;gap:24px}
-  .stack{height:300px}
+  .reel{transform:none}
   .steps{grid-template-columns:1fr}
   .kpis{grid-template-columns:repeat(2,1fr)}
   form.add{grid-template-columns:1fr 1fr}
@@ -185,7 +185,12 @@ form.add input:focus,form.add select:focus{outline:none;border-color:var(--g2);b
         <a class="btn" href="#contact">Demander un devis</a>
       </div>
     </div>
-    <div class="stack" id="stack" aria-hidden="true"></div>
+    <figure class="reel">
+      <video id="reel" autoplay muted loop playsinline preload="auto" poster="media/showreel-poster.webp" aria-label="Aperçu animé des sites de démonstration StudioCac">
+        <source src="media/showreel.webm" type="video/webm">
+        <source src="media/showreel.mp4" type="video/mp4">
+      </video>
+    </figure>
   </section>
 
   <section id="vitrines">
@@ -258,7 +263,8 @@ const mini = d => `<div class="mini" style="--c1:${d.c1};--c2:${d.c2};--mf:${d.m
   <div class="bar"><span>${esc(d.name)}</span><span><span>Accueil</span><span>Contact</span></span></div>
   <div class="h">${esc(d.h)}</div><div class="s">${esc(d.s)}</div><div class="b">${esc(d.cta)}</div></div>`;
 
-stack.innerHTML = DEMOS.slice(0,3).map(d=>`<div class="float glass">${mini(d)}</div>`).join("");
+// vidéo d'accueil : en pause si l'utilisateur limite les animations
+if (matchMedia("(prefers-reduced-motion: reduce)").matches) { reel.removeAttribute("autoplay"); reel.pause(); }
 
 let filter = "Tous";
 function renderChips(){

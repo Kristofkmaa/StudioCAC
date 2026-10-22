@@ -5,7 +5,7 @@
 <!-- construction de la page : le fond nuit est peint dès la toute première image, avant transition.js -->
 <script>(()=>{const d=document.documentElement;let t;try{t=localStorage.getItem("saitora-theme")}catch(e){}d.dataset.theme=t||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");if(!matchMedia("(prefers-reduced-motion: reduce)").matches)d.classList.add("sc-pending")})()</script>
 <style>html.sc-pending,html.sc-pending body{background:#FAFAF9}html[data-theme=dark].sc-pending,html[data-theme=dark].sc-pending body{background:#0C0C0D}</style>
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <title>Demande de devis · Saitora</title>
 <meta name="description" content="Décrivez votre projet de site vitrine en 5 étapes et recevez un devis gratuit sous 24 h.">
 <meta property="og:type" content="website">
@@ -17,8 +17,15 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap">
-<link rel="stylesheet" href="theme.css?v=1">
+<link rel="stylesheet" href="theme.css?v=2">
 <style>
+/* Téléphone : pas de flash gris au toucher, pas de texte grossi en paysage, réponse dès que le doigt se pose,
+   libellés des boutons non sélectionnables, contenu tenu hors de l'encoche en paysage. */
+html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(a,button,[role="button"],summary,label,select,input[type="range"]){touch-action:manipulation}
+:where(button,.btn,[role="button"],[role="tab"]){-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+:where(button:not([disabled]),.btn):active{opacity:.82}
+:where(.in,.page){padding-inline:env(safe-area-inset-left,0px) env(safe-area-inset-right,0px)}
 /* Devis guidé : même univers que l'accueil (blanc et noir modernes selon le thème, point orchidée du logo, une seule police).
    Questionnaire en 5 étapes à gauche, résumé du projet qui se remplit à droite. */
 :root{
@@ -29,7 +36,7 @@
 *,*::before,*::after{box-sizing:border-box}
 [hidden]{display:none!important}
 html{background:var(--bg)}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.6;min-height:100vh;overflow-x:hidden}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.6;min-height:100svh;overflow-x:hidden}
 h1,h2,h3,p{margin:0}
 a{color:inherit}
 :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
@@ -44,14 +51,14 @@ a{color:inherit}
 .brand img{display:block;height:18px;width:auto;filter:var(--logo-filter)}
 .bar .right{display:flex;align-items:center;gap:20px}
 .back{font-size:15px;color:var(--muted);text-decoration:none}
-.back:hover{color:var(--ink)}
+
 
 .btn{display:inline-flex;align-items:center;justify-content:center;font:500 16px var(--font);padding:13px 22px;border-radius:4px;cursor:pointer;text-decoration:none;
   border:1px solid var(--line-hi);background:none;color:var(--ink);transition:transform 160ms var(--ease-out),background-color 160ms ease,border-color 160ms ease,opacity 160ms ease}
-.btn:hover{border-color:var(--ink)}
+
 .btn:active:not([disabled]){transform:scale(.97)}
 .btn.primary{border-color:transparent;background:var(--accent);color:var(--on-accent)}
-.btn.primary:hover{background:var(--accent-hover)}
+
 .btn[disabled]{opacity:.4;cursor:not-allowed;transform:none}
 
 .intro{padding-block:clamp(48px,7vw,88px) 40px;max-width:760px}
@@ -76,7 +83,7 @@ a{color:inherit}
 
 .opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
 .opt{position:relative;text-align:left;font:inherit;color:inherit;cursor:pointer;padding:16px 16px 14px;border-radius:6px;border:1px solid var(--line);background:var(--bg);display:flex;flex-direction:column;gap:2px;transition:border-color 150ms ease,background-color 150ms ease,transform 160ms var(--ease-out)}
-.opt:hover{border-color:var(--line-hi)}
+
 .opt:active{transform:scale(.98)}
 .opt b{font-weight:500;font-size:16px;padding-right:22px}
 .opt small{color:var(--muted);font-size:14px;line-height:1.4}
@@ -93,7 +100,7 @@ a{color:inherit}
 .pills{display:flex;flex-wrap:wrap;gap:8px}
 .pill{font:400 15px var(--font);color:var(--ink);cursor:pointer;padding:9px 16px;border-radius:4px;border:1px solid var(--line);background:var(--bg);transition:background-color 150ms ease,color 150ms ease,border-color 150ms ease,transform 160ms var(--ease-out)}
 .pill:active{transform:scale(.97)}
-.pill:hover{border-color:var(--line-hi)}
+
 .pill[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .fields label{display:flex;flex-direction:column;gap:6px;font-size:15px;color:var(--muted)}
@@ -131,6 +138,19 @@ a{color:inherit}
   *,*::before,*::after{transition-property:opacity,color,background-color,border-color!important;transition-duration:200ms!important}
   .step.on,.done.on{animation:fadeOnly 200ms ease}
   .btn:active,.opt:active,.pill:active{transform:none}
+}
+/* survols : souris uniquement, sinon l'état reste collé après un toucher */
+@media (hover:hover) and (pointer:fine){
+  .back:hover{color:var(--ink)}
+  .btn:hover{border-color:var(--ink)}
+  .btn.primary:hover{background:var(--accent-hover)}
+  .opt:hover{border-color:var(--line-hi)}
+  .pill:hover{border-color:var(--line-hi)}
+}
+@media (pointer:coarse){
+  .brand{padding-block:9px;margin-block:-9px}
+  .pill{min-height:44px}
+  .theme-toggle{width:44px;height:44px}
 }
 </style>
 </head>
@@ -188,8 +208,8 @@ a{color:inherit}
         <div class="fields">
           <label>Prénom et nom *<input id="fName" autocomplete="name" required></label>
           <label>Entreprise<input id="fBiz" autocomplete="organization"></label>
-          <label>E-mail *<input id="fMail" type="email" autocomplete="email" required></label>
-          <label>Téléphone<input id="fTel" type="tel" autocomplete="tel"></label>
+          <label>E-mail *<input id="fMail" type="email" autocapitalize="none" autocorrect="off" autocomplete="email" required></label>
+          <label>Téléphone<input id="fTel" type="tel" enterkeyhint="next" autocomplete="tel"></label>
           <label class="full">Un mot sur votre projet<textarea id="fMsg" placeholder="Ce qui compte pour vous, vos idées, vos questions"></textarea></label>
           <div class="err full" id="err" role="alert"></div>
         </div>

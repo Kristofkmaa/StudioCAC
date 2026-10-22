@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <title>Au Pain Doré, démo Saitora</title>
 <meta name="description" content="Démo de site vitrine pour boulangerie : les fournées de la journée en direct et la commande à retirer le lendemain. Réalisé par Saitora.">
 <meta property="og:type" content="website">
@@ -10,11 +10,18 @@
 <meta property="og:site_name" content="Saitora">
 <meta property="og:title" content="Au Pain Doré, démo Saitora">
 <meta property="og:description" content="Démo de site vitrine pour boulangerie : les fournées de la journée en direct et la commande à retirer le lendemain. Réalisé par Saitora.">
-<meta name="theme-color" content="#EFC35A">
+<meta name="theme-color" content="#3A2210">
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Ccircle%20cx=%2232%22%20cy=%2232%22%20r=%2230%22%20fill=%22%23EFC35A%22/%3E%3Cellipse%20cx=%2232%22%20cy=%2234%22%20rx=%2220%22%20ry=%2212%22%20fill=%22%233A2210%22/%3E%3Cpath%20d=%22M22%2030l5%207M30%2028l5%208M38%2028l5%207%22%20stroke=%22%23EFC35A%22%20stroke-width=%223%22%20stroke-linecap=%22round%22/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caprasimo&family=Commissioner:wght@400;500;600;700&display=swap">
 <style>
+/* Téléphone : pas de flash gris au toucher, pas de texte grossi en paysage, réponse dès que le doigt se pose,
+   libellés des boutons non sélectionnables, contenu tenu hors de l'encoche en paysage. */
+html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(a,button,[role="button"],summary,label,select,input[type="range"]){touch-action:manipulation}
+:where(button,.btn,[role="button"],[role="tab"]){-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+:where(button:not([disabled]),.btn):active{opacity:.82}
+:where(.in,.page){padding-inline:env(safe-area-inset-left,0px) env(safe-area-inset-right,0px)}
 /* Au Pain Doré. Idée : la journée du four. La première page est une règle des heures, de 6 h à 19 h, avec les
    fournées posées dessus et une aiguille à l'heure qu'il est ; le panier est un ticket en papier kraft tamponné.
    Caprasimo (lettres d'enseigne peintes) pour les titres, Commissioner pour le texte. Or de croûte, brun, kraft, tampon rouge. */
@@ -40,9 +47,9 @@ img{display:block;max-width:100%}
 .name{font:400 1.7rem/1 var(--sign);text-decoration:none;letter-spacing:.005em}
 .top nav{display:flex;gap:24px;margin-left:auto;font-weight:500}
 .top nav a{text-decoration:none}
-.top nav a:hover{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:5px}
+
 .btn{display:inline-flex;align-items:center;justify-content:center;font:700 16px var(--sans);padding:13px 22px;border-radius:999px;border:0;cursor:pointer;text-decoration:none;background:var(--crust);color:var(--flour);transition:transform 140ms ease,background-color 140ms ease}
-.btn:hover{background:var(--brown)}
+
 .btn:active{transform:scale(.97)}
 .btn[disabled]{opacity:.35;cursor:not-allowed;transform:none}
 
@@ -133,6 +140,17 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;pa
 }
 @media (max-width:480px){.shelf{grid-template-columns:1fr 1fr;gap:26px 14px}.prod h3{font-size:1rem}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn:active{transform:none}}
+/* survols : souris uniquement, sinon l'état reste collé après un toucher */
+@media (hover:hover) and (pointer:fine){
+  .top nav a:hover{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:5px}
+  .btn:hover{background:var(--brown)}
+}
+@media (pointer:coarse){
+  .name{padding-block:9px;margin-block:-9px}
+  .infos .tel{padding-block:7px;margin-block:-7px}
+  .qty button{width:44px;height:44px}
+  .cat{min-height:44px}
+}
 </style>
 </head>
 <body>
@@ -179,7 +197,7 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;pa
           <div class="lines" id="lines"></div>
           <div class="total"><span>Total</span><span id="total">0,00 €</span></div>
           <label>Heure de passage<select id="pickup"></select></label>
-          <label>Prénom<input id="pName" autocomplete="given-name" placeholder="Pour mettre la commande de côté"></label>
+          <label>Prénom<input id="pName" autocomplete="given-name" enterkeyhint="done" placeholder="Pour mettre la commande de côté"></label>
           <button class="btn" type="button" id="order" disabled>Mettre de côté</button>
           <p class="ok" id="ok" hidden></p>
         </aside>

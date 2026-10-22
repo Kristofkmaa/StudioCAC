@@ -5,7 +5,7 @@
 <!-- construction de la page : le fond nuit est peint dès la toute première image, avant transition.js -->
 <script>(()=>{const d=document.documentElement;let t;try{t=localStorage.getItem("saitora-theme")}catch(e){}d.dataset.theme=t||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");if(!matchMedia("(prefers-reduced-motion: reduce)").matches)d.classList.add("sc-pending")})()</script>
 <style>html.sc-pending,html.sc-pending body{background:#FAFAF9}html[data-theme=dark].sc-pending,html[data-theme=dark].sc-pending body{background:#0C0C0D}</style>
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <title>Saitora · Sites vitrines pour commerces et artisans</title>
 <meta name="description" content="Sites vitrines rapides et sur mesure pour restaurants, artisans et commerces de proximité. Découvrez les démos et demandez un devis gratuit.">
 <meta property="og:type" content="website">
@@ -18,8 +18,15 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap">
-<link rel="stylesheet" href="theme.css?v=1">
+<link rel="stylesheet" href="theme.css?v=2">
 <style>
+/* Téléphone : pas de flash gris au toucher, pas de texte grossi en paysage, réponse dès que le doigt se pose,
+   libellés des boutons non sélectionnables, contenu tenu hors de l'encoche en paysage. */
+html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(a,button,[role="button"],summary,label,select,input[type="range"]){touch-action:manipulation}
+:where(button,.btn,[role="button"],[role="tab"]){-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+:where(button:not([disabled]),.btn):active{opacity:.82}
+:where(.in,.page){padding-inline:env(safe-area-inset-left,0px) env(safe-area-inset-right,0px)}
 /* Saitora — direction : la vitrine de quartier, vue de l'intérieur du studio.
    Blanc et noir modernes (thème clair ou sombre, voir theme.css), l'orchidée du logo en seul accent, une seule police (Jost).
    Signature : le point orchidée du logo, qui ferme le grand titre et marque ce qui est actif.
@@ -50,14 +57,14 @@ img,video{display:block;max-width:100%}
 .brand img{height:18px;width:auto;filter:var(--logo-filter)}
 .bar nav{display:flex;gap:28px;margin-left:auto;margin-right:12px;font-size:15px}
 .bar nav a{text-decoration:none;color:var(--muted)}
-.bar nav a:hover{color:var(--ink)}
+
 .btn{display:inline-flex;align-items:center;justify-content:center;font:500 16px var(--font);padding:13px 22px;border-radius:4px;border:0;cursor:pointer;text-decoration:none;
   background:var(--accent);color:var(--on-accent);transition:transform 160ms var(--ease-out),background-color 160ms ease}
-.btn:hover{background:var(--accent-hover)}
+
 .btn:active{transform:scale(.97)}
 .btn.small{padding:9px 16px;font-size:15px}
 .link{color:var(--ink);text-decoration:underline;text-decoration-color:var(--accent);text-decoration-thickness:2px;text-underline-offset:5px;font-weight:500}
-.link:hover{text-decoration-color:var(--ink)}
+
 
 /* première page */
 .hero{display:grid;grid-template-columns:1.05fr 1fr;gap:56px;align-items:center;padding-block:clamp(56px,9vw,120px) clamp(64px,9vw,120px)}
@@ -77,7 +84,7 @@ img,video{display:block;max-width:100%}
 .filters{display:flex;gap:6px 22px;flex-wrap:wrap;font-size:15px}
 .chip{font:inherit;color:var(--muted);background:none;border:0;padding:6px 0;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
 .chip::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent);transform:scale(0);transition:transform 180ms var(--ease-out)}
-.chip:hover{color:var(--ink)}
+
 .chip[aria-pressed="true"]{color:var(--ink)}
 .chip[aria-pressed="true"]::before{transform:scale(1)}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
@@ -120,14 +127,10 @@ img,video{display:block;max-width:100%}
 .foot img{height:14px;width:auto;filter:invert(1)}
 .foot nav{display:flex;gap:22px;margin-left:auto}
 .foot a{text-decoration:none}
-.foot a:hover{color:var(--ink)}
+
 
 /* survols qui bougent : vraie souris uniquement */
-@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
-  .proj:hover{transform:translateY(-4px)}
-  .proj:hover .win{transform:translateY(0)}
-  .proj:hover .phone{transform:translateY(0)}
-}
+
 
 /* ===== Espace pro (#admin) ===== */
 .wrap#admin{width:var(--page);margin:0 auto;padding-block:40px 64px;display:flex;flex-direction:column;gap:22px}
@@ -153,7 +156,7 @@ td a{color:var(--accent-text)}
 .soon{color:var(--warn);font-weight:500}
 .ex{font-size:13px;color:var(--muted)}
 .del{background:none;border:0;color:var(--muted);cursor:pointer;font:14px var(--font);text-decoration:underline}
-.del:hover{color:var(--ink)}
+
 .del.confirm{color:var(--accent-text)}
 form.add{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;padding:18px;align-items:end}
 form.add label{display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--muted);min-width:0}
@@ -173,8 +176,31 @@ form.add input:focus,form.add select:focus{outline:none;border-color:var(--accen
   .kpis{grid-template-columns:repeat(2,1fr)}
   form.add{grid-template-columns:1fr 1fr}
 }
-@media (max-width:520px){.proj{padding:24px 22px 0}.foot nav{margin-left:0}}
+@media (max-width:520px){.proj{padding:24px 22px 0}.foot nav{margin-left:0}.bar .page{gap:12px}.brand{gap:8px}.brand .mark{height:22px}.brand img{height:15px}.bar .btn.small{white-space:nowrap;padding-inline:14px}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition-property:opacity,color,background-color,border-color!important;transition-duration:200ms!important}.btn:active{transform:none}}
+/* survols : souris uniquement, sinon l'état reste collé après un toucher */
+@media (hover:hover) and (pointer:fine){
+  .bar nav a:hover{color:var(--ink)}
+  .btn:hover{background:var(--accent-hover)}
+  .link:hover{text-decoration-color:var(--ink)}
+  .chip:hover{color:var(--ink)}
+  .foot a:hover{color:var(--ink)}
+  .del:hover{color:var(--ink)}
+}
+/* les cartes qui se soulèvent : vraie souris et animations autorisées */
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  .proj:hover{transform:translateY(-4px)}
+  .proj:hover .win{transform:translateY(0)}
+  .proj:hover .phone{transform:translateY(0)}
+}
+@media (pointer:coarse){
+  .brand{padding-block:9px;margin-block:-9px}
+  .link,.foot nav a{display:inline-block;padding-block:10px;margin-block:-10px}
+  .mail{padding-block:3px}
+  .chip{min-height:44px}
+  .theme-toggle{width:44px;height:44px}
+  .contact .copy{padding-block:10px}
+}
 </style>
 </head>
 <body>

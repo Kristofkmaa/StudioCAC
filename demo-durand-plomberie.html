@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <title>Durand Plomberie, démo Saitora</title>
 <meta name="description" content="Démo de site vitrine pour artisan plombier : appel d'urgence, délai d'arrivée selon la commune, tarifs et demande d'intervention. Réalisé par Saitora.">
 <meta property="og:type" content="website">
@@ -10,11 +10,18 @@
 <meta property="og:site_name" content="Saitora">
 <meta property="og:title" content="Durand Plomberie, démo Saitora">
 <meta property="og:description" content="Démo de site vitrine pour artisan plombier : appel d'urgence, délai d'arrivée selon la commune, tarifs et demande d'intervention. Réalisé par Saitora.">
-<meta name="theme-color" content="#1846C9">
+<meta name="theme-color" content="#0B1636">
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Crect%20width=%2264%22%20height=%2264%22%20rx=%2210%22%20fill=%22%231846C9%22/%3E%3Cpath%20d=%22M32%2012c8%2012%2013%2019%2013%2026a13%2013%200%2001-26%200c0-7%205-14%2013-26z%22%20fill=%22%23FFC93C%22/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..100,400..900&display=swap">
 <style>
+/* Téléphone : pas de flash gris au toucher, pas de texte grossi en paysage, réponse dès que le doigt se pose,
+   libellés des boutons non sélectionnables, contenu tenu hors de l'encoche en paysage. */
+html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(a,button,[role="button"],summary,label,select,input[type="range"]){touch-action:manipulation}
+:where(button,.btn,[role="button"],[role="tab"]){-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+:where(button:not([disabled]),.btn):active{opacity:.82}
+:where(.in,.page){padding-inline:env(safe-area-inset-left,0px) env(safe-area-inset-right,0px)}
 /* Durand Plomberie. Idée : le numéro de téléphone est le site. Il occupe la première page en très grand, et un seul
    tuyau jaune court le long de la page pour relier tarifs, zone et demande. Une seule famille, Archivo :
    étroite et grasse pour l'affichage, pleine largeur pour le texte. Bleu de la camionnette, jaune signal. */
@@ -41,7 +48,7 @@ img{display:block;max-width:100%}
 .logo span{font-weight:500;opacity:.8}
 .top nav{display:flex;gap:24px;margin-left:auto;font-size:15px}
 .top nav a{text-decoration:none;opacity:.8}
-.top nav a:hover{opacity:1}
+
 .call{display:inline-flex;align-items:center;gap:8px;font:800 18px/1 var(--font);font-variation-settings:"wdth" 70;background:var(--yellow);color:var(--ink);text-decoration:none;padding:12px 18px;border-radius:2px}
 .call svg{width:16px;height:16px}
 
@@ -51,7 +58,7 @@ img{display:block;max-width:100%}
 .hero h1{font:800 clamp(2rem,1.4rem + 2.4vw,3.4rem)/1 var(--font);font-variation-settings:"wdth" 62;letter-spacing:.005em;max-width:20ch}
 .hero .lead{margin-top:16px;max-width:46ch;color:rgba(255,255,255,.85);font-size:1.1rem}
 .number{display:block;margin-top:clamp(20px,3vw,32px);font:900 clamp(3.6rem,1.4rem + 9.2vw,9.6rem)/.86 var(--font);font-variation-settings:"wdth" 62;letter-spacing:-.01em;color:var(--yellow);text-decoration:none;white-space:nowrap}
-.number:hover{color:#fff}
+
 .status{display:flex;align-items:center;gap:10px;margin-top:20px;font-size:1.05rem;font-weight:500}
 .status i{width:10px;height:10px;border-radius:50%;background:#5BE08A;flex:none}
 .status.night i{background:var(--yellow)}
@@ -136,6 +143,15 @@ footer a{text-decoration:none;font-weight:700;font-size:1.2rem}
 }
 @media (max-width:420px){.logo span{display:none}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}form.q .send:active{transform:none}}
+/* survols : souris uniquement, sinon l'état reste collé après un toucher */
+@media (hover:hover) and (pointer:fine){
+  .top nav a:hover{opacity:1}
+  .number:hover{color:#fff}
+}
+@media (pointer:coarse){
+  .logo{padding-block:8px;margin-block:-8px}
+  .choice{min-height:44px}
+}
 </style>
 </head>
 <body>
@@ -222,7 +238,7 @@ footer a{text-decoration:none;font-weight:700;font-size:1.2rem}
           <div><span class="lbl">Le problème</span><div class="choices" id="type" role="group" aria-label="Le problème"></div></div>
           <div><span class="lbl">Pour quand</span><div class="choices" id="urg" role="group" aria-label="Pour quand"></div></div>
           <div><label class="lbl" for="qDesc">En quelques mots</label><textarea id="qDesc" placeholder="Par exemple : l'évier de la cuisine ne se vide plus depuis ce matin"></textarea></div>
-          <div><label class="lbl" for="qTel">Votre téléphone</label><input id="qTel" type="tel" placeholder="06 00 00 00 00" autocomplete="tel"></div>
+          <div><label class="lbl" for="qTel">Votre téléphone</label><input id="qTel" type="tel" enterkeyhint="send" placeholder="06 00 00 00 00" autocomplete="tel"></div>
           <button class="send" type="submit">Envoyer ma demande</button>
           <p class="ok" id="ok" hidden></p>
         </form>

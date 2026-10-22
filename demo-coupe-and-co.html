@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <title>Studio Coupe &amp; Co, démo Saitora</title>
 <meta name="description" content="Démo de site vitrine pour salon de coiffure : le look du mois, les tarifs, la galerie et la prise de rendez-vous en ligne. Réalisé par Saitora.">
 <meta property="og:type" content="website">
@@ -10,11 +10,18 @@
 <meta property="og:site_name" content="Saitora">
 <meta property="og:title" content="Studio Coupe &amp; Co, démo Saitora">
 <meta property="og:description" content="Démo de site vitrine pour salon de coiffure : le look du mois, les tarifs, la galerie et la prise de rendez-vous en ligne. Réalisé par Saitora.">
-<meta name="theme-color" content="#F2D9D2">
+<meta name="theme-color" content="#141012">
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Crect%20width=%2264%22%20height=%2264%22%20fill=%22%23F2D9D2%22/%3E%3Ctext%20x=%2232%22%20y=%2247%22%20font-family=%22Didot,Bodoni%2072,serif%22%20font-size=%2244%22%20font-style=%22italic%22%20text-anchor=%22middle%22%20fill=%22%23141012%22%3E%26amp;%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Hanken+Grotesk:wght@400;500;600&display=swap">
 <style>
+/* Téléphone : pas de flash gris au toucher, pas de texte grossi en paysage, réponse dès que le doigt se pose,
+   libellés des boutons non sélectionnables, contenu tenu hors de l'encoche en paysage. */
+html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(a,button,[role="button"],summary,label,select,input[type="range"]){touch-action:manipulation}
+:where(button,.btn,[role="button"],[role="tab"]){-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+:where(button:not([disabled]),.btn):active{opacity:.82}
+:where(.in,.page){padding-inline:env(safe-area-inset-left,0px) env(safe-area-inset-right,0px)}
 /* Studio Coupe & Co. Idée : le salon publie son magazine. Le nom en titre de couverture géant, un « look du mois »
    comme sujet de une, des tarifs mis en page comme un sommaire. Bodoni Moda (contraste fort, italiques) pour tout ce
    qui est éditorial, Hanken Grotesk pour l'information. Rose poudré, noir, bordeaux. */
@@ -40,11 +47,11 @@ img{display:block;max-width:100%}
 .top .issue{color:var(--muted)}
 .top nav{display:flex;gap:24px;margin-left:auto}
 .top nav a{text-decoration:none}
-.top nav a:hover{text-decoration:underline;text-underline-offset:4px}
+
 .btn{display:inline-flex;align-items:center;justify-content:center;font:600 15px var(--sans);padding:12px 22px;border-radius:0;border:1px solid var(--black);cursor:pointer;text-decoration:none;background:var(--black);color:var(--paper);transition:background-color 150ms ease,color 150ms ease}
-.btn:hover{background:var(--oxblood);border-color:var(--oxblood)}
+
 .btn.out{background:none;color:var(--black)}
-.btn.out:hover{background:var(--black);color:var(--paper)}
+
 .btn[disabled]{opacity:.35;cursor:not-allowed}
 
 /* couverture */
@@ -104,7 +111,8 @@ img{display:block;max-width:100%}
 .opt{text-align:left;font:500 15.5px var(--sans);padding:12px 14px;border:1px solid var(--rule);background:#fff;color:var(--black);cursor:pointer}
 .opt small{display:block;color:var(--muted);font-size:13.5px;margin-top:2px}
 .opt[aria-pressed="true"]{border-color:var(--oxblood);box-shadow:inset 0 0 0 1px var(--oxblood);background:#FFF8F6}
-.days{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px}
+.days{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;overscroll-behavior-x:contain;scroll-snap-type:x proximity}
+.days .day{scroll-snap-align:start}
 .day{flex:none;width:62px;padding:8px 0;border:1px solid var(--rule);background:#fff;font:500 13px var(--sans);color:var(--muted);cursor:pointer;text-transform:capitalize}
 .day b{display:block;font:500 1.4rem/1.2 var(--serif);color:var(--black)}
 .day[disabled]{opacity:.35;cursor:not-allowed}
@@ -150,6 +158,16 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;pa
   .infos .in{grid-template-columns:1fr}
 }
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+/* survols : souris uniquement, sinon l'état reste collé après un toucher */
+@media (hover:hover) and (pointer:fine){
+  .top nav a:hover{text-decoration:underline;text-underline-offset:4px}
+  .btn:hover{background:var(--oxblood);border-color:var(--oxblood)}
+  .btn.out:hover{background:var(--black);color:var(--paper)}
+}
+@media (pointer:coarse){
+  .infos .tel{padding-block:9px;margin-block:-9px}
+  .slot{min-height:44px}
+}
 </style>
 </head>
 <body>
@@ -281,7 +299,7 @@ function render(){
   } else {
     panel.innerHTML = `<h3>Vos coordonnées</h3><div class="summary">${esc(state.svc.n)}, ${state.svc.p} €<br>${esc(dLabel(state.day))} à ${hm(state.slot)}</div>
       <input id="bName" placeholder="Prénom et nom" autocomplete="name" aria-label="Prénom et nom" value="${esc(state.name)}">
-      <input id="bTel" type="tel" placeholder="Téléphone mobile" autocomplete="tel" aria-label="Téléphone mobile" value="${esc(state.tel)}">
+      <input id="bTel" type="tel" enterkeyhint="done" placeholder="Téléphone mobile" autocomplete="tel" aria-label="Téléphone mobile" value="${esc(state.tel)}">
       <div class="nav-row"><button class="btn out" type="button" id="back">Retour</button><button class="btn" type="button" id="next">Confirmer le rendez-vous</button></div>`;
     bName.oninput = () => state.name = bName.value; bTel.oninput = () => state.tel = bTel.value;
   }

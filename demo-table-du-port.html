@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <title>La Table du Port, démo Saitora</title>
 <meta name="description" content="Démo de site vitrine pour restaurant : l'ardoise du jour, la carte, les horaires en direct et la réservation. Réalisé par Saitora.">
 <meta property="og:type" content="website">
@@ -10,11 +10,18 @@
 <meta property="og:site_name" content="Saitora">
 <meta property="og:title" content="La Table du Port, démo Saitora">
 <meta property="og:description" content="Démo de site vitrine pour restaurant : l'ardoise du jour, la carte, les horaires en direct et la réservation. Réalisé par Saitora.">
-<meta name="theme-color" content="#24302F">
+<meta name="theme-color" content="#142022">
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Crect%20width=%2264%22%20height=%2264%22%20rx=%226%22%20fill=%22%2324302F%22/%3E%3Cpath%20d=%22M10%2038c6%200%206-5%2011-5s5%205%2011%205%206-5%2011-5%205%205%2011%205%22%20fill=%22none%22%20stroke=%22%23F3F2EC%22%20stroke-width=%224%22%20stroke-linecap=%22round%22/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Familjen+Grotesk:wght@400;500;600;700&display=swap">
 <style>
+/* Téléphone : pas de flash gris au toucher, pas de texte grossi en paysage, réponse dès que le doigt se pose,
+   libellés des boutons non sélectionnables, contenu tenu hors de l'encoche en paysage. */
+html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(a,button,[role="button"],summary,label,select,input[type="range"]){touch-action:manipulation}
+:where(button,.btn,[role="button"],[role="tab"]){-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+:where(button:not([disabled]),.btn):active{opacity:.82}
+:where(.in,.page){padding-inline:env(safe-area-inset-left,0px) env(safe-area-inset-right,0px)}
 /* La Table du Port. Idée : l'ardoise posée devant le restaurant. Ce qui est écrit à la craie (la pêche du jour, les prix,
    les petits mots) est en Caveat ; tout le reste en Familjen Grotesk. Ardoise, craie, bleu des barques, orange de bouée. */
 :root{
@@ -42,9 +49,9 @@ img{display:block;max-width:100%}
 .name svg{flex:none}
 .top nav{display:flex;gap:24px;margin-left:auto;font-size:15px}
 .top nav a{text-decoration:none;color:var(--muted)}
-.top nav a:hover{color:var(--ink)}
+
 .btn{display:inline-flex;align-items:center;justify-content:center;font:600 16px var(--sans);padding:12px 22px;border-radius:3px;border:0;cursor:pointer;text-decoration:none;background:var(--buoy);color:#fff;transition:transform 140ms ease,background-color 140ms ease}
-.btn:hover{background:#CC4721}
+
 .btn:active{transform:scale(.97)}
 
 /* ardoise du jour */
@@ -147,6 +154,16 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;pa
 }
 @media (max-width:480px){form.book{grid-template-columns:1fr}.board{border-width:10px}.name span{display:none}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn:active{transform:none}}
+/* survols : souris uniquement, sinon l'état reste collé après un toucher */
+@media (hover:hover) and (pointer:fine){
+  .top nav a:hover{color:var(--ink)}
+  .btn:hover{background:#CC4721}
+}
+@media (pointer:coarse){
+  .name{padding-block:8px;margin-block:-8px}
+  .hero .actions a.more{padding-block:9px;margin-block:-9px}
+  .tab{min-height:44px}
+}
 </style>
 </head>
 <body>
@@ -236,7 +253,7 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;pa
         <label>Heure<select id="rTime"><option>12:00</option><option>12:30</option><option>13:00</option><option>19:30</option><option selected>20:00</option><option>20:30</option><option>21:00</option></select></label>
         <div class="full lbl">Couverts<div class="covers" id="covers" role="group" aria-label="Nombre de couverts"></div></div>
         <label class="full">Nom<input id="rName" required autocomplete="name"></label>
-        <label class="full">Téléphone<input id="rTel" type="tel" required placeholder="06 00 00 00 00" autocomplete="tel"></label>
+        <label class="full">Téléphone<input id="rTel" type="tel" enterkeyhint="send" required placeholder="06 00 00 00 00" autocomplete="tel"></label>
         <button class="btn" type="submit">Demander la réservation</button>
         <p class="ok" id="ok" hidden></p>
       </form>

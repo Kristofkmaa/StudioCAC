@@ -26,10 +26,10 @@ html.theme-switching *,html.theme-switching *::before,html.theme-switching *::af
 
 /* bouton clair / sombre */
 .theme-toggle{display:inline-grid;place-items:center;width:40px;height:40px;flex:none;padding:0;border:1px solid var(--line-hi);border-radius:4px;background:none;color:var(--ink);cursor:pointer;transition:border-color 160ms ease,transform 160ms cubic-bezier(.23,1,.32,1)}
-.theme-toggle:hover{border-color:var(--ink)}
 .theme-toggle:active{transform:scale(.94)}
 .theme-toggle svg{width:18px;height:18px;grid-area:1/1;transition:opacity 200ms ease,transform 300ms cubic-bezier(.23,1,.32,1)}
 .theme-toggle .moon{opacity:0;transform:rotate(-40deg) scale(.6)}
 [data-theme="dark"] .theme-toggle .sun{opacity:0;transform:rotate(40deg) scale(.6)}
 [data-theme="dark"] .theme-toggle .moon{opacity:1;transform:none}
+@media (hover:hover) and (pointer:fine){.theme-toggle:hover{border-color:var(--ink)}}
 @media (prefers-reduced-motion:reduce){.theme-toggle svg{transition:opacity 200ms ease}.theme-toggle:active{transform:none}}

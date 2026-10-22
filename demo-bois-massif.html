@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <title>Atelier Bois Massif, démo Saitora</title>
 <meta name="description" content="Démo de site vitrine pour ébéniste : choix des essences de bois, réalisations cotées, méthode et demande de projet. Réalisé par Saitora.">
 <meta property="og:type" content="website">
@@ -10,11 +10,18 @@
 <meta property="og:site_name" content="Saitora">
 <meta property="og:title" content="Atelier Bois Massif, démo Saitora">
 <meta property="og:description" content="Démo de site vitrine pour ébéniste : choix des essences de bois, réalisations cotées, méthode et demande de projet. Réalisé par Saitora.">
-<meta name="theme-color" content="#2B1E15">
+<meta name="theme-color" content="#140D08">
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Crect%20width=%2264%22%20height=%2264%22%20fill=%22%232B1E15%22/%3E%3Ccircle%20cx=%2232%22%20cy=%2232%22%20r=%228%22%20fill=%22none%22%20stroke=%22%23C49A6C%22%20stroke-width=%223%22/%3E%3Ccircle%20cx=%2232%22%20cy=%2232%22%20r=%2216%22%20fill=%22none%22%20stroke=%22%23C49A6C%22%20stroke-width=%223%22/%3E%3Ccircle%20cx=%2232%22%20cy=%2232%22%20r=%2224%22%20fill=%22none%22%20stroke=%22%23C49A6C%22%20stroke-width=%223%22/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloock&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap">
 <style>
+/* Téléphone : pas de flash gris au toucher, pas de texte grossi en paysage, réponse dès que le doigt se pose,
+   libellés des boutons non sélectionnables, contenu tenu hors de l'encoche en paysage. */
+html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(a,button,[role="button"],summary,label,select,input[type="range"]){touch-action:manipulation}
+:where(button,.btn,[role="button"],[role="tab"]){-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+:where(button:not([disabled]),.btn):active{opacity:.82}
+:where(.in,.page){padding-inline:env(safe-area-inset-left,0px) env(safe-area-inset-right,0px)}
 /* Atelier Bois Massif. Idée : le bois lui-même. La première page est un échantillon qu'on change : chêne, noyer,
    châtaignier, frêne, et la page prend la teinte du bois choisi. Les réalisations sont présentées avec leurs cotes,
    tracées au crayon de menuisier. Gloock (empattements tranchés, comme un trait de ciseau) et Schibsted Grotesk. */
@@ -41,7 +48,7 @@ img{display:block;max-width:100%}
 .name{font:400 1.5rem/1 var(--serif);text-decoration:none}
 .top nav{display:flex;gap:24px;margin-left:auto;font-size:15px}
 .top nav a{text-decoration:none;opacity:.8}
-.top nav a:hover{opacity:1}
+
 .btn{display:inline-flex;align-items:center;justify-content:center;font:600 15px var(--sans);padding:12px 22px;border-radius:2px;border:0;cursor:pointer;text-decoration:none;background:var(--wood);color:var(--walnut);transition:background-color 300ms ease,transform 140ms ease}
 .btn:active{transform:scale(.97)}
 .btn.ink{background:var(--walnut);color:var(--paper)}
@@ -124,6 +131,15 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;pa
 }
 @media (max-width:480px){.essences{grid-template-columns:1fr 1fr}.ess:nth-child(2){border-right:0}.ess:nth-child(-n+2){border-bottom:1px solid rgba(243,239,232,.2)}.two{grid-template-columns:1fr}.steps{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.board img,.btn,.ess-info h2{transition:none}.btn:active{transform:none}}
+/* survols : souris uniquement, sinon l'état reste collé après un toucher */
+@media (hover:hover) and (pointer:fine){
+  .top nav a:hover{opacity:1}
+}
+@media (pointer:coarse){
+  .name{display:inline-block;padding-block:10px;margin-block:-10px}
+  .sample .actions a.more{display:inline-block;padding-block:9px;margin-block:-9px}
+  .ch{min-height:44px}
+}
 </style>
 </head>
 <body>
@@ -194,7 +210,7 @@ footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;pa
         <div><span class="lbl">L'essence</span><div class="choices" id="woodPick" role="group" aria-label="L'essence"></div></div>
         <div><label class="lbl" for="budget">Budget indicatif</label><div class="budget"><b id="bOut">3 000 €</b><span>de 1 000 € à plus de 15 000 €</span></div><input type="range" id="budget" min="1000" max="15000" step="500" value="3000"></div>
         <div><label class="lbl" for="pDesc">Dimensions, envies, contraintes</label><textarea id="pDesc" placeholder="Par exemple : table pour huit, plateau d'un seul tenant, pieds en métal noir"></textarea></div>
-        <div class="two"><input type="text" id="pName" placeholder="Votre nom" autocomplete="name" aria-label="Votre nom"><input type="tel" id="pTel" placeholder="Téléphone" autocomplete="tel" aria-label="Téléphone"></div>
+        <div class="two"><input type="text" id="pName" placeholder="Votre nom" autocomplete="name" aria-label="Votre nom"><input type="tel" id="pTel" enterkeyhint="send" placeholder="Téléphone" autocomplete="tel" aria-label="Téléphone"></div>
         <button class="btn ink" type="submit">Envoyer ma demande</button>
         <p class="ok" id="ok" hidden></p>
       </form>

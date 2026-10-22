@@ -135,6 +135,7 @@ img,video{display:block;max-width:100%}
 .tool h2{font-weight:400;font-size:var(--step-3);line-height:1.08;letter-spacing:-.02em;max-width:18ch;margin:0}
 .tool .intro{color:var(--muted);max-width:52ch;margin-top:16px;font-size:var(--step-1)}
 .tool-list{list-style:none;padding:0;margin:28px 0 36px;display:grid;gap:12px}
+.tool-cta{display:flex;flex-wrap:wrap;align-items:center;gap:14px 24px}
 .tool-list li{padding-left:22px;position:relative}
 .tool-list li::before{content:"";position:absolute;left:0;top:.55em;width:8px;height:8px;border-radius:50%;background:var(--accent)}
 .swatch{background:#FBF7EE;color:#2F4A3A;border-radius:8px;padding:clamp(28px,4vw,48px);border:1px solid var(--line)}
@@ -339,7 +340,7 @@ form.add input:focus,form.add select:focus{outline:none;border-color:var(--accen
             <li>Un logo simple à télécharger si vous n'en avez pas</li>
             <li>L'aperçu en direct sur un site, une carte de visite et une enseigne</li>
           </ul>
-          <a class="btn" href="charte.html" data-transition="Votre charte graphique">Créer ma charte</a>
+          <div class="tool-cta"><a class="btn" href="charte.html" data-transition="Votre charte graphique">Créer ma charte</a><a class="link" href="charte.html?exemple" data-transition="Un exemple de charte">Voir un exemple complet</a></div>
         </div>
         <div class="swatch" aria-hidden="true">
           <div class="sw-colors"><span style="background:#2F4A3A"></span><span style="background:#E9DFC9"></span><span style="background:#C8693B"></span></div>

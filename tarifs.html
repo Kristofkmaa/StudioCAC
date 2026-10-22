@@ -20,7 +20,7 @@
 <meta name="theme-color" content="#FAFAF9">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Archivo+Narrow:wght@600&display=swap">
 <link rel="stylesheet" href="theme.css?v=2">
 <style>
 /* Tarifs Saitora. Même univers que l'accueil : blanc ou noir modernes, point orchidée, Jost.
@@ -128,6 +128,17 @@ a{color:inherit}
 .faq summary::after{content:"+";color:var(--accent);font-size:1.4rem;line-height:1}
 .faq details[open] summary::after{content:"−"}
 .faq details p{color:var(--muted);padding-bottom:18px;max-width:62ch}
+.faq .ex{padding-bottom:18px}
+.faq .ex p{padding-bottom:0}
+.faq .ex ul{list-style:none;padding:0;margin:16px 0;display:grid;gap:10px;max-width:62ch;color:var(--muted)}
+.faq .ex li b{color:var(--ink);font-weight:500}
+.faq .ex a{color:var(--ink);text-underline-offset:4px;text-decoration-color:var(--accent)}
+.ex-logo{display:inline-flex;align-items:center;gap:14px;margin-top:18px;padding:20px 26px;border-radius:6px;background:#F6F5F1;border:1px solid var(--line)}
+.ex-mark{display:grid;place-items:center;width:56px;height:56px;border-radius:10px;background:#C4552D;color:#fff;font:600 30px "Archivo Narrow",var(--font)}
+.ex-name{font:600 36px/1 "Archivo Narrow",var(--font);color:#2E3740}
+.ex-name small{display:block;margin-top:6px;font:600 10.5px var(--font);letter-spacing:.12em;text-transform:uppercase;color:#2E3740}
+.ex-name i{font-style:normal}
+@media (pointer:coarse){.faq .ex a{display:inline-block;padding-block:10px;margin-block:-10px}}
 
 .end{padding-block:clamp(56px,7vw,96px);border-top:1px solid var(--line)}
 .end .page{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
@@ -260,6 +271,21 @@ a{color:inherit}
       <details><summary>Le nom de domaine est à qui ?</summary><p>À vous. Il est enregistré à votre nom dès le départ ; je m'occupe seulement de le renouveler pour vous chaque année.</p></details>
       <details><summary>C'est quoi, « une petite modification » ?</summary><p>Changer des horaires, un prix, une photo, un texte. Une nouvelle page ou une nouvelle fonction, c'est un petit devis à part.</p></details>
       <details><summary>J'ai déjà un logo et des couleurs, vous les gardez ?</summary><p>Bien sûr : votre site est fait à votre image. Vous pouvez <a href="charte.html">présenter votre charte graphique ici</a> (logo, couleurs, style), elle sera jointe à votre demande. Pas encore de logo ? On en pose les bases ensemble.</p></details>
+      <details><summary>À quoi ressemble une charte graphique complète ?</summary>
+        <div class="ex">
+          <p>Prenons Ostrale, une entreprise imaginaire de maçonnerie, toiture et isolation. Sa charte tient en quelques pages, que vous pouvez donner à votre imprimeur, votre brodeur ou votre fabricant d'enseigne :</p>
+          <div class="ex-logo" aria-hidden="true"><span class="ex-mark">O</span><span class="ex-name">OSTRALE<small><i style="color:#C4552D">Maçonnerie</i> - <i style="color:#46627A">Toiture</i> - <i style="color:#5E8C31">Isolation</i></small></span></div>
+          <ul>
+            <li><b>Le logo et ses versions.</b> En couleur sur fond clair, en blanc sur fond foncé, en une seule couleur pour la broderie, et l'initiale seule pour l'icône du site.</li>
+            <li><b>La zone de protection et les tailles minimales.</b> L'espace à laisser vide autour, et la taille sous laquelle il ne se lit plus : 25 mm de large.</li>
+            <li><b>Les interdits.</b> Ne pas le déformer, le pencher, changer ses couleurs, ni le poser sur une photo chargée.</li>
+            <li><b>Les couleurs et leurs codes.</b> Anthracite #2E3740 pour le texte, terre cuite #C4552D pour les boutons, et une couleur par activité. Chaque teinte en HEX pour le site, RVB pour les écrans, CMJN pour l'imprimeur.</li>
+            <li><b>Les lettres.</b> Archivo Narrow pour les titres, Jost pour le texte, jamais plus.</li>
+            <li><b>Les applications.</b> Carte de visite, enseigne, tenue de travail, publication, onglet du site.</li>
+          </ul>
+          <p><a href="charte.html?exemple">Voir la charte d'Ostrale en entier</a>, puis <a href="charte.html">créer la vôtre gratuitement</a> : l'outil prépare toutes ces pages pour votre commerce, en PDF.</p>
+        </div>
+      </details>
       <details><summary>Combien de temps pour avoir mon site ?</summary><p>Une maquette sous une semaine après notre premier échange, et le site en ligne en deux à trois semaines en général.</p></details>
       <details><summary>Je peux changer de formule ?</summary><p>Oui. Vous pouvez passer d'Essentiel à Pro à tout moment ; on déduit ce que vous avez déjà payé pour la création.</p></details>
     </div>

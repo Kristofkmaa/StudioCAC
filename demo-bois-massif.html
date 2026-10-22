@@ -53,7 +53,12 @@ nav.links a:hover{color:var(--ink)}
 .hero p{max-width:44ch;color:var(--muted);margin:0;font-size:17px}
 .hero .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
 .plan{position:relative;background:var(--walnut);aspect-ratio:1;max-width:100%;width:min(480px,100%);justify-self:center;padding:28px}
-.plan svg{width:100%;height:100%}
+.plan{margin:0;padding:14px}
+.plan img{display:block;width:100%;height:100%;object-fit:cover}
+.plan figcaption{position:absolute;left:14px;bottom:-30px;color:var(--muted)}
+.plan::before,.plan::after{content:"";position:absolute;width:26px;height:26px;border:2px solid var(--oak);z-index:1}
+.plan::before{left:-8px;top:-8px;border-right:0;border-bottom:0}
+.plan::after{right:-8px;bottom:-8px;border-left:0;border-top:0}
 
 .sec{padding-block:84px}
 .sec h2{font-family:var(--f-display);font-weight:400;font-size:clamp(38px,5.4vw,62px);line-height:1;margin:10px 0 36px;letter-spacing:-.01em;text-wrap:balance}
@@ -61,7 +66,10 @@ nav.links a:hover{color:var(--ink)}
 
 .works{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
 .work{display:flex;flex-direction:column;gap:12px}
-.work .ill{aspect-ratio:4/5;max-width:100%;background:var(--linen);display:block;width:100%}
+.work .ill{aspect-ratio:4/5;max-width:100%;background:var(--linen);display:block;width:100%;overflow:hidden}
+.work .ill img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s ease}
+.work:hover .ill img{transform:scale(1.04)}
+@media (prefers-reduced-motion:reduce){.work .ill img{transition:none}}
 .work .top{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
 .work h3{font-family:var(--f-display);font-weight:400;font-size:26px;margin:0}
 .work p{margin:0;color:var(--muted);font-size:15px}
@@ -76,7 +84,7 @@ nav.links a:hover{color:var(--ink)}
 .ess[aria-pressed="true"]{color:var(--linen)}
 .ess:hover{color:var(--linen)}
 .ess-card{display:grid;grid-template-columns:1fr 1fr;gap:32px;min-width:0}
-.swatch{aspect-ratio:1;max-width:100%;width:100%;display:block}
+.swatch{aspect-ratio:1;max-width:100%;width:100%;height:auto;display:block;object-fit:cover}
 .ess-card h3{font-family:var(--f-display);font-weight:400;font-size:44px;margin:0 0 6px}
 .ess-card p{color:rgba(237,228,214,.78);margin:0 0 18px}
 .meter{display:grid;grid-template-columns:110px 1fr;gap:8px 14px;align-items:center;font-size:14px}
@@ -147,23 +155,10 @@ footer .in{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;pa
       <p>Cuisines, tables, bibliothèques et escaliers dessinés pour votre maison et fabriqués à la main dans notre atelier, avec des bois choisis chez les scieurs de la région.</p>
       <div class="cta"><a class="btn" href="#projet">Décrire mon projet</a><a class="btn out" href="#realisations">Voir l'atelier</a></div>
     </div>
-    <div class="plan" aria-hidden="true">
-      <svg viewBox="0 0 400 400">
-        <defs><pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="#4A3F33" stroke-width="1"/></pattern></defs>
-        <rect width="400" height="400" fill="url(#grid)"/>
-        <rect x="60" y="150" width="280" height="22" fill="#C49A6C"/>
-        <path d="M60 158c40-4 80 6 140 0s100-4 140 2" stroke="#8E5A34" stroke-width="1.5" fill="none"/>
-        <path d="M60 165c50-3 90 4 140-1s90 2 140-1" stroke="#8E5A34" stroke-width="1" fill="none"/>
-        <rect x="80" y="172" width="18" height="150" fill="#A97F55"/>
-        <rect x="302" y="172" width="18" height="150" fill="#A97F55"/>
-        <rect x="98" y="240" width="204" height="10" fill="#A97F55"/>
-        <g stroke="#EDE4D6" stroke-width="1" fill="#EDE4D6" font-family="IBM Plex Mono, monospace" font-size="12">
-          <path d="M60 120h280M60 114v12M340 114v12"/><text x="200" y="110" text-anchor="middle" stroke="none">2000 mm</text>
-          <path d="M370 150v172M364 150h12M364 322h12"/><text x="384" y="240" stroke="none" transform="rotate(90 384 240)" text-anchor="middle">750 mm</text>
-          <text x="60" y="360" stroke="none">TABLE · CHÊNE MASSIF · HUILE</text>
-        </g>
-      </svg>
-    </div>
+    <figure class="plan">
+      <img src="images/bois/atelier.webp" alt="Mains d'artisan travaillant une pièce de bois au ciseau, copeaux autour" width="857" height="857" fetchpriority="high">
+      <figcaption class="mono">L'atelier · ZA des Scieries</figcaption>
+    </figure>
   </div>
 </section>
 
@@ -225,26 +220,25 @@ footer .in{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;pa
 <footer class="band"><div class="in"><span>© Atelier Bois Massif · Atelier fictif</span><span>Site réalisé par StudioCac</span></div></footer>
 
 <script>
-const grain = (base, line, dark) => `<svg class="ill" viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="400" height="500" fill="${base}"/>${Array.from({length:14},(_,i)=>{const y=30+i*34; return `<path d="M0 ${y}c80 ${i%2?-14:12} 160 ${i%3?16:-10} 240 0s110 ${i%2?10:-12} 160 4" stroke="${line}" stroke-width="${1+i%3}" fill="none" opacity=".7"/>`;}).join("")}<ellipse cx="${120+Math.random()*0}" cy="230" rx="22" ry="9" fill="none" stroke="${dark}" stroke-width="2"/><ellipse cx="120" cy="230" rx="10" ry="4" fill="${dark}" opacity=".5"/></svg>`;
 const WORKS = [
-  {n:"Table de ferme",w:"Chêne massif, huile naturelle",d:"L 2200 · l 950 · H 750",ill:["#C49A6C","#A97F55","#7A5532"]},
-  {n:"Bibliothèque murale",w:"Noyer, assemblages tenon-mortaise",d:"L 3200 · H 2400 · P 350",ill:["#5C4130","#3E2B1F","#2A1C13"]},
-  {n:"Cuisine en châtaignier",w:"Façades massives, plan en chêne",d:"L 4100 · H 900 · P 650",ill:["#A8784A","#8E5A34","#5E3B21"]}
+  {n:"Table de ferme",w:"Chêne massif, huile naturelle",d:"L 2200 · l 950 · H 750",img:"table",alt:"Grande table en bois dressée pour un dîner aux chandelles"},
+  {n:"Bibliothèque murale",w:"Noyer, assemblages tenon-mortaise",d:"L 3200 · H 2400 · P 350",img:"bibliotheque",alt:"Bibliothèque murale en bois sombre du sol au plafond"},
+  {n:"Cuisine en châtaignier",w:"Façades massives, plan en chêne",d:"L 4100 · H 900 · P 650",img:"cuisine",alt:"Cuisine rustique avec îlot central en bois massif"}
 ];
-works.innerHTML = WORKS.map(w=>`<article class="work">${grain(...w.ill)}<div class="top"><h3>${w.n}</h3></div><p>${w.w}</p><div class="dims"><span class="mono">${w.d} mm</span></div></article>`).join("");
+works.innerHTML = WORKS.map(w=>`<article class="work"><div class="ill"><img src="images/bois/${w.img}.webp" alt="${w.alt}" width="560" height="700" loading="lazy" decoding="async"></div><div class="top"><h3>${w.n}</h3></div><p>${w.w}</p><div class="dims"><span class="mono">${w.d} mm</span></div></article>`).join("");
 
 const ESS = [
-  {n:"Chêne",c:"#C49A6C",l:"#A97F55",k:"#7A5532",d:"Dense et stable, il prend une belle patine avec les années. Le choix sûr pour une table ou un escalier.",dur:5,stab:4,prix:3,use:"Tables, escaliers, parquets"},
-  {n:"Noyer",c:"#5C4130",l:"#3E2B1F",k:"#2A1C13",d:"Teinte chocolat profonde et veinage spectaculaire. Plus rare, il donne du caractère à un meuble de salon.",dur:4,stab:4,prix:5,use:"Bibliothèques, buffets, bureaux"},
-  {n:"Châtaignier",c:"#A8784A",l:"#8E5A34",k:"#5E3B21",d:"Naturellement résistant à l'humidité et aux insectes, sans traitement. Idéal en cuisine et en extérieur.",dur:4,stab:3,prix:2,use:"Cuisines, bardage, mobilier extérieur"},
-  {n:"Frêne",c:"#E3CFA8",l:"#C7AE84",k:"#8F7550",d:"Clair, souple et nerveux, il apporte de la lumière. Très apprécié pour les chaises et les intérieurs scandinaves.",dur:4,stab:3,prix:3,use:"Chaises, lits, aménagements clairs"}
+  {n:"Chêne",img:"chene",c:"#C49A6C",l:"#A97F55",k:"#7A5532",d:"Dense et stable, il prend une belle patine avec les années. Le choix sûr pour une table ou un escalier.",dur:5,stab:4,prix:3,use:"Tables, escaliers, parquets"},
+  {n:"Noyer",img:"noyer",c:"#5C4130",l:"#3E2B1F",k:"#2A1C13",d:"Teinte chocolat profonde et veinage spectaculaire. Plus rare, il donne du caractère à un meuble de salon.",dur:4,stab:4,prix:5,use:"Bibliothèques, buffets, bureaux"},
+  {n:"Châtaignier",img:"chataignier",c:"#A8784A",l:"#8E5A34",k:"#5E3B21",d:"Naturellement résistant à l'humidité et aux insectes, sans traitement. Idéal en cuisine et en extérieur.",dur:4,stab:3,prix:2,use:"Cuisines, bardage, mobilier extérieur"},
+  {n:"Frêne",img:"frene",c:"#E3CFA8",l:"#C7AE84",k:"#8F7550",d:"Clair, souple et nerveux, il apporte de la lumière. Très apprécié pour les chaises et les intérieurs scandinaves.",dur:4,stab:3,prix:3,use:"Chaises, lits, aménagements clairs"}
 ];
 let cur = 0;
 function renderEss(){
   essList.innerHTML = ESS.map((e,i)=>`<button type="button" class="ess" aria-pressed="${i===cur}" data-i="${i}"><i style="background:${e.c}"></i>${e.n}</button>`).join("");
   const e = ESS[cur];
   const m = (label,v)=>`<span>${label}</span><div class="bar"><span style="width:${v*20}%"></span></div>`;
-  essCard.innerHTML = `${grain(e.c,e.l,e.k).replace('class="ill"','class="swatch"').replace('viewBox="0 0 400 500"','viewBox="0 0 400 400"')}<div><h3>${e.n}</h3><p>${e.d}</p><div class="meter">${m("Dureté",e.dur)}${m("Stabilité",e.stab)}${m("Prix",e.prix)}</div><div class="use">Idéal pour : ${e.use}</div></div>`;
+  essCard.innerHTML = `<img class="swatch" src="images/bois/${e.img}.webp" alt="Veinage du bois de ${e.n.toLowerCase()}" width="560" height="560"><div><h3>${e.n}</h3><p>${e.d}</p><div class="meter">${m("Dureté",e.dur)}${m("Stabilité",e.stab)}${m("Prix",e.prix)}</div><div class="use">Idéal pour : ${e.use}</div></div>`;
 }
 essList.addEventListener("click", ev=>{const b=ev.target.closest(".ess"); if(!b) return; cur=Number(b.dataset.i); renderEss();});
 renderEss();

@@ -116,10 +116,6 @@ header.top{display:flex;justify-content:space-between;align-items:center;gap:16p
 .done p{margin:0;color:var(--muted);max-width:46ch}
 .done .row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:6px}
 
-/* entrée après la transition depuis l'accueil */
-.sc-arrive .intro,.sc-arrive .wizard,.sc-arrive .summary{animation:rise .8s cubic-bezier(.2,.8,.2,1) both}
-.sc-arrive .intro{animation-delay:.45s}.sc-arrive .wizard{animation-delay:.58s}.sc-arrive .summary{animation-delay:.7s}
-@keyframes rise{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
 
 @media (max-width:900px){
   .layout{grid-template-columns:1fr}
@@ -135,19 +131,19 @@ header.top{display:flex;justify-content:space-between;align-items:center;gap:16p
 <div class="aurora" aria-hidden="true"><span></span><span></span></div>
 
 <div class="wrap">
-  <header class="top">
+  <header class="top" data-build="navigation">
     <a class="brand" href="index.html" data-transition="Retour aux réalisations"><i></i>StudioCac</a>
     <a class="btn sm" href="index.html#vitrines" data-transition="Retour aux réalisations">← Voir les réalisations</a>
   </header>
 
-  <section class="intro">
+  <section class="intro" data-build="en-tête">
     <div class="label">Devis gratuit · 2 minutes</div>
     <h1>Construisons <em>votre site</em> ensemble.</h1>
     <p>Cinq questions rapides pour comprendre votre activité. Je vous réponds sous 24 h avec une proposition sur mesure.</p>
   </section>
 
   <div class="layout">
-    <form class="wizard glass" id="wizard" novalidate>
+    <form class="wizard glass" id="wizard" novalidate data-build="questionnaire">
       <div class="progress" id="progress" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
 
       <section class="step" data-step="1">
@@ -206,7 +202,7 @@ header.top{display:flex;justify-content:space-between;align-items:center;gap:16p
       </div>
     </form>
 
-    <aside class="summary glass" aria-live="polite">
+    <aside class="summary glass" aria-live="polite" data-build="résumé">
       <h3><i></i>Votre projet</h3>
       <dl id="recap"></dl>
       <div class="promise"><span>Devis gratuit et sans engagement</span><span>Réponse sous 24 h</span><span>Une première maquette avant de vous décider</span></div>

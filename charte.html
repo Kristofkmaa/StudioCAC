@@ -65,7 +65,7 @@ a{color:inherit}
 
 /* les étapes et l'aperçu */
 .work{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,56px);align-items:start;padding-block:clamp(24px,3vw,40px) clamp(48px,6vw,80px)}
-.form{display:flex;flex-direction:column;gap:56px}
+.form{display:flex;flex-direction:column;gap:32px;min-height:min(70vh,640px)}
 .step{scroll-margin-top:88px}
 .n{font-size:14px;font-weight:500;color:var(--accent-text)}
 .step h2{font-weight:400;font-size:clamp(1.6rem,1.3rem + 1vw,2.1rem);letter-spacing:-.015em;line-height:1.1;margin-top:2px}
@@ -175,6 +175,34 @@ input[type=color]::-webkit-color-swatch{border:0;border-radius:3px}
 .final{display:flex;flex-wrap:wrap;gap:10px;margin-top:40px;align-items:center}
 .ok{background:var(--bg);border-left:3px solid var(--accent);padding:12px 14px;font-size:15px;margin-top:14px}
 
+/* un écran par étape */
+.step,.done,.work{display:none}
+.step.on{display:block}
+body[data-step="0"] .intro,body[data-step="6"] .done{display:block}
+body:not([data-step="0"]) .intro{display:none}
+body[data-step="1"] .work,body[data-step="2"] .work,body[data-step="3"] .work,body[data-step="4"] .work,body[data-step="5"] .work{display:grid}
+.steps-list{list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:6px 22px;margin-top:28px;counter-reset:l;color:var(--muted);font-size:15px}
+.steps-list li{counter-increment:l;display:flex;align-items:center;gap:8px}
+.steps-list li::before{content:counter(l);display:grid;place-items:center;width:22px;height:22px;border-radius:50%;border:1px solid var(--line-hi);font-size:13px;color:var(--ink)}
+.start{display:flex;gap:10px;flex-wrap:wrap;margin-top:32px}
+.stepper{padding-top:clamp(20px,3vw,32px)}
+.bar-prog{height:3px;background:var(--line);border-radius:2px;overflow:hidden}
+.bar-prog span{display:block;height:100%;width:0;background:var(--accent);transition:width 300ms var(--ease-out)}
+.stepper .route{margin-top:16px}
+.stepper .route button{display:inline-flex;align-items:center;gap:8px;font:15px var(--font);padding:7px 12px;border:1px solid var(--line-hi);border-radius:999px;background:none;color:var(--muted);cursor:pointer}
+.stepper .route li{counter-increment:r}
+.stepper .route button::before{content:counter(r);display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--bg-alt);color:var(--ink);font-size:13px;font-weight:500}
+.stepper .route button.done::before{background:var(--accent);color:var(--on-accent)}
+.stepper .route button[aria-current="step"]{border-color:var(--ink);color:var(--ink)}
+.stepper .route button[aria-current="step"]::before{background:var(--ink);color:var(--bg)}
+.wiz{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:24px;border-top:1px solid var(--line);margin-top:8px}
+.wiz .count{font-size:15px;color:var(--muted)}
+.linkish{font:inherit;color:var(--ink);background:none;border:0;padding:0;text-decoration:underline;text-underline-offset:4px;cursor:pointer}
+.done{background:var(--bg-alt)}
+@media (max-width:900px){.wiz{position:sticky;bottom:0;z-index:5;background:var(--bg);padding-bottom:max(12px,env(safe-area-inset-bottom));margin-inline:-4px;padding-inline:4px}}
+@media (max-width:520px){.stepper .route{flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;margin-inline:-4px;padding-inline:4px}.stepper .route::-webkit-scrollbar{display:none}.stepper .route li{flex:none}}
+@media (prefers-reduced-motion:reduce){.bar-prog span{transition:none}}
+
 /* fiche imprimable (« Télécharger ma charte en PDF ») */
 .sheet{display:none}
 @media print{
@@ -225,7 +253,7 @@ input[type=color]::-webkit-color-swatch{border:0;border-radius:3px}
 </header>
 
 <main>
-  <section class="intro page" aria-labelledby="t-charte">
+  <section class="intro page" data-panel="0" aria-labelledby="t-charte">
     <h1 id="t-charte">Créez la charte graphique de votre commerce<span class="dot" aria-hidden="true"></span></h1>
     <p class="lead">Pas besoin d'être graphiste : six étapes, une explication à chaque fois, et votre site qui se dessine au fur et à mesure. Vous avez déjà un logo et des couleurs ? Renseignez-les, on part de là.</p>
     <dl class="what">
@@ -233,14 +261,23 @@ input[type=color]::-webkit-color-swatch{border:0;border-radius:3px}
       <div><dt>À quoi ça sert ?</dt><dd>À ce que votre site, votre enseigne, vos cartes de visite et vos publications se ressemblent. Un client qui vous voit deux fois vous reconnaît.</dd></div>
       <div><dt>Combien de temps ?</dt><dd>Une dizaine de minutes. Tout est gardé sur votre appareil : vous pouvez revenir plus tard, rien n'est perdu.</dd></div>
     </dl>
-    <ol class="route" aria-label="Les six étapes">
-      <li><a href="#e1">Votre commerce</a></li><li><a href="#e2">Sa personnalité</a></li><li><a href="#e3">Les couleurs</a></li><li><a href="#e4">Les lettres</a></li><li><a href="#e5">Le logo</a></li><li><a href="#charte">Votre charte</a></li>
+    <ol class="steps-list" aria-label="Les six étapes">
+      <li>Votre commerce</li><li>Sa personnalité</li><li>Les couleurs</li><li>Les lettres</li><li>Le logo</li><li>Votre charte</li>
     </ol>
+    <div class="start"><button class="btn primary" type="button" data-go="1">Commencer</button><button class="btn" type="button" id="resume" hidden>Reprendre où j'en étais</button></div>
   </section>
+
+  <!-- progression : visible à partir de l'étape 1 ; chaque étape est cliquable -->
+  <nav class="stepper page" id="stepper" aria-label="Étapes" hidden>
+    <div class="bar-prog" aria-hidden="true"><span id="prog"></span></div>
+    <ol class="route">
+      <li><button type="button" data-go="1">Votre commerce</button></li><li><button type="button" data-go="2">Sa personnalité</button></li><li><button type="button" data-go="3">Les couleurs</button></li><li><button type="button" data-go="4">Les lettres</button></li><li><button type="button" data-go="5">Le logo</button></li><li><button type="button" data-go="6">Votre charte</button></li>
+    </ol>
+  </nav>
 
   <div class="work page">
     <form class="form" id="form" novalidate>
-      <section class="step" id="e1" aria-labelledby="t1">
+      <section class="step" data-panel="1" id="e1" aria-labelledby="t1">
         <p class="n">Étape 1 sur 6</p>
         <h2 id="t1">Votre commerce</h2>
         <p class="tip">Le nom tel que vos clients le disent. La phrase, c'est ce qu'on doit comprendre en trois secondes : ce que vous faites, et ce qui vous rend différent.</p>
@@ -250,7 +287,7 @@ input[type=color]::-webkit-color-swatch{border:0;border-radius:3px}
         <div class="choices" id="trade" role="group" aria-label="Votre métier"></div>
       </section>
 
-      <section class="step" id="e2" aria-labelledby="t2">
+      <section class="step" data-panel="2" id="e2" aria-labelledby="t2">
         <p class="n">Étape 2 sur 6</p>
         <h2 id="t2">Sa personnalité</h2>
         <p class="tip">Pensez à ce que vos clients doivent ressentir en poussant la porte. Placez chaque curseur, puis demandez une proposition : couleurs et lettres sont choisies pour aller ensemble. <b>Vous pourrez tout modifier ensuite.</b></p>
@@ -263,7 +300,7 @@ input[type=color]::-webkit-color-swatch{border:0;border-radius:3px}
         <div class="propose"><button class="btn primary small" type="button" id="suggest">Me proposer une charte</button><p id="suggested"></p></div>
       </section>
 
-      <section class="step" id="e3" aria-labelledby="t3">
+      <section class="step" data-panel="3" id="e3" aria-labelledby="t3">
         <p class="n">Étape 3 sur 6</p>
         <h2 id="t3">Les couleurs</h2>
         <p class="tip"><b>Trois couleurs suffisent.</b> Une couleur principale pour les titres et le texte, une couleur de fond, et une couleur vive réservée aux boutons, pour qu'on sache tout de suite où cliquer. Vous avez déjà des couleurs (enseigne, devanture, cartes) ? Reprenez-les.</p>
@@ -285,14 +322,14 @@ input[type=color]::-webkit-color-swatch{border:0;border-radius:3px}
         <div class="ratio" id="ratio" aria-hidden="true"></div>
       </section>
 
-      <section class="step" id="e4" aria-labelledby="t4">
+      <section class="step" data-panel="4" id="e4" aria-labelledby="t4">
         <p class="n">Étape 4 sur 6</p>
         <h2 id="t4">Les lettres</h2>
         <p class="tip"><b>Deux polices au maximum :</b> une avec du caractère pour les titres, une très lisible pour le texte (ici, la même pour tous : simple et claire sur téléphone). Choisissez le style des titres.</p>
         <div class="fonts" id="fonts" role="group" aria-label="Style des titres"></div>
       </section>
 
-      <section class="step" id="e5" aria-labelledby="t5">
+      <section class="step" data-panel="5" id="e5" aria-labelledby="t5">
         <p class="n">Étape 5 sur 6</p>
         <h2 id="t5">Le logo</h2>
         <p class="tip">Un bon logo de commerce est <b>simple, lisible de loin et beau en petit</b> (sur un téléphone, un tampon, une enseigne). Pas besoin d'un dessin compliqué : beaucoup de commerces ont juste leur nom bien écrit, avec une initiale.</p>
@@ -322,6 +359,11 @@ input[type=color]::-webkit-color-swatch{border:0;border-radius:3px}
         <div class="choices" id="assets" role="group" aria-label="Ce que vous avez déjà"></div>
         <label class="field">Votre page Facebook, Instagram ou Google (facultatif)<input type="text" id="social" inputmode="url" autocapitalize="none" placeholder="Lien vers votre page"></label>
       </section>
+      <div class="wiz" aria-label="Navigation entre les étapes">
+        <button class="btn" type="button" id="prev">Précédent</button>
+        <span class="count" id="count"></span>
+        <button class="btn primary" type="button" id="next">Suivant</button>
+      </div>
     </form>
 
     <aside class="side" aria-label="Aperçu de votre site">
@@ -333,15 +375,15 @@ input[type=color]::-webkit-color-swatch{border:0;border-radius:3px}
         <div class="band"><span></span><span></span><span></span></div>
       </div>
       <div class="swatches" id="swatches"></div>
-      <p class="next"><a href="#charte">Voir ma charte complète</a> : règles d'usage, carte de visite, enseigne, publication.</p>
+      <p class="next"><button type="button" class="linkish" data-go="6">Voir ma charte complète</button> : règles d'usage, carte de visite, enseigne, publication.</p>
     </aside>
   </div>
 
-  <section class="done" id="charte" aria-labelledby="t6">
+  <section class="done" data-panel="6" id="charte" aria-labelledby="t6">
     <div class="page">
       <p class="n">Étape 6 sur 6</p>
       <h2 id="t6">Votre charte</h2>
-      <p class="sub">Les règles qui vont avec vos choix, à garder sous la main (et à donner à votre imprimeur). Elles se mettent à jour si vous changez quelque chose plus haut.</p>
+      <p class="sub">Les règles qui vont avec vos choix, à garder sous la main (et à donner à votre imprimeur). Si vous revenez modifier une étape, elles se mettent à jour.</p>
       <div class="rules">
         <div><h3>À faire</h3><ul id="dos"></ul></div>
         <div class="no"><h3>À éviter</h3><ul id="donts"></ul></div>
@@ -356,6 +398,7 @@ input[type=color]::-webkit-color-swatch{border:0;border-radius:3px}
         <p>Deux ou trois pistes de logo, le logo retenu en fichiers propres (couleur, blanc, noir) et la fiche validée pour votre imprimeur. <b>Offert avec votre site.</b> Seule, la charte finalisée coûte <span class="cprix">49 €</span>, déduits si vous commandez votre site dans les <span class="cmois">3</span> mois.</p>
       </div>
       <div class="final">
+        <button class="btn" type="button" data-go="5">Précédent</button>
         <button class="btn" type="button" id="print">Télécharger ma charte en PDF</button>
         <button class="btn" type="button" id="send">Me l'envoyer pour que je la finalise</button>
         <a class="btn primary" id="toDevis" href="devis.html" data-transition="Construisons votre site">Continuer vers le devis</a>
@@ -648,7 +691,35 @@ if (saved.perso) saved.perso.split(",").forEach((v, i) => { if ($("p" + (i + 1))
 if (saved.forme) state.shape = saved.forme;
 if (saved.dispo) state.layout = saved.dispo;
 if (saved.logo) state.logoMode = saved.logo === "à créer" ? "non" : saved.logo === "créé avec l'outil" ? "creer" : "oui";
-render();
+// ——— un écran par étape (0 : présentation, 1 à 5 : étapes, 6 : la charte)
+let step = 0;
+const TITLES = ["", "Votre commerce", "Sa personnalité", "Les couleurs", "Les lettres", "Le logo", "Votre charte"];
+function go(n, push = true){
+  step = Math.max(0, Math.min(6, n));
+  document.body.dataset.step = step;
+  document.querySelectorAll(".step").forEach(el => el.classList.toggle("on", Number(el.dataset.panel) === step));
+  $("stepper").hidden = step === 0;
+  $("prog").style.width = `${step / 6 * 100}%`;
+  document.querySelectorAll("#stepper [data-go]").forEach(b => { const k = Number(b.dataset.go); b.classList.toggle("done", k < step); if (k === step) b.setAttribute("aria-current", "step"); else b.removeAttribute("aria-current"); });
+  $("count").textContent = step ? `Étape ${step} sur 6` : "";
+  document.querySelector("#stepper [aria-current]")?.scrollIntoView({ block: "nearest", inline: "center" });   // sur téléphone, l'étape en cours reste visible
+  $("prev").textContent = step === 1 ? "Retour" : "Précédent";
+  $("next").textContent = step === 5 ? "Voir ma charte" : "Suivant";
+  if (push) history.pushState({ step }, "", step ? `#etape-${step}` : location.pathname + location.search);
+  try { localStorage.setItem(KEY + "-etape", step); } catch (_) {}
+  document.title = step ? `${TITLES[step]}, votre charte graphique, Saitora` : "Créez votre charte graphique, Saitora";
+  scrollTo({ top: 0, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+  render();
+}
+document.addEventListener("click", e => { const b = e.target.closest("[data-go]"); if (b) go(Number(b.dataset.go)); });
+$("prev").addEventListener("click", () => go(step - 1));
+$("next").addEventListener("click", () => go(step + 1));
+addEventListener("popstate", e => go(e.state?.step ?? 0, false));   // bouton retour du téléphone : étape précédente
+let lastStep = 0; try { lastStep = Number(localStorage.getItem(KEY + "-etape")) || 0; } catch (_) {}
+if (lastStep > 0 && saved.nom) { $("resume").hidden = false; $("resume").addEventListener("click", () => go(lastStep)); }
+const fromHash = Number((location.hash.match(/etape-(\d)/) || [])[1]) || 0;
+history.replaceState({ step: fromHash }, "", location.href);
+go(fromHash, false);
 document.fonts.ready.then(render);   // le logo dessiné attend que les polices soient chargées
 </script>
 </body>

@@ -7,7 +7,8 @@ Site 100 % statique : pas de build, pas de dépendance, chaque page est un fichi
 
 | Fichier | Rôle |
 | --- | --- |
-| `index.html` | Page d'accueil du portfolio (démos, méthode, contact). L'espace pro `index.html#admin` sert à suivre ses clients ; ses données restent dans le navigateur. |
+| `index.html` | Écran d'entrée : le logo en grand, la phrase d'accroche et le bouton pour entrer sur le site. |
+| `accueil.html` | Page d'accueil du portfolio (démos, méthode, contact). L'espace pro `accueil.html#admin` sert à suivre ses clients ; ses données restent dans le navigateur. |
 | `devis.html` | Demande de devis guidée en 5 étapes (activité, besoins, style, situation, coordonnées). Envoi via Formspree si `FORM_ENDPOINT` est renseigné en haut du script de `devis.html` ; sinon (ou en cas d’échec) la messagerie du visiteur s’ouvre avec le récapitulatif pré-rempli vers contact@studiocac.fr. `devis.html?style=villa-oliviers` présélectionne un style. |
 | `transition.js` | Transition « chantier » : la page quittée s'efface vers le fond nuit, puis la page se construit en ~1,2 s à chaque affichage (arrivée sur le site, lien, retour/avant, rechargement) (maquette, titres h1/h2 écrits lettre par lettre, textes ligne par ligne, images du flou au net, boutons). Un clic termine l'animation. pour les liens `data-transition`. |
 | `demo-*.html` | Une démo de site vitrine par secteur. |
@@ -21,7 +22,7 @@ Site 100 % statique : pas de build, pas de dépendance, chaque page est un fichi
 
 1. Créer `demo-mon-client.html` (en partant d'une démo existante).
 2. Dans son `<head>`, adapter `<title>`, `description`, `og:*`, `theme-color` et le favicon.
-3. Ajouter une ligne dans la liste `DEMOS` en bas de `index.html` (nom, secteur, description, `url`, couleurs de l'aperçu).
+3. Ajouter une ligne dans la liste `DEMOS` en bas de `accueil.html` (nom, secteur, description, `url`, couleurs de l'aperçu).
 
 ## Régénérer les aperçus des démos
 

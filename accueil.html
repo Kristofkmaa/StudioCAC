@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<!-- construction de la page : le fond nuit est peint dès la toute première image, avant transition.js -->
+<script>(()=>{const d=document.documentElement;let t;try{t=localStorage.getItem("saitora-theme")}catch(e){}d.dataset.theme=t||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");if(!matchMedia("(prefers-reduced-motion: reduce)").matches)d.classList.add("sc-pending")})()</script>
+<style>html.sc-pending,html.sc-pending body{background:#FAFAF9}html[data-theme=dark].sc-pending,html[data-theme=dark].sc-pending body{background:#0C0C0D}</style>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>Saitora · Sites vitrines pour commerces et artisans</title>
+<meta name="description" content="Sites vitrines rapides et sur mesure pour restaurants, artisans et commerces de proximité. Découvrez les démos et demandez un devis gratuit.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="Saitora">
+<meta property="og:title" content="Saitora · Sites vitrines pour commerces et artisans">
+<meta property="og:description" content="Sites vitrines rapides et sur mesure pour restaurants, artisans et commerces de proximité. Découvrez les démos et demandez un devis gratuit.">
+<meta name="theme-color" content="#FAFAF9">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="theme.css?v=2">
+<style>
+/* Téléphone : pas de flash gris au toucher, pas de texte grossi en paysage, réponse dès que le doigt se pose,
+   libellés des boutons non sélectionnables, contenu tenu hors de l'encoche en paysage. */
+html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(a,button,[role="button"],summary,label,select,input[type="range"]){touch-action:manipulation}
+:where(button,.btn,[role="button"],[role="tab"]){-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+:where(button:not([disabled]),.btn):active{opacity:.82}
+:where(.in,.page){padding-inline:env(safe-area-inset-left,0px) env(safe-area-inset-right,0px)}
+/* Saitora — direction : la vitrine de quartier, vue de l'intérieur du studio.
+   Blanc et noir modernes (thème clair ou sombre, voir theme.css), l'orchidée du logo en seul accent, une seule police (Jost).
+   Signature : le point orchidée du logo, qui ferme le grand titre et marque ce qui est actif.
+   Aplats francs, pas de halos ni de verre ; un seul moment animé : la construction de la page (transition.js). */
+:root{
+  --font:"Jost","Futura","Helvetica Neue",Arial,sans-serif;
+  --ease-out:cubic-bezier(.23,1,.32,1);
+  --step-0:1rem; --step-1:1.1875rem; --step-2:1.5rem; --step-3:clamp(2rem,1.4rem + 2.4vw,3rem); --step-4:clamp(2.75rem,1.6rem + 4.6vw,5.25rem);
+  --page:min(1180px,100% - 2 * clamp(20px,4vw,40px));
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:var(--step-0);line-height:1.6;overflow-x:hidden}
+h1,h2,h3,p,ul,ol,figure{margin:0}
+a{color:inherit}
+img,video{display:block;max-width:100%}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+::selection{background:var(--accent);color:var(--on-accent)}
+.page{width:var(--page);margin-inline:auto}
+.dot{display:inline-block;width:.2em;height:.2em;border-radius:50%;background:var(--accent);margin-left:.04em;vertical-align:baseline}
+
+/* barre */
+.bar{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--line)}
+.bar .page{display:flex;align-items:center;gap:20px;height:68px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink)}
+.brand .mark{height:26px;width:auto;display:block}
+.brand img{height:18px;width:auto;filter:var(--logo-filter)}
+.bar nav{display:flex;gap:28px;margin-left:auto;margin-right:12px;font-size:15px}
+.bar nav a{text-decoration:none;color:var(--muted)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;font:500 16px var(--font);padding:13px 22px;border-radius:4px;border:0;cursor:pointer;text-decoration:none;
+  background:var(--accent);color:var(--on-accent);transition:transform 160ms var(--ease-out),background-color 160ms ease}
+
+.btn:active{transform:scale(.97)}
+.btn.small{padding:9px 16px;font-size:15px}
+.link{color:var(--ink);text-decoration:underline;text-decoration-color:var(--accent);text-decoration-thickness:2px;text-underline-offset:5px;font-weight:500}
+
+
+/* première page */
+.hero{display:grid;grid-template-columns:1.05fr 1fr;gap:56px;align-items:center;padding-block:clamp(56px,9vw,120px) clamp(64px,9vw,120px)}
+.hero h1{font-weight:400;font-size:var(--step-4);line-height:1.02;letter-spacing:-.025em;max-width:13ch}
+.hero .lead{margin-top:28px;font-size:var(--step-1);line-height:1.55;color:var(--muted);max-width:40ch}
+.hero .cta{display:flex;align-items:center;gap:28px;margin-top:36px;flex-wrap:wrap}
+.reel{margin:0;position:relative;aspect-ratio:8/5;border-radius:10px;overflow:hidden;background:var(--surface-2);
+  transition:transform 300ms var(--ease-out);z-index:1}
+.reel video{width:100%;height:100%;object-fit:cover}
+.reel figcaption{position:absolute;left:0;right:0;bottom:0;padding:10px 14px;font-size:14px;color:var(--muted);background:var(--surface)}
+
+/* réalisations */
+.work{padding-block:clamp(72px,9vw,120px) clamp(80px,10vw,140px)}
+.work-head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:40px}
+.work-head h2{font-weight:400;font-size:var(--step-3);line-height:1.08;letter-spacing:-.02em;max-width:18ch}
+.work-head p{color:var(--muted);max-width:42ch;margin-top:12px}
+.filters{display:flex;gap:6px 22px;flex-wrap:wrap;font-size:15px}
+.chip{font:inherit;color:var(--muted);background:none;border:0;padding:6px 0;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.chip::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent);transform:scale(0);transition:transform 180ms var(--ease-out)}
+
+.chip[aria-pressed="true"]{color:var(--ink)}
+.chip[aria-pressed="true"]::before{transform:scale(1)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.proj{position:relative;display:flex;flex-direction:column;min-height:520px;padding:32px 32px 0;border-radius:12px;overflow:hidden;
+  background:var(--bg);color:var(--fg);text-decoration:none;transition:transform 250ms var(--ease-out)}
+.proj .sector{font-size:15px;opacity:.75}
+.proj h3{font-weight:500;font-size:clamp(1.75rem,1.3rem + 1.2vw,2.25rem);line-height:1.1;letter-spacing:-.02em;margin:6px 0 12px}
+.proj p{max-width:44ch;font-size:16px;line-height:1.55;opacity:.85}
+.proj .feats{margin-top:14px;font-size:15px;font-weight:500}
+.proj .stage{position:relative;margin-top:auto;height:270px}
+.proj .win{position:absolute;left:0;right:64px;top:36px;border-radius:8px 8px 0 0;overflow:hidden;background:#fff;transform:translateY(20px);transition:transform 300ms var(--ease-out)}
+.proj .win img{width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;object-position:top}
+.proj .phone{position:absolute;right:0;top:64px;width:118px;padding:5px;border-radius:20px;background:#111;transform:translateY(30px);transition:transform 340ms var(--ease-out) 40ms}
+.proj .phone img{width:100%;height:auto;aspect-ratio:300/585;object-fit:cover;object-position:top;border-radius:15px}
+
+/* méthode : section claire */
+.method{background:var(--bg-alt);color:var(--ink);padding-block:clamp(80px,10vw,140px)}
+.method h2{font-weight:400;font-size:var(--step-3);line-height:1.08;letter-spacing:-.02em;max-width:20ch}
+.method .intro{color:var(--muted);max-width:52ch;margin-top:16px;font-size:var(--step-1)}
+.steps{list-style:none;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:48px;margin-top:64px;counter-reset:s}
+.steps li{counter-increment:s}
+.steps li::before{content:counter(s);display:block;font-weight:300;font-size:clamp(3.5rem,2.6rem + 3vw,5.5rem);line-height:1;color:var(--accent);margin-bottom:20px}
+.steps h3{font-weight:500;font-size:var(--step-2);letter-spacing:-.01em;margin-bottom:10px}
+.steps p{color:var(--muted);max-width:34ch}
+
+/* contact */
+.contact,.foot{--ink:var(--invert-ink);--muted:var(--invert-muted);--line:rgba(255,255,255,.12);background:var(--invert-bg);color:var(--ink)}
+.contact{padding-block:clamp(80px,10vw,140px)}
+.contact .page{display:grid;grid-template-columns:1.2fr 1fr;gap:56px;align-items:end}
+.contact h2{font-weight:400;font-size:var(--step-3);line-height:1.08;letter-spacing:-.02em}
+.mail{display:inline-block;margin-top:28px;font-size:clamp(1.5rem,1.1rem + 1.6vw,2.375rem);font-weight:400;letter-spacing:-.01em;text-decoration:underline;text-decoration-color:var(--accent);text-decoration-thickness:2px;text-underline-offset:8px;overflow-wrap:anywhere}
+.contact .copy{display:block;margin-top:14px;font:15px var(--font);color:var(--muted);background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:4px}
+.contact .side p{color:var(--muted);margin-top:14px;max-width:34ch}
+
+/* pied de page */
+.foot{border-top:1px solid var(--line)}
+.foot .page{display:flex;align-items:center;gap:28px;flex-wrap:wrap;padding-block:28px;font-size:14px;color:var(--muted)}
+.foot-brand{display:flex;align-items:center;gap:10px;color:var(--ink)}
+.foot .mark{height:20px;width:auto;display:block}
+.foot img{height:14px;width:auto;filter:invert(1)}
+.foot nav{display:flex;gap:22px;margin-left:auto}
+.foot a{text-decoration:none}
+
+
+/* survols qui bougent : vraie souris uniquement */
+
+
+/* ===== Espace pro (#admin) ===== */
+.wrap#admin{width:var(--page);margin:0 auto;padding-block:40px 64px;display:flex;flex-direction:column;gap:22px}
+.surface{background:var(--surface);border:1px solid var(--line);border-radius:10px}
+.admin-top{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.admin-top h1{font-weight:500;font-size:clamp(30px,4vw,42px);letter-spacing:-.02em}
+.admin-top p{color:var(--muted);font-size:14px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.kpi{padding:18px 20px}
+.kpi .k{font-size:14px;color:var(--muted)}
+.kpi .v{font-weight:500;font-size:34px;font-variant-numeric:tabular-nums;margin-top:6px}
+.kpi.mrr .v{color:var(--accent-text)}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:15px;min-width:760px}
+th{text-align:left;font-weight:500;font-size:14px;color:var(--muted);padding:14px 16px;border-bottom:1px solid var(--line-hi)}
+td{padding:14px 16px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:0}
+td.num{font-variant-numeric:tabular-nums}
+td a{color:var(--accent-text)}
+.pill{display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:500}
+.pill::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.pill.ligne{color:var(--ok)}.pill.maquette{color:var(--warn)}.pill.pause{color:var(--muted)}
+.soon{color:var(--warn);font-weight:500}
+.ex{font-size:13px;color:var(--muted)}
+.del{background:none;border:0;color:var(--muted);cursor:pointer;font:14px var(--font);text-decoration:underline}
+
+.del.confirm{color:var(--accent-text)}
+form.add{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;padding:18px;align-items:end}
+form.add label{display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--muted);min-width:0}
+form.add input,form.add select{font:15px var(--font);padding:10px 12px;border:1px solid var(--line-hi);border-radius:4px;background:var(--bg);color:var(--ink);width:100%}
+form.add input:focus,form.add select:focus{outline:none;border-color:var(--accent)}
+.note{font-size:14px;color:var(--muted)}
+
+@media (max-width:900px){
+  .bar nav{display:none}
+  .bar .theme-toggle{margin-left:auto}
+  .hero{grid-template-columns:1fr;gap:40px}
+  .grid{grid-template-columns:1fr}
+  .proj{min-height:0}
+  .proj .stage{height:240px}
+  .steps{grid-template-columns:1fr;gap:36px}
+  .contact .page{grid-template-columns:1fr;gap:32px}
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  form.add{grid-template-columns:1fr 1fr}
+}
+@media (max-width:520px){.proj{padding:24px 22px 0}.foot nav{margin-left:0}.bar .page{gap:12px}.brand{gap:8px}.brand .mark{height:22px}.brand img{height:15px}.bar .btn.small{white-space:nowrap;padding-inline:14px}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition-property:opacity,color,background-color,border-color!important;transition-duration:200ms!important}.btn:active{transform:none}}
+/* survols : souris uniquement, sinon l'état reste collé après un toucher */
+@media (hover:hover) and (pointer:fine){
+  .bar nav a:hover{color:var(--ink)}
+  .btn:hover{background:var(--accent-hover)}
+  .link:hover{text-decoration-color:var(--ink)}
+  .chip:hover{color:var(--ink)}
+  .foot a:hover{color:var(--ink)}
+  .del:hover{color:var(--ink)}
+}
+/* les cartes qui se soulèvent : vraie souris et animations autorisées */
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  .proj:hover{transform:translateY(-4px)}
+  .proj:hover .win{transform:translateY(0)}
+  .proj:hover .phone{transform:translateY(0)}
+}
+@media (pointer:coarse){
+  .brand{padding-block:9px;margin-block:-9px}
+  .link,.foot nav a{display:inline-block;padding-block:10px;margin-block:-10px}
+  .mail{padding-block:3px}
+  .chip{min-height:44px}
+  .theme-toggle{width:44px;height:44px}
+  .contact .copy{padding-block:10px}
+}
+</style>
+</head>
+<body>
+<script src="transition.js?v=11"></script>
+<script src="theme.js?v=1" defer></script>
+
+<div id="public">
+  <header class="bar">
+    <div class="page">
+      <a class="brand" href="accueil.html" aria-label="Saitora, accueil"><svg class="mark" viewBox="246 330 740 590" aria-hidden="true"><path d="M262 901L624 341L695 456L407 901Z M725 504L970 901L828 901L653 613Z" fill="currentColor"/><circle cx="620" cy="818" r="55" fill="var(--accent)"/></svg><img src="images/marque/saitora-noir.png" alt="Saitora" width="1165" height="162"></a>
+      <nav aria-label="Sections"><a href="#vitrines">Réalisations</a><a href="#methode">Méthode</a><a href="#contact">Contact</a></nav>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Changer de thème"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.6A8.2 8.2 0 0 1 9.4 4a8.2 8.2 0 1 0 10.6 10.6z"/></svg></button>
+      <a class="btn small" href="devis.html" data-transition="Construisons votre site">Demander un devis</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero page">
+      <div>
+        <h1>Des sites qui donnent envie de pousser la porte<span class="dot" aria-hidden="true"></span></h1>
+        <p class="lead">Saitora crée des sites vitrines sur mesure pour les restaurants, les artisans et les commerces de quartier.</p>
+        <div class="cta">
+          <a class="btn" href="devis.html" data-transition="Construisons votre site">Demander un devis</a>
+          <a class="link" href="#vitrines">Voir les sites réalisés</a>
+        </div>
+      </div>
+      <figure class="reel">
+        <video id="reel" autoplay muted loop playsinline preload="auto" poster="media/showreel-clair-poster.webp" aria-label="Film : de la demande du client au site en ligne, en cinq étapes">
+          <source src="media/showreel-clair.webm" type="video/webm">
+          <source src="media/showreel-clair.mp4" type="video/mp4">
+        </video>
+        <!-- le film existe en version claire et sombre : on prend celle du thème avant que le navigateur ne la charge -->
+        <script>(()=>{const v=document.getElementById("reel"),n=document.documentElement.dataset.theme==="dark"?"sombre":"clair";if(n==="clair")return;v.poster=`media/showreel-${n}-poster.webp`;v.querySelectorAll("source").forEach(s=>s.src=s.src.replace("showreel-clair",`showreel-${n}`))})()</script>
+      </figure>
+    </section>
+
+    <section class="work page" id="vitrines">
+      <div class="work-head">
+        <div>
+          <h2>Six commerces, six sites qui leur ressemblent</h2>
+          <p>Chaque démo part d'un vrai métier. Choisissez celle qui vous parle, on l'adapte à vos couleurs et à vos photos.</p>
+        </div>
+        <div class="filters" id="chips" role="group" aria-label="Filtrer par métier"></div>
+      </div>
+      <div class="grid" id="grid"></div>
+    </section>
+
+    <section class="method" id="methode">
+      <div class="page">
+        <h2>Trois étapes, un seul interlocuteur</h2>
+        <p class="intro">Vous vous occupez de votre commerce, je m'occupe de votre site, du premier appel à la mise en ligne.</p>
+        <ol class="steps">
+          <li><h3>On échange</h3><p>Votre activité, vos clients, vos photos. Un appel de vingt minutes suffit pour cadrer le projet.</p></li>
+          <li><h3>Vous recevez une maquette</h3><p>Une première version à partir du style choisi, avec vos couleurs. On l'ajuste ensemble jusqu'à ce qu'elle vous plaise.</p></li>
+          <li><h3>Le site est en ligne</h3><p>Nom de domaine, hébergement et mises à jour sont gérés pour vous. Vous n'avez rien de technique à faire.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="contact" id="contact">
+      <div class="page">
+        <div>
+          <h2>Un projet de site ? Écrivez-moi.</h2>
+          <a class="mail" id="mail" href="mailto:contact@studiocac.fr">contact@studiocac.fr</a>
+          <button class="copy" id="copyMail" type="button">Copier l'adresse</button>
+        </div>
+        <div class="side">
+          <a class="btn" href="devis.html" data-transition="Construisons votre site">Faire ma demande de devis</a>
+          <p>Deux minutes de questions, une réponse sous 24 heures. Le devis est gratuit et sans engagement.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="page">
+      <span class="foot-brand"><svg class="mark" viewBox="246 330 740 590" aria-hidden="true"><path d="M262 901L624 341L695 456L407 901Z M725 504L970 901L828 901L653 613Z" fill="currentColor"/><circle cx="620" cy="818" r="55" fill="var(--accent)"/></svg><img src="images/marque/saitora-noir.png" alt="Saitora" width="1165" height="162"></span>
+      <span>Sites vitrines pour les commerces de quartier</span>
+      <nav aria-label="Pied de page"><a href="#vitrines">Réalisations</a><a href="devis.html" data-transition="Construisons votre site">Devis</a><a href="mailto:contact@studiocac.fr">Contact</a></nav>
+      <span>© 2026 Saitora</span>
+    </div>
+  </footer>
+</div>
+
+<div class="wrap" id="admin" hidden>
+  <div class="admin-top">
+    <div><h1>Mes sites clients</h1><p>Espace pro, accessible via #admin. Les données restent dans ce navigateur.</p></div>
+    <a class="btn small" href="#" id="toPublic">Voir la vitrine publique</a>
+  </div>
+  <div class="kpis">
+    <div class="kpi surface"><div class="k">Sites en ligne</div><div class="v" id="kOnline">0</div></div>
+    <div class="kpi surface"><div class="k">En maquette</div><div class="v" id="kDraft">0</div></div>
+    <div class="kpi surface mrr"><div class="k">Revenu mensuel</div><div class="v" id="kMrr">0 €</div></div>
+    <div class="kpi surface"><div class="k">Renouvellements sous 30 jours</div><div class="v" id="kSoon">0</div></div>
+  </div>
+  <div class="table-wrap surface">
+    <table>
+      <thead><tr><th>Client</th><th>Site</th><th>Statut</th><th>Abonnement</th><th>Renouvellement domaine</th><th></th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+  <form class="add surface" id="addForm">
+    <label>Client<input id="fName" required placeholder="Boulangerie Martin"></label>
+    <label>Adresse du site<input id="fUrl" placeholder="boulangerie-martin.fr"></label>
+    <label>Statut<select id="fStatus"><option value="maquette">Maquette</option><option value="ligne">En ligne</option><option value="pause">En pause</option></select></label>
+    <label>€ / mois<input id="fPrice" type="number" min="0" step="1" value="29"></label>
+    <label>Renouvellement<input id="fRenew" type="date"></label>
+    <button class="btn" type="submit">Ajouter</button>
+  </form>
+  <p class="note">Les lignes marquées « exemple » servent de démo : supprime-les quand tu ajoutes tes vrais clients. Ces données restent dans ce navigateur uniquement.</p>
+</div>
+
+<script>
+// Démos publiques : ajoute ici chaque nouveau site (url = lien de la démo en ligne)
+const DEMOS = [
+  {name:"La Table du Port", sector:"Restaurant", desc:"Un restaurant de port qui écrit sa pêche du jour sur l'ardoise et remplit ses tables en ligne.", url:"demo-table-du-port.html", bg:"#24302F", fg:"#F3F2EC", ac:"#E4572E", feats:["Ardoise du jour","Carte","Réservation"]},
+  {name:"Durand Plomberie", sector:"Artisan", desc:"Un plombier qu'on appelle en un clic, et qui dit à quelle heure il peut être chez vous.", url:"demo-durand-plomberie.html", bg:"#1846C9", fg:"#FFFFFF", ac:"#FFC93C", feats:["Appel d'urgence","Délai d'arrivée par commune","Demande en ligne"]},
+  {name:"Studio Coupe & Co", sector:"Beauté", desc:"Un salon de coiffure mis en page comme un magazine, où l'on réserve en trente secondes.", url:"demo-coupe-and-co.html", bg:"#F2D9D2", fg:"#141012", ac:"#6E1F2D", feats:["Look du mois","Tarifs","Prise de rendez-vous"]},
+  {name:"Au Pain Doré", sector:"Commerce", desc:"Une boulangerie qui affiche ses fournées en direct et prend les commandes pour le lendemain.", url:"demo-pain-dore.html", bg:"#EFC35A", fg:"#3A2210", ac:"#C2361F", feats:["Fournées en direct","Commande à retirer","Panier"]},
+  {name:"Villa Les Oliviers", sector:"Location", desc:"Une villa qui se visite sur son plan et se loue en direct, avec le prix calculé selon la saison.", url:"demo-villa-oliviers.html", bg:"#2F3A24", fg:"#FBFBF8", ac:"#B9C49A", feats:["Plan interactif","Calendrier","Devis instantané"]},
+  {name:"Atelier Bois Massif", sector:"Artisan", desc:"Un ébéniste qui fait choisir son bois et montre ses meubles avec leurs vraies cotes.", url:"demo-bois-massif.html", bg:"#2B1E15", fg:"#F3EFE8", ac:"#C49A6C", feats:["Choix des essences","Réalisations cotées","Demande de projet"]}
+];
+
+const esc = s => String(s).replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+
+// vidéo d'accueil : en pause si l'utilisateur limite les animations
+if (matchMedia("(prefers-reduced-motion: reduce)").matches) { reel.removeAttribute("autoplay"); reel.pause(); }
+// changement de thème : on passe au film de l'autre version, au même moment de lecture
+new MutationObserver(() => {
+  const n = document.documentElement.dataset.theme === "dark" ? "sombre" : "clair";
+  if (reel.poster.includes(`showreel-${n}`)) return;
+  const t = reel.currentTime, playing = !reel.paused;
+  reel.poster = `media/showreel-${n}-poster.webp`;
+  reel.querySelectorAll("source").forEach(s => { s.src = s.src.replace(/showreel-(clair|sombre)/, `showreel-${n}`); });
+  reel.load();
+  reel.addEventListener("loadedmetadata", () => { reel.currentTime = t; if (playing) reel.play().catch(() => {}); }, { once: true });
+}).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
+let filter = "Tous";
+function renderChips(){
+  const sectors = ["Tous", ...new Set(DEMOS.map(d=>d.sector))];
+  chips.innerHTML = sectors.map(s=>`<button class="chip" type="button" aria-pressed="${s===filter}" data-s="${esc(s)}">${esc(s)}</button>`).join("");
+}
+function renderGrid(){
+  grid.innerHTML = DEMOS.filter(d => filter === "Tous" || d.sector === filter).map(d => {
+    const slug = esc(d.url.replace(/^demo-|\.html$/g, ""));   // aperçus générés par outils/apercus.js
+    return `<a class="proj" href="${esc(d.url)}" target="_blank" rel="noopener" style="--bg:${d.bg};--fg:${d.fg};--ac:${d.ac}" aria-label="Ouvrir la démo ${esc(d.name)}">
+      <span class="sector">${esc(d.sector)}</span>
+      <h3>${esc(d.name)}</h3>
+      <p>${esc(d.desc)}</p>
+      <p class="feats">${d.feats.map(esc).join(", ")}</p>
+      <div class="stage" aria-hidden="true">
+        <div class="win"><img src="media/apercus/${slug}.webp" alt="" width="720" height="450" loading="lazy" decoding="async"></div>
+        <div class="phone"><img src="media/apercus/${slug}-mobile.webp" alt="" width="300" height="585" loading="lazy" decoding="async"></div>
+      </div>
+    </a>`;
+  }).join("");
+}
+chips.addEventListener("click", e=>{const b=e.target.closest(".chip"); if(!b) return; filter=b.dataset.s; renderChips(); renderGrid();});
+renderChips(); renderGrid();
+
+// vidéo d'accueil : droite au repos, zoom et légère inclinaison vers la souris au survol
+const reelBox = document.querySelector(".reel");
+if (!matchMedia("(prefers-reduced-motion: reduce)").matches && matchMedia("(hover: hover) and (pointer: fine)").matches) {
+  reelBox.addEventListener("pointermove", e => {
+    if (e.pointerType !== "mouse") return;
+    const r = reelBox.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+    reelBox.classList.add("hover");
+    reelBox.style.transform = `perspective(1400px) rotateX(${(.5 - y) * 6}deg) rotateY(${(x - .5) * 8}deg) scale(1.06)`;
+  });
+  reelBox.addEventListener("pointerleave", () => { reelBox.classList.remove("hover"); reelBox.style.transform = ""; });
+}
+
+
+copyMail.addEventListener("click", ()=>{
+  const t = mail.textContent;
+  const done = ()=>{copyMail.textContent="Adresse copiée"; setTimeout(()=>copyMail.textContent="Copier l'adresse",1800);};
+  try{ navigator.clipboard.writeText(t).then(done).catch(selectMail);}catch(_){selectMail();}
+  function selectMail(){const r=document.createRange(); r.selectNodeContents(mail); const s=getSelection(); s.removeAllRanges(); s.addRange(r);}
+});
+
+// ===== Espace pro =====
+const KEY = "launcher-vitrines-clients";
+const day = n => { const d=new Date(); d.setDate(d.getDate()+n); return d.toISOString().slice(0,10); };
+const SAMPLE = [
+  {id:1,name:"La Table du Port",url:"latableduport.fr",status:"ligne",price:39,renew:day(18),example:true},
+  {id:2,name:"Durand Plomberie",url:"durand-plomberie.fr",status:"ligne",price:29,renew:day(140),example:true},
+  {id:3,name:"Studio Coupe & Co",url:"",status:"maquette",price:29,renew:"",example:true}
+];
+function load(){ try{ const v=localStorage.getItem(KEY); return v?JSON.parse(v):SAMPLE.slice(); }catch(_){ return SAMPLE.slice(); } }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(clients)); }catch(_){} }
+let clients = load();
+const LABEL = {ligne:"En ligne", maquette:"Maquette", pause:"En pause"};
+const fmtDate = s => s ? new Date(s+"T00:00").toLocaleDateString("fr-FR",{day:"numeric",month:"short",year:"numeric"}) : "—";
+const daysTo = s => s ? Math.round((new Date(s+"T00:00") - new Date(new Date().toDateString()))/864e5) : Infinity;
+
+function renderAdmin(){
+  rows.innerHTML = clients.length ? clients.map(c=>{
+    const d = daysTo(c.renew);
+    return `<tr>
+      <td><strong>${esc(c.name)}</strong>${c.example?' <span class="ex">exemple</span>':''}</td>
+      <td>${c.url?`<a href="https://${esc(c.url)}" target="_blank" rel="noopener">${esc(c.url)}</a>`:'<span style="color:var(--faint)">pas encore en ligne</span>'}</td>
+      <td><span class="pill ${c.status}">${LABEL[c.status]}</span></td>
+      <td class="num">${c.price} €/mois</td>
+      <td class="${d<=30?'soon':''}">${fmtDate(c.renew)}${d<=30&&d>=0?` · dans ${d} j`:''}</td>
+      <td><button class="del" type="button" data-id="${c.id}">Supprimer</button></td>
+    </tr>`;}).join("") : `<tr><td colspan="6" style="color:var(--faint);padding:24px">Aucun client pour l'instant. Ajoute ton premier site avec le formulaire ci-dessous.</td></tr>`;
+  const active = clients.filter(c=>c.status==="ligne");
+  kOnline.textContent = active.length;
+  kDraft.textContent = clients.filter(c=>c.status==="maquette").length;
+  kMrr.textContent = active.reduce((a,c)=>a+Number(c.price||0),0) + " €";
+  kSoon.textContent = clients.filter(c=>{const d=daysTo(c.renew); return d>=0&&d<=30;}).length;
+}
+rows.addEventListener("click", e=>{
+  const b = e.target.closest(".del"); if(!b) return;
+  if(!b.classList.contains("confirm")){ b.classList.add("confirm"); b.textContent="Confirmer ?"; setTimeout(()=>{b.classList.remove("confirm"); b.textContent="Supprimer";},3000); return; }
+  clients = clients.filter(c=>String(c.id)!==b.dataset.id); save(); renderAdmin();
+});
+addForm.addEventListener("submit", e=>{
+  e.preventDefault();
+  clients.push({id:Date.now(), name:fName.value.trim(), url:fUrl.value.trim().replace(/^https?:\/\//,""), status:fStatus.value, price:Number(fPrice.value)||0, renew:fRenew.value});
+  save(); addForm.reset(); fPrice.value=29; renderAdmin();
+});
+
+function route(){
+  const admin = location.hash === "#admin";
+  document.getElementById("admin").hidden = !admin;
+  document.getElementById("public").hidden = admin;
+  if(admin) renderAdmin();
+}
+toPublic.addEventListener("click", e=>{ e.preventDefault(); history.replaceState(null,"",location.pathname); route(); });
+window.addEventListener("hashchange", route);
+route();
+</script>
+
+</body>
+</html>

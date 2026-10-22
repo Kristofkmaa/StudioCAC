@@ -1,6 +1,6 @@
 # StudioCAC
 
-Site statique : `index.html` (launcher) + pages `demo-*.html` (vitrines de démo).
+Site statique : `index.html` (écran d'entrée) → `accueil.html` (launcher) + pages `demo-*.html` (vitrines de démo).
 
 ## Règle de travail
 

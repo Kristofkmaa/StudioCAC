@@ -11,6 +11,7 @@
   const style = document.createElement("style");
   style.textContent = `
 .sc-site{position:fixed;inset:0;z-index:9999;pointer-events:none}
+.sc-site.cover{background:${BP};background-image:linear-gradient(rgba(96,165,250,.16) 1px,transparent 1px),linear-gradient(90deg,rgba(96,165,250,.16) 1px,transparent 1px);background-size:24px 24px}
 .sc-cols{position:absolute;inset:0;display:flex}
 .sc-cols i{flex:1;background:${BP};transform-origin:top;transform:scaleY(0);border-right:1px solid rgba(125,211,252,.18);
   background-image:linear-gradient(rgba(96,165,250,.16) 1px,transparent 1px),linear-gradient(90deg,rgba(96,165,250,.16) 1px,transparent 1px);background-size:24px 24px}
@@ -80,6 +81,7 @@
   const bg = el("rect", { fill: BP }, paper), grid = el("rect", { fill: "url(#scGrid)" }, paper);
   const wires = el("g", {}, svg), scans = el("g", {}, svg);
   box.prepend(svg);
+  box.classList.add("cover");   // plan opaque dès la première image, avant que le SVG soit dimensionné
   document.body.appendChild(box);
   const lab = box.querySelector(".sc-lab"), bar = box.querySelector("u span");
   lab.style.opacity = 1; bar.style.width = "35%";
@@ -88,6 +90,7 @@
     const w = W(), h = H();
     svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
     for (const r of [maskBg, bg, grid]) { r.setAttribute("width", w); r.setAttribute("height", h); }
+    box.classList.remove("cover");
     // blocs visibles à l'écran, dans l'ordre de lecture
     const blocks = [...document.querySelectorAll("[data-build]")]
       .map(n => ({ n, r: n.getBoundingClientRect() }))

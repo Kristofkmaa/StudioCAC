@@ -198,10 +198,12 @@ form.add input:focus,form.add select:focus{outline:none;border-color:var(--accen
         </div>
       </div>
       <figure class="reel">
-        <video id="reel" autoplay muted loop playsinline preload="auto" poster="media/showreel-poster.webp" aria-label="Film : de la demande du client au site en ligne, en cinq étapes">
-          <source src="media/showreel.webm" type="video/webm">
-          <source src="media/showreel.mp4" type="video/mp4">
+        <video id="reel" autoplay muted loop playsinline preload="auto" poster="media/showreel-clair-poster.webp" aria-label="Film : de la demande du client au site en ligne, en cinq étapes">
+          <source src="media/showreel-clair.webm" type="video/webm">
+          <source src="media/showreel-clair.mp4" type="video/mp4">
         </video>
+        <!-- le film existe en version claire et sombre : on prend celle du thème avant que le navigateur ne la charge -->
+        <script>(()=>{const v=document.getElementById("reel"),n=document.documentElement.dataset.theme==="dark"?"sombre":"clair";if(n==="clair")return;v.poster=`media/showreel-${n}-poster.webp`;v.querySelectorAll("source").forEach(s=>s.src=s.src.replace("showreel-clair",`showreel-${n}`))})()</script>
       </figure>
     </section>
 
@@ -296,6 +298,16 @@ const esc = s => String(s).replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">"
 
 // vidéo d'accueil : en pause si l'utilisateur limite les animations
 if (matchMedia("(prefers-reduced-motion: reduce)").matches) { reel.removeAttribute("autoplay"); reel.pause(); }
+// changement de thème : on passe au film de l'autre version, au même moment de lecture
+new MutationObserver(() => {
+  const n = document.documentElement.dataset.theme === "dark" ? "sombre" : "clair";
+  if (reel.poster.includes(`showreel-${n}`)) return;
+  const t = reel.currentTime, playing = !reel.paused;
+  reel.poster = `media/showreel-${n}-poster.webp`;
+  reel.querySelectorAll("source").forEach(s => { s.src = s.src.replace(/showreel-(clair|sombre)/, `showreel-${n}`); });
+  reel.load();
+  reel.addEventListener("loadedmetadata", () => { reel.currentTime = t; if (playing) reel.play().catch(() => {}); }, { once: true });
+}).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 
 let filter = "Tous";
 function renderChips(){

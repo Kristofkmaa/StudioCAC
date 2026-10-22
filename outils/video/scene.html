@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
+<script>document.documentElement.dataset.theme = new URLSearchParams(location.search).get("theme") === "light" ? "light" : "dark";</script>
 <title>Showreel Saitora</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&family=Young+Serif&family=Figtree:wght@400;600;700&display=swap">
 <style>
@@ -9,104 +10,115 @@
    (la demande → le plan → la direction artistique → la construction → la mise en ligne → signature).
    Rendu image par image par render.js via window.render(t). */
 *{box-sizing:border-box;margin:0}
+/* deux jeux de couleurs, comme le site : scene.html?theme=light ou ?theme=dark (blanc et noir modernes, orchidée en accent) */
+:root{
+  --bg:#0C0C0D; --bg-2:#131314; --panel:#19191B; --panel-2:#232326;
+  --ink:#F5F5F3; --muted:rgba(245,245,243,.64); --faint:rgba(245,245,243,.34); --line:rgba(255,255,255,.12);
+  --accent:#B174B2; --wire:#D2A6D3; --grid:rgba(177,116,178,.15); --grid-fine:rgba(177,116,178,.06);
+  --shadow:rgba(0,0,0,.75); --veil-a:rgba(12,12,13,.74); --veil-b:rgba(12,12,13,.96);
+  --ok-ink:#BBF7D0; --code-s:#F0CF8A; --logo-filter:invert(1);
+}
+:root[data-theme="light"]{
+  --bg:#FAFAF9; --bg-2:#F2F2F0; --panel:#FFFFFF; --panel-2:#E9E9E7;
+  --ink:#111111; --muted:rgba(17,17,17,.64); --faint:rgba(17,17,17,.34); --line:rgba(17,17,17,.12);
+  --accent:#B174B2; --wire:#8F5390; --grid:rgba(143,83,144,.16); --grid-fine:rgba(143,83,144,.06);
+  --shadow:rgba(17,17,17,.22); --veil-a:rgba(250,250,249,.78); --veil-b:rgba(250,250,249,.97);
+  --ok-ink:#1F7A45; --code-s:#946200; --logo-filter:none;
+}
 html,body{width:1280px;height:800px;overflow:hidden}
-body{background:#1F081B;color:#FBF3FA;font-family:"Jost",system-ui,sans-serif;position:relative}
-.mono{font-family:"JetBrains Mono",monospace;font-weight:500;letter-spacing:.08em;text-transform:uppercase}
-.aura{position:absolute;border-radius:50%;pointer-events:none}
-.shot{position:absolute;inset:0;overflow:hidden;will-change:transform,opacity,filter}
-.hl{background-image:linear-gradient(100deg,rgba(217,166,217,.55),rgba(177,116,178,.55));background-repeat:no-repeat;background-position:0 88%;background-size:0% 38%;border-radius:4px}
+body{background:var(--bg);color:var(--ink);font-family:"Jost",system-ui,sans-serif;position:relative}
+.mono{font-family:"JetBrains Mono",monospace;font-weight:500;letter-spacing:.04em}
+.shot{position:absolute;inset:0;overflow:hidden;will-change:transform,opacity,filter;background:var(--bg)}
+.hl{background-image:linear-gradient(var(--accent),var(--accent));background-repeat:no-repeat;background-position:0 88%;background-size:0% 30%;border-radius:2px}
+.dot{display:inline-block;width:.2em;height:.2em;border-radius:50%;background:var(--accent);margin-left:.04em}
 
 /* habillage commun */
-.brand{position:absolute;left:56px;top:44px;display:flex;align-items:center;gap:12px;font:800 22px "Jost";z-index:50}
-.brand img{height:22px;width:auto;display:block}
+.brand{position:absolute;left:56px;top:44px;display:flex;align-items:center;gap:12px;z-index:50}
+.brand img,.s6 .logo img{height:22px;width:auto;display:block;filter:var(--logo-filter)}
 .track{position:absolute;left:56px;right:56px;bottom:40px;display:grid;grid-template-columns:repeat(5,1fr);gap:14px;z-index:50}
-.track div{display:flex;flex-direction:column;gap:10px;font:600 15px "JetBrains Mono";letter-spacing:.06em;text-transform:uppercase;color:rgba(251,243,250,.35)}
-.track div.on{color:#FBF3FA}
-.track div.done{color:rgba(251,243,250,.6)}
-.track b{display:block;height:3px;border-radius:3px;background:rgba(255,255,255,.12);overflow:hidden}
-.track b span{display:block;height:100%;width:0;background:linear-gradient(90deg,#D9A6D9,#B174B2)}
-.eyebrow{position:absolute;right:56px;top:48px;font-size:15px;color:rgba(251,243,250,.6)}
+.track div{display:flex;flex-direction:column;gap:10px;font:500 16px "Jost";color:var(--faint)}
+.track div.on{color:var(--ink)}
+.track div.done{color:var(--muted)}
+.track b{display:block;height:3px;background:var(--line);overflow:hidden}
+.track b span{display:block;height:100%;width:0;background:var(--accent)}
+.eyebrow{position:absolute;right:56px;top:48px;font-size:16px;color:var(--muted)}
 
 /* 1. la demande */
 .s1 .wrap{position:absolute;left:150px;right:150px;top:190px}
 .s1 .from{display:flex;align-items:center;gap:16px;margin-bottom:36px}
-.s1 .av{width:64px;height:64px;border-radius:50%;background:#F2B33D;color:#0F2A3D;display:grid;place-items:center;font:800 28px "Jost"}
-.s1 .from b{display:block;font:700 24px "Jost"}
-.s1 .from span{font-size:18px;color:rgba(251,243,250,.65)}
-.s1 .quote{font:700 62px/1.12 "Jost";letter-spacing:-.02em;max-width:980px}
-.s1 .quote .q{color:#B174B2}
-.s1 .caret{display:inline-block;width:4px;height:56px;background:#D9A6D9;vertical-align:-8px;margin-left:4px}
+.s1 .av{width:64px;height:64px;border-radius:50%;background:#F2B33D;color:#0F2A3D;display:grid;place-items:center;font:600 28px "Jost"}
+.s1 .from b{display:block;font:600 24px "Jost"}
+.s1 .from span{font-size:18px;color:var(--muted)}
+.s1 .quote{font:500 62px/1.12 "Jost";letter-spacing:-.02em;max-width:980px}
+.s1 .quote .q{color:var(--accent)}
+.s1 .caret{display:inline-block;width:4px;height:56px;background:var(--accent);vertical-align:-8px;margin-left:4px}
 
 /* 2. le plan */
-.s2{background:#2A0A26}
-.s2 .grid{position:absolute;inset:-40px;background-image:linear-gradient(rgba(217,166,217,.13) 1px,transparent 1px),linear-gradient(90deg,rgba(217,166,217,.13) 1px,transparent 1px),linear-gradient(rgba(217,166,217,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(217,166,217,.06) 1px,transparent 1px);background-size:80px 80px,80px 80px,16px 16px,16px 16px}
+.s2{background:var(--bg-2)}
+.s2 .grid{position:absolute;inset:-40px;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px),linear-gradient(var(--grid-fine) 1px,transparent 1px),linear-gradient(90deg,var(--grid-fine) 1px,transparent 1px);background-size:80px 80px,80px 80px,16px 16px,16px 16px}
 .s2 svg{position:absolute;inset:0}
-.s2 .note{position:absolute;display:flex;align-items:center;gap:10px;font:700 21px "Jost";color:#FBF3FA;background:rgba(42,10,38,.9);border:1.5px solid #D9A6D9;border-radius:10px;padding:10px 16px;white-space:nowrap}
-.s2 .note i{width:10px;height:10px;border-radius:50%;background:#D9A6D9;box-shadow:0 0 12px #D9A6D9}
-.s2 .sheet{position:absolute;left:56px;top:96px;font-size:15px;color:#E3BFE2}
+.s2 svg,.s2 svg *{stroke:var(--wire)}
+.s2 .note{position:absolute;display:flex;align-items:center;gap:10px;font:500 21px "Jost";color:var(--ink);background:var(--panel);border:1.5px solid var(--wire);border-radius:6px;padding:10px 16px;white-space:nowrap}
+.s2 .note i{width:10px;height:10px;border-radius:50%;background:var(--accent)}
+.s2 .sheet{position:absolute;left:56px;top:96px;font-size:15px;color:var(--wire)}
+.s2 .dim{position:absolute;left:600px;top:84px;font-size:15px;color:var(--wire)}
 
 /* 3. direction artistique */
-.s3{background:#24091F}
-.s3 .sw{position:absolute;top:210px;width:104px;height:290px;border-radius:14px;box-shadow:0 20px 40px -18px rgba(0,0,0,.7)}
-.s3 .sw span{position:absolute;left:0;right:0;bottom:-38px;text-align:center;font:600 15px "JetBrains Mono";color:rgba(251,243,250,.75)}
+.s3 .sw{position:absolute;top:210px;width:104px;height:290px;border-radius:8px;box-shadow:0 20px 40px -18px var(--shadow),0 0 0 1px var(--line)}
+.s3 .sw span{position:absolute;left:0;right:0;bottom:-38px;text-align:center;font:500 15px "JetBrains Mono";color:var(--muted)}
 .s3 .spec{position:absolute;left:560px;top:170px;width:300px}
 .s3 .spec .aa{font:400 200px/1 "Young Serif";color:#F2B33D}
-.s3 .spec p{font-size:20px;color:rgba(251,243,250,.75);margin-top:6px}
-.s3 .spec p b{color:#FBF3FA;font-weight:700}
-.s3 .ph{position:absolute;width:220px;height:280px;border-radius:14px;overflow:hidden;border:6px solid #FBF3FA;box-shadow:0 30px 50px -20px rgba(0,0,0,.8)}
+.s3 .spec p{font-size:20px;color:var(--muted);margin-top:6px}
+.s3 .spec p b{color:var(--ink);font-weight:600}
+.s3 .ph{position:absolute;width:220px;height:280px;border-radius:8px;overflow:hidden;border:6px solid var(--panel);box-shadow:0 30px 50px -20px var(--shadow),0 0 0 1px var(--line)}
 .s3 .ph img{width:100%;height:100%;object-fit:cover;display:block}
 
 /* 4. la construction */
-.s4{background:#230920}
-.s4 .win{position:absolute;left:70px;top:96px;width:1000px;height:600px;border-radius:14px;overflow:hidden;background:#2C0B27;box-shadow:0 40px 90px -30px rgba(0,0,0,.9),0 0 0 1px rgba(255,255,255,.12);transform-origin:50% 50%}
-.s4 .bar{height:40px;background:#42153C;display:flex;align-items:center;gap:7px;padding:0 16px}
+.s4 .win{position:absolute;left:70px;top:96px;width:1000px;height:600px;border-radius:10px;overflow:hidden;background:var(--panel);box-shadow:0 40px 90px -30px var(--shadow),0 0 0 1px var(--line);transform-origin:50% 50%}
+.s4 .bar{height:40px;background:var(--panel-2);display:flex;align-items:center;gap:7px;padding:0 16px}
 .s4 .bar i{width:11px;height:11px;border-radius:50%}
-.s4 .bar .u{margin-left:14px;font:500 14px "JetBrains Mono";color:#EAD3E9;background:rgba(255,255,255,.07);border-radius:99px;padding:5px 14px}
+.s4 .bar .u{margin-left:14px;font:500 14px "JetBrains Mono";color:var(--muted);background:var(--panel);border-radius:99px;padding:5px 14px}
 .s4 .vp{position:absolute;left:0;right:0;top:40px;bottom:0;overflow:hidden}
 .s4 .pg{position:absolute;left:0;top:0;width:1000px}
 .s4 .pg img{display:block;width:1000px}
-.s4 .bp{position:absolute;left:0;right:0;top:0;background-color:#2A0A26;background-image:linear-gradient(rgba(217,166,217,.16) 1px,transparent 1px),linear-gradient(90deg,rgba(217,166,217,.16) 1px,transparent 1px);background-size:40px 40px}
-.s4 .scan{position:absolute;left:0;right:0;height:3px;background:#D9A6D9;box-shadow:0 0 22px 4px rgba(217,166,217,.8)}
-.s4 .code{position:absolute;right:40px;bottom:120px;width:400px;height:206px;white-space:pre;overflow:hidden;border-radius:14px;background:rgba(44,11,39,.94);border:1px solid rgba(255,255,255,.14);padding:18px 20px;font:500 17px/1.6 "JetBrains Mono";color:#EAD3E9;box-shadow:0 30px 60px -20px rgba(0,0,0,.8)}
-.s4 .code .caret{display:inline-block;width:2px;height:18px;background:#D9A6D9;vertical-align:-3px;margin-left:1px}
-.s4 .code .k{color:#E3BFE2}.s4 .code .a{color:#D9A6D9}.s4 .code .s{color:#FFC266}
+.s4 .bp{position:absolute;left:0;right:0;top:0;background-color:var(--bg-2);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:40px 40px}
+.s4 .scan{position:absolute;left:0;right:0;height:3px;background:var(--accent)}
+.s4 .code{position:absolute;right:40px;bottom:120px;width:400px;height:206px;white-space:pre;overflow:hidden;border-radius:8px;background:var(--panel);border:1px solid var(--line);padding:18px 20px;font:500 17px/1.6 "JetBrains Mono";color:var(--ink);box-shadow:0 30px 60px -20px var(--shadow)}
+.s4 .code .caret{display:inline-block;width:2px;height:18px;background:var(--accent);vertical-align:-3px;margin-left:1px}
+.s4 .code .k{color:var(--wire)}.s4 .code .a{color:var(--accent)}.s4 .code .s{color:var(--code-s)}
 .s4 .pct{position:absolute;left:56px;top:96px;display:none}
 
 /* 5. mise en ligne */
-.s5{background:radial-gradient(ellipse at 50% 30%,#3A1235,#1F081B 70%)}
 .s5 .laptop{position:absolute;left:150px;top:150px;width:800px}
-.s5 .screen{border-radius:16px 16px 0 0;background:#2C0B27;padding:14px 14px 0;box-shadow:0 0 0 2px #4A1A43}
-.s5 .screen img{display:block;width:100%;height:440px;object-fit:cover;object-position:top;border-radius:6px 6px 0 0}
-.s5 .base{height:22px;margin:0 -50px;border-radius:0 0 18px 18px;background:linear-gradient(#4A1A43,#42153C)}
-.s5 .phone{position:absolute;left:880px;top:200px;width:236px;height:480px;border-radius:36px;background:#2C0B27;padding:12px;box-shadow:0 0 0 2px #4A1A43,0 40px 70px -20px rgba(0,0,0,.9)}
+.s5 .screen{border-radius:14px 14px 0 0;background:#111;padding:14px 14px 0;box-shadow:0 0 0 1px var(--line)}
+.s5 .screen img{display:block;width:100%;height:440px;object-fit:cover;object-position:top;border-radius:4px 4px 0 0}
+.s5 .base{height:22px;margin:0 -50px;border-radius:0 0 18px 18px;background:var(--panel-2);box-shadow:0 0 0 1px var(--line)}
+.s5 .phone{position:absolute;left:880px;top:200px;width:236px;height:480px;border-radius:36px;background:#111;padding:12px;box-shadow:0 40px 70px -20px var(--shadow)}
 .s5 .phone img{width:100%;height:100%;object-fit:cover;object-position:top;border-radius:26px;display:block}
 .s5 .live{position:absolute;left:150px;top:92px;display:flex;align-items:center;gap:14px}
-.s5 .live .b{background:#4ADE9A;color:#05210F;font:700 18px "Jost";border-radius:99px;padding:8px 18px}
-.s5 .live .u{font:500 18px "JetBrains Mono";color:#EAD3E9}
+.s5 .live .b{background:#4ADE9A;color:#05210F;font:600 18px "Jost";border-radius:99px;padding:8px 18px}
+.s5 .live .u{font:500 18px "JetBrains Mono";color:var(--muted)}
 .s5 .chips{position:absolute;left:150px;top:670px;display:flex;gap:12px}
-.s5 .chips span{font:600 17px "Jost";padding:9px 16px;border-radius:99px;background:rgba(74,222,154,.12);border:1px solid rgba(74,222,154,.5);color:#BBF7D0}
+.s5 .chips span{font:500 17px "Jost";padding:9px 16px;border-radius:99px;background:rgba(74,222,154,.12);border:1px solid rgba(74,222,154,.5);color:var(--ok-ink)}
 
 /* 6. signature */
 .s6 .wall{position:absolute;left:50%;top:50%;width:1900px;display:grid;grid-template-columns:repeat(3,1fr);gap:40px;transform-origin:50% 50%}
-.s6 .wall img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;border-radius:16px;display:block;box-shadow:0 30px 60px -20px rgba(0,0,0,.8)}
-.s6 .veil{position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(31,8,27,.72),rgba(31,8,27,.96) 70%)}
+.s6 .wall img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;border-radius:10px;display:block;box-shadow:0 30px 60px -20px var(--shadow)}
+.s6 .veil{position:absolute;inset:0;background:radial-gradient(ellipse at center,var(--veil-a),var(--veil-b) 70%)}
 .s6 .end{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:26px}
-.s6 .logo{display:flex;align-items:center;gap:16px;font:800 40px "Jost"}
-.s6 .logo img{height:54px;width:auto;display:block}
-.s6 h1{font:800 76px/1 "Jost";letter-spacing:-.03em;max-width:15ch}
-.s6 h1 em{font-style:normal;background:linear-gradient(100deg,#D9A6D9,#B174B2 45%,#E3BFE2);-webkit-background-clip:text;background-clip:text;color:transparent}
-.s6 .cta{font:700 22px "Jost";padding:14px 28px;border-radius:99px;background:linear-gradient(100deg,#B174B2,#E3BFE2);box-shadow:0 14px 40px -10px rgba(177,116,178,.8)}
+.s6 .logo{display:flex;align-items:center;gap:16px}
+.s6 .logo img{height:54px}
+.s6 h1{font:500 76px/1.02 "Jost";letter-spacing:-.03em;max-width:15ch}
+.s6 .cta{font:500 22px "Jost";padding:14px 28px;border-radius:4px;background:var(--accent);color:#111}
 </style>
 </head>
 <body>
-<div class="aura" id="a1" style="width:900px;height:900px;left:-300px;top:-380px;background:radial-gradient(circle,rgba(177,116,178,.55),transparent 62%)"></div>
-<div class="aura" id="a2" style="width:800px;height:800px;right:-300px;bottom:-360px;background:radial-gradient(circle,rgba(217,166,217,.4),transparent 62%)"></div>
 
 <!-- 1. La demande -->
 <section class="shot s1" id="s1">
-  <div class="eyebrow mono">Nouveau message · 09:42</div>
+  <div class="eyebrow">Nouveau message, 9 h 42</div>
   <div class="wrap">
-    <div class="from"><div class="av">M</div><div><b>Marion</b><span>La Table du Port · restaurant sur le port</span></div></div>
+    <div class="from"><div class="av">M</div><div><b>Marion</b><span>La Table du Port, restaurant sur le port</span></div></div>
     <p class="quote" id="quote"></p>
   </div>
 </section>
@@ -114,7 +126,7 @@ body{background:#1F081B;color:#FBF3FA;font-family:"Jost",system-ui,sans-serif;po
 <!-- 2. Le plan -->
 <section class="shot s2" id="s2">
   <div class="grid" id="grid2"></div>
-  <div class="sheet mono">Plan · page d'accueil · v1</div>
+  <div class="sheet mono">Plan de la page d'accueil, version 1</div>
   <svg viewBox="0 0 1280 800" id="plan" fill="none" stroke="#D9A6D9" stroke-width="2" stroke-linecap="round">
     <rect x="300" y="150" width="680" height="500" rx="8" pathLength="1"/>
     <path d="M300 196H980" pathLength="1"/>
@@ -134,7 +146,7 @@ body{background:#1F081B;color:#FBF3FA;font-family:"Jost",system-ui,sans-serif;po
     <path id="lead3" d="M960 540C1010 540 1020 560 1040 560" stroke="#D9A6D9" stroke-width="1.5" pathLength="1"/>
     <path id="lead4" d="M330 250C290 250 270 230 250 220" stroke="#D9A6D9" stroke-width="1.5" pathLength="1"/>
   </svg>
-  <div class="mono" id="dim" style="position:absolute;left:600px;top:84px;font-size:15px;color:#D9A6D9">1280 px</div>
+  <div class="mono dim" id="dim">1280 px</div>
   <div class="note" id="n1" style="left:1010px;top:212px"><i></i>Photo du port</div>
   <div class="note" id="n2" style="left:60px;top:666px"><i></i>Plats vedettes ×2</div>
   <div class="note" id="n3" style="left:1010px;top:536px"><i></i>Réservation en ligne</div>
@@ -156,7 +168,7 @@ body{background:#1F081B;color:#FBF3FA;font-family:"Jost",system-ui,sans-serif;po
 <!-- 4. La construction -->
 <section class="shot s4" id="s4">
   <div class="win" id="win">
-    <div class="bar"><i style="background:#FF5F57"></i><i style="background:#FEBC2E"></i><i style="background:#28C840"></i><span class="u">la-table-du-port · en construction</span></div>
+    <div class="bar"><i style="background:#FF5F57"></i><i style="background:#FEBC2E"></i><i style="background:#28C840"></i><span class="u">la-table-du-port.fr</span></div>
     <div class="vp"><div class="pg" id="pg"><img id="deskFull" alt=""><div class="bp" id="bp"></div><div class="scan" id="scan"></div></div></div>
   </div>
   <div class="code" id="code"></div>
@@ -175,13 +187,13 @@ body{background:#1F081B;color:#FBF3FA;font-family:"Jost",system-ui,sans-serif;po
   <div class="wall" id="wall"></div>
   <div class="veil"></div>
   <div class="end">
-    <div class="logo" id="logo"><img src="../../images/marque/saitora-blanc.png" alt="Saitora"></div>
-    <h1 id="h1">Votre site, <em>construit sur mesure.</em></h1>
-    <div class="cta" id="cta">Devis gratuit · réponse sous 24 h</div>
+    <div class="logo" id="logo"><img src="../../images/marque/saitora-noir.png" alt="Saitora"></div>
+    <h1 id="h1">Votre site, construit sur mesure<span class="dot"></span></h1>
+    <div class="cta" id="cta">Devis gratuit, réponse sous 24 h</div>
   </div>
 </section>
 
-<div class="brand" id="brand"><img src="../../images/marque/saitora-blanc.png" alt="Saitora"></div>
+<div class="brand" id="brand"><img src="../../images/marque/saitora-noir.png" alt="Saitora"></div>
 <div class="track" id="track"></div>
 
 <script>
@@ -196,7 +208,7 @@ const lerp = (a, b, p) => a + (b - a) * p;
 const SHOTS = [["s1", 0, 3.8], ["s2", 3.8, 7.8], ["s3", 7.8, 11.4], ["s4", 11.4, 16.4], ["s5", 16.4, 20.2], ["s6", 20.2, 24.2]];
 const T = 24.2, X = 0.5;   // durée totale, durée des fondus enchaînés
 const STEPS = ["La demande", "Le plan", "Le design", "La construction", "La mise en ligne"];
-$("track").innerHTML = STEPS.map((s, i) => `<div><span>0${i + 1} ${s}</span><b><span></span></b></div>`).join("");
+$("track").innerHTML = STEPS.map((s, i) => `<div><span>${s}</span><b><span></span></b></div>`).join("");
 
 // images
 if (SH.desk) { $("deskFull").src = SH.desk; $("deskTop").src = SH.desk; }
@@ -317,8 +329,6 @@ window.render = t => {
     el.className = t >= b ? "done" : t >= a ? "on" : "";
     el.querySelector("b span").style.width = (t >= T - X ? 0 : p * 100) + "%";
   });
-  $("a1").style.transform = `translate(${Math.sin(t / 4) * 60}px,${Math.cos(t / 5) * 40}px)`;
-  $("a2").style.transform = `translate(${Math.cos(t / 4.5) * 60}px,${Math.sin(t / 3.5) * 40}px)`;
 };
 window.LOOP = T;
 window.POSTER = 18.6;

@@ -11,7 +11,7 @@ Site 100 % statique : pas de build, pas de dépendance, chaque page est un fichi
 | `devis.html` | Demande de devis guidée en 5 étapes (activité, besoins, style, situation, coordonnées). Envoi via Formspree si `FORM_ENDPOINT` est renseigné en haut du script de `devis.html` ; sinon (ou en cas d’échec) la messagerie du visiteur s’ouvre avec le récapitulatif pré-rempli vers contact@studiocac.fr. `devis.html?style=villa-oliviers` présélectionne un style. |
 | `transition.js` | Transition « chantier » : la page quittée s'efface vers le fond nuit, puis la page se construit en ~1,2 s à chaque affichage (arrivée sur le site, lien, retour/avant, rechargement) (maquette, titres h1/h2 écrits lettre par lettre, textes ligne par ligne, images du flou au net, boutons). Un clic termine l'animation. pour les liens `data-transition`. |
 | `demo-*.html` | Une démo de site vitrine par secteur. |
-| `media/showreel.*` | Vidéo de présentation affichée sur la page d'accueil (MP4 + WebM + image d'attente). |
+| `media/showreel-clair.*`, `media/showreel-sombre.*` | Vidéo de présentation de la page d'accueil, une version par thème (MP4 + WebM + image d'attente). |
 | `media/apercus/` | Captures des démos affichées dans les cartes de la page d'accueil. |
 | `images/<démo>/` | Photos des démos (Pixabay, licence libre, usage commercial autorisé), en WebP. |
 | `outils/video/` | Film de présentation (demande, plan, design, construction, mise en ligne) et script qui en fabrique la vidéo. |
@@ -36,7 +36,7 @@ npm i playwright
 node outils/video/render.js
 ```
 
-Nécessite `ffmpeg`. Produit `media/showreel.mp4`, `media/showreel.webm` et `media/showreel-poster.webp`.
+Nécessite `ffmpeg`. Produit, pour chaque thème (`clair` et `sombre`), `media/showreel-<thème>.mp4`, `.webm` et `-poster.webp`.
 
 ## Voir en local
 

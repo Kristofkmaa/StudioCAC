@@ -2,8 +2,8 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<!-- transition « chantier » : si on arrive d'une autre page, le fond nuit est peint dès la toute première image -->
-<script>try{if(sessionStorage.getItem("studiocac-transition"))document.documentElement.classList.add("sc-pending")}catch(e){}</script>
+<!-- construction de la page : le fond nuit est peint dès la toute première image, avant transition.js -->
+<script>if(!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("sc-pending")</script>
 <style>html.sc-pending,html.sc-pending body{background:#070A1A}</style>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>StudioCac · Sites vitrines pour commerces et artisans</title>
@@ -175,7 +175,7 @@ form.add input:focus,form.add select:focus{outline:none;border-color:var(--g2);b
 </style>
 </head>
 <body>
-<script src="transition.js?v=4"></script>
+<script src="transition.js?v=5"></script>
 
 <div class="aurora" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
 

@@ -3,7 +3,6 @@
 // lettre par lettre, textes ligne par ligne, images du flou au net, boutons qui se posent).
 // Un clic ou une touche termine tout. À inclure au tout début du <body>.
 (() => {
-  const KEY = "studiocac-transition";
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const NIGHT = "#070A1A";   // fond du site
 
@@ -36,23 +35,15 @@
     box.classList.add("cover");
     box.style.opacity = 0;
     document.body.appendChild(box);
-    try { sessionStorage.setItem(KEY, "1"); } catch (_) {}
     tick(t => { box.style.opacity = ease(t / 180); return t < 200; }, () => { location.href = a.href; });
   });
 
-  // retour arrière du navigateur : la page restaurée ne doit pas rester couverte
-  addEventListener("pageshow", e => { if (e.persisted) document.querySelectorAll(".sc-site").forEach(n => n.remove()); });
-
-  // ——— arrivée (≈ 1,2 s) : la page se construit sur son vrai fond, élément par élément.
-  // Les maquettes se tracent, les fonds se posent, les grands titres s'écrivent lettre par lettre,
-  // les textes arrivent ligne par ligne, les images passent du flou au net, les boutons se posent.
-  let arrival = null;
-  try { arrival = sessionStorage.getItem(KEY); sessionStorage.removeItem(KEY); } catch (_) {}
-  if (!arrival || reduce) { document.documentElement.classList.remove("sc-pending"); return; }
-
-  const box = overlay();
-  box.classList.add("cover");   // fond nuit opaque le temps que la page se mette en place, sans flash
-  document.body.appendChild(box);
+  // ——— arrivée (≈ 1,2 s), à chaque affichage de la page : arrivée sur le site, lien interne, rechargement,
+  // bouton retour. La page se construit sur son vrai fond, élément par élément : les maquettes se tracent,
+  // les fonds se posent, les grands titres s'écrivent lettre par lettre, les textes arrivent ligne par ligne,
+  // les images passent du flou au net, les boutons se posent.
+  if (reduce) { document.documentElement.classList.remove("sc-pending"); return; }
+  let current = null;   // construction en cours (pour l'arrêter net si la page revient du cache)
 
   const SEL = {
     title: "h1, h2",
@@ -63,6 +54,11 @@
   };
   const outBack = x => { x = clamp(x); const c = 1.9; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
   const outQuart = x => 1 - Math.pow(1 - clamp(x), 4);
+
+  function build() {
+  const box = overlay();
+  box.classList.add("cover");   // fond nuit opaque le temps que la page se mette en place, sans flash
+  document.body.appendChild(box);
 
   function start() {
     const w = innerWidth, h = innerHeight;
@@ -145,7 +141,7 @@
     box.classList.remove("cover");
     document.documentElement.classList.remove("sc-pending");
 
-    let skip = false;
+    let skip = false, cleaned = false;
     const stop = () => { skip = true; };
     addEventListener("pointerdown", stop, { once: true });
     addEventListener("keydown", stop, { once: true });
@@ -169,14 +165,28 @@
         }
       }
       return t <= END + 60;
-    }, () => {
-      // nettoyage : on rend les éléments exactement comme avant
+    }, cleanup);
+    function cleanup() {
+      // on rend les éléments exactement comme avant
+      if (cleaned) return;
+      cleaned = true; skip = true; current = null;
       for (const it of items) { it.n.style.cssText = it.css; if (it.kind === "title") it.n.innerHTML = it.html; }
       removeEventListener("pointerdown", stop); removeEventListener("keydown", stop);
       plan.remove(); box.remove();
-    });
+    }
+    current = { cleanup };
   }
   // on mesure une fois la page en place (polices et ancre éventuelle)
   const go = () => requestAnimationFrame(() => requestAnimationFrame(start));
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", go); else go();
+  }
+  build();
+
+  // bouton retour / avant : la page sort du cache telle qu'on l'a quittée, on la reconstruit
+  addEventListener("pageshow", e => {
+    if (!e.persisted) return;
+    if (current) current.cleanup();
+    document.querySelectorAll(".sc-site").forEach(n => n.remove());
+    build();
+  });
 })();

@@ -97,6 +97,12 @@ nav.top a:hover{color:var(--ink);background:var(--glass)}
 .card:hover::before{opacity:1}
 .card:hover{border-color:var(--edge-hi)}
 .mini{aspect-ratio:16/10;max-width:100%;border-radius:14px;background:var(--c2);color:var(--c1);display:flex;flex-direction:column;padding:12px 14px;gap:8px;font-family:var(--mf);position:relative;overflow:hidden;box-shadow:0 8px 20px -12px var(--glow,rgba(0,0,0,.6))}
+.shot{position:relative;border-radius:14px;overflow:hidden;background:#161B3D;padding-top:22px;box-shadow:0 10px 26px -14px var(--glow)}
+.shot i{position:absolute;top:8px;width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.35)}
+.shot i:nth-child(1){left:10px}.shot i:nth-child(2){left:21px}.shot i:nth-child(3){left:32px}
+.shot img{display:block;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;object-position:top;transition:transform .6s ease}
+.card:hover .shot img{transform:scale(1.03)}
+@media (prefers-reduced-motion:reduce){.shot img{transition:none}}
 .mini::after{content:"";position:absolute;inset:0;background:linear-gradient(160deg,rgba(255,255,255,.22),transparent 40%);pointer-events:none}
 .mini .bar{display:flex;justify-content:space-between;align-items:center;font-size:11px;opacity:.9;font-family:var(--f-body)}
 .mini .bar span:last-child{display:flex;gap:8px}
@@ -271,10 +277,12 @@ function renderChips(){
   const sectors = ["Tous", ...new Set(DEMOS.map(d=>d.sector))];
   chips.innerHTML = sectors.map(s=>`<button class="chip" type="button" aria-pressed="${s===filter}" data-s="${esc(s)}">${esc(s)}</button>`).join("");
 }
+// aperçu réel de la démo (généré par outils/apercus.js), sinon maquette en CSS
+const shot = d => `<div class="shot" style="--glow:${d.glow}"><i></i><i></i><i></i><img src="media/apercus/${esc(d.url.replace(/^demo-|\.html$/g,""))}.webp" alt="" width="720" height="450" loading="lazy" decoding="async"></div>`;
 function renderGrid(){
   grid.innerHTML = DEMOS.filter(d=>filter==="Tous"||d.sector===filter).map(d=>`
     <${d.url&&d.url!=="#"?`a class="card glass" href="${esc(d.url)}" target="_blank" rel="noopener" aria-label="Ouvrir la démo ${esc(d.name)}"`:'div class="card glass soon"'}>
-      ${mini(d)}
+      ${d.url&&d.url!=="#"?shot(d):mini(d)}
       <div class="meta">
         <div><h3>${esc(d.name)}</h3><p>${esc(d.desc)}</p>${d.example?'<span class="ex">Démo exemple</span>':''}</div>
         <span class="tag">${esc(d.sector)}</span>

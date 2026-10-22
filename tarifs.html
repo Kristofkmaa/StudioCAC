@@ -54,6 +54,8 @@ a{color:inherit}
 .intro{padding-block:clamp(56px,8vw,104px) clamp(40px,5vw,64px)}
 .intro h1{font-weight:400;font-size:clamp(2.6rem,1.6rem + 4vw,4.6rem);line-height:1.02;letter-spacing:-.03em;max-width:15ch}
 .intro p{margin-top:22px;color:var(--muted);font-size:1.15rem;max-width:52ch}
+.intro .launch{margin-top:18px;display:inline-flex;align-items:center;gap:10px;font-size:15px;color:var(--ink);padding:8px 14px;border:1px solid var(--line-hi);border-radius:4px}
+.intro .launch::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent);flex:none}
 
 /* les formules, côte à côte comme un tableau */
 .plans{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line-hi)}
@@ -156,6 +158,7 @@ a{color:inherit}
   <section class="intro page" aria-labelledby="t-tarifs">
     <h1 id="t-tarifs">Des prix clairs, sans surprise<span class="dot" aria-hidden="true"></span></h1>
     <p>La création de votre site se paie une fois. Ensuite, un petit abonnement couvre l'hébergement, votre nom de domaine et les modifications. Vous n'avez rien de technique à gérer.</p>
+    <p class="launch">Prix de lancement, réservés aux premiers clients : ils restent les vôtres tant que vous gardez votre abonnement.</p>
   </section>
 
   <section class="page" aria-label="Les formules">
@@ -163,7 +166,7 @@ a{color:inherit}
       <article class="plan">
         <p class="for">Pour un artisan ou un petit commerce qui veut être trouvé.</p>
         <h2>Essentiel</h2><p class="tag"></p>
-        <div class="price"><span class="big" data-o="essentiel.creation">490 €</span><span class="then">puis <b data-o="essentiel.mois">29 €</b> par mois</span></div>
+        <div class="price"><span class="big" data-o="essentiel.creation">190 €</span><span class="then">puis <b data-o="essentiel.mois">19 €</b> par mois</span></div>
         <ul>
           <li>Un site d'une page, pensé pour le téléphone</li>
           <li>Visible sur Google</li>
@@ -177,7 +180,7 @@ a{color:inherit}
       <article class="plan best">
         <p class="for">Pour un restaurant, un salon, une boulangerie, un artisan qui reçoit des demandes.</p>
         <h2>Pro</h2><p class="tag">Celle que je conseille</p>
-        <div class="price"><span class="big" data-o="pro.creation">890 €</span><span class="then">puis <b data-o="pro.mois">49 €</b> par mois</span></div>
+        <div class="price"><span class="big" data-o="pro.creation">390 €</span><span class="then">puis <b data-o="pro.mois">39 €</b> par mois</span></div>
         <ul>
           <li>Plusieurs pages, à vos couleurs et avec vos photos</li>
           <li>La fonction de votre métier : réservation, rendez-vous, commande à retirer ou devis</li>
@@ -206,7 +209,7 @@ a{color:inherit}
         <h2>Pas de trésorerie pour la création ? Formule sans avance.</h2>
         <p>Le site Essentiel sans rien payer au départ : tout est réparti sur l'abonnement, avec un engagement de 24 mois. Ensuite, l'abonnement passe au tarif Essentiel normal.</p>
       </div>
-      <div class="zero-side"><div class="price"><span class="big"><span data-o="sansavance.creation">0 €</span> <small>au départ</small></span><span class="then">puis <b data-o="sansavance.mois">69 €</b> par mois pendant <span data-o="sansavance.duree" data-unit="mois">24 mois</span></span></div><a class="btn" href="devis.html?offre=sansavance" data-transition="Construisons votre site">Choisir sans avance</a></div>
+      <div class="zero-side"><div class="price"><span class="big"><span data-o="sansavance.creation">0 €</span> <small>au départ</small></span><span class="then">puis <b data-o="sansavance.mois">29 €</b> par mois pendant <span data-o="sansavance.duree" data-unit="mois">24 mois</span></span></div><a class="btn" href="devis.html?offre=sansavance" data-transition="Construisons votre site">Choisir sans avance</a></div>
     </div>
   </section>
 
@@ -252,7 +255,7 @@ a{color:inherit}
   </section>
 </main>
 
-<script src="offres.js?v=1"></script>
+<script src="offres.js?v=2"></script>
 <script>
 // les prix viennent de offres.js (une seule source avec le devis)
 document.querySelectorAll("[data-o]").forEach(el => { const [k, f] = el.dataset.o.split("."), v = OFFRES[k][f]; el.textContent = el.dataset.unit ? `${v} ${el.dataset.unit}` : eur(v); });

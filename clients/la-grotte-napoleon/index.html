@@ -66,16 +66,17 @@ h2{font:400 clamp(2.8rem,1.6rem + 5.4vw,7rem)/1 var(--didone);letter-spacing:.08
 .lnk::after{content:"→";letter-spacing:0;transition:transform .25s var(--ease)}
 @media (hover:hover) and (pointer:fine){.lnk:hover::after{transform:translateX(6px)}.lnk:hover{color:var(--creme)}}
 
-/* ---- navigation discrète, symétrique ---- */
-.top{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:24px;padding-block:22px}
-.top nav{display:flex;gap:34px}
-.top nav:last-child{justify-content:flex-end}
+/* ---- en-tête Art déco : les quatre rubriques au centre, filets dorés de part et d'autre (la couronne est déjà dans le logo) ---- */
+.top{padding-block:18px 0}
+.top nav{display:flex;align-items:center;gap:22px;width:100%}
+.top nav::before,.top nav::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(201,165,90,.55))}
+.top nav::after{background:linear-gradient(90deg,rgba(201,165,90,.55),transparent)}
 .top nav a{font:400 12px/1 var(--sans);letter-spacing:.32em;text-transform:uppercase;text-decoration:none;color:var(--doux);min-height:44px;display:inline-flex;align-items:center;transition:color .16s}
+.top nav i{width:5px;height:5px;background:var(--or);transform:rotate(45deg);flex:none}
 @media (hover:hover) and (pointer:fine){.top nav a:hover{color:var(--or)}}
-.top .crown img{height:30px;width:auto}
 
 /* ---- l'affiche ---- */
-.affiche{position:relative;min-height:calc(100svh - 110px);display:grid;place-items:center;text-align:center;overflow:hidden;padding:40px 0 70px}
+.affiche{position:relative;min-height:calc(100svh - 110px);display:grid;place-items:center;text-align:center;overflow:hidden;padding:40px 20px 70px}
 .affiche .rays{position:absolute;left:50%;top:50%;width:min(1400px,170vw);transform:translate(-50%,-46%);opacity:.5;pointer-events:none}
 .affiche .in{position:relative}
 .affiche h1 img{width:min(640px,86vw);height:auto;margin-inline:auto}
@@ -172,9 +173,7 @@ footer .legal{position:relative;padding:14px var(--m);display:flex;justify-conte
 .dock{display:none}
 
 @media (max-width:960px){
-  .top{grid-template-columns:1fr}
-  .top nav{display:none}
-  .top .crown{justify-self:center}
+  .top{display:none}
   .carte .course{grid-template-columns:1fr;gap:34px}
   .carte .course:nth-of-type(even) .pic{order:0}
   .carte .pic{max-width:360px}
@@ -188,9 +187,10 @@ footer .legal{position:relative;padding:14px var(--m);display:flex;justify-conte
   .lieu .view{aspect-ratio:4/5}
   form.res{grid-template-columns:1fr}
   footer .name{margin-top:44px}
-  .dock{display:grid;grid-template-columns:1fr 1fr 1.2fr;position:fixed;left:0;right:0;bottom:0;z-index:30;padding:8px 10px calc(8px + env(safe-area-inset-bottom));background:rgba(20,16,18,.96);border-top:1px solid rgba(201,165,90,.4)}
+  .dock{display:grid;grid-template-columns:repeat(3,1fr);position:fixed;left:0;right:0;bottom:0;z-index:30;padding:8px 10px calc(8px + env(safe-area-inset-bottom));background:rgba(20,16,18,.96);border-top:1px solid rgba(201,165,90,.4)}
   .dock a{display:flex;align-items:center;justify-content:center;min-height:50px;font:400 12px/1 var(--sans);letter-spacing:.24em;text-transform:uppercase;text-decoration:none;color:var(--doux)}
-  .dock a.go{color:var(--noir);background:var(--or)}
+  .dock a+a{border-left:1px solid rgba(201,165,90,.35)}
+  .dock a.go{color:var(--or)}
 }
 </style>
 </head>
@@ -198,9 +198,7 @@ footer .legal{position:relative;padding:14px var(--m);display:flex;justify-conte
 <div class="maquette">Maquette préparée par Saitora pour La grotte Napoléon : carte, prix, horaires et coordonnées à valider ensemble</div>
 
 <header class="wrap top">
-  <nav aria-label="Navigation"><a href="#carte">La carte</a><a href="#lieu">Le lieu</a></nav>
-  <a class="crown" href="#" aria-label="La grotte Napoléon, haut de page"><img src="images/couronne.png" alt="" width="312" height="276"></a>
-  <nav aria-label="Navigation suite"><a href="#soiree">Votre soirée</a><a href="#reserver">Réserver</a></nav>
+  <nav aria-label="Navigation"><a href="#carte">La carte</a><i></i><a href="#lieu">Le lieu</a><i></i><a href="#soiree">Votre soirée</a><i></i><a href="#reserver">Réserver</a></nav>
 </header>
 
 <main>

@@ -10,7 +10,7 @@
 <meta property="og:site_name" content="Saitora">
 <meta property="og:title" content="Épicerie Zia Rosa, démo Saitora">
 <meta property="og:description" content="Une épicerie de village de la vallée du Prunelli, depuis 1952. Démo réalisée par Saitora.">
-<meta name="theme-color" content="#F7F4EE">
+<meta name="theme-color" content="#6A1F26">
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Crect%20width=%2264%22%20height=%2264%22%20fill=%22%232F5D62%22/%3E%3Ctext%20x=%2232%22%20y=%2245%22%20font-family=%22Georgia,serif%22%20font-style=%22italic%22%20font-size=%2236%22%20text-anchor=%22middle%22%20fill=%22%23F7F4EE%22%3EZR%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="polices/eb-garamond-e2c73c.css">
 <link rel="stylesheet" href="polices/caveat-familjen-grotesk-48bed4.css">
@@ -21,11 +21,12 @@ html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-
 :where(a,button,label,select,input,textarea){touch-action:manipulation}
 :where(button,.btn,.tab){-webkit-user-select:none;user-select:none}
 
-/* Épicerie Zia Rosa. Une page claire et posée : papier, encre brune, le bleu-vert des vieux comptoirs peints,
+/* Épicerie Zia Rosa. Le rouge bordeaux des vieilles devantures d'épicerie, texte crème, touches moutarde,
    une Garamond pour les titres. L'idée qui lui est propre : la route de la camionnette, tracée d'un trait
    de l'épicerie aux hameaux ; on choisit le sien et on lit son prochain passage. */
 :root{
-  --bg:#F7F4EE; --sand:#EDE6DA; --ink:#2B2118; --muted:#6E6357; --teal:#2F5D62; --white:#FFFDF9;
+  --bg:#6A1F26; --sand:#5A1A20; --tour:#47131A; --ink:#F6ECDD; --muted:#DCC3B4; --teal:#E2B24E; --accent-ink:#3A1215; --white:#FFFBF4;
+  --card-ink:#2B2118; --card-muted:#6E6357;
   --serif:"EB Garamond",Garamond,Georgia,serif;
   --sans:"Familjen Grotesk","Helvetica Neue",Arial,sans-serif;
   --m:clamp(20px,5vw,80px);
@@ -39,15 +40,15 @@ ul{padding:0;list-style:none}
 a{color:inherit;text-underline-offset:.25em;text-decoration-thickness:1px}
 img{display:block;max-width:100%;height:auto}
 :focus-visible{outline:2px solid var(--teal);outline-offset:3px}
-.demo{background:var(--ink);color:#D6CCBF;font-size:13px;text-align:center;padding:6px 16px}
+.demo{background:#3A0E12;color:#DCC3B4;font-size:13px;text-align:center;padding:6px 16px}
 .wrap{width:min(1200px,100% - 2 * var(--m));margin-inline:auto}
 h2{font:400 clamp(2.4rem,1.8rem + 2.2vw,3.75rem)/1.02 var(--serif);letter-spacing:-.01em}
 h2 em,h1 em{font-style:italic}
 .lead{margin-top:16px;max-width:44ch;color:var(--muted)}
-.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 24px;border:1px solid var(--teal);border-radius:0;background:var(--teal);color:var(--white);font:500 15px/1 var(--sans);text-decoration:none;cursor:pointer;transition:background-color 160ms ease,color 160ms ease,transform 160ms cubic-bezier(.23,1,.32,1)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 24px;border:1px solid var(--teal);border-radius:0;background:var(--teal);color:var(--accent-ink);font:500 15px/1 var(--sans);text-decoration:none;cursor:pointer;transition:background-color 160ms ease,color 160ms ease,transform 160ms cubic-bezier(.23,1,.32,1)}
 .btn:active{transform:scale(.97)}
 .btn.ghost{background:transparent;color:var(--teal)}
-@media (hover:hover) and (pointer:fine){.btn:hover{background:#244A4E;color:var(--white)}}
+@media (hover:hover) and (pointer:fine){.btn:hover{background:#EBC46E;border-color:#EBC46E;color:var(--accent-ink)}}
 .photo img{width:100%;aspect-ratio:4/5;object-fit:cover}
 .photo figcaption{margin-top:12px;font:italic 400 1.2rem/1.3 var(--serif)}
 
@@ -74,15 +75,15 @@ h2 em,h1 em{font-style:italic}
 .tab[aria-selected="true"]{color:var(--ink);font-style:italic}
 .tab[aria-selected="true"]::before{content:"";display:inline-block;width:22px;height:1px;background:var(--teal);vertical-align:middle;margin-right:12px}
 @media (hover:hover) and (pointer:fine){.tab:hover{color:var(--ink)}}
-.board{background:var(--white);padding:clamp(28px,3.5vw,48px)}
-.board .what{font:italic 400 1.3rem/1.4 var(--serif);color:var(--muted)}
+.board{background:var(--white);color:var(--card-ink);padding:clamp(28px,3.5vw,48px)}
+.board .what{font:italic 400 1.3rem/1.4 var(--serif);color:var(--card-muted)}
 .board li{display:flex;justify-content:space-between;gap:20px;padding:16px 0;border-bottom:1px solid rgba(43,33,24,.1)}
 .board li:last-child{border-bottom:0}
-.board li small{display:block;color:var(--muted);font-size:14px}
+.board li small{display:block;color:var(--card-muted);font-size:14px}
 .board .p{white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:500}
 .board ul{margin-top:12px;transition:opacity 180ms ease}
 .board ul.swap{opacity:0}
-.board .count{margin-top:20px;font-size:14px;color:var(--muted)}
+.board .count{margin-top:20px;font-size:14px;color:var(--card-muted)}
 
 /* ---- le comptoir ---- */
 .counter{padding-block:clamp(80px,9vw,130px)}
@@ -90,31 +91,31 @@ h2 em,h1 em{font-style:italic}
 .counter p.c{margin-top:6px;color:var(--muted);font-size:15px;max-width:34ch}
 
 /* ---- la tournée : la route de la camionnette ---- */
-.tour{background:var(--teal);color:var(--white);padding-block:clamp(80px,9vw,130px)}
-.tour .lead{color:#C7D6D6}
+.tour{background:var(--tour);color:var(--ink);padding-block:clamp(80px,9vw,130px)}
+.tour .lead{color:var(--muted)}
 .tour .grid{display:grid;grid-template-columns:1.35fr 1fr;gap:clamp(40px,6vw,96px);align-items:start;margin-top:48px}
 .route svg{width:100%;height:auto;overflow:visible}
 .route .base{fill:none;stroke:rgba(255,253,249,.28);stroke-width:2;stroke-linecap:round}
-.route .go{fill:none;stroke:var(--white);stroke-width:3;stroke-linecap:round;transition:stroke-dashoffset 1s cubic-bezier(.23,1,.32,1)}
-.route .stop circle{fill:var(--teal);stroke:rgba(255,253,249,.6);stroke-width:2;transition:fill 200ms ease,r 200ms ease}
-.route .stop text{fill:#C7D6D6;font:400 16px var(--sans)}
+.route .go{fill:none;stroke:var(--teal);stroke-width:3;stroke-linecap:round;transition:stroke-dashoffset 1s cubic-bezier(.23,1,.32,1)}
+.route .stop circle{fill:var(--tour);stroke:rgba(255,253,249,.6);stroke-width:2;transition:fill 200ms ease,r 200ms ease}
+.route .stop text{fill:var(--muted);font:400 16px var(--sans)}
 .route .stop .h{font:italic 400 23px var(--serif);fill:var(--white)}
-.route .stop.on circle{fill:var(--white);stroke:var(--white)}
+.route .stop.on circle{fill:var(--teal);stroke:var(--teal)}
 .route .stop.on text{fill:var(--white)}
 .route .stop{cursor:pointer}
-.route .home rect{fill:var(--white)}
+.route .home rect{fill:var(--teal)}
 .route .home text{fill:var(--white);font:italic 400 23px var(--serif)}
-.side label,.side .q{display:block;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:#A9C1C1;margin-bottom:8px}
+.side label,.side .q{display:block;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:#C9A99A;margin-bottom:8px}
 select,input,textarea{width:100%;min-height:50px;padding:10px 14px;border:1px solid rgba(255,253,249,.35);border-radius:0;background:transparent;color:var(--white);font:400 16px/1.4 var(--sans)}
-select option{color:var(--ink)}
+select option{color:var(--card-ink)}
 textarea{min-height:96px;resize:vertical}
-input::placeholder,textarea::placeholder{color:#93AFAF}
+input::placeholder,textarea::placeholder{color:#B48C80}
 .next{margin-top:28px;font:400 1.6rem/1.3 var(--serif)}
 .next em{font-style:italic}
-.next small{display:block;margin-top:8px;font:400 15px/1.5 var(--sans);color:#C7D6D6}
+.next small{display:block;margin-top:8px;font:400 15px/1.5 var(--sans);color:var(--muted)}
 .order{display:grid;gap:12px;margin-top:32px}
 .order .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.order .btn{background:var(--white);color:var(--teal);border-color:var(--white);justify-self:start;margin-top:8px}
+.order .btn{justify-self:start;margin-top:8px}
 .order .done{font:400 1.25rem/1.4 var(--serif)}
 
 /* ---- venir ---- */
@@ -125,7 +126,7 @@ input::placeholder,textarea::placeholder{color:#93AFAF}
 .visit table{border-collapse:collapse;width:100%;max-width:340px}
 .visit td{padding:3px 0}.visit td+td{text-align:right;color:var(--muted)}
 .visit tr.now td{color:var(--ink);font-weight:600}
-footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:28px;border-top:1px solid rgba(43,33,24,.1);font-size:13px;color:var(--muted)}
+footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:28px;border-top:1px solid rgba(246,236,221,.16);font-size:13px;color:var(--muted)}
 
 /* ---- apparitions discrètes ---- */
 .js .rise{opacity:0;transform:translateY(14px);transition:opacity 800ms cubic-bezier(.23,1,.32,1),transform 800ms cubic-bezier(.23,1,.32,1)}

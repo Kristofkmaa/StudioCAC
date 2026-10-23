@@ -10,7 +10,7 @@
 <meta property="og:site_name" content="Saitora">
 <meta property="og:title" content="Libecciu, démo Saitora">
 <meta property="og:description" content="Kayaks, paddles, bateaux et jet-skis à louer dans le golfe d'Ajaccio. Démo réalisée par Saitora.">
-<meta name="theme-color" content="#F3F1EC">
+<meta name="theme-color" content="#0E4F5C">
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Crect%20width=%2264%22%20height=%2264%22%20fill=%22%2314323B%22/%3E%3Cpath%20d=%22M10%2038c6-5%2012-5%2018%200s12%205%2018%200%2010-4%2010-4M10%2048c6-5%2012-5%2018%200s12%205%2018%200%2010-4%2010-4%22%20stroke=%22%23F3F1EC%22%20stroke-width=%224%22%20fill=%22none%22/%3E%3C/svg%3E">
 <link rel="stylesheet" href="polices/newsreader-4b1669.css">
 <link rel="stylesheet" href="polices/instrument-sans-f53e91.css">
@@ -21,11 +21,12 @@ html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-
 :where(a,button,label,select,input,summary){touch-action:manipulation}
 :where(button,.btn,.chip,.day){-webkit-user-select:none;user-select:none}
 
-/* Libecciu (le vent du sud-ouest, en corse). Une page claire et nette, comme un pont de bateau rincé :
-   fond sable, encre bleu nuit, une serif de journal pour les titres. L'idée qui lui est propre :
+/* Libecciu (le vent du sud-ouest, en corse). Toute la page dans le bleu-vert de la mer profonde, texte blanc,
+   boutons couleur soleil, une serif de journal pour les titres. L'idée qui lui est propre :
    la mer de la semaine, sept jours côte à côte avec leur drapeau, d'où part la réservation. */
 :root{
-  --bg:#F3F1EC; --sea:#E4ECEA; --ink:#14323B; --muted:#5B6B6F; --accent:#1E5F6E; --white:#FFFFFF;
+  --bg:#0E4F5C; --sea:#0B434E; --deep:#08343D; --ink:#F4F7F6; --muted:#A9C7CB; --accent:#F2C76E; --accent-ink:#0A3640; --white:#FFFFFF;
+  --card-ink:#14323B; --card-muted:#5B6B6F; --line:rgba(255,255,255,.16);
   --green:#3C8D5A; --orange:#D98A2B; --red:#B9473B;
   --serif:"Newsreader",Georgia,serif;
   --sans:"Instrument Sans","Helvetica Neue",Arial,sans-serif;
@@ -40,14 +41,14 @@ ul{padding:0;list-style:none}
 a{color:inherit;text-underline-offset:.25em;text-decoration-thickness:1px}
 img{display:block;max-width:100%;height:auto}
 :focus-visible{outline:2px solid var(--accent);outline-offset:3px}
-.demo{background:var(--ink);color:#C9D6D8;font-size:13px;text-align:center;padding:6px 16px}
+.demo{background:#062A31;color:#A9C7CB;font-size:13px;text-align:center;padding:6px 16px}
 .wrap{width:min(1200px,100% - 2 * var(--m));margin-inline:auto}
 h2{font:400 clamp(2.25rem,1.7rem + 2vw,3.5rem)/1.05 var(--serif);letter-spacing:-.015em}
 .lead{margin-top:16px;max-width:46ch;color:var(--muted)}
-.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 24px;border:1px solid var(--accent);border-radius:999px;background:var(--accent);color:var(--white);font:600 15px/1 var(--sans);text-decoration:none;cursor:pointer;transition:background-color 160ms ease,color 160ms ease,transform 160ms cubic-bezier(.23,1,.32,1)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 24px;border:1px solid var(--accent);border-radius:999px;background:var(--accent);color:var(--accent-ink);font:600 15px/1 var(--sans);text-decoration:none;cursor:pointer;transition:background-color 160ms ease,color 160ms ease,transform 160ms cubic-bezier(.23,1,.32,1)}
 .btn:active{transform:scale(.97)}
 .btn.ghost{background:transparent;color:var(--accent)}
-@media (hover:hover) and (pointer:fine){.btn:hover{background:#174C58;color:var(--white)}}
+@media (hover:hover) and (pointer:fine){.btn:hover{background:#F7D58C;border-color:#F7D58C;color:var(--accent-ink)}}
 .flag{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:8px;vertical-align:middle}
 sec,section{scroll-margin-top:20px}
 
@@ -64,11 +65,11 @@ sec,section{scroll-margin-top:20px}
 .hero h1 em{font-style:italic}
 .hero p{margin-top:22px;max-width:40ch;font-size:18px}
 .hero .acts{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
-.today{background:var(--white);padding:28px 30px}
+.today{background:var(--white);color:var(--card-ink);padding:28px 30px}
 .today h2{font:500 1.35rem/1.2 var(--serif)}
-.today .date{font-size:14px;color:var(--muted);margin-top:2px}
+.today .date{font-size:14px;color:var(--card-muted);margin-top:2px}
 .today dl{display:grid;grid-template-columns:auto 1fr;gap:10px 24px;margin-top:20px;font-size:15px}
-.today dt{color:var(--muted)}
+.today dt{color:var(--card-muted)}
 .today dd{text-align:right;font-weight:500}
 .today .verdict{margin-top:20px;padding-top:16px;border-top:1px solid rgba(20,50,59,.12);font:400 1.2rem/1.35 var(--serif)}
 .wide img{width:100%;aspect-ratio:16/7;object-fit:cover}
@@ -77,14 +78,14 @@ sec,section{scroll-margin-top:20px}
 /* ---- la mer de la semaine ---- */
 .week{padding-block:clamp(80px,9vw,130px)}
 .days{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;margin-top:44px}
-.day{display:grid;gap:10px;justify-items:start;padding:18px 16px 20px;border:0;border-radius:0;background:var(--white);color:var(--ink);font:inherit;text-align:left;cursor:pointer;transition:background-color 160ms ease,color 160ms ease,transform 160ms cubic-bezier(.23,1,.32,1)}
+.day{display:grid;gap:10px;justify-items:start;padding:18px 16px 20px;border:0;border-radius:0;background:var(--white);color:var(--card-ink);font:inherit;text-align:left;cursor:pointer;transition:background-color 160ms ease,color 160ms ease,transform 160ms cubic-bezier(.23,1,.32,1)}
 .day:active{transform:scale(.98)}
 .day b{font:500 1.15rem/1.1 var(--serif)}
 .day .bar{width:100%;height:4px;border-radius:2px}
-.day small{font-size:13px;color:var(--muted);line-height:1.4}
-.day[aria-pressed="true"]{background:var(--ink);color:var(--white)}
-.day[aria-pressed="true"] small{color:#B9C9CC}
-@media (hover:hover) and (pointer:fine){.day:not([aria-pressed="true"]):hover{background:#FBFAF7}}
+.day small{font-size:13px;color:var(--card-muted);line-height:1.4}
+.day[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.day[aria-pressed="true"] small{color:#3F5A3F}
+@media (hover:hover) and (pointer:fine){.day:not([aria-pressed="true"]):hover{background:#EEF4F3}}
 .legend{display:flex;flex-wrap:wrap;gap:24px;margin-top:20px;font-size:14px;color:var(--muted)}
 
 /* ---- la flotte ---- */
@@ -99,34 +100,34 @@ sec,section{scroll-margin-top:20px}
 .prices{padding-block:clamp(80px,9vw,130px)}
 .tw{margin-top:44px;overflow-x:auto}
 table.p{width:100%;min-width:560px;border-collapse:collapse;font-variant-numeric:tabular-nums}
-table.p th,table.p td{padding:14px 12px;text-align:right;border-bottom:1px solid rgba(20,50,59,.12);white-space:nowrap}
+table.p th,table.p td{padding:14px 12px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
 table.p th{font-weight:500;font-size:14px;color:var(--muted)}
 table.p th:first-child,table.p td:first-child{text-align:left;padding-left:0;white-space:normal}
 table.p td:first-child small{display:block;color:var(--muted);font-size:13px}
-table.p td.na{color:#B3BCBE}
+table.p td.na{color:rgba(255,255,255,.3)}
 .formulas{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,3vw,40px);margin-top:56px}
 .formulas div{border-top:2px solid var(--ink);padding-top:16px}
 .formulas h3{display:flex;justify-content:space-between;gap:12px;font:500 1.3rem/1.2 var(--serif)}
 .formulas p{margin-top:8px;font-size:15px;color:var(--muted)}
 
 /* ---- réserver ---- */
-.book{background:var(--ink);color:var(--white);padding-block:clamp(80px,9vw,130px)}
+.book{background:var(--deep);color:var(--white);padding-block:clamp(80px,9vw,130px)}
 .book .grid{display:grid;grid-template-columns:1fr 1.3fr;gap:clamp(40px,6vw,96px);align-items:start}
 .book .lead{color:#B9C9CC}
 .form{display:grid;gap:24px}
 .field>p{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:#9FB3B7;margin-bottom:8px}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chip{min-height:44px;min-width:56px;padding:0 14px;border:1px solid rgba(255,255,255,.3);border-radius:999px;background:transparent;color:var(--white);font:500 14px/1 var(--sans);cursor:pointer;transition:background-color 160ms ease,color 160ms ease,border-color 160ms ease}
-.chip[aria-pressed="true"]{background:var(--white);color:var(--ink);border-color:var(--white)}
+.chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
 .chip:disabled{opacity:.35;cursor:default}
 @media (hover:hover) and (pointer:fine){.chip:not(:disabled):not([aria-pressed="true"]):hover{border-color:var(--white)}}
 select,input{width:100%;min-height:50px;padding:10px 16px;border:1px solid rgba(255,255,255,.3);border-radius:0;background:transparent;color:var(--white);font:400 16px/1.3 var(--sans)}
-select option{color:var(--ink)}
+select option{color:var(--card-ink)}
 input::placeholder{color:#8EA4A9}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .sum{display:flex;justify-content:space-between;gap:16px;padding:18px 0;border-block:1px solid rgba(255,255,255,.2);font:400 1.3rem/1.35 var(--serif)}
 .note{font-size:14px;color:#B9C9CC}
-.book .btn{background:var(--white);color:var(--ink);border-color:var(--white);justify-self:start}
+.book .btn{justify-self:start}
 .done{font:400 1.3rem/1.4 var(--serif)}
 
 /* ---- les criques ---- */
@@ -139,8 +140,8 @@ input::placeholder{color:#8EA4A9}
 /* ---- questions et venir ---- */
 .info{background:var(--sea);padding-block:clamp(80px,9vw,130px)}
 .info .grid{display:grid;grid-template-columns:1.3fr 1fr;gap:clamp(40px,6vw,96px)}
-details{border-bottom:1px solid rgba(20,50,59,.14)}
-details:first-of-type{margin-top:32px;border-top:1px solid rgba(20,50,59,.14)}
+details{border-bottom:1px solid var(--line)}
+details:first-of-type{margin-top:32px;border-top:1px solid var(--line)}
 summary{display:flex;justify-content:space-between;gap:16px;padding:18px 0;cursor:pointer;list-style:none;font:500 1.2rem/1.3 var(--serif)}
 summary::-webkit-details-marker{display:none}
 summary::after{content:"+";font:400 1.4rem/1 var(--sans);transition:transform 200ms ease}

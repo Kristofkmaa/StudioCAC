@@ -10,7 +10,7 @@
 <meta property="og:site_name" content="Saitora">
 <meta property="og:title" content="U Castagnetu, démo Saitora">
 <meta property="og:description" content="Charcuterie au feu de bois et farine de châtaigne, à Piedicroce. Démo réalisée par Saitora.">
-<meta name="theme-color" content="#F5F2EA">
+<meta name="theme-color" content="#974219">
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Crect%20width=%2264%22%20height=%2264%22%20fill=%22%236B3A1F%22/%3E%3Cpath%20d=%22M32%2014c-10%200-16%2010-16%2020a16%2016%200%200%200%2032%200c0-10-6-20-16-20Z%22%20fill=%22%23F5F2EA%22/%3E%3C/svg%3E">
 <link rel="stylesheet" href="polices/jost-young-serif-8a5b85.css">
 <style>
@@ -20,11 +20,12 @@ html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-
 :where(a,button,label,select,input){touch-action:manipulation}
 :where(button,.btn){-webkit-user-select:none;user-select:none}
 
-/* U Castagnetu. Une page posée : papier clair, encre presque noire, brun châtaigne, Young Serif pour les titres
-   et Jost pour le texte. L'idée qui lui est propre : le calendrier des saisons, chaque produit et ses mois
+/* U Castagnetu. Toute la page dans le roux de la châtaigne et des feuilles d'automne, texte crème, touches or,
+   Young Serif pour les titres et Jost pour le texte. L'idée qui lui est propre : le calendrier des saisons, chaque produit et ses mois
    de l'année, le mois en cours éclairé ; on choisit un mois pour savoir ce qu'on trouve et où. */
 :root{
-  --bg:#F5F2EA; --sand:#EAE3D4; --ink:#26241D; --muted:#686254; --chest:#6B3A1F; --moss:#4D5A38; --white:#FFFDF8;
+  --bg:#974219; --sand:#853915; --deep:#5A240C; --ink:#FBF1E4; --muted:#F2D2BC; --chest:#F2C14E; --accent-ink:#4A1E08; --rust:#B4521F; --moss:#4D5A38; --white:#FFF8EE;
+  --card-ink:#26241D; --card-muted:#686254;
   --serif:"Young Serif",Georgia,serif;
   --sans:"Jost","Helvetica Neue",Arial,sans-serif;
   --m:clamp(20px,5vw,80px);
@@ -38,14 +39,14 @@ ul{padding:0;list-style:none}
 a{color:inherit;text-underline-offset:.25em;text-decoration-thickness:1px}
 img{display:block;max-width:100%;height:auto}
 :focus-visible{outline:2px solid var(--chest);outline-offset:3px}
-.demo{background:var(--ink);color:#D3CCBC;font-size:13px;text-align:center;padding:6px 16px}
+.demo{background:#3E1806;color:#F2D2BC;font-size:13px;text-align:center;padding:6px 16px}
 .wrap{width:min(1200px,100% - 2 * var(--m));margin-inline:auto}
 h2{font:400 clamp(2.1rem,1.6rem + 1.9vw,3.25rem)/1.08 var(--serif);letter-spacing:-.01em}
 .lead{margin-top:16px;max-width:46ch;color:var(--muted)}
-.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 24px;border:1px solid var(--chest);border-radius:0;background:var(--chest);color:var(--white);font:500 15px/1 var(--sans);letter-spacing:.02em;text-decoration:none;cursor:pointer;transition:background-color 160ms ease,color 160ms ease,transform 160ms cubic-bezier(.23,1,.32,1)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 24px;border:1px solid var(--chest);border-radius:0;background:var(--chest);color:var(--accent-ink);font:500 15px/1 var(--sans);letter-spacing:.02em;text-decoration:none;cursor:pointer;transition:background-color 160ms ease,color 160ms ease,transform 160ms cubic-bezier(.23,1,.32,1)}
 .btn:active{transform:scale(.97)}
 .btn.ghost{background:transparent;color:var(--chest)}
-@media (hover:hover) and (pointer:fine){.btn:hover{background:#56301A;color:var(--white)}}
+@media (hover:hover) and (pointer:fine){.btn:hover{background:#F6D27A;border-color:#F6D27A;color:var(--accent-ink)}}
 .photo img{width:100%;aspect-ratio:4/5;object-fit:cover}
 
 /* ---- en-tête ---- */
@@ -73,20 +74,20 @@ h2{font:400 clamp(2.1rem,1.6rem + 1.9vw,3.25rem)/1.08 var(--serif);letter-spacin
 /* ---- le calendrier des saisons ---- */
 .cal{background:var(--sand);padding-block:clamp(80px,9vw,130px)}
 .cal .head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap}
-.cal .tw{margin-top:44px;overflow-x:auto;background:var(--white);padding:clamp(18px,2.5vw,32px)}
+.cal .tw{margin-top:44px;overflow-x:auto;background:var(--white);color:var(--card-ink);padding:clamp(18px,2.5vw,32px)}
 .cal table{width:100%;min-width:760px;border-collapse:separate;border-spacing:3px 6px}
-.cal th{font:500 13px/1 var(--sans);color:var(--muted);text-align:center;padding:0}
+.cal th{font:500 13px/1 var(--sans);color:var(--card-muted);text-align:center;padding:0}
 .cal th button{width:100%;min-height:40px;border:0;background:none;color:inherit;font:inherit;text-transform:capitalize;cursor:pointer;transition:background-color 160ms ease,color 160ms ease}
-.cal th.sel button{background:var(--ink);color:var(--white)}
-.cal th.now button{color:var(--chest);font-weight:600}
+.cal th.sel button{background:var(--card-ink);color:var(--white)}
+.cal th.now button{color:var(--bg);font-weight:600}
 .cal th.sel.now button{color:var(--white)}
-@media (hover:hover) and (pointer:fine){.cal th:not(.sel) button:hover{background:var(--sand)}}
-.cal tbody th{text-align:left;font:400 15px/1.3 var(--sans);color:var(--ink);padding-right:16px;white-space:nowrap}
+@media (hover:hover) and (pointer:fine){.cal th:not(.sel) button:hover{background:#F3EBDD}}
+.cal tbody th{text-align:left;font:400 15px/1.3 var(--sans);color:var(--card-ink);padding-right:16px;white-space:nowrap}
 .cal td{height:22px;padding:0;background:#F0EBE0;transition:opacity 200ms ease}
-.cal td.y{background:var(--chest)}
+.cal td.y{background:var(--rust)}
 .cal td.y.moss{background:var(--moss)}
-.cal td.sel{outline:2px solid var(--ink);outline-offset:-2px}
-.cal .grp th{padding-top:14px;font:400 1.1rem/1.2 var(--serif);color:var(--muted)}
+.cal td.sel{outline:2px solid var(--card-ink);outline-offset:-2px}
+.cal .grp th{padding-top:14px;font:400 1.1rem/1.2 var(--serif);color:var(--card-muted)}
 .month{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:clamp(24px,4vw,56px);margin-top:36px}
 .month h3{font:400 1.75rem/1.1 var(--serif)}
 .month p{margin-top:8px}
@@ -98,22 +99,22 @@ h2{font:400 clamp(2.1rem,1.6rem + 1.9vw,3.25rem)/1.08 var(--serif);letter-spacin
 /* ---- les produits ---- */
 .shop{padding-block:clamp(80px,9vw,130px)}
 .shop .grid{display:grid;grid-template-columns:1.3fr 1fr;gap:clamp(40px,6vw,96px);align-items:start}
-.shop h3{margin-top:44px;font:400 1.4rem/1.15 var(--serif);padding-bottom:12px;border-bottom:1px solid rgba(38,36,29,.18)}
+.shop h3{margin-top:44px;font:400 1.4rem/1.15 var(--serif);padding-bottom:12px;border-bottom:1px solid rgba(251,241,228,.25)}
 .shop li{display:flex;justify-content:space-between;gap:20px;padding:14px 0}
 .shop li small{display:block;color:var(--muted);font-size:14px}
 .shop li .p{white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:500}
 .shop li.off span:first-child{color:var(--muted)}
-.shop li .tag{display:inline-block;margin-left:8px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--moss);font-weight:500}
+.shop li .tag{display:inline-block;margin-left:8px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--chest);font-weight:500}
 .shop .fine{margin-top:28px;color:var(--muted);font-size:15px;max-width:48ch}
 .shop .photo{position:sticky;top:32px}
 .shop figcaption{margin-top:10px;font-size:14px;color:var(--muted)}
 
 /* ---- venir ---- */
-.visit{background:var(--chest);color:var(--white);padding-block:clamp(80px,9vw,130px)}
+.visit{background:var(--deep);color:var(--ink);padding-block:clamp(80px,9vw,130px)}
 .visit .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(24px,4vw,64px);margin-top:44px}
 .visit h3{font:400 1.35rem/1.15 var(--serif);margin-bottom:10px}
-.visit p,.visit li{color:#EAD9CC}
-.visit a{color:var(--white)}
+.visit p,.visit li{color:var(--muted)}
+.visit a{color:var(--ink)}
 footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:28px;font-size:13px;color:var(--muted)}
 
 /* ---- apparitions discrètes ---- */

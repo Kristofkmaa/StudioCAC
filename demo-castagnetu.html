@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>U Castagnetu, producteur en Castagniccia, démo Saitora</title>
+<meta name="description" content="Démo de site vitrine pour un producteur traditionnel corse : charcuterie de porcs nustrale élevés sous les châtaigniers, farine de châtaigne, l'année à la ferme mois par mois, les marchés et la vente à la ferme. Réalisé par Saitora.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="Saitora">
+<meta property="og:title" content="U Castagnetu, producteur en Castagniccia, démo Saitora">
+<meta property="og:description" content="Charcuterie de porcs nustrale et farine de châtaigne, au rythme des saisons. Démo réalisée par Saitora.">
+<meta name="theme-color" content="#23422B">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Crect%20width=%2264%22%20height=%2264%22%20fill=%22%2323422B%22/%3E%3Cpath%20d=%22M32%2012C46%2020%2050%2036%2044%2048H20C14%2036%2018%2020%2032%2012Z%22%20fill=%22%239E1F1A%22/%3E%3C/svg%3E">
+<link rel="stylesheet" href="polices/instrument-sans-f53e91.css">
+<style>
+/* Téléphone : pas de flash gris au toucher, pas de texte grossi en paysage, réponse dès que le doigt se pose,
+   libellés des boutons non sélectionnables, contenu tenu hors de l'encoche en paysage. */
+html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(a,button,[role="button"],[role="tab"]){touch-action:manipulation}
+:where(button,.btn,[role="tab"]){-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+
+/* U Castagnetu (« la châtaigneraie »). Idée : l'almanach de la ferme. Ici tout suit l'année : le figatellu l'hiver,
+   la châtaigne en octobre, la farine en décembre. La page est mise en page comme un almanach imprimé : un axe fixe
+   à 42 % de la largeur, des pages de texte et des pages de couleur pleine (vert maquis, rouge braise, noir de suie).
+   Direction « printed annual », une seule police (Instrument Sans). */
+:root{
+  --bg:#FFFFFF; --surface:#F2F2EF; --ink:#141210; --muted:#5E5A55; --accent:#23422B; --accent-ink:#FFFFFF;
+  --green:#23422B; --ember:#9E1F1A; --soot:#141210;
+  --font:"Instrument Sans","Helvetica Neue",Arial,sans-serif;
+  --step-small:.875rem;
+  --step-body:clamp(1.0625rem,1rem + .25vw,1.1875rem);
+  --step-lead:clamp(1.25rem,1.1rem + .7vw,1.625rem);
+  --step-head:clamp(2.25rem,1.3rem + 3.2vw,4rem);
+  --m:clamp(16px,2.4vw,32px);
+  --axis:42%;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 var(--step-body)/1.5 var(--font);letter-spacing:-.005em}
+h1,h2,h3,p,ul,ol,figure{margin:0}
+a{color:inherit}
+img{display:block;max-width:100%}
+:focus-visible{outline:2px solid var(--ember);outline-offset:3px}
+.demo{background:var(--soot);color:#CFCAC2;font-size:var(--step-small);text-align:center;padding:6px 16px}
+h2{font:600 var(--step-head)/.98 var(--font);letter-spacing:-.04em}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border:0;background:var(--accent);color:var(--accent-ink);font:500 var(--step-body) var(--font);text-decoration:none;cursor:pointer;transition:transform 160ms cubic-bezier(.23,1,.32,1),background-color 160ms ease}
+.btn:active{transform:scale(.97)}
+/* l'axe de l'almanach : la marge à gauche porte les notes, le texte part de l'axe */
+.row{display:grid;grid-template-columns:var(--axis) 1fr;padding-inline:var(--m)}
+.row>.side{padding-right:40px}
+.row>.main{min-width:0}
+
+/* accueil : la châtaigneraie, le titre à gauche, deux nouveautés en bas à droite */
+.hero{position:relative;height:calc(100svh - 32px);min-height:600px;overflow:hidden;color:#fff}
+.hero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.6s ease}
+.hero>img.on{opacity:1}
+.hero .scrim{position:absolute;inset:0 50% 0 0;background:rgba(10,12,8,.5)}
+.hero .bar{position:absolute;left:var(--m);right:var(--m);top:24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.hero .wm{font:600 var(--step-lead)/1 var(--font);letter-spacing:-.03em;text-decoration:none}
+.hero .bar .right{display:flex;align-items:center;gap:24px}
+.hero .bar .right a:not(.btn){text-decoration:none}
+.hero .copy{position:absolute;left:var(--m);top:50%;transform:translateY(-50%);width:min(560px,44%)}
+.hero h1{font:600 clamp(2.75rem,1.4rem + 3.9vw,4.25rem)/1.02 var(--font);letter-spacing:-.04em}
+.hero .copy p{margin-top:20px;max-width:40ch}
+.cards{position:absolute;right:var(--m);bottom:var(--m);display:flex;gap:16px}
+.cards a{width:220px;text-decoration:none;color:var(--ink);background:#fff;display:block;transition:transform 200ms cubic-bezier(.23,1,.32,1)}
+.cards img{width:100%;height:auto;aspect-ratio:3/2;object-fit:cover}
+.cards span{display:flex;justify-content:space-between;align-items:center;gap:8px;min-height:44px;padding:8px 12px;font-size:var(--step-small);font-weight:500}
+
+/* l'année à la ferme : douze mois, une page par mois */
+.year{padding-block:clamp(120px,14vw,200px) 0}
+.year .lead{margin-top:20px;max-width:46ch}
+.months{display:flex;flex-wrap:wrap;gap:6px;margin-top:36px}
+.months button{min-height:44px;min-width:56px;padding:0 12px;border:0;background:var(--surface);color:var(--ink);font:500 var(--step-body) var(--font);cursor:pointer;text-transform:capitalize;transition:background-color 160ms ease,transform 160ms cubic-bezier(.23,1,.32,1)}
+.months button:active{transform:scale(.96)}
+.months button[aria-selected="true"]{background:var(--ink);color:#fff}
+.months button.now{text-decoration:underline;text-decoration-color:var(--ember);text-decoration-thickness:3px;text-underline-offset:7px}
+.month{margin:12px var(--m) 0;display:grid;grid-template-columns:var(--axis) 1fr 1fr;gap:0;min-height:360px}
+.month>div{padding:32px}
+.month .what{background:var(--green);color:#fff}
+.month .what h3{font:600 var(--step-head)/1 var(--font);letter-spacing:-.04em;text-transform:capitalize}
+.month .what p{margin-top:16px;font-size:var(--step-lead);line-height:1.3}
+.month .have{background:var(--surface)}
+.month .where{background:#E6E3DC}
+.month h4{font:600 var(--step-body)/1.2 var(--font);margin:0 0 12px}
+.month ul{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+.month li{display:flex;justify-content:space-between;gap:12px}
+.month li span:last-child{color:var(--muted);text-align:right}
+.month .plain li{display:block}
+.side .note{color:var(--muted);max-width:30ch}
+.side .note b{color:var(--ink);font-weight:500}
+
+/* comment on fait : beaucoup en un seul */
+.how{padding-block:clamp(120px,14vw,200px) 0}
+.how .head{display:grid;grid-template-columns:var(--axis) 1fr;padding-inline:var(--m)}
+.how .head p{max-width:46ch;margin-top:16px}
+.diagram{margin:48px var(--m) 0}
+.diagram svg{display:block;width:100%;height:auto}
+.thirds{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;padding:28px var(--m) 0}
+.thirds h3{font:600 var(--step-lead)/1.15 var(--font);letter-spacing:-.02em}
+.thirds p{margin-top:8px;color:var(--muted);max-width:36ch}
+
+/* la boutique : une page de couleur braise avec les prix */
+.shop{margin-top:clamp(120px,14vw,200px);background:var(--ember);color:#fff;padding-block:clamp(72px,8vw,120px)}
+.shop .side figure{aspect-ratio:4/5;overflow:hidden;max-width:420px}
+.shop .side img{width:100%;height:100%;object-fit:cover}
+.shop .main p{margin-top:16px;max-width:52ch}
+.price-cols{display:grid;grid-template-columns:1fr 1fr;gap:40px 56px;margin-top:40px}
+.price-cols h3{font:600 var(--step-lead)/1.15 var(--font);letter-spacing:-.02em;margin-bottom:14px}
+.price-cols ul{list-style:none;padding:0;display:grid;gap:14px}
+.price-cols li>div{display:flex;justify-content:space-between;gap:16px}
+.price-cols li>div span:last-child{font-variant-numeric:tabular-nums;white-space:nowrap}
+.price-cols li small{display:block;font-size:var(--step-small);color:#FBE3D9;max-width:36ch}
+.price-cols li.off{opacity:.55}
+.shop .fine{margin-top:32px;color:#FBE3D9;max-width:56ch}
+
+/* trois images qui montent */
+.trip{padding-block:clamp(120px,14vw,200px) 0;overflow:hidden}
+.trip .head{text-align:center;padding-inline:var(--m)}
+.trip .head p{margin:14px auto 0;max-width:46ch}
+.three{display:grid;grid-template-columns:1fr 1.45fr 1fr;gap:10px;align-items:start;margin-top:48px;padding-inline:0}
+.three figure{overflow:hidden}
+.three figure:nth-child(odd){margin-top:55px}
+.three img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover}
+.three figure:nth-child(odd) img{aspect-ratio:360/530}
+
+/* la fin : une phrase, une photo, deux liens, sur fond de suie */
+.close{background:var(--soot);color:#fff;margin-top:clamp(120px,14vw,200px);padding:160px var(--m) 120px;display:grid;grid-template-columns:5fr 2fr 2fr 3fr;gap:32px;align-items:start}
+.close .say{font:500 clamp(1.5rem,1.1rem + 1.4vw,2.25rem)/1.15 var(--font);letter-spacing:-.02em;max-width:24ch}
+.close figure{grid-column:3;width:160px;aspect-ratio:1;overflow:hidden}
+.close figure img{width:100%;height:100%;object-fit:cover}
+.close .ask{font-weight:500}
+.close .links{display:grid;gap:8px;margin-top:20px}
+.close .links a{text-underline-offset:5px}
+.close .city{margin-top:20px;font-size:var(--step-small);color:#B9B3AA}
+footer{background:var(--soot);color:#B9B3AA;padding:0 var(--m) 28px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:var(--step-small)}
+
+/* entrées une fois, en cascade */
+.js .rise{opacity:0;transform:translateY(24px);transition:opacity 700ms cubic-bezier(.23,1,.32,1),transform 700ms cubic-bezier(.23,1,.32,1);transition-delay:calc(var(--i,0) * 75ms)}
+.js .rise.on{opacity:1;transform:none}
+.js .three figure{transform:translateY(80px);transition:transform 1.2s cubic-bezier(.23,1,.32,1)}
+.js .three figure.on{transform:none}
+.js .three figure:nth-child(2){transition-delay:120ms}
+.sq{transition:transform 1.4s cubic-bezier(.23,1,.32,1)}
+@media (prefers-reduced-motion:no-preference){.hero>img.on{animation:drift 24s ease-in-out infinite alternate}}
+@keyframes drift{from{transform:scale(1)}to{transform:scale(1.06)}}
+
+@media (max-width:900px){
+  .row,.how .head{grid-template-columns:1fr}
+  .row>.side{padding-right:0;order:2;margin-top:28px}
+  .hero{height:100svh}
+  .hero .scrim{inset:0;background:rgba(10,12,8,.45)}
+  .hero .bar .right a:not(.btn){display:none}
+  .hero .copy{width:auto;right:var(--m);top:40%}
+  .hero h1{font-size:9.4vw}
+  .cards{left:16px;right:16px;bottom:16px}
+  .cards a{width:auto;flex:1}
+  .month{grid-template-columns:1fr}
+  .month>div{padding:24px}
+  .thirds{grid-template-columns:1fr;gap:20px}
+  .price-cols{grid-template-columns:1fr}
+  .shop .side figure{max-width:none;aspect-ratio:4/3}
+  .three{grid-template-columns:40px 1fr 40px}
+  .close{grid-template-columns:96px 1fr;padding:96px var(--m) 72px}
+  .close .say{grid-column:1/-1;font-size:7.4vw}
+  .close figure{grid-column:1;width:96px}
+  .close>div:last-child{grid-column:2}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.js .rise,.js .three figure{opacity:1;transform:none;transition:none}.hero>img{transition:none}.sq{transition:none}}
+@media (hover:hover) and (pointer:fine){
+  .btn:hover{background:#16301D}
+  .cards a:hover{transform:translateY(-4px)}
+  .months button:hover{background:#E4E2DC}
+  .months button[aria-selected="true"]:hover{background:var(--ink)}
+  .close .links a:hover{color:#F3B59D}
+}
+@media (pointer:coarse){.close .links a{display:inline-block;padding-block:8px}}
+</style>
+</head>
+<body>
+<script>document.documentElement.classList.add("js")</script>
+
+<div class="demo">Site de démonstration réalisé par Saitora, producteur fictif</div>
+
+<header class="hero" aria-labelledby="t-hero">
+  <img class="on" src="images/castagnetu/chataigneraie.webp" alt="Porcs noirs en liberté sous de grands châtaigniers" width="1800" height="1100" fetchpriority="high">
+  <img src="images/castagnetu/sechoir.webp" alt="Fumée bleue du feu de bois dans le séchoir" width="1800" height="1100" loading="lazy">
+  <img src="images/castagnetu/automne.webp" alt="Châtaigneraie en automne, feuilles dorées" width="1800" height="1100" loading="lazy">
+  <div class="scrim" aria-hidden="true"></div>
+  <div class="bar">
+    <a class="wm" href="#">U Castagnetu</a>
+    <div class="right"><a href="#annee">L'année</a><a href="#boutique">Les produits</a><a class="btn" href="#venir">Venir à la ferme</a></div>
+  </div>
+  <div class="copy">
+    <h1 class="rise">Charcuterie de Castagniccia</h1>
+    <p class="rise" style="--i:1">Nos porcs nustrale vivent dehors, sous les châtaigniers de Piedicroce. Charcuterie au feu de bois et farine de châtaigne, faites ici, au rythme des saisons.</p>
+  </div>
+  <nav class="cards" aria-label="En ce moment">
+    <a href="#boutique"><img src="images/castagnetu/figatellu.webp" alt="" width="440" height="294" loading="lazy"><span id="card1">Le figatellu de l'hiver<b aria-hidden="true">›</b></span></a>
+    <a href="#annee"><img src="images/castagnetu/farine.webp" alt="" width="440" height="294" loading="lazy"><span id="card2">La farine de l'année<b aria-hidden="true">›</b></span></a>
+  </nav>
+</header>
+
+<main>
+  <section class="year row" id="annee" aria-labelledby="t-year">
+    <div class="side"><p class="note rise"><b>Pourquoi un calendrier ?</b> Parce qu'on ne trouve pas tout, tout le temps. Le figatellu ne se fait qu'en hiver, la châtaigne tombe en octobre, et le jambon attend deux ans.</p></div>
+    <div class="main">
+      <h2 class="rise" id="t-year">L'année à la ferme</h2>
+      <p class="lead rise" style="--i:1">Choisissez un mois : ce qu'on fait à la ferme, ce qui est à vendre, et où nous trouver.</p>
+      <div class="months" role="tablist" aria-label="Mois" id="months"></div>
+    </div>
+  </section>
+  <div class="month" id="month" role="tabpanel" aria-live="polite"></div>
+
+  <section class="how" aria-labelledby="t-how">
+    <div class="head">
+      <div></div>
+      <div><h2 class="rise" id="t-how">De l'arbre au séchoir</h2><p class="rise" style="--i:1">Des milliers de châtaignes tombées dans la forêt deviennent, en un hiver, quelques rangées de jambons et de coppe pendues dans la cave.</p></div>
+    </div>
+    <figure class="diagram" aria-hidden="true"><svg id="diag" viewBox="0 0 1200 270"></svg></figure>
+    <div class="thirds">
+      <div class="rise"><h3>Ramasser</h3><p>En octobre, les châtaignes tombent. Les porcs mangent celles du sol, nous ramassons les plus belles à la main.</p></div>
+      <div class="rise" style="--i:1"><h3>Sécher</h3><p>Dans la grataghja, la maison du séchoir, un feu de bois de châtaignier brûle doucement pendant des semaines.</p></div>
+      <div class="rise" style="--i:2"><h3>Affiner</h3><p>Les pièces descendent à la cave : quatre mois pour la coppa, deux ans pour le prisuttu.</p></div>
+    </div>
+  </section>
+
+  <section class="shop" id="boutique" aria-labelledby="t-shop">
+    <div class="row">
+      <div class="side"><figure class="rise"><img src="images/castagnetu/cave.webp" alt="Jambons secs pendus dans une cave voûtée" width="840" height="1050" loading="lazy"></figure></div>
+      <div class="main">
+        <h2 class="rise" id="t-shop">Les produits</h2>
+        <p class="rise" style="--i:1">À la ferme le samedi matin, sur les marchés, ou en colis à retirer. Les produits hors saison sont grisés : ils reviennent avec leur mois.</p>
+        <div class="price-cols" id="prices"></div>
+        <p class="fine">Pas de vente en ligne : appelez-nous ou passez commande au marché, nous préparons votre colis pour le samedi suivant.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="trip" aria-labelledby="t-trip">
+    <div class="head"><h2 class="rise" id="t-trip">La Castagniccia</h2><p class="rise" style="--i:1">Des villages accrochés à la pente, des clochers dans la forêt, et des châtaigniers à perte de vue.</p></div>
+    <div class="three">
+      <figure><img src="images/castagnetu/village.webp" alt="Village de pierre accroché à la montagne" width="720" height="1060" loading="lazy"></figure>
+      <figure><img src="images/castagnetu/chataignes.webp" alt="Châtaignes dans leurs bogues ouvertes" width="1000" height="1250" loading="lazy"></figure>
+      <figure><img src="images/castagnetu/foret.webp" alt="Sous-bois de châtaigniers dans la brume" width="720" height="1060" loading="lazy"></figure>
+    </div>
+  </section>
+
+  <section class="close" id="venir" aria-label="Venir et nous écrire">
+    <p class="say rise">Un colis, une visite du séchoir ? Appelez-nous.</p>
+    <figure class="rise" style="--i:1"><img src="images/castagnetu/ferme.webp" alt="Maison de ferme en pierre au bord de la châtaigneraie" width="320" height="320" loading="lazy"></figure>
+    <div class="rise" style="--i:2">
+      <p class="ask">On vous attend le samedi matin ?</p>
+      <div class="links"><a href="tel:+33400000000">04 00 00 00 00</a><a href="mailto:ferme@ucastagnetu.fr">ferme@ucastagnetu.fr</a></div>
+      <p class="city">Piedicroce, Castagniccia. Nous répondons le soir, après les bêtes.</p>
+    </div>
+  </section>
+</main>
+<footer><span>© U Castagnetu, producteur fictif</span><span>Site réalisé par Saitora</span></footer>
+
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+
+// ——— les produits : [nom, détail, prix, mois de disponibilité (1 à 12)]
+const ALL = [1,2,3,4,5,6,7,8,9,10,11,12];
+const PRODUCTS = {
+  "La charcuterie": [
+    ["Figatellu", "Saucisse de foie fumée, à griller. Seulement l'hiver.", "28 € le kilo", [12, 1, 2, 3]],
+    ["Coppa", "L'échine, quatre mois de cave.", "45 € le kilo", [5, 6, 7, 8, 9, 10, 11, 12, 1]],
+    ["Lonzu", "Le filet, salé puis fumé.", "48 € le kilo", [5, 6, 7, 8, 9, 10, 11, 12, 1]],
+    ["Prisuttu 24 mois", "Le jambon, deux ans d'affinage.", "65 € le kilo", ALL],
+    ["Salamu", "Saucisson au poivre et au vin.", "38 € le kilo", [4, 5, 6, 7, 8, 9, 10, 11, 12]],
+  ],
+  "La châtaigne et le reste": [
+    ["Farine de châtaigne", "Moulue en décembre au moulin du village.", "9,50 € les 500 g", [12, 1, 2, 3, 4, 5, 6, 7, 8]],
+    ["Châtaignes fraîches", "Ramassées à la main.", "6 € le kilo", [10, 11]],
+    ["Miel de châtaignier", "Sombre et un peu amer.", "14 € le pot de 500 g", [7, 8, 9, 10, 11, 12, 1, 2, 3]],
+    ["Terrine de campagne", "Au foie et à la châtaigne.", "7 € le bocal", ALL],
+  ],
+};
+// ——— l'année : [ce qu'on fait, où nous trouver]
+const YEAR = [
+  ["On mange le figatellu frais, et on finit la charcuterie de l'hiver.", ["À la ferme, le samedi matin", "Marché de Bastia, le samedi"]],
+  ["Dernières tumbere. Les jambons partent au sel.", ["À la ferme, le samedi matin", "Marché de Bastia, le samedi"]],
+  ["Fin du figatellu. Les jambons quittent le sel pour le séchoir.", ["À la ferme, le samedi matin", "Marché de Corte, le vendredi"]],
+  ["Les porcelets naissent. Le feu du séchoir tourne doucement.", ["À la ferme, le samedi matin", "Marché de Corte, le vendredi"]],
+  ["Les porcs remontent vers les chênes. La coppa et le lonzu de l'hiver sont prêts.", ["À la ferme, le samedi matin", "Marché de Bastia, le samedi", "Marché de Corte, le vendredi"]],
+  ["Le séchoir s'éteint, les pièces descendent à la cave.", ["À la ferme, le samedi matin", "Marché de Bastia, le samedi"]],
+  ["Ferme ouverte le mercredi : visite du séchoir et dégustation.", ["À la ferme, le mercredi et le samedi", "Marchés d'été de la côte, le jeudi"]],
+  ["Les marchés d'été et la fête du village, le 15 août.", ["À la ferme, le mercredi et le samedi", "Marchés d'été de la côte, le jeudi"]],
+  ["On nettoie la châtaigneraie avant la chute des fruits.", ["À la ferme, le samedi matin", "Marché de Bastia, le samedi"]],
+  ["La châtaigne tombe : ramassage à la main, et les porcs finissent sous les arbres.", ["À la ferme, le samedi matin", "Marché de Bastia, le samedi"]],
+  ["Les châtaignes sèchent trois semaines dans la grataghja, au-dessus du feu.", ["À la ferme, le samedi matin", "Marché de Bastia, le samedi"]],
+  ["La farine est moulue. Première tumbera, premier figatellu, et la foire de la châtaigne.", ["À la ferme, tous les jours avant Noël", "Foire de la châtaigne, mi-décembre", "Marché de Bastia, le samedi"]],
+];
+const MS = ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."];
+const MN = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
+const now = new Date().getMonth() + 1;
+let cur = now;
+function months(){
+  $("months").innerHTML = MN.map((m, i) => `<button type="button" role="tab" aria-selected="${i + 1 === cur}" class="${i + 1 === now ? "now" : ""}" data-m="${i + 1}" aria-label="${m}${i + 1 === now ? ", ce mois-ci" : ""}">${MS[i]}</button>`).join("");
+  const [what, where] = YEAR[cur - 1];
+  const have = Object.values(PRODUCTS).flat().filter(p => p[3].includes(cur));
+  $("month").innerHTML = `<div class="what"><h3>${MN[cur - 1]}</h3><p>${esc(what)}</p></div>
+    <div class="have"><h4>À vendre ce mois-là</h4><ul>${have.map(p => `<li><span>${esc(p[0])}</span><span>${esc(p[2])}</span></li>`).join("")}</ul></div>
+    <div class="where"><h4>Où nous trouver</h4><ul class="plain">${where.map(w => `<li>${esc(w)}</li>`).join("")}</ul></div>`;
+}
+$("months").addEventListener("click", e => { const b = e.target.closest("[data-m]"); if (b) { cur = Number(b.dataset.m); months(); } });
+$("months").addEventListener("keydown", e => { if (!["ArrowLeft", "ArrowRight"].includes(e.key)) return; cur = (cur + (e.key === "ArrowRight" ? 0 : 10)) % 12 + 1; months(); $("months").querySelector(`[data-m="${cur}"]`).focus(); });
+months();
+
+// ——— la boutique : ce qui est hors saison ce mois-ci est grisé
+$("prices").innerHTML = Object.entries(PRODUCTS).map(([g, list]) => `<div class="rise"><h3>${esc(g)}</h3><ul>${list.map(([n, d, p, ms]) => `<li class="${ms.includes(now) ? "" : "off"}"><div><span>${esc(n)}</span><span>${esc(p)}</span></div><small>${esc(d)}${ms.includes(now) ? "" : ` De retour en ${MN[ms[0] - 1]}.`}</small></li>`).join("")}</ul></div>`).join("");
+// les deux nouveautés de l'accueil suivent la saison
+const winter = [12, 1, 2, 3].includes(now);
+$("card1").firstChild.textContent = winter ? "Le figatellu de l'hiver" : "La coppa de la saison";
+$("card2").firstChild.textContent = [10, 11].includes(now) ? "Les châtaignes fraîches" : "La farine de l'année";
+
+// ——— beaucoup en un seul : châtaignes éparses, le séchoir, puis les rangées de la cave
+(function diagram(){
+  let s = 7, rnd = () => (s = (s * 9301 + 49297) % 233280) / 233280, out = "";
+  const N = 144, size = 12;
+  for (let i = 0; i < N; i++) {
+    let x, y, c;
+    if (i < 64) { x = 20 + rnd() * 340; y = 20 + rnd() * 230; c = rnd() > .5 ? "#C9C2B6" : "#E3DED4"; }              // éparses, dans la forêt
+    else if (i < 112) { const k = i - 64; x = 420 + (k % 24) * 15; y = 112 + Math.floor(k / 24) * 15; c = "#8E8579"; }   // serrées, au séchoir
+    else { const k = i - 112; x = 860 + (k % 8) * 40; y = 40 + Math.floor(k / 8) * 50; c = "#9E1F1A"; }                   // en rangées, à la cave
+    out += `<rect class="sq" x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${size}" height="${size}" fill="${c}"/>`;
+  }
+  $("diag").innerHTML = out;
+})();
+
+// ——— l'image d'accueil change doucement de lumière ; pause quand l'onglet est caché
+const imgs = [...document.querySelectorAll(".hero>img")];
+let k = 0, timer = null;
+const cycle = () => { imgs[k].classList.remove("on"); k = (k + 1) % imgs.length; imgs[k].classList.add("on"); };
+const play = () => { if (!matchMedia("(prefers-reduced-motion: reduce)").matches && !timer) timer = setInterval(cycle, 6000); };
+document.addEventListener("visibilitychange", () => { if (document.hidden) { clearInterval(timer); timer = null; } else play(); });
+play();
+
+// ——— entrées
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("on"); io.unobserve(e.target); } }), { threshold: .1 });
+document.querySelectorAll(".rise, .three figure").forEach(el => io.observe(el));
+</script>
+</body>
+</html>

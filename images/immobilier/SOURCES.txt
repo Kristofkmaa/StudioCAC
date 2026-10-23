@@ -2,6 +2,7 @@ appartement.webp | https://pixabay.com/photos/interior-living-room-lifestyle-256
 baie.webp | https://pixabay.com/photos/coast-corsica-landscape-scenery-3620146/ (photo de KaiPilger, licence Pixabay)
 cuisine.webp | https://pixabay.com/photos/apartment-window-glass-wall-hallway-185779/ (photo de BM10777, licence Pixabay)
 maison-pierre.webp | https://pixabay.com/photos/stone-house-building-architecture-823739/ (photo de Tama66, licence Pixabay)
+rue.webp | https://pixabay.com/photos/alley-historic-center-historical-2995354/ (photo de Tama66, licence Pixabay)
 ruelle.webp | https://pixabay.com/photos/village-old-village-old-houses-7258991/ (photo de ChiemSeherin, licence Pixabay)
 sejour.webp | https://pixabay.com/photos/chairs-floor-furniture-indoors-2181947/ (photo de Pexels, licence Pixabay)
 village.webp | https://pixabay.com/photos/architecture-town-castle-city-3110584/ (photo de Manosainz, licence Pixabay)

@@ -152,6 +152,54 @@
 .tp-sombre-cinema .kick{font-size:1.4cqw;letter-spacing:.3em;text-transform:uppercase;color:var(--a);font-weight:600}
 .tp-sombre-cinema h4{margin-top:1cqw;font-size:10cqw;font-weight:900;line-height:.86;text-transform:uppercase}
 .tp-sombre-cinema .lnk{display:inline-block;margin-top:2cqw;font-size:1.6cqw;font-weight:600;letter-spacing:.08em;text-transform:uppercase;border-bottom:.3cqw solid var(--a);padding-bottom:.5cqw}
+
+/* Atelier mécanique : béton, jaune de signalisation, pochoir, bandes hachurées, plaque d'immatriculation */
+.tp-atelier .nav{background:#16181A;color:#fff}
+.tp-atelier .nav .lg{color:var(--a);font-weight:400;text-transform:uppercase}
+.tp-atelier .nav .btn{color:#16181A}
+.tp-atelier .hero{display:grid;grid-template-columns:1fr 1fr;gap:3cqw;margin:6cqw 4cqw 0;align-items:center}
+.tp-atelier .ph{height:30cqw!important}
+.tp-atelier h4{font-size:6cqw;font-weight:400;line-height:1.22;text-transform:uppercase}
+.tp-atelier h4 em{font-style:normal;background:#16181A;color:#fff;padding:0 .1em}
+.tp-atelier .ph{height:24cqw;filter:grayscale(1) contrast(1.1)}
+.tp-atelier .plate{display:inline-flex;margin-top:2cqw;border:.3cqw solid #16181A;border-radius:.8cqw;overflow:hidden;background:#fff;font-weight:800;font-size:2.6cqw;letter-spacing:.06em}
+.tp-atelier .plate i{width:3cqw;background:#039;font-style:normal}
+.tp-atelier .plate span{padding:.6cqw 1.6cqw}
+.tp-atelier .hz{position:absolute;left:0;right:0;bottom:0;height:3.6cqw;background:repeating-linear-gradient(-45deg,var(--a) 0 2cqw,#16181A 2cqw 4cqw)}
+
+/* Herbier : papier crème, planche de fleur avec son étiquette, noms latins en italique */
+.tp-herbier .nav{border-bottom:.15cqw solid rgba(43,42,34,.2);margin:0 4cqw;padding-inline:0}
+.tp-herbier .nav .lg{font-weight:500}
+.tp-herbier .nav .btn{color:var(--f)}
+.tp-herbier .hero{display:grid;grid-template-columns:1.1fr 1fr;gap:4cqw;margin:4cqw 4cqw 0;align-items:center}
+.tp-herbier h4{font-size:6.4cqw;font-weight:500;line-height:1}
+.tp-herbier h4 em{color:var(--a)}
+.tp-herbier p{margin-top:1.6cqw;font-size:1.8cqw}
+.tp-herbier .sheet{position:relative;background:#F6F1E4;border:.15cqw solid rgba(43,42,34,.2);padding:2cqw 2cqw 6cqw;height:36cqw}
+.tp-herbier .sheet .ph img{object-fit:contain}
+.tp-herbier .sheet .ph{height:100%}
+.tp-herbier .label{position:absolute;right:1.4cqw;bottom:1.4cqw;background:#FBF7EE;border:.15cqw solid rgba(43,42,34,.2);padding:.6cqw 1.2cqw;font-family:var(--ft);font-style:italic;font-size:1.8cqw}
+
+/* Énergie : titre immense et penché, orange vif, citron vert, photos en noir et blanc */
+.tp-energie .nav .lg{font-weight:900;text-transform:uppercase;font-size:2.6cqw}
+.tp-energie .nav .btn{border-radius:99cqw;color:#111}
+.tp-energie h4{margin:2cqw 4cqw 0;font-size:17cqw;font-weight:900;line-height:.86;text-transform:uppercase;letter-spacing:-.05em;transform:skewX(-8deg);transform-origin:left}
+.tp-energie h4 i{font-style:normal;color:var(--a)}
+.tp-energie .row{display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:1.4cqw;margin:3cqw 4cqw 0;align-items:end}
+.tp-energie .row .ph{height:18cqw;filter:grayscale(1) contrast(1.15)}
+.tp-energie .row .ph:nth-child(2){height:22cqw}
+.tp-energie .chip{position:absolute;left:5.5cqw;bottom:4cqw;padding:.6cqw 1.6cqw;border-radius:99cqw;background:var(--s);font-weight:800;font-size:1.7cqw}
+
+/* Carnet d'architecte : papier quadrillé, encre bleu nuit, trait rouge, plan coté */
+.tp-carnet .tq{background-image:linear-gradient(rgba(31,42,68,.07) .1cqw,transparent .1cqw),linear-gradient(90deg,rgba(31,42,68,.07) .1cqw,transparent .1cqw);background-size:2.6cqw 2.6cqw}
+.tp-carnet .nav{border-bottom:.15cqw solid rgba(31,42,68,.2);margin:0 4cqw;padding-inline:0}
+.tp-carnet .nav .lg{font-weight:400;font-size:3.4cqw}
+.tp-carnet .nav .btn{background:var(--a);color:#fff}
+.tp-carnet .hero{display:grid;grid-template-columns:1fr 1fr;gap:4cqw;margin:4cqw 4cqw 0;align-items:center}
+.tp-carnet h4{font-size:6.8cqw;font-weight:400;line-height:.98}
+.tp-carnet h4 em{color:var(--a)}
+.tp-carnet .plan{margin-top:2.4cqw;width:100%;height:auto}
+.tp-carnet .ph{height:30cqw;background:#fff;padding:1cqw;outline:.15cqw solid rgba(31,42,68,.2);outline-offset:.8cqw}
 `;
 
   // le dessin de chaque thème : n = nom, q = activité, img = photo d'exemple
@@ -166,6 +214,10 @@
     "mediterraneen": (n, q, img) => `<div class="nav"><b class="lg">${n}</b><span class="lk"><i>La carte</i><i>Le lieu</i></span><span class="btn">Réserver</span></div><div class="mos"><div class="blue"><h4 class="ft">Le soleil, <em>la mer</em></h4><span class="go">Réserver</span></div><div>${img}</div><div class="stack"><div class="ochre">Ouvert ce soir</div><div style="background:#7C8B4C"></div></div></div>`,
     "moderne-doux": (n, q, img) => `<div class="nav"><b class="lg">${n}</b><span class="lk"><i>Soins</i><i>Tarifs</i></span><span class="btn">Réserver</span></div><div class="hero"><div><span class="hand">prenez soin de vous</span><h4 class="ft">Un moment <em>rien qu'à vous</em></h4><p>Doux, clair et accueillant.</p><span class="go">Voir les places libres</span></div><div class="pic"><div class="ph">${img}</div></div></div><div class="chips"><span>Demain 10 h</span><span>Mardi 15 h</span><span>Jeudi 9 h</span></div>`,
     "sombre-cinema": (n, q, img) => `<div class="ph">${img}</div><div class="nav"><b class="lg">${n}</b></div><div class="bottom"><p class="kick">${n} présente</p><h4 class="ft">Un savoir-faire à part</h4><span class="lnk">Découvrir →</span></div>`,
+    "atelier": (n, q, img) => `<div class="nav"><b class="lg">${n}</b><span class="lk"><i>Suivi</i><i>Prix</i></span><span class="btn">Appeler</span></div><div class="hero"><div><h4 class="ft">Réparée, et vous savez <em>quand.</em></h4><span class="plate"><i></i><span>AB-123-CD</span></span></div><div class="ph">${img}</div></div><i class="hz"></i>`,
+    "herbier": (n, q, img) => `<div class="nav"><b class="lg">${n}</b><span class="lk"><i>Bouquets</i><i>Venir</i></span><span class="btn">Commander</span></div><div class="hero"><div><h4 class="ft">Les fleurs <em>de saison</em>, en bouquet</h4><p>Délicat et naturel, comme un herbier ancien.</p></div><figure class="sheet"><div class="ph">${img}</div><span class="label">Cistus salviifolius</span></figure></div>`,
+    "energie": (n, q, img) => `<div class="nav"><b class="lg">${n}</b><span class="lk"><i>Planning</i><i>Tarifs</i></span><span class="btn">Essai gratuit</span></div><h4 class="ft">Forza<i>.</i></h4><div class="row"><div class="ph">${img}</div><div class="ph" style="background:#111"></div><div class="ph" style="background:var(--a)"></div></div><span class="chip">12 places max</span>`,
+    "carnet": (n, q, img) => `<div class="nav"><b class="lg">${n}</b><span class="lk"><i>Estimer</i><i>Les biens</i></span><span class="btn">Estimer</span></div><div class="hero"><div><h4 class="ft">Votre bien, <em>au juste prix.</em></h4><svg class="plan" viewBox="0 0 200 90"><rect x="40" y="6" width="120" height="66" fill="rgba(210,69,43,.06)" stroke="#1F2A44" stroke-width="2.5"/><line x1="80" y1="6" x2="80" y2="44" stroke="#1F2A44"/><line x1="40" y1="82" x2="160" y2="82" stroke="#D2452B"/><text x="100" y="45" text-anchor="middle" font-size="16" fill="#1F2A44" font-family="Georgia">75 m²</text><text x="100" y="90" text-anchor="middle" font-size="8" fill="#D2452B">10,2 m</text></svg></div><div class="ph">${img}</div></div>`,
   };
 
   let cssDone = false;

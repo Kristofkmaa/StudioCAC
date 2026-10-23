@@ -654,7 +654,7 @@
       "polices": {
         "titres": "Saira Stencil One",
         "texte": "Barlow",
-        "css": "polices/saira-stencil-one-barlow.css"
+        "css": "polices/saira-stencil-one-barlow-81ca1a.css"
       },
       "photo": "images/garage/atelier.webp",
       "exemple": {
@@ -719,9 +719,9 @@
       "polices": {
         "titres": "Crimson Pro",
         "texte": "Work Sans",
-        "css": "polices/crimson-pro-work-sans.css"
+        "css": "polices/crimson-pro-work-sans-30965e.css"
       },
-      "photo": "images/fleuriste/planche-ciste.webp",
+      "photo": "images/fleuriste/tige-ciste.webp",
       "exemple": {
         "nom": "Fiori di Macchia",
         "url": "demo-fiori.html"
@@ -786,7 +786,7 @@
       "polices": {
         "titres": "Unbounded",
         "texte": "Manrope",
-        "css": "polices/unbounded-manrope.css"
+        "css": "polices/unbounded-manrope-ee3e44.css"
       },
       "photo": "images/sport/boxe.webp",
       "exemple": {
@@ -850,7 +850,7 @@
       "polices": {
         "titres": "Instrument Serif",
         "texte": "Inter Tight",
-        "css": "polices/instrument-serif-inter-tight.css"
+        "css": "polices/instrument-serif-inter-tight-90ca4e.css"
       },
       "photo": "images/immobilier/sejour.webp",
       "exemple": {

@@ -261,7 +261,8 @@
       "decoupes": "diagonale",
       "boutons": "rectangle",
       "pied": "simple",
-      "ornement": "aucun"
+      "ornement": "aucun",
+      "police": "Saira Stencil One + Barlow"
     },
     "fiori": {
       "genre": "herbier",
@@ -282,7 +283,8 @@
       "decoupes": "droites",
       "boutons": "rectangle",
       "pied": "infos",
-      "ornement": "filet"
+      "ornement": "filet",
+      "police": "Crimson Pro + Work Sans"
     },
     "forza": {
       "genre": "energie",
@@ -303,7 +305,8 @@
       "decoupes": "diagonale",
       "boutons": "pilule",
       "pied": "simple",
-      "ornement": "aucun"
+      "ornement": "aucun",
+      "police": "Unbounded + Manrope"
     },
     "piazza": {
       "genre": "carnet",
@@ -324,7 +327,8 @@
       "decoupes": "droites",
       "boutons": "rectangle",
       "pied": "couleur",
-      "ornement": "aucun"
+      "ornement": "aucun",
+      "police": "Instrument Serif + Inter Tight"
     }
   }
 }

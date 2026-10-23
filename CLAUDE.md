@@ -10,6 +10,8 @@ Après chaque modification, sans attendre de confirmation :
 
 ## Nouveau site (client ou démo) : chacun son style
 
+**Toujours suivre le skill `nouveau-site` (`.claude/skills/nouveau-site/SKILL.md`)** : il enchaîne la charte, le tirage, les skills de design (design-taste-frontend, mobile-native, animate…), les règles apprises, la vérification (`node outils/verifier.js <page> --captures <dossier>`) et l'enregistrement. En résumé :
+
 Avant de construire un site, tirer sa composition pour qu'il ne ressemble pas aux autres :
 1. `python3 outils/tirage.py <nom>` (ajouter `--exclure famille=option` pour un choix impossible, par exemple `preuves=citations` sans vrais avis ; `--comme <site>` et `--garder ouverture,rythme` seulement si l'utilisateur demande une ressemblance).
 2. Suivre la fiche écrite dans `clients/<nom>/style.md` ; les couleurs, polices et logo viennent de la charte du client. Le code de chaque option est dans `outils/styles/recettes.md`.

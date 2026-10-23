@@ -105,9 +105,9 @@ section{padding-block:clamp(80px,9vw,130px)}
 .cats{display:flex;gap:8px;flex-wrap:wrap}
 .cats button{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid var(--ink);background:none;font-weight:700;cursor:pointer;transition:background-color .15s,color .15s}
 .cats button[aria-pressed="true"]{background:var(--ink);color:var(--chalk)}
-.rail{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:28px var(--m) 20px;margin-top:8px;scrollbar-width:none;overscroll-behavior-x:contain}
-.rail::-webkit-scrollbar{display:none}
-.card{flex:none;width:clamp(250px,26vw,320px);min-height:380px;scroll-snap-align:start;border-radius:var(--r);padding:24px;display:flex;flex-direction:column;background:var(--c);color:var(--fg,var(--ink));position:relative;overflow:hidden}
+/* les plats en grille : tout tient dans l'écran, rien ne défile sur le côté */
+.rail{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;max-width:1300px;margin:28px auto 20px;padding-inline:var(--m)}
+.card{min-height:340px;border-radius:var(--r);padding:24px;display:flex;flex-direction:column;background:var(--c);color:var(--fg,var(--ink));position:relative;overflow:hidden}
 .card.photo{padding:0;background:var(--sand)}
 .card.photo img{width:100%;aspect-ratio:4/3.3;object-fit:cover}
 .card.photo .t{padding:18px 22px 22px;display:flex;flex-direction:column;flex:1}
@@ -117,9 +117,6 @@ section{padding-block:clamp(80px,9vw,130px)}
 .card p{margin-top:10px;font-size:15px}
 .card .price{margin-top:16px;font:400 2rem/1 var(--serif);font-style:italic}
 .card .num{position:absolute;right:18px;top:12px;font:400 4.6rem/1 var(--serif);opacity:.18}
-.arrows{display:flex;gap:8px}
-.arrows button{width:48px;height:48px;border-radius:50%;border:2px solid var(--ink);background:none;cursor:pointer;font-size:20px;transition:background-color .15s}
-@media (hover:hover) and (pointer:fine){.arrows button:hover{background:var(--sand)}}
 .fine{font-size:14px;color:#4C5B66}
 
 /* ---- le lieu, une photo à la fois ---- */
@@ -180,6 +177,13 @@ footer .legal{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap
   .mosaic .open{padding:16px}
   .mosaic .open b{font-size:1.35rem}
   .slate .grid,.place .grid,.book .grid{grid-template-columns:1fr}
+  .rail{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .card{min-height:250px;padding:16px}
+  .card.photo{padding:0}
+  .card.photo .t{padding:12px 14px 14px}
+  .card h3{font-size:1.3rem}
+  .card .num{font-size:3rem}
+  .card .price{font-size:1.5rem}
   footer .row{grid-template-columns:1fr}
   .dock{display:flex;position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:40;gap:6px;padding:6px;border-radius:999px;background:var(--deep);box-shadow:0 10px 30px -10px rgba(22,63,94,.6)}
   .dock a{flex:1;display:flex;align-items:center;justify-content:center;min-height:48px;border-radius:999px;color:var(--chalk);text-decoration:none;font-weight:700;font-size:15px}
@@ -241,8 +245,8 @@ footer .legal{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap
       <div><div class="cats" id="cats" role="group" aria-label="Partie de la carte"></div></div>
     </div>
   </div>
-  <div class="rail" id="rail" tabindex="0" aria-label="Les plats"></div>
-  <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap"><p class="fine">Le poisson du jour suit l'ardoise. Prix de démonstration.</p><div class="arrows"><button type="button" id="prev" aria-label="Plats précédents">←</button><button type="button" id="next" aria-label="Plats suivants">→</button></div></div>
+  <div class="rail" id="rail" aria-label="Les plats"></div>
+  <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap"><p class="fine">Le poisson du jour suit l'ardoise. Prix de démonstration.</p></div>
 </section>
 
 <section class="place wave" id="lieu">
@@ -329,11 +333,8 @@ function renderMenu() {
   $("rail").innerHTML = MENU[part].map(([n, d, p, t, img], i) => img
     ? `<article class="card photo"><img src="images/port/${img}.webp" alt="${esc(n)}" width="900" height="850" loading="lazy"><div class="t">${t ? `<span class="tag">${esc(t)}</span>` : ""}<h3>${esc(n)}</h3><p>${esc(d)}</p><span class="price">${p} €</span></div></article>`
     : `<article class="card" style="--c:${TINTS[i % 4][0]};--fg:${TINTS[i % 4][1]}"><span class="num">${i + 1}</span>${t ? `<span class="tag">${esc(t)}</span>` : ""}<h3>${esc(n)}</h3><p>${esc(d)}</p><span class="price">${p} €</span></article>`).join("");
-  $("rail").scrollTo({ left: 0 });
-}
+  }
 $("cats").addEventListener("click", e => { const b = e.target.closest("button"); if (!b || b.dataset.k === part) return; part = b.dataset.k; renderMenu(); });
-const slide = k => $("rail").scrollBy({ left: k * ($("rail").firstElementChild.offsetWidth + 16), behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
-$("prev").onclick = () => slide(-1); $("next").onclick = () => slide(1);
 renderMenu();
 
 // ——— le lieu, une photo à la fois

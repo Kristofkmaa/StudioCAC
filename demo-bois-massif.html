@@ -112,8 +112,8 @@ section{position:relative;padding-block:clamp(90px,10vw,150px)}
 .phrase cite{display:block;margin-top:28px;font-style:italic;color:var(--grey)}
 
 /* ---- 04 tableau des prix ---- */
-.tw{overflow-x:auto;margin-top:clamp(40px,5vw,64px);-webkit-overflow-scrolling:touch}
-table.prices{width:100%;min-width:720px;border-collapse:collapse}
+.tw{margin-top:clamp(40px,5vw,64px)}
+table.prices{width:100%;border-collapse:collapse}
 .prices th{text-align:left;padding:0 16px 14px 0;border-bottom:1px solid var(--ink)}
 .prices td{padding:20px 16px 20px 0;border-bottom:1px solid var(--line);vertical-align:baseline;color:#CFC7BD}
 .prices td:first-child{font:700 clamp(1.6rem,1.3rem + .8vw,2.2rem)/1 var(--disp);text-transform:uppercase;color:var(--ink)}
@@ -170,6 +170,16 @@ footer .legal{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap
   .project{grid-template-columns:1fr}
   footer .row{grid-template-columns:1fr}
   .dock a{flex:1;padding:0 10px}
+}
+/* sur téléphone, une fiche par meuble : rien ne défile sur le côté */
+@media (max-width:760px){
+  .prices thead{display:none}
+  .prices tr{display:grid;grid-template-columns:1fr auto;gap:6px 16px;align-items:baseline;padding:18px 0;border-bottom:1px solid var(--line)}
+  .prices td{padding:0;border:0}
+  .prices td:nth-child(2){grid-column:1 / -1;grid-row:2}
+  .prices td:nth-child(3){grid-row:3;font-size:15px}
+  .prices td:nth-child(3)::before{content:"Délai : "}
+  .prices td.p{grid-row:3;text-align:right}
 }
 @media (max-width:520px){.form .two{grid-template-columns:1fr}}
 </style>

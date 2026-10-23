@@ -219,7 +219,8 @@ body[data-step="1"] .work,body[data-step="2"] .work,body[data-step="3"] .work,bo
 .linkish{font:inherit;color:var(--ink);background:none;border:0;padding:0;text-decoration:underline;text-underline-offset:4px;cursor:pointer}
 .done{background:var(--bg-alt)}
 @media (max-width:900px){.wiz{position:sticky;bottom:0;z-index:5;background:var(--bg);padding-bottom:max(12px,env(safe-area-inset-bottom));margin-inline:-4px;padding-inline:4px}}
-@media (max-width:520px){.stepper .route{flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;margin-inline:-4px;padding-inline:4px}.stepper .route::-webkit-scrollbar{display:none}.stepper .route li{flex:none}}
+/* sur petit téléphone : les étapes en numéros seulement (le nom est écrit en tête de chaque étape), tout tient sur une ligne sans défiler */
+@media (max-width:520px){.stepper .route{gap:4px}.stepper .route button{font-size:0;gap:0;padding:4px}.stepper .route button::before{font-size:14px;width:36px;height:36px}}
 @media (prefers-reduced-motion:reduce){.bar-prog span{transition:none}}
 
 /* la charte complète, en chapitres (écran et PDF) */

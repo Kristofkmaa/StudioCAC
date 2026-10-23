@@ -117,8 +117,8 @@ section{padding-block:clamp(72px,9vw,128px)}
 .wide{margin-top:clamp(48px,6vw,80px);aspect-ratio:21/8;width:100%;object-fit:cover;object-position:50% 28%}
 
 /* ---- 04 les prix ---- */
-.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;border-top:2px solid var(--ink)}
-table.prices{width:100%;border-collapse:collapse;min-width:720px}
+.tw{border-top:2px solid var(--ink)}
+table.prices{width:100%;border-collapse:collapse}
 .prices th,.prices td{text-align:left;padding:14px 12px 14px 0;border-bottom:1px solid var(--line);vertical-align:baseline}
 .prices thead th{font-size:14px;font-weight:700;padding-top:16px}
 .prices td.p{font-weight:700;font-variant-numeric:tabular-nums}
@@ -213,6 +213,17 @@ footer .legal{margin-top:56px;display:flex;justify-content:space-between;gap:16p
   /* le bandeau n'apparaît qu'une fois l'ouverture passée, pour ne pas cacher la carte */
   .dock{transform:translateY(100%);transition:transform .25s cubic-bezier(.23,1,.32,1)}
   .dock.on{transform:none}
+}
+/* sur téléphone, le tableau devient une fiche par embarcation : rien ne défile sur le côté */
+@media (max-width:760px){
+  .prices thead{display:none}
+  .prices tr{display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;padding:16px 0;border-bottom:1px solid var(--line)}
+  .prices td{padding:0;border:0}
+  .prices td:first-child{grid-column:1 / -1;margin-bottom:4px}
+  .prices td.no{display:none}
+  .prices td.p{display:flex;justify-content:space-between;gap:8px;padding:6px 0;border-bottom:1px dashed var(--line)}
+  .prices td.p::before{font-weight:400;color:#4A5663}
+  .prices td:nth-child(2)::before{content:"30 min"}.prices td:nth-child(3)::before{content:"1 heure"}.prices td:nth-child(4)::before{content:"2 heures"}.prices td:nth-child(5)::before{content:"Demi-journée"}.prices td:nth-child(6)::before{content:"Journée"}
 }
 @media (max-width:560px){
   .fleet .in img{grid-column:1 / -1;aspect-ratio:16/10;margin-bottom:18px}

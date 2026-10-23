@@ -116,8 +116,14 @@ section{padding-block:clamp(80px,9vw,130px)}
 
 /* ---- 03 le calendrier ---- */
 .cal{margin-top:clamp(36px,5vw,56px);align-items:start}
-.cal .tw{grid-column:1 / span 8;overflow-x:auto;-webkit-overflow-scrolling:touch}
-.cal table{width:100%;min-width:700px;border-collapse:collapse;font-size:15px}
+.cal .tw{grid-column:1 / span 8}
+.cal table{width:100%;border-collapse:collapse;font-size:15px}
+/* sur téléphone, à la place du tableau : les douze mois à toucher, puis la fiche du mois (rien ne défile sur le côté) */
+.mchips{display:none;grid-column:1 / -1;grid-template-columns:repeat(4,1fr);gap:6px}
+.mchips button{min-height:44px;border:1px solid var(--line);background:none;font:700 13px/1 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--soft);cursor:pointer}
+.mchips button[aria-pressed="true"]{background:var(--chest);border-color:var(--chest);color:var(--bg)}
+.mchips button.now:not([aria-pressed="true"]){border-color:var(--chest);color:var(--ink)}
+@media (max-width:760px){.mchips{display:grid}.cal .tw{display:none}}
 .cal th,.cal td{padding:0;text-align:center;border-bottom:1px solid var(--line)}
 .cal thead th{padding:8px 0}
 .cal thead button{width:100%;min-height:44px;background:none;border:0;cursor:pointer;font:700 12px/1 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--soft)}
@@ -259,6 +265,7 @@ footer b{font:900 1.2rem/1 var(--serif);color:var(--ink)}
     <h2 class="h2">Ici, on ne trouve pas tout, <em>tout le temps</em></h2>
     <p style="margin-top:14px;max-width:52ch;color:var(--soft)">Choisissez un mois pour voir ce qui est prêt, et où nous trouver.</p>
     <div class="g12 cal">
+      <div class="mchips" id="mchips" role="group" aria-label="Choisir un mois"></div>
       <div class="tw"><table id="grid"></table></div>
       <div class="month" id="month" aria-live="polite"></div>
     </div>
@@ -357,15 +364,15 @@ function grid() {
   $("grid").innerHTML = `<thead><tr><th></th>${MS.map((m, i) => `<th class="${i + 1 === cur ? "sel" : ""}"><button type="button" data-m="${i + 1}" aria-pressed="${i + 1 === cur}" aria-label="${MN[i]}">${m}</button></th>`).join("")}</tr></thead><tbody>` +
     PRODUCTS.map(([g, list]) => `<tr class="grp"><th colspan="13">${esc(g)}</th></tr>` + list.map(([n, , , ms]) => `<tr><th>${esc(n)}</th>${ALL.map(m => `<td class="${ms.includes(m) ? "on" : ""}${m === cur ? " sel" : ""}"><span></span></td>`).join("")}</tr>`).join("")).join("") + "</tbody>";
 }
+function chips() { $("mchips").innerHTML = MS.map((m, i) => `<button type="button" data-m="${i + 1}" class="${i + 1 === now ? "now" : ""}" aria-pressed="${i + 1 === cur}" aria-label="${MN[i]}">${m}</button>`).join(""); }
 function month() {
   const [what, where] = YEAR[cur - 1], have = PRODUCTS.flatMap(g => g[1]).filter(p => p[3].includes(cur));
   $("month").innerHTML = `<h3>${MN[cur - 1]}</h3><p>${esc(what)}</p><span class="kick">Prêt ce mois-là</span><ul>${have.map(p => `<li>${esc(p[0])}</li>`).join("")}</ul><span class="kick">Où nous trouver</span><ul>${where.map(w => `<li>${esc(w)}</li>`).join("")}</ul>`;
 }
-$("grid").addEventListener("click", e => { const b = e.target.closest("[data-m]"); if (!b || +b.dataset.m === cur) return; cur = +b.dataset.m; grid();
-  if (reduce) return month(); $("month").classList.add("swap"); setTimeout(() => { month(); $("month").classList.remove("swap"); }, 180); });
-grid(); month();
-const tw = document.querySelector(".cal .tw"), selTh = $("grid").querySelector("th.sel");
-if (tw.scrollWidth > tw.clientWidth && selTh) tw.scrollLeft = selTh.offsetLeft - tw.clientWidth / 2;
+const pickMonth = e => { const b = e.target.closest("[data-m]"); if (!b || +b.dataset.m === cur) return; cur = +b.dataset.m; grid(); chips();
+  if (reduce) return month(); $("month").classList.add("swap"); setTimeout(() => { month(); $("month").classList.remove("swap"); }, 180); };
+$("grid").addEventListener("click", pickMonth); $("mchips").addEventListener("click", pickMonth);
+grid(); chips(); month();
 
 $("prods").innerHTML = PRODUCTS.flatMap(([g, list]) => list.map(([n, d, p, ms]) => `<article><span class="g">${esc(g)}</span><h3>${esc(n)}${ms.includes(now) ? '<span class="now">ce mois-ci</span>' : ""}</h3><p>${esc(d)}${ms.includes(now) ? "" : `, de retour en ${MN[ms[0] - 1]}`}</p><p class="p">${esc(p)}</p></article>`)).join("");
 

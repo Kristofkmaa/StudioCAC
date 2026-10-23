@@ -124,3 +124,17 @@ document.querySelectorAll(".rise,.curtain,.zoom,.words").forEach(el => io.observ
 - **Noir et blanc** : `filter:grayscale(1) contrast(1.05)`. À éviter pour la cuisine.
 - **Douces** : `filter:saturate(.82)`.
 - **Menu plein écran, barre basse, sommaire illustré, une photo à la fois, trois questions, ouvert maintenant** : voir `clients/vitrier-prince` et `clients/la-grotte-napoleon`.
+
+## Rien ne défile sur le côté
+
+Tout tient dans la largeur de l'écran. Un tableau, sur téléphone, devient une fiche par ligne :
+```css
+@media (max-width:760px){
+  .prices thead{display:none}
+  .prices tr{display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;padding:16px 0;border-bottom:1px solid var(--line)}
+  .prices td{padding:0;border:0}
+  .prices td:first-child{grid-column:1 / -1}
+  .prices td:nth-child(2)::before{content:"1 heure"}   /* le nom de la colonne devant chaque prix */
+}
+```
+Une longue liste de cartes devient une grille (4 colonnes, 2 sur téléphone) avec des filtres par groupe ; un calendrier mois par mois devient douze boutons de mois puis la fiche du mois (voir demo-castagnetu.html).

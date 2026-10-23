@@ -1,5 +1,5 @@
 {
-  "_note": "Catalogue des façons de construire un site Saitora. Chaque site tire une option par famille (outils/tirage.py), en évitant ce qui a déjà servi (registre.json). Les couleurs, les polices et le logo viennent de la charte du client ; le catalogue décide de la composition. La famille « genre » est dans themes.json (à la racine du site).",
+  "_note": "Catalogue des façons de construire un site Saitora. Chaque site tire une option par famille (outils/tirage.py), en évitant ce qui a déjà servi (registre.json). Les couleurs, les polices et le logo viennent de la charte du client ; le catalogue décide de la composition. La famille « genre » est dans themes.json (à la racine du site). Rien ne défile sur le côté : pas de bandeau qui défile, pas de tableau plus large que l'écran (sur téléphone, un tableau devient une fiche par ligne).",
   "ouverture": [
     [
       "partage",
@@ -99,11 +99,6 @@
       "onglets",
       "Onglets",
       "Les services en onglets ; chaque onglet montre une grande photo, le texte et les prix."
-    ],
-    [
-      "defilant",
-      "Cartes qui défilent",
-      "Une rangée de cartes verticales (photo + titre) qui défile de côté, avec des flèches."
     ],
     [
       "sommaire",

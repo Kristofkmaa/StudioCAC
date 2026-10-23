@@ -103,18 +103,15 @@ section{padding-block:clamp(70px,8vw,110px)}
 .order p{margin:8px auto 0;max-width:30ch;color:var(--soft)}
 
 /* ---- la carte : cartes qui défilent ---- */
-.rail{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:26px var(--m) 18px;scrollbar-width:none;overscroll-behavior-x:contain}
-.rail::-webkit-scrollbar{display:none}
-.card{flex:none;width:clamp(230px,24vw,290px);scroll-snap-align:start;border-radius:26px;padding:22px;background:var(--c);display:flex;flex-direction:column;min-height:250px}
+/* la carte en grille, un groupe de soins à la fois : rien ne défile sur le côté */
+.rail{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;max-width:1280px;margin:26px auto 18px;padding-inline:var(--m)}
+.card{border-radius:26px;padding:22px;background:var(--c);display:flex;flex-direction:column;min-height:250px}
 .card .grp{font-size:14px;font-weight:700;color:var(--soft)}
 .card h3{margin-top:auto;font:700 1.45rem/1.15 var(--round)}
 .card p{margin-top:6px;color:var(--soft);font-size:15px}
 .card .foot{display:flex;justify-content:space-between;align-items:baseline;margin-top:16px;padding-top:12px;border-top:1.5px solid rgba(46,36,34,.12)}
 .card .foot b{font:700 1.6rem/1 var(--round)}
 .rail-nav{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
-.arrows{display:flex;gap:8px}
-.arrows button{width:48px;height:48px;border-radius:50%;border:0;background:#fff;cursor:pointer;font-size:18px;box-shadow:0 6px 18px -10px rgba(46,36,34,.4)}
-.arrows button:active{transform:scale(.94)}
 
 /* ---- en chiffres, et les espaces ---- */
 .figs{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:clamp(36px,5vw,56px)}
@@ -149,6 +146,10 @@ footer .legal{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap
   .under{grid-template-columns:1fr}
   .pano{aspect-ratio:16/10}
   .slots{grid-template-columns:1fr 1fr}
+  .rail{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .card{min-height:200px;padding:16px;border-radius:20px}
+  .card h3{font-size:1.2rem}
+  .card .foot b{font-size:1.3rem}
   .confirm{grid-template-columns:1fr 1fr}
   .confirm p{grid-column:1 / -1}
   .order{grid-template-columns:1fr;gap:40px}
@@ -233,9 +234,9 @@ footer .legal{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap
   <div class="block sage">
     <div class="wrap rail-nav">
       <div><h2 class="h2">La <em>carte</em></h2><p class="lede">Tous les soins se combinent. Les durées comprennent l'installation et le thé de la fin.</p></div>
-      <div class="arrows"><button type="button" id="prev" aria-label="Soins précédents">←</button><button type="button" id="next" aria-label="Soins suivants">→</button></div>
+      <div class="filters" id="cats" role="group" aria-label="Partie de la carte"></div>
     </div>
-    <div class="rail" id="rail" tabindex="0" aria-label="Les soins et leurs prix"></div>
+    <div class="rail" id="rail" aria-label="Les soins et leurs prix"></div>
     <div class="wrap"><p style="font-size:14px;color:var(--soft)">Prix de démonstration.</p></div>
   </div>
 </section>
@@ -295,9 +296,13 @@ const CARTE = [
   ["Soin", "var(--sand)", [["Soin visage à l'immortelle", "Nettoyage, masque, massage du visage", 60, 75], ["Soin visage express", "Pour un coup d'éclat", 30, 45], ["Gommage sel et myrte", "Tout le corps, puis hydratation", 45, 55], ["Manucure", "Limage, cuticules, vernis", 45, 35]]],
   ["Coiffure", "var(--cream)", [["Coupe et brushing", "Femme, cheveux courts à longs", 60, 48], ["Brushing", "Lisse ou wavy", 30, 30], ["Couleur", "Coloration et brushing", 90, 65], ["Balayage", "Éclaircissement naturel et soin", 150, 110], ["Coupe homme", "Shampooing, coupe, coiffage", 30, 28], ["Coupe et barbe", "Contours au rasoir", 45, 38]]],
 ];
-$("rail").innerHTML = CARTE.flatMap(([g, c, list]) => list.map(([n, d, m, p]) => `<article class="card" style="--c:${c}"><span class="grp">${g}</span><h3>${esc(n)}</h3><p>${esc(d)}</p><div class="foot"><span>${m} min</span><b>${p} €</b></div></article>`)).join("");
-const slide = k => $("rail").scrollBy({ left: k * ($("rail").firstElementChild.offsetWidth + 14) * 2, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
-$("prev").onclick = () => slide(-1); $("next").onclick = () => slide(1);
+let cat = "Hammam";
+function renderCarte() {
+  $("cats").innerHTML = CARTE.map(([g]) => `<button type="button" data-g="${g}" aria-pressed="${g === cat}">${g}</button>`).join("");
+  $("rail").innerHTML = CARTE.filter(([g]) => g === cat).flatMap(([g, c, list]) => list.map(([n, d, m, p]) => `<article class="card" style="--c:${c === "var(--cream)" ? "#fff" : c}"><span class="grp">${g}</span><h3>${esc(n)}</h3><p>${esc(d)}</p><div class="foot"><span>${m} min</span><b>${p} €</b></div></article>`)).join("");
+}
+$("cats").addEventListener("click", e => { const b = e.target.closest("button"); if (!b || b.dataset.g === cat) return; cat = b.dataset.g; renderCarte(); });
+renderCarte();
 
 // ——— horaires (du mardi au samedi, nocturne le jeudi)
 const DN = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];

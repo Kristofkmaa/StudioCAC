@@ -10,295 +10,398 @@
 <meta property="og:site_name" content="Saitora">
 <meta property="og:title" content="Durand Plomberie, démo Saitora">
 <meta property="og:description" content="Démo de site vitrine pour artisan plombier : appel d'urgence, délai d'arrivée selon la commune, tarifs et demande d'intervention. Réalisé par Saitora.">
-<meta name="theme-color" content="#0B1636">
+<meta name="theme-color" content="#1F4BD8">
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Crect%20width=%2264%22%20height=%2264%22%20rx=%2210%22%20fill=%22%231E3A64%22/%3E%3Cpath%20d=%22M32%2012c8%2012%2013%2019%2013%2026a13%2013%200%2001-26%200c0-7%205-14%2013-26z%22%20fill=%22%23FFC93C%22/%3E%3C/svg%3E">
-<link rel="stylesheet" href="polices/archivo-aeac1c.css">
+<link rel="stylesheet" href="polices/anton-public-sans-266b86.css">
 <style>
-/* Téléphone : pas de flash gris au toucher, pas de texte grossi en paysage, réponse dès que le doigt se pose,
-   libellés des boutons non sélectionnables, contenu tenu hors de l'encoche en paysage. */
-html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%}
-:where(a,button,[role="button"],summary,label,select,input[type="range"]){touch-action:manipulation}
-:where(button,.btn,[role="button"],[role="tab"]){-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
-:where(button:not([disabled]),.btn):active{opacity:.82}
-:where(.in,.page){padding-inline:env(safe-area-inset-left,0px) env(safe-area-inset-right,0px)}
-/* Durand Plomberie (bleu de travail, plus doux que le bleu vif). Idée : le numéro de téléphone est le site. Il occupe la première page en très grand, et un seul
-   tuyau jaune court le long de la page pour relier tarifs, zone et demande. Une seule famille, Archivo :
-   étroite et grasse pour l'affichage, pleine largeur pour le texte. Bleu de la camionnette, jaune signal. */
+/* Durand Plomberie, genre « affiche brute » : une condensée énorme en capitales, des aplats bleu et jaune,
+   des bordures noires épaisses et des ombres pleines décalées, des photos en noir et blanc avec des étiquettes. */
 :root{
-  --blue:#1E3A64; --blue-deep:#152A4A; --ink:#0B1636; --muted:#4A5675; --yellow:#FFC93C; --paper:#FFFFFF; --mist:#EEF1F5; --rule:#D6DCE5; --red:#D93A2B;
-  --font:"Archivo","Arial Narrow",Arial,sans-serif;
-  color-scheme:light;
+  --paper:#F0ECE2; --ink:#111; --blue:#1F4BD8; --yellow:#FFD23F; --red:#E63B2E; --white:#fff;
+  --m:clamp(16px,4vw,56px); --b:3px solid var(--ink); --sh:6px 6px 0 var(--ink);
+  --disp:"Anton",Impact,sans-serif; --sans:"Public Sans",system-ui,sans-serif;
 }
-*,*::before,*::after{box-sizing:border-box}
-html{scroll-behavior:smooth;background:var(--paper)}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.6;font-variation-settings:"wdth" 100}
-h1,h2,h3,p,ul,figure{margin:0}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+html:focus-within{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font:400 17px/1.5 var(--sans);-webkit-font-smoothing:antialiased;position:relative;isolation:isolate}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.55;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+img{display:block;max-width:100%;height:auto}
 a{color:inherit}
-img{display:block;max-width:100%}
-:focus-visible{outline:3px solid var(--yellow);outline-offset:3px}
-.in{width:min(1180px,100% - 2 * clamp(16px,4vw,40px));margin-inline:auto}
-.narrow{font-stretch:62%;font-variation-settings:"wdth" 62}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:4px solid var(--red);outline-offset:3px}
+.wrap{max-width:1320px;margin-inline:auto;padding-inline:var(--m)}
+.demo{background:var(--ink);color:#ddd;font-size:13px;text-align:center;padding:6px 16px}
+.disp{font-family:var(--disp);font-weight:400;text-transform:uppercase;letter-spacing:.01em;line-height:.9}
+.bw{filter:grayscale(1) contrast(1.15)}
 
-.demo{background:var(--ink);color:rgba(255,255,255,.7);font-size:13px;text-align:center;padding:6px 16px}
+/* boutons : rectangles pleins, ombre décalée qui s'écrase au clic */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:56px;padding:0 24px;border:var(--b);background:var(--yellow);box-shadow:var(--sh);font-weight:800;text-decoration:none;text-transform:uppercase;letter-spacing:.03em;cursor:pointer;transition:transform .12s cubic-bezier(.23,1,.32,1),box-shadow .12s cubic-bezier(.23,1,.32,1)}
+.btn.blue{background:var(--blue);color:var(--white)}
+.btn.white{background:var(--white)}
+@media (hover:hover) and (pointer:fine){.btn:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--ink)}}
+.btn:active{transform:translate(6px,6px);box-shadow:0 0 0 var(--ink)}
+/* étiquettes */
+.tag{display:inline-block;color:var(--ink);padding:6px 12px;background:var(--yellow);border:2px solid var(--ink);font-weight:800;font-size:14px;text-transform:uppercase;letter-spacing:.04em;transform:rotate(-3deg)}
+.tag.red{background:var(--red);color:var(--white)}
+.tag.white{background:var(--white)}
 
-.top{background:var(--blue);color:#fff;position:sticky;top:0;z-index:10;border-bottom:1px solid rgba(255,255,255,.15)}
-.top .in{display:flex;align-items:center;gap:28px;height:64px}
-.logo{display:flex;align-items:center;gap:10px;text-decoration:none;font:800 24px/1 var(--font);font-variation-settings:"wdth" 62;letter-spacing:.01em}
-.logo span{font-weight:500;opacity:.8}
-.top nav{display:flex;gap:24px;margin-left:auto;font-size:15px}
-.top nav a{text-decoration:none;opacity:.8}
+/* ---- barre minimale et menu plein écran ---- */
+.bar{position:sticky;top:0;z-index:50;background:var(--paper);border-bottom:var(--b)}
+.bar .wrap{display:flex;align-items:center;gap:12px;min-height:68px}
+.bar .name{font:400 clamp(1.4rem,1.1rem + 1vw,2rem)/1 var(--disp);text-transform:uppercase;text-decoration:none;margin-right:auto}
+.bar .btn{min-height:46px;padding:0 16px;box-shadow:4px 4px 0 var(--ink);font-size:15px}
+.bar .menu{min-height:46px;padding:0 16px;border:var(--b);background:var(--white);font-weight:800;text-transform:uppercase;cursor:pointer}
+.sheet{position:fixed;inset:0;z-index:60;background:var(--blue);color:var(--white);display:flex;flex-direction:column;padding:20px var(--m) 32px;visibility:hidden;opacity:0;transition:opacity .2s ease-out,visibility 0s .2s}
+.sheet.open{visibility:visible;opacity:1;transition:opacity .2s ease-out}
+.sheet .close{align-self:flex-end;min-height:46px;padding:0 16px;border:3px solid var(--white);background:none;color:var(--white);font-weight:800;text-transform:uppercase;cursor:pointer}
+.sheet nav{margin-block:auto;display:flex;flex-direction:column;gap:6px}
+.sheet nav a{font:400 clamp(3rem,2rem + 6vw,7.5rem)/.95 var(--disp);text-transform:uppercase;text-decoration:none;transform:translateY(12px);opacity:0;transition:transform .35s cubic-bezier(.23,1,.32,1),opacity .35s;transition-delay:calc(var(--i)*50ms)}
+.sheet.open nav a{transform:none;opacity:1}
+@media (hover:hover) and (pointer:fine){.sheet nav a:hover{color:var(--yellow)}}
+.sheet .tel{font-weight:800;font-size:1.3rem;text-decoration:none}
 
-.call{display:inline-flex;align-items:center;gap:8px;font:800 18px/1 var(--font);font-variation-settings:"wdth" 70;background:var(--yellow);color:var(--ink);text-decoration:none;padding:12px 18px;border-radius:2px}
-.call svg{width:16px;height:16px}
+/* ---- ouverture : titre monumental, puis trois photos qui débordent ---- */
+.hero{padding-top:clamp(40px,6vw,80px)}
+.status{display:inline-flex;align-items:center;gap:10px;padding:8px 14px;border:var(--b);background:var(--white);font-weight:800;font-size:14px;text-transform:uppercase;letter-spacing:.03em}
+.status i{width:12px;height:12px;border-radius:50%;background:#1DB954;box-shadow:0 0 0 3px rgba(29,185,84,.25)}
+.status.night i{background:var(--red);box-shadow:0 0 0 3px rgba(230,59,46,.25)}
+.hero h1{margin-top:22px;font-size:clamp(3.3rem,1.2rem + 10.4vw,13rem)}
+.hero h1 .y{background:var(--yellow);padding:0 .08em;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.hero .say{margin-top:24px;max-width:46ch;font-size:clamp(1.1rem,1rem + .4vw,1.35rem)}
+.hero .acts{display:flex;flex-wrap:wrap;gap:16px 22px;margin-top:30px}
+.strip{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:clamp(12px,2vw,24px);align-items:end;margin-top:clamp(44px,6vw,80px);position:relative;z-index:2;margin-bottom:calc(-1 * clamp(60px,9vw,130px))}
+.strip figure{position:relative;border:var(--b);box-shadow:var(--sh);background:var(--ink)}
+.strip figure:nth-child(1) img{aspect-ratio:4/3.4}
+.strip figure:nth-child(2) img{aspect-ratio:4/4.4}
+.strip figure:nth-child(3) img{aspect-ratio:4/3}
+.strip img{width:100%;object-fit:cover}
+.strip .tag{position:absolute;left:-10px;top:14px}
+/* mot par mot */
+.js .words span{display:inline-block;opacity:0;transform:translateY(.35em);transition:opacity .5s,transform .6s cubic-bezier(.23,1,.32,1);transition-delay:calc(var(--i)*70ms)}
+.js .words.on span{opacity:1;transform:none}
 
-/* première page : le numéro */
-.hero{background:var(--blue);color:#fff;overflow:hidden}
-.hero .in{display:grid;grid-template-columns:1.2fr .8fr;gap:clamp(24px,4vw,56px);align-items:end;padding-block:clamp(40px,6vw,80px) 0}
-.hero h1{font:800 clamp(2rem,1.4rem + 2.4vw,3.4rem)/1 var(--font);font-variation-settings:"wdth" 62;letter-spacing:.005em;max-width:20ch}
-.hero .lead{margin-top:16px;max-width:46ch;color:rgba(255,255,255,.85);font-size:1.1rem}
-.number{display:block;margin-top:clamp(20px,3vw,32px);font:900 clamp(3.6rem,1.4rem + 9.2vw,9.6rem)/.86 var(--font);font-variation-settings:"wdth" 62;letter-spacing:-.01em;color:var(--yellow);text-decoration:none;white-space:nowrap}
+/* ---- sections, découpes en diagonale ---- */
+section{padding-block:clamp(80px,9vw,130px)}
+.diag{clip-path:polygon(0 0,100% 4vw,100% 100%,0 100%);margin-top:-4vw;padding-top:calc(4vw + clamp(80px,9vw,130px))}
+.blue-s{background:var(--blue);color:var(--white)}
+.yellow-s{background:var(--yellow)}
+.h2{font-size:clamp(3rem,1.8rem + 5vw,7rem)}
+.lede{margin-top:18px;max-width:52ch;font-size:clamp(1.05rem,1rem + .25vw,1.2rem)}
 
-.status{display:flex;align-items:center;gap:10px;margin-top:20px;font-size:1.05rem;font-weight:500}
-.status i{width:10px;height:10px;border-radius:50%;background:#5BE08A;flex:none}
-.status.night i{background:var(--yellow)}
-.hero figure{align-self:stretch;position:relative;min-height:360px}
-.hero figure img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:30% center;border-radius:2px 2px 0 0}
-.hero .line{grid-column:1/-1;height:clamp(40px,5vw,64px)}
+/* ---- la zone : où et quand ---- */
+.zone{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,64px);align-items:center;margin-top:clamp(36px,5vw,56px)}
+.towns{display:flex;flex-wrap:wrap;gap:10px}
+.towns button{min-height:48px;padding:0 16px;border:3px solid var(--white);background:none;color:var(--white);font-weight:800;cursor:pointer;transition:background-color .12s,color .12s}
+.towns button[aria-pressed="true"]{background:var(--yellow);border-color:var(--ink);color:var(--ink);box-shadow:4px 4px 0 var(--ink)}
+@media (hover:hover) and (pointer:fine){.towns button:not([aria-pressed="true"]):hover{background:rgba(255,255,255,.14)}}
+.towns button:active{transform:scale(.97)}
+.eta{margin-top:28px;background:var(--white);color:var(--ink);border:var(--b);box-shadow:var(--sh);padding:22px 24px}
+.eta small{display:block;font-weight:800;text-transform:uppercase;font-size:14px;letter-spacing:.04em}
+.eta b{display:block;margin-top:6px;font:400 clamp(3.4rem,2.4rem + 4vw,6.4rem)/.9 var(--disp);text-transform:uppercase}
+.eta p{margin-top:10px}
+.map{width:100%;max-width:560px;justify-self:center}
+.map circle.ring{fill:none;stroke:var(--white);stroke-width:3}
+.map circle.ring.in{fill:rgba(255,210,63,.16)}
+.map .t{cursor:pointer}
+.map .t rect{fill:var(--white);stroke:var(--ink);stroke-width:3}
+.map .t.on rect{fill:var(--yellow)}
+.map .t text{font:800 15px var(--sans);text-transform:uppercase;fill:var(--ink)}
+.map .lbl{font:800 14px var(--sans);fill:var(--white);text-transform:uppercase;letter-spacing:.05em}
 
-/* commune : délai d'arrivée */
-.eta{background:var(--yellow);color:var(--ink)}
-.eta .in{display:flex;align-items:center;gap:20px 32px;flex-wrap:wrap;padding-block:22px}
-.eta label{font:800 1.5rem/1.1 var(--font);font-variation-settings:"wdth" 62}
-.eta select{font:600 17px var(--font);padding:11px 40px 11px 14px;border:2px solid var(--ink);border-radius:2px;background:#fff;color:var(--ink);appearance:none;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 9l6 6 6-6' fill='none' stroke='%230B1636' stroke-width='2.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;background-size:18px}
-.eta output{font-size:1.1rem;font-weight:500;flex:1;min-width:240px}
-.eta output b{font-weight:800}
+/* ---- les prix : onglets ---- */
+.tabs{display:flex;flex-wrap:wrap;gap:10px;margin-top:clamp(32px,4vw,48px)}
+.tabs button{min-height:52px;padding:0 20px;border:var(--b);background:var(--white);font:400 1.5rem/1 var(--disp);text-transform:uppercase;cursor:pointer;transition:transform .12s,box-shadow .12s}
+.tabs button[aria-selected="true"]{background:var(--ink);color:var(--yellow)}
+@media (hover:hover) and (pointer:fine){.tabs button[aria-selected="false"]:hover{box-shadow:4px 4px 0 var(--ink);transform:translate(-2px,-2px)}}
+.pane{display:grid;grid-template-columns:1.1fr 1fr;gap:0;margin-top:22px;border:var(--b);box-shadow:var(--sh);background:var(--white)}
+.pane figure{position:relative;border-right:var(--b);min-height:340px}
+.pane figure img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.pane figure .tag{position:absolute;left:16px;bottom:16px}
+.pane .txt{padding:clamp(24px,3vw,44px);display:flex;flex-direction:column}
+.pane h3{font-size:clamp(2.6rem,2rem + 2.4vw,4.4rem)}
+.pane p{margin-top:14px;max-width:40ch}
+.pane .price{margin-top:auto;padding-top:28px}
+.pane .price small{display:block;font-weight:800;text-transform:uppercase;font-size:14px}
+.pane .price b{display:block;font:400 clamp(3.6rem,2.6rem + 4vw,6.6rem)/.9 var(--disp)}
+.note{margin-top:22px;font-weight:600}
 
-/* le tuyau */
-.run{position:relative;padding-left:clamp(44px,6vw,72px)}
-.run::before{content:"";position:absolute;left:clamp(8px,1.6vw,18px);top:0;bottom:0;width:12px;background:var(--yellow);border-radius:0 0 6px 6px}
-.sec{padding-block:clamp(56px,7vw,96px)}
-.sec h2{position:relative;font:800 clamp(2rem,1.3rem + 2.8vw,3.6rem)/1 var(--font);font-variation-settings:"wdth" 62;letter-spacing:.005em;max-width:22ch}
-.sec h2::before{content:"";position:absolute;left:calc(-1 * clamp(44px,6vw,72px) + clamp(8px,1.6vw,18px) - 7px);top:.3em;width:26px;height:26px;border-radius:50%;background:var(--paper);border:6px solid var(--ink)}
-.sec .intro{margin-top:14px;color:var(--muted);max-width:56ch}
+/* ---- le mur ---- */
+.wall{display:grid;grid-auto-flow:dense;grid-template-columns:repeat(4,1fr);grid-auto-rows:clamp(130px,15vw,210px);gap:0;margin-top:clamp(36px,5vw,56px);border:var(--b);box-shadow:var(--sh)}
+.wall>*{border:1.5px solid var(--ink);position:relative;overflow:hidden}
+.wall img{width:100%;height:100%;object-fit:cover}
+.wall .w2{grid-column:span 2}.wall .h2r{grid-row:span 2}
+.wall .blk{display:flex;flex-direction:column;justify-content:flex-end;padding:18px;font:400 clamp(1.6rem,1.2rem + 1.4vw,2.6rem)/.95 var(--disp);text-transform:uppercase}
+.wall .blk.y{background:var(--yellow)}.wall .blk.b{background:var(--blue);color:var(--white)}.wall .blk.r{background:var(--red);color:var(--white)}
+.wall .tag{position:absolute;left:12px;top:12px}
 
-/* tarifs */
-.prices{margin-top:36px;border-top:2px solid var(--ink)}
-.price{display:grid;grid-template-columns:150px 1fr auto;gap:24px;align-items:center;padding-block:20px;border-bottom:1px solid var(--rule)}
-.price img{width:150px;height:100px;object-fit:cover;border-radius:2px}
-.price h3{font:800 1.6rem/1.05 var(--font);font-variation-settings:"wdth" 62}
-.price p{color:var(--muted);margin-top:4px;max-width:52ch}
-.price .amount{text-align:right;white-space:nowrap}
-.price .amount small{display:block;font-size:14px;color:var(--muted)}
-.price .amount b{font:800 2rem/1 var(--font);font-variation-settings:"wdth" 62}
-.note{margin-top:14px;font-size:15px;color:var(--muted)}
+/* ---- portrait ---- */
+.who{display:grid;grid-template-columns:1fr 1fr;align-items:stretch;border:var(--b);box-shadow:var(--sh);background:var(--ink);color:var(--white)}
+.who img{width:100%;height:100%;object-fit:cover;min-height:420px}
+.who .lines{padding:clamp(28px,4vw,56px);display:flex;flex-direction:column;justify-content:center;gap:0}
+.who .lines p{font:400 clamp(2rem,1.4rem + 2.4vw,3.8rem)/.95 var(--disp);text-transform:uppercase;padding:18px 0;border-bottom:3px solid var(--white)}
+.who .lines p:first-child{padding-top:0}
+.who .lines p em{font-style:normal;color:var(--yellow)}
+.who .lines small{margin-top:20px;font-size:15px;color:#ccc}
 
-/* zone et garanties */
-.zone{background:var(--mist)}
-.zone .grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,72px);align-items:start;margin-top:34px}
-.rings{width:100%;max-width:420px;height:auto}
-.checks{list-style:none;padding:0;display:grid;gap:14px}
-.checks li{display:grid;grid-template-columns:28px 1fr;gap:12px;font-size:1.05rem}
-.checks li::before{content:"";width:22px;height:22px;margin-top:3px;border-radius:2px;background:var(--blue) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4 8-9' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/16px no-repeat}
+/* ---- comment ça se passe + demande ---- */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,2vw,24px);margin-top:clamp(36px,5vw,56px)}
+.steps li{list-style:none;border:var(--b);background:var(--white);box-shadow:var(--sh);padding:22px}
+.steps b{display:block;font:400 4.6rem/.85 var(--disp);color:var(--blue)}
+.steps h3{margin-top:12px;font:400 1.9rem/1 var(--disp);text-transform:uppercase}
+.steps p{margin-top:8px}
+.ask{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,56px);margin-top:clamp(40px,5vw,64px);align-items:start}
+.form{border:var(--b);background:var(--white);box-shadow:var(--sh);padding:clamp(20px,3vw,36px);display:grid;gap:18px}
+.form .lab{display:block;font-weight:800;text-transform:uppercase;font-size:14px;letter-spacing:.04em;margin-bottom:8px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips button{min-height:44px;padding:0 14px;border:2px solid var(--ink);background:var(--white);font-weight:600;cursor:pointer}
+.chips button[aria-pressed="true"]{background:var(--ink);color:var(--yellow)}
+.chips button.hot[aria-pressed="true"]{background:var(--red);color:var(--white);border-color:var(--red)}
+.form textarea,.form input{width:100%;min-height:52px;padding:12px 14px;border:3px solid var(--ink);border-radius:0;background:var(--paper);font-size:16px}
+.form textarea{min-height:100px;resize:vertical}
+.form .ok{font-weight:700}
+.guar{display:flex;flex-wrap:wrap;gap:12px 10px}
+.guar .tag:nth-child(even){transform:rotate(2deg)}
+.faq{margin-top:28px;border-top:var(--b)}
+.faq div{padding:16px 0;border-bottom:2px solid var(--ink)}
+.faq h3{font-weight:800;font-size:1.1rem}
+.faq p{margin-top:6px}
 
-/* demande */
-.ask .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(32px,5vw,72px);align-items:start;margin-top:34px}
-form.q{background:var(--ink);color:#fff;padding:clamp(22px,3vw,34px);display:flex;flex-direction:column;gap:20px;border-radius:2px}
-form.q h3{font:800 1.8rem/1 var(--font);font-variation-settings:"wdth" 62}
-.lbl{display:block;font-size:15px;font-weight:600;color:rgba(255,255,255,.75);margin-bottom:8px}
-.choices{display:flex;flex-wrap:wrap;gap:6px}
-.choice{font:600 15px var(--font);padding:9px 14px;border-radius:2px;border:1.5px solid rgba(255,255,255,.3);background:none;color:#fff;cursor:pointer}
-.choice[aria-pressed="true"]{background:var(--yellow);border-color:var(--yellow);color:var(--ink)}
-.choice.hot[aria-pressed="true"]{background:var(--red);border-color:var(--red);color:#fff}
-form.q textarea,form.q input{font:16px var(--font);width:100%;padding:12px 14px;border-radius:2px;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.06);color:#fff}
-form.q textarea{min-height:90px;resize:vertical}
-form.q textarea:focus,form.q input:focus{outline:none;border-color:var(--yellow)}
-form.q .send{font:800 1.2rem/1 var(--font);font-variation-settings:"wdth" 70;padding:16px;border:0;border-radius:2px;background:var(--yellow);color:var(--ink);cursor:pointer}
-form.q .send:active{transform:scale(.98)}
-.ok{background:rgba(255,201,60,.14);border-left:3px solid var(--yellow);padding:12px 14px;font-size:15px}
-.faq details{border-bottom:1px solid var(--rule)}
-.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px;padding-block:18px;font:700 1.15rem/1.3 var(--font)}
-.faq summary::-webkit-details-marker{display:none}
-.faq summary::after{content:"+";font-weight:800;font-size:1.4rem;line-height:1;color:var(--blue)}
-.faq details[open] summary::after{content:"−"}
-.faq p{color:var(--muted);padding-bottom:18px;max-width:56ch}
+/* ---- pied : le nom géant sur jaune ---- */
+footer{background:var(--yellow);border-top:var(--b);overflow:hidden}
+footer .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;padding-block:clamp(56px,7vw,96px) 0}
+footer h3{font:400 1.6rem/1 var(--disp);text-transform:uppercase;margin-bottom:8px}
+footer .giant{font:400 22.5vw/.8 var(--disp);text-transform:uppercase;letter-spacing:-.01em;white-space:nowrap;margin:clamp(40px,5vw,64px) 0 -.06em;text-align:center}
+footer .legal{background:var(--ink);color:#ddd;font-size:13px;padding:14px var(--m);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 
-footer{background:var(--blue-deep);color:rgba(255,255,255,.85)}
-footer .in{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;padding-block:52px}
-footer h3{font:800 1.4rem/1 var(--font);font-variation-settings:"wdth" 62;color:var(--yellow);margin-bottom:10px}
-footer a{text-decoration:none;font-weight:700;font-size:1.2rem}
-.bottom{background:var(--ink);color:rgba(255,255,255,.55);font-size:14px}
-.bottom .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:16px}
-
-@media (max-width:860px){
-  .top nav{display:none}
-  .call{margin-left:auto}
-  .hero .in,.zone .grid,.ask .grid{grid-template-columns:1fr}
-  .hero figure{min-height:260px}
-  .price{grid-template-columns:96px 1fr;gap:6px 16px;align-items:start}
-  .price img{width:96px;height:72px;grid-row:span 2}
-  .price .amount{text-align:left}
-  footer .in{grid-template-columns:1fr}
+@media (prefers-reduced-motion:reduce){.js .words span,.sheet nav a{transition:none;opacity:1;transform:none}}
+@media (max-width:900px){
+  .bar .btn span{display:none}
+  .zone,.ask,.who{grid-template-columns:1fr}
+  .map{order:-1;max-width:440px}
+  .pane{grid-template-columns:1fr}
+  .pane figure{border-right:0;border-bottom:var(--b);min-height:240px}
+  .wall{grid-template-columns:repeat(2,1fr)}
+  .steps{grid-template-columns:1fr}
+  .who img{min-height:300px}
+  footer .cols{grid-template-columns:1fr}
 }
-@media (max-width:420px){.logo span{display:none}}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}form.q .send:active{transform:none}}
-/* survols : souris uniquement, sinon l'état reste collé après un toucher */
-@media (hover:hover) and (pointer:fine){
-  .top nav a:hover{opacity:1}
-  .number:hover{color:#fff}
-}
-@media (pointer:coarse){
-  .logo{padding-block:8px;margin-block:-8px}
-  .choice{min-height:44px}
+@media (max-width:560px){
+  .strip{grid-template-columns:1fr 1fr}
+  .strip figure:nth-child(3){display:none}
+  .hero .acts .btn{width:100%}
+  .map{display:none}
 }
 </style>
 </head>
 <body>
-
 <div class="demo">Site de démonstration réalisé par Saitora, entreprise fictive</div>
 
-<header class="top">
-  <div class="in">
-    <a class="logo" href="#top"><svg width="28" height="28" viewBox="0 0 34 34" aria-hidden="true"><path d="M17 4c5 7.5 8.5 12 8.5 16.5a8.5 8.5 0 01-17 0C8.5 16 12 11.5 17 4z" fill="#FFC93C"/></svg>Durand <span>Plomberie</span></a>
-    <nav aria-label="Sections"><a href="#tarifs">Tarifs</a><a href="#zone">Zone</a><a href="#demande">Demande</a><a href="#questions">Questions</a></nav>
-    <a class="call" href="tel:+33600000000"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 006.6 6.6l2.2-2.2a1 1 0 011-.25 11.4 11.4 0 003.6.6 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.4 11.4 0 00.6 3.6 1 1 0 01-.25 1z" fill="currentColor"/></svg>Appeler</a>
+<header class="bar">
+  <div class="wrap">
+    <a class="name" href="#">Durand Plomberie</a>
+    <a class="btn" href="tel:+33600000000">Appeler<span>&nbsp;06 00 00 00 00</span></a>
+    <button class="menu" type="button" id="menuBtn" aria-expanded="false" aria-controls="sheet">Menu</button>
   </div>
 </header>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="Menu">
+  <button class="close" type="button" id="closeBtn">Fermer</button>
+  <nav aria-label="Navigation"><a href="#zone" style="--i:0">Quand ?</a><a href="#prix" style="--i:1">Les prix</a><a href="#chantiers" style="--i:2">Chantiers</a><a href="#demande" style="--i:3">Demande</a></nav>
+  <a class="tel" href="tel:+33600000000">06 00 00 00 00 · urgences 7 jours sur 7</a>
+</div>
 
-<main id="top">
-  <section class="hero">
-    <div class="in">
+<main>
+<section class="hero" style="padding-bottom:0">
+  <div class="wrap">
+    <p class="status" id="status"><i></i><span>Disponible maintenant pour une urgence</span></p>
+    <h1 class="disp words">Une fuite&nbsp;? <span class="y">On décroche.</span></h1>
+    <p class="say">Jérôme Durand, plombier chauffagiste. Fuite, évier bouché, plus d'eau chaude : je me déplace vite et je vous donne le prix avant de commencer.</p>
+    <div class="acts"><a class="btn" href="tel:+33600000000">Appeler le 06 00 00 00 00</a><a class="btn white" href="#zone">Je peux venir quand ?</a></div>
+    <div class="strip">
+      <figure><img class="bw" src="images/plomberie/fuite.webp" alt="Un robinet qui goutte" width="600" height="400"><span class="tag">Fuite</span></figure>
+      <figure><img class="bw" src="images/plomberie/debouchage.webp" alt="L'eau qui s'écoule dans une bonde d'évier" width="600" height="400"><span class="tag red">Débouchage</span></figure>
+      <figure><img class="bw" src="images/plomberie/chauffe-eau.webp" alt="Les vannes et raccords sous un chauffe-eau" width="600" height="400"><span class="tag white">Chauffe-eau</span></figure>
+    </div>
+  </div>
+</section>
+
+<section class="blue-s" id="zone" style="padding-top:calc(clamp(60px,9vw,130px) + clamp(64px,8vw,110px))">
+  <div class="wrap">
+    <h2 class="disp h2 words">Je peux être chez vous quand&nbsp;?</h2>
+    <p class="lede">Dans un rayon de 25 km autour de l'atelier. Touchez votre commune : l'heure s'affiche si vous appelez maintenant.</p>
+    <div class="zone">
       <div>
-        <h1>Fuite, évier bouché, plus d'eau chaude ? Appelez, on décroche.</h1>
-        <p class="lead">Jérôme Durand, plombier chauffagiste. Je me déplace vite et je vous donne le prix avant de commencer.</p>
-        <a class="number" href="tel:+33600000000" aria-label="Appeler le 06 00 00 00 00">06 00 00 00 00</a>
-        <p class="status" id="status"><i></i><span>Urgences 7 jours sur 7</span></p>
+        <div class="towns" id="towns" role="group" aria-label="Votre commune"></div>
+        <div class="eta" aria-live="polite"><small id="etaTown">Centre-ville</small><b id="etaTime">–</b><p id="etaTxt"></p></div>
       </div>
-      <figure><img src="images/plomberie/artisan.webp" alt="Jérôme répare le robinet d'un évier de cuisine" width="1000" height="800" fetchpriority="high"></figure>
-      <div class="line" aria-hidden="true"></div>
+      <svg class="map" id="map" viewBox="-40 0 560 480" role="img" aria-label="Plan de la zone d'intervention autour de l'atelier">
+        <circle class="ring" cx="240" cy="240" r="210"/><circle class="ring in" cx="240" cy="240" r="130"/>
+        <text class="lbl" x="240" y="20" text-anchor="middle">25 km · moins de 2 h</text>
+        <text class="lbl" x="240" y="100" text-anchor="middle">15 km · moins d'1 h</text>
+        <g id="pins"></g>
+      </svg>
     </div>
-  </section>
-
-  <section class="eta" aria-label="Délai d'arrivée">
-    <div class="in">
-      <label for="town">Je peux être chez vous quand ?</label>
-      <select id="town"></select>
-      <output id="etaOut" for="town" aria-live="polite"></output>
-    </div>
-  </section>
-
-  <div class="in run">
-    <section class="sec" id="tarifs" aria-labelledby="t-tarifs">
-      <h2 id="t-tarifs">Les prix, avant de commencer</h2>
-      <p class="intro">Déplacement compris dans la zone. Je vous annonce le montant au téléphone ou sur place, et vous décidez.</p>
-      <div class="prices">
-        <article class="price"><img src="images/plomberie/fuite.webp" alt="Robinet qui goutte" width="600" height="400" loading="lazy" decoding="async"><div><h3>Fuite</h3><p>Recherche et réparation, robinetterie, joints, chasse d'eau qui coule.</p></div><p class="amount"><small>à partir de</small><b>89 €</b></p></article>
-        <article class="price"><img src="images/plomberie/debouchage.webp" alt="Bonde d'évier en inox" width="600" height="400" loading="lazy" decoding="async"><div><h3>Débouchage</h3><p>Évier, douche, WC, canalisations. Furet, et hydrocurage si besoin.</p></div><p class="amount"><small>à partir de</small><b>99 €</b></p></article>
-        <article class="price"><img src="images/plomberie/chauffe-eau.webp" alt="Vannes et tuyaux d'une installation d'eau chaude" width="600" height="400" loading="lazy" decoding="async"><div><h3>Chauffe-eau</h3><p>Dépannage, détartrage, remplacement de cumulus ou de chaudière.</p></div><p class="amount"><small>à partir de</small><b>120 €</b></p></article>
-        <article class="price"><img src="images/plomberie/salle-de-bain.webp" alt="Salle de bain rénovée au carrelage bleu canard" width="600" height="400" loading="lazy" decoding="async"><div><h3>Salle de bain</h3><p>Rénovation complète, douche à l'italienne, adaptation pour une personne âgée.</p></div><p class="amount"><small>visite gratuite</small><b>Sur devis</b></p></article>
-      </div>
-      <p class="note">Le soir après 19 h, le dimanche et les jours fériés : majoration de 40 €, annoncée avant le déplacement.</p>
-    </section>
   </div>
+</section>
 
-  <section class="zone" id="zone" aria-labelledby="t-zone">
-    <div class="in run">
-      <div class="sec">
-        <h2 id="t-zone">Dans un rayon de 25 km autour de l'atelier</h2>
-        <p class="intro">Particuliers, syndics, commerces et locations saisonnières. Plus loin, appelez quand même : on s'arrange souvent.</p>
-        <div class="grid">
-          <svg class="rings" viewBox="0 0 400 400" role="img" aria-label="Zone d'intervention : moins d'une heure jusqu'à 15 km, moins de deux heures jusqu'à 25 km">
-            <circle cx="200" cy="200" r="190" fill="#DDE4EE"/>
-            <circle cx="200" cy="200" r="120" fill="#BFCBDC"/>
-            <circle cx="200" cy="200" r="190" fill="none" stroke="#1E3A64" stroke-width="2" stroke-dasharray="4 7"/>
-            <circle cx="200" cy="200" r="16" fill="#FFC93C" stroke="#0B1636" stroke-width="4"/>
-            <text x="200" y="244" text-anchor="middle" font-family="Archivo, Arial" font-weight="700" font-size="15" fill="#0B1636">Atelier</text>
-            <text x="200" y="118" text-anchor="middle" font-family="Archivo, Arial" font-weight="700" font-size="15" fill="#152A4A">15 km, moins d'une heure</text>
-            <text x="200" y="54" text-anchor="middle" font-family="Archivo, Arial" font-weight="700" font-size="15" fill="#152A4A">25 km, moins de deux heures</text>
-          </svg>
-          <ul class="checks">
-            <li>Devis gratuit, prix annoncé avant les travaux</li>
-            <li>Assurance décennale et responsabilité civile professionnelle</li>
-            <li>Facture détaillée, paiement par carte ou virement</li>
-            <li>Pièces garanties, chantier laissé propre</li>
-            <li>Aide pour monter les dossiers d'aides (chauffe-eau, salle de bain adaptée)</li>
-          </ul>
+<section class="diag" id="prix">
+  <div class="wrap">
+    <h2 class="disp h2 words">Le prix avant de commencer</h2>
+    <p class="lede">Déplacement compris dans la zone. Je vous annonce le montant au téléphone ou sur place, et vous décidez.</p>
+    <div class="tabs" role="tablist" id="tabs"></div>
+    <div class="pane" role="tabpanel" id="pane"></div>
+    <p class="note">Le soir après 19 h, le dimanche et les jours fériés : majoration de 40 €, annoncée avant le déplacement.</p>
+  </div>
+</section>
+
+<section class="yellow-s diag" id="chantiers">
+  <div class="wrap">
+    <h2 class="disp h2 words">Les chantiers de la semaine</h2>
+    <div class="wall">
+      <figure class="w2 h2r"><img class="bw" src="images/plomberie/salle-de-bain.webp" alt="Une salle de bain refaite, carrelage bleu canard et meuble en bois" width="600" height="400" loading="lazy"><span class="tag white">Salle de bain refaite</span></figure>
+      <div class="blk b">Douche à l'italienne, 6&nbsp;jours</div>
+      <figure><img class="bw" src="images/plomberie/chauffe-eau.webp" alt="" width="600" height="400" loading="lazy"><span class="tag">Cumulus 200 l</span></figure>
+      <figure><img class="bw" src="images/plomberie/fuite.webp" alt="" width="600" height="400" loading="lazy"><span class="tag red">Fuite réparée</span></figure>
+      <div class="blk r">Chantier laissé propre</div>
+      <div class="blk y" style="background:var(--white)">Facture détaillée, toujours</div>
+      <figure class="w2"><img class="bw" src="images/plomberie/artisan.webp" alt="" width="1000" height="800" loading="lazy" style="object-position:50% 30%"><span class="tag">Robinet changé</span></figure>
+      <figure><img class="bw" src="images/plomberie/debouchage.webp" alt="" width="600" height="400" loading="lazy"><span class="tag white">Évier débouché</span></figure>
+    </div>
+  </div>
+</section>
+
+<section class="diag">
+  <div class="wrap">
+    <div class="who">
+      <img class="bw" src="images/plomberie/artisan.webp" alt="Jérôme Durand, penché sur un évier, qui démonte un robinet" width="1000" height="800" loading="lazy">
+      <div class="lines">
+        <p>Jérôme Durand, <em>plombier chauffagiste</em></p>
+        <p>Le prix <em>avant</em> de commencer</p>
+        <p>Urgences <em>7 jours sur 7</em></p>
+        <small>Particuliers, syndics, commerces et locations saisonnières.</small>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="blue-s diag" id="demande">
+  <div class="wrap">
+    <h2 class="disp h2 words">Comment ça se passe</h2>
+    <ol class="steps" style="color:var(--ink)">
+      <li><b>1</b><h3>Vous appelez</h3><p>Ou vous décrivez le problème ici. En urgence, je rappelle dans les 15 minutes.</p></li>
+      <li><b>2</b><h3>Le prix d'abord</h3><p>Je vous annonce le montant, déplacement compris. Vous décidez.</p></li>
+      <li><b>3</b><h3>Je répare</h3><p>Pièces garanties, chantier laissé propre, facture détaillée.</p></li>
+    </ol>
+    <div class="ask">
+      <form class="form" id="q" novalidate style="color:var(--ink)">
+        <div><span class="lab">Le problème</span><div class="chips" id="type"></div></div>
+        <div><span class="lab">Pour quand</span><div class="chips" id="urg"></div></div>
+        <div><label class="lab" for="qMsg">En quelques mots</label><textarea id="qMsg" placeholder="Le chauffe-eau fait du bruit et l'eau est tiède…"></textarea></div>
+        <div><label class="lab" for="qTel">Votre téléphone</label><input id="qTel" type="tel" inputmode="tel" autocomplete="tel" placeholder="06 00 00 00 00"></div>
+        <button class="btn" type="submit">Envoyer ma demande</button>
+        <p class="ok" id="ok" aria-live="polite" hidden></p>
+      </form>
+      <div>
+        <div class="guar"><span class="tag">Devis gratuit</span><span class="tag white">Décennale et RC pro</span><span class="tag red">Carte ou virement</span><span class="tag white">Pièces garanties</span><span class="tag">Aide aux dossiers</span></div>
+        <div class="faq">
+          <div><h3>Combien coûte le déplacement ?</h3><p>Il est compris dans le prix de l'intervention dans la zone. Vous connaissez le montant avant que je commence.</p></div>
+          <div><h3>Vous venez le week-end ?</h3><p>Oui, pour les urgences : grosse fuite, plus d'eau, refoulement. La majoration vous est annoncée au téléphone.</p></div>
+          <div><h3>Vous m'aidez pour les aides ?</h3><p>Pour un chauffe-eau ou l'adaptation d'une salle de bain, je vous aide à monter le dossier.</p></div>
+          <div><h3>Quel délai pour une rénovation ?</h3><p>Une visite sous une semaine, le devis sous 48 h, puis 5 à 10 jours de travaux selon la pièce.</p></div>
         </div>
       </div>
     </div>
-  </section>
-
-  <div class="in run">
-    <section class="sec ask" id="demande" aria-labelledby="t-ask">
-      <h2 id="t-ask">Pas urgent ? Décrivez le problème, je vous rappelle</h2>
-      <div class="grid">
-        <form class="q" id="q" novalidate>
-          <h3>Demande d'intervention</h3>
-          <div><span class="lbl">Le problème</span><div class="choices" id="type" role="group" aria-label="Le problème"></div></div>
-          <div><span class="lbl">Pour quand</span><div class="choices" id="urg" role="group" aria-label="Pour quand"></div></div>
-          <div><label class="lbl" for="qDesc">En quelques mots</label><textarea id="qDesc" placeholder="Par exemple : l'évier de la cuisine ne se vide plus depuis ce matin"></textarea></div>
-          <div><label class="lbl" for="qTel">Votre téléphone</label><input id="qTel" type="tel" enterkeyhint="send" placeholder="06 00 00 00 00" autocomplete="tel"></div>
-          <button class="send" type="submit">Envoyer ma demande</button>
-          <p class="ok" id="ok" hidden></p>
-        </form>
-        <div class="faq" id="questions">
-          <details open><summary>Combien coûte le déplacement ?</summary><p>Il est compris dans le prix de l'intervention dans la zone. Vous connaissez le montant avant que je commence.</p></details>
-          <details><summary>Vous venez le week-end ?</summary><p>Oui, pour les urgences : grosse fuite, plus d'eau, refoulement. La majoration vous est annoncée au téléphone.</p></details>
-          <details><summary>Vous m'aidez pour les aides ?</summary><p>Pour un chauffe-eau ou l'adaptation d'une salle de bain, je vous aide à monter le dossier.</p></details>
-          <details><summary>Quel délai pour une rénovation ?</summary><p>Une visite sous une semaine, le devis sous 48 h, puis 5 à 10 jours de travaux selon la pièce.</p></details>
-        </div>
-      </div>
-    </section>
   </div>
+</section>
 </main>
 
 <footer>
-  <div class="in">
-    <div><h3>L'atelier</h3><p>12 rue des Artisans<br>Ouvert du lundi au vendredi, de 8 h à 18 h</p></div>
-    <div><h3>Téléphone</h3><a href="tel:+33600000000">06 00 00 00 00</a><p>Urgences 7 jours sur 7</p></div>
+  <div class="wrap cols">
+    <div><h3>L'atelier</h3><p>12 rue des Artisans<br>Du lundi au vendredi, 8 h à 18 h</p></div>
+    <div><h3>Téléphone</h3><p><a href="tel:+33600000000">06 00 00 00 00</a><br>Urgences 7 jours sur 7</p></div>
     <div><h3>Garanties</h3><p>Décennale, responsabilité civile professionnelle<br>SIRET fictif 000 000 000 00000</p></div>
   </div>
+  <p class="giant" aria-hidden="true">Durand</p>
+  <div class="legal"><span>© Durand Plomberie, entreprise fictive</span><span>Site réalisé par <a href="accueil.html">Saitora</a> · Photos : Pixabay</span></div>
 </footer>
-<div class="bottom"><div class="in"><span>© Durand Plomberie, entreprise fictive</span><span>Site réalisé par Saitora</span></div></div>
 
 <script>
-// disponibilité en direct
-const now = new Date(), h = now.getHours();
-const night = h >= 19 || h < 8;
-const st = document.getElementById("status");
-st.classList.toggle("night", night);
-st.querySelector("span").textContent = night ? "Urgence de nuit : je décroche, majoration annoncée au téléphone" : "Disponible maintenant pour une urgence";
+document.documentElement.classList.add("js");
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 
-// délai d'arrivée selon la commune (minutes de route depuis l'atelier)
-const TOWNS = [["Centre-ville",15],["Saint-Martin",25],["Les Aubiers",35],["Villeneuve",45],["Bellevue",55],["Le Port",70],["La Croix-Haute",95],["Hors zone (plus de 25 km)",0]];
-const town = document.getElementById("town"), etaOut = document.getElementById("etaOut");
-town.innerHTML = `<option value="">Choisissez votre commune</option>` + TOWNS.map(([n], i) => `<option value="${i}">${n}</option>`).join("");
+// ——— menu plein écran
+const sheet = $("sheet"), menuBtn = $("menuBtn");
+const setMenu = open => { sheet.classList.toggle("open", open); menuBtn.setAttribute("aria-expanded", open); document.body.style.overflow = open ? "hidden" : ""; (open ? $("closeBtn") : menuBtn).focus(); };
+menuBtn.addEventListener("click", () => setMenu(true));
+$("closeBtn").addEventListener("click", () => setMenu(false));
+sheet.addEventListener("click", e => { if (e.target.closest("nav a")) setMenu(false); });
+addEventListener("keydown", e => { if (e.key === "Escape" && sheet.classList.contains("open")) setMenu(false); });
+
+// ——— disponible maintenant ?
+const h = new Date().getHours(), night = h >= 19 || h < 8;
+$("status").classList.toggle("night", night);
+$("status").querySelector("span").textContent = night ? "Urgence de nuit : je décroche, majoration annoncée" : "Disponible maintenant pour une urgence";
+
+// ——— la zone : [commune, minutes de route, position sur le plan (angle en degrés, rayon)]
+const TOWNS = [["Centre-ville", 15, 215, 85], ["Saint-Martin", 25, 305, 110], ["Les Aubiers", 35, 50, 115], ["Villeneuve", 45, 150, 150], ["Bellevue", 55, 250, 185], ["Le Port", 70, 95, 190], ["La Croix-Haute", 95, 15, 185]];
 const hhmm = d => `${d.getHours()} h ${String(d.getMinutes()).padStart(2, "0")}`;
-function eta(){
-  if (town.value === "") { etaOut.textContent = "Choisissez votre commune pour voir l'heure d'arrivée."; return; }
-  const [name, min] = TOWNS[town.value];
-  if (!min) { etaOut.innerHTML = "Hors zone : appelez quand même, on trouve souvent une solution."; return; }
-  const arrive = new Date(Date.now() + (min + 20) * 60000);   // 20 min pour finir le chantier en cours et charger
-  arrive.setMinutes(Math.ceil(arrive.getMinutes() / 10) * 10, 0, 0);
-  etaOut.innerHTML = `${name} : <b>vers ${hhmm(arrive)}</b> si vous appelez maintenant. Déplacement compris.`;
+$("towns").innerHTML = TOWNS.map(([n], i) => `<button type="button" data-i="${i}" aria-pressed="${i === 0}">${n}</button>`).join("");
+$("pins").innerHTML = `<g><rect x="214" y="224" width="52" height="32" fill="#111"/><text x="240" y="246" text-anchor="middle" style="font:800 13px Public Sans,sans-serif;fill:#FFD23F">ATELIER</text></g>` +
+  TOWNS.map(([n, , a, r], i) => { const x = 240 + r * Math.cos(a * Math.PI / 180), y = 240 + r * Math.sin(a * Math.PI / 180), w = n.length * 9.4 + 18;
+    return `<g class="t" data-i="${i}"><rect x="${(x - w / 2).toFixed(0)}" y="${(y - 16).toFixed(0)}" width="${w.toFixed(0)}" height="32"/><text x="${x.toFixed(0)}" y="${(y + 5).toFixed(0)}" text-anchor="middle">${n}</text></g>`; }).join("");
+function pickTown(i) {
+  [...$("towns").children].forEach((b, k) => b.setAttribute("aria-pressed", k === i));
+  document.querySelectorAll("#pins .t").forEach((g, k) => g.classList.toggle("on", k === i));
+  const [n, min] = TOWNS[i], at = new Date(Date.now() + (min + 20) * 6e4);   // 20 min pour finir le chantier en cours
+  at.setMinutes(Math.ceil(at.getMinutes() / 10) * 10, 0, 0);
+  $("etaTown").textContent = n; $("etaTime").textContent = "Vers " + hhmm(at);
+  $("etaTxt").textContent = `Si vous appelez maintenant. ${min} minutes de route, déplacement compris.`;
 }
-town.addEventListener("change", eta); eta();
+$("towns").addEventListener("click", e => { const b = e.target.closest("button"); if (b) pickTown(+b.dataset.i); });
+$("pins").addEventListener("click", e => { const g = e.target.closest(".t"); if (g) pickTown(+g.dataset.i); });
+pickTown(0);
 
-// demande d'intervention
-const TYPES = ["Fuite","Débouchage","Eau chaude","Salle de bain","Robinet ou WC","Autre"];
-const URG = [["Aujourd'hui","hot"],["Cette semaine",""],["Pas pressé",""]];
+// ——— les prix en onglets
+const JOBS = [
+  ["Fuite", "fuite", "Un robinet qui goutte", "Recherche et réparation, robinetterie, joints, chasse d'eau qui coule.", "À partir de", "89 €"],
+  ["Débouchage", "debouchage", "L'eau qui s'écoule dans une bonde", "Évier, douche, WC, canalisations. Furet, et hydrocurage si besoin.", "À partir de", "99 €"],
+  ["Chauffe-eau", "chauffe-eau", "Les vannes sous un chauffe-eau", "Dépannage, détartrage, remplacement de cumulus ou de chaudière.", "À partir de", "120 €"],
+  ["Salle de bain", "salle-de-bain", "Une salle de bain refaite", "Rénovation complète, douche à l'italienne, adaptation pour une personne âgée.", "Visite gratuite", "Sur devis"],
+];
+$("tabs").innerHTML = JOBS.map(([n], i) => `<button type="button" role="tab" id="t${i}" aria-controls="pane" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}">${n}</button>`).join("");
+function showJob(i) {
+  [...$("tabs").children].forEach((b, k) => { b.setAttribute("aria-selected", k === i); b.tabIndex = k === i ? 0 : -1; });
+  const [n, img, alt, txt, pre, pr] = JOBS[i];
+  $("pane").setAttribute("aria-labelledby", "t" + i);
+  $("pane").innerHTML = `<figure><img class="bw" src="images/plomberie/${img}.webp" alt="${esc(alt)}" width="600" height="400"><span class="tag">${esc(n)}</span></figure>
+    <div class="txt"><h3 class="disp">${esc(n)}</h3><p>${esc(txt)}</p><div class="price"><small>${pre}</small><b>${pr}</b></div></div>`;
+}
+$("tabs").addEventListener("click", e => { const b = e.target.closest("button"); if (b) showJob([...$("tabs").children].indexOf(b)); });
+$("tabs").addEventListener("keydown", e => { const k = { ArrowRight: 1, ArrowLeft: -1 }[e.key]; if (!k) return;
+  const i = ([...$("tabs").children].findIndex(b => b.getAttribute("aria-selected") === "true") + k + JOBS.length) % JOBS.length; showJob(i); $("tabs").children[i].focus(); });
+showJob(0);
+
+// ——— demande d'intervention
+const TYPES = ["Fuite", "Débouchage", "Eau chaude", "Salle de bain", "Robinet ou WC", "Autre"];
+const URG = ["Aujourd'hui", "Cette semaine", "Pas pressé"];
 let type = "Fuite", urg = "Cette semaine";
-function pick(id, items, cur){ document.getElementById(id).innerHTML = items.map(x => { const [v, c] = Array.isArray(x) ? x : [x, ""]; return `<button type="button" class="choice ${c}" aria-pressed="${v === cur}" data-v="${v}">${v}</button>`; }).join(""); }
-pick("type", TYPES, type); pick("urg", URG, urg);
-document.getElementById("type").addEventListener("click", e => { const b = e.target.closest(".choice"); if (!b) return; type = b.dataset.v; pick("type", TYPES, type); });
-document.getElementById("urg").addEventListener("click", e => { const b = e.target.closest(".choice"); if (!b) return; urg = b.dataset.v; pick("urg", URG, urg); });
-q.addEventListener("submit", e => {
-  e.preventDefault(); ok.hidden = false;
-  if (!qTel.value.trim()) { ok.textContent = "Indiquez un numéro pour que je puisse vous rappeler."; qTel.focus(); return; }
-  ok.textContent = urg === "Aujourd'hui"
-    ? `Demande « ${type} » reçue en urgence : je vous rappelle dans les 15 minutes. (Démo : rien n'est réellement envoyé.)`
-    : `Demande « ${type} » reçue : je vous rappelle dans la journée pour fixer un créneau. (Démo : rien n'est réellement envoyé.)`;
-});
+const chips = (id, items, cur) => $(id).innerHTML = items.map(v => `<button type="button" data-v="${v}" aria-pressed="${v === cur}"${v === "Aujourd'hui" ? ' class="hot"' : ""}>${v}</button>`).join("");
+chips("type", TYPES, type); chips("urg", URG, urg);
+$("type").addEventListener("click", e => { const b = e.target.closest("button"); if (b) chips("type", TYPES, type = b.dataset.v); });
+$("urg").addEventListener("click", e => { const b = e.target.closest("button"); if (b) chips("urg", URG, urg = b.dataset.v); });
+$("q").addEventListener("submit", e => { e.preventDefault(); const ok = $("ok"); ok.hidden = false;
+  if (!$("qTel").value.trim()) { ok.textContent = "Indiquez un numéro pour que je puisse vous rappeler."; $("qTel").focus(); return; }
+  ok.textContent = urg === "Aujourd'hui" ? `Demande « ${type} » reçue en urgence : je vous rappelle dans les 15 minutes. (Démo : rien n'est envoyé.)` : `Demande « ${type} » reçue : je vous rappelle dans la journée pour fixer un créneau. (Démo : rien n'est envoyé.)`; });
+
+// ——— titres mot par mot
+document.querySelectorAll(".words").forEach(t => { let i = 0;
+  const walk = n => [...n.childNodes].forEach(c => { if (c.nodeType === 3) { const f = document.createDocumentFragment();
+      c.textContent.split(/( +)/).forEach(w => { if (!w) return; if (/^ +$/.test(w)) f.append(w); else { const s = document.createElement("span"); s.style.setProperty("--i", i++); s.textContent = w; f.append(s); } }); c.replaceWith(f); } else walk(c); });
+  walk(t); });
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("on"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -8% 0px" });
+document.querySelectorAll(".words").forEach(el => io.observe(el));
 </script>
 </body>
 </html>

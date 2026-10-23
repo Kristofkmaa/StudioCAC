@@ -634,6 +634,267 @@
           "fondu"
         ]
       }
+    },
+    {
+      "id": "atelier",
+      "nom": "Atelier mécanique",
+      "accroche": "Solide et rassurant, comme un bon atelier : béton, jaune de signalisation, lettres au pochoir.",
+      "pour": [
+        "Garage",
+        "Carrosserie",
+        "Moto",
+        "Dépannage"
+      ],
+      "couleurs": {
+        "fond": "#E6E4DF",
+        "texte": "#16181A",
+        "accent": "#F2B705",
+        "second": "#2B2F33"
+      },
+      "polices": {
+        "titres": "Saira Stencil One",
+        "texte": "Barlow",
+        "css": "polices/saira-stencil-one-barlow.css"
+      },
+      "photo": "images/garage/atelier.webp",
+      "exemple": {
+        "nom": "Garage Santoni",
+        "url": "demo-garage-santoni.html"
+      },
+      "recette": "Gris béton et anthracite, un seul jaune de signalisation ; titres au pochoir en capitales ; bandes hachurées jaune et noir en séparateur ; plaques et étiquettes comme dans un carnet d'entretien ; photos d'atelier franches, légèrement désaturées ; angles droits, boutons rectangulaires.",
+      "va_avec": {
+        "formes": [
+          "droites"
+        ],
+        "texture": [
+          "aucune",
+          "grain"
+        ],
+        "decoupes": [
+          "droites",
+          "diagonale"
+        ],
+        "boutons": [
+          "rectangle"
+        ],
+        "ornement": [
+          "etiquettes",
+          "numeros",
+          "aucun"
+        ],
+        "titres": [
+          "capitales",
+          "geants"
+        ],
+        "appoint": [
+          "aucune"
+        ],
+        "photos": [
+          "naturelles",
+          "noir-blanc"
+        ],
+        "rythme": [
+          "blocs",
+          "alterne",
+          "sombre"
+        ]
+      }
+    },
+    {
+      "id": "herbier",
+      "nom": "Herbier botanique",
+      "accroche": "Délicat et naturel, comme un herbier ancien : planches de fleurs, papier crème, noms en latin.",
+      "pour": [
+        "Fleuriste",
+        "Jardinerie",
+        "Herboristerie",
+        "Mariage"
+      ],
+      "couleurs": {
+        "fond": "#F1EBDD",
+        "texte": "#2B2A22",
+        "accent": "#2F5A3A",
+        "second": "#B5656A"
+      },
+      "polices": {
+        "titres": "Crimson Pro",
+        "texte": "Work Sans",
+        "css": "polices/crimson-pro-work-sans.css"
+      },
+      "photo": "images/fleuriste/planche-ciste.webp",
+      "exemple": {
+        "nom": "Fiori di Macchia",
+        "url": "demo-fiori.html"
+      },
+      "recette": "Papier crème, encre brune, vert profond et rose ancien ; serif fine avec italique pour les noms latins ; planches botaniques posées comme dans un herbier, avec leur étiquette (numéro, nom, lieu de cueillette) ; cadres fins, beaucoup d'air ; photos douces.",
+      "va_avec": {
+        "formes": [
+          "cadres",
+          "droites"
+        ],
+        "texture": [
+          "grain",
+          "aucune"
+        ],
+        "decoupes": [
+          "droites",
+          "chevauchement"
+        ],
+        "boutons": [
+          "souligne",
+          "rectangle"
+        ],
+        "ornement": [
+          "etiquettes",
+          "filet",
+          "numeros"
+        ],
+        "titres": [
+          "italiques",
+          "normaux"
+        ],
+        "appoint": [
+          "italique",
+          "aucune"
+        ],
+        "photos": [
+          "douces",
+          "naturelles"
+        ],
+        "rythme": [
+          "clair",
+          "alterne"
+        ]
+      }
+    },
+    {
+      "id": "energie",
+      "nom": "Énergie",
+      "accroche": "Dynamique et motivant : orange vif, diagonales, gros chiffres, tout donne envie de bouger.",
+      "pour": [
+        "Salle de sport",
+        "Coach",
+        "Club",
+        "École de danse"
+      ],
+      "couleurs": {
+        "fond": "#FAFAF7",
+        "texte": "#111111",
+        "accent": "#FF4D1A",
+        "second": "#D9FF3D"
+      },
+      "polices": {
+        "titres": "Unbounded",
+        "texte": "Manrope",
+        "css": "polices/unbounded-manrope.css"
+      },
+      "photo": "images/sport/boxe.webp",
+      "exemple": {
+        "nom": "Forza Club",
+        "url": "demo-forza.html"
+      },
+      "recette": "Blanc, noir et un orange vif, une touche de citron vert ; titres très larges et gras ; sections coupées en diagonale ; photos d'effort cadrées serré ; gros chiffres (places, minutes, calories) ; boutons rectangulaires pleins ; mouvement franc mais court.",
+      "va_avec": {
+        "formes": [
+          "droites"
+        ],
+        "texture": [
+          "aucune"
+        ],
+        "decoupes": [
+          "diagonale",
+          "droites"
+        ],
+        "boutons": [
+          "rectangle",
+          "pilule"
+        ],
+        "ornement": [
+          "numeros",
+          "etiquettes",
+          "aucun"
+        ],
+        "titres": [
+          "geants",
+          "capitales"
+        ],
+        "appoint": [
+          "aucune"
+        ],
+        "photos": [
+          "naturelles",
+          "noir-blanc"
+        ],
+        "rythme": [
+          "blocs",
+          "alterne"
+        ]
+      }
+    },
+    {
+      "id": "carnet",
+      "nom": "Carnet d'architecte",
+      "accroche": "Précis et clair, comme un plan : papier quadrillé, traits fins, cotes et surfaces.",
+      "pour": [
+        "Immobilier",
+        "Architecte",
+        "Rénovation",
+        "Cuisiniste"
+      ],
+      "couleurs": {
+        "fond": "#F6F4EE",
+        "texte": "#1F2A44",
+        "accent": "#D2452B",
+        "second": "#E8E4DA"
+      },
+      "polices": {
+        "titres": "Instrument Serif",
+        "texte": "Inter Tight",
+        "css": "polices/instrument-serif-inter-tight.css"
+      },
+      "photo": "images/immobilier/sejour.webp",
+      "exemple": {
+        "nom": "Agence Piazza",
+        "url": "demo-piazza.html"
+      },
+      "recette": "Papier quadrillé très pâle, encre bleu nuit, un trait de crayon rouge ; serif élégante avec italique pour les titres ; plans dessinés au trait avec leurs cotes ; surfaces et prix au mètre carré en chiffres ; photos claires dans des cadres fins ; beaucoup d'air.",
+      "va_avec": {
+        "formes": [
+          "cadres",
+          "droites"
+        ],
+        "texture": [
+          "aucune"
+        ],
+        "decoupes": [
+          "droites",
+          "chevauchement"
+        ],
+        "boutons": [
+          "souligne",
+          "rectangle"
+        ],
+        "ornement": [
+          "numeros",
+          "filet",
+          "aucun"
+        ],
+        "titres": [
+          "italiques",
+          "normaux"
+        ],
+        "appoint": [
+          "italique",
+          "aucune"
+        ],
+        "photos": [
+          "naturelles"
+        ],
+        "rythme": [
+          "clair",
+          "alterne"
+        ]
+      }
     }
   ]
 }

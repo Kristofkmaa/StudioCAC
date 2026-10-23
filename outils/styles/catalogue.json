@@ -335,6 +335,11 @@
       "comparateur",
       "Comparer",
       "Deux ou trois options côte à côte (formules, matériaux), on coche ce qui compte et la meilleure ressort."
+    ],
+    [
+      "suivi",
+      "Suivi en direct",
+      "On entre son numéro (plaque, commande, dossier) : le site dit où en est le travail, étape par étape, et quand ce sera prêt."
     ]
   ],
   "appoint": [

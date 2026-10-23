@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fiori di Macchia, fleuriste, démo Saitora</title>
+<meta name="description" content="Démo de site vitrine pour un fleuriste : composer son bouquet fleur par fleur et voir le prix, les bouquets du jour, mariages et deuil, la boutique. Réalisé par Saitora.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="Saitora">
+<meta property="og:title" content="Fiori di Macchia, démo Saitora">
+<meta property="og:description" content="Un fleuriste où l'on compose son bouquet fleur par fleur. Démo réalisée par Saitora.">
+<meta name="theme-color" content="#2F5A3A">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23F1EBDD'/%3E%3Cpath d='M32 58V30' stroke='%232F5A3A' stroke-width='3'/%3E%3Cpath d='M32 40c-8-2-12-8-12-14 7 0 12 6 12 14zm0 0c8-2 12-8 12-14-7 0-12 6-12 14z' fill='%232F5A3A'/%3E%3Ccircle cx='32' cy='20' r='9' fill='%23B5656A'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="polices/crimson-pro-work-sans-30965e.css">
+<style>
+/* Fiori di Macchia, genre « herbier botanique » : papier crème et grain, encre brune, vert profond et rose ancien,
+   des planches de fleurs posées comme dans un herbier avec leur étiquette (numéro, nom latin, lieu), des cadres fins. */
+:root{
+  --paper:#F1EBDD; --paper2:#E8E0CD; --ink:#2B2A22; --soft:#6A6556; --vert:#2F5A3A; --rose:#B5656A; --line:rgba(43,42,34,.22);
+  --m:clamp(16px,4vw,56px);
+  --serif:"Crimson Pro",Georgia,serif; --sans:"Work Sans",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+html:focus-within{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font:400 17px/1.6 var(--sans);-webkit-font-smoothing:antialiased;position:relative;isolation:isolate}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.6;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .4 0 0 0 0 .33 0 0 0 0 .2 0 0 0 .1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--vert);outline-offset:3px}
+.wrap{max-width:1280px;margin-inline:auto;padding-inline:var(--m)}
+.demo{background:var(--vert);color:#DCE6DA;font-size:13px;text-align:center;padding:6px 16px}
+.lat{font-family:var(--serif);font-style:italic}
+.link{display:inline-flex;align-items:center;gap:10px;min-height:44px;font-weight:500;text-decoration:underline;text-decoration-color:var(--rose);text-decoration-thickness:1.5px;text-underline-offset:.4em}
+.link::after{content:"→";text-decoration:none;color:var(--rose);transition:transform .2s cubic-bezier(.23,1,.32,1)}
+@media (hover:hover) and (pointer:fine){.link:hover::after{transform:translateX(5px)}}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 26px;background:var(--vert);color:var(--paper);font-weight:600;text-decoration:none;border:0;cursor:pointer;transition:background-color .15s,transform .15s cubic-bezier(.23,1,.32,1)}
+@media (hover:hover) and (pointer:fine){.btn:hover{background:#24482D}}
+.btn:active{transform:scale(.97)}
+.filet{display:flex;align-items:center;gap:12px;color:var(--rose);margin-top:16px;max-width:260px}
+.filet::before,.filet::after{content:"";flex:1;height:1px;background:currentColor}
+.filet i{width:6px;height:6px;background:currentColor;transform:rotate(45deg)}
+/* l'étiquette d'herbier */
+.tag{display:inline-block;background:#FBF7EE;border:1px solid var(--line);padding:8px 12px 7px;font-size:13px;line-height:1.35;box-shadow:0 1px 0 rgba(43,42,34,.08)}
+.tag b{display:block;font:italic 500 1.05rem/1.1 var(--serif)}
+.tag span{color:var(--soft)}
+
+/* ---- en-tête classique ---- */
+.top .wrap{display:flex;align-items:center;gap:28px;min-height:84px;border-bottom:1px solid var(--line)}
+.logo{text-decoration:none;margin-right:auto;display:flex;flex-direction:column}
+.logo b{font:500 1.9rem/1 var(--serif);letter-spacing:-.01em}
+.logo i{font:italic 400 1rem/1.2 var(--serif);color:var(--rose)}
+.top nav{display:flex;gap:26px}
+.top nav a{text-decoration:none;min-height:44px;display:inline-flex;align-items:center}
+@media (hover:hover) and (pointer:fine){.top nav a:hover{color:var(--vert);text-decoration:underline;text-underline-offset:.4em}}
+
+/* ---- ouverture en mosaïque ---- */
+.mos{display:grid;grid-template-columns:1.25fr 1fr 1fr;grid-template-rows:auto auto;gap:14px;margin-top:clamp(24px,3vw,40px)}
+.mos .title{grid-row:span 2;padding:clamp(24px,3vw,48px) clamp(20px,2.4vw,40px) clamp(24px,3vw,40px) 0;display:flex;flex-direction:column;justify-content:center}
+.mos h1{font:500 clamp(3rem,1.8rem + 3.8vw,5.8rem)/.98 var(--serif);letter-spacing:-.02em}
+.mos h1 em{font-style:italic;color:var(--vert)}
+.mos .say{margin-top:18px;max-width:40ch;font-size:clamp(1.05rem,1rem + .25vw,1.2rem)}
+.mos .acts{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;margin-top:26px}
+.mos .shop{grid-column:2 / span 2;position:relative}
+.mos .shop img{width:100%;aspect-ratio:16/9.5;object-fit:cover;filter:saturate(.85)}
+.sheet{position:relative;background:#F6F1E4;border:1px solid var(--line);padding:16px 16px 70px;display:flex;justify-content:center}
+.sheet img{max-height:280px;width:auto}
+.sheet .tag{position:absolute;right:12px;bottom:12px}
+.sheet::before,.sheet::after{content:"";position:absolute;width:44px;height:14px;background:rgba(232,224,205,.9);border:1px solid var(--line)}
+.sheet::before{top:22%;left:30%;transform:rotate(-8deg)}.sheet::after{top:55%;right:28%;transform:rotate(6deg)}
+
+/* ---- sections ---- */
+section{padding-block:clamp(80px,9vw,130px)}
+.h2{font:500 clamp(2.4rem,1.6rem + 2.8vw,4.2rem)/1.02 var(--serif);letter-spacing:-.015em}
+.h2 em{font-style:italic;color:var(--vert)}
+.lede{margin-top:16px;max-width:50ch;font-size:clamp(1.05rem,1rem + .2vw,1.18rem)}
+.alt{background:var(--paper2)}
+/* mot par mot */
+.js .words span{display:inline-block;opacity:0;transform:translateY(.3em);transition:opacity .6s,transform .7s cubic-bezier(.23,1,.32,1);transition-delay:calc(var(--i)*60ms)}
+.js .words.on span{opacity:1;transform:none}
+
+/* ---- composer son bouquet ---- */
+.compose{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,64px);align-items:start;margin-top:clamp(36px,5vw,56px)}
+.flowers{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.flowers button{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 6px 8px;background:#FBF7EE;border:1px solid var(--line);cursor:pointer;transition:border-color .15s,transform .15s cubic-bezier(.23,1,.32,1)}
+.flowers button img{height:76px;width:auto;object-fit:contain}
+.flowers button span{font:italic 500 .95rem/1.1 var(--serif);text-align:center}
+.flowers button small{font-size:12px;color:var(--soft)}
+.flowers button[aria-pressed="true"]{border-color:var(--vert);box-shadow:inset 0 0 0 1px var(--vert)}
+.flowers button[aria-pressed="true"]::after{content:attr(data-n);position:absolute;top:-8px;right:-8px;width:24px;height:24px;border-radius:50%;background:var(--vert);color:var(--paper);font:600 13px/24px var(--sans);text-align:center}
+.flowers button:active{transform:scale(.97)}
+.opts{margin-top:22px}
+.opts .lab{display:block;font-weight:600;font-size:15px;margin-bottom:8px}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{min-height:44px;padding:0 16px;border:1px solid var(--line);background:none;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.preview{position:relative;background:#FBF7EE;border:1px solid var(--line);padding:22px 22px 26px}
+.stage{position:relative;height:clamp(300px,34vw,420px)}
+.stage img{position:absolute;left:50%;bottom:30%;width:auto;transform-origin:50% 100%;transition:transform .5s cubic-bezier(.23,1,.32,1),opacity .3s}
+.stage svg{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:62%;height:auto}
+.stage .none{position:absolute;inset:0;display:grid;place-items:center;color:var(--soft);font:italic 1.2rem var(--serif);text-align:center;padding:20px}
+.preview .sum{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;margin-top:12px;padding-top:14px;border-top:1px solid var(--line)}
+.preview .sum b{font:500 2.4rem/1 var(--serif);color:var(--vert)}
+.preview .sum p{max-width:30ch;color:var(--soft);font-size:15px}
+.preview .btn{margin-top:16px}
+.preview .ok{margin-top:10px;font-size:15px;color:var(--vert);min-height:1.4em}
+
+/* ---- le sommaire illustré ---- */
+.toc{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,64px);align-items:start;margin-top:clamp(36px,5vw,56px)}
+.toc ol{list-style:none;border-top:1px solid var(--line)}
+.toc li button{width:100%;display:grid;grid-template-columns:52px 1fr auto;align-items:baseline;gap:12px;padding:18px 0;border:0;border-bottom:1px solid var(--line);background:none;text-align:left;cursor:pointer}
+.toc li button .n{font:italic 1.1rem/1 var(--serif);color:var(--rose)}
+.toc li button b{font:500 clamp(1.6rem,1.3rem + 1vw,2.2rem)/1.1 var(--serif)}
+.toc li button span.p{color:var(--soft);font-size:15px;white-space:nowrap}
+.toc li button[aria-current="true"] b{font-style:italic;color:var(--vert)}
+.toc li .more{display:none;padding:0 0 18px 64px;color:var(--soft);max-width:48ch}
+.toc li button[aria-current="true"] + .more{display:block}
+.toc figure{position:relative}
+.toc figure img{width:100%;aspect-ratio:4/5;object-fit:cover;filter:saturate(.85);transition:opacity .35s ease}
+.toc figure img.fade{opacity:0}
+.toc figure .tag{position:absolute;left:-14px;bottom:24px}
+
+/* ---- rangée de photos ---- */
+.row3{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,2vw,28px);margin-top:clamp(36px,5vw,56px)}
+.row3 figure{background:#FBF7EE;border:1px solid var(--line);padding:12px 12px 16px}
+.row3 img{width:100%;aspect-ratio:4/3.2;object-fit:cover;filter:saturate(.85)}
+.row3 figcaption{margin-top:12px;display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:14px;color:var(--soft)}
+.row3 figcaption b{font:italic 500 1.15rem/1.1 var(--serif);color:var(--ink)}
+
+/* ---- la boutique : texte et photo ---- */
+.about{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(28px,4vw,64px);align-items:center}
+.about img{width:100%;aspect-ratio:4/5;object-fit:cover;filter:saturate(.85)}
+.about ul{list-style:none;margin-top:24px;border-top:1px solid var(--line)}
+.about li{display:flex;gap:16px;padding:14px 0;border-bottom:1px solid var(--line)}
+.about li b{font:italic 500 1.15rem/1.3 var(--serif);min-width:7.5em;color:var(--vert)}
+
+/* ---- plan et infos ---- */
+.visit{display:grid;grid-template-columns:1.2fr 1fr;gap:clamp(28px,4vw,64px);align-items:center;margin-top:clamp(36px,5vw,56px)}
+.map{background:#FBF7EE;border:1px solid var(--line)}
+.map text{font:italic 15px var(--serif);fill:var(--soft)}
+.map .shop{font:600 14px var(--sans);fill:var(--paper)}
+.infos{display:grid;gap:20px}
+.infos h3{font:italic 500 1.25rem/1.2 var(--serif);color:var(--vert)}
+.infos p{margin-top:4px}
+.infos table{border-collapse:collapse;margin-top:6px}
+.infos td{padding:2px 14px 2px 0}
+.infos tr.now td{font-weight:600;color:var(--vert)}
+
+footer{border-top:1px solid var(--line)}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:22px;font-size:14px;color:var(--soft)}
+
+@media (prefers-reduced-motion:reduce){.js .words span{opacity:1;transform:none;transition:none}.stage img{transition:none}}
+@media (max-width:960px){
+  .top nav{display:none}
+  .mos{grid-template-columns:1fr 1fr}
+  .mos .title{grid-column:1 / -1;grid-row:auto;padding-right:0}
+  .mos .shop{grid-column:1 / -1}
+  .compose,.toc,.about,.visit{grid-template-columns:minmax(0,1fr)}
+  .toc figure{display:none}
+  .row3{grid-template-columns:1fr 1fr}
+  .row3 figure:last-child{display:none}
+}
+@media (max-width:560px){
+  .flowers{grid-template-columns:repeat(3,1fr)}
+  .flowers button img{height:64px}
+  .sheet{padding-bottom:84px}
+  .sheet img{max-height:180px}
+  .row3{grid-template-columns:1fr}
+  .row3 figure:last-child{display:block}
+  .toc li button{grid-template-columns:36px 1fr}
+  .toc li button span.p{grid-column:2}
+  .toc li .more{padding-left:48px}
+}
+</style>
+</head>
+<body>
+<div class="demo">Site de démonstration réalisé par Saitora, fleuriste fictif</div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#"><b>Fiori di Macchia</b><i>fleuriste, Bastia</i></a>
+    <nav aria-label="Navigation"><a href="#composer">Composer un bouquet</a><a href="#boutique">Mariages et deuil</a><a href="#venir">Venir</a></nav>
+    <a class="btn" href="#composer">Commander</a>
+  </div>
+</header>
+
+<main>
+<div class="wrap">
+  <div class="mos" id="top">
+    <div class="title">
+      <h1>Les fleurs <em>du maquis,</em> en bouquet</h1>
+      <p class="say">Un fleuriste de la vieille ville de Bastia : fleurs de saison, ciste et immortelle de nos collines, bouquets composés sous vos yeux.</p>
+      <div class="acts"><a class="btn" href="#composer">Composer mon bouquet</a><a class="link" href="#boutique">Mariages et deuil</a></div>
+      <div class="filet" aria-hidden="true"><i></i></div>
+    </div>
+    <figure class="shop"><img src="images/fleuriste/boutique.webp" alt="La devanture de la boutique, fleurs et plantes devant les arches" width="1600" height="1060" fetchpriority="high"></figure>
+    <figure class="sheet"><img src="images/fleuriste/tige-ciste.webp" alt="Planche botanique : ciste à fleurs blanches" width="420" height="669"><span class="tag"><b>Cistus salviifolius</b><span>N° 12 · le ciste du maquis</span></span></figure>
+    <figure class="sheet"><img src="images/fleuriste/tige-pavot.webp" alt="Planche botanique : pavot rose" width="373" height="720"><span class="tag"><b>Papaver rhoeas</b><span>N° 27 · en mai, au bord des routes</span></span></figure>
+  </div>
+</div>
+
+<section id="composer">
+  <div class="wrap">
+    <h2 class="h2 words">Composez <em>votre bouquet</em></h2>
+    <p class="lede">Touchez les fleurs, autant de fois que vous voulez de tiges, choisissez la taille et le papier : le bouquet se dessine et le prix s'affiche. On le prépare pour l'heure qui vous arrange.</p>
+    <div class="compose">
+      <div>
+        <div class="flowers" id="flowers" role="group" aria-label="Les fleurs"></div>
+        <div class="opts"><span class="lab">La taille</span><div class="seg" id="size"></div></div>
+        <div class="opts"><span class="lab">Le papier</span><div class="seg" id="wrapType"></div></div>
+        <div class="opts"><button class="link" type="button" id="reset" style="background:none;border:0;cursor:pointer;padding:0">Recommencer</button></div>
+      </div>
+      <div class="preview">
+        <div class="stage" id="stage" aria-hidden="true"></div>
+        <div class="sum" aria-live="polite"><b id="price">0 €</b><p id="desc"></p></div>
+        <button class="btn" type="button" id="order">Commander ce bouquet</button>
+        <p class="ok" id="ok" aria-live="polite"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="boutique">
+  <div class="wrap">
+    <h2 class="h2 words">Pour <em>chaque moment</em></h2>
+    <div class="toc">
+      <ol id="toc"></ol>
+      <figure><img id="tocImg" src="images/fleuriste/etal.webp" alt="" width="1000" height="750" loading="lazy"><span class="tag" id="tocTag"></span></figure>
+    </div>
+  </div>
+</section>
+
+<section style="padding-bottom:0">
+  <div class="wrap">
+    <h2 class="h2 words">Ce matin <em>à la boutique</em></h2>
+    <div class="row3">
+      <figure><img src="images/fleuriste/roses.webp" alt="Des roses pâles en bouquet" width="1000" height="750" loading="lazy"><figcaption><b>Rosa</b>roses de jardin</figcaption></figure>
+      <figure><img src="images/fleuriste/sechees.webp" alt="Des fleurs séchées sur l'étal" width="1000" height="750" loading="lazy"><figcaption><b>Siccae</b>fleurs séchées</figcaption></figure>
+      <figure><img src="images/fleuriste/bouquet-bleu.webp" alt="Un bouquet de fleurs bleues tenu à la main" width="1000" height="750" loading="lazy"><figcaption><b>Myosotis</b>le petit bouquet</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap about">
+    <div>
+      <h2 class="h2 words">Cueilli <em>près d'ici</em></h2>
+      <p class="lede">Une partie de nos fleurs vient des producteurs du Cap Corse et de la plaine orientale ; le reste, on le choisit au marché de gros chaque mardi. Le ciste, la myrte et l'immortelle, on les cueille nous-mêmes, avec l'accord des propriétaires.</p>
+      <ul>
+        <li><b>Livraison</b>Dans Bastia le jour même pour une commande avant 11 h.</li>
+        <li><b>Abonnement</b>Un bouquet chaque semaine pour les bureaux et les restaurants.</li>
+        <li><b>Atelier</b>Un samedi par mois, apprendre à composer son bouquet.</li>
+      </ul>
+    </div>
+    <img src="images/fleuriste/panier.webp" alt="Un panier rempli de fleurs des champs" width="800" height="1100" loading="lazy">
+  </div>
+</section>
+
+<section class="alt" id="venir">
+  <div class="wrap">
+    <h2 class="h2 words">Venir <em>à la boutique</em></h2>
+    <div class="visit">
+      <svg class="map" viewBox="0 0 600 400" role="img" aria-label="Plan du quartier : la boutique rue des Fleurs, entre la place du marché et le vieux port">
+        <path d="M0 300C120 280 200 330 320 300S520 260 600 280V400H0Z" fill="#C9D7CF"/>
+        <text x="470" y="360">le vieux port</text>
+        <path d="M60 60L540 120M120 0L180 400M60 220L560 250M400 0L360 290" stroke="#D8CFBB" stroke-width="18" fill="none" stroke-linecap="round"/>
+        <rect x="200" y="120" width="140" height="80" fill="#E8E0CD" stroke="#B9AE95"/>
+        <text x="270" y="166" text-anchor="middle">place du marché</text>
+        <text x="420" y="104" transform="rotate(7 420 104)">rue des Fleurs</text>
+        <circle cx="380" cy="128" r="22" fill="#2F5A3A"/><text class="shop" x="380" y="133" text-anchor="middle">F</text>
+        <path d="M380 150v18" stroke="#2F5A3A" stroke-width="2"/>
+      </svg>
+      <div class="infos">
+        <div><h3>L'adresse</h3><p>12, rue des Fleurs, Bastia<br>À deux minutes de la place du marché</p></div>
+        <div><h3>Les horaires</h3><table id="hrs"></table></div>
+        <div><h3>Nous joindre</h3><p><a href="tel:+33400000000">04 00 00 00 00</a> · bonjour@fiori-di-macchia.fr</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap"><span>© Fiori di Macchia, fleuriste fictif · site réalisé par <a href="accueil.html">Saitora</a></span><span>Photos et planches : Pixabay</span></div></footer>
+
+<script>
+document.documentElement.classList.add("js");
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[m]);
+const eur = n => n.toLocaleString("fr-FR", { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 }) + " €";
+
+// ——— composer son bouquet : [clé, nom, nom latin, prix de la tige, hauteur relative]
+const FLOWERS = [["ciste", "Ciste", "Cistus", 3.5, 1], ["pavot", "Pavot", "Papaver", 3, 1.12], ["azalee", "Azalée", "Rhododendron", 4.5, .95], ["tournesol", "Tournesol", "Helianthus", 3.8, 1.18], ["hortensia", "Hortensia", "Hydrangea", 6, .72]];
+const SIZES = [["Petit", 0, 5], ["Moyen", 8, 9], ["Généreux", 16, 15]];   // [nom, supplément, nombre de tiges conseillé]
+const WRAPS = [["Kraft", 0, "#C9A473"], ["Lin", 4, "#E3DCCB"], ["Sans papier", 0, null]];
+const pick = {}; let size = 1, wrap = 0;
+$("flowers").innerHTML = FLOWERS.map(([k, n, l, p]) => `<button type="button" data-k="${k}" aria-pressed="false"><img src="images/fleuriste/tige-${k}.webp" alt="" loading="lazy"><span>${n}</span><small>${eur(p)} la tige</small></button>`).join("");
+const seg = (id, list, cur) => $(id).innerHTML = list.map(([n], i) => `<button type="button" data-i="${i}" aria-pressed="${i === cur}">${n}</button>`).join("");
+function render() {
+  const stems = FLOWERS.flatMap(([k, , , , h]) => Array(pick[k] || 0).fill([k, h])), total = stems.length;
+  document.querySelectorAll("#flowers button").forEach(b => { const n = pick[b.dataset.k] || 0; b.setAttribute("aria-pressed", n > 0); b.dataset.n = n; });
+  seg("size", SIZES, size); seg("wrapType", WRAPS, wrap);
+  const w = WRAPS[wrap], spread = Math.min(56, 10 + total * 4.5), base = [150, 175, 205][size];
+  const imgs = stems.map(([k, h], i) => { const a = total > 1 ? -spread / 2 + spread * i / (total - 1) : 0, hh = base * h * (1 - Math.abs(a) / 220);
+    return `<img src="images/fleuriste/tige-${k}.webp" alt="" style="height:${hh.toFixed(0)}px;transform:translateX(-50%) rotate(${a.toFixed(1)}deg);z-index:${i % 2 ? 2 : 1}">`; }).join("");
+  const paper = w[2] ? `<svg viewBox="0 0 200 150"><path d="M20 0L100 150L180 0L140 20L100 4L60 20Z" fill="${w[2]}" stroke="rgba(43,42,34,.35)"/><path d="M60 20L100 150L140 20" fill="none" stroke="rgba(43,42,34,.18)"/><path d="M76 92C90 100 110 100 124 92" fill="none" stroke="#B5656A" stroke-width="5" stroke-linecap="round"/></svg>` : "";
+  $("stage").innerHTML = total ? imgs + paper : `<p class="none">Touchez une fleur pour commencer.<br>Chaque touche ajoute une tige.</p>`;
+  const price = stems.reduce((s, [k]) => s + FLOWERS.find(f => f[0] === k)[3], 0) + (total ? SIZES[size][1] + w[1] : 0);
+  $("price").textContent = eur(price);
+  $("desc").textContent = total ? `${total} tige${total > 1 ? "s" : ""}, bouquet ${SIZES[size][0].toLowerCase()}, ${w[2] ? "papier " + w[0].toLowerCase() : "sans papier"}. Conseil : ${SIZES[size][2]} tiges pour cette taille.` : "Le prix se calcule tige par tige.";
+  $("order").disabled = !total;
+}
+$("flowers").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; const k = b.dataset.k; pick[k] = ((pick[k] || 0) + 1); if (Object.values(pick).reduce((a, b) => a + b, 0) > 20) pick[k]--; $("ok").textContent = ""; render(); });
+$("size").addEventListener("click", e => { const b = e.target.closest("button"); if (b) { size = +b.dataset.i; render(); } });
+$("wrapType").addEventListener("click", e => { const b = e.target.closest("button"); if (b) { wrap = +b.dataset.i; render(); } });
+$("reset").onclick = () => { Object.keys(pick).forEach(k => delete pick[k]); $("ok").textContent = ""; render(); };
+$("order").onclick = () => { $("ok").textContent = `Démo : sur le vrai site, le bouquet (${$("price").textContent}) serait réservé, à retirer ou livré dans Bastia.`; };
+Object.assign(pick, { ciste: 3, pavot: 2, tournesol: 1 }); render();
+
+// ——— le sommaire illustré
+const TOC = [["Le bouquet du jour", "dès 25 €", "Composé chaque matin avec ce qui est arrivé, prêt à emporter.", "etal", "Bouquet du jour", "selon l'arrivage"],
+  ["Mariages", "sur rendez-vous", "Bouquet de mariée, boutonnières, centres de table et arche : un premier rendez-vous pour en parler, avec des fleurs à toucher.", "roses", "Rosa", "pour la mariée"],
+  ["Deuil", "dès 45 €", "Gerbes, coussins et bouquets de condoléances, livrés à l'église ou au funérarium. Appelez-nous, on s'occupe de tout.", "sechees", "Immortelles", "pour se souvenir"],
+  ["Plantes et maquis", "dès 12 €", "Myrte, lentisque, romarin et oliviers en pot, adaptés au soleil et au vent d'ici.", "panier", "Myrtus communis", "pour le balcon"],
+  ["Abonnement", "dès 30 € la semaine", "Un bouquet frais chaque lundi pour l'accueil d'un bureau, d'un hôtel ou d'un restaurant.", "bouquet-bleu", "Hebdomadaire", "livré le lundi"]];
+let ti = 0;
+$("toc").innerHTML = TOC.map(([n, p, d], i) => `<li><button type="button" data-i="${i}" aria-current="${i === 0}"><span class="n">${["i", "ii", "iii", "iv", "v"][i]}.</span><b>${n}</b><span class="p">${p}</span></button><p class="more">${esc(d)}</p></li>`).join("");
+function showToc(i) { ti = i; [...$("toc").querySelectorAll("button")].forEach((b, k) => b.setAttribute("aria-current", k === i));
+  const [, , , img, lat, sub] = TOC[i], im = $("tocImg"); $("tocTag").innerHTML = `<b>${esc(lat)}</b><span>${esc(sub)}</span>`;
+  im.classList.add("fade"); const pre = new Image(); pre.src = `images/fleuriste/${img}.webp`;
+  (pre.decode ? pre.decode().catch(() => {}) : Promise.resolve()).then(() => { im.src = pre.src; im.alt = TOC[i][0]; im.classList.remove("fade"); }); }
+$("toc").addEventListener("click", e => { const b = e.target.closest("button"); if (b) showToc(+b.dataset.i); });
+$("toc").addEventListener("mouseover", e => { const b = e.target.closest("button"); if (b && +b.dataset.i !== ti && matchMedia("(hover:hover)").matches) showToc(+b.dataset.i); });
+showToc(0);
+
+// ——— horaires
+const DN = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"], now = new Date();
+const HR = { 0: "9 h – 12 h 30", 1: "Fermé", 2: "9 h – 19 h", 3: "9 h – 19 h", 4: "9 h – 19 h", 5: "9 h – 19 h", 6: "8 h 30 – 19 h" };
+$("hrs").innerHTML = [2, 3, 4, 5, 6, 0, 1].map(i => `<tr class="${i === now.getDay() ? "now" : ""}"><td>${DN[i]}</td><td>${HR[i]}</td></tr>`).join("");
+
+// ——— titres mot par mot
+document.querySelectorAll(".words").forEach(t => { let i = 0;
+  const walk = n => [...n.childNodes].forEach(c => { if (c.nodeType === 3) { const f = document.createDocumentFragment();
+      c.textContent.split(/( +)/).forEach(w => { if (!w) return; if (/^ +$/.test(w)) f.append(w); else { const s = document.createElement("span"); s.style.setProperty("--i", i++); s.textContent = w; f.append(s); } }); c.replaceWith(f); } else walk(c); });
+  walk(t); });
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("on"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -8% 0px" });
+document.querySelectorAll(".words").forEach(el => io.observe(el));
+</script>
+</body>
+</html>

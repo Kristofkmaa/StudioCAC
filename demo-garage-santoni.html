@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Garage Santoni, démo Saitora</title>
+<meta name="description" content="Démo de site vitrine pour un garage : suivre sa voiture en direct avec sa plaque, les prix avant les travaux, prendre rendez-vous. Réalisé par Saitora.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="Saitora">
+<meta property="og:title" content="Garage Santoni, démo Saitora">
+<meta property="og:description" content="Un garage qui dit où en est votre voiture, en direct. Démo réalisée par Saitora.">
+<meta name="theme-color" content="#16181A">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%2316181A'/%3E%3Cpath d='M0 48L16 64H28L12 48ZM24 48L40 64H52L36 48ZM48 48L64 64V52L60 48Z' fill='%23F2B705'/%3E%3Ctext x='32' y='38' font-family='Arial' font-weight='900' font-size='30' text-anchor='middle' fill='%23F2B705'%3ES%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="polices/saira-stencil-one-barlow-81ca1a.css">
+<style>
+/* Garage Santoni, genre « atelier mécanique » : gris béton et anthracite, un seul jaune de signalisation,
+   titres au pochoir, bandes hachurées, étiquettes de carnet d'entretien, photos d'atelier en noir et blanc. */
+:root{
+  --beton:#E6E4DF; --beton2:#D8D5CE; --ink:#16181A; --steel:#2B2F33; --steel2:#3A3F45; --jaune:#F2B705; --white:#fff; --muted:#5E6268;
+  --m:clamp(16px,4vw,56px);
+  --stencil:"Saira Stencil One",Impact,sans-serif; --sans:"Barlow",system-ui,sans-serif;
+  --hazard:repeating-linear-gradient(-45deg,var(--jaune) 0 18px,var(--ink) 18px 36px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+html:focus-within{scroll-behavior:smooth}
+body{background:var(--beton);color:var(--ink);font:400 17px/1.55 var(--sans);-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--jaune);outline-offset:3px}
+.wrap{max-width:1320px;margin-inline:auto;padding-inline:var(--m)}
+.demo{background:var(--ink);color:#C9CCD0;font-size:13px;text-align:center;padding:6px 16px}
+.bw{filter:grayscale(1) contrast(1.12)}
+.st{font-family:var(--stencil);font-weight:400;text-transform:uppercase;letter-spacing:.02em;line-height:1.02}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 24px;background:var(--jaune);color:var(--ink);font-weight:800;text-transform:uppercase;letter-spacing:.04em;font-size:15px;text-decoration:none;border:0;cursor:pointer;transition:background-color .15s,transform .15s cubic-bezier(.23,1,.32,1)}
+.btn.dark{background:var(--ink);color:var(--white)}
+.btn.line{background:none;box-shadow:inset 0 0 0 2px currentColor}
+@media (hover:hover) and (pointer:fine){.btn:hover{background:#FFC61A}.btn.dark:hover{background:var(--steel)}.btn.line:hover{background:rgba(0,0,0,.06)}}
+.btn:active{transform:scale(.97)}
+.hazard{height:18px;background:var(--hazard)}
+.label{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;background:var(--white);border-left:6px solid var(--jaune);font-weight:700;font-size:14px;text-transform:uppercase;letter-spacing:.06em}
+
+/* ---- en-tête classique ---- */
+.top{background:var(--ink);color:var(--white)}
+.top .wrap{display:flex;align-items:center;gap:28px;min-height:72px}
+.logo{display:flex;align-items:baseline;gap:10px;text-decoration:none;margin-right:auto}
+.logo b{font:400 1.9rem/1 var(--stencil);color:var(--jaune);letter-spacing:.04em}
+.logo span{font-weight:700;text-transform:uppercase;letter-spacing:.2em;font-size:12px;color:#C9CCD0}
+.top nav{display:flex;gap:24px;font-weight:600}
+.top nav a{text-decoration:none;min-height:44px;display:inline-flex;align-items:center;color:#E6E4DF}
+@media (hover:hover) and (pointer:fine){.top nav a:hover{color:var(--jaune)}}
+.top .btn{min-height:44px;padding:0 18px}
+
+/* ---- ouverture partagée ---- */
+.hero{display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(28px,4vw,64px);align-items:center;padding-block:clamp(48px,6vw,90px)}
+.hero h1{margin-top:20px;font-size:clamp(2.8rem,1.4rem + 4vw,5.4rem);line-height:1.16}
+.hero h1 em{font-style:normal;color:var(--white);background:var(--ink);padding:0 .12em;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.hero .say{margin-top:22px;max-width:44ch;font-size:clamp(1.1rem,1rem + .3vw,1.3rem)}
+.hero .acts{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.hero .facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+.hero figure{position:relative}
+.hero figure img{width:100%;aspect-ratio:4/4.4;object-fit:cover}
+.hero figure .label{position:absolute;left:-12px;bottom:28px}
+
+/* ---- découpes en diagonale ---- */
+section{padding-block:clamp(80px,9vw,130px)}
+.diag{clip-path:polygon(0 3.5vw,100% 0,100% 100%,0 100%);margin-top:-3.5vw;padding-top:calc(3.5vw + clamp(80px,9vw,130px))}
+.steel{background:var(--steel);color:var(--white)}
+.yellow{background:var(--jaune)}
+.h2{font-size:clamp(2.4rem,1.4rem + 3.6vw,4.8rem)}
+.lede{margin-top:16px;max-width:52ch;font-size:clamp(1.05rem,1rem + .25vw,1.2rem)}
+.steel .lede{color:#D4D7DB}
+
+/* ---- le suivi en direct : la plaque ---- */
+.track{display:grid;grid-template-columns:1fr 1.25fr;gap:clamp(28px,4vw,64px);align-items:start;margin-top:clamp(36px,5vw,56px)}
+.plate{display:flex;align-items:stretch;max-width:430px;background:var(--white);border:3px solid var(--ink);border-radius:8px;overflow:hidden;box-shadow:0 0 0 3px var(--white)}
+.plate .eu{width:48px;flex:none;background:#003399;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:6px;font:800 18px/1 var(--sans)}
+.plate .eu i{display:block;width:22px;height:22px;margin-bottom:auto;margin-top:6px;border-radius:50%;border:2px dotted #FFCC00}
+.plate input{flex:1;min-width:0;width:100%;border:0;background:none;padding:0 14px;height:72px;font:800 clamp(1.8rem,1.4rem + 1.2vw,2.4rem)/1 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
+.plate input::placeholder{color:#B7B9BC}
+.plate input:focus{outline:none}
+.plate:focus-within{box-shadow:0 0 0 3px var(--jaune)}
+.track form .btn{margin-top:16px}
+.examples{margin-top:22px;font-size:15px;color:#D4D7DB}
+.examples button{margin:8px 8px 0 0;min-height:40px;padding:0 12px;background:none;border:1px solid #5A6067;color:var(--white);font-weight:700;letter-spacing:.06em;cursor:pointer}
+@media (hover:hover) and (pointer:fine){.examples button:hover{border-color:var(--jaune)}}
+.card{background:var(--white);color:var(--ink);padding:clamp(20px,3vw,32px);position:relative}
+.card::before{content:"";position:absolute;inset:0 0 auto;height:10px;background:var(--hazard)}
+.card .head{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:baseline;margin-top:8px}
+.card .head b{font:400 1.8rem/1 var(--stencil)}
+.card .head span{color:var(--muted);font-size:15px}
+.steps{list-style:none;margin-top:22px;display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.steps li{position:relative;padding-top:18px}
+.steps li::before{content:"";position:absolute;left:0;right:0;top:0;height:8px;background:var(--beton2)}
+.steps li.ok::before{background:var(--ink)}
+.steps li.now::before{background:var(--jaune)}
+.steps b{display:block;font-weight:800;font-size:15px;line-height:1.2}
+.steps span{display:block;margin-top:4px;font-size:14px;color:var(--muted)}
+.card .note{margin-top:22px;padding:14px 16px;background:var(--beton);font-size:16px}
+.card .note b{display:block;font-size:13px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+.card .ready{margin-top:18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.card .ready strong{font:400 clamp(1.6rem,1.3rem + 1vw,2.2rem)/1 var(--stencil)}
+.card .empty{margin-top:18px;color:var(--muted)}
+
+/* ---- les prix : tableau, fiches sur téléphone ---- */
+.prices{width:100%;border-collapse:collapse;margin-top:clamp(36px,5vw,56px);background:var(--white)}
+.prices th{text-align:left;padding:14px 18px;background:var(--ink);color:var(--white);font-size:14px;text-transform:uppercase;letter-spacing:.06em}
+.prices td{padding:16px 18px;border-bottom:2px solid var(--beton);vertical-align:baseline}
+.prices td:first-child b{display:block;font-weight:800;font-size:1.1rem}
+.prices td:first-child span{font-size:15px;color:var(--muted)}
+.prices td.p{font:400 1.5rem/1 var(--stencil);white-space:nowrap}
+.fine{margin-top:16px;font-size:15px;color:var(--muted)}
+
+/* ---- rangée de photos ---- */
+.row3{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(12px,2vw,24px);margin-top:clamp(36px,5vw,56px)}
+.row3 figure img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.row3 figcaption{margin-top:12px;display:flex;justify-content:space-between;gap:12px;font-weight:700}
+.row3 figcaption span{color:var(--muted);font-weight:500}
+.rise{transition:opacity .7s cubic-bezier(.23,1,.32,1),transform .7s cubic-bezier(.23,1,.32,1);transition-delay:var(--d,0ms)}
+.js .rise{opacity:0;transform:translateY(18px)}
+.js .rise.on{opacity:1;transform:none}
+
+/* ---- l'atelier : texte et photo ---- */
+.about{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,64px);align-items:center}
+.about img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.promises{list-style:none;margin-top:26px;display:grid;gap:10px}
+.promises li{display:flex;gap:14px;align-items:baseline;padding:14px 16px;background:var(--steel2)}
+.promises li b{font:400 1.5rem/1 var(--stencil);color:var(--jaune);min-width:1.6em}
+
+/* ---- contact : plein écran jaune ---- */
+.contact .big{display:block;margin-top:24px;font:400 clamp(2.6rem,1.4rem + 5.4vw,7rem)/1 var(--stencil);text-decoration:none;letter-spacing:.02em}
+.contact .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:clamp(40px,5vw,64px);padding-top:24px;border-top:3px solid var(--ink)}
+.contact h3{font-size:14px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+.contact table{border-collapse:collapse}
+.contact td{padding:2px 14px 2px 0}
+.contact tr.now td{font-weight:800}
+footer{background:var(--ink);color:#C9CCD0;font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:20px}
+
+/* ---- barre du bas sur téléphone ---- */
+.dock{display:none}
+@media (prefers-reduced-motion:reduce){.js .rise{opacity:1;transform:none;transition:none}}
+@media (max-width:960px){
+  .top nav{display:none}
+  .hero,.track,.about{grid-template-columns:minmax(0,1fr)}
+  .hero figure img{aspect-ratio:16/11}
+  .hero figure .label{left:12px}
+  .contact .grid{grid-template-columns:1fr}
+  footer .wrap{padding-bottom:90px}
+  .dock{display:grid;grid-template-columns:1fr 1fr;position:fixed;left:0;right:0;bottom:0;z-index:40;padding-bottom:env(safe-area-inset-bottom);background:var(--ink);transform:translateY(100%);transition:transform .25s cubic-bezier(.23,1,.32,1)}
+  .dock.on{transform:none}
+  .dock a{display:flex;align-items:center;justify-content:center;min-height:58px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;text-decoration:none;color:var(--white)}
+  .dock a.go{background:var(--jaune);color:var(--ink)}
+}
+@media (max-width:760px){
+  .steps{grid-template-columns:1fr;gap:0}
+  .steps li{padding:0 0 14px 22px}
+  .steps li::before{left:0;right:auto;top:4px;bottom:0;width:6px;height:auto}
+  .prices thead{display:none}
+  .prices tr{display:grid;grid-template-columns:1fr auto;gap:4px 16px;padding:16px 18px;border-bottom:2px solid var(--beton)}
+  .prices td{padding:0;border:0}
+  .prices td:first-child{grid-column:1 / -1}
+  .prices td:nth-child(2){color:var(--muted);font-size:15px}
+  .prices td:nth-child(2)::before{content:"Durée : "}
+  .prices td.p{text-align:right}
+  .row3{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="demo">Site de démonstration réalisé par Saitora, garage fictif</div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#"><b>Santoni</b><span>Garage</span></a>
+    <nav aria-label="Navigation"><a href="#suivi">Suivre ma voiture</a><a href="#prix">Les prix</a><a href="#atelier">L'atelier</a><a href="#contact">Contact</a></nav>
+    <a class="btn" href="tel:+33400000000">Appeler</a>
+  </div>
+</header>
+
+<main>
+<div class="wrap hero" id="top">
+  <div>
+    <p class="label" id="open">Atelier ouvert</p>
+    <h1 class="st">Réparée, et vous savez <em>quand.</em></h1>
+    <p class="say">Entretien, freins, pneus, climatisation : toutes marques, route de Mezzavia à Ajaccio. Le prix avant les travaux, et votre voiture suivie en direct jusqu'à ce qu'elle soit prête.</p>
+    <div class="acts"><a class="btn" href="#suivi">Suivre ma voiture</a><a class="btn line" href="#contact">Prendre rendez-vous</a></div>
+  </div>
+  <figure><img class="bw" src="images/garage/atelier.webp" alt="L'atelier, des voitures sur les ponts élévateurs" width="1600" height="1000" fetchpriority="high"><span class="label">4 ponts, toutes marques</span></figure>
+</div>
+<div class="hazard" aria-hidden="true"></div>
+
+<section class="steel" id="suivi">
+  <div class="wrap">
+    <h2 class="st h2">Où en est ma voiture ?</h2>
+    <p class="lede">Tapez votre plaque : vous voyez l'étape, la note du mécanicien et l'heure à laquelle elle sera prête. Plus besoin d'appeler pour savoir.</p>
+    <div class="track">
+      <form id="trackForm" novalidate>
+        <label for="plaque" class="label" style="background:none;color:var(--white);padding-left:0;border:0">Votre plaque</label>
+        <div class="plate" style="margin-top:8px"><span class="eu" aria-hidden="true"><i></i>F</span><input id="plaque" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="AB-123-CD" maxlength="9" inputmode="text"></div>
+        <button class="btn" type="submit">Voir où elle en est</button>
+        <p class="examples">Démo : essayez <button type="button" data-p="GA-742-LT">GA-742-LT</button><button type="button" data-p="FT-118-RC">FT-118-RC</button><button type="button" data-p="EZ-905-KP">EZ-905-KP</button></p>
+      </form>
+      <div class="card" aria-live="polite" id="result"></div>
+    </div>
+  </div>
+</section>
+
+<section class="diag" id="prix">
+  <div class="wrap">
+    <h2 class="st h2">Le prix avant les travaux</h2>
+    <p class="lede">Des prix de départ pour une citadine. On vous donne le montant exact après le diagnostic, et rien n'est fait sans votre accord.</p>
+    <table class="prices">
+      <thead><tr><th>Intervention</th><th>Durée</th><th>À partir de</th></tr></thead>
+      <tbody id="prices"></tbody>
+    </table>
+    <p class="fine">Prix de démonstration, pièces et main-d'œuvre comprises.</p>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <h2 class="st h2">Ce qui passe sur nos ponts</h2>
+    <div class="row3">
+      <figure class="rise"><img class="bw" src="images/garage/freins.webp" alt="Un disque de frein démonté" width="1000" height="750" loading="lazy"><figcaption>Freins<span>disques et plaquettes</span></figcaption></figure>
+      <figure class="rise" style="--d:90ms"><img class="bw" src="images/garage/moteur.webp" alt="Un mécanicien penché sur un moteur" width="1200" height="800" loading="lazy"><figcaption>Moteur<span>diagnostic électronique</span></figcaption></figure>
+      <figure class="rise" style="--d:180ms"><img class="bw" src="images/garage/pneus.webp" alt="Une jante sur la machine de montage des pneus" width="1000" height="750" loading="lazy"><figcaption>Pneus<span>été, hiver, 4 saisons</span></figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="steel diag" id="atelier">
+  <div class="wrap about">
+    <div>
+      <h2 class="st h2">Un atelier de quartier</h2>
+      <p class="lede">Depuis 1987 route de Mezzavia, de père en fils. On connaît les routes de montagne qui usent les freins et l'été qui fatigue les climatisations : on vous dit ce qui presse et ce qui peut attendre.</p>
+      <ul class="promises">
+        <li><b>1</b>Un devis écrit avant de toucher à la voiture.</li>
+        <li><b>2</b>Les pièces changées vous sont rendues, si vous le voulez.</li>
+        <li><b>3</b>Une voiture de prêt pour les réparations de plus d'une journée.</li>
+      </ul>
+    </div>
+    <img class="bw" src="images/garage/roue.webp" alt="Un mécanicien qui démonte une roue" width="1000" height="750" loading="lazy">
+  </div>
+</section>
+
+<section class="yellow diag contact" id="contact">
+  <div class="wrap">
+    <h2 class="st h2">Un rendez-vous, une panne ?</h2>
+    <a class="big" href="tel:+33400000000">04 00 00 00 00</a>
+    <p class="lede">Dépannage et remorquage 24 h/24 au 06 00 00 00 00.</p>
+    <div class="grid">
+      <div><h3>L'atelier</h3><p>Route de Mezzavia, Ajaccio<br>Parking devant le garage</p></div>
+      <div><h3>Les horaires</h3><table id="hrs"></table></div>
+      <div><h3>Pour le rendez-vous</h3><p>Votre plaque, le kilométrage et ce que vous avez remarqué : on vous rappelle avec une date.</p><p style="margin-top:14px"><a class="btn dark" href="mailto:atelier@garage-santoni.fr?subject=Rendez-vous%20atelier">Écrire au garage</a></p></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap"><span>© Garage Santoni, garage fictif · site réalisé par <a href="accueil.html">Saitora</a></span><span>Photos : Pixabay</span></div></footer>
+
+<nav class="dock" id="dock" aria-label="Accès rapide"><a href="tel:+33400000000">Appeler</a><a class="go" href="#suivi">Suivre ma voiture</a></nav>
+
+<script>
+document.documentElement.classList.add("js");
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[m]);
+const hm = m => `${Math.floor(m / 60)} h${m % 60 ? " " + String(m % 60).padStart(2, "0") : ""}`;
+const now = new Date(), nowM = now.getHours() * 60 + now.getMinutes();
+
+// ——— les prix
+const PRICES = [["Révision constructeur", "Vidange, filtres, points de contrôle, carnet tamponné", "1 h 30", "149 €"], ["Vidange et filtre à huile", "Huile adaptée au moteur", "45 min", "69 €"], ["Plaquettes de frein avant", "Pose et contrôle des disques", "1 h", "119 €"], ["Pneu, pose et équilibrage", "Par pneu, valve neuve", "20 min", "25 €"], ["Recharge de climatisation", "Contrôle d'étanchéité compris", "45 min", "79 €"], ["Diagnostic électronique", "Lecture des défauts, compte rendu", "30 min", "49 €"], ["Kit de distribution", "Courroie, galets et pompe à eau", "4 h", "490 €"]];
+$("prices").innerHTML = PRICES.map(([n, d, t, p]) => `<tr><td><b>${n}</b><span>${d}</span></td><td>${t}</td><td class="p">${p}</td></tr>`).join("");
+
+// ——— le suivi : chaque plaque de démonstration avance avec l'heure de la journée
+const STEPS = ["Reçue", "Diagnostic", "Pièces", "Réparation", "Prête"];
+const CARS = {
+  "GA742LT": { car: "Peugeot 208", work: "Plaquettes avant et disques", start: 8 * 60 + 10, dur: [20, 40, 90, 70], note: "Disques sous la cote minimale : changés avec les plaquettes, comme convenu au téléphone." },
+  "FT118RC": { car: "Renault Clio", work: "Révision et climatisation", start: 9 * 60, dur: [30, 25, 60, 90], note: "Révision faite, carnet tamponné. Climatisation rechargée, aucune fuite trouvée." },
+  "EZ905KP": { car: "Fiat Panda 4x4", work: "Kit de distribution", start: 7 * 60 + 45, dur: [30, 240, 60, 200], note: "Pièces commandées ce matin chez le fournisseur de Bastia, livraison prévue en début d'après-midi." },
+};
+const clean = s => s.toUpperCase().replace(/[^A-Z0-9]/g, "");
+const fmtPlate = s => { const c = clean(s); return c.length > 5 ? `${c.slice(0, 2)}-${c.slice(2, 5)}-${c.slice(5, 7)}` : c; };
+function show(p) {
+  const k = clean(p), c = CARS[k], box = $("result");
+  if (!k) { box.innerHTML = `<div class="head"><b>Votre voiture</b></div><p class="empty">Tapez votre plaque, ou essayez une des plaques de démonstration.</p>`; return; }
+  if (!c) { box.innerHTML = `<div class="head"><b>${esc(fmtPlate(p))}</b></div><p class="empty">Cette plaque n'est pas à l'atelier aujourd'hui. Sur le vrai site, chaque client a sa plaque suivie dès qu'il dépose sa voiture.</p>`; return; }
+  let t = c.start; const times = [t]; c.dur.forEach(d => times.push(t += d));
+  let cur = times.filter(x => x <= nowM).length - 1; if (cur < 0) cur = 0;   // avant l'heure de dépôt : reçue
+  const ready = times[4];
+  box.innerHTML = `<div class="head"><b>${esc(fmtPlate(p))}</b><span>${esc(c.car)} · ${esc(c.work)}</span></div>
+    <ol class="steps">${STEPS.map((s, i) => `<li class="${i < cur ? "ok" : i === cur ? "now" : ""}"><b>${s}</b><span>${i <= cur ? (i === cur && i < 4 ? "en cours" : hm(times[i])) : "vers " + hm(times[i])}</span></li>`).join("")}</ol>
+    <p class="note"><b>La note du mécanicien</b>${esc(c.note)}</p>
+    <div class="ready"><strong>${cur === 4 ? "Prête, venez quand vous voulez" : "Prête vers " + hm(ready)}</strong><a class="btn dark" href="tel:+33400000000">Appeler l'atelier</a></div>`;
+}
+$("trackForm").addEventListener("submit", e => { e.preventDefault(); $("plaque").value = fmtPlate($("plaque").value); show($("plaque").value); });
+document.querySelector(".examples").addEventListener("click", e => { const b = e.target.closest("button[data-p]"); if (!b) return; $("plaque").value = b.dataset.p; show(b.dataset.p); });
+$("plaque").value = "GA-742-LT"; show("GA-742-LT");
+
+// ——— horaires et « ouvert maintenant »
+const DN = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
+const H = { 1: [450, 1110], 2: [450, 1110], 3: [450, 1110], 4: [450, 1110], 5: [450, 1110], 6: [480, 720] };
+$("hrs").innerHTML = [1, 2, 3, 4, 5, 6, 0].map(i => `<tr class="${i === now.getDay() ? "now" : ""}"><td>${DN[i]}</td><td>${H[i] ? `${hm(H[i][0])} – ${hm(H[i][1])}` : "Fermé"}</td></tr>`).join("");
+const h = H[now.getDay()], open = h && nowM >= h[0] && nowM < h[1];
+$("open").textContent = open ? `Atelier ouvert jusqu'à ${hm(h[1])}` : "Atelier fermé · dépannage 24 h/24";
+
+// ——— apparitions, et la barre du bas après le premier écran
+const io = new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting) return; io.unobserve(e.target); const img = e.target.querySelector("img");
+  const go = () => requestAnimationFrame(() => e.target.classList.add("on"));
+  img && !(img.complete && img.naturalWidth) ? (img.addEventListener("load", go, { once: true }), img.addEventListener("error", go, { once: true })) : go(); }), { rootMargin: "0px 0px -8% 0px" });
+document.querySelectorAll(".rise").forEach(el => io.observe(el));
+new IntersectionObserver(([e]) => $("dock").classList.toggle("on", !e.isIntersecting && e.boundingClientRect.top < 0)).observe($("top"));
+</script>
+</body>
+</html>

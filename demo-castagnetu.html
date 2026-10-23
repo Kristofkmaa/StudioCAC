@@ -10,223 +10,334 @@
 <meta property="og:site_name" content="Saitora">
 <meta property="og:title" content="U Castagnetu, démo Saitora">
 <meta property="og:description" content="Charcuterie au feu de bois et farine de châtaigne, à Piedicroce. Démo réalisée par Saitora.">
-<meta name="theme-color" content="#974219">
+<meta name="theme-color" content="#1E1510">
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Crect%20width=%2264%22%20height=%2264%22%20fill=%22%236B3A1F%22/%3E%3Cpath%20d=%22M32%2014c-10%200-16%2010-16%2020a16%2016%200%200%200%2032%200c0-10-6-20-16-20Z%22%20fill=%22%23F5F2EA%22/%3E%3C/svg%3E">
-<link rel="stylesheet" href="polices/jost-young-serif-8a5b85.css">
+<link rel="stylesheet" href="polices/playfair-display-karla-d33a63.css">
 <style>
-/* Téléphone : pas de flash gris au toucher, pas de texte grossi en paysage, réponse dès que le doigt se pose,
-   libellés des boutons non sélectionnables. */
-html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%}
-:where(a,button,label,select,input){touch-action:manipulation}
-:where(button,.btn){-webkit-user-select:none;user-select:none}
-
-/* U Castagnetu. Toute la page dans le roux de la châtaigne et des feuilles d'automne, texte crème, touches or,
-   Young Serif pour les titres et Jost pour le texte. L'idée qui lui est propre : le calendrier des saisons, chaque produit et ses mois
-   de l'année, le mois en cours éclairé ; on choisit un mois pour savoir ce qu'on trouve et où. */
+/* U Castagnetu, genre « magazine éditorial » : une couverture avec son titre de revue, des rubriques numérotées,
+   du texte en colonnes avec lettrine, une légende sous chaque photo, une grille de douze colonnes asymétrique, sur fond châtaigne sombre. */
 :root{
-  --bg:#974219; --sand:#853915; --deep:#5A240C; --ink:#FBF1E4; --muted:#F2D2BC; --chest:#F2C14E; --accent-ink:#4A1E08; --rust:#B4521F; --moss:#4D5A38; --white:#FFF8EE;
-  --card-ink:#26241D; --card-muted:#686254;
-  --serif:"Young Serif",Georgia,serif;
-  --sans:"Jost","Helvetica Neue",Arial,sans-serif;
-  --m:clamp(20px,5vw,80px);
+  --bg:#1E1510; --paper:#2A1D15; --ink:#F3EADF; --soft:#C9B9A6; --chest:#D9A25B; --rust:#C4622B; --line:rgba(243,234,223,.16);
+  --m:clamp(16px,4vw,56px);
+  --serif:"Playfair Display",Georgia,serif; --sans:"Karla",system-ui,sans-serif;
 }
-*,*::before,*::after{box-sizing:border-box}
-html{background:var(--bg)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
 html:focus-within{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.65 var(--sans)}
-h1,h2,h3,p,ul,figure{margin:0}
-ul{padding:0;list-style:none}
-a{color:inherit;text-underline-offset:.25em;text-decoration-thickness:1px}
+body{background:var(--bg);color:var(--ink);font:400 17px/1.6 var(--sans);-webkit-font-smoothing:antialiased;position:relative;isolation:isolate}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.5;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 .9 0 0 0 0 .8 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--chest);outline-offset:3px}
-.demo{background:#3E1806;color:#F2D2BC;font-size:13px;text-align:center;padding:6px 16px}
-.wrap{width:min(1200px,100% - 2 * var(--m));margin-inline:auto}
-h2{font:400 clamp(2.1rem,1.6rem + 1.9vw,3.25rem)/1.08 var(--serif);letter-spacing:-.01em}
-.lead{margin-top:16px;max-width:46ch;color:var(--muted)}
-.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 24px;border:1px solid var(--chest);border-radius:0;background:var(--chest);color:var(--accent-ink);font:500 15px/1 var(--sans);letter-spacing:.02em;text-decoration:none;cursor:pointer;transition:background-color 160ms ease,color 160ms ease,transform 160ms cubic-bezier(.23,1,.32,1)}
-.btn:active{transform:scale(.97)}
-.btn.ghost{background:transparent;color:var(--chest)}
-@media (hover:hover) and (pointer:fine){.btn:hover{background:#F6D27A;border-color:#F6D27A;color:var(--accent-ink)}}
-.photo img{width:100%;aspect-ratio:4/5;object-fit:cover}
+.wrap{max-width:1320px;margin-inline:auto;padding-inline:var(--m)}
+.g12{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:clamp(12px,2vw,28px)}
+.demo{background:#000;color:#B3A391;font-size:13px;text-align:center;padding:6px 16px}
+.kick{font:700 12px/1.4 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--chest)}
+.cap{margin-top:10px;font-size:14px;color:var(--soft);font-style:italic}
+.cap b{font-style:normal;color:var(--ink);font-weight:600}
+.link{display:inline-flex;align-items:center;gap:10px;min-height:44px;font-weight:700;text-decoration:underline;text-decoration-color:var(--chest);text-decoration-thickness:2px;text-underline-offset:.4em;background:none;border:0;cursor:pointer}
+.link::after{content:"→";text-decoration:none;color:var(--chest);transition:transform .2s cubic-bezier(.23,1,.32,1)}
+@media (hover:hover) and (pointer:fine){.link:hover::after{transform:translateX(5px)}}
+.filet{display:flex;align-items:center;gap:12px;color:var(--chest);margin-block:clamp(28px,4vw,48px)}
+.filet::before,.filet::after{content:"";flex:1;height:1px;background:currentColor;opacity:.5}
+.filet i{width:6px;height:6px;background:currentColor;transform:rotate(45deg)}
 
-/* ---- en-tête ---- */
-.top{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-block:22px}
-.top .name{font:400 1.5rem/1 var(--serif);text-decoration:none}
-.top nav{display:flex;align-items:center;gap:30px;font-size:15px}
-.top nav a:not(.btn){text-decoration:none;color:var(--muted);transition:color 160ms ease}
-@media (hover:hover) and (pointer:fine){.top nav a:not(.btn):hover{color:var(--ink)}}
+/* ---- la manchette et le sommaire plein écran ---- */
+.mast{border-bottom:1px solid var(--line)}
+.mast .wrap{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;padding-block:14px}
+.mast .issue{font-size:13px;color:var(--soft);letter-spacing:.06em}
+.mast .title{font:900 clamp(1.6rem,1.2rem + 1.4vw,2.4rem)/1 var(--serif);letter-spacing:-.01em;text-decoration:none}
+.mast .menu{justify-self:end;display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:0 4px;background:none;border:0;cursor:pointer;font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:13px}
+.mast .menu i{width:22px;height:10px;border-block:2px solid currentColor}
+.toc{position:fixed;inset:0;z-index:60;background:var(--paper);padding:20px var(--m) 40px;overflow:auto;visibility:hidden;opacity:0;transition:opacity .25s ease-out,visibility 0s .25s}
+.toc.open{visibility:visible;opacity:1;transition:opacity .25s ease-out}
+.toc .head{display:flex;justify-content:space-between;align-items:center;max-width:1320px;margin:0 auto}
+.toc .head b{font:900 1.8rem/1 var(--serif)}
+.toc .close{min-height:44px;padding:0 4px;background:none;border:0;font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:13px;cursor:pointer}
+.toc ol{list-style:none;max-width:1320px;margin:clamp(30px,6vw,80px) auto 0;border-top:1px solid var(--line)}
+.toc li a{display:grid;grid-template-columns:70px 1fr auto;align-items:baseline;gap:16px;padding:18px 0;border-bottom:1px solid var(--line);text-decoration:none}
+.toc li span{font:700 14px/1 var(--sans);color:var(--chest)}
+.toc li b{font:500 clamp(2rem,1.4rem + 2.6vw,3.8rem)/1.05 var(--serif)}
+.toc li em{color:var(--soft);font-size:15px}
+@media (hover:hover) and (pointer:fine){.toc li a:hover b{font-style:italic}}
 
-/* ---- ouverture ---- */
-.hero{display:grid;grid-template-columns:1.15fr 1fr;gap:clamp(40px,6vw,96px);align-items:center;padding-block:clamp(36px,5vw,72px) clamp(80px,9vw,130px)}
-.hero h1{font:400 clamp(2.7rem,1.7rem + 3.2vw,4.6rem)/1.05 var(--serif);letter-spacing:-.015em}
-.hero p{margin-top:24px;max-width:42ch;font-size:18px}
-.hero .acts{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
-.hero .facts{display:flex;flex-wrap:wrap;gap:12px 36px;margin-top:40px;font-size:14px;color:var(--muted)}
-.hero .facts b{display:block;font:400 1.35rem/1.2 var(--serif);color:var(--ink)}
+/* ---- couverture : panorama ---- */
+.pano{margin-top:clamp(20px,3vw,36px);overflow:hidden}
+.pano img{width:100%;aspect-ratio:21/8.5;object-fit:cover}
+.zoom img{transform:scale(1.06);transition:transform 2.4s cubic-bezier(.23,1,.32,1)}
+.zoom.on img{transform:none}
+.cover{margin-top:clamp(28px,4vw,48px);align-items:start}
+.cover h1{grid-column:1 / span 7;font:500 clamp(2.8rem,1.6rem + 4.4vw,6.4rem)/.98 var(--serif);letter-spacing:-.02em}
+.cover h1 em{font-style:italic;color:var(--chest)}
+.cover .chapo{grid-column:9 / span 4;font-size:clamp(1.08rem,1rem + .3vw,1.25rem)}
+.cover .chapo .acts{display:flex;flex-direction:column;align-items:flex-start;margin-top:14px}
+.facts{margin-top:clamp(36px,5vw,56px);border-top:1px solid var(--ink);padding-top:16px}
+.facts div{grid-column:span 4}
+.facts b{display:block;font:700 1.25rem/1.2 var(--serif)}
+.facts span{color:var(--soft);font-size:15px}
 
-/* ---- de l'arbre au séchoir ---- */
-.farm{padding-block:0 clamp(80px,9vw,130px)}
-.farm .row{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,3vw,40px);margin-top:48px}
-.farm h3{margin-top:18px;font:400 1.4rem/1.15 var(--serif)}
-.farm p{margin-top:6px;color:var(--muted);font-size:15px;max-width:34ch}
-.farm .when{display:block;margin-top:18px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--chest)}
+/* ---- rubriques ---- */
+section{padding-block:clamp(80px,9vw,130px)}
+.rub{display:flex;align-items:baseline;gap:18px;border-top:1px solid var(--ink);padding-top:14px}
+.rub b{font:700 13px/1 var(--sans);letter-spacing:.2em;color:var(--chest)}
+.rub span{font:italic 500 1.05rem/1 var(--serif);color:var(--soft)}
+.h2{margin-top:18px;font:500 clamp(2.4rem,1.5rem + 3.4vw,4.8rem)/1 var(--serif);letter-spacing:-.02em}
+.h2 em{font-style:italic;color:var(--chest)}
+.paper{background:var(--paper)}
 
-/* ---- le calendrier des saisons ---- */
-.cal{background:var(--sand);padding-block:clamp(80px,9vw,130px)}
-.cal .head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap}
-.cal .tw{margin-top:44px;overflow-x:auto;background:var(--white);color:var(--card-ink);padding:clamp(18px,2.5vw,32px)}
-.cal table{width:100%;min-width:760px;border-collapse:separate;border-spacing:3px 6px}
-.cal th{font:500 13px/1 var(--sans);color:var(--card-muted);text-align:center;padding:0}
-.cal th button{width:100%;min-height:40px;border:0;background:none;color:inherit;font:inherit;text-transform:capitalize;cursor:pointer;transition:background-color 160ms ease,color 160ms ease}
-.cal th.sel button{background:var(--card-ink);color:var(--white)}
-.cal th.now button{color:var(--bg);font-weight:600}
-.cal th.sel.now button{color:var(--white)}
-@media (hover:hover) and (pointer:fine){.cal th:not(.sel) button:hover{background:#F3EBDD}}
-.cal tbody th{text-align:left;font:400 15px/1.3 var(--sans);color:var(--card-ink);padding-right:16px;white-space:nowrap}
-.cal td{height:22px;padding:0;background:#F0EBE0;transition:opacity 200ms ease}
-.cal td.y{background:var(--rust)}
-.cal td.y.moss{background:var(--moss)}
-.cal td.sel{outline:2px solid var(--card-ink);outline-offset:-2px}
-.cal .grp th{padding-top:14px;font:400 1.1rem/1.2 var(--serif);color:var(--card-muted)}
-.month{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:clamp(24px,4vw,56px);margin-top:36px}
-.month h3{font:400 1.75rem/1.1 var(--serif)}
-.month p{margin-top:8px}
-.month .k{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
-.month li{padding:3px 0}
-.month .fade{transition:opacity 180ms ease}
-.month.swap .fade{opacity:0}
+/* ---- 01 la ferme : article en colonnes ---- */
+.article{margin-top:clamp(36px,5vw,56px);align-items:start}
+.article .cols{grid-column:1 / span 7;columns:2;column-gap:clamp(20px,3vw,40px);column-rule:1px solid var(--line)}
+.article .cols p{margin-bottom:1em;break-inside:avoid-column}
+.article .cols p:first-child::first-letter{float:left;font:900 4.6em/.8 var(--serif);color:var(--chest);margin:.06em .1em 0 0}
+.article .pull{column-span:all;margin:.4em 0 1.2em;padding:18px 0;border-block:1px solid var(--line);font:italic 500 clamp(1.5rem,1.2rem + 1vw,2.1rem)/1.25 var(--serif);color:var(--chest)}
+.portrait{grid-column:9 / span 4;position:relative}
+.portrait img{width:100%;aspect-ratio:2/3;object-fit:cover}
+.portrait ol{list-style:none;position:absolute;left:0;right:0;bottom:0;padding:70px 18px 16px;background:linear-gradient(transparent,rgba(30,21,16,.92) 40%)}
+.portrait li{font:500 1.15rem/1.25 var(--serif);padding:8px 0;border-top:1px solid var(--line)}
 
-/* ---- les produits ---- */
-.shop{padding-block:clamp(80px,9vw,130px)}
-.shop .grid{display:grid;grid-template-columns:1.3fr 1fr;gap:clamp(40px,6vw,96px);align-items:start}
-.shop h3{margin-top:44px;font:400 1.4rem/1.15 var(--serif);padding-bottom:12px;border-bottom:1px solid rgba(251,241,228,.25)}
-.shop li{display:flex;justify-content:space-between;gap:20px;padding:14px 0}
-.shop li small{display:block;color:var(--muted);font-size:14px}
-.shop li .p{white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:500}
-.shop li.off span:first-child{color:var(--muted)}
-.shop li .tag{display:inline-block;margin-left:8px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--chest);font-weight:500}
-.shop .fine{margin-top:28px;color:var(--muted);font-size:15px;max-width:48ch}
-.shop .photo{position:sticky;top:32px}
-.shop figcaption{margin-top:10px;font-size:14px;color:var(--muted)}
+/* ---- 02 de l'arbre au séchoir : une à la fois ---- */
+.story{margin-top:clamp(36px,5vw,56px);align-items:center}
+.story figure{grid-column:1 / span 7}
+.story .ph{position:relative;aspect-ratio:4/3;overflow:hidden}
+.story .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .5s ease}
+.story .ph img.hide{opacity:0}
+.story .txt{grid-column:9 / span 4}
+.story .when{font:italic 500 1.2rem/1 var(--serif);color:var(--chest)}
+.story h3{margin-top:10px;font:700 clamp(1.9rem,1.4rem + 1.6vw,2.8rem)/1.05 var(--serif)}
+.story p{margin-top:14px;color:var(--soft)}
+.pager{display:flex;align-items:center;gap:16px;margin-top:26px}
+.pager button{width:48px;height:48px;border-radius:50%;border:1px solid var(--ink);background:none;cursor:pointer;transition:background-color .15s,color .15s}
+@media (hover:hover) and (pointer:fine){.pager button:hover{background:var(--ink);color:var(--bg)}}
+.pager button:active{transform:scale(.95)}
+.pager span{font:700 14px/1 var(--sans);letter-spacing:.14em}
 
-/* ---- venir ---- */
-.visit{background:var(--deep);color:var(--ink);padding-block:clamp(80px,9vw,130px)}
-.visit .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(24px,4vw,64px);margin-top:44px}
-.visit h3{font:400 1.35rem/1.15 var(--serif);margin-bottom:10px}
-.visit p,.visit li{color:var(--muted)}
-.visit a{color:var(--ink)}
-footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:28px;font-size:13px;color:var(--muted)}
+/* ---- 03 le calendrier ---- */
+.cal{margin-top:clamp(36px,5vw,56px);align-items:start}
+.cal .tw{grid-column:1 / span 8;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.cal table{width:100%;min-width:700px;border-collapse:collapse;font-size:15px}
+.cal th,.cal td{padding:0;text-align:center;border-bottom:1px solid var(--line)}
+.cal thead th{padding:8px 0}
+.cal thead button{width:100%;min-height:44px;background:none;border:0;cursor:pointer;font:700 12px/1 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--soft)}
+.cal thead th.sel button{color:var(--bg);background:var(--chest)}
+.cal tbody th{text-align:left;padding:10px 12px 10px 0;font-weight:600;white-space:nowrap}
+.cal tbody tr.grp th{padding-top:20px;font:italic 500 1.05rem/1 var(--serif);color:var(--chest);border-bottom:0}
+.cal td span{display:block;height:12px;margin:0 1px}
+.cal td.on span{background:rgba(217,162,91,.55)}
+.cal td.sel{background:rgba(217,162,91,.12)}
+.cal td.on.sel span{background:var(--chest)}
+.cal .month{grid-column:10 / span 3;background:var(--bg);padding:24px;border-top:3px solid var(--chest);transition:opacity .18s}
+.cal .month.swap{opacity:0}
+.cal .month h3{font:500 2.2rem/1 var(--serif);text-transform:capitalize}
+.cal .month p{margin-top:10px;color:var(--soft)}
+.cal .month .kick{margin-top:18px;display:block}
+.cal .month ul{list-style:none;margin-top:8px}
+.cal .month li{padding:4px 0;border-bottom:1px solid var(--line)}
 
-/* ---- apparitions discrètes ---- */
-.js .rise{opacity:0;transform:translateY(14px);transition:opacity 800ms cubic-bezier(.23,1,.32,1),transform 800ms cubic-bezier(.23,1,.32,1)}
-.js .rise.on{opacity:1;transform:none}
-@media (prefers-reduced-motion:reduce){.js .rise{opacity:1;transform:none;transition:none}}
+/* ---- 04 les produits : grille de trois ---- */
+.prods{margin-top:clamp(36px,5vw,56px);display:grid;grid-template-columns:repeat(3,1fr);gap:0 clamp(20px,3vw,40px)}
+.prods article{padding:22px 0;border-top:1px solid var(--line)}
+.prods .g{font:italic 500 .95rem/1 var(--serif);color:var(--soft)}
+.prods h3{margin-top:8px;font:700 1.5rem/1.15 var(--serif)}
+.prods h3 .now{display:inline-block;margin-left:8px;padding:3px 8px;background:var(--chest);color:var(--bg);font:700 11px/1.3 var(--sans);letter-spacing:.1em;text-transform:uppercase;vertical-align:4px}
+.prods p{margin-top:6px;color:var(--soft);font-size:15px}
+.prods .p{margin-top:10px;font:500 1.2rem/1 var(--serif);color:var(--chest)}
+.wide{margin-top:calc(8px - clamp(60px,9vw,130px));position:relative;z-index:2;transform:translateY(clamp(60px,9vw,130px))}
+#produits{display:flow-root}
+.wide img{width:100%;aspect-ratio:21/8;object-fit:cover}
 
-/* ---- tablette et téléphone ---- */
-@media (max-width:960px){
-  .top nav a:not(.btn){display:none}
-  .hero,.shop .grid{grid-template-columns:1fr}
-  .hero .photo{max-width:520px}
-  .shop .photo{position:static;max-width:420px}
-  .month{grid-template-columns:1fr 1fr}
-  .month>div:first-child{grid-column:1/-1}
+/* ---- 05 commander : formulaire sur carte ---- */
+.order{padding-top:calc(clamp(60px,9vw,130px) + clamp(60px,7vw,100px))}
+.order .g12{margin-top:clamp(36px,5vw,56px);align-items:start}
+.order .infos{grid-column:1 / span 5;display:grid;gap:22px}
+.order .infos div{border-top:1px solid var(--line);padding-top:14px}
+.order .infos p{margin-top:6px;color:var(--soft)}
+.card{grid-column:7 / span 6;background:var(--ink);color:var(--bg);padding:clamp(22px,3vw,40px);display:grid;gap:18px}
+.card h3{font:700 2rem/1 var(--serif)}
+.card .lab{display:block;font-weight:700;font-size:14px;margin-bottom:8px}
+.picks{display:grid;grid-template-columns:1fr 1fr;gap:6px 18px}
+.picks label{display:flex;align-items:center;gap:10px;min-height:40px;font-size:15px;cursor:pointer}
+.picks input{width:20px;height:20px;accent-color:var(--rust)}
+.card input[type=text],.card input[type=tel],.card select{width:100%;min-height:50px;padding:0 14px;border:1px solid rgba(30,21,16,.35);border-radius:0;background:#fff;font-size:16px}
+.card .two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.card .send{justify-self:start;min-height:52px;padding:0 26px;border:0;background:var(--bg);color:var(--ink);font-weight:700;letter-spacing:.06em;cursor:pointer}
+.card .send:active{transform:scale(.97)}
+.card .ok{font-weight:600;min-height:1.5em}
+
+footer{border-top:1px solid var(--line);padding-block:28px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:14px;color:var(--soft)}
+footer b{font:900 1.2rem/1 var(--serif);color:var(--ink)}
+
+@media (prefers-reduced-motion:reduce){.zoom img{transform:none;transition:none}}
+@media (max-width:980px){
+  .mast .issue{display:none}
+  .mast .wrap{grid-template-columns:auto 1fr}
+  .mast .title{justify-self:start}
+  .cover h1,.cover .chapo,.article .cols,.portrait,.story figure,.story .txt,.cal .tw,.cal .month,.order .infos,.card{grid-column:1 / -1}
+  .cover .chapo,.portrait,.story .txt,.cal .month,.card{margin-top:28px}
+  .facts div{grid-column:1 / -1;margin-bottom:10px}
+  .article .cols{columns:1}
+  .portrait img{aspect-ratio:4/5}
+  .prods{grid-template-columns:1fr 1fr}
+  .pano img{aspect-ratio:16/10}
 }
-@media (max-width:640px){
-  .farm .row,.visit .grid,.month{grid-template-columns:1fr}
-  .farm .row{gap:40px}
-  .farm .photo img{aspect-ratio:4/3}
-  .cal .tw{margin-inline:calc(-1 * var(--m));padding-inline:var(--m)}
-  .top .btn{min-height:44px;padding:0 18px}
-}
+@media (max-width:560px){.prods{grid-template-columns:1fr}.picks,.card .two{grid-template-columns:1fr}.toc li a{grid-template-columns:44px 1fr}.toc li em{display:none}}
 </style>
 </head>
 <body>
 <div class="demo">Site de démonstration réalisé par Saitora, producteur fictif</div>
 
-<header class="wrap top">
-  <a class="name" href="#">U Castagnetu</a>
-  <nav aria-label="Navigation principale"><a href="#ferme">La ferme</a><a href="#saisons">Les saisons</a><a href="#produits">Les produits</a><a class="btn" href="#venir">Commander</a></nav>
+<header class="mast">
+  <div class="wrap">
+    <span class="issue" id="issue"></span>
+    <a class="title" href="#">U Castagnetu</a>
+    <button class="menu" type="button" id="menuBtn" aria-expanded="false" aria-controls="toc"><i></i>Sommaire</button>
+  </div>
 </header>
+<div class="toc" id="toc" role="dialog" aria-modal="true" aria-label="Sommaire">
+  <div class="head"><b>Sommaire</b><button class="close" type="button" id="closeBtn">Fermer</button></div>
+  <ol>
+    <li><a href="#ferme"><span>01</span><b>La ferme</b><em>Les porcs sous les châtaigniers</em></a></li>
+    <li><a href="#sechoir"><span>02</span><b>De l'arbre au séchoir</b><em>Trois saisons de travail</em></a></li>
+    <li><a href="#saisons"><span>03</span><b>Le calendrier des saisons</b><em>Ce qui est prêt, mois par mois</em></a></li>
+    <li><a href="#produits"><span>04</span><b>Les produits</b><em>Et leurs prix</em></a></li>
+    <li><a href="#commander"><span>05</span><b>Commander un colis</b><em>À retirer le samedi</em></a></li>
+  </ol>
+</div>
 
 <main>
-  <section class="wrap hero" aria-labelledby="t-hero">
-    <div>
-      <h1 id="t-hero">Charcuterie et farine de châtaigne</h1>
+<div class="wrap">
+  <figure class="pano zoom"><img src="images/castagnetu/jambons.webp" alt="Des jambons qui sèchent, pendus aux poutres du séchoir" width="1280" height="800" fetchpriority="high"></figure>
+  <p class="cap"><b>Au séchoir.</b> Les prisuttu pendus au-dessus du feu de châtaignier, à Piedicroce.</p>
+  <div class="g12 cover">
+    <h1>Charcuterie et farine <em>de châtaigne</em></h1>
+    <div class="chapo">
       <p>En Castagniccia, nos porcs nustrale vivent dehors, sous les châtaigniers de Piedicroce. Tout est fait ici, au feu de bois et au rythme des saisons.</p>
-      <div class="acts"><a class="btn" href="#venir">Commander un colis</a><a class="btn ghost" href="#saisons">Ce qu'on trouve ce mois-ci</a></div>
-      <div class="facts"><span><b>Dehors</b>toute l'année</span><span><b>24 mois</b>pour le prisuttu</span><span><b>Le samedi</b>à la ferme</span></div>
+      <div class="acts"><a class="link" href="#saisons">Ce qu'on trouve ce mois-ci</a><a class="link" href="#commander">Commander un colis</a></div>
     </div>
-    <figure class="photo"><img src="images/castagnetu/porc.webp" alt="Un porc noir dans l'herbe, sous les arbres" width="800" height="1200" fetchpriority="high"></figure>
-  </section>
+  </div>
+  <div class="g12 facts"><div><b>Dehors toute l'année</b><span>Les porcs vivent en liberté dans la châtaigneraie</span></div><div><b>24 mois pour le prisuttu</b><span>Deux ans de cave pour le jambon</span></div><div><b>Le samedi à la ferme</b><span>De 9 h à 12 h, au hameau de Castagnetu</span></div></div>
+</div>
 
-  <section class="wrap farm" id="ferme" aria-labelledby="t-farm">
-    <h2 class="rise" id="t-farm">De l'arbre au séchoir</h2>
-    <div class="row">
-      <figure class="photo rise"><img src="images/castagnetu/chataignier.webp" alt="Un vieux châtaignier au tronc noueux" width="680" height="850" loading="lazy"><span class="when">Octobre</span><h3>Sous les châtaigniers</h3><p>Les porcs finissent aux châtaignes tombées ; nous ramassons les plus belles à la main.</p></figure>
-      <figure class="photo rise"><img src="images/castagnetu/jambons.webp" alt="Deux jambons pendus dans la pénombre" width="1280" height="800" loading="lazy"><span class="when">De décembre à mars</span><h3>Au séchoir</h3><p>Un feu de châtaignier couve des semaines sous les pièces. Puis la cave : deux ans pour le prisuttu.</p></figure>
-      <figure class="photo rise"><img src="images/castagnetu/farine.webp" alt="De la farine versée dans un bol de laiton" width="1280" height="800" loading="lazy"><span class="when">Décembre</span><h3>Au moulin</h3><p>Les châtaignes séchées passent à la meule du moulin du village : la farine de l'année.</p></figure>
-    </div>
-  </section>
-
-  <section class="cal" id="saisons" aria-labelledby="t-cal">
-    <div class="wrap">
-      <div class="head rise">
-        <div><h2 id="t-cal">Le calendrier des saisons</h2><p class="lead">Ici, on ne trouve pas tout, tout le temps. Choisissez un mois pour voir ce qui est prêt, et où nous trouver.</p></div>
+<section id="ferme">
+  <div class="wrap">
+    <div class="rub"><b>Rubrique 01</b><span>La ferme</span></div>
+    <h2 class="h2">Des porcs <em>sous les arbres</em></h2>
+    <div class="g12 article">
+      <div class="cols">
+        <p>À Piedicroce, la châtaigneraie descend jusqu'au ruisseau. C'est là que vivent nos porcs nustrale, la race de l'île, noire et rustique. Ils passent l'année dehors, entre les chênes l'été et les châtaigniers l'automne.</p>
+        <p>En octobre, quand les bogues tombent, ils finissent aux châtaignes. C'est ce qui donne au gras sa douceur et à la viande son goût de noisette.</p>
+        <p class="pull">« On ne fait pas plus vite que la saison. Le jambon prend deux ans, et c'est tant mieux. »</p>
+        <p>L'hiver, on fait la tumbera comme on l'a toujours faite : figatellu, coppa, lonzu, salamu, et les jambons qui partent au sel. Le séchoir fume au feu de châtaignier pendant des semaines.</p>
+        <p>Le reste de l'année, on soigne les arbres, on ramasse, on fait sécher les châtaignes dans la grataghja, et on monte au moulin du village pour la farine.</p>
       </div>
-      <div class="tw rise"><table id="grid" aria-label="Produits disponibles mois par mois"></table></div>
+      <figure class="portrait">
+        <img src="images/castagnetu/porc.webp" alt="Un porc noir dans la châtaigneraie" width="800" height="1200" loading="lazy">
+        <ol><li>Une race de l'île, le nustrale.</li><li>Dehors douze mois sur douze.</li><li>Fini aux châtaignes en octobre.</li></ol>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="paper" id="sechoir">
+  <div class="wrap">
+    <div class="rub"><b>Rubrique 02</b><span>Reportage</span></div>
+    <h2 class="h2">De l'arbre <em>au séchoir</em></h2>
+    <div class="g12 story">
+      <figure><div class="ph" id="sPh"></div><p class="cap" id="sCap"></p></figure>
+      <div class="txt"><p class="when" id="sWhen"></p><h3 id="sTitle"></h3><p id="sTxt"></p>
+        <div class="pager"><button type="button" id="sPrev" aria-label="Étape précédente">←</button><span id="sNum" aria-live="polite"></span><button type="button" id="sNext" aria-label="Étape suivante">→</button></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="saisons">
+  <div class="wrap">
+    <div class="rub"><b>Rubrique 03</b><span>Le calendrier</span></div>
+    <h2 class="h2">Ici, on ne trouve pas tout, <em>tout le temps</em></h2>
+    <p style="margin-top:14px;max-width:52ch;color:var(--soft)">Choisissez un mois pour voir ce qui est prêt, et où nous trouver.</p>
+    <div class="g12 cal">
+      <div class="tw"><table id="grid"></table></div>
       <div class="month" id="month" aria-live="polite"></div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section class="wrap shop" id="produits" aria-labelledby="t-shop">
-    <div class="grid">
-      <div>
-        <h2 class="rise" id="t-shop">Les produits</h2>
-        <p class="lead rise">À la ferme le samedi matin, sur les marchés, ou en colis à retirer.</p>
-        <div id="prices"></div>
-        <p class="fine">Pas de vente en ligne : écrivez ou appelez, nous préparons votre colis pour le samedi suivant.</p>
-      </div>
-      <figure class="photo rise"><img src="images/castagnetu/planche.webp" alt="Pancetta roulée, saucisson et jambon sur une planche" width="680" height="850" loading="lazy"><figcaption>La planche du samedi, à la ferme.</figcaption></figure>
-    </div>
-  </section>
+<section class="paper" id="produits" style="padding-bottom:0;overflow:visible">
+  <div class="wrap">
+    <div class="rub"><b>Rubrique 04</b><span>Les produits</span></div>
+    <h2 class="h2">Ce qu'on <em>vend</em></h2>
+    <p style="margin-top:14px;max-width:52ch;color:var(--soft)">À la ferme le samedi matin, sur les marchés, ou en colis à retirer. Pas de vente en ligne : nous préparons votre colis pour le samedi suivant.</p>
+    <div class="prods" id="prods"></div>
+    <p class="cap" style="margin-top:20px">Prix de démonstration.</p>
+    <div class="filet"><i></i></div>
+    <figure class="wide zoom"><img src="images/castagnetu/farine.webp" alt="La farine de châtaigne dans un sac de toile" width="1280" height="800" loading="lazy"></figure>
+  </div>
+</section>
 
-  <section class="visit" id="venir" aria-labelledby="t-visit">
-    <div class="wrap">
-      <h2 class="rise" id="t-visit">Venir à la ferme</h2>
-      <div class="grid">
-        <div class="rise"><h3>La ferme</h3><p>Hameau de Castagnetu, Piedicroce, Castagniccia. Le samedi de 9 h à 12 h, et le mercredi en juillet et en août.</p></div>
-        <div class="rise"><h3>Les marchés</h3><ul><li>Bastia, le samedi matin</li><li>Corte, le vendredi matin</li><li>Foire de la châtaigne, mi-décembre</li></ul></div>
-        <div class="rise"><h3>Commander un colis</h3><p><a href="tel:+33400000000">04 00 00 00 00</a><br><a href="mailto:ferme@ucastagnetu.fr">ferme@ucastagnetu.fr</a></p><p style="margin-top:10px">Nous répondons le soir, après les bêtes.</p></div>
+<section class="order" id="commander">
+  <div class="wrap">
+    <p class="cap" style="margin-top:0;margin-bottom:28px"><b>La farine de l'année.</b> Moulue en décembre au moulin du village.</p>
+    <div class="rub"><b>Rubrique 05</b><span>Pratique</span></div>
+    <h2 class="h2">Commander <em>un colis</em></h2>
+    <div class="g12">
+      <div class="infos">
+        <div><p class="kick">La ferme</p><p>Hameau de Castagnetu, Piedicroce, Castagniccia. Le samedi de 9 h à 12 h, et le mercredi en juillet et en août.</p></div>
+        <div><p class="kick">Les marchés</p><p>Bastia, le samedi matin · Corte, le vendredi matin · Foire de la châtaigne, mi-décembre</p></div>
+        <div><p class="kick">Nous joindre</p><p><a href="tel:+33400000000">04 00 00 00 00</a> · ferme@ucastagnetu.fr<br>Nous répondons le soir, après les bêtes.</p></div>
       </div>
+      <form class="card" id="order" novalidate>
+        <h3>Votre colis</h3>
+        <div><span class="lab">Ce que vous voulez</span><div class="picks" id="picks"></div></div>
+        <div><label class="lab" for="oDay">À retirer</label><select id="oDay"></select></div>
+        <div class="two"><div><label class="lab" for="oName">Votre nom</label><input type="text" id="oName" autocomplete="name"></div><div><label class="lab" for="oTel">Téléphone</label><input type="tel" id="oTel" inputmode="tel" autocomplete="tel"></div></div>
+        <button class="send" type="submit">Envoyer la demande</button>
+        <p class="ok" id="ok" aria-live="polite"></p>
+      </form>
     </div>
-  </section>
+  </div>
+</section>
 </main>
-<footer class="wrap"><span>Producteur fictif, site réalisé par <a href="accueil.html">Saitora</a></span><span>Photos : Pixabay</span></footer>
+
+<footer><div class="wrap"><b>U Castagnetu</b><span>Producteur fictif, site réalisé par <a href="accueil.html">Saitora</a> · Photos : Pixabay</span></div></footer>
 
 <script>
-document.documentElement.classList.add("js");
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[m]);
-const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const MS = ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."];
+const MN = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
+const SEASON = m => m >= 9 && m <= 11 ? "Automne" : m === 12 || m <= 2 ? "Hiver" : m <= 5 ? "Printemps" : "Été";
+const now = new Date().getMonth() + 1;
+$("issue").textContent = `${SEASON(now)} ${new Date().getFullYear()} · Castagniccia`;
 
-// ——— les produits : [nom, détail, prix, mois de disponibilité (1 à 12)]
+// ——— sommaire plein écran
+const toc = $("toc"), menuBtn = $("menuBtn");
+const setMenu = open => { toc.classList.toggle("open", open); menuBtn.setAttribute("aria-expanded", open); document.body.style.overflow = open ? "hidden" : ""; (open ? $("closeBtn") : menuBtn).focus(); };
+menuBtn.onclick = () => setMenu(true); $("closeBtn").onclick = () => setMenu(false);
+toc.addEventListener("click", e => { if (e.target.closest("ol a")) setMenu(false); });
+addEventListener("keydown", e => { if (e.key === "Escape" && toc.classList.contains("open")) setMenu(false); });
+
+// ——— de l'arbre au séchoir, une étape à la fois
+const STORY = [["Octobre", "Sous les châtaigniers", "Les porcs finissent aux châtaignes tombées ; nous ramassons les plus belles à la main.", "chataignier", "La châtaigneraie à l'automne.", "Un châtaignier chargé de bogues"],
+  ["De décembre à mars", "Au séchoir", "Un feu de châtaignier couve des semaines sous les pièces. Puis la cave : deux ans pour le prisuttu.", "jambons", "Les jambons au-dessus du feu.", "Des jambons pendus au séchoir"],
+  ["Décembre", "Au moulin", "Les châtaignes séchées passent à la meule du moulin du village : la farine de l'année.", "farine", "La farine, à la sortie de la meule.", "Farine de châtaigne"],
+  ["Toute l'année", "Sur la planche", "Le samedi, à la ferme, on coupe la coppa et le lonzu devant vous, et on goûte avant d'acheter.", "planche", "La planche du samedi.", "Une planche de charcuterie corse"]];
+let si = 0;
+$("sPh").innerHTML = STORY.map(([, , , f, , alt], i) => `<img src="images/castagnetu/${f}.webp" alt="${esc(alt)}" loading="lazy" class="${i ? "hide" : ""}">`).join("");
+function showStory(i) { si = (i + STORY.length) % STORY.length; [...$("sPh").children].forEach((im, k) => im.classList.toggle("hide", k !== si));
+  const [w, t, d, , c] = STORY[si]; $("sWhen").textContent = w; $("sTitle").textContent = t; $("sTxt").textContent = d; $("sCap").innerHTML = `<b>${si + 1}.</b> ${esc(c)}`; $("sNum").textContent = `${si + 1} / ${STORY.length}`; }
+$("sPrev").onclick = () => showStory(si - 1); $("sNext").onclick = () => showStory(si + 1);
+showStory(0);
+
+// ——— les produits : [nom, détail, prix, mois de disponibilité]
 const ALL = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 const PRODUCTS = [
-  ["La charcuterie", [
-    ["Figatellu", "Saucisse de foie fumée, à griller", "28 € le kilo", [12, 1, 2, 3]],
-    ["Coppa", "L'échine, quatre mois de cave", "45 € le kilo", [5, 6, 7, 8, 9, 10, 11, 12, 1]],
-    ["Lonzu", "Le filet, salé puis fumé", "48 € le kilo", [5, 6, 7, 8, 9, 10, 11, 12, 1]],
-    ["Prisuttu 24 mois", "Le jambon, deux ans d'affinage", "65 € le kilo", ALL],
-    ["Salamu", "Saucisson au poivre et au vin", "38 € le kilo", [4, 5, 6, 7, 8, 9, 10, 11, 12]],
-  ]],
-  ["La châtaigne et le reste", [
-    ["Farine de châtaigne", "Moulue en décembre au moulin du village", "9,50 € les 500 g", [12, 1, 2, 3, 4, 5, 6, 7, 8]],
-    ["Châtaignes fraîches", "Ramassées à la main", "6 € le kilo", [10, 11]],
-    ["Miel de châtaignier", "Sombre et un peu amer", "14 € le pot", [7, 8, 9, 10, 11, 12, 1, 2, 3]],
-    ["Terrine de campagne", "Au foie et à la châtaigne", "7 € le bocal", ALL],
-  ]],
+  ["La charcuterie", [["Figatellu", "Saucisse de foie fumée, à griller", "28 € le kilo", [12, 1, 2, 3]], ["Coppa", "L'échine, quatre mois de cave", "45 € le kilo", [5, 6, 7, 8, 9, 10, 11, 12, 1]], ["Lonzu", "Le filet, salé puis fumé", "48 € le kilo", [5, 6, 7, 8, 9, 10, 11, 12, 1]], ["Prisuttu 24 mois", "Le jambon, deux ans d'affinage", "65 € le kilo", ALL], ["Salamu", "Saucisson au poivre et au vin", "38 € le kilo", [4, 5, 6, 7, 8, 9, 10, 11, 12]]]],
+  ["La châtaigne et le reste", [["Farine de châtaigne", "Moulue en décembre au moulin du village", "9,50 € les 500 g", [12, 1, 2, 3, 4, 5, 6, 7, 8]], ["Châtaignes fraîches", "Ramassées à la main", "6 € le kilo", [10, 11]], ["Miel de châtaignier", "Sombre et un peu amer", "14 € le pot", [7, 8, 9, 10, 11, 12, 1, 2, 3]], ["Terrine de campagne", "Au foie et à la châtaigne", "7 € le bocal", ALL]]],
 ];
-// ——— l'année : [ce qu'on fait, où nous trouver]
 const YEAR = [
   ["On mange le figatellu frais et on finit la charcuterie de l'hiver.", ["La ferme, le samedi", "Marché de Bastia"]],
   ["Dernières tumbere. Les jambons partent au sel.", ["La ferme, le samedi", "Marché de Bastia"]],
@@ -241,37 +352,38 @@ const YEAR = [
   ["Les châtaignes sèchent trois semaines dans la grataghja, au-dessus du feu.", ["La ferme, le samedi", "Marché de Bastia"]],
   ["La farine est moulue. Premier figatellu, et la foire de la châtaigne.", ["La ferme, tous les jours avant Noël", "Foire de la châtaigne"]],
 ];
-const MS = ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."];
-const MN = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
-const now = new Date().getMonth() + 1;
 let cur = now;
-
-// ——— le calendrier : une ligne par produit, une colonne par mois
 function grid() {
-  const head = `<thead><tr><th></th>${MS.map((m, i) => `<th class="${i + 1 === cur ? "sel" : ""} ${i + 1 === now ? "now" : ""}"><button type="button" data-m="${i + 1}" aria-pressed="${i + 1 === cur}" aria-label="${MN[i]}${i + 1 === now ? ", ce mois-ci" : ""}">${m}</button></th>`).join("")}</tr></thead>`;
-  const body = PRODUCTS.map(([g, list], gi) => `<tr class="grp"><th colspan="13">${esc(g)}</th></tr>` + list.map(([n, , , ms]) => `<tr><th scope="row">${esc(n)}</th>${ALL.map(m => `<td class="${ms.includes(m) ? "y" : ""}${gi ? " moss" : ""}${m === cur ? " sel" : ""}" title="${ms.includes(m) ? "disponible" : "pas encore"} en ${MN[m - 1]}"></td>`).join("")}</tr>`).join("")).join("");
-  $("grid").innerHTML = head + `<tbody>${body}</tbody>`;
+  $("grid").innerHTML = `<thead><tr><th></th>${MS.map((m, i) => `<th class="${i + 1 === cur ? "sel" : ""}"><button type="button" data-m="${i + 1}" aria-pressed="${i + 1 === cur}" aria-label="${MN[i]}">${m}</button></th>`).join("")}</tr></thead><tbody>` +
+    PRODUCTS.map(([g, list]) => `<tr class="grp"><th colspan="13">${esc(g)}</th></tr>` + list.map(([n, , , ms]) => `<tr><th>${esc(n)}</th>${ALL.map(m => `<td class="${ms.includes(m) ? "on" : ""}${m === cur ? " sel" : ""}"><span></span></td>`).join("")}</tr>`).join("")).join("") + "</tbody>";
 }
 function month() {
   const [what, where] = YEAR[cur - 1], have = PRODUCTS.flatMap(g => g[1]).filter(p => p[3].includes(cur));
-  $("month").innerHTML = `<div class="fade"><h3>En ${MN[cur - 1]}</h3><p>${esc(what)}</p></div>
-    <div class="fade"><p class="k">Prêt ce mois-là</p><ul>${have.map(p => `<li>${esc(p[0])}</li>`).join("")}</ul></div>
-    <div class="fade"><p class="k">Où nous trouver</p><ul>${where.map(w => `<li>${esc(w)}</li>`).join("")}</ul></div>`;
+  $("month").innerHTML = `<h3>${MN[cur - 1]}</h3><p>${esc(what)}</p><span class="kick">Prêt ce mois-là</span><ul>${have.map(p => `<li>${esc(p[0])}</li>`).join("")}</ul><span class="kick">Où nous trouver</span><ul>${where.map(w => `<li>${esc(w)}</li>`).join("")}</ul>`;
 }
 $("grid").addEventListener("click", e => { const b = e.target.closest("[data-m]"); if (!b || +b.dataset.m === cur) return; cur = +b.dataset.m; grid();
-  if (reduce.matches) return month();
-  $("month").classList.add("swap"); setTimeout(() => { month(); $("month").classList.remove("swap"); }, 180); });
+  if (reduce) return month(); $("month").classList.add("swap"); setTimeout(() => { month(); $("month").classList.remove("swap"); }, 180); });
 grid(); month();
-// sur téléphone, le tableau défile : on amène le mois en cours à l'écran
 const tw = document.querySelector(".cal .tw"), selTh = $("grid").querySelector("th.sel");
-if (tw.scrollWidth > tw.clientWidth && selTh) tw.scrollLeft = selTh.offsetLeft - tw.clientWidth / 2 + selTh.offsetWidth / 2 + 100;
+if (tw.scrollWidth > tw.clientWidth && selTh) tw.scrollLeft = selTh.offsetLeft - tw.clientWidth / 2;
 
-// ——— les produits, avec ce qui est prêt ce mois-ci
-$("prices").innerHTML = PRODUCTS.map(([g, list]) => `<h3 class="rise">${esc(g)}</h3><ul>${list.map(([n, d, p, ms]) => `<li class="${ms.includes(now) ? "" : "off"}"><span>${esc(n)}${ms.includes(now) ? `<span class="tag">ce mois-ci</span>` : ""}<small>${esc(d)}${ms.includes(now) ? "" : `, de retour en ${MN[ms[0] - 1]}`}</small></span><span class="p">${esc(p)}</span></li>`).join("")}</ul>`).join("");
+$("prods").innerHTML = PRODUCTS.flatMap(([g, list]) => list.map(([n, d, p, ms]) => `<article><span class="g">${esc(g)}</span><h3>${esc(n)}${ms.includes(now) ? '<span class="now">ce mois-ci</span>' : ""}</h3><p>${esc(d)}${ms.includes(now) ? "" : `, de retour en ${MN[ms[0] - 1]}`}</p><p class="p">${esc(p)}</p></article>`)).join("");
 
-// ——— apparitions discrètes
-const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("on"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -6% 0px" });
-document.querySelectorAll(".rise").forEach(el => io.observe(el));
+// ——— le colis
+const avail = PRODUCTS.flatMap(g => g[1]).filter(p => p[3].includes(now));
+$("picks").innerHTML = avail.map(([n], i) => `<label><input type="checkbox" value="${esc(n)}"${i < 2 ? " checked" : ""}>${esc(n)}</label>`).join("");
+const sats = []; for (let d = new Date(), k = 0; sats.length < 4 && k < 40; k++) { d.setDate(d.getDate() + 1); if (d.getDay() === 6) sats.push(new Date(d)); }
+$("oDay").innerHTML = sats.map(d => `<option>Samedi ${d.getDate()} ${MN[d.getMonth()]}, à la ferme</option>`).join("");
+$("order").addEventListener("submit", e => { e.preventDefault();
+  const items = [...$("picks").querySelectorAll("input:checked")].map(i => i.value.toLowerCase());
+  if (!items.length) { $("ok").textContent = "Cochez au moins un produit."; return; }
+  if (!$("oName").value.trim() || !$("oTel").value.trim()) { $("ok").textContent = "Indiquez votre nom et votre téléphone."; return; }
+  $("ok").textContent = `Merci. Colis noté (${items.join(", ")}) pour le ${$("oDay").value.toLowerCase()}. On vous rappelle ce soir pour les quantités. (Démo : rien n'est envoyé.)`; });
+
+// ——— zoom lent, une fois la photo chargée
+const ready = img => img.complete && img.naturalWidth ? Promise.resolve() : new Promise(r => { img.addEventListener("load", r, { once: true }); img.addEventListener("error", r, { once: true }); });
+const io = new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting) return; io.unobserve(e.target); ready(e.target.querySelector("img")).then(() => requestAnimationFrame(() => e.target.classList.add("on"))); }), { rootMargin: "0px 0px -8% 0px" });
+document.querySelectorAll(".zoom").forEach(el => io.observe(el));
 </script>
 </body>
 </html>

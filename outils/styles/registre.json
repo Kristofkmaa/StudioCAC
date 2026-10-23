@@ -20,7 +20,8 @@
       "decoupes": "vague",
       "boutons": "pilule",
       "pied": "couleur",
-      "ornement": "filet"
+      "ornement": "filet",
+      "police": "DM Serif Display + Plus Jakarta Sans"
     },
     "durand-plomberie": {
       "genre": "affiche-brute",
@@ -41,7 +42,8 @@
       "decoupes": "diagonale",
       "boutons": "rectangle",
       "pied": "geant",
-      "ornement": "etiquettes"
+      "ornement": "etiquettes",
+      "police": "Anton + Public Sans"
     },
     "pain-dore": {
       "genre": "fait-main",
@@ -62,7 +64,8 @@
       "decoupes": "vague",
       "boutons": "rond",
       "pied": "infos",
-      "ornement": "etiquettes"
+      "ornement": "etiquettes",
+      "police": "Lora + Outfit"
     },
     "villa-oliviers": {
       "genre": "luxe-minimal",
@@ -83,7 +86,8 @@
       "decoupes": "chevauchement",
       "boutons": "souligne",
       "pied": "infos",
-      "ornement": "numeros"
+      "ornement": "numeros",
+      "police": "Italiana + Figtree"
     },
     "bois-massif": {
       "genre": "sombre-cinema",
@@ -104,7 +108,8 @@
       "decoupes": "chevauchement",
       "boutons": "souligne",
       "pied": "couleur",
-      "ornement": "numeros"
+      "ornement": "numeros",
+      "police": "Big Shoulders Display + Source Sans 3"
     },
     "a-funtana": {
       "genre": "moderne-doux",
@@ -125,7 +130,8 @@
       "decoupes": "arrondies",
       "boutons": "pilule",
       "pied": "geant",
-      "ornement": "etiquettes"
+      "ornement": "etiquettes",
+      "police": "Quicksand + Nunito"
     },
     "libecciu": {
       "genre": "suisse",
@@ -146,7 +152,8 @@
       "decoupes": "droites",
       "boutons": "souligne",
       "pied": "couleur",
-      "ornement": "numeros"
+      "ornement": "numeros",
+      "police": "Archivo + Archivo"
     },
     "zia-rosa": {
       "genre": "retro-70",
@@ -167,7 +174,8 @@
       "decoupes": "arrondies",
       "boutons": "rond",
       "pied": "infos",
-      "ornement": "sceau"
+      "ornement": "sceau",
+      "police": "Fraunces + DM Sans"
     },
     "castagnetu": {
       "genre": "magazine",
@@ -188,7 +196,8 @@
       "decoupes": "chevauchement",
       "boutons": "souligne",
       "pied": "simple",
-      "ornement": "filet"
+      "ornement": "filet",
+      "police": "Playfair Display + Karla"
     },
     "vitrier-prince": {
       "ouverture": "passe-partout",

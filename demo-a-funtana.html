@@ -4,332 +4,272 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <title>A Funtana, démo Saitora</title>
-<meta name="description" content="Démo de site vitrine pour un institut à Ajaccio qui réunit hammam, massages, soins et coiffure : la visite à composer et réserver, la carte et ses prix, les espaces, l'adresse. Réalisé par Saitora.">
+<meta name="description" content="Démo de site vitrine pour un institut à Ajaccio qui réunit hammam, massages, soins et coiffure : la visite, la carte et ses prix, la réservation, les espaces. Réalisé par Saitora.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fr_FR">
 <meta property="og:site_name" content="Saitora">
 <meta property="og:title" content="A Funtana, démo Saitora">
 <meta property="og:description" content="Hammam, soins et coiffure au même endroit, cours Grandval à Ajaccio. Démo réalisée par Saitora.">
-<meta name="theme-color" content="#EBE5E3">
-<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Crect%20width=%2264%22%20height=%2264%22%20fill=%22%232B2622%22/%3E%3Cpath%20d=%22M32%2012c-8%2012-14%2020-14%2028a14%2014%200%200%200%2028%200c0-8-6-16-14-28Z%22%20fill=%22%23EBE5E3%22/%3E%3C/svg%3E">
-<link rel="stylesheet" href="polices/zilla-slab-d858e6.css">
+<meta name="theme-color" content="#F6F3EE">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Crect%20width=%2264%22%20height=%2264%22%20fill=%22%232F4A3A%22/%3E%3Cpath%20d=%22M32%2014c-7%2010-12%2017-12%2024a12%2012%200%200%200%2024%200c0-7-5-14-12-24Z%22%20fill=%22%23F6F3EE%22/%3E%3C/svg%3E">
+<link rel="stylesheet" href="polices/cormorant-garamond-mulish-6da598.css">
 <style>
 /* Téléphone : pas de flash gris au toucher, pas de texte grossi en paysage, réponse dès que le doigt se pose,
-   libellés des boutons non sélectionnables, contenu tenu hors de l'encoche en paysage. */
+   libellés des boutons non sélectionnables. */
 html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%}
-:where(a,button,[role="button"],label,select,input,textarea){touch-action:manipulation}
-:where(button,.btn,.chip){-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+:where(a,button,label,select,input){touch-action:manipulation}
+:where(button,.btn,.chip){-webkit-user-select:none;user-select:none}
 
-/* A Funtana (« la fontaine » en corse). Idée : une visite suit l'ordre de l'eau, la chaleur d'abord et les cheveux
-   à la fin ; la moitié gauche ne bouge pas et montre l'étape que l'on lit (la fontaine, le hammam, le massage).
-   La chose vivante : composer sa visite dans une phrase et la lire imprimée sur un ticket d'itinéraire, avec
-   l'heure de sortie et le prix, puis choisir le jour et l'heure. Direction « la scène partagée », Zilla Slab,
-   gris rosé, encre brune et vert myrte. */
+/* A Funtana (« la fontaine » en corse). Une maison calme : un fond pierre, une serif fine pour les titres,
+   une sans simple pour le texte, quatre photos au même format, et beaucoup d'air. */
 :root{
-  --bg:#EBE5E3; --surface:#E1DAD7; --ink:#2B2622; --muted:#5F5652; --accent:#0F7D45; --accent-ink:#FFFFFF;
-  --paper:#F7F3F1;
-  --slab:"Zilla Slab",Rockwell,Georgia,serif;
-  --step-small:clamp(.8125rem,.79rem + .1vw,.875rem);
-  --step-body:clamp(1.125rem,1.05rem + .3vw,1.3125rem);
-  --step-lead:clamp(1.25rem,1.1rem + .7vw,1.625rem);
-  --step-head:clamp(2rem,1.3rem + 3.2vw,4rem);
-  --step-big:clamp(2.75rem,6vw,5.5rem);
-  --step-name:clamp(4.5rem,10vw,10rem);
-  --pad:clamp(20px,4.5vw,72px);
-  --ease:cubic-bezier(.23,1,.32,1);
+  --bg:#F6F3EE; --sand:#ECE6DD; --ink:#2A2522; --muted:#6B625C; --green:#2F4A3A; --white:#FFFDFA;
+  --serif:"Cormorant Garamond",Garamond,Georgia,serif;
+  --sans:"Mulish","Helvetica Neue",Arial,sans-serif;
+  --m:clamp(20px,5vw,80px);
+  --w:1200px;
 }
 *,*::before,*::after{box-sizing:border-box}
 html{background:var(--bg)}
 html:focus-within{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--ink);font:400 var(--step-body)/1.5 var(--slab)}
-h1,h2,h3,p,ul,ol,figure{margin:0}
-ul,ol{padding:0;list-style:none}
-a{color:inherit;text-underline-offset:.2em;text-decoration-thickness:1px}
-img,video{display:block;max-width:100%;height:auto}
-:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
-h2{font:600 var(--step-head)/1 var(--slab);letter-spacing:-.025em}
-.demo{background:var(--ink);color:#CFC6C2;font:400 var(--step-small)/1.4 var(--slab);text-align:center;padding:6px 16px}
-.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;min-width:110px;padding:0 22px;border:0;border-radius:0;background:var(--accent);color:var(--accent-ink);font:500 var(--step-body)/1 var(--slab);text-decoration:none;cursor:pointer;transition:transform 160ms var(--ease),background-color 160ms ease}
-.btn:active{transform:scale(.97)}
-@media (hover:hover) and (pointer:fine){.btn:hover{background:#0B6838}}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.7 var(--sans)}
+h1,h2,h3,p,ul,figure{margin:0}
+ul{padding:0;list-style:none}
+a{color:inherit;text-underline-offset:.25em;text-decoration-thickness:1px}
+img{display:block;max-width:100%;height:auto}
+:focus-visible{outline:2px solid var(--green);outline-offset:3px}
+.demo{background:var(--ink);color:#D8D0CA;font-size:13px;text-align:center;padding:6px 16px}
+.wrap{width:min(var(--w),100% - 2 * var(--m));margin-inline:auto}
+h2{font:400 clamp(2.25rem,1.7rem + 2vw,3.5rem)/1.05 var(--serif);letter-spacing:-.01em}
+.kick{font:italic 400 1.35rem/1.4 var(--serif);color:var(--muted)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 26px;border:1px solid var(--green);border-radius:0;background:var(--green);color:var(--white);font:600 15px/1 var(--sans);letter-spacing:.02em;text-decoration:none;cursor:pointer;transition:background-color 160ms ease,color 160ms ease}
+.btn.ghost{background:transparent;color:var(--green)}
+@media (hover:hover) and (pointer:fine){.btn:hover{background:#243A2D}.btn.ghost:hover{background:var(--green);color:var(--white)}}
+.photo img{width:100%;aspect-ratio:4/5;object-fit:cover;filter:saturate(.82)}
+.photo figcaption{margin-top:12px;font-size:14px;color:var(--muted)}
 
-/* ---- la scène partagée : la photo fixe à gauche, la lecture à droite ---- */
-.split{display:grid;grid-template-columns:47% 53%}
-.stage{position:sticky;top:0;height:100svh;padding:20px 0 20px var(--pad)}
-.frames{position:relative;height:100%;overflow:hidden;background:var(--ink)}
-.frames>*{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 900ms ease}
-.frames>.on{opacity:1}
-.frames figcaption{position:absolute;inset:auto auto 0 0;width:auto;height:auto;opacity:1;padding:48px 20px 16px;color:#F7F3F1;font-size:var(--step-small);
-  background:radial-gradient(140% 120% at 0 100%,rgba(20,16,14,.7) 30%,rgba(20,16,14,0) 72%)} /* taste-skill-ignore: voile de lisibilité limité au coin */
-.read{min-width:0}
+/* ---- en-tête ---- */
+.top{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-block:22px}
+.top .name{font:500 1.7rem/1 var(--serif);text-decoration:none}
+.top nav{display:flex;align-items:center;gap:32px;font-size:15px}
+.top nav a:not(.btn){text-decoration:none;color:var(--muted);transition:color 160ms ease}
+@media (hover:hover) and (pointer:fine){.top nav a:not(.btn):hover{color:var(--ink)}}
 
-/* l'ouverture, côté lecture */
-.open{position:relative;height:100svh;min-height:600px}
-.open nav{position:absolute;top:28px;right:var(--pad);display:flex;align-items:center;gap:26px;font-size:var(--step-small)}
-.open nav a:not(.btn){text-decoration:none;color:var(--muted);transition:color 160ms ease}
-@media (hover:hover) and (pointer:fine){.open nav a:not(.btn):hover{color:var(--ink)}}
-.open .say{position:absolute;top:40%;left:var(--pad);max-width:26ch;font-size:var(--step-lead);line-height:1.3}
-.open .say .btn{margin-top:28px}
-.open h1{position:absolute;right:var(--pad);bottom:40px;font:600 var(--step-name)/.9 var(--slab);letter-spacing:-.04em;white-space:nowrap;transform-origin:100% 100%}
+/* ---- ouverture ---- */
+.hero{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(40px,6vw,96px);align-items:center;padding-block:clamp(40px,6vw,88px) clamp(80px,9vw,140px)}
+.hero h1{font:400 clamp(2.9rem,1.8rem + 3.6vw,5.25rem)/1 var(--serif);letter-spacing:-.015em}
+.hero p{margin-top:24px;max-width:38ch;font-size:18px}
+.hero .acts{display:flex;flex-wrap:wrap;gap:12px;margin-top:36px}
+.hero .where{margin-top:40px;font-size:14px;color:var(--muted)}
 
-/* la visite : la phrase, et le ticket d'itinéraire */
-.visit{padding:clamp(96px,10vw,160px) var(--pad) 40px}
-.visit h2{max-width:14ch}
-.visit .lede{margin-top:20px;max-width:34ch}
-.sentence{margin-top:36px;font-size:var(--step-lead);line-height:1.7;max-width:30ch}
-.sentence select{appearance:none;-webkit-appearance:none;border:0;border-radius:0;background:var(--surface);color:var(--ink);font:600 max(16px,var(--step-lead))/1.3 var(--slab);padding:2px 10px;margin:2px 0;max-width:100%;cursor:pointer;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:.18em;text-decoration-color:var(--accent)}
-.slip{margin-top:40px;width:min(460px,100%);background:var(--paper);padding:28px 28px 44px;font-variant-numeric:tabular-nums;
-  clip-path:polygon(0 0,100% 0,100% calc(100% - 12px),95% 100%,90% calc(100% - 12px),85% 100%,80% calc(100% - 12px),75% 100%,70% calc(100% - 12px),65% 100%,60% calc(100% - 12px),55% 100%,50% calc(100% - 12px),45% 100%,40% calc(100% - 12px),35% 100%,30% calc(100% - 12px),25% 100%,20% calc(100% - 12px),15% 100%,10% calc(100% - 12px),5% 100%,0 calc(100% - 12px))}
-.slip .when{font-size:var(--step-small);color:var(--muted)}
-.slip h3{margin-top:28px;font:600 var(--step-body)/1.2 var(--slab)}
-.slip h3:first-of-type{margin-top:16px}
-.slip .li{display:flex;align-items:baseline;gap:8px;margin-top:8px}
-.slip .li .dots{flex:1;min-width:16px;height:4px;background:radial-gradient(circle,var(--muted) 1.4px,transparent 1.8px) 0 0/8px 4px repeat-x;align-self:center;opacity:.6}
-.slip .li .v{white-space:nowrap}
-.slip .end{margin-top:28px;margin-inline:-28px;min-height:44px;padding:10px 28px;display:flex;justify-content:space-between;gap:12px;background:var(--ink);color:var(--paper);font-weight:500}
-.slip .none{margin-top:16px;color:var(--muted)}
-.book{margin-top:36px;display:grid;gap:22px;max-width:520px}
-.book .q>p{font-size:var(--step-small);color:var(--muted);margin-bottom:8px}
-.chips{display:flex;flex-wrap:wrap;gap:6px}
-.chip{min-height:44px;min-width:64px;padding:0 12px;border:0;border-radius:0;background:var(--surface);color:var(--ink);font:500 var(--step-small)/1 var(--slab);cursor:pointer;transition:background-color 160ms ease,transform 160ms var(--ease)}
-.chip:active{transform:scale(.96)}
-.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
-.chip:disabled{background:transparent;color:var(--muted);text-decoration:line-through;cursor:default}
-@media (hover:hover) and (pointer:fine){.chip:not(:disabled):not([aria-pressed="true"]):hover{background:#D6CDC9}}
-.who{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.who input{min-height:48px;padding:10px 12px;border:0;border-radius:0;background:var(--paper);color:var(--ink);font:400 max(16px,var(--step-body))/1.3 var(--slab)}
-.who .btn{grid-column:1/-1;justify-self:start}
-.done{font-size:var(--step-lead);line-height:1.35;max-width:32ch}
+/* ---- l'ordre de la visite ---- */
+.order{background:var(--sand);padding-block:clamp(80px,9vw,140px)}
+.order .lead{max-width:44rem;margin-inline:auto;text-align:center}
+.order .lead p{margin:20px auto 0;max-width:40ch}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(24px,4vw,64px);margin-top:64px}
+.steps h3{font:500 1.75rem/1.1 var(--serif)}
+.steps p{margin-top:10px;color:var(--muted)}
+.steps .t{display:block;margin-bottom:12px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--green)}
 
-/* la carte, posée comme un menu */
-.carte{padding:clamp(96px,10vw,160px) var(--pad) clamp(96px,10vw,160px)}
-.carte .g{margin-top:48px}
-.carte h3{font:500 var(--step-lead)/1.2 var(--slab)}
-.carte li{margin-top:22px}
-.carte li div{display:flex;justify-content:space-between;gap:20px}
-.carte li small{display:block;color:var(--muted);font-size:var(--step-small);line-height:1.45;max-width:36ch}
-.carte li .p{white-space:nowrap;font-variant-numeric:tabular-nums}
-.inline{display:none}
+/* ---- la carte ---- */
+.carte{padding-block:clamp(80px,9vw,140px)}
+.carte .head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap}
+.carte .head p{max-width:40ch;color:var(--muted)}
+.groups{display:grid;grid-template-columns:1fr 1fr;gap:56px clamp(40px,6vw,96px);margin-top:56px}
+.groups h3{font:500 1.6rem/1.1 var(--serif);padding-bottom:14px;border-bottom:1px solid rgba(42,37,34,.18)}
+.groups li{display:flex;justify-content:space-between;gap:20px;padding:14px 0}
+.groups li small{display:block;color:var(--muted);font-size:14px}
+.groups li .p{white-space:nowrap;font-variant-numeric:tabular-nums}
 
-/* ---- les espaces : le titre tient, les blocs passent, sur le vert du myrte ---- */
-.spaces{background:var(--accent);color:var(--accent-ink);padding:clamp(96px,10vw,160px) var(--pad);display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:24px;align-items:start}
-.spaces .hd{grid-column:1/6;position:sticky;top:32px}
-.spaces h2{font:600 var(--step-big)/.95 var(--slab);letter-spacing:-.03em}
-.spaces .hd p{margin-top:24px;max-width:30ch}
-.spaces .blocks{grid-column:7/13;display:grid;gap:120px}
-.spaces h3{font:600 var(--step-lead)/1.2 var(--slab)}
-.spaces .b{display:grid;grid-template-columns:240px 1fr;gap:28px;margin-top:20px;align-items:start}
-.spaces .alt .b{grid-template-columns:1fr 240px}
-.spaces .alt figure{order:2}
-.spaces figure img{width:100%;aspect-ratio:3/4;object-fit:cover}
-.spaces li{margin-bottom:14px;line-height:1.35}
+/* ---- réserver ---- */
+.book{background:var(--green);color:var(--white);padding-block:clamp(80px,9vw,140px)}
+.book .grid{display:grid;grid-template-columns:1fr 1.15fr;gap:clamp(40px,6vw,96px);align-items:start}
+.book h2{max-width:14ch}
+.book .intro p{margin-top:20px;max-width:36ch;color:#D5DED7}
+.form{display:grid;gap:22px}
+.field label{display:block;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:#C9D4CC;margin-bottom:8px}
+select,input{width:100%;min-height:50px;padding:10px 14px;border:1px solid rgba(255,253,250,.35);border-radius:0;background:transparent;color:var(--white);font:400 16px/1.3 var(--sans)}
+select{appearance:none;-webkit-appearance:none;background-image:linear-gradient(45deg,transparent 50%,currentColor 50%),linear-gradient(-45deg,transparent 50%,currentColor 50%);background-position:calc(100% - 20px) 22px,calc(100% - 15px) 22px;background-size:5px 5px;background-repeat:no-repeat;padding-right:40px} /* taste-skill-ignore: flèche du menu */
+select option{color:var(--ink)}
+input::placeholder{color:#A9B8AE}
+.sum{display:flex;justify-content:space-between;gap:16px;padding:18px 0;border-block:1px solid rgba(255,253,250,.25);font:400 1.35rem/1.3 var(--serif)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{min-height:44px;min-width:64px;padding:0 14px;border:1px solid rgba(255,253,250,.35);border-radius:0;background:transparent;color:var(--white);font:500 14px/1 var(--sans);cursor:pointer;transition:background-color 160ms ease,color 160ms ease}
+.chip[aria-pressed="true"]{background:var(--white);color:var(--green);border-color:var(--white)}
+.chip:disabled{opacity:.4;text-decoration:line-through;cursor:default}
+@media (hover:hover) and (pointer:fine){.chip:not(:disabled):not([aria-pressed="true"]):hover{border-color:var(--white)}}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.book .btn{background:var(--white);color:var(--green);border-color:var(--white);justify-self:start}
+.done{font:400 1.35rem/1.4 var(--serif)}
 
-/* ---- l'adresse, en grandes lignes ---- */
-.rows a{text-decoration:none}
-.rows .r{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;min-height:150px;padding:0 var(--pad) 22px;font:400 var(--step-big)/1 var(--slab);letter-spacing:-.03em}
-.rows .r:nth-child(odd){background:var(--surface)}
-.rows h2{font:inherit;letter-spacing:inherit}
-.rows .r img{width:96px;height:96px;border-radius:50%;object-fit:cover;flex:none}
-.rows .hello{gap:24px;justify-content:flex-start;align-items:center;padding-top:28px}
-.rows .go{display:inline-grid;place-items:center;width:.9em;height:.9em;border-radius:50%;background:var(--accent);color:var(--accent-ink);font-size:inherit;text-decoration:none;transition:transform 200ms var(--ease)}
-.rows .go svg{width:42%;height:42%}
-.rows .go:active{transform:scale(.94)}
-@media (hover:hover) and (pointer:fine){.rows a.lk:hover{color:var(--accent)}.rows .go:hover{transform:translateX(6px)}}
-.rows .now{font-size:var(--step-small);letter-spacing:0;color:var(--muted);text-align:right;max-width:20ch;line-height:1.4}
-footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:24px var(--pad);background:var(--ink);color:#CFC6C2;font-size:var(--step-small)}
+/* ---- les espaces ---- */
+.spaces{padding-block:clamp(80px,9vw,140px)}
+.spaces .row{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,3vw,40px);margin-top:56px}
+.spaces h3{margin-top:20px;font:500 1.6rem/1.1 var(--serif)}
+.spaces p{margin-top:8px;color:var(--muted);max-width:34ch}
 
-/* ---- apparitions ---- */
-.js .rise{opacity:0;transform:translateY(18px);transition:opacity 700ms var(--ease),transform 700ms var(--ease);transition-delay:calc(var(--i,0) * 80ms)}
+/* ---- venir ---- */
+.visit{background:var(--sand);padding-block:clamp(80px,9vw,140px)}
+.visit .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(24px,4vw,64px);margin-top:48px}
+.visit h3{font:500 1.4rem/1.1 var(--serif);margin-bottom:10px}
+.visit td{padding:3px 0;vertical-align:top}
+.visit td:last-child{padding-left:20px;color:var(--muted)}
+.visit table{border-collapse:collapse}
+.visit .now{margin-top:12px;font-size:14px;color:var(--green)}
+footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:28px;font-size:13px;color:var(--muted)}
+
+/* ---- apparitions discrètes ---- */
+.js .rise{opacity:0;transform:translateY(14px);transition:opacity 800ms cubic-bezier(.23,1,.32,1),transform 800ms cubic-bezier(.23,1,.32,1)}
 .js .rise.on{opacity:1;transform:none}
-#sRows,.slip .end{transition:opacity 200ms ease}
-.slip.swap #sRows,.slip.swap .end{opacity:.2}
-@media (prefers-reduced-motion:reduce){.js .rise{opacity:1;transform:none;transition:none}.frames>*{transition:none}}
+@media (prefers-reduced-motion:reduce){.js .rise{opacity:1;transform:none;transition:none}}
 
-/* ---- tablette ---- */
-@media (max-width:1000px){
-  .split{grid-template-columns:42% 58%}
-  .open nav a:not(.btn){display:none}
-  .spaces .hd{grid-column:1/-1;position:static;margin-bottom:56px}
-  .spaces .blocks{grid-column:1/-1}
+/* ---- tablette et téléphone ---- */
+@media (max-width:900px){
+  .top nav a:not(.btn){display:none}
+  .hero,.book .grid{grid-template-columns:1fr}
+  .hero .photo{max-width:520px}
+  .groups{grid-template-columns:1fr}
+  .visit .grid{grid-template-columns:1fr 1fr}
 }
-
-/* ---- téléphone ---- */
 @media (max-width:640px){
-  .split{display:block}
-  .stage{position:relative;height:58svh;padding:12px 12px 0}
-  .frames>:not(:first-child):not(figcaption){display:none}
-  .open{height:auto;min-height:0;padding:0 20px 56px}
-  .open nav{top:-58svh;margin-top:24px;right:24px;z-index:2}
-  .open nav .btn{min-height:44px}
-  .open h1{position:relative;right:auto;bottom:auto;margin-top:-3vw;font-size:19vw;transform:none!important}
-  .open .say{position:static;margin-top:16px;font-size:17px;max-width:none}
-  .inline{display:block;margin-top:32px}
-  .inline img{width:72%;aspect-ratio:4/5;object-fit:cover}
-  .inline.r img{margin-left:auto}
-  .visit{padding:72px 20px 24px}
-  .carte{padding:72px 20px 96px}
-  .who{grid-template-columns:1fr}
-  .spaces{display:block;padding:72px 20px}
-  .spaces .hd{position:static;margin-bottom:40px}
-  .spaces h2{font-size:9vw}
-  .spaces .blocks{gap:72px}
-  .spaces .b,.spaces .alt .b{grid-template-columns:1fr}
-  .spaces .alt figure{order:0}
-  .spaces figure img{aspect-ratio:4/3}
-  .rows .r{min-height:84px;padding:0 16px 16px;font-size:9.6vw}
-  .rows .r img{width:56px;height:56px}
-  .rows .hello{background:var(--accent);color:var(--accent-ink);justify-content:space-between}
-  .rows .go{width:56px;height:56px;background:var(--accent-ink);color:var(--accent)}
+  .steps,.spaces .row,.visit .grid{grid-template-columns:1fr}
+  .steps{gap:36px;margin-top:44px}
+  .spaces .row{gap:48px}
+  .two{grid-template-columns:1fr}
+  .top .btn{min-height:44px;padding:0 18px}
 }
-@media (pointer:coarse){.open nav a{min-height:44px;display:inline-flex;align-items:center}}
 </style>
 </head>
 <body>
 <div class="demo">Site de démonstration réalisé par Saitora, institut fictif</div>
 
-<div class="split">
-  <div class="stage" aria-hidden="false">
-    <div class="frames" id="frames">
-      <video class="on" data-k="open" id="reel" src="media/funtana/fontaine.mp4" poster="media/funtana/fontaine-poster.webp" width="576" height="720" muted loop playsinline preload="metadata" aria-label="L'eau coule d'une vieille fontaine de pierre"></video>
-      <img data-k="visit" src="images/funtana/hammam.webp" alt="La vasque de marbre du hammam" width="1600" height="1000" loading="lazy">
-      <img data-k="carte" src="images/funtana/massage.webp" alt="Un massage du dos à l'huile" width="1600" height="1000" loading="lazy">
-      <figcaption id="cap">A funtana, « la fontaine » en corse</figcaption>
-    </div>
-  </div>
-
-  <div class="read">
-    <header class="open" data-k="open">
-      <nav aria-label="Navigation principale"><a href="#visite">La visite</a><a href="#carte">La carte</a><a href="#espaces">Les espaces</a><a class="btn" href="#visite">Réserver</a></nav>
-      <h1 id="name">a funtana</h1>
-      <div class="say">
-        <p>Hammam, soins et coiffure au même endroit, cours Grandval à Ajaccio.</p>
-        <a class="btn" href="#visite">Composer ma visite</a>
-      </div>
-    </header>
-
-    <section class="visit" id="visite" data-k="visit" aria-labelledby="t-visit">
-      <h2 class="rise" id="t-visit">L'eau d'abord, les cheveux à la fin</h2>
-      <p class="lede rise" style="--i:1">Une visite suit toujours le même ordre : la chaleur ouvre la peau, le soin la nourrit, et la coiffure se fait en dernier, sur des cheveux reposés.</p>
-      <figure class="inline"><img src="images/funtana/hammam.webp" alt="La vasque de marbre du hammam" width="1600" height="1000" loading="lazy"></figure>
-      <p class="sentence rise" style="--i:2">Je commence par <select id="sSpa" aria-label="La chaleur"></select>, puis <select id="sSoin" aria-label="Le soin ou le massage"></select>, et je repars avec <select id="sHair" aria-label="La coiffure"></select>.</p>
-      <article class="slip rise" id="slip" style="--i:3" aria-live="polite">
-        <p class="when" id="sWhen">Votre visite, cours Grandval</p>
-        <div id="sRows"><p class="li">Hammam et sauna<span class="dots"></span><span class="v">60 min</span></p></div>
-        <p class="end" id="sEnd"><span>Vous repartez à 12 h</span><span>158 €</span></p>
-      </article>
-      <div class="book" id="book"></div>
-    </section>
-
-    <section class="carte" id="carte" data-k="carte" aria-labelledby="t-carte">
-      <h2 class="rise" id="t-carte">La carte et les prix</h2>
-      <p class="lede rise" style="--i:1">Tous les soins se combinent. Les durées comprennent l'installation et le thé de la fin.</p>
-      <figure class="inline r"><img src="images/funtana/massage.webp" alt="Un massage du dos à l'huile" width="1600" height="1000" loading="lazy"></figure>
-      <div id="groups"></div>
-    </section>
-  </div>
-</div>
+<header class="wrap top">
+  <a class="name" href="#">A Funtana</a>
+  <nav aria-label="Navigation principale"><a href="#visite">La visite</a><a href="#carte">La carte</a><a href="#espaces">Les espaces</a><a href="#venir">Venir</a><a class="btn" href="#reserver">Réserver</a></nav>
+</header>
 
 <main>
-  <section class="spaces" id="espaces" aria-labelledby="t-spaces">
-    <div class="hd"><h2 id="t-spaces">Au même endroit</h2><p>Deux étages cours Grandval : l'eau et les soins en bas, le salon de coiffure à la lumière, en haut.</p></div>
-    <div class="blocks">
-      <article class="rise"><h3>Le hammam</h3><div class="b"><figure><img src="images/funtana/vasque.webp" alt="Une vasque d'eau entre des murs de pierre" width="900" height="1125" loading="lazy"></figure><ul><li>Hammam et sauna, vapeur à l'eucalyptus</li><li>Gommage au savon noir et au gant</li><li>Douche froide, puis repos sur les lits chauds</li><li>Tisane de myrte et de citron</li></ul></div></article>
-      <article class="rise alt"><h3>Les massages</h3><div class="b"><figure><img src="images/funtana/galets.webp" alt="Galets chauds posés le long du dos" width="1200" height="900" loading="lazy"></figure><ul><li>Relaxant, à l'huile d'olive et à l'immortelle</li><li>Pierres chaudes, galets de rivière</li><li>Dos, nuque et épaules en trente minutes</li><li>Deux cabines, dont une pour les duos</li></ul></div></article>
-      <article class="rise"><h3>Les soins</h3><div class="b"><figure><img src="images/funtana/immortelle.webp" alt="Une fleur jaune d'immortelle" width="800" height="1000" loading="lazy"></figure><ul><li>Visage à l'immortelle de Corse</li><li>Gommage du corps au sel et à la myrte</li><li>Manucure et vernis</li><li>Produits d'un laboratoire de Balagne</li></ul></div></article>
-      <article class="rise alt"><h3>La coiffure</h3><div class="b"><figure><img src="images/funtana/lavage.webp" alt="Une cliente se fait laver les cheveux au bac" width="900" height="1125" loading="lazy"></figure><ul><li>Coupe et brushing, femme et homme</li><li>Couleur, balayage et soin</li><li>Chignons et coiffures de mariage</li><li>Le bac à shampooing qui masse la nuque</li></ul></div></article>
+  <section class="wrap hero" aria-labelledby="t-hero">
+    <div>
+      <h1 id="t-hero">Hammam, soins et coiffure, au même endroit</h1>
+      <p>Un institut au cœur d'Ajaccio où l'on vient prendre la chaleur du hammam, un massage ou un soin, puis repartir coiffée.</p>
+      <div class="acts"><a class="btn" href="#reserver">Réserver une visite</a><a class="btn ghost" href="#carte">Voir la carte</a></div>
+      <p class="where">12, cours Grandval, Ajaccio · Du mardi au samedi</p>
+    </div>
+    <figure class="photo"><img src="images/funtana/hammam.webp" alt="La vasque de marbre du hammam" width="1600" height="1000" fetchpriority="high"></figure>
+  </section>
+
+  <section class="order" id="visite" aria-labelledby="t-order">
+    <div class="wrap">
+      <div class="lead rise">
+        <h2 id="t-order">L'eau d'abord, les cheveux à la fin</h2>
+        <p>Une visite suit toujours le même ordre, pour que chaque étape prépare la suivante.</p>
+      </div>
+      <div class="steps">
+        <div class="rise"><span class="t">D'abord</span><h3>La chaleur</h3><p>Hammam et sauna ouvrent la peau et détendent le corps. Une tisane de myrte vous attend à la sortie.</p></div>
+        <div class="rise"><span class="t">Ensuite</span><h3>Le soin</h3><p>Massage à l'huile d'olive et à l'immortelle, soin du visage ou gommage au sel de mer.</p></div>
+        <div class="rise"><span class="t">Enfin</span><h3>La coiffure</h3><p>Coupe, couleur ou brushing sur des cheveux reposés : vous repartez prête, sans repasser par l'eau.</p></div>
+      </div>
     </div>
   </section>
 
-  <section class="rows" aria-labelledby="t-rows">
-    <div class="r"><h2 id="t-rows">A Funtana</h2><img src="images/funtana/rue.webp" alt="Façades ocre d'une rue d'Ajaccio" width="900" height="1200" loading="lazy"></div>
-    <div class="r"><a class="lk" href="https://www.openstreetmap.org/search?query=cours%20Grandval%20Ajaccio" rel="noopener">12, cours Grandval</a></div>
-    <div class="r"><span>20000 Ajaccio</span></div>
-    <div class="r"><span>Mar.–sam., 9 h à 19 h</span><span class="now" id="now"></span></div>
-    <div class="r"><a class="lk" href="tel:+33400000000">04 00 00 00 00</a></div>
-    <div class="r hello"><span>Bonjour</span><a class="go" href="mailto:bonjour@afuntana.fr" aria-label="Écrire à A Funtana"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a></div>
+  <section class="wrap carte" id="carte" aria-labelledby="t-carte">
+    <div class="head rise">
+      <h2 id="t-carte">La carte</h2>
+      <p>Tous les soins se combinent. Les durées comprennent l'installation et le thé de la fin.</p>
+    </div>
+    <div class="groups" id="groups"></div>
+  </section>
+
+  <section class="book" id="reserver" aria-labelledby="t-book">
+    <div class="wrap grid">
+      <div class="intro rise">
+        <h2 id="t-book">Composer sa visite</h2>
+        <p>Choisissez une étape, deux ou trois. On vous indique la durée, le prix et l'heure à laquelle vous repartez.</p>
+      </div>
+      <div class="form" id="form">
+        <div class="field"><label for="sSpa">La chaleur</label><select id="sSpa"></select></div>
+        <div class="field"><label for="sSoin">Le soin</label><select id="sSoin"></select></div>
+        <div class="field"><label for="sHair">La coiffure</label><select id="sHair"></select></div>
+        <p class="sum" id="sum" aria-live="polite"></p>
+        <div id="book"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap spaces" id="espaces" aria-labelledby="t-spaces">
+    <h2 class="rise" id="t-spaces">Les espaces</h2>
+    <div class="row">
+      <figure class="photo rise"><img src="images/funtana/galets.webp" alt="Galets chauds posés le long du dos" width="1200" height="900" loading="lazy"><h3>Les cabines</h3><p>Deux cabines de massage, dont une pour les duos, à la lumière tamisée.</p></figure>
+      <figure class="photo rise"><img src="images/funtana/immortelle.webp" alt="Une fleur d'immortelle" width="800" height="1000" loading="lazy"><h3>Les soins</h3><p>Des produits à l'immortelle et à la myrte, préparés par un laboratoire de Balagne.</p></figure>
+      <figure class="photo rise"><img src="images/funtana/lavage.webp" alt="Une cliente se fait laver les cheveux au bac" width="900" height="1125" loading="lazy"><h3>Le salon</h3><p>À l'étage, à la lumière du cours Grandval : coupe, couleur, chignons de mariage.</p></figure>
+    </div>
+  </section>
+
+  <section class="visit" id="venir" aria-labelledby="t-visit">
+    <div class="wrap">
+      <h2 class="rise" id="t-visit">Venir</h2>
+      <div class="grid">
+        <div class="rise"><h3>L'adresse</h3><p>12, cours Grandval<br>20000 Ajaccio</p><p><a href="https://www.openstreetmap.org/search?query=cours%20Grandval%20Ajaccio" rel="noopener">Voir sur la carte</a></p></div>
+        <div class="rise"><h3>Les horaires</h3><table id="hrs"></table><p class="now" id="now"></p></div>
+        <div class="rise"><h3>Nous joindre</h3><p><a href="tel:+33400000000">04 00 00 00 00</a><br><a href="mailto:bonjour@afuntana.fr">bonjour@afuntana.fr</a></p><p style="margin-top:12px;color:var(--muted)">Carte cadeau valable un an, à demander au salon.</p></div>
+      </div>
+    </div>
   </section>
 </main>
-<footer><span>Institut fictif, site réalisé par <a href="accueil.html">Saitora</a></span><span>Photos et vidéo : Pixabay</span></footer>
+<footer class="wrap"><span>Institut fictif, site réalisé par <a href="accueil.html">Saitora</a></span><span>Photos : Pixabay</span></footer>
 
 <script>
 document.documentElement.classList.add("js");
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[m]);
-const reduce = matchMedia("(prefers-reduced-motion: reduce)");
 
-// ——— la carte : [groupe, [[nom, détail, minutes, prix, dans la phrase]]]
+// ——— la carte : [groupe, [[nom, détail, minutes, prix]]]
 const CARTE = [
-  ["Hammam et sauna", [["Accès libre", "Hammam, sauna et tisane", 60, 25, "le hammam et le sauna"], ["Hammam et savon noir", "Avec gommage au gant", 60, 45, "le hammam et un gommage au savon noir"]]],
-  ["Massages", [["Massage relaxant", "Huile d'olive et immortelle", 60, 85, "un massage relaxant"], ["Massage court", "Dos, nuque et épaules", 30, 50, "un massage du dos"], ["Pierres chaudes", "Galets de rivière chauffés", 75, 95, "un massage aux pierres chaudes"]]],
-  ["Soins", [["Soin visage à l'immortelle", "Nettoyage, masque, massage du visage", 60, 75, "un soin du visage à l'immortelle"], ["Soin visage express", "Pour un coup d'éclat", 30, 45, "un soin express"], ["Gommage sel et myrte", "Tout le corps, puis hydratation", 45, 55, "un gommage au sel et à la myrte"], ["Manucure", "Limage, cuticules, vernis", 45, 35, "une manucure"]]],
-  ["Coiffure", [["Coupe et brushing", "Femme, cheveux courts à longs", 60, 48, "une coupe et un brushing"], ["Brushing", "Lisse ou wavy", 30, 30, "un brushing"], ["Couleur", "Coloration et brushing", 90, 65, "une couleur"], ["Balayage", "Éclaircissement naturel et soin", 150, 110, "un balayage"], ["Coupe homme", "Shampooing, coupe, coiffage", 30, 28, "une coupe homme"], ["Coupe et barbe", "Contours au rasoir", 45, 38, "une coupe et la barbe"]]],
+  ["Hammam et sauna", [["Accès libre", "Hammam, sauna et tisane", 60, 25], ["Hammam et savon noir", "Avec gommage au gant", 60, 45]]],
+  ["Massages", [["Massage relaxant", "Huile d'olive et immortelle", 60, 85], ["Massage court", "Dos, nuque et épaules", 30, 50], ["Pierres chaudes", "Galets de rivière chauffés", 75, 95]]],
+  ["Soins", [["Soin visage à l'immortelle", "Nettoyage, masque, massage du visage", 60, 75], ["Soin visage express", "Pour un coup d'éclat", 30, 45], ["Gommage sel et myrte", "Tout le corps, puis hydratation", 45, 55], ["Manucure", "Limage, cuticules, vernis", 45, 35]]],
+  ["Coiffure", [["Coupe et brushing", "Femme, cheveux courts à longs", 60, 48], ["Brushing", "Lisse ou wavy", 30, 30], ["Couleur", "Coloration et brushing", 90, 65], ["Balayage", "Éclaircissement naturel et soin", 150, 110], ["Coupe homme", "Shampooing, coupe, coiffage", 30, 28], ["Coupe et barbe", "Contours au rasoir", 45, 38]]],
 ];
-$("groups").innerHTML = CARTE.map(([g, list]) => `<div class="g rise"><h3>${esc(g)}</h3><ul>${list.map(([n, d, m, p]) => `<li><div><span>${esc(n)}</span><span class="p">${p} €</span></div><small>${esc(d)}, ${m} min</small></li>`).join("")}</ul></div>`).join("");
+$("groups").innerHTML = CARTE.map(([g, list]) => `<div class="rise"><h3>${esc(g)}</h3><ul>${list.map(([n, d, m, p]) => `<li><span>${esc(n)}<small>${esc(d)}, ${m} min</small></span><span class="p">${p} €</span></li>`).join("")}</ul></div>`).join("");
 
-// ——— la visite à composer : la chaleur d'abord, le soin ensuite, la coiffure en dernier
-const pick = g => CARTE.find(c => c[0] === g)[1];
-const SPA = pick("Hammam et sauna"), SOIN = [...pick("Massages"), ...pick("Soins")], HAIR = pick("Coiffure");
-const opts = (list, none) => `<option value="-1">${none}</option>` + list.map((x, i) => `<option value="${i}">${esc(x[4])}</option>`).join("");
-$("sSpa").innerHTML = opts(SPA, "un simple bonjour"); $("sSoin").innerHTML = opts(SOIN, "rien de plus"); $("sHair").innerHTML = opts(HAIR, "les cheveux comme ils sont");
+// ——— composer sa visite
+const g = name => CARTE.find(c => c[0] === name)[1];
+const SPA = g("Hammam et sauna"), SOIN = [...g("Massages"), ...g("Soins")], HAIR = g("Coiffure");
+const opts = (list, none) => `<option value="-1">${none}</option>` + list.map((x, i) => `<option value="${i}">${esc(x[0])} · ${x[2]} min · ${x[3]} €</option>`).join("");
+$("sSpa").innerHTML = opts(SPA, "Pas de hammam"); $("sSoin").innerHTML = opts(SOIN, "Pas de soin"); $("sHair").innerHTML = opts(HAIR, "Pas de coiffure");
 $("sSpa").value = 0; $("sSoin").value = 0; $("sHair").value = 0;
 const hm = m => `${Math.floor(m / 60)} h${m % 60 ? " " + String(m % 60).padStart(2, "0") : ""}`;
-const len = m => `${Math.floor(m / 60) ? Math.floor(m / 60) + " h" : ""}${m % 60 ? (m >= 60 ? " " : "") + (m % 60) + " min" : ""}`;
-const STAGES = [["La chaleur", "sSpa", SPA], ["Le soin", "sSoin", SOIN], ["La coiffure", "sHair", HAIR]];
+const len = m => [Math.floor(m / 60) ? Math.floor(m / 60) + " h" : "", m % 60 ? (m % 60) + " min" : ""].filter(Boolean).join(" ");
 const DAYS = (() => { const out = [], d = new Date(); for (let i = 1; out.length < 6; i++) { const x = new Date(d); x.setDate(d.getDate() + i); if (x.getDay() >= 2 && x.getDay() <= 6) out.push(x); } return out; })();
-const st = { day: DAYS[0], slot: null, name: "", tel: "", done: false };
-const chosen = () => STAGES.map(([h, id, list]) => [h, +$(id).value >= 0 ? list[$(id).value] : null]).filter(x => x[1]);
-function slip() {
-  const a = chosen(), total = a.reduce((s, x) => s + x[1][2], 0), price = a.reduce((s, x) => s + x[1][3], 0);
-  let t = st.slot ?? 10 * 60;
-  $("sWhen").textContent = st.slot != null ? `${st.day.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })}, cours Grandval` : "Votre visite, cours Grandval, en arrivant à 10 h";
-  $("sRows").innerHTML = a.length ? a.map(([h, x]) => { const r = `<h3>${h}, ${hm(t)}</h3><p class="li">${esc(x[0])}<span class="dots"></span><span class="v">${len(x[2])}</span></p>`; t += x[2]; return r; }).join("") : `<p class="none">Choisissez au moins une étape dans la phrase.</p>`;
-  $("sEnd").innerHTML = a.length ? `<span>Vous repartez à ${hm(t)}</span><span>${len(total)}, ${price} €</span>` : `<span>Rien de prévu</span><span>0 €</span>`;
-  return { a, total };
-}
-// le menu déroulant prend la largeur de son texte, pour que la phrase reste une phrase
-const fit = sel => { const m = document.createElement("span"); m.style.cssText = "position:absolute;visibility:hidden;white-space:pre;font:inherit;font-weight:600"; m.textContent = sel.options[sel.selectedIndex].text; sel.parentNode.appendChild(m); sel.style.width = Math.ceil(m.offsetWidth + 24) + "px"; m.remove(); };
-function book() {
-  STAGES.forEach(([, id]) => fit($(id)));
-  const { a, total } = slip();
-  if (st.done) { $("book").innerHTML = `<p class="done">C'est noté pour ${st.day.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })} à ${hm(st.slot)}. Démo : sur le vrai site, un SMS partirait au ${esc(st.tel)}.</p>`; return; }
+const st = { day: DAYS[0], slot: null, done: false };
+const chosen = () => [[SPA, "sSpa"], [SOIN, "sSoin"], [HAIR, "sHair"]].map(([l, id]) => +$(id).value >= 0 ? l[$(id).value] : null).filter(Boolean);
+function render() {
+  const a = chosen(), total = a.reduce((s, x) => s + x[2], 0), price = a.reduce((s, x) => s + x[3], 0);
+  const start = st.slot ?? 10 * 60;
+  $("sum").innerHTML = a.length ? `<span>${len(total)}, sortie vers ${hm(start + total)}</span><span>${price} €</span>` : `<span>Choisissez au moins une étape</span><span></span>`;
+  if (st.done) { $("book").innerHTML = `<p class="done">C'est noté pour ${st.day.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })} à ${hm(st.slot)}. Démo : rien n'est envoyé.</p>`; return; }
   const close = st.day.getDay() === 4 ? 21 * 60 : 19 * 60, slots = [];
-  for (let m = 9 * 60; m + total <= close; m += 30) slots.push({ m, busy: ((m / 30 + st.day.getDate()) % 4) === 0 });
+  for (let m = 9 * 60; m + total <= close; m += 60) slots.push({ m, busy: ((m / 60 + st.day.getDate()) % 4) === 0 });
   if (st.slot != null && !slots.some(s => s.m === st.slot && !s.busy)) st.slot = null;
-  $("book").innerHTML = `<div class="q"><p>Le jour</p><div class="chips" data-q="day">${DAYS.map((d, i) => `<button type="button" class="chip" data-v="${i}" aria-pressed="${d.toDateString() === st.day.toDateString()}">${d.toLocaleDateString("fr-FR", { weekday: "short", day: "numeric" }).replace(".", "")}</button>`).join("")}</div></div>
-    <div class="q"><p>L'heure d'arrivée</p>${a.length && slots.length ? `<div class="chips" data-q="slot">${slots.map(s => `<button type="button" class="chip" data-v="${s.m}" ${s.busy ? "disabled" : ""} aria-pressed="${st.slot === s.m}">${hm(s.m)}</button>`).join("")}</div>` : `<p>Composez d'abord votre visite.</p>`}</div>
-    ${st.slot != null ? `<div class="who"><input id="wName" autocomplete="name" placeholder="Prénom et nom" aria-label="Prénom et nom" value="${esc(st.name)}"><input id="wTel" type="tel" inputmode="tel" autocomplete="tel" placeholder="Téléphone mobile" aria-label="Téléphone mobile" value="${esc(st.tel)}"><button class="btn" type="button" id="wGo">Réserver ce moment</button></div>` : ""}`;
-  if ($("wGo")) {
-    $("wName").oninput = e => st.name = e.target.value; $("wTel").oninput = e => st.tel = e.target.value;
-    $("wGo").onclick = () => { if (!st.name.trim() || !st.tel.trim()) { (st.name.trim() ? $("wTel") : $("wName")).focus(); return; } st.done = true; book(); };
-  }
+  $("book").innerHTML = `<div class="field"><label>Le jour</label><div class="chips" data-q="day">${DAYS.map((d, i) => `<button type="button" class="chip" data-v="${i}" aria-pressed="${d.toDateString() === st.day.toDateString()}">${d.toLocaleDateString("fr-FR", { weekday: "short", day: "numeric" }).replace(".", "")}</button>`).join("")}</div></div>
+    ${a.length ? `<div class="field" style="margin-top:22px"><label>L'heure d'arrivée</label><div class="chips" data-q="slot">${slots.map(s => `<button type="button" class="chip" data-v="${s.m}" ${s.busy ? "disabled" : ""} aria-pressed="${st.slot === s.m}">${hm(s.m)}</button>`).join("")}</div></div>` : ""}
+    ${st.slot != null ? `<div class="two" style="margin-top:22px"><input id="wName" autocomplete="name" placeholder="Prénom et nom" aria-label="Prénom et nom"><input id="wTel" type="tel" inputmode="tel" autocomplete="tel" placeholder="Téléphone" aria-label="Téléphone"></div><button class="btn" type="button" id="wGo" style="margin-top:22px">Réserver</button>` : ""}`;
+  if ($("wGo")) $("wGo").onclick = () => { if (!$("wName").value.trim()) return $("wName").focus(); if (!$("wTel").value.trim()) return $("wTel").focus(); st.done = true; render(); };
 }
-STAGES.forEach(([, id]) => $(id).addEventListener("change", () => {
-  st.slot = null; if (reduce.matches) return book();
-  $("slip").classList.add("swap"); setTimeout(() => { book(); $("slip").classList.remove("swap"); }, 160);
-}));
+["sSpa", "sSoin", "sHair"].forEach(id => $(id).addEventListener("change", () => { st.slot = null; render(); }));
 $("book").addEventListener("click", e => { const b = e.target.closest(".chip[data-v]"); if (!b || b.disabled) return;
-  if (b.parentElement.dataset.q === "day") { st.day = DAYS[b.dataset.v]; st.slot = null; } else st.slot = +b.dataset.v; book(); });
-book(); document.fonts.ready.then(book);
+  if (b.parentElement.dataset.q === "day") { st.day = DAYS[b.dataset.v]; st.slot = null; } else st.slot = +b.dataset.v; render(); });
+render();
 
-// ——— ouvert maintenant ?
+// ——— horaires, et ouvert maintenant ?
+const DN = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
+const H = { 2: "9 h – 19 h", 3: "9 h – 19 h", 4: "9 h – 21 h", 5: "9 h – 19 h", 6: "9 h – 19 h" };
 const now = new Date(), d = now.getDay(), t = now.getHours() + now.getMinutes() / 60, close = d === 4 ? 21 : 19;
-$("now").textContent = d >= 2 && d <= 6 && t >= 9 && t < close ? `Ouvert, jusqu'à ${close} h ce soir` : `Fermé, on rouvre ${d >= 1 && d <= 5 && t < 9 ? "ce matin" : d === 6 || d === 0 ? "mardi" : "demain"} à 9 h`;
+$("hrs").innerHTML = [2, 3, 4, 5, 6].map(i => `<tr><td>${DN[i]}</td><td>${H[i]}</td></tr>`).join("") + `<tr><td>Dim. et lundi</td><td>Fermé</td></tr>`;
+$("now").textContent = H[d] && t >= 9 && t < close ? `Ouvert en ce moment, jusqu'à ${close} h` : "Fermé en ce moment";
 
-// ——— la photo fixe suit la section que l'on lit (sur ordinateur et tablette)
-const wide = matchMedia("(min-width: 641px)");
-const frames = [...$("frames").querySelectorAll("[data-k]")], CAP = { open: "A funtana, « la fontaine » en corse", visit: "Le hammam, première étape de la visite", carte: "Le massage relaxant, à l'huile d'olive" };
-const show = k => { if (!wide.matches) return; frames.forEach(f => f.classList.toggle("on", f.dataset.k === k)); $("cap").textContent = CAP[k]; const v = $("reel"); if (k === "open" && !reduce.matches) v.play().catch(() => {}); else v.pause(); };
-const so = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) show(e.target.dataset.k); }), { rootMargin: "-45% 0px -45% 0px" });
-document.querySelectorAll(".read [data-k]").forEach(s => so.observe(s));
-if (!reduce.matches) $("reel").play().catch(() => {});
-
-// ——— le nom pèse : il rétrécit un peu quand le premier écran s'en va
-const name = $("name");
-let raf = 0;
-const weigh = () => { raf = 0; if (reduce.matches || !wide.matches) { name.style.transform = ""; return; } const p = Math.min(1, Math.max(0, scrollY / innerHeight)); name.style.transform = `scale(${1 - p * .06})`; };
-addEventListener("scroll", () => { if (!raf) raf = requestAnimationFrame(weigh); }, { passive: true }); weigh();
-
-// ——— apparitions
+// ——— apparitions discrètes
 const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("on"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -6% 0px" });
 document.querySelectorAll(".rise").forEach(el => io.observe(el));
 </script>

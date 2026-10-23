@@ -1,5 +1,57 @@
 {
   "_note": "Catalogue des façons de construire un site Saitora. Chaque site tire une option par famille (outils/tirage.py), en évitant ce qui a déjà servi (registre.json). Les couleurs, les polices et le logo viennent de la charte du client ; le catalogue décide de la composition.",
+  "genre": [
+    [
+      "art-deco",
+      "Art déco / Empire",
+      "Fond sombre (noir ou couleur principale très foncée) et or ; symétrie, tout centré ; titres en capitales très espacées dans une Didone (Bodoni, Didot) ; cadres dorés à double filet et coins à redans ; éventails et rayons de soleil dessinés ; séparateurs à chevrons ; photos en arches à gradins."
+    ],
+    [
+      "magazine",
+      "Magazine éditorial",
+      "Grille de 12 colonnes asymétrique, grandes photos pleine largeur, textes en colonnes comme un journal, lettrines, titres très contrastés, légendes en petit sous chaque photo, numéros de rubrique."
+    ],
+    [
+      "suisse",
+      "Grille suisse",
+      "Une sans-serif grasse, tout aligné à gauche sur une grille stricte, grands chiffres, aplats de couleur francs, aucun ornement, photos rectangulaires alignées sur la grille."
+    ],
+    [
+      "affiche-brute",
+      "Affiche brute",
+      "Typographie énorme qui déborde, couleurs franches en blocs, bordures noires épaisses, ombres décalées pleines, boutons rectangulaires épais : direct et percutant."
+    ],
+    [
+      "retro-70",
+      "Rétro années 70",
+      "Formes rondes et pilules, couleurs chaudes (orange, moutarde, brun), une serif grasse arrondie (Cooper, Recoleta), bandes arc-en-ciel, photos aux coins très arrondis."
+    ],
+    [
+      "fait-main",
+      "Fait main",
+      "Papier, carton ou ardoise, écritures à la main, photos posées de travers avec du ruban adhésif, petits dessins au trait, étiquettes et tampons."
+    ],
+    [
+      "luxe-minimal",
+      "Luxe minimal",
+      "Énormément d'espace, très peu d'éléments, une serif fine en très grand, capitales minuscules espacées, noir et blanc et une seule touche de couleur, photos immenses."
+    ],
+    [
+      "mediterraneen",
+      "Méditerranéen coloré",
+      "Couleurs du sud en aplats (bleu, ocre, terre cuite), carreaux et azulejos, arches, ombres de feuillage, typographie chaleureuse."
+    ],
+    [
+      "moderne-doux",
+      "Moderne doux",
+      "Sans-serif ronde, cartes aux coins arrondis, dégradés interdits mais aplats pastel, petites illustrations, boutons pilule : accueillant et actuel."
+    ],
+    [
+      "sombre-cinema",
+      "Sombre cinéma",
+      "Fond noir, photos plein cadre très contrastées, titres en très grand qui se superposent aux images, petites capitales, sensation de générique de film."
+    ]
+  ],
   "ouverture": [
     [
       "partage",

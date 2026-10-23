@@ -37,7 +37,7 @@ def feuille(url):
     return css_file.name
 
 DOSSIER.mkdir(exist_ok=True)
-for page in sorted(list(RACINE.glob("*.html")) + list(RACINE.glob("outils/**/*.html"))):
+for page in sorted(list(RACINE.glob("*.html")) + list(RACINE.glob("outils/**/*.html")) + list(RACINE.glob("clients/**/*.html"))):
     texte = page.read_text()
     if "fonts.googleapis.com" not in texte:
         continue

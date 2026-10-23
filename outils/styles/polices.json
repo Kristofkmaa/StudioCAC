@@ -1,0 +1,129 @@
+{
+  "_note": "Pour chaque style de titres choisi dans l'outil de charte, plusieurs paires de polices Google (titres, texte). Le tirage choisit la paire la moins utilisée (option --charte <style>). Après avoir mis le lien Google Fonts dans la page : python3 outils/polices.py pour les héberger sur le site.",
+  "Élégante": [
+    [
+      "Cormorant Garamond",
+      "Jost"
+    ],
+    [
+      "Bodoni Moda",
+      "Josefin Sans"
+    ],
+    [
+      "Playfair Display",
+      "Karla"
+    ],
+    [
+      "Italiana",
+      "Montserrat"
+    ],
+    [
+      "Gloock",
+      "Schibsted Grotesk"
+    ],
+    [
+      "Marcellus",
+      "Figtree"
+    ]
+  ],
+  "Moderne": [
+    [
+      "Jost",
+      "Jost"
+    ],
+    [
+      "Space Grotesk",
+      "Inter"
+    ],
+    [
+      "Archivo",
+      "Archivo"
+    ],
+    [
+      "Syne",
+      "Manrope"
+    ],
+    [
+      "Unbounded",
+      "Work Sans"
+    ],
+    [
+      "DM Sans",
+      "DM Sans"
+    ]
+  ],
+  "Chaleureuse": [
+    [
+      "Young Serif",
+      "Jost"
+    ],
+    [
+      "Fraunces",
+      "Nunito Sans"
+    ],
+    [
+      "Lora",
+      "Outfit"
+    ],
+    [
+      "Bricolage Grotesque",
+      "Lato"
+    ],
+    [
+      "Gelasio",
+      "Mulish"
+    ],
+    [
+      "DM Serif Display",
+      "Plus Jakarta Sans"
+    ]
+  ],
+  "Manuscrite": [
+    [
+      "Caveat",
+      "Familjen Grotesk"
+    ],
+    [
+      "Kalam",
+      "Nunito"
+    ],
+    [
+      "Shadows Into Light",
+      "Quicksand"
+    ],
+    [
+      "Gochi Hand",
+      "Work Sans"
+    ],
+    [
+      "Patrick Hand",
+      "Karla"
+    ]
+  ],
+  "Affiche": [
+    [
+      "Archivo Narrow",
+      "Archivo"
+    ],
+    [
+      "Bebas Neue",
+      "Barlow"
+    ],
+    [
+      "Anton",
+      "Inter"
+    ],
+    [
+      "Oswald",
+      "Source Sans 3"
+    ],
+    [
+      "Big Shoulders Display",
+      "Public Sans"
+    ],
+    [
+      "League Gothic",
+      "Rubik"
+    ]
+  ]
+}

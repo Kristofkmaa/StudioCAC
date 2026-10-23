@@ -5,23 +5,26 @@ Les couleurs, les polices et le logo viennent de la charte du client ; cette fic
 Règles communes à tous les sites : page aérée, deux polices de charte (plus la police d'appoint si tirée), photos d'un même ton, une seule idée originale, lisible sur téléphone.
 Le code de chaque option est dans outils/styles/recettes.md.
 
-## Ouverture : Mosaïque
-Une grille de 4 à 5 cases de tailles différentes : 3 ou 4 photos et une case de couleur pleine qui porte le titre et le bouton.
+## Genre (il décide de tout le reste) : Art déco / Empire
+Fond sombre (noir ou couleur principale très foncée) et or ; symétrie, tout centré ; titres en capitales très espacées dans une Didone (Bodoni, Didot) ; cadres dorés à double filet et coins à redans ; éventails et rayons de soleil dessinés ; séparateurs à chevrons ; photos en arches à gradins.
 
-## Navigation : Centrée
-Logo au centre, liens répartis à gauche et à droite.
+## Ouverture : Affiche
+Pas de photo à l'ouverture : un fond de couleur pleine, un titre énorme, une phrase, le logo en grand comme un objet ; les photos arrivent juste après.
 
-## Services : Liste qui s'ouvre
-Les services en grande liste typographique (titres en grand) ; un clic ouvre le détail et une petite photo.
+## Navigation : Barre basse sur téléphone
+Sur téléphone, une barre fixe en bas (Appeler, Devis, Plan) ; sur ordinateur, une navigation discrète en haut.
 
-## Réalisations : Chiffres clés
-Trois ou quatre chiffres en très grand (années, chantiers, délai moyen), avec une phrase chacun ; une photo large dessous.
+## Services : Rangées alternées
+Trois ou quatre services, chacun une rangée : photo d'un côté, texte de l'autre, en alternance.
 
-## À propos : Portrait
-Une grande photo de la personne ou de l'atelier, avec trois lignes de présentation posées dessus.
+## Réalisations : Une à la fois
+Une grande photo à la fois avec son histoire (le chantier, le problème, la solution), flèches pour passer à la suivante.
 
-## Contact : Bandeau collant
-Pas de grande section : un bandeau « Appeler / Devis » qui reste collé en bas de l'écran, et un formulaire court en fin de page.
+## À propos : Lettre signée
+Un texte écrit à la première personne comme une lettre, sur fond papier, signé à la main (police manuscrite).
+
+## Contact : Comment ça se passe
+Trois étapes (on vous rappelle, on vient mesurer, on pose) puis un formulaire court.
 
 ## Formes : Cadres
 Photos avec un cadre blanc épais (comme des tirages), angles droits.
@@ -29,32 +32,38 @@ Photos avec un cadre blanc épais (comme des tirages), angles droits.
 ## Photos : Douces
 Couleurs légèrement adoucies (saturation 80 %) pour un ensemble calme.
 
-## Rythme des couleurs : Clair et uni
-Un fond clair partout, les sections séparées par l'espace seulement.
+## Rythme des couleurs : Sombre
+Fond sombre (couleur principale très foncée) sur toute la page, texte clair.
 
-## Titres : Avec italique
-Un mot de chaque grand titre en italique (si la police le permet).
+## Titres : Géants
+Un titre par section en très grand (2 à 3 fois la taille habituelle), qui déborde presque de l'écran.
 
-## Police d'appoint : Italique de titre
-L'italique de la police des titres pour les sous-titres et les légendes, comme dans un magazine.
+## Police d'appoint : Aucune
+Seulement les deux polices de la charte.
 
-## Texture : Carreaux
-Un motif géométrique de carreaux de ciment, d'azulejos ou de tomettes, en bandeau ou en fond de section, dans les couleurs de la charte.
+## Texture : Grande forme
+Une grande forme simple (cercle, arche, vague) en aplat de couleur derrière une photo ou un titre.
 
-## Arrivée des éléments : Rideau
-Les photos se découvrent de bas en haut, comme un rideau qui se lève.
+## Arrivée des éléments : Zoom lent
+Les photos arrivent légèrement agrandies puis reprennent leur taille, très lentement.
 
-## Passage entre les sections : Sections arrondies
-Les sections de couleur sont des grands panneaux aux coins très arrondis, posés sur le fond.
+## Passage entre les sections : Chevauchement
+Une photo à cheval entre deux sections, à moitié dans chacune.
 
-## Boutons : Rond avec flèche
-Un texte suivi d'un cercle plein contenant une flèche.
+## Boutons : Souligné avec flèche
+Pas de fond : un texte souligné suivi d'une flèche qui avance au survol.
 
-## Pied de page : Infos pratiques
-Trois colonnes : adresse, horaires, contact, avec un rappel du bouton principal.
+## Pied de page : Nom géant
+Le nom du commerce en très grand sur toute la largeur, coupé par le bas de l'écran.
 
-## Ornement : Grands numéros
-Chaque section porte un grand numéro de chapitre pâle en arrière-plan.
+## Ornement : Filet précieux
+Un fin filet de couleur dorée ou cuivrée sous les grands titres et autour des cadres.
 
-## L'idée originale : Prochains créneaux
-Les prochains rendez-vous libres affichés directement, un clic pour réserver.
+## L'idée originale : Estimer un prix
+Le visiteur règle quelques curseurs (taille, matière, option) et lit un ordre de prix tout de suite.
+
+## Polices : Bodoni Moda + Josefin Sans
+Titres en Bodoni Moda, texte en Josefin Sans (style « Élégante » de la charte). Lien Google Fonts dans la page, puis python3 outils/polices.py.
+
+## Avant de livrer
+Mettre le premier écran à côté de ceux des autres sites (media/apercus et clients/*) : s'il ressemble à l'un d'eux, changer ce qui fait la ressemblance.

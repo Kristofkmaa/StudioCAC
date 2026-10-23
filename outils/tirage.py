@@ -6,11 +6,14 @@
     python3 outils/tirage.py vitrier-prince --imposer signature=estimateur,formes=organiques
     python3 outils/tirage.py vitrier-prince --exclure preuves=citations   # écarter un choix (ex. pas encore de vrais avis)
     python3 outils/tirage.py vitrier-prince --refaire              # refaire un site : s'éloigner aussi de sa version précédente
+    python3 outils/tirage.py vitrier-prince --charte Élégante      # tire aussi la paire de polices pour ce style de charte
     python3 outils/tirage.py vitrier-prince --enregistrer         # note le dernier tirage dans le registre
 
 Pour chaque famille du catalogue (ouverture, navigation, services…), on garde les options les moins
-utilisées par les sites du registre, puis on en tire une au hasard. Les couleurs, les polices et le logo
-viennent de la charte du client : le tirage ne décide que de la composition.
+utilisées par les sites du registre, puis on en tire une au hasard. Le genre passe en premier : il décide
+de la grille, des tailles, des espacements et du ton, et toutes les autres familles s'y plient.
+Les couleurs et le logo viennent de la charte du client ; avec --charte <style>, la paire de polices est
+tirée parmi celles qui vont avec ce style (outils/styles/polices.json), en évitant celles déjà vues.
 La fiche est écrite dans clients/<nom>/style.md (ou à l'endroit donné par --fiche).
 """
 import json, pathlib, random, sys
@@ -19,8 +22,9 @@ RACINE = pathlib.Path(__file__).resolve().parent.parent
 DOSSIER = RACINE / "outils" / "styles"
 CATALOGUE = json.loads((DOSSIER / "catalogue.json").read_text())
 REGISTRE_F = DOSSIER / "registre.json"
+POLICES = json.loads((DOSSIER / "polices.json").read_text())
 FAMILLES = [k for k in CATALOGUE if not k.startswith("_")]
-NOMS = {"ouverture": "Ouverture", "navigation": "Navigation", "services": "Services", "preuves": "Réalisations", "a_propos": "À propos",
+NOMS = {"genre": "Genre (il décide de tout le reste)", "ouverture": "Ouverture", "navigation": "Navigation", "services": "Services", "preuves": "Réalisations", "a_propos": "À propos",
         "contact": "Contact", "formes": "Formes", "photos": "Photos", "rythme": "Rythme des couleurs", "titres": "Titres",
         "appoint": "Police d'appoint", "texture": "Texture", "arrivee": "Arrivée des éléments", "decoupes": "Passage entre les sections",
         "boutons": "Boutons", "pied": "Pied de page", "ornement": "Ornement", "signature": "L'idée originale"}
@@ -82,6 +86,16 @@ def main():
         moins = min(compte.values())
         choix[f] = hasard.choice(sorted(o for o, n in compte.items() if n == moins))
 
+    # la paire de polices, selon le style de titres choisi dans la charte
+    style = arg("--charte")
+    if style:
+        if style not in POLICES:
+            sys.exit(f"Style de charte inconnu : {style}. Styles : {', '.join(k for k in POLICES if not k.startswith('_'))}")
+        vues = [v.get("police") for v in autres.values()]
+        paires = [" + ".join(p) for p in POLICES[style]]
+        moins = min(vues.count(p) for p in paires)
+        choix["police"] = hasard.choice([p for p in paires if vues.count(p) == moins])
+
     lignes = [f"# Fiche de style : {site}", "",
               "Tirée par `outils/tirage.py` pour que ce site ne ressemble pas aux précédents.",
               "Les couleurs, les polices et le logo viennent de la charte du client ; cette fiche décide de la composition.",
@@ -91,6 +105,10 @@ def main():
     for f in ordre:
         _, nom, desc = options(f)[choix[f]]
         lignes += [f"## {NOMS.get(f, f)} : {nom}", desc, ""]
+    if "police" in choix:
+        titre, texte = choix["police"].split(" + ")
+        lignes += [f"## Polices : {choix['police']}", f"Titres en {titre}, texte en {texte} (style « {style} » de la charte). Lien Google Fonts dans la page, puis python3 outils/polices.py.", ""]
+    lignes += ["## Avant de livrer", "Mettre le premier écran à côté de ceux des autres sites (media/apercus et clients/*) : s'il ressemble à l'un d'eux, changer ce qui fait la ressemblance.", ""]
     deja = [s for s, v in autres.items() if sum(v.get(f) == choix[f] for f in FAMILLES) >= 4]
     if deja and not modele:
         lignes += [f"Attention : proche de {', '.join(deja)} sur au moins quatre familles.", ""]

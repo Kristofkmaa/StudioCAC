@@ -50,7 +50,8 @@
       "decoupes": "droites",
       "pied": "simple",
       "ornement": "aucun",
-      "boutons": "rectangle"
+      "boutons": "rectangle",
+      "police": "Cormorant Garamond + Mulish"
     },
     "libecciu": {
       "ouverture": "partage",
@@ -70,7 +71,8 @@
       "decoupes": "droites",
       "pied": "simple",
       "ornement": "aucun",
-      "boutons": "pilule"
+      "boutons": "pilule",
+      "police": "Newsreader + Instrument Sans"
     },
     "zia-rosa": {
       "ouverture": "partage",
@@ -90,7 +92,8 @@
       "decoupes": "droites",
       "pied": "simple",
       "ornement": "aucun",
-      "boutons": "rectangle"
+      "boutons": "rectangle",
+      "police": "EB Garamond + Familjen Grotesk"
     },
     "castagnetu": {
       "ouverture": "partage",
@@ -110,7 +113,8 @@
       "decoupes": "droites",
       "pied": "simple",
       "ornement": "aucun",
-      "boutons": "rectangle"
+      "boutons": "rectangle",
+      "police": "Young Serif + Jost"
     },
     "vitrier-prince": {
       "ouverture": "passe-partout",
@@ -130,27 +134,30 @@
       "decoupes": "droites",
       "pied": "simple",
       "ornement": "aucun",
-      "boutons": "rectangle"
+      "boutons": "rectangle",
+      "police": "Cormorant Garamond + Jost"
     },
     "la-grotte-napoleon": {
-      "ouverture": "mosaique",
-      "navigation": "centree",
-      "services": "accordeon",
-      "preuves": "chiffres",
-      "a_propos": "portrait",
-      "contact": "bandeau-collant",
+      "genre": "art-deco",
       "formes": "cadres",
+      "rythme": "sombre",
+      "texture": "forme",
+      "appoint": "aucune",
+      "ouverture": "affiche",
+      "navigation": "basse",
+      "services": "zigzag",
+      "preuves": "une-a-une",
+      "a_propos": "lettre",
+      "contact": "etapes",
       "photos": "douces",
-      "rythme": "clair",
-      "titres": "italiques",
-      "signature": "creneaux",
-      "appoint": "italique",
-      "texture": "carreaux",
-      "arrivee": "rideau",
-      "decoupes": "arrondies",
-      "boutons": "rond",
-      "pied": "infos",
-      "ornement": "numeros"
+      "titres": "geants",
+      "signature": "estimateur",
+      "arrivee": "zoom",
+      "decoupes": "chevauchement",
+      "boutons": "souligne",
+      "pied": "geant",
+      "ornement": "filet",
+      "police": "Bodoni Moda + Josefin Sans"
     }
   }
 }

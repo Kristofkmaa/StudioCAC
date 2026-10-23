@@ -10,310 +10,369 @@
 <meta property="og:site_name" content="Saitora">
 <meta property="og:title" content="La Table du Port, démo Saitora">
 <meta property="og:description" content="Démo de site vitrine pour restaurant : l'ardoise du jour, la carte, les horaires en direct et la réservation. Réalisé par Saitora.">
-<meta name="theme-color" content="#142022">
+<meta name="theme-color" content="#1F5C86">
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Crect%20width=%2264%22%20height=%2264%22%20rx=%226%22%20fill=%22%2324302F%22/%3E%3Cpath%20d=%22M10%2038c6%200%206-5%2011-5s5%205%2011%205%206-5%2011-5%205%205%2011%205%22%20fill=%22none%22%20stroke=%22%23F3F2EC%22%20stroke-width=%224%22%20stroke-linecap=%22round%22/%3E%3C/svg%3E">
-<link rel="stylesheet" href="polices/caveat-familjen-grotesk-48bed4.css">
+<link rel="stylesheet" href="polices/dm-serif-display-plus-jakarta-sans-190a57.css">
 <style>
-/* Téléphone : pas de flash gris au toucher, pas de texte grossi en paysage, réponse dès que le doigt se pose,
-   libellés des boutons non sélectionnables, contenu tenu hors de l'encoche en paysage. */
-html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%}
-:where(a,button,[role="button"],summary,label,select,input[type="range"]){touch-action:manipulation}
-:where(button,.btn,[role="button"],[role="tab"]){-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
-:where(button:not([disabled]),.btn):active{opacity:.82}
-:where(.in,.page){padding-inline:env(safe-area-inset-left,0px) env(safe-area-inset-right,0px)}
-/* La Table du Port. Idée : l'ardoise posée devant le restaurant. Ce qui est écrit à la craie (la pêche du jour, les prix,
-   les petits mots) est en Caveat ; tout le reste en Familjen Grotesk. Ardoise, craie, bleu des barques, orange de bouée. */
+/* La Table du Port, genre « méditerranéen coloré » : aplats bleu de mer, terre cuite et ocre, carreaux de faïence,
+   formes douces et vagues entre les sections, une serif à l'italique chaleureuse. */
 :root{
-  --slate:#24302F; --slate-2:#2E3B3A; --chalk:#F3F2EC; --chalk-dim:rgba(243,242,236,.7);
-  --harbour:#2B6B8C; --harbour-deep:#1C4A62; --buoy:#E4572E; --spray:#F6F8F8; --ink:#142022; --muted:#55666A; --rule:#D5DEDF;
-  --hand:"Caveat","Segoe Print",cursive;
-  --sans:"Familjen Grotesk","Helvetica Neue",Arial,sans-serif;
-  color-scheme:light;
+  --chalk:#FBF6EC; --sand:#F3E7D0; --ink:#1D2B36; --sea:#1F5C86; --deep:#163F5E;
+  --terra:#C8553D; --ochre:#E3A63B; --olive:#7C8B4C; --line:rgba(29,43,54,.16);
+  --m:clamp(16px,4vw,56px); --r:clamp(18px,2.4vw,30px);
+  --serif:"DM Serif Display",Georgia,serif; --sans:"Plus Jakarta Sans",system-ui,sans-serif;
+  --tile:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23FBF6EC'/%3E%3Cpath d='M32 4 L60 32 L32 60 L4 32Z' fill='none' stroke='%231F5C86' stroke-width='2.5'/%3E%3Ccircle cx='32' cy='32' r='9' fill='%231F5C86'/%3E%3Ccircle cx='32' cy='32' r='4' fill='%23E3A63B'/%3E%3Cpath d='M0 0h10M0 0v10M64 0h-10M64 0v10M0 64h10M0 64v-10M64 64h-10M64 64v-10' stroke='%231F5C86' stroke-width='3'/%3E%3C/svg%3E");
 }
-*,*::before,*::after{box-sizing:border-box}
-html{scroll-behavior:smooth;background:var(--spray)}
-body{margin:0;background:var(--spray);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.6}
-h1,h2,h3,p,ul,ol,figure{margin:0}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+html:focus-within{scroll-behavior:smooth}
+body{background:var(--chalk);color:var(--ink);font:400 17px/1.55 var(--sans);-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%;height:auto}
 a{color:inherit}
-img{display:block;max-width:100%}
-:focus-visible{outline:3px solid var(--buoy);outline-offset:3px}
-.in{width:min(1160px,100% - 2 * clamp(16px,4vw,40px));margin-inline:auto}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--terra);outline-offset:3px;border-radius:8px}
+.wrap{max-width:1300px;margin-inline:auto;padding-inline:var(--m)}
+.demo{background:var(--deep);color:#D8E4EE;font-size:13px;text-align:center;padding:6px 16px}
+.it{font-style:italic}
+.pill{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:50px;padding:0 24px;border-radius:999px;background:var(--terra);color:#fff;font-weight:700;text-decoration:none;border:0;cursor:pointer;transition:background-color .15s,transform .15s cubic-bezier(.23,1,.32,1)}
+.pill.ghost{background:none;border:2px solid currentColor;color:inherit}
+@media (hover:hover) and (pointer:fine){.pill:hover{background:#B4462F}.pill.ghost:hover{background:rgba(255,255,255,.12)}}
+.pill:active{transform:scale(.97)}
+.filet{display:flex;align-items:center;gap:10px;margin-top:18px;color:var(--ochre)}
+.filet::before,.filet::after{content:"";height:1px;width:48px;background:currentColor}
+.filet i{width:7px;height:7px;background:currentColor;transform:rotate(45deg)}
+.h2{font:400 clamp(2.6rem,1.6rem + 3.6vw,5rem)/1 var(--serif);letter-spacing:-.01em}
+.h2 em{color:var(--terra)}
+.lede{margin-top:16px;max-width:52ch;font-size:clamp(1.05rem,1rem + .2vw,1.18rem)}
 
-.demo{background:var(--ink);color:var(--chalk-dim);font-size:13px;text-align:center;padding:6px 16px}
+/* ---- navigation en pilule flottante ---- */
+.nav{position:sticky;top:12px;z-index:40;display:flex;justify-content:center;padding-inline:12px;margin-top:12px}
+.nav .in{display:flex;align-items:center;gap:6px;padding:6px 6px 6px 20px;border-radius:999px;background:rgba(251,246,236,.94);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 8px 28px -12px rgba(22,63,94,.45)}
+.nav .name{font:400 1.25rem/1 var(--serif);text-decoration:none;margin-right:14px;white-space:nowrap}
+.nav nav{display:flex}
+.nav nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border-radius:999px;text-decoration:none;font-weight:500;font-size:15px;transition:background-color .15s}
+@media (hover:hover) and (pointer:fine){.nav nav a:hover{background:var(--sand)}}
+.nav .pill{min-height:44px;padding:0 18px}
 
-/* en-tête */
-.top{background:var(--spray);border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:10}
-.top .in{display:flex;align-items:center;gap:28px;height:64px}
-.name{font:600 20px/1 var(--sans);letter-spacing:-.01em;text-decoration:none;display:flex;align-items:center;gap:10px}
-.name svg{flex:none}
-.top nav{display:flex;gap:24px;margin-left:auto;font-size:15px}
-.top nav a{text-decoration:none;color:var(--muted)}
+/* ---- ouverture en mosaïque ---- */
+.mosaic{display:grid;grid-template-columns:1.3fr 1fr 1fr;grid-template-rows:repeat(2,minmax(240px,34vh));gap:12px;margin-top:20px}
+.mosaic>*{border-radius:var(--r);overflow:hidden;position:relative}
+.mosaic img{width:100%;height:100%;object-fit:cover}
+.mosaic .title{grid-row:span 2;background:var(--sea);color:var(--chalk);padding:clamp(24px,3vw,44px);display:flex;flex-direction:column;justify-content:flex-end}
+.mosaic .title::before{content:"";position:absolute;inset:0 0 auto 0;height:64px;background:var(--tile) 0 0/32px;opacity:.9}
+.mosaic h1{font:400 clamp(2.8rem,1.6rem + 3.4vw,5.2rem)/.98 var(--serif);letter-spacing:-.01em}
+.mosaic h1 em{color:var(--ochre)}
+.mosaic .say{margin-top:16px;max-width:36ch;color:#DCE7EF}
+.mosaic .acts{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.mosaic .big{grid-row:span 2}
+.mosaic .open{background:var(--ochre);display:flex;flex-direction:column;justify-content:space-between;padding:22px}
+.mosaic .open small{font-weight:700;font-size:14px;letter-spacing:.06em;text-transform:uppercase}
+.mosaic .open b{font:400 clamp(1.8rem,1.3rem + 1.4vw,2.6rem)/1.05 var(--serif)}
+.mosaic .open b em{display:block;font-size:.62em;margin-top:6px}
+.dot{display:inline-block;width:12px;height:12px;border-radius:50%;background:#2E8B57;margin-right:8px;box-shadow:0 0 0 4px rgba(46,139,87,.2)}
+.closed .dot{background:var(--terra);box-shadow:0 0 0 4px rgba(200,85,61,.2)}
+.cap{position:absolute;left:12px;bottom:12px;padding:6px 12px;border-radius:999px;background:rgba(251,246,236,.92);font-size:14px;font-weight:500}
 
-.btn{display:inline-flex;align-items:center;justify-content:center;font:600 16px var(--sans);padding:12px 22px;border-radius:3px;border:0;cursor:pointer;text-decoration:none;background:var(--buoy);color:#fff;transition:transform 140ms ease,background-color 140ms ease}
+/* ---- vagues ---- */
+.wave{position:relative}
+.wave::before{content:"";position:absolute;left:0;right:0;top:-38px;height:40px;background:inherit;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 40' preserveAspectRatio='none'%3E%3Cpath d='M0 20C120 0 240 0 360 20s240 20 360 0 240-20 360 0 240 20 360 0V40H0Z'/%3E%3C/svg%3E") 0 0/100% 100%;
+          mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 40' preserveAspectRatio='none'%3E%3Cpath d='M0 20C120 0 240 0 360 20s240 20 360 0 240-20 360 0 240 20 360 0V40H0Z'/%3E%3C/svg%3E") 0 0/100% 100%}
+section{padding-block:clamp(80px,9vw,130px)}
 
-.btn:active{transform:scale(.97)}
+/* ---- l'ardoise du jour ---- */
+.slate{background:var(--sea);color:var(--chalk);margin-top:clamp(60px,7vw,100px)}
+.slate .grid{display:grid;grid-template-columns:1fr 1.15fr;gap:clamp(28px,4vw,64px);align-items:start}
+.slate .h2 em{color:var(--ochre)}
+.slate .lede{color:#DCE7EF}
+.board{border-radius:var(--r);background:var(--chalk);color:var(--ink);padding:16px;background-image:var(--tile);background-size:40px}
+.board .in{background:var(--chalk);border-radius:calc(var(--r) - 8px);padding:clamp(20px,3vw,36px)}
+.board .date{font:400 1.6rem/1.1 var(--serif);font-style:italic;color:var(--sea)}
+.board ul{list-style:none;margin-top:14px}
+.board li{display:flex;align-items:baseline;gap:12px;padding:14px 0;border-bottom:1px dashed var(--line)}
+.board li b{font:400 1.45rem/1.1 var(--serif)}
+.board li span{display:block;font-size:15px;color:#4C5B66}
+.board li .p{margin-left:auto;font-weight:700;white-space:nowrap}
+.board li.out b,.board li.out .p{text-decoration:line-through;text-decoration-color:var(--terra);text-decoration-thickness:2px;color:#8A949B}
+.board li.out .gone{display:inline-block;margin-left:8px;padding:2px 10px;border-radius:999px;background:var(--terra);color:#fff;font:700 12px/1.6 var(--sans);text-decoration:none;vertical-align:middle}
+.board .end{margin-top:14px;font:400 1.2rem/1.2 var(--serif);font-style:italic;color:var(--terra)}
+.boats{margin-top:28px;display:flex;gap:16px;align-items:center}
+.boats img{width:120px;aspect-ratio:1;object-fit:cover;border-radius:50%;border:4px solid var(--chalk)}
+.boats p{font-style:italic;color:#DCE7EF;max-width:28ch}
 
-/* ardoise du jour */
-.hero{padding-block:clamp(28px,4vw,48px) clamp(56px,7vw,96px)}
-.hero-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:clamp(20px,3vw,36px);align-items:stretch}
-.hero h1{font:600 clamp(2.4rem,1.6rem + 3.4vw,4.4rem)/1 var(--sans);letter-spacing:-.035em;max-width:16ch;margin-bottom:clamp(24px,3vw,36px)}
-.board{position:relative;background:var(--slate);color:var(--chalk);border-radius:6px;padding:clamp(28px,4vw,52px);
-  border:14px solid #6E5236;box-shadow:inset 0 0 0 1px rgba(0,0,0,.4),inset 0 0 80px rgba(0,0,0,.35);
-  background-image:radial-gradient(ellipse 60% 40% at 30% 20%,rgba(255,255,255,.05),transparent 70%),radial-gradient(ellipse 50% 50% at 80% 80%,rgba(255,255,255,.04),transparent 70%)}
-.board .chalk{font-family:var(--hand);text-shadow:0 0 1px rgba(243,242,236,.55)}
-.board .date{font:700 clamp(1.7rem,1.3rem + 1.2vw,2.4rem)/1.1 var(--hand);color:var(--chalk)}
-.board .sub{font-size:16px;color:var(--chalk-dim);margin-top:6px}
-.catch{list-style:none;padding:0;margin-top:clamp(20px,3vw,30px)}
-.catch li{display:flex;align-items:baseline;gap:14px;padding-block:8px;font:500 clamp(1.6rem,1.2rem + 1.3vw,2.3rem)/1.15 var(--hand)}
-.catch li .lead{flex:1;border-bottom:2px dotted rgba(243,242,236,.35);transform:translateY(-6px)}
-.catch li .p{font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}
-.catch li small{display:block;font:400 15px/1.4 var(--sans);color:var(--chalk-dim);margin-top:2px}
-.catch li.out{opacity:.45;text-decoration:line-through;text-decoration-thickness:2px}
-.board .note{margin-top:22px;font:700 1.5rem/1.2 var(--hand);color:#F5C66B;transform:rotate(-2deg);display:inline-block}
-.board .open{display:flex;align-items:center;gap:10px;margin-top:26px;font-size:15px;color:var(--chalk-dim)}
-.board .open i{width:9px;height:9px;border-radius:50%;background:#7BD389}
-.board .open.closed i{background:#E8775A}
-.photo{position:relative;border-radius:6px;overflow:hidden;min-height:420px}
-.photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.photo::after{content:"";position:absolute;inset:auto 0 0;height:45%;background:linear-gradient(transparent,rgba(20,32,34,.75))}
-.photo figcaption{z-index:1;position:absolute;left:16px;right:16px;bottom:16px;font:700 1.6rem/1.15 var(--hand);color:#fff;text-shadow:0 1px 12px rgba(0,0,0,.6)}
-.hero .actions{display:flex;align-items:center;gap:22px;margin-top:28px;flex-wrap:wrap}
-.hero .actions a.more{color:var(--ink);font-weight:500;text-underline-offset:5px;text-decoration-color:var(--harbour);text-decoration-thickness:2px}
+/* ---- la carte : cartes qui défilent ---- */
+.menu-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+.cats{display:flex;gap:8px;flex-wrap:wrap}
+.cats button{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid var(--ink);background:none;font-weight:700;cursor:pointer;transition:background-color .15s,color .15s}
+.cats button[aria-pressed="true"]{background:var(--ink);color:var(--chalk)}
+.rail{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:28px var(--m) 20px;margin-top:8px;scrollbar-width:none;overscroll-behavior-x:contain}
+.rail::-webkit-scrollbar{display:none}
+.card{flex:none;width:clamp(250px,26vw,320px);min-height:380px;scroll-snap-align:start;border-radius:var(--r);padding:24px;display:flex;flex-direction:column;background:var(--c);color:var(--fg,var(--ink));position:relative;overflow:hidden}
+.card.photo{padding:0;background:var(--sand)}
+.card.photo img{width:100%;aspect-ratio:4/3.3;object-fit:cover}
+.card.photo .t{padding:18px 22px 22px;display:flex;flex-direction:column;flex:1}
+.card .tag{align-self:flex-start;padding:4px 12px;border-radius:999px;background:var(--chalk);color:var(--ink);font-size:13px;font-weight:700}
+.card h3{margin-top:auto;font:400 1.75rem/1.05 var(--serif)}
+.card.photo h3{margin-top:10px}
+.card p{margin-top:10px;font-size:15px}
+.card .price{margin-top:16px;font:400 2rem/1 var(--serif);font-style:italic}
+.card .num{position:absolute;right:18px;top:12px;font:400 4.6rem/1 var(--serif);opacity:.18}
+.arrows{display:flex;gap:8px}
+.arrows button{width:48px;height:48px;border-radius:50%;border:2px solid var(--ink);background:none;cursor:pointer;font-size:20px;transition:background-color .15s}
+@media (hover:hover) and (pointer:fine){.arrows button:hover{background:var(--sand)}}
+.fine{font-size:14px;color:#4C5B66}
 
-/* plats vedettes */
-.stars{background:var(--harbour-deep);color:var(--spray);padding-block:clamp(64px,8vw,110px)}
-.stars h2,.sec h2{font:600 clamp(2rem,1.5rem + 2vw,3.2rem)/1.04 var(--sans);letter-spacing:-.03em;max-width:20ch}
-.stars .intro{margin-top:14px;max-width:52ch;color:rgba(246,248,248,.78)}
-.plates{display:grid;grid-template-columns:1.15fr 1fr;gap:clamp(20px,3vw,40px);margin-top:44px;align-items:end}
-.plate img{width:100%;height:auto;aspect-ratio:10/9;object-fit:cover;border-radius:4px}
-.plate:nth-child(2) img{aspect-ratio:1/1}
-.plate .row{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-top:16px}
-.plate h3{font:600 1.5rem/1.15 var(--sans);letter-spacing:-.02em}
-.plate .p{font:700 2.2rem/1 var(--hand);color:#F5C66B;white-space:nowrap}
-.plate p{color:rgba(246,248,248,.75);margin-top:6px;max-width:46ch}
+/* ---- le lieu, une photo à la fois ---- */
+.place{background:var(--sand)}
+.place .grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,64px);align-items:center}
+.frame{position:relative;border-radius:200px 200px var(--r) var(--r);overflow:hidden;aspect-ratio:4/5;max-width:520px;justify-self:center;width:100%;background:var(--sea)}
+.frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .45s ease}
+.frame img.hide{opacity:0}
+.step{display:flex;align-items:center;gap:14px;margin-top:28px}
+.step button{width:52px;height:52px;border-radius:50%;border:2px solid var(--ink);background:none;font-size:20px;cursor:pointer}
+.step button:active{transform:scale(.94)}
+.step span{font-weight:700}
+.place h3{margin-top:22px;font:400 2rem/1.1 var(--serif)}
+.place .facts{margin-top:28px;display:flex;flex-wrap:wrap;gap:8px}
+.place .facts span{padding:8px 14px;border-radius:999px;background:var(--chalk);font-size:15px;font-weight:500}
 
-/* la carte imprimée */
-.sec{padding-block:clamp(64px,8vw,110px)}
-.carte .head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:28px}
-.tabs{display:flex;gap:4px;border-bottom:1px solid var(--rule)}
-.tab{font:500 16px var(--sans);padding:10px 16px;border:0;border-bottom:3px solid transparent;margin-bottom:-1px;background:none;color:var(--muted);cursor:pointer}
-.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--harbour)}
-.menu{background:#fff;border:1px solid var(--rule);padding:clamp(24px,4vw,48px) clamp(20px,5vw,64px);display:grid;grid-template-columns:1fr 1fr;gap:0 64px}
-.dish{padding-block:18px;border-bottom:1px solid var(--rule)}
-.dish .l{display:flex;align-items:baseline;gap:10px}
-.dish h3{font:600 1.15rem/1.3 var(--sans)}
-.dish .dots{flex:1;border-bottom:2px dotted #B9C6C8;transform:translateY(-5px);min-width:20px}
-.dish .p{font-weight:600;font-variant-numeric:tabular-nums}
-.dish p{color:var(--muted);font-size:15.5px;margin-top:2px}
-.dish .hand{font:700 1.25rem/1 var(--hand);color:var(--harbour);margin-left:6px}
-.menu-note{margin-top:16px;font-size:15px;color:var(--muted)}
+/* ---- la grande phrase ---- */
+.quote{background:var(--ochre)}
+.quote blockquote{font:400 clamp(2.2rem,1.4rem + 3.4vw,4.6rem)/1.08 var(--serif);font-style:italic;max-width:22ch;letter-spacing:-.01em}
+.quote cite{display:block;margin-top:26px;font-style:normal;font-weight:700}
 
-/* le lieu */
-.lieu{background:var(--slate);color:var(--chalk)}
-.lieu .in{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,6vw,80px);align-items:center}
-.lieu img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;border-radius:4px}
-.lieu p{color:var(--chalk-dim);margin-top:18px;max-width:50ch}
-.lieu .sign{font:700 2rem/1 var(--hand);color:var(--chalk);margin-top:26px}
+/* ---- réserver : formulaire sur carte ---- */
+.book .grid{display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(28px,4vw,64px);align-items:start}
+.hours{margin-top:28px;border-collapse:collapse;width:100%;max-width:420px}
+.hours td{padding:9px 0;border-bottom:1px solid var(--line)}
+.hours td+td{text-align:right}
+.hours tr.now td{color:var(--terra);font-weight:700}
+.infos{margin-top:24px;display:grid;gap:14px}
+.infos b{display:block;font:400 1.3rem/1.2 var(--serif)}
+.form{border-radius:var(--r);background:#fff;padding:clamp(22px,3vw,40px);box-shadow:0 24px 60px -30px rgba(22,63,94,.45);display:grid;gap:18px;position:relative}
+.form::before{content:"";position:absolute;left:0;right:0;top:0;height:14px;border-radius:var(--r) var(--r) 0 0;background:var(--tile) 0 0/14px}
+.form h3{font:400 2rem/1 var(--serif);margin-top:6px}
+.form label,.form .lab{display:block;font-weight:700;font-size:15px;margin-bottom:8px}
+.form input{width:100%;min-height:52px;padding:0 16px;border:1.5px solid #C9C2B3;border-radius:14px;background:var(--chalk);font-size:16px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips button{min-height:44px;min-width:52px;padding:0 14px;border-radius:999px;border:1.5px solid #C9C2B3;background:var(--chalk);font-weight:500;cursor:pointer}
+.chips button[aria-pressed="true"]{background:var(--sea);border-color:var(--sea);color:#fff}
+.form .two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form .ok{font-weight:500;min-height:1.5em}
 
-/* horaires et réservation */
-.resa .in{display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(32px,6vw,80px);align-items:start}
-.hours{width:100%;border-collapse:collapse;margin-top:26px}
-.hours td{padding:11px 0;border-bottom:1px solid var(--rule)}
-.hours td:last-child{text-align:right;font-variant-numeric:tabular-nums;color:var(--muted)}
-.hours tr.today td{font-weight:600;color:var(--ink)}
-.hours tr.today td:first-child::after{content:"aujourd'hui";font:700 1.15rem/1 var(--hand);color:var(--buoy);margin-left:10px}
-form.book{background:#fff;border:1px solid var(--rule);padding:clamp(22px,3vw,34px);display:grid;grid-template-columns:1fr 1fr;gap:16px}
-form.book h3{grid-column:1/-1;font:600 1.5rem/1.2 var(--sans);letter-spacing:-.02em}
-form.book label,form.book .lbl{display:flex;flex-direction:column;gap:6px;font-size:15px;font-weight:500;color:var(--muted);min-width:0}
-form.book .full{grid-column:1/-1}
-form.book input,form.book select{font:16px var(--sans);padding:12px 14px;border:1px solid #BAC6C8;border-radius:3px;background:var(--spray);color:var(--ink);width:100%}
-form.book input:focus,form.book select:focus{outline:none;border-color:var(--harbour);box-shadow:0 0 0 3px rgba(43,107,140,.18)}
-.covers{display:flex;gap:6px;flex-wrap:wrap}
-.covers button{font:600 16px var(--sans);width:46px;height:46px;border-radius:3px;border:1px solid #BAC6C8;background:var(--spray);color:var(--ink);cursor:pointer}
-.covers button[aria-pressed="true"]{background:var(--harbour);color:#fff;border-color:var(--harbour)}
-form.book .btn{grid-column:1/-1;padding-block:15px}
-.ok{grid-column:1/-1;background:#EAF2F4;border-left:3px solid var(--harbour);padding:12px 14px;font-size:15px}
+/* ---- pied : bloc terre cuite ---- */
+footer{background:var(--terra);color:var(--chalk)}
+footer .last{font:400 clamp(2.4rem,1.6rem + 3vw,4.4rem)/1.04 var(--serif);max-width:20ch;padding-top:clamp(70px,8vw,110px)}
+footer .last em{color:#FFD9A0}
+footer .acts{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+footer .pill{background:var(--chalk);color:var(--terra)}
+footer .row{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:clamp(56px,7vw,90px);padding-top:24px;border-top:1px solid rgba(251,246,236,.35)}
+footer .row b{display:block;font:400 1.3rem/1.2 var(--serif);margin-bottom:4px}
+footer .legal{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:28px 0;font-size:13px;color:#F6D9CF}
 
-/* accès */
-.acces{background:var(--ink);color:var(--chalk)}
-.acces .in{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;padding-block:56px}
-.acces h3{font:700 1.7rem/1 var(--hand);color:#F5C66B;margin-bottom:8px}
-.acces p{color:var(--chalk-dim)}
-.acces .tel{font-size:1.4rem;font-weight:600;color:var(--chalk);text-decoration:none}
-footer{background:var(--ink);color:rgba(243,242,236,.5);font-size:14px;border-top:1px solid rgba(243,242,236,.12)}
-footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:18px}
+/* barre basse sur téléphone */
+.dock{display:none}
 
-@media (max-width:860px){
-  .top nav{display:none}
-  .top .btn{margin-left:auto}
-  .hero-grid,.plates,.lieu .in,.resa .in{grid-template-columns:1fr}
-  .photo{min-height:300px}
-  .menu{grid-template-columns:1fr}
-  .acces .in{grid-template-columns:1fr}
+@media (max-width:980px){
+  .nav nav{display:none}
+  .mosaic{grid-template-columns:1fr 1fr;grid-template-rows:auto 200px 200px}
+  .mosaic .title{grid-column:1 / -1;grid-row:auto;min-height:420px}
+  .mosaic .open{padding:16px}
+  .mosaic .open b{font-size:1.35rem}
+  .slate .grid,.place .grid,.book .grid{grid-template-columns:1fr}
+  footer .row{grid-template-columns:1fr}
+  .dock{display:flex;position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:40;gap:6px;padding:6px;border-radius:999px;background:var(--deep);box-shadow:0 10px 30px -10px rgba(22,63,94,.6)}
+  .dock a{flex:1;display:flex;align-items:center;justify-content:center;min-height:48px;border-radius:999px;color:var(--chalk);text-decoration:none;font-weight:700;font-size:15px}
+  .dock a.go{background:var(--terra)}
+  .dock{transform:translateY(140%);transition:transform .25s cubic-bezier(.23,1,.32,1)}
+  .dock.on{transform:none}
+  footer .legal{padding-bottom:100px}
 }
-@media (max-width:480px){form.book{grid-template-columns:1fr}.board{border-width:10px}.name span{display:none}}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn:active{transform:none}}
-/* survols : souris uniquement, sinon l'état reste collé après un toucher */
-@media (hover:hover) and (pointer:fine){
-  .top nav a:hover{color:var(--ink)}
-  .btn:hover{background:#CC4721}
-}
-@media (pointer:coarse){
-  .name{padding-block:8px;margin-block:-8px}
-  .hero .actions a.more{padding-block:9px;margin-block:-9px}
-  .tab{min-height:44px}
+@media (max-width:560px){
+  .nav .name{font-size:1.1rem;margin-right:auto}
+  .nav .in{width:100%}
+  .mosaic .title{min-height:460px}
+  .mosaic{grid-template-rows:auto 190px 190px}
+  .form .two{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
-
 <div class="demo">Site de démonstration réalisé par Saitora, restaurant fictif</div>
 
-<header class="top">
+<header class="nav">
   <div class="in">
-    <a class="name" href="#top"><svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="3" fill="#24302F"/><path d="M4 17c3 0 3-2.5 5-2.5s2 2.5 5 2.5 3-2.5 5-2.5 2 2.5 5 2.5" fill="none" stroke="#F3F2EC" stroke-width="2" stroke-linecap="round"/></svg>La Table du Port</a>
-    <nav aria-label="Sections"><a href="#carte">La carte</a><a href="#lieu">Le lieu</a><a href="#resa">Horaires</a><a href="#acces">Accès</a></nav>
-    <a class="btn" href="#resa">Réserver</a>
+    <a class="name" href="#">La Table du Port</a>
+    <nav aria-label="Navigation"><a href="#ardoise">L'ardoise</a><a href="#carte">La carte</a><a href="#lieu">Le lieu</a><a href="#infos">Horaires</a></nav>
+    <a class="pill" href="#reserver">Réserver</a>
   </div>
 </header>
 
-<main id="top">
-  <section class="hero">
-    <div class="in">
-      <h1>Ce que la mer apporte, le jour même</h1>
-      <div class="hero-grid">
-        <div class="board" aria-labelledby="ardoise">
-          <p class="date chalk" id="ardoise">Aujourd'hui</p>
-          <p class="sub">Arrivé ce matin au quai, cuisiné à midi et ce soir.</p>
-          <ul class="catch" id="catchList"></ul>
-          <p class="note chalk">Quand c'est fini, c'est fini !</p>
-          <p class="open" id="openNow"><i></i><span>Horaires du jour</span></p>
-        </div>
-        <figure class="photo">
-          <img src="images/port/port-barques.webp" alt="Barques de pêche bleues amarrées au quai, filets posés sur le pont" width="576" height="720" fetchpriority="high">
-          <figcaption>Les barques de Gilles et Paco, à quai à 6 h</figcaption>
-        </figure>
-      </div>
-      <div class="actions"><a class="btn" href="#resa">Réserver une table</a><a class="more" href="#carte">Voir toute la carte</a></div>
+<main>
+<div class="wrap" id="top">
+  <div class="mosaic">
+    <div class="title">
+      <h1>Ce que la mer apporte, <em class="it">le jour même</em></h1>
+      <p class="say">Un restaurant de quai, face aux bateaux. La pêche du matin s'écrit sur l'ardoise et se cuisine à midi et le soir.</p>
+      <div class="acts"><a class="pill" href="#reserver">Réserver une table</a><a class="pill ghost" href="#ardoise">L'ardoise du jour</a></div>
     </div>
-  </section>
+    <figure class="big"><img src="images/port/terrasse-coucher.webp" alt="La terrasse au coucher du soleil, tables dressées face au port" width="682" height="853" fetchpriority="high"><span class="cap">La terrasse, 24 couverts</span></figure>
+    <div class="open" id="openNow"><small>En ce moment</small><b><span class="dot"></span><span id="openTxt"></span><em class="it" id="openSub"></em></b></div>
+    <figure><img src="images/port/plat-daurade.webp" alt="Filet de daurade, beurre blanc et épinards" width="900" height="810"></figure>
+  </div>
+</div>
 
-  <section class="stars" aria-labelledby="t-stars">
-    <div class="in">
-      <h2 id="t-stars">Les deux plats qu'on ne retire jamais de la carte</h2>
-      <p class="intro">Les habitués les commandent sans ouvrir le menu.</p>
-      <div class="plates">
-        <article class="plate">
-          <img src="images/port/plat-daurade.webp" alt="Filet de daurade poêlé sur épinards et écrasé de pommes de terre, beurre blanc à la ciboulette" width="900" height="810" loading="lazy" decoding="async">
-          <div class="row"><h3>Filet de daurade, beurre blanc</h3><span class="p">26 €</span></div>
-          <p>Poêlé sur peau, épinards fondants, écrasé de pommes de terre et beurre blanc à la ciboulette.</p>
-        </article>
-        <article class="plate">
-          <img src="images/port/plat-pastilla.webp" alt="Pastilla dorée garnie d'une crevette, de fromage râpé et de quartiers de citron vert" width="900" height="857" loading="lazy" decoding="async">
-          <div class="row"><h3>Pastilla aux crevettes</h3><span class="p">19 €</span></div>
-          <p>Feuilles de brick croustillantes, crevettes, épices douces, gratinée et relevée au citron vert.</p>
-        </article>
-      </div>
+<section class="slate wave" id="ardoise">
+  <div class="wrap grid">
+    <div>
+      <h2 class="h2">L'ardoise <em class="it">du jour</em></h2>
+      <div class="filet"><i></i></div>
+      <p class="lede">Arrivé ce matin au quai, cuisiné à midi et ce soir. Quand c'est fini, c'est fini : on raye au fur et à mesure.</p>
+      <div class="boats"><img src="images/port/port-barques.webp" alt="Les barques de pêche amarrées au quai" width="576" height="720" loading="lazy"><p>Les barques de Gilles et Paco, à quai à 6 h.</p></div>
     </div>
-  </section>
-
-  <section class="sec carte" id="carte" aria-labelledby="t-carte">
-    <div class="in">
-      <div class="head">
-        <h2 id="t-carte">La carte</h2>
-        <div class="tabs" role="tablist" id="tabs" aria-label="Partie du repas"></div>
-      </div>
-      <div class="menu" id="menu" role="tabpanel"></div>
-      <p class="menu-note">Prix nets, service compris. Le poisson du jour suit l'ardoise.</p>
-    </div>
-  </section>
-
-  <section class="sec lieu" id="lieu" aria-labelledby="t-lieu">
-    <div class="in">
-      <img src="images/port/terrasse-coucher.webp" alt="Table dressée en terrasse face à la mer au coucher du soleil" width="682" height="853" loading="lazy" decoding="async">
-      <div>
-        <h2 id="t-lieu">Une adresse de quai, depuis 2009</h2>
-        <p>Marion en salle, Julien aux fourneaux. Chaque matin, on passe voir les pêcheurs du port avant d'écrire l'ardoise. Le pain vient de la boulangerie d'à côté, les légumes des maraîchers du marché.</p>
-        <p>32 couverts en salle, 24 en terrasse face aux bateaux, chauffée l'hiver.</p>
-        <p class="sign">Marion et Julien</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="sec resa" id="resa" aria-labelledby="t-resa">
-    <div class="in">
-      <div>
-        <h2 id="t-resa">Midi et soir, sauf le lundi</h2>
-        <table class="hours" id="hours"></table>
-      </div>
-      <form class="book" id="book" novalidate>
-        <h3>Réserver une table</h3>
-        <label>Date<input type="date" id="rDate" required></label>
-        <label>Heure<select id="rTime"><option>12:00</option><option>12:30</option><option>13:00</option><option>19:30</option><option selected>20:00</option><option>20:30</option><option>21:00</option></select></label>
-        <div class="full lbl">Couverts<div class="covers" id="covers" role="group" aria-label="Nombre de couverts"></div></div>
-        <label class="full">Nom<input id="rName" required autocomplete="name"></label>
-        <label class="full">Téléphone<input id="rTel" type="tel" enterkeyhint="send" required placeholder="06 00 00 00 00" autocomplete="tel"></label>
-        <button class="btn" type="submit">Demander la réservation</button>
-        <p class="ok" id="ok" hidden></p>
-      </form>
-    </div>
-  </section>
-</main>
-
-<section class="acces" id="acces" aria-label="Accès et contact">
-  <div class="in">
-    <div><h3>Adresse</h3><p>4 quai des Pêcheurs<br>Sur le port, face aux bateaux</p></div>
-    <div><h3>Téléphone</h3><a class="tel" href="tel:+33400000000">04 00 00 00 00</a><p>Réservation conseillée le week-end</p></div>
-    <div><h3>Bon à savoir</h3><p>Menu enfant, accès en fauteuil roulant, carte bancaire acceptée</p></div>
+    <div class="board"><div class="in"><p class="date" id="ardoiseDate"></p><ul id="catch"></ul><p class="end">Prix nets, service compris.</p></div></div>
   </div>
 </section>
-<footer><div class="in"><span>© La Table du Port, restaurant fictif</span><span>Site réalisé par Saitora</span></div></footer>
+
+<section id="carte" style="padding-bottom:clamp(60px,7vw,100px)">
+  <div class="wrap">
+    <div class="menu-head">
+      <div><h2 class="h2">La <em class="it">carte</em></h2><div class="filet"><i></i></div><p class="lede">Les deux plats en photo ne quittent jamais la carte : les habitués les commandent sans l'ouvrir.</p></div>
+      <div><div class="cats" id="cats" role="group" aria-label="Partie de la carte"></div></div>
+    </div>
+  </div>
+  <div class="rail" id="rail" tabindex="0" aria-label="Les plats"></div>
+  <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap"><p class="fine">Le poisson du jour suit l'ardoise. Prix de démonstration.</p><div class="arrows"><button type="button" id="prev" aria-label="Plats précédents">←</button><button type="button" id="next" aria-label="Plats suivants">→</button></div></div>
+</section>
+
+<section class="place wave" id="lieu">
+  <div class="wrap grid">
+    <div class="frame" id="frame"></div>
+    <div>
+      <h2 class="h2">Le <em class="it">lieu</em></h2>
+      <div class="filet"><i></i></div>
+      <h3 id="pTitle"></h3>
+      <p class="lede" id="pTxt"></p>
+      <div class="step"><button type="button" id="pPrev" aria-label="Photo précédente">←</button><span id="pNum" aria-live="polite"></span><button type="button" id="pNext" aria-label="Photo suivante">→</button></div>
+      <div class="facts"><span>32 couverts en salle</span><span>24 en terrasse</span><span>Chauffée l'hiver</span><span>Accès fauteuil</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="quote wave">
+  <div class="wrap">
+    <blockquote>« Chaque matin, on passe voir les pêcheurs avant d'écrire l'ardoise. »</blockquote>
+    <cite>Marion en salle, Julien aux fourneaux · une adresse de quai depuis 2009</cite>
+  </div>
+</section>
+
+<section class="book" id="reserver">
+  <div class="wrap grid">
+    <div id="infos">
+      <h2 class="h2">Midi et soir, <em class="it">sauf le lundi</em></h2>
+      <div class="filet"><i></i></div>
+      <table class="hours" id="hours"></table>
+      <div class="infos">
+        <p><b>4 quai des Pêcheurs</b>Sur le port, face aux bateaux</p>
+        <p><b><a href="tel:+33400000000">04 00 00 00 00</a></b>Réservation conseillée le week-end</p>
+        <p><b>Bon à savoir</b>Menu enfant, accès en fauteuil roulant, carte bancaire acceptée</p>
+      </div>
+    </div>
+    <form class="form" id="book" novalidate>
+      <h3>Réserver une table</h3>
+      <div class="two"><div><label for="rDate">Le jour</label><input type="date" id="rDate"></div><div><span class="lab">Couverts</span><div class="chips" id="covers"></div></div></div>
+      <div><span class="lab">L'heure</span><div class="chips" id="times"></div></div>
+      <div class="two"><div><label for="rName">Nom</label><input id="rName" autocomplete="name"></div><div><label for="rTel">Téléphone</label><input id="rTel" type="tel" inputmode="tel" autocomplete="tel"></div></div>
+      <button class="pill" type="submit" style="justify-self:start">Demander la réservation</button>
+      <p class="ok" id="ok" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer class="wave">
+  <div class="wrap">
+    <p class="last">La terrasse face aux bateaux, <em class="it">chauffée l'hiver.</em></p>
+    <div class="acts"><a class="pill" href="#reserver">Réserver une table</a><a class="pill ghost" href="tel:+33400000000">04 00 00 00 00</a></div>
+    <div class="row">
+      <p><b>Adresse</b>4 quai des Pêcheurs</p>
+      <p><b>Ouvert</b>Midi et soir, sauf le lundi</p>
+      <p><b>Téléphone</b>04 00 00 00 00</p>
+    </div>
+    <div class="legal"><span>© La Table du Port, restaurant fictif</span><span>Site réalisé par <a href="accueil.html">Saitora</a> · Photos : Pixabay</span></div>
+  </div>
+</footer>
+
+<nav class="dock" aria-label="Accès rapide"><a href="tel:+33400000000">Appeler</a><a href="#carte">La carte</a><a class="go" href="#reserver">Réserver</a></nav>
 
 <script>
-const esc = s => String(s).replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
-
-// l'ardoise du jour : la date du jour, la pêche, et ce qui est déjà parti
-const CATCH = [["Daurade royale","entière, grillée au fenouil",26],["Rougets barbets","poêlés, sauce vierge",24],["Poulpe de roche","braisé, pommes grenaille",22],["Sardines du golfe","à la plancha, fleur de sel",16],["Loup de ligne","pour deux, au four",58]];
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[m]);
 const today = new Date();
-ardoise.textContent = today.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" }).replace(/^./, c => c.toUpperCase());
-const gone = today.getHours() >= 20 ? 1 : -1;   // le soir, le loup est souvent parti
-catchList.innerHTML = CATCH.map(([n, d, p], i) => `<li class="${i === CATCH.length - 1 && gone > 0 ? "out" : ""}"><span>${esc(n)}<small>${esc(d)}</small></span><span class="lead"></span><span class="p">${p} €</span></li>`).join("");
 
-// la carte
+// ——— l'ardoise : la date du jour, la pêche, et ce qui est déjà parti
+const CATCH = [["Daurade royale", "entière, grillée au fenouil", 26], ["Rougets barbets", "poêlés, sauce vierge", 24], ["Poulpe de roche", "braisé, pommes grenaille", 22], ["Sardines du golfe", "à la plancha, fleur de sel", 16], ["Loup de ligne", "pour deux, au four", 58]];
+$("ardoiseDate").textContent = today.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" }).replace(/^./, c => c.toUpperCase());
+const goneI = today.getHours() >= 20 ? 4 : today.getHours() >= 13 ? 1 : -1;   // le loup part le soir, les rougets à midi
+$("catch").innerHTML = CATCH.map(([n, d, p], i) => `<li class="${i === goneI ? "out" : ""}"><div><b>${esc(n)}</b>${i === goneI ? '<span class="gone">parti</span>' : ""}<span>${esc(d)}</span></div><span class="p">${p} €</span></li>`).join("");
+
+// ——— la carte : cartes qui défilent
 const MENU = {
-  "Entrées":[["Tartare de daurade","Agrumes, fenouil croquant, huile d'olive",14,"la signature"],["Soupe de poissons de roche","Rouille maison, croûtons à l'ail",11],["Burrata et tomates anciennes","Basilic, fleur de sel",12,"végé"],["Poulpe grillé","Pois chiches, paprika fumé",15]],
-  "Plats":[["Filet de daurade, beurre blanc","Épinards, écrasé de pommes de terre, ciboulette",26],["Pastilla aux crevettes","Brick croustillante, épices douces, citron vert",19],["Poisson du jour à la plancha","Selon l'ardoise, légumes du marché",24],["Risotto aux champignons","Parmesan 24 mois",19,"végé"]],
-  "Desserts":[["Tarte au citron meringuée","Citrons de saison",9,"maison"],["Fiadone","Brocciu, zeste de citron",8],["Moelleux au chocolat","Cœur coulant, glace vanille",9],["Assiette de fromages","Sélection du fromager",10]]
+  "Entrées": [["Tartare de daurade", "Agrumes, fenouil croquant, huile d'olive", 14, "la signature"], ["Soupe de poissons de roche", "Rouille maison, croûtons à l'ail", 11], ["Burrata et tomates anciennes", "Basilic, fleur de sel", 12, "végé"], ["Poulpe grillé", "Pois chiches, paprika fumé", 15]],
+  "Plats": [["Filet de daurade, beurre blanc", "Épinards, écrasé de pommes de terre, ciboulette", 26, "toujours là", "plat-daurade"], ["Pastilla aux crevettes", "Brick croustillante, épices douces, citron vert", 19, "toujours là", "plat-pastilla"], ["Poisson du jour à la plancha", "Selon l'ardoise, légumes du marché", 24], ["Risotto aux champignons", "Parmesan 24 mois", 19, "végé"]],
+  "Desserts": [["Tarte au citron meringuée", "Citrons de saison", 9, "maison"], ["Fiadone", "Brocciu, zeste de citron", 8], ["Moelleux au chocolat", "Cœur coulant, glace vanille", 9], ["Assiette de fromages", "Sélection du fromager", 10]],
 };
-let part = "Entrées";
-function renderMenu(){
-  tabs.innerHTML = Object.keys(MENU).map(k => `<button class="tab" role="tab" type="button" aria-selected="${k === part}" data-k="${k}">${k}</button>`).join("");
-  menu.innerHTML = MENU[part].map(([n, d, p, t]) => `<div class="dish"><div class="l"><h3>${esc(n)}${t ? `<span class="hand">${esc(t)}</span>` : ""}</h3><span class="dots"></span><span class="p">${p} €</span></div><p>${esc(d)}</p></div>`).join("");
+const TINTS = [["var(--sea)", "var(--chalk)"], ["var(--ochre)", "var(--ink)"], ["var(--olive)", "var(--chalk)"], ["var(--terra)", "var(--chalk)"]];
+let part = "Plats";
+function renderMenu() {
+  $("cats").innerHTML = Object.keys(MENU).map(k => `<button type="button" data-k="${k}" aria-pressed="${k === part}">${k}</button>`).join("");
+  $("rail").innerHTML = MENU[part].map(([n, d, p, t, img], i) => img
+    ? `<article class="card photo"><img src="images/port/${img}.webp" alt="${esc(n)}" width="900" height="850" loading="lazy"><div class="t">${t ? `<span class="tag">${esc(t)}</span>` : ""}<h3>${esc(n)}</h3><p>${esc(d)}</p><span class="price">${p} €</span></div></article>`
+    : `<article class="card" style="--c:${TINTS[i % 4][0]};--fg:${TINTS[i % 4][1]}"><span class="num">${i + 1}</span>${t ? `<span class="tag">${esc(t)}</span>` : ""}<h3>${esc(n)}</h3><p>${esc(d)}</p><span class="price">${p} €</span></article>`).join("");
+  $("rail").scrollTo({ left: 0 });
 }
-tabs.addEventListener("click", e => { const b = e.target.closest(".tab"); if (!b) return; part = b.dataset.k; renderMenu(); });
+$("cats").addEventListener("click", e => { const b = e.target.closest("button"); if (!b || b.dataset.k === part) return; part = b.dataset.k; renderMenu(); });
+const slide = k => $("rail").scrollBy({ left: k * ($("rail").firstElementChild.offsetWidth + 16), behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+$("prev").onclick = () => slide(-1); $("next").onclick = () => slide(1);
 renderMenu();
 
-// horaires en direct : [jour, [[ouverture, fermeture] en minutes]]
-const H = [["Dimanche",[[720,870]]],["Lundi",[]],["Mardi",[[720,870],[1170,1350]]],["Mercredi",[[720,870],[1170,1350]]],["Jeudi",[[720,870],[1170,1350]]],["Vendredi",[[720,870],[1170,1380]]],["Samedi",[[720,870],[1170,1380]]]];
-const fmt = m => `${Math.floor(m / 60)} h ${String(m % 60).padStart(2, "0")}`;
-const d = today.getDay(), mins = today.getHours() * 60 + today.getMinutes();
-hours.innerHTML = [1,2,3,4,5,6,0].map(i => `<tr class="${i === d ? "today" : ""}"><td>${H[i][0]}</td><td>${H[i][1].length ? H[i][1].map(([a, b]) => `${fmt(a)} à ${fmt(b)}`).join(", ") : "Fermé"}</td></tr>`).join("");
-const slot = H[d][1].find(([a, b]) => mins >= a && mins < b), next = H[d][1].find(([a]) => mins < a);
-openNow.classList.toggle("closed", !slot);
-openNow.querySelector("span").textContent = slot ? `Ouvert, jusqu'à ${fmt(slot[1])}` : next ? `Fermé, on ouvre à ${fmt(next[0])}` : "Fermé pour aujourd'hui";
+// ——— le lieu, une photo à la fois
+const PLACE = [["terrasse-coucher", 682, 853, "La terrasse au soleil couchant", "Vingt-quatre couverts face aux bateaux, chauffée l'hiver.", "La terrasse au coucher du soleil"],
+  ["port-barques", 576, 720, "Le quai, à six heures", "Les barques rentrent avant le jour : c'est là que s'écrit l'ardoise.", "Des barques de pêche amarrées au quai"],
+  ["plat-pastilla", 900, 857, "La cuisine de Julien", "Des recettes de la côte, de la brick croustillante au beurre blanc.", "La pastilla aux crevettes dans l'assiette"]];
+let pi = 0;
+$("frame").innerHTML = PLACE.map(([f, w, h, , , alt], i) => `<img src="images/port/${f}.webp" alt="${esc(alt)}" width="${w}" height="${h}" loading="lazy" class="${i ? "hide" : ""}">`).join("");
+const roman = ["I", "II", "III"];
+function showPlace(i) { pi = (i + PLACE.length) % PLACE.length; [...$("frame").children].forEach((im, k) => im.classList.toggle("hide", k !== pi));
+  $("pTitle").textContent = PLACE[pi][3]; $("pTxt").textContent = PLACE[pi][4]; $("pNum").textContent = `${pi + 1} / ${PLACE.length}`; }
+$("pPrev").onclick = () => showPlace(pi - 1); $("pNext").onclick = () => showPlace(pi + 1);
+showPlace(0);
 
-// réservation
-let covers = 2;
-document.getElementById("covers").innerHTML = [1,2,3,4,5,6,"8+"].map(n => `<button type="button" aria-pressed="${n === covers}" data-n="${n}">${n}</button>`).join("");
-document.getElementById("covers").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; covers = b.dataset.n; document.querySelectorAll("#covers button").forEach(x => x.setAttribute("aria-pressed", x === b)); });
-const t = new Date(); t.setDate(t.getDate() + 1); rDate.value = t.toISOString().slice(0, 10); rDate.min = new Date().toISOString().slice(0, 10);
-book.addEventListener("submit", e => {
-  e.preventDefault();
-  ok.hidden = false;
-  if (!rName.value.trim() || !rTel.value.trim()) { ok.textContent = "Indiquez votre nom et votre téléphone pour qu'on puisse vous confirmer la table."; return; }
-  const day = new Date(rDate.value + "T00:00").toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" });
-  ok.textContent = `Demande envoyée : ${covers} couvert${covers == 1 ? "" : "s"}, ${day} à ${rTime.value.replace(":", " h ")}. On vous rappelle pour confirmer. (Démo : rien n'est réellement envoyé.)`;
-});
+// ——— ouvert maintenant ? horaires : [jour, [[ouverture, fermeture] en minutes]]
+const H = [["Dimanche", [[720, 870]]], ["Lundi", []], ["Mardi", [[720, 870], [1170, 1350]]], ["Mercredi", [[720, 870], [1170, 1350]]], ["Jeudi", [[720, 870], [1170, 1350]]], ["Vendredi", [[720, 870], [1170, 1380]]], ["Samedi", [[720, 870], [1170, 1380]]]];
+const fmt = m => `${Math.floor(m / 60)} h${m % 60 ? " " + String(m % 60).padStart(2, "0") : ""}`;
+const d = today.getDay(), mins = today.getHours() * 60 + today.getMinutes();
+$("hours").innerHTML = [1, 2, 3, 4, 5, 6, 0].map(i => `<tr class="${i === d ? "now" : ""}"><td>${H[i][0]}</td><td>${H[i][1].length ? H[i][1].map(([a, b]) => `${fmt(a)} à ${fmt(b)}`).join(", ") : "Fermé"}</td></tr>`).join("");
+const slot = H[d][1].find(([a, b]) => mins >= a && mins < b), nextSlot = H[d][1].find(([a]) => mins < a);
+let nd = (d + 1) % 7; while (!H[nd][1].length) nd = (nd + 1) % 7;
+$("openNow").classList.toggle("closed", !slot);
+$("openTxt").textContent = slot ? `Ouvert, jusqu'à ${fmt(slot[1])}` : nextSlot ? `Fermé, on ouvre à ${fmt(nextSlot[0])}` : "Fermé pour ce soir";
+$("openSub").textContent = slot ? (goneI >= 0 ? `${CATCH[goneI][0]} déjà parti` : "Toute l'ardoise est là") : nextSlot ? "L'ardoise est déjà écrite" : `On rouvre ${H[nd][0].toLowerCase()} à ${fmt(H[nd][1][0][0])}`;
+
+new IntersectionObserver(([e]) => document.querySelector(".dock").classList.toggle("on", !e.isIntersecting && e.boundingClientRect.top < 0)).observe($("top"));
+
+// ——— réservation
+let covers = "2", time = "20 h";
+const chips = (id, items, cur, key) => $(id).innerHTML = items.map(v => `<button type="button" data-v="${v}" aria-pressed="${v == cur}">${v}</button>`).join("");
+chips("covers", ["1", "2", "3", "4", "5", "6", "8+"], covers); chips("times", ["12 h", "12 h 30", "13 h", "19 h 30", "20 h", "20 h 30", "21 h"], time);
+$("covers").addEventListener("click", e => { const b = e.target.closest("button"); if (b) chips("covers", ["1", "2", "3", "4", "5", "6", "8+"], covers = b.dataset.v); });
+$("times").addEventListener("click", e => { const b = e.target.closest("button"); if (b) chips("times", ["12 h", "12 h 30", "13 h", "19 h 30", "20 h", "20 h 30", "21 h"], time = b.dataset.v); });
+const iso = x => `${x.getFullYear()}-${String(x.getMonth() + 1).padStart(2, "0")}-${String(x.getDate()).padStart(2, "0")}`;
+const tm = new Date(); tm.setDate(tm.getDate() + 1); $("rDate").value = iso(tm); $("rDate").min = iso(new Date());
+$("book").addEventListener("submit", e => { e.preventDefault();
+  if (!$("rName").value.trim() || !$("rTel").value.trim()) { $("ok").textContent = "Indiquez votre nom et votre téléphone pour qu'on vous confirme la table."; return; }
+  const day = new Date($("rDate").value + "T00:00").toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" });
+  $("ok").textContent = `Demande envoyée : ${covers} couvert${covers === "1" ? "" : "s"}, ${day} à ${time}. On vous rappelle pour confirmer. (Démo : rien n'est envoyé.)`; });
 </script>
 </body>
 </html>

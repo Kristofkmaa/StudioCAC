@@ -416,7 +416,7 @@ form.add input:focus,form.add select:focus{outline:none;border-color:var(--accen
           <p>Sites vitrines sur mesure pour les restaurants, les artisans et les commerces de Corse. Depuis Ajaccio, partout sur l'île.</p>
         </div>
         <nav aria-label="Le site"><h3>Le site</h3><a href="#vitrines">Réalisations</a><a href="#methode">Méthode</a><a href="tarifs.html" data-transition="Les tarifs">Tarifs</a><a href="charte.html" data-transition="Votre charte graphique">Créer ma charte graphique</a><a href="#apropos">À propos</a><a href="#contact">Contact</a><a href="devis.html" data-transition="Construisons votre site">Demander un devis</a></nav>
-        <nav aria-label="Les démos"><h3>Les démos</h3><a href="demo-table-du-port.html" target="_blank" rel="noopener">La Table du Port</a><a href="demo-durand-plomberie.html" target="_blank" rel="noopener">Durand Plomberie</a><a href="demo-coupe-and-co.html" target="_blank" rel="noopener">Studio Coupe &amp; Co</a><a href="demo-pain-dore.html" target="_blank" rel="noopener">Au Pain Doré</a><a href="demo-villa-oliviers.html" target="_blank" rel="noopener">Villa Les Oliviers</a><a href="demo-bois-massif.html" target="_blank" rel="noopener">Atelier Bois Massif</a></nav>
+        <nav aria-label="Les démos"><h3>Les démos</h3><a href="demo-table-du-port.html" target="_blank" rel="noopener">La Table du Port</a><a href="demo-durand-plomberie.html" target="_blank" rel="noopener">Durand Plomberie</a><a href="demo-a-funtana.html" target="_blank" rel="noopener">A Funtana</a><a href="demo-pain-dore.html" target="_blank" rel="noopener">Au Pain Doré</a><a href="demo-villa-oliviers.html" target="_blank" rel="noopener">Villa Les Oliviers</a><a href="demo-bois-massif.html" target="_blank" rel="noopener">Atelier Bois Massif</a></nav>
         <div class="foot-contact"><h3>Contact</h3><a href="mailto:contact@saitora.fr">contact@saitora.fr</a><p>Réponse sous 24 heures</p></div>
       </div>
       <div class="foot-bottom"><span>© 2026 Saitora, Ajaccio</span><a href="mentions-legales.html">Mentions légales et confidentialité</a><a href="cgv.html">Conditions de vente</a><a href="#accueil-haut">Revenir en haut</a></div>
@@ -457,7 +457,7 @@ form.add input:focus,form.add select:focus{outline:none;border-color:var(--accen
 const DEMOS = [
   {name:"La Table du Port", sector:"Restaurant", desc:"Un restaurant de port qui écrit sa pêche du jour sur l'ardoise et remplit ses tables en ligne.", url:"demo-table-du-port.html", bg:"#24302F", fg:"#F3F2EC", ac:"#E4572E", feats:["Ardoise du jour","Carte","Réservation"]},
   {name:"Durand Plomberie", sector:"Artisan", desc:"Un plombier qu'on appelle en un clic, et qui dit à quelle heure il peut être chez vous.", url:"demo-durand-plomberie.html", bg:"#1E3A64", fg:"#FFFFFF", ac:"#FFC93C", feats:["Appel d'urgence","Délai d'arrivée par commune","Demande en ligne"]},
-  {name:"Studio Coupe & Co", sector:"Beauté", desc:"Un salon de coiffure mis en page comme un magazine, où l'on réserve en trente secondes.", url:"demo-coupe-and-co.html", bg:"#F2D9D2", fg:"#141012", ac:"#6E1F2D", feats:["Look du mois","Tarifs","Prise de rendez-vous"]},
+  {name:"A Funtana", sector:"Beauté", desc:"Coiffure, soins et hammam au même endroit : on compose son moment en une phrase, et on réserve.", url:"demo-a-funtana.html", bg:"#DEDAD3", fg:"#0A0A0A", ac:"#256F82", feats:["Moment à composer","Carte des soins","Réservation"]},
   {name:"Au Pain Doré", sector:"Commerce", desc:"Une boulangerie qui affiche ses fournées en direct et prend les commandes pour le lendemain.", url:"demo-pain-dore.html", bg:"#EFC35A", fg:"#3A2210", ac:"#C2361F", feats:["Fournées en direct","Commande à retirer","Panier"]},
   {name:"Villa Les Oliviers", sector:"Location", desc:"Une villa qui se visite sur son plan et se loue en direct, avec le prix calculé selon la saison.", url:"demo-villa-oliviers.html", bg:"#2F3A24", fg:"#FBFBF8", ac:"#B9C49A", feats:["Plan interactif","Calendrier","Devis instantané"]},
   {name:"Atelier Bois Massif", sector:"Artisan", desc:"Un ébéniste qui fait choisir son bois et montre ses meubles avec leurs vraies cotes.", url:"demo-bois-massif.html", bg:"#2B1E15", fg:"#F3EFE8", ac:"#C49A6C", feats:["Choix des essences","Réalisations cotées","Demande de projet"]}
@@ -531,7 +531,7 @@ const day = n => { const d=new Date(); d.setDate(d.getDate()+n); return d.toISOS
 const SAMPLE = [
   {id:1,name:"La Table du Port",url:"latableduport.fr",status:"ligne",price:39,renew:day(18),example:true},
   {id:2,name:"Durand Plomberie",url:"durand-plomberie.fr",status:"ligne",price:29,renew:day(140),example:true},
-  {id:3,name:"Studio Coupe & Co",url:"",status:"maquette",price:29,renew:"",example:true}
+  {id:3,name:"A Funtana",url:"",status:"maquette",price:29,renew:"",example:true}
 ];
 function load(){ try{ const v=localStorage.getItem(KEY); return v?JSON.parse(v):SAMPLE.slice(); }catch(_){ return SAMPLE.slice(); } }
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(clients)); }catch(_){} }

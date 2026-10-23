@@ -1,12 +1,14 @@
 // Capture le haut de chaque démo, sur ordinateur et sur mobile, pour les cartes de la page d'accueil
 // (media/apercus/<démo>.webp et <démo>-mobile.webp).
-// Usage : npm i playwright && node outils/apercus.js   (ffmpeg requis pour la conversion WebP)
+// Usage : npm i playwright && node outils/apercus.js [démo …]   (ffmpeg requis pour la conversion WebP)
 const { chromium } = require("playwright");
 const { execFileSync } = require("child_process");
 const fs = require("fs"), path = require("path"), os = require("os");
 
 const ROOT = path.resolve(__dirname, "..");
-const DEMOS = fs.readdirSync(ROOT).filter(f => /^demo-.*\.html$/.test(f));
+// sans argument : toutes les démos ; sinon seulement celles nommées (node outils/apercus.js a-funtana)
+const ONLY = process.argv.slice(2).map(n => `demo-${n.replace(/^demo-|\.html$/g, "")}.html`);
+const DEMOS = fs.readdirSync(ROOT).filter(f => /^demo-.*\.html$/.test(f) && (!ONLY.length || ONLY.includes(f)));
 
 (async () => {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "apercus-"));

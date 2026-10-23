@@ -39,6 +39,11 @@ PHOTOS = {
         "legumes.webp": ("vegetables crate garden", "vertical", 600, 750),
         "village.webp": ("corsica village evening", "vertical", 600, 750),
     },
+    "funtana": {   # les photos de coiffure sont déjà là (reprises de l'ancienne démo du salon)
+        "hammam.webp": ("hammam steam", "horizontal", 1600, 1000),
+        "massage.webp": ("back massage oil spa", "horizontal", 1600, 1000),
+        "immortelle.webp": ("helichrysum flowers", "vertical", 800, 1000),
+    },
     "castagnetu": {
         "chataigneraie.webp": ("pigs chestnut forest", "horizontal", 1800, 1100),
         "sechoir.webp": ("wood smoke old house", "horizontal", 1800, 1100),

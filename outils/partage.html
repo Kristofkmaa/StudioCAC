@@ -30,7 +30,7 @@ h1 .d{display:inline-block;width:.2em;height:.2em;border-radius:50%;background:#
   <h1>Votre vitrine, ouverte jour et nuit<span class="d"></span></h1>
 </div>
 <script>
-const SITES = ["table-du-port","durand-plomberie","coupe-and-co","pain-dore","villa-oliviers","bois-massif"];
+const SITES = ["table-du-port","durand-plomberie","a-funtana","pain-dore","villa-oliviers","bois-massif"];
 document.getElementById("tilt").innerHTML = [0,1,2,3].map(c => `<div class="col">${[0,1,2,3].map(i => `<img src="../media/apercus/${SITES[(c * 2 + i) % 6]}.webp" alt="">`).join("")}</div>`).join("");
 </script>
 </body>

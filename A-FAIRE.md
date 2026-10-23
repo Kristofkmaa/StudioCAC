@@ -20,8 +20,8 @@
 ## Nouvelles démos (en attente des photos)
 Trois démos sont prêtes mais pas encore reliées au site : `demo-libecciu.html` (location nautique), `demo-zia-rosa.html` (épicerie), `demo-castagnetu.html` (producteur corse).
 - [ ] Ajouter la clé Pixabay dans les réglages de l'environnement, sous le nom `PIXABAY_API_KEY`, puis ouvrir une nouvelle session.
-- [ ] Lancer `python3 outils/photos.py` (30 photos), vérifier chaque photo, en changer au besoin (`python3 outils/photos.py mer.webp`).
-- [ ] Générer les aperçus (`node outils/apercus.js`), puis relier les trois démos : liste `DEMOS` et bas de page de `accueil.html`, mur de `index.html`, styles de `devis.html`, `outils/partage.html`, `sitemap.xml`, `README.md`.
+- [ ] Lancer `python3 outils/photos.py` (33 photos, dont 3 pour le spa A Funtana, déjà en ligne avec des aplats à la place), vérifier chaque photo, en changer au besoin (`python3 outils/photos.py mer.webp`).
+- [ ] Générer les aperçus (`node outils/apercus.js libecciu zia-rosa castagnetu a-funtana`), puis relier les trois démos : liste `DEMOS` et bas de page de `accueil.html`, mur de `index.html`, styles de `devis.html`, `outils/partage.html`, `sitemap.xml`, `README.md`.
 
 ## Idées pour la suite
 - [ ] Lien de reprise de la charte graphique (retrouver sa charte sur un autre appareil, sans compte).

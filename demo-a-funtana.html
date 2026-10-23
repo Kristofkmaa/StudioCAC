@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>A Funtana, coiffure et spa à Ajaccio, démo Saitora</title>
+<meta name="description" content="Démo de site vitrine pour un institut de coiffure, soins et spa à Ajaccio : la carte des soins, la journée bien-être, le hammam et les massages, et un moment à composer soi-même avant de réserver. Réalisé par Saitora.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="Saitora">
+<meta property="og:title" content="A Funtana, coiffure et spa à Ajaccio, démo Saitora">
+<meta property="og:description" content="Coiffure, soins à l'immortelle de Corse, hammam et massages, au même endroit. Démo réalisée par Saitora.">
+<meta name="theme-color" content="#DEDAD3">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Crect%20width=%2264%22%20height=%2264%22%20fill=%22%23DEDAD3%22/%3E%3Cpath%20d=%22M32%2010C40%2024%2046%2032%2046%2040A14%2014%200%200%201%2018%2040C18%2032%2024%2024%2032%2010Z%22%20fill=%22%23256F82%22/%3E%3C/svg%3E">
+<link rel="stylesheet" href="polices/newsreader-4b1669.css">
+<style>
+/* Téléphone : pas de flash gris au toucher, pas de texte grossi en paysage, réponse dès que le doigt se pose,
+   libellés des boutons non sélectionnables, contenu tenu hors de l'encoche en paysage. */
+html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(a,button,[role="button"],label,select,input){touch-action:manipulation}
+:where(button,.btn){-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+
+/* A Funtana (« la fontaine »). Idée : une phrase porte la page, et une image tient la place d'un mot. Plus bas, le
+   visiteur écrit sa propre phrase (« je commence par le hammam, puis un massage, et je repars avec un brushing ») :
+   elle donne la durée, le prix et le déroulé de son moment, puis le créneau. Direction « sentence as layout »,
+   une seule police (Newsreader), mastic et noir, le bleu-vert de l'eau seulement sur l'action. */
+:root{
+  --bg:#DEDAD3; --surface:#D3CEC6; --ink:#0A0A0A; --muted:#55514B; --accent:#256F82; --accent-ink:#FFFFFF;
+  --font:"Newsreader",Georgia,"Times New Roman",serif;
+  --step-small:.875rem;
+  --step-body:clamp(1.0625rem,1rem + .25vw,1.1875rem);
+  --step-lead:clamp(1.25rem,1.1rem + .7vw,1.625rem);
+  --step-head:clamp(2.5rem,1.3rem + 4.2vw,4.5rem);
+  --step-display:clamp(2.75rem,1rem + 5.4vw,6rem);
+  --m:clamp(16px,2.4vw,32px);
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 var(--step-body)/1.5 var(--font)}
+h1,h2,h3,p,ul,figure{margin:0}
+a{color:inherit}
+img{display:block;max-width:100%}
+img.gone{visibility:hidden}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.demo{background:var(--ink);color:#CFCAC2;font-size:var(--step-small);text-align:center;padding:6px 16px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border:0;border-radius:4px;background:var(--accent);color:var(--accent-ink);font:500 var(--step-body) var(--font);text-decoration:none;cursor:pointer;transition:transform 160ms cubic-bezier(.23,1,.32,1),background-color 160ms ease}
+.btn:active{transform:scale(.97)}
+h2{font:500 var(--step-head)/.98 var(--font);letter-spacing:-.025em}
+
+/* accueil : la phrase coupée en deux par une image */
+.hero{position:relative;min-height:calc(100svh - 32px);display:grid;grid-template-rows:auto 1fr auto;padding:20px var(--m) 32px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;font-size:var(--step-small)}
+.wm{font:600 var(--step-lead)/1 var(--font);letter-spacing:-.02em;text-decoration:none}
+.top nav{display:flex;align-items:center;gap:22px}
+.top nav a:not(.btn){text-decoration:none}
+.top .btn{min-height:40px;padding:0 16px;font-size:var(--step-small)}
+.line{margin:0;align-self:center;display:grid;grid-template-columns:1fr 35vw 1fr;align-items:center;gap:24px;font:500 var(--step-display)/.95 var(--font);letter-spacing:-.03em}
+.line .a,.line .b{display:block}
+.line .b{text-align:right}
+.reel{position:relative;aspect-ratio:16/9;border-radius:4px;overflow:hidden;background:var(--surface)}
+.reel img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.2s ease}
+.reel img.on{opacity:1}
+.hero .lead{max-width:44ch}
+
+/* la carte des soins : une phrase, puis un tableau poussé à droite */
+.menu{padding:clamp(140px,14vw,200px) var(--m) 0}
+.menu h2{text-indent:3vw;max-width:20ch}
+.menu .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;margin-top:96px;align-items:end}
+.menu figure{grid-column:1/5;aspect-ratio:4/5;background:#C9C3B9;overflow:hidden;align-self:end}
+.menu figure img{width:100%;height:100%;object-fit:cover}
+.menu .name{grid-column:6/8;align-self:start;color:var(--muted);font-size:var(--step-small)}
+.table{grid-column:8/13;align-self:start}
+.table .grp{margin-top:44px}
+.table .grp:first-child{margin-top:0}
+.table h3{font:500 var(--step-lead)/1.2 var(--font);margin-bottom:12px}
+.table .r{display:grid;grid-template-columns:1fr auto;gap:2px 16px;padding-block:9px}
+.table .r small{grid-column:1;color:var(--muted);font-size:var(--step-small)}
+.table .r b{font-weight:400}
+.table .r span{font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+
+/* composer son moment : la phrase qu'on écrit soi-même */
+.compose{margin-top:clamp(140px,14vw,200px);background:var(--surface);padding:clamp(72px,8vw,120px) var(--m)}
+.sentence{font:500 var(--step-lead)/1.45 var(--font);letter-spacing:-.01em;max-width:40ch}
+.sentence select{font:inherit;letter-spacing:inherit;color:var(--accent);background:transparent;border:0;border-bottom:3px solid var(--accent);padding:0 .1em;cursor:pointer;appearance:none;-webkit-appearance:none;max-width:100%}
+.compose .after{display:grid;grid-template-columns:5fr 7fr;gap:48px;margin-top:56px;align-items:start}
+.plan{list-style:none;padding:0;display:grid;gap:6px}
+.plan li{display:grid;grid-template-columns:5.5em 1fr auto;gap:12px;padding:12px 14px;background:var(--bg)}
+.plan li span:first-child{font-variant-numeric:tabular-nums;color:var(--muted)}
+.plan li span:last-child{font-variant-numeric:tabular-nums}
+.sum{margin-top:14px;display:flex;justify-content:space-between;gap:16px;font:500 var(--step-lead) var(--font)}
+.why{margin-top:10px;color:var(--muted);font-size:var(--step-small)}
+.when p{font-weight:500;margin-bottom:10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{min-height:44px;padding:0 14px;border:0;border-radius:4px;background:var(--bg);color:var(--ink);font:400 var(--step-body) var(--font);cursor:pointer;transition:transform 160ms cubic-bezier(.23,1,.32,1),background-color 160ms ease}
+.chip:active{transform:scale(.96)}
+.chip[aria-pressed="true"]{background:var(--ink);color:#fff}
+[data-q="day"] .chip{text-transform:capitalize}
+.chip[disabled]{opacity:.4;text-decoration:line-through;cursor:not-allowed}
+.when .q{margin-top:24px}
+.when .q:first-child{margin-top:0}
+.who{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:24px}
+.who input{min-height:48px;border:0;border-radius:4px;padding:0 14px;font:16px var(--font);background:var(--bg);color:var(--ink)}
+.who .btn{grid-column:1/-1}
+.done{margin-top:16px;font-size:var(--step-lead);line-height:1.3}
+
+/* la journée : une offre en une phrase */
+.day{min-height:80svh;padding:clamp(96px,10vw,140px) var(--m);display:flex;flex-direction:column;justify-content:center;background:var(--bg)}
+.day .say{font:500 var(--step-display)/.95 var(--font);letter-spacing:-.03em;max-width:16ch}
+.day .say .price{display:inline-block;background:var(--accent);color:#fff;padding:0 .15em;border-radius:4px}
+.day .foot{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-top:64px;flex-wrap:wrap}
+.day .foot p{max-width:52ch}
+.day .foot .acts{display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+.day .foot .acts a:not(.btn){text-underline-offset:4px}
+
+/* un verbe à la fois : trois grands panneaux */
+.verbs section{position:relative;height:100svh;overflow:hidden;background:#9A938A}
+.verbs section:nth-child(2){background:#7E8C8A}
+.verbs section:nth-child(3){background:#A08E80}
+.verbs img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.verbs .w{position:sticky;top:50%;transform:translateY(-50%);text-align:center;color:#fff;font:600 clamp(5rem,1rem + 14vw,17rem)/1 var(--font);letter-spacing:-.04em;z-index:1}
+.verbs .s{position:absolute;left:0;bottom:0;max-width:min(520px,100%);padding:20px var(--m) 24px;background:rgba(10,10,10,.55);color:#fff;z-index:1}
+.verbs h2.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* la fin : une phrase, une photo, deux liens */
+.close{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;padding:160px var(--m) 120px;align-items:start}
+.close .say{grid-column:1/6;font:500 var(--step-lead)/1.25 var(--font);letter-spacing:-.01em}
+.close figure{grid-column:8/10;width:160px;aspect-ratio:1;overflow:hidden;background:var(--surface)}
+.close figure img{width:100%;height:100%;object-fit:cover}
+.close .c{grid-column:10/13}
+.close .c p:first-child{font-weight:500}
+.close .links{display:grid;gap:8px;margin-top:20px}
+.close .links a{text-underline-offset:4px}
+.close .fine{margin-top:20px;color:var(--muted);font-size:var(--step-small)}
+footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:20px var(--m) 28px;color:var(--muted);font-size:var(--step-small)}
+footer table{border-collapse:collapse}
+footer td{padding:1px 14px 1px 0}
+
+/* entrées une fois, en cascade */
+.js .rise{opacity:0;transform:translateY(24px);transition:opacity 700ms cubic-bezier(.23,1,.32,1),transform 700ms cubic-bezier(.23,1,.32,1);transition-delay:calc(var(--i,0) * 75ms)}
+.js .rise.on{opacity:1;transform:none}
+@media (prefers-reduced-motion:no-preference){.verbs img{animation:drift 22s ease-in-out infinite alternate}}
+@keyframes drift{from{transform:scale(1)}to{transform:scale(1.07)}}
+
+@media (max-width:900px){
+  .top nav a:not(.btn):not(:first-child){display:none}
+  .line{grid-template-columns:1fr;gap:16px}
+  .line{font-size:11vw}
+  .reel{aspect-ratio:4/3}
+  .menu h2{text-indent:0}
+  .menu .grid{grid-template-columns:1fr;margin-top:48px}
+  .menu .name{display:none}
+  .table,.menu figure{grid-column:auto}
+  .menu figure{width:60%;justify-self:end}
+  .compose .after{grid-template-columns:1fr}
+  .who{grid-template-columns:1fr}
+  .day .foot .acts{align-items:stretch;width:100%}
+  .verbs .w{font-size:24vw}
+  .verbs .s{right:0;max-width:none}
+  .close{grid-template-columns:96px 1fr;padding:96px var(--m) 72px}
+  .close .say{grid-column:1/-1}
+  .close figure{grid-column:1;width:96px}
+  .close .c{grid-column:2}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.js .rise{opacity:1;transform:none;transition:none}.reel img{transition:none}}
+@media (hover:hover) and (pointer:fine){
+  .btn:hover{background:#1B5565}
+  .chip:hover:not([disabled]){background:#EAE7E1}
+  .chip[aria-pressed="true"]:hover{background:var(--ink)}
+  .top nav a:not(.btn):hover,.close .links a:hover{color:var(--accent)}
+}
+@media (pointer:coarse){.close .links a,.day .foot .acts a:not(.btn){display:inline-block;padding-block:10px}}
+</style>
+</head>
+<body>
+<script>document.documentElement.classList.add("js")</script>
+
+<div class="demo">Site de démonstration réalisé par Saitora, institut fictif</div>
+
+<header class="hero">
+  <div class="top">
+    <a class="wm" href="#">A Funtana</a>
+    <nav aria-label="Sections"><a href="#carte">La carte</a><a href="#journee">La journée</a><a href="#infos">Infos</a><a class="btn" href="#moment">Réserver</a></nav>
+  </div>
+  <h1 class="line"><span class="a rise">Coiffure et spa</span>
+    <span class="reel rise" style="--i:1" id="reel" role="img" aria-label="Le salon, le hammam et les cabines de soin">
+      <img class="on" src="images/funtana/salon.webp" alt="" width="600" height="750" fetchpriority="high">
+      <img src="images/funtana/hammam.webp" alt="" width="1200" height="675" loading="lazy">
+      <img src="images/funtana/massage.webp" alt="" width="1200" height="675" loading="lazy">
+      <img src="images/funtana/boucles.webp" alt="" width="760" height="1013" loading="lazy">
+    </span>
+    <span class="b rise" style="--i:2">au cœur d'Ajaccio</span></h1>
+  <p class="lead rise" style="--i:3">Un salon de coiffure, deux cabines de soin à l'immortelle de Corse, un hammam et un sauna, au même endroit, cours Grandval.</p>
+</header>
+
+<main>
+  <section class="menu" id="carte" aria-labelledby="t-menu">
+    <h2 class="rise" id="t-menu">La carte, du cheveu au hammam</h2>
+    <div class="grid">
+      <figure class="rise"><img src="images/funtana/immortelle.webp" alt="Fleurs jaunes d'immortelle de Corse dans le maquis" width="800" height="1000" loading="lazy"></figure>
+      <p class="name">Tarifs</p>
+      <div class="table" id="table"></div>
+    </div>
+  </section>
+
+  <section class="compose" id="moment" aria-labelledby="t-moment">
+    <h2 class="sr" id="t-moment" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Composer votre moment</h2>
+    <p class="sentence rise">Je commence par <select id="sSpa" aria-label="L'espace bien-être"></select>, puis <select id="sSoin" aria-label="Le soin ou le massage"></select>, et je repars avec <select id="sHair" aria-label="La coiffure"></select>.</p>
+    <div class="after">
+      <div>
+        <ul class="plan" id="plan"></ul>
+        <div class="sum"><span id="dur"></span><span id="tot"></span></div>
+        <p class="why">Le hammam passe toujours en premier et la coiffure en dernier : vos cheveux restent beaux en sortant.</p>
+      </div>
+      <div class="when" id="when"></div>
+    </div>
+  </section>
+
+  <section class="day" id="journee" aria-labelledby="t-day">
+    <h2 class="say rise" id="t-day">Une journée entière pour <span class="price">149 €</span></h2>
+    <div class="foot">
+      <p class="rise" style="--i:1">Hammam et sauna en accès libre, gommage au sel et à la myrte, massage d'une heure, soin du visage à l'immortelle, puis brushing. Le déjeuner léger est servi au salon de thé.</p>
+      <div class="acts rise" style="--i:2"><a class="btn" href="#moment" id="dayBtn">Réserver la journée</a><a href="#infos">L'offrir en carte cadeau</a></div>
+    </div>
+  </section>
+
+  <div class="verbs" aria-label="Le déroulé d'une visite">
+    <section aria-labelledby="v1"><img src="images/funtana/hammam.webp" alt="Vapeur dans un hammam carrelé" width="1600" height="1000" loading="lazy"><h2 class="w" id="v1">Respirer</h2><p class="s">La vapeur du hammam, vingt minutes. Puis le sauna, ou l'eau fraîche de la fontaine, comme vous voulez.</p></section>
+    <section aria-labelledby="v2"><img src="images/funtana/massage.webp" alt="Massage du dos à l'huile" width="1600" height="1000" loading="lazy"><h2 class="w" id="v2">Relâcher</h2><p class="s">Un massage à l'huile d'olive et à l'immortelle, dans une cabine où l'on n'entend que la fontaine.</p></section>
+    <section aria-labelledby="v3"><img src="images/funtana/couleur.webp" alt="Cheveux longs aux reflets dorés" width="600" height="750" loading="lazy"><h2 class="w" id="v3">Repartir</h2><p class="s">Un coup de ciseaux, un brushing ou une couleur, pour sortir comme on se sent.</p></section>
+  </div>
+
+  <section class="close" id="infos" aria-label="Nous contacter">
+    <p class="say rise">Un soin, une carte cadeau, une journée entre amies : écrivez-nous.</p>
+    <figure class="rise" style="--i:1"><img src="images/funtana/chignon.webp" alt="Chignon tressé vu de dos" width="600" height="750" loading="lazy"></figure>
+    <div class="c rise" style="--i:2">
+      <p>Vous préférez réserver par téléphone ?</p>
+      <div class="links"><a href="tel:+33400000000">04 00 00 00 00</a><a href="mailto:bonjour@afuntana.fr">bonjour@afuntana.fr</a></div>
+      <p class="fine">Cours Grandval, Ajaccio. Du mardi au samedi, 9 h à 19 h, le jeudi jusqu'à 21 h. Réponse dans la journée.</p>
+    </div>
+  </section>
+</main>
+<footer><span>© A Funtana, institut fictif</span><span>Site réalisé par Saitora</span></footer>
+
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+// une photo qui manque laisse un aplat propre plutôt qu'une icône cassée
+document.querySelectorAll("img").forEach(i => { const g = () => i.classList.add("gone"); i.addEventListener("error", g); if (i.complete && !i.naturalWidth) g(); });
+
+// ——— la carte : [groupe, [[nom, détail, minutes, prix, forme dans la phrase]]]
+const CARTE = [
+  ["Coiffure", [["Coupe et brushing", "Femme, cheveux courts à longs", 60, 48, "une coupe et un brushing"], ["Brushing", "Lisse ou wavy", 30, 30, "un brushing"], ["Couleur", "Coloration et brushing", 90, 65, "une couleur"], ["Balayage", "Éclaircissement naturel et soin", 150, 110, "un balayage"], ["Coupe homme", "Shampooing, coupe, coiffage", 30, 28, "une coupe homme"], ["Coupe et barbe", "Contours au rasoir", 45, 38, "une coupe et la barbe"]]],
+  ["Soins", [["Soin visage à l'immortelle", "Nettoyage, masque, massage du visage", 60, 75, "un soin du visage à l'immortelle"], ["Soin visage express", "Pour un coup d'éclat", 30, 45, "un soin express"], ["Gommage sel et myrte", "Tout le corps, puis hydratation", 45, 55, "un gommage au sel et à la myrte"], ["Manucure", "Limage, cuticules, vernis", 45, 35, "une manucure"]]],
+  ["Massages", [["Massage relaxant", "Huile d'olive et immortelle", 60, 85, "un massage relaxant"], ["Massage court", "Dos, nuque et épaules", 30, 50, "un massage du dos"], ["Pierres chaudes", "Galets de rivière chauffés", 75, 95, "un massage aux pierres chaudes"]]],
+  ["Hammam et sauna", [["Accès libre", "Hammam, sauna et tisane", 60, 25, "le hammam et le sauna"], ["Hammam et savon noir", "Avec gommage au gant", 60, 45, "le hammam et un gommage au savon noir"]]],
+];
+$("table").innerHTML = CARTE.map(([g, l]) => `<div class="grp rise"><h3>${esc(g)}</h3>${l.map(([n, d, m, p]) => `<div class="r"><b>${esc(n)}</b><span>${p} €</span><small>${esc(d)}, ${m} min</small></div>`).join("")}</div>`).join("");
+
+// ——— la phrase à composer : bien-être d'abord, soin ensuite, coiffure en dernier
+const pick = (g) => CARTE.find(c => c[0] === g)[1];
+const SPA = pick("Hammam et sauna"), SOIN = [...pick("Massages"), ...pick("Soins")], HAIR = pick("Coiffure");
+const opts = (list, none) => `<option value="-1">${none}</option>` + list.map((x, i) => `<option value="${i}">${esc(x[4])}</option>`).join("");
+$("sSpa").innerHTML = opts(SPA, "un simple bonjour"); $("sSoin").innerHTML = opts(SOIN, "rien de plus"); $("sHair").innerHTML = opts(HAIR, "les cheveux comme ils sont");
+$("sSpa").value = 0; $("sSoin").value = 0; $("sHair").value = 1;
+// le menu déroulant prend la largeur de son texte, pour que la phrase reste une phrase
+const fit = sel => { const s = document.createElement("span"); s.style.cssText = "position:absolute;visibility:hidden;white-space:pre;font:inherit;letter-spacing:inherit"; s.textContent = sel.options[sel.selectedIndex].text; sel.parentNode.appendChild(s); sel.style.width = (s.offsetWidth + 8) + "px"; s.remove(); };
+
+const st = { day: null, slot: null, name: "", tel: "", done: false };
+const DAYS = (() => { const out = [], d = new Date(); for (let i = 0; out.length < 8; i++) { const x = new Date(d); x.setDate(d.getDate() + i + 1); if (x.getDay() >= 2 && x.getDay() <= 6) out.push(x); } return out; })();
+const hm = m => `${Math.floor(m / 60)} h ${String(m % 60).padStart(2, "0")}`;
+function steps(){
+  const a = [];
+  if ($("sSpa").value >= 0) a.push(SPA[$("sSpa").value]);
+  if ($("sSoin").value >= 0) a.push(SOIN[$("sSoin").value]);
+  if ($("sHair").value >= 0) a.push(HAIR[$("sHair").value]);
+  return a;
+}
+function render(){
+  ["sSpa", "sSoin", "sHair"].forEach(id => fit($(id)));
+  const a = steps(), total = a.reduce((s, x) => s + x[2], 0), price = a.reduce((s, x) => s + x[3], 0);
+  let t = st.slot ?? 10 * 60;
+  $("plan").innerHTML = a.length ? a.map(x => { const r = `<li><span>${hm(t)}</span><span>${esc(x[0])}</span><span>${x[3]} €</span></li>`; t += x[2]; return r; }).join("") : `<li><span></span><span>Choisissez au moins un soin dans la phrase.</span><span></span></li>`;
+  $("dur").textContent = total ? `${Math.floor(total / 60) ? Math.floor(total / 60) + " h " : ""}${total % 60 ? (total % 60) + " min" : ""}` : "";
+  $("tot").textContent = price ? `${price} €` : "";
+  if (st.done) { $("when").innerHTML = `<p class="done">C'est réservé : ${esc(st.day.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" }))} à ${hm(st.slot)}. Un SMS de confirmation part au ${esc(st.tel)}. (Démo : rien n'est envoyé.)</p><button class="chip" type="button" id="again" style="margin-top:16px">Composer un autre moment</button>`; $("again").onclick = () => { Object.assign(st, { done: false, slot: null }); render(); }; return; }
+  if (!st.day) st.day = DAYS[0];
+  const close = st.day.getDay() === 4 ? 21 * 60 : 19 * 60, slots = [];
+  for (let m = 9 * 60; m + total <= close; m += 30) slots.push({ m, busy: ((m / 30 + st.day.getDate()) % 4) === 0 });
+  if (st.slot != null && !slots.some(s => s.m === st.slot && !s.busy)) st.slot = null;
+  $("when").innerHTML = `<div class="q"><p>Le jour</p><div class="chips" data-q="day">${DAYS.map((d, i) => `<button type="button" class="chip" data-v="${i}" aria-pressed="${d.toDateString() === st.day.toDateString()}">${d.toLocaleDateString("fr-FR", { weekday: "short", day: "numeric" }).replace(".", "")}</button>`).join("")}</div></div>
+    <div class="q"><p>L'heure d'arrivée</p>${a.length && slots.length ? `<div class="chips" data-q="slot">${slots.map(s => `<button type="button" class="chip" data-v="${s.m}" ${s.busy ? "disabled" : ""} aria-pressed="${st.slot === s.m}">${hm(s.m)}</button>`).join("")}</div>` : `<p style="font-weight:400;color:var(--muted)">${a.length ? "Ce moment est trop long pour ce jour-là : choisissez un jeudi, ouvert jusqu'à 21 h." : "Composez d'abord votre moment."}</p>`}</div>
+    ${st.slot != null ? `<div class="who"><input id="wName" autocomplete="name" placeholder="Prénom et nom" aria-label="Prénom et nom" value="${esc(st.name)}"><input id="wTel" type="tel" autocomplete="tel" placeholder="Téléphone mobile" aria-label="Téléphone mobile" value="${esc(st.tel)}"><button class="btn" type="button" id="wGo">Réserver ce moment, ${price} €</button></div>` : ""}`;
+  if ($("wGo")) { $("wName").oninput = e => st.name = e.target.value; $("wTel").oninput = e => st.tel = e.target.value;
+    $("wGo").onclick = () => { if (!st.name.trim() || !st.tel.trim()) { ["wName", "wTel"].forEach(id => $(id).style.outline = $(id).value.trim() ? "" : "2px solid var(--accent)"); return; } st.done = true; render(); }; }
+}
+["sSpa", "sSoin", "sHair"].forEach(id => $(id).addEventListener("change", () => { st.slot = null; render(); }));
+$("when").addEventListener("click", e => { const b = e.target.closest(".chip[data-v]"); if (!b || b.disabled) return; const q = b.parentElement.dataset.q; if (q === "day") { st.day = DAYS[b.dataset.v]; st.slot = null; } else st.slot = Number(b.dataset.v); render(); });
+// la journée entière : la phrase se remplit toute seule
+$("dayBtn").addEventListener("click", () => { $("sSpa").value = 1; $("sSoin").value = 0; $("sHair").value = 1; st.slot = null; render(); });
+document.fonts.ready.then(render); render();
+
+// ——— l'image dans la phrase change doucement ; pause quand l'onglet est caché
+let k = 0, timer = null;
+const play = () => { if (!timer && !matchMedia("(prefers-reduced-motion: reduce)").matches) timer = setInterval(() => { const live = [...document.querySelectorAll("#reel img:not(.gone)")]; if (live.length < 2) return; live[k % live.length].classList.remove("on"); k = (k + 1) % live.length; live[k].classList.add("on"); }, 3200); };
+document.addEventListener("visibilitychange", () => { if (document.hidden) { clearInterval(timer); timer = null; } else play(); });
+play();
+
+// ——— entrées
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("on"); io.unobserve(e.target); } }), { threshold: .1 });
+document.querySelectorAll(".rise").forEach(el => io.observe(el));
+</script>
+</body>
+</html>

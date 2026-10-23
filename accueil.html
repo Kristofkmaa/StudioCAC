@@ -105,7 +105,7 @@ img,video{display:block;max-width:100%}
 .proj p{max-width:44ch;font-size:16px;line-height:1.55;opacity:.85}
 .proj .feats{margin-top:14px;font-size:15px;font-weight:500}
 .proj .stage{position:relative;margin-top:auto;height:270px}
-.proj .win{position:absolute;left:0;right:64px;top:36px;border-radius:8px 8px 0 0;overflow:hidden;background:#fff;transform:translateY(20px);transition:transform 300ms var(--ease-out)}
+.proj .win{position:absolute;left:0;right:64px;top:36px;border-radius:8px 8px 0 0;overflow:hidden;background:#fff;box-shadow:0 0 0 1px rgba(255,255,255,.22);transform:translateY(20px);transition:transform 300ms var(--ease-out)}
 .proj .win img{width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;object-position:top}
 .proj .phone{position:absolute;right:0;top:64px;width:118px;padding:5px;border-radius:20px;background:#111;transform:translateY(30px);transition:transform 340ms var(--ease-out) 40ms}
 .proj .phone img{width:100%;height:auto;aspect-ratio:300/585;object-fit:cover;object-position:top;border-radius:15px}
@@ -238,7 +238,7 @@ form.add input:focus,form.add select:focus{outline:none;border-color:var(--accen
   .hero{grid-template-columns:1fr;gap:40px}
   .grid{grid-template-columns:1fr}
   .grid .proj:last-child:nth-child(odd){display:flex;min-height:0}
-  .grid .proj:last-child:nth-child(odd) .stage{height:240px;margin-top:auto}
+  .grid .proj:last-child:nth-child(odd) .stage{height:240px;margin-top:auto;align-self:stretch}
   .proj{min-height:0}
   .proj .stage{height:240px}
   .timeline{grid-template-columns:1fr;gap:36px}

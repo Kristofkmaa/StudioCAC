@@ -10,288 +10,371 @@
 <meta property="og:site_name" content="Saitora">
 <meta property="og:title" content="Au Pain Doré, démo Saitora">
 <meta property="og:description" content="Démo de site vitrine pour boulangerie : les fournées de la journée en direct et la commande à retirer le lendemain. Réalisé par Saitora.">
-<meta name="theme-color" content="#3A2210">
+<meta name="theme-color" content="#C2361F">
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Ccircle%20cx=%2232%22%20cy=%2232%22%20r=%2230%22%20fill=%22%23EFC35A%22/%3E%3Cellipse%20cx=%2232%22%20cy=%2234%22%20rx=%2220%22%20ry=%2212%22%20fill=%22%233A2210%22/%3E%3Cpath%20d=%22M22%2030l5%207M30%2028l5%208M38%2028l5%207%22%20stroke=%22%23EFC35A%22%20stroke-width=%223%22%20stroke-linecap=%22round%22/%3E%3C/svg%3E">
-<link rel="stylesheet" href="polices/caprasimo-commissioner-90c38d.css">
+<link rel="stylesheet" href="polices/lora-outfit-kalam-14f0e0.css">
 <style>
-/* Téléphone : pas de flash gris au toucher, pas de texte grossi en paysage, réponse dès que le doigt se pose,
-   libellés des boutons non sélectionnables, contenu tenu hors de l'encoche en paysage. */
-html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%}
-:where(a,button,[role="button"],summary,label,select,input[type="range"]){touch-action:manipulation}
-:where(button,.btn,[role="button"],[role="tab"]){-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
-:where(button:not([disabled]),.btn):active{opacity:.82}
-:where(.in,.page){padding-inline:env(safe-area-inset-left,0px) env(safe-area-inset-right,0px)}
-/* Au Pain Doré. Idée : la journée du four. La première page est une règle des heures, de 6 h à 19 h, avec les
-   fournées posées dessus et une aiguille à l'heure qu'il est ; le panier est un ticket en papier kraft tamponné.
-   Caprasimo (lettres d'enseigne peintes) pour les titres, Commissioner pour le texte. Or de croûte, brun, kraft, tampon rouge. */
+/* Au Pain Doré, genre « fait main » : une colonne de papier kraft à gauche, des photos posées de travers avec du ruban adhésif,
+   l'écriture à la main pour les notes, un vichy rouge en bandeau, des étiquettes. */
 :root{
-  --gold:#EFC35A; --gold-2:#E3AE38; --crust:#3A2210; --brown:#7A4318; --kraft:#D8B887; --kraft-2:#C9A570; --flour:#FFFDF9; --stamp:#C2361F; --muted:#6B5440; --rule:rgba(58,34,16,.16);
-  --sign:"Caprasimo",Georgia,serif;
-  --sans:"Commissioner","Helvetica Neue",Arial,sans-serif;
-  color-scheme:light;
+  --paper:#FBF5E9; --kraft:#D9B98C; --kraft2:#C9A473; --ink:#3A2210; --red:#C2361F; --gold:#EFC35A; --line:rgba(58,34,16,.18);
+  --m:clamp(16px,3.4vw,48px); --r:18px;
+  --serif:"Lora",Georgia,serif; --sans:"Outfit",system-ui,sans-serif; --hand:"Kalam",cursive;
+  --vichy:repeating-linear-gradient(0deg,rgba(194,54,31,.55) 0 12px,transparent 12px 24px),repeating-linear-gradient(90deg,rgba(194,54,31,.55) 0 12px,#FBF5E9 12px 24px);
 }
-*,*::before,*::after{box-sizing:border-box}
-html{scroll-behavior:smooth;background:var(--flour)}
-body{margin:0;background:var(--flour);color:var(--crust);font-family:var(--sans);font-size:17px;line-height:1.6}
-h1,h2,h3,p,ul,figure{margin:0}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+html:focus-within{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font:400 17px/1.55 var(--sans);-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%;height:auto}
 a{color:inherit}
-img{display:block;max-width:100%}
-:focus-visible{outline:3px solid var(--stamp);outline-offset:3px}
-.in{width:min(1180px,100% - 2 * clamp(16px,4vw,40px));margin-inline:auto}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--red);outline-offset:3px;border-radius:6px}
+.demo{background:var(--ink);color:#EADBC4;font-size:13px;text-align:center;padding:6px 16px;position:relative;z-index:30}
+.hand{font-family:var(--hand);font-weight:700;color:var(--red)}
+.grain{position:relative;isolation:isolate}
+.grain::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.55;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .23 0 0 0 0 .13 0 0 0 0 .06 0 0 0 .12 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.round{display:inline-flex;align-items:center;gap:12px;min-height:52px;font-weight:700;text-decoration:none;border:0;background:none;cursor:pointer;text-align:left}
+.round i{flex:none;display:grid;place-items:center;width:52px;height:52px;border-radius:50%;background:var(--red);color:var(--paper);font-style:normal;font-size:20px;transition:transform .2s cubic-bezier(.23,1,.32,1)}
+@media (hover:hover) and (pointer:fine){.round:hover i{transform:translateX(4px) rotate(-6deg)}}
+.round:active i{transform:scale(.94)}
+.tag{display:inline-block;padding:4px 12px 5px;background:var(--gold);border-radius:4px;font:700 15px/1.3 var(--hand);transform:rotate(-2deg);box-shadow:0 1px 0 rgba(58,34,16,.25)}
 
-.demo{background:var(--crust);color:rgba(255,253,249,.7);font-size:13px;text-align:center;padding:6px 16px}
+/* ---- la colonne de kraft ---- */
+.layout{display:grid;grid-template-columns:minmax(300px,32%) 1fr}
+.side{position:sticky;top:0;align-self:start;height:100svh;background:var(--kraft);padding:clamp(24px,3vw,44px);display:flex;flex-direction:column;gap:22px;border-right:2px dashed var(--kraft2)}
+.side .logo{text-decoration:none;display:flex;align-items:center;gap:12px}
+.side .logo svg{width:54px;height:54px;flex:none}
+.side .logo b{font:700 clamp(1.8rem,1.4rem + 1vw,2.4rem)/1 var(--hand)}
+.side .logo small{display:block;font:500 14px/1.2 var(--sans);margin-top:4px}
+.side nav{display:flex;flex-direction:column;gap:2px;margin-top:10px}
+.side nav a{display:flex;align-items:center;gap:10px;min-height:44px;font:500 1.35rem/1 var(--serif);text-decoration:none}
+.side nav a::before{content:"";width:8px;height:8px;border-radius:50%;border:2px solid var(--ink);transition:background-color .15s}
+@media (hover:hover) and (pointer:fine){.side nav a:hover::before{background:var(--red);border-color:var(--red)}}
+.oven{margin-top:auto;background:var(--paper);border-radius:var(--r);padding:16px 18px;transform:rotate(-1deg);box-shadow:0 10px 24px -14px rgba(58,34,16,.6)}
+.oven small{display:block;font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.06em}
+.oven b{display:block;font:700 1.5rem/1.15 var(--hand);color:var(--red);margin-top:4px}
+.oven span{display:block;font-size:15px;margin-top:2px}
 
-.top{background:var(--gold)}
-.top .in{display:flex;align-items:center;gap:28px;height:68px}
-.name{font:400 1.7rem/1 var(--sign);text-decoration:none;letter-spacing:.005em}
-.top nav{display:flex;gap:24px;margin-left:auto;font-weight:500}
-.top nav a{text-decoration:none}
+.main{min-width:0}
+.vichy{height:26px;background:var(--vichy)}
+section{padding:clamp(70px,8vw,120px) var(--m)}
+.h2{font:700 clamp(2.4rem,1.6rem + 2.8vw,4.2rem)/1.02 var(--serif);letter-spacing:-.015em}
+.h2 em{font-style:italic;font-weight:500;color:var(--red)}
+.lede{margin-top:14px;max-width:50ch;font-size:clamp(1.05rem,1rem + .2vw,1.18rem)}
 
-.btn{display:inline-flex;align-items:center;justify-content:center;font:700 16px var(--sans);padding:13px 22px;border-radius:999px;border:0;cursor:pointer;text-decoration:none;background:var(--crust);color:var(--flour);transition:transform 140ms ease,background-color 140ms ease}
+/* photos posées avec du ruban */
+.snap{position:relative;background:#fff;padding:10px 10px 44px;box-shadow:0 14px 30px -16px rgba(58,34,16,.55);transform:rotate(var(--rot,-2deg))}
+.snap::before{content:"";position:absolute;top:-14px;left:50%;width:96px;height:28px;transform:translateX(-50%) rotate(-4deg);background:rgba(239,195,90,.75)}
+.snap img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.snap figcaption{position:absolute;left:12px;right:12px;bottom:8px;font:700 1.15rem/1.2 var(--hand);text-align:center}
 
-.btn:active{transform:scale(.97)}
-.btn[disabled]{opacity:.35;cursor:not-allowed;transform:none}
+/* ---- ouverture ---- */
+.hero{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(28px,4vw,56px);align-items:center;padding-top:clamp(50px,6vw,90px)}
+.hero h1{font:700 clamp(2.8rem,1.6rem + 3.6vw,5.4rem)/1 var(--serif);letter-spacing:-.02em}
+.hero h1 em{font-style:italic;font-weight:500;color:var(--red)}
+.hero .say{margin-top:20px;max-width:42ch;font-size:clamp(1.08rem,1rem + .3vw,1.25rem)}
+.hero .acts{margin-top:28px;display:flex;flex-wrap:wrap;gap:12px 26px}
+.hero .pic{position:relative;max-width:460px;justify-self:center;width:100%}
+.hero .snap img{aspect-ratio:1}
+.note{position:absolute;left:-46px;bottom:-34px;display:flex;align-items:flex-start;gap:4px;font:700 1.35rem/1.1 var(--hand);color:var(--red);transform:rotate(-6deg)}
+.note svg{width:54px;height:44px;flex:none}
+/* mot par mot */
+.js .words span{display:inline-block;opacity:0;transform:translateY(.3em) rotate(-2deg);transition:opacity .5s,transform .6s cubic-bezier(.23,1,.32,1);transition-delay:calc(var(--i)*60ms)}
+.js .words.on span{opacity:1;transform:none}
 
-/* la journée du four */
-.day{background:var(--gold);padding-bottom:clamp(40px,5vw,64px)}
-.day .head{display:grid;grid-template-columns:1.2fr .8fr;gap:clamp(24px,4vw,56px);align-items:center;padding-top:clamp(24px,4vw,48px)}
-.day h1{font:400 clamp(2.8rem,1.6rem + 5vw,6rem)/.95 var(--sign);letter-spacing:-.01em;max-width:12ch}
-.day .lead{margin-top:20px;font-size:1.15rem;max-width:40ch}
-.day .btn{margin-top:26px}
-.day figure img{width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;border-radius:50%;border:10px solid var(--flour)}
-.next{margin-top:clamp(32px,4vw,48px);display:flex;align-items:baseline;gap:8px 20px;flex-wrap:wrap}
-.next .when{font:400 clamp(2rem,1.4rem + 2.2vw,3.2rem)/1 var(--sign)}
-.next .what{font-size:1.1rem}
-.next .what b{font-weight:700}
-.ruler{position:relative;margin-top:26px;height:44px;border-top:3px solid var(--crust)}
-.tick{position:absolute;top:0;width:1px;height:10px;background:var(--crust)}
-.tick span{position:absolute;top:14px;left:0;transform:translateX(-50%);font-size:13px;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
-.dot{position:absolute;top:-10px;width:17px;height:17px;transform:translateX(-50%);border-radius:50%;background:var(--flour);border:3px solid var(--crust)}
-.dot.past{background:var(--crust)}
-.dot.soon{background:var(--stamp);border-color:var(--stamp)}
-.needle{position:absolute;top:-20px;width:3px;height:32px;background:var(--stamp);transform:translateX(-50%)}
-.needle::after{content:attr(data-t);position:absolute;top:-24px;left:50%;transform:translateX(-50%);font:700 13px var(--sans);color:var(--stamp);white-space:nowrap}
-.bakes{list-style:none;padding:0;display:grid;grid-template-columns:repeat(5,1fr);gap:18px;margin-top:10px}
-.bakes li{border-top:3px solid var(--crust);padding-top:10px}
-.bakes b{display:block;font:400 1.5rem/1 var(--sign)}
-.bakes span{display:block;font-weight:700;margin-top:6px}
-.bakes small{display:block;font-size:14px;line-height:1.4;color:var(--muted)}
-.bakes li.past{opacity:.45}
-.bakes li.soon{border-top-color:var(--stamp)}
-.bakes li.soon b{color:var(--stamp)}
+/* ---- trois questions ---- */
+.quiz{background:var(--gold);border-radius:28px;margin-inline:var(--m);padding:clamp(28px,4vw,56px)}
+.quiz .grid{display:grid;grid-template-columns:1.2fr 1fr;gap:clamp(24px,4vw,56px);align-items:start;margin-top:28px}
+.q{margin-bottom:22px}
+.q p{font:700 1.4rem/1.2 var(--hand)}
+.q p b{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--ink);color:var(--gold);font:700 15px/1 var(--sans);margin-right:8px;vertical-align:2px}
+.opts{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.opts button{min-height:46px;padding:0 18px;border-radius:999px;border:2px solid var(--ink);background:var(--paper);font-weight:500;cursor:pointer;transition:background-color .15s,color .15s,transform .15s}
+.opts button[aria-pressed="true"]{background:var(--ink);color:var(--paper);transform:rotate(-1.5deg)}
+.opts button:active{transform:scale(.97)}
+.label{position:relative;background:var(--paper);border-radius:6px;padding:26px 24px 24px;box-shadow:0 16px 30px -18px rgba(58,34,16,.7);transform:rotate(1.5deg)}
+.label::before{content:"";position:absolute;top:12px;left:50%;width:16px;height:16px;border-radius:50%;background:var(--gold);box-shadow:inset 0 0 0 4px var(--paper),0 0 0 2px var(--ink);transform:translateX(-50%)}
+.label small{display:block;margin-top:14px;font:700 1.1rem/1 var(--hand);color:var(--red)}
+.label h3{margin-top:6px;font:700 2rem/1.05 var(--serif)}
+.label p{margin-top:10px}
+.label img{margin-top:14px;width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:6px}
+.label .round{margin-top:14px}
 
-/* l'étagère et le ticket */
-.shop{padding-block:clamp(64px,8vw,110px)}
-.shop h2,.infos h2{font:400 clamp(2.2rem,1.5rem + 2.8vw,3.8rem)/1 var(--sign)}
-.shop .sub{margin-top:14px;color:var(--muted);max-width:52ch}
-.shop .grid{display:grid;grid-template-columns:1fr 340px;gap:clamp(28px,4vw,56px);align-items:start;margin-top:36px}
-.cats{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:22px}
-.cat{font:600 15px var(--sans);padding:8px 16px;border-radius:999px;border:2px solid var(--crust);background:none;color:var(--crust);cursor:pointer}
-.cat[aria-pressed="true"]{background:var(--crust);color:var(--flour)}
-.shelf{display:grid;grid-template-columns:repeat(3,1fr);gap:34px 22px}
-.prod{display:flex;flex-direction:column;position:relative;padding-bottom:16px;border-bottom:8px solid var(--kraft-2)}
-.prod img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:6px}
-.prod .tag{position:absolute;top:10px;left:10px;background:var(--stamp);color:#fff;font:700 13px var(--sans);padding:4px 10px;border-radius:999px}
-.prod h3{font:700 1.08rem/1.25 var(--sans);margin-top:12px}
-.prod p{font-size:14.5px;color:var(--muted)}
-.prod .row{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:10px}
-.prod .p{font:400 1.35rem/1 var(--sign)}
-.qty{display:flex;align-items:center;gap:10px;font-weight:700}
-.qty button{width:38px;height:38px;border-radius:50%;border:2px solid var(--crust);background:var(--flour);color:var(--crust);font:700 20px/1 var(--sans);cursor:pointer}
-.qty button.add{background:var(--crust);color:var(--flour)}
-.ticket{position:sticky;top:20px;background:var(--kraft);padding:26px 24px 30px;display:flex;flex-direction:column;gap:14px;
-  -webkit-mask:radial-gradient(circle 8px at 50% 0,transparent 98%,#000) 0 0/22px 100% repeat-x,linear-gradient(#000,#000) 0 8px/100% calc(100% - 8px) no-repeat;
-          mask:radial-gradient(circle 8px at 50% 0,transparent 98%,#000) 0 0/22px 100% repeat-x,linear-gradient(#000,#000) 0 8px/100% calc(100% - 8px) no-repeat}
-.ticket h3{font:400 1.7rem/1 var(--sign)}
-.stampmark{align-self:flex-start;font:700 13px/1 var(--sans);color:var(--stamp);border:2px solid var(--stamp);border-radius:4px;padding:6px 8px;transform:rotate(-4deg);opacity:.9}
-.lines .l{display:flex;justify-content:space-between;gap:12px;padding-block:6px;border-bottom:1px dashed rgba(58,34,16,.35);font-size:15px}
-.lines .empty{font-size:15px;color:var(--muted)}
-.total{display:flex;justify-content:space-between;font-weight:700;font-size:1.1rem}
-.ticket label{display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:600}
-.ticket select,.ticket input{font:16px var(--sans);padding:11px 12px;border:2px solid var(--crust);border-radius:6px;background:var(--flour);color:var(--crust);width:100%}
-.ok{background:var(--flour);padding:12px 14px;border-radius:6px;font-size:15px}
+/* ---- l'étagère en rangées alternées ---- */
+.rows{margin-top:clamp(36px,5vw,56px);display:grid;gap:clamp(48px,6vw,80px)}
+.row{display:grid;grid-template-columns:1fr 1.15fr;gap:clamp(24px,4vw,56px);align-items:center}
+.row:nth-child(even) .snap{order:2;--rot:2deg}
+.row h3{font:700 2.2rem/1 var(--serif)}
+.row h3 em{display:block;font:700 1.25rem/1.2 var(--hand);color:var(--red);margin-top:6px;font-style:normal}
+.items{list-style:none;margin-top:16px}
+.items li{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1.5px dashed var(--line)}
+.items li div{flex:1}
+.items li b{display:block;font-weight:500}
+.items li span{font-size:14px;color:#6E5440}
+.items .p{font:700 1.05rem/1 var(--serif);white-space:nowrap}
+.qty{display:flex;align-items:center;gap:6px}
+.qty button{width:40px;height:40px;border-radius:50%;border:2px solid var(--ink);background:var(--paper);font-weight:700;cursor:pointer}
+.qty button.add{background:var(--ink);color:var(--paper)}
+.qty button:active{transform:scale(.92)}
+.qty output{min-width:18px;text-align:center;font-weight:700}
 
-/* infos */
-.infos{background:var(--crust);color:var(--flour);padding-block:clamp(56px,7vw,88px)}
-.infos .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(24px,4vw,56px);margin-top:32px}
-.infos h3{font:400 1.5rem/1 var(--sign);color:var(--gold);margin-bottom:12px}
-.infos p{color:rgba(255,253,249,.8)}
-.infos table{width:100%;border-collapse:collapse;font-size:15.5px}
-.infos td{padding:6px 0;border-bottom:1px solid rgba(255,253,249,.14)}
-.infos td:last-child{text-align:right;font-variant-numeric:tabular-nums;color:rgba(255,253,249,.75)}
-.infos tr.today td{color:var(--gold);font-weight:700}
-.infos .tel{display:inline-block;margin-top:10px;font-weight:700;font-size:1.2rem;text-decoration:none;color:var(--flour)}
-footer{background:var(--crust);color:rgba(255,253,249,.5);font-size:14px;border-top:1px solid rgba(255,253,249,.12)}
-footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:16px}
+/* ---- la journée du four ---- */
+.day{background:var(--kraft);border-radius:28px;margin-inline:var(--m)}
+.time{position:relative;display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:40px;padding-top:40px}
+.time svg.line{position:absolute;left:0;top:0;width:100%;height:30px}
+.time li{list-style:none;position:relative;background:var(--paper);border-radius:var(--r);padding:16px;transform:rotate(var(--rot,0deg))}
+.time li::before{content:"";position:absolute;top:-30px;left:20px;width:16px;height:16px;border-radius:50%;background:var(--paper);border:3px solid var(--ink)}
+.time li.past{opacity:.55}
+.time li.past::before{background:var(--ink)}
+.time li.soon{background:var(--red);color:var(--paper)}
+.time li.soon::before{background:var(--gold);border-color:var(--red)}
+.time b{display:block;font:700 1.7rem/1 var(--hand)}
+.time h3{margin-top:6px;font:700 1.1rem/1.2 var(--serif)}
+.time p{margin-top:4px;font-size:14px}
+.time .tag{margin-top:10px;font-size:14px;color:var(--ink)}
 
-@media (max-width:900px){
-  .top nav{display:none}
-  .top .btn{margin-left:auto}
-  .day .head{grid-template-columns:1fr}
-  .day figure{width:min(280px,70%);margin-inline:auto;order:-1}
-  .ruler{display:none}
-  .bakes{grid-template-columns:1fr 1fr;gap:16px}
-  .top .btn .long{display:none}
-  .shop .grid{grid-template-columns:1fr}
-  .ticket{position:static}
-  .shelf{grid-template-columns:repeat(2,1fr)}
-  .infos .cols{grid-template-columns:1fr}
+/* ---- rangée de photos ---- */
+.trio{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,3vw,40px);margin-top:clamp(36px,5vw,56px)}
+.trio .snap:nth-child(2){--rot:2.5deg;margin-top:24px}
+.trio .snap:nth-child(3){--rot:-1deg}
+
+/* ---- la commande : plein écran couleur ---- */
+.order{background:var(--red);color:var(--paper)}
+.order .grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,56px);align-items:start}
+.order .h2 em{color:var(--gold)}
+.order .tel{display:inline-block;margin-top:24px;font:700 clamp(2.4rem,1.8rem + 2.4vw,3.8rem)/1 var(--hand);text-decoration:none;color:var(--gold)}
+.ticket{background:var(--paper);color:var(--ink);border-radius:6px;padding:24px;transform:rotate(-1deg);box-shadow:0 20px 40px -20px rgba(0,0,0,.5);
+  -webkit-mask:radial-gradient(circle 8px at 50% 0,transparent 98%,#000) 0 0/24px 100% repeat-x;mask:radial-gradient(circle 8px at 50% 0,transparent 98%,#000) 0 0/24px 100% repeat-x}
+.ticket h3{font:700 1.8rem/1 var(--serif)}
+.ticket .stamp{display:inline-block;margin-top:8px;padding:2px 10px;border:2px solid var(--red);color:var(--red);font:700 1rem/1.4 var(--hand);transform:rotate(-3deg)}
+.ticket ul{list-style:none;margin-top:16px;border-top:1.5px dashed var(--line)}
+.ticket li{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1.5px dashed var(--line)}
+.ticket li.empty{color:#6E5440;font-style:italic}
+.ticket .tot{display:flex;justify-content:space-between;margin-top:14px;font:700 1.3rem/1 var(--serif)}
+.ticket label{display:block;font-weight:700;font-size:15px;margin:16px 0 6px}
+.ticket select,.ticket input{width:100%;min-height:50px;padding:0 14px;border:2px solid var(--ink);border-radius:12px;background:#fff;font-size:16px}
+.ticket .round{margin-top:16px}
+.ticket .round:disabled{opacity:.45;cursor:not-allowed}
+.ticket .ok{margin-top:10px;font-weight:500}
+
+/* ---- pied : infos pratiques ---- */
+footer{padding:clamp(56px,7vw,90px) var(--m) 28px}
+footer .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,3vw,40px)}
+footer h3{font:700 1.6rem/1 var(--hand);color:var(--red);margin-bottom:10px}
+footer table{border-collapse:collapse}
+footer td{padding:3px 14px 3px 0}
+footer tr.now td{font-weight:700;color:var(--red)}
+footer .legal{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:44px;padding-top:16px;border-top:1.5px dashed var(--line);font-size:13px}
+
+.dock{display:none}
+@media (prefers-reduced-motion:reduce){.js .words span{transition:none;opacity:1;transform:none}}
+@media (max-width:980px){
+  .layout{grid-template-columns:minmax(0,1fr)}
+  .side{position:sticky;top:0;z-index:20;height:auto;flex-direction:row;align-items:center;padding:10px 16px;border-right:0;border-bottom:2px dashed var(--kraft2)}
+  .side .logo svg{width:38px;height:38px}
+  .side .logo b{font-size:1.5rem}
+  .side .logo small,.side nav,.side>.round{display:none}
+  .side .logo b{white-space:nowrap}
+  .oven{margin:0 0 0 auto;padding:6px 12px;transform:none;box-shadow:none;border-radius:12px}
+  .oven small,.oven span{display:none}
+  .oven b{font-size:1rem;margin:0}
+  .hero,.quiz .grid,.row,.order .grid{grid-template-columns:minmax(0,1fr)}
+  .row:nth-child(even) .snap{order:0}
+  .hero .pic{max-width:400px}
+  .note{left:auto;right:6px;bottom:-40px}
+  .time{grid-template-columns:1fr;padding-top:0;padding-left:34px}
+  .time svg.line{display:none}
+  .time::before{content:"";position:absolute;left:9px;top:10px;bottom:10px;border-left:3px dashed var(--ink)}
+  .time li::before{top:18px;left:-34px}
+  .trio{grid-template-columns:1fr 1fr}
+  .trio .snap:nth-child(3){display:none}
+  footer .cols{grid-template-columns:1fr}
+  footer{padding-bottom:100px}
+  .dock{display:flex;position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:40;gap:6px;padding:6px;border-radius:999px;background:var(--ink)}
+  .dock a{flex:1;display:flex;align-items:center;justify-content:center;min-height:48px;border-radius:999px;color:var(--paper);text-decoration:none;font-weight:700}
+  .dock a.go{background:var(--red)}
+  .dock{transform:translateY(140%);transition:transform .25s cubic-bezier(.23,1,.32,1)}
+  .dock.on{transform:none}
 }
-@media (max-width:480px){.shelf{grid-template-columns:1fr 1fr;gap:26px 14px}.prod h3{font-size:1rem}}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn:active{transform:none}}
-/* survols : souris uniquement, sinon l'état reste collé après un toucher */
-@media (hover:hover) and (pointer:fine){
-  .top nav a:hover{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:5px}
-  .btn:hover{background:var(--brown)}
-}
-@media (pointer:coarse){
-  .name{padding-block:9px;margin-block:-9px}
-  .infos .tel{padding-block:7px;margin-block:-7px}
-  .qty button{width:44px;height:44px}
-  .cat{min-height:44px}
-}
+@media (max-width:520px){.trio{grid-template-columns:1fr}.trio .snap:nth-child(2){margin-top:0}}
 </style>
 </head>
 <body>
-
 <div class="demo">Site de démonstration réalisé par Saitora, boulangerie fictive</div>
 
-<header class="top">
-  <div class="in">
-    <a class="name" href="#top">Au Pain Doré</a>
-    <nav aria-label="Sections"><a href="#journee">Les fournées</a><a href="#commande">Commander</a><a href="#infos">Horaires</a></nav>
-    <a class="btn" href="#commande">Commander<span class="long">&nbsp;pour demain</span></a>
-  </div>
-</header>
+<div class="layout">
+  <aside class="side grain">
+    <a class="logo" href="#"><svg viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="30" r="28" fill="#FBF5E9" stroke="#3A2210" stroke-width="2.5"/><path d="M30 48V14M30 22c-6-2-8-7-7-11 5 1 8 5 7 11zm0 0c6-2 8-7 7-11-5 1-8 5-7 11zm0 9c-6-2-8-7-7-11 5 1 8 5 7 11zm0 0c6-2 8-7 7-11-5 1-8 5-7 11zm0 9c-6-2-8-7-7-11 5 1 8 5 7 11zm0 0c6-2 8-7 7-11-5 1-8 5-7 11z" fill="#EFC35A" stroke="#3A2210" stroke-width="2" stroke-linejoin="round"/></svg><span><b>Au Pain Doré</b><small>boulangerie, 21 rue de l'Église</small></span></a>
+    <nav aria-label="Navigation"><a href="#quiz">Quel pain ?</a><a href="#etagere">L'étagère</a><a href="#four">Le four</a><a href="#commande">Commander</a><a href="#infos">Horaires</a></nav>
+    <div class="oven" aria-live="polite"><small>Le four</small><b id="ovenWhen"></b><span id="ovenWhat"></span></div>
+    <a class="round" href="#commande"><i>→</i>Commander pour demain</a>
+  </aside>
 
-<main id="top">
-  <section class="day" id="journee" aria-labelledby="t-day">
-    <div class="in">
-      <div class="head">
-        <div>
-          <h1 id="t-day">Le four tourne de 6 h à 19 h</h1>
-          <p class="lead">Levain maison, farines du moulin de Saint-Roch. Cinq fournées par jour, pour qu'il y ait toujours du pain chaud.</p>
-          <a class="btn" href="#commande">Commander pour demain</a>
-        </div>
-        <figure><img src="images/boulangerie/miches.webp" alt="Miches de pain au levain farinées, croûte dorée" width="857" height="857" fetchpriority="high"></figure>
+  <main class="main">
+    <section class="hero" id="top" style="padding-bottom:clamp(60px,7vw,100px)">
+      <div>
+        <p class="tag">Levain maison depuis toujours</p>
+        <h1 class="words" style="margin-top:18px">Le four tourne de 6&nbsp;h à 19&nbsp;h, <em>tous les jours.</em></h1>
+        <p class="say">Farines du moulin de Saint-Roch, cinq fournées par jour pour qu'il y ait toujours du pain chaud. Commandez ce soir, c'est prêt demain matin.</p>
+        <div class="acts"><a class="round" href="#quiz"><i>→</i>Quel pain pour vous ?</a><a class="round" href="#commande"><i style="background:var(--ink)">→</i>Commander pour demain</a></div>
       </div>
-      <div class="next" aria-live="polite"><span class="when" id="when">Prochaine fournée</span><span class="what" id="what"></span></div>
-      <div class="ruler" id="ruler" aria-hidden="true"></div>
-      <ol class="bakes" id="bakes" aria-label="Les fournées de la journée"></ol>
-    </div>
-  </section>
+      <div class="pic">
+        <figure class="snap" style="--rot:2deg"><img src="images/boulangerie/miches.webp" alt="Des miches au levain qui refroidissent sur une grille" width="857" height="857" fetchpriority="high"><figcaption>la fournée de 6 h 30</figcaption></figure>
+        <p class="note"><svg viewBox="0 0 54 44" aria-hidden="true"><path d="M50 40C40 30 30 12 8 8m0 0l9-6M8 8l6 9" fill="none" stroke="#C2361F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>encore tièdes</p>
+      </div>
+    </section>
+    <div class="vichy" aria-hidden="true"></div>
 
-  <section class="shop" id="commande" aria-labelledby="t-shop">
-    <div class="in">
-      <h2 id="t-shop">Commandez ce soir, c'est prêt demain matin</h2>
-      <p class="sub">Choisissez vos produits et l'heure de passage. On vous le met de côté, vous payez en boutique.</p>
+    <section id="quiz" style="padding-inline:0">
+      <div class="quiz grain">
+        <p class="hand" style="font-size:1.4rem">vous hésitez ?</p>
+        <h2 class="h2">Quel pain <em>pour vous ?</em></h2>
+        <div class="grid">
+          <div id="questions"></div>
+          <div class="label" aria-live="polite" id="answer"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="etagere" style="padding-top:0">
+      <h2 class="h2 words">L'étagère <em>de demain matin</em></h2>
+      <p class="lede">Touchez + pour mettre de côté. On prépare tout pour l'heure que vous choisissez, vous payez en boutique.</p>
+      <div class="rows" id="rows"></div>
+    </section>
+
+    <section id="four" style="padding-inline:0;padding-top:0">
+      <div class="day grain" style="padding:clamp(28px,4vw,56px)">
+        <p class="hand" style="font-size:1.4rem">la journée du four</p>
+        <h2 class="h2">Cinq fournées, <em>du matin au soir</em></h2>
+        <ol class="time" id="time"><svg class="line" viewBox="0 0 1000 30" preserveAspectRatio="none" aria-hidden="true"><path d="M0 18C60 10 120 24 200 16S330 8 420 18 560 26 640 14 800 10 880 20 960 16 1000 14" fill="none" stroke="#3A2210" stroke-width="3" stroke-dasharray="10 8" vector-effect="non-scaling-stroke"/></svg></ol>
+      </div>
+    </section>
+
+    <section style="padding-top:0">
+      <h2 class="h2 words">Ce qui part <em>en premier</em></h2>
+      <div class="trio">
+        <figure class="snap"><img src="images/boulangerie/croi.webp" alt="Croissants pur beurre dorés" width="480" height="360" loading="lazy"><figcaption>croissants, avant 8 h</figcaption></figure>
+        <figure class="snap"><img src="images/boulangerie/choux.webp" alt="Éclair au chocolat" width="480" height="360" loading="lazy"><figcaption>éclairs du goûter</figcaption></figure>
+        <figure class="snap"><img src="images/boulangerie/fra.webp" alt="Fraisier aux fraises fraîches" width="480" height="360" loading="lazy"><figcaption>le fraisier du dimanche</figcaption></figure>
+      </div>
+    </section>
+
+    <section class="order" id="commande">
       <div class="grid">
         <div>
-          <div class="cats" id="cats" role="group" aria-label="Rayon"></div>
-          <div class="shelf" id="products"></div>
+          <p class="hand" style="font-size:1.4rem;color:var(--gold)">commandez ce soir</p>
+          <h2 class="h2">C'est prêt <em>demain matin</em></h2>
+          <p class="lede">Choisissez l'heure de passage et votre prénom : on vous le met de côté. Pour une pièce montée ou un gâteau d'anniversaire, appelez trois jours avant.</p>
+          <a class="tel" href="tel:+33400000000">04 00 00 00 00</a>
         </div>
-        <aside class="ticket" aria-live="polite" aria-label="Votre commande">
+        <div class="ticket">
           <h3>Votre commande</h3>
-          <span class="stampmark" id="stamp">À retirer demain</span>
-          <div class="lines" id="lines"></div>
-          <div class="total"><span>Total</span><span id="total">0,00 €</span></div>
-          <label>Heure de passage<select id="pickup"></select></label>
-          <label>Prénom<input id="pName" autocomplete="given-name" enterkeyhint="done" placeholder="Pour mettre la commande de côté"></label>
-          <button class="btn" type="button" id="order" disabled>Mettre de côté</button>
-          <p class="ok" id="ok" hidden></p>
-        </aside>
+          <span class="stamp" id="stamp"></span>
+          <ul id="lines"></ul>
+          <p class="tot"><span>Total</span><span id="total">0,00 €</span></p>
+          <label for="pickup">Heure de passage</label><select id="pickup"></select>
+          <label for="pName">Prénom</label><input id="pName" autocomplete="given-name">
+          <button class="round" type="button" id="order"><i>✓</i>Mettre de côté</button>
+          <p class="ok" id="ok" aria-live="polite"></p>
+        </div>
       </div>
-    </div>
-  </section>
-</main>
+    </section>
 
-<section class="infos" id="infos" aria-labelledby="t-infos">
-  <div class="in">
-    <h2 id="t-infos">Passer à la boutique</h2>
-    <div class="cols">
-      <div><h3>Horaires</h3><table id="hrs"></table></div>
-      <div><h3>Adresse</h3><p>21 rue de l'Église<br>Face à la pharmacie, stationnement minute devant.</p><a class="tel" href="tel:+33400000000">04 00 00 00 00</a></div>
-      <div><h3>Gâteaux sur commande</h3><p>Pièces montées, gâteaux d'anniversaire, plateaux pour réunions et mariages. Passez ou appelez trois jours avant.</p></div>
-    </div>
-  </div>
-</section>
-<footer><div class="in"><span>© Au Pain Doré, boulangerie fictive</span><span>Site réalisé par Saitora</span></div></footer>
+    <footer id="infos">
+      <div class="cols">
+        <div><h3>Horaires</h3><table id="hrs"></table></div>
+        <div><h3>Adresse</h3><p>21 rue de l'Église<br>Face à la pharmacie, stationnement minute devant.</p><p style="margin-top:8px"><a href="tel:+33400000000">04 00 00 00 00</a></p></div>
+        <div><h3>Gâteaux sur commande</h3><p>Pièces montées, gâteaux d'anniversaire, plateaux pour réunions et mariages. Passez ou appelez trois jours avant.</p><p style="margin-top:14px"><a class="round" href="#commande"><i>→</i>Commander pour demain</a></p></div>
+      </div>
+      <div class="legal"><span>© Au Pain Doré, boulangerie fictive</span><span>Site réalisé par <a href="accueil.html">Saitora</a> · Photos : Pixabay</span></div>
+    </footer>
+  </main>
+</div>
+
+<nav class="dock" aria-label="Accès rapide"><a href="tel:+33400000000">Appeler</a><a class="go" href="#commande">Commander</a></nav>
 
 <script>
-const esc = s => String(s).replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
-const hm = m => `${Math.floor(m / 60)} h${m % 60 ? " " + String(m % 60).padStart(2, "0") : ""}`;
-
-// la journée du four : [minute, fournée, ce qui sort]
-const BAKES = [[390,"Pains du matin","Baguettes, campagne, complet"],[420,"Viennoiseries","Croissants, pains au chocolat"],[690,"Fournée de midi","Baguettes, quiches, sandwichs"],[960,"Le goûter","Chaussons, brioches, cookies"],[1050,"Fournée du soir","Baguettes tradition chaudes"]];
-const START = 360, END = 1140, pos = m => ((m - START) / (END - START) * 100).toFixed(2) + "%";
-const now = new Date(), nowM = now.getHours() * 60 + now.getMinutes();
-const nextIdx = BAKES.findIndex(([m]) => m > nowM);
+document.documentElement.classList.add("js");
 const $ = id => document.getElementById(id);
-let html = "";
-for (let m = START; m <= END; m += 60) html += `<span class="tick" style="left:${pos(m)}"><span>${m / 60} h</span></span>`;
-const state = (m, i) => m <= nowM ? "past" : i === nextIdx ? "soon" : "";
-html += BAKES.map(([m], i) => `<span class="dot ${state(m, i)}" style="left:${pos(m)}"></span>`).join("");
-if (nowM >= START && nowM <= END) html += `<span class="needle" style="left:${pos(nowM)}" data-t="maintenant"></span>`;
-$("ruler").innerHTML = html;
-$("bakes").innerHTML = BAKES.map(([m, t, d], i) => `<li class="${state(m, i)}"><b>${hm(m)}</b><span>${esc(t)}</span><small>${esc(d)}</small></li>`).join("");
-if (nextIdx >= 0) {
-  const [m, t, d] = BAKES[nextIdx], wait = m - nowM;
-  $("when").textContent = `Prochaine fournée à ${hm(m)}`;
-  $("what").innerHTML = `${esc(t)} : ${esc(d).toLowerCase()}. <b>Dans ${wait >= 60 ? `${Math.floor(wait / 60)} h ${String(wait % 60).padStart(2, "0")}` : `${wait} min`}</b>.`;
-} else {
-  $("when").textContent = "Le four est éteint pour ce soir";
-  $("what").textContent = "Première fournée demain à 6 h 30. Commandez maintenant, c'est prêt à l'ouverture.";
-}
-
-// l'étagère
-const PRODUCTS = [
-  {id:"trad",c:"Pains",n:"Baguette tradition",d:"Levain, croûte croustillante",p:1.30,a:"Baguettes tradition dans une corbeille",b:"La plus vendue"},
-  {id:"camp",c:"Pains",n:"Pain de campagne",d:"Levain naturel, 500 g",p:3.80,a:"Pain de campagne rond au levain"},
-  {id:"comp",c:"Pains",n:"Complet aux graines",d:"Lin, tournesol, courge, 400 g",p:4.20,a:"Tranches de pain complet aux graines"},
-  {id:"croi",c:"Viennoiseries",n:"Croissant pur beurre",d:"Feuilletage maison",p:1.20,a:"Croissants pur beurre dorés"},
-  {id:"pac",c:"Viennoiseries",n:"Pain au chocolat",d:"Deux barres de chocolat noir",p:1.35,a:"Pain au chocolat"},
-  {id:"choux",c:"Pâtisseries",n:"Éclair au chocolat",d:"Crème pâtissière, glaçage",p:3.20,a:"Éclair au chocolat"},
-  {id:"citr",c:"Pâtisseries",n:"Tarte au citron",d:"Six parts, à commander la veille",p:22.00,a:"Tarte au citron meringuée"},
-  {id:"fra",c:"Pâtisseries",n:"Fraisier",d:"Six parts, selon la saison",p:26.00,a:"Fraisier aux fraises fraîches"}
-];
-const cart = {}; let cat = "Tout";
+const esc = s => String(s).replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[m]);
+const hm = m => `${Math.floor(m / 60)} h${m % 60 ? " " + String(m % 60).padStart(2, "0") : ""}`;
 const eur = n => n.toFixed(2).replace(".", ",") + " €";
-function renderShop(){
-  const cs = ["Tout", ...new Set(PRODUCTS.map(p => p.c))];
-  cats.innerHTML = cs.map(c => `<button type="button" class="cat" aria-pressed="${c === cat}" data-c="${c}">${c}</button>`).join("");
-  products.innerHTML = PRODUCTS.filter(p => cat === "Tout" || p.c === cat).map(p => { const q = cart[p.id] || 0; return `
-    <article class="prod">
-      <img src="images/boulangerie/${p.id}.webp" alt="${esc(p.a)}" width="480" height="360" loading="lazy" decoding="async">
-      ${p.b ? `<span class="tag">${p.b}</span>` : ""}
-      <h3>${esc(p.n)}</h3><p>${esc(p.d)}</p>
-      <div class="row"><span class="p">${eur(p.p)}</span>
-        <div class="qty">${q ? `<button type="button" data-id="${p.id}" data-d="-1" aria-label="Retirer : ${esc(p.n)}">−</button><span>${q}</span>` : ""}<button type="button" class="add" data-id="${p.id}" data-d="1" aria-label="Ajouter : ${esc(p.n)}">+</button></div>
-      </div>
-    </article>`; }).join("");
-  const items = PRODUCTS.filter(p => cart[p.id]);
-  lines.innerHTML = items.length ? items.map(p => `<div class="l"><span>${cart[p.id]} × ${esc(p.n)}</span><span>${eur(cart[p.id] * p.p)}</span></div>`).join("") : '<p class="empty">Rien pour l\'instant. Une baguette pour commencer ?</p>';
-  total.textContent = eur(items.reduce((a, p) => a + cart[p.id] * p.p, 0));
-  order.disabled = !items.length;
-}
-cats.addEventListener("click", e => { const b = e.target.closest(".cat"); if (!b) return; cat = b.dataset.c; renderShop(); });
-products.addEventListener("click", e => { const b = e.target.closest("button[data-id]"); if (!b) return; const id = b.dataset.id; cart[id] = Math.max(0, (cart[id] || 0) + Number(b.dataset.d)); if (!cart[id]) delete cart[id]; renderShop(); ok.hidden = true; });
-renderShop();
+const now = new Date(), nowM = now.getHours() * 60 + now.getMinutes();
 
-// retrait demain, toutes les 30 minutes
+// ——— la journée du four : [minute, fournée, ce qui sort]
+const BAKES = [[390, "Pains du matin", "Baguettes, campagne, complet"], [420, "Viennoiseries", "Croissants, pains au chocolat"], [690, "Fournée de midi", "Baguettes, quiches, sandwichs"], [960, "Le goûter", "Chaussons, brioches, cookies"], [1050, "Fournée du soir", "Baguettes tradition chaudes"]];
+const nextI = BAKES.findIndex(([m]) => m > nowM), ROT = ["-1.5deg", "1deg", "-.5deg", "1.5deg", "-1deg"];
+$("time").insertAdjacentHTML("beforeend", BAKES.map(([m, t, d], i) => { const w = m - nowM;
+  return `<li class="${m <= nowM ? "past" : i === nextI ? "soon" : ""}" style="--rot:${ROT[i]}"><b>${hm(m)}</b><h3>${esc(t)}</h3><p>${esc(d)}</p>${i === nextI ? `<span class="tag">dans ${w >= 60 ? `${Math.floor(w / 60)} h ${String(w % 60).padStart(2, "0")}` : `${w} min`}</span>` : ""}</li>`; }).join(""));
+$("ovenWhen").textContent = nextI >= 0 ? `Prochaine fournée à ${hm(BAKES[nextI][0])}` : "Éteint pour ce soir";
+$("ovenWhat").textContent = nextI >= 0 ? BAKES[nextI][2] : "Première fournée demain à 6 h 30";
+
+// ——— l'étagère
+const SHELF = [
+  ["Pains", "au levain, cuits sur la sole", "trad", "Baguettes tradition dans une corbeille", [["trad", "Baguette tradition", "Levain, croûte croustillante", 1.3], ["camp", "Pain de campagne", "Levain naturel, 500 g", 3.8], ["comp", "Complet aux graines", "Lin, tournesol, courge, 400 g", 4.2]]],
+  ["Viennoiseries", "beurre AOP, feuilletage maison", "croi", "Croissants pur beurre dorés", [["croi", "Croissant pur beurre", "Feuilletage maison", 1.2], ["pac", "Pain au chocolat", "Deux barres de chocolat noir", 1.35]]],
+  ["Pâtisseries", "à commander la veille", "citr", "Tarte au citron meringuée", [["choux", "Éclair au chocolat", "Crème pâtissière, glaçage", 3.2], ["citr", "Tarte au citron", "Six parts", 22], ["fra", "Fraisier", "Six parts, selon la saison", 26]]],
+];
+const ALL = Object.fromEntries(SHELF.flatMap(s => s[4]).map(p => [p[0], p]));
+const cart = {};
+$("rows").innerHTML = SHELF.map(([n, sub, img, alt, items], i) => `
+  <div class="row"><figure class="snap" style="--rot:${i % 2 ? "2deg" : "-2deg"}"><img src="images/boulangerie/${img}.webp" alt="${esc(alt)}" width="480" height="360" loading="lazy"><figcaption>${esc(n.toLowerCase())}</figcaption></figure>
+  <div><h3>${esc(n)}<em>${esc(sub)}</em></h3><ul class="items">${items.map(([id, pn, d, p]) => `<li><div><b>${esc(pn)}</b><span>${esc(d)}</span></div><span class="p">${eur(p)}</span><div class="qty"><button type="button" data-id="${id}" data-d="-1" aria-label="Retirer ${esc(pn)}">−</button><output id="q-${id}">0</output><button type="button" class="add" data-id="${id}" data-d="1" aria-label="Ajouter ${esc(pn)}">+</button></div></li>`).join("")}</ul></div></div>`).join("");
+function renderCart() {
+  Object.keys(ALL).forEach(id => $("q-" + id).textContent = cart[id] || 0);
+  const ids = Object.keys(cart);
+  $("lines").innerHTML = ids.length ? ids.map(id => `<li><span>${cart[id]} × ${esc(ALL[id][1])}</span><span>${eur(cart[id] * ALL[id][3])}</span></li>`).join("") : `<li class="empty">Rien pour l'instant. Une baguette pour commencer ?</li>`;
+  $("total").textContent = eur(ids.reduce((a, id) => a + cart[id] * ALL[id][3], 0));
+  $("order").disabled = !ids.length;
+}
+const add = (id, d) => { cart[id] = Math.max(0, (cart[id] || 0) + d); if (!cart[id]) delete cart[id]; renderCart(); $("ok").textContent = ""; };
+$("rows").addEventListener("click", e => { const b = e.target.closest("button[data-id]"); if (b) add(b.dataset.id, +b.dataset.d); });
+renderCart();
+
+// ——— trois questions
+const QS = [["Pour quel moment ?", ["Le petit-déjeuner", "Le repas", "Le goûter"]], ["Vous l'aimez comment ?", ["Croustillant", "Moelleux", "Rustique"]], ["Vous êtes combien ?", ["Un ou deux", "Trois ou quatre", "Plus de cinq"]]];
+const pick = [0, 0, 0];
+const ANSWER = (m, t, n) => {
+  if (m === 0) return t === 1 ? ["croi", "Des croissants pur beurre", "Feuilletés et beurrés, à prendre avant 8 h."] : ["trad", "Une baguette tradition", "Grillée avec du beurre salé, rien de mieux le matin."];
+  if (m === 2) return t === 1 ? ["pac", "Des pains au chocolat", "Deux barres de chocolat noir, la fournée de 16 h."] : ["choux", "Des éclairs au chocolat", "Crème pâtissière, glaçage brillant : le goûter du mercredi."];
+  return t === 2 ? ["camp", "Un pain de campagne", "Au levain naturel, il se garde trois jours et tient tête au fromage."] : t === 1 ? ["comp", "Un complet aux graines", "Lin, tournesol, courge : moelleux et parfumé."] : ["trad", "Des baguettes tradition", "La plus vendue, croûte qui chante."];
+};
+const QTY = [[1, 2, 4], [2, 3, 6], [1, 2, 4]];
+$("questions").innerHTML = QS.map(([q, o], i) => `<div class="q"><p><b>${i + 1}</b>${q}</p><div class="opts" data-q="${i}">${o.map((x, k) => `<button type="button" data-k="${k}" aria-pressed="${k === 0}">${x}</button>`).join("")}</div></div>`).join("");
+function answer() {
+  const [id, t, d] = ANSWER(pick[0], pick[1]), n = id === "camp" || id === "comp" ? [1, 1, 2][pick[2]] : QTY[pick[0]][pick[2]];
+  $("answer").innerHTML = `<small>notre conseil</small><h3>${esc(t)}</h3><p>${esc(d)} Pour vous : <b>${n} × ${esc(ALL[id][1].toLowerCase())}</b>, ${eur(n * ALL[id][3])}.</p><img src="images/boulangerie/${id}.webp" alt="" width="480" height="360"><button class="round" type="button" id="takeIt" data-id="${id}" data-n="${n}"><i>+</i>Mettre de côté pour demain</button>`;
+}
+$("questions").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; const q = +b.parentElement.dataset.q; pick[q] = +b.dataset.k;
+  [...b.parentElement.children].forEach(x => x.setAttribute("aria-pressed", x === b)); answer(); });
+$("answer").addEventListener("click", e => { const b = e.target.closest("#takeIt"); if (!b) return; add(b.dataset.id, +b.dataset.n); b.innerHTML = "<i>✓</i>Ajouté à la commande"; });
+answer();
+
+// ——— retrait demain
 const tm = new Date(); tm.setDate(tm.getDate() + 1);
 const label = tm.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" });
-stamp.textContent = `À retirer ${label}`;
-const opts = []; for (let m = 420; m <= 1140; m += 30) opts.push(`<option>${hm(m)}</option>`);
-pickup.innerHTML = opts.join(""); pickup.selectedIndex = 2;
-order.addEventListener("click", () => {
-  ok.hidden = false;
-  if (!pName.value.trim()) { ok.textContent = "Indiquez votre prénom pour qu'on mette la commande de côté."; pName.focus(); return; }
-  ok.textContent = `Merci ${pName.value.trim()}, c'est noté : ${total.textContent}, prêt ${label} à ${pickup.value}. Vous payez en boutique. (Démo : rien n'est réellement envoyé.)`;
-});
+$("stamp").textContent = `à retirer ${label}`;
+$("pickup").innerHTML = Array.from({ length: 24 }, (_, i) => 420 + i * 30).map(m => `<option>${hm(m)}</option>`).join(""); $("pickup").selectedIndex = 2;
+$("order").addEventListener("click", () => {
+  if (!$("pName").value.trim()) { $("ok").textContent = "Indiquez votre prénom pour qu'on mette la commande de côté."; $("pName").focus(); return; }
+  $("ok").textContent = `Merci ${$("pName").value.trim()}, c'est noté : ${$("total").textContent}, prêt ${label} à ${$("pickup").value}. Vous payez en boutique. (Démo : rien n'est envoyé.)`; });
 
-const HR = [["Lundi","6 h 30 à 19 h 30"],["Mardi","6 h 30 à 19 h 30"],["Mercredi","Fermé"],["Jeudi","6 h 30 à 19 h 30"],["Vendredi","6 h 30 à 19 h 30"],["Samedi","6 h 30 à 19 h 30"],["Dimanche","7 h à 13 h"]];
+new IntersectionObserver(([e]) => document.querySelector(".dock").classList.toggle("on", !e.isIntersecting && e.boundingClientRect.top < 0)).observe($("top"));
+
+// ——— horaires
+const HR = [["Lundi", "6 h 30 à 19 h 30"], ["Mardi", "6 h 30 à 19 h 30"], ["Mercredi", "Fermé"], ["Jeudi", "6 h 30 à 19 h 30"], ["Vendredi", "6 h 30 à 19 h 30"], ["Samedi", "6 h 30 à 19 h 30"], ["Dimanche", "7 h à 13 h"]];
 const di = (now.getDay() + 6) % 7;
-hrs.innerHTML = HR.map(([d, h], i) => `<tr class="${i === di ? "today" : ""}"><td>${d}</td><td>${h}</td></tr>`).join("");
+$("hrs").innerHTML = HR.map(([d, h], i) => `<tr class="${i === di ? "now" : ""}"><td>${d}</td><td>${h}</td></tr>`).join("");
+
+// ——— titres mot par mot
+document.querySelectorAll(".words").forEach(t => { let i = 0;
+  const walk = n => [...n.childNodes].forEach(c => { if (c.nodeType === 3) { const f = document.createDocumentFragment();
+      c.textContent.split(/( +)/).forEach(w => { if (!w) return; if (/^ +$/.test(w)) f.append(w); else { const s = document.createElement("span"); s.style.setProperty("--i", i++); s.textContent = w; f.append(s); } }); c.replaceWith(f); } else walk(c); });
+  walk(t); });
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("on"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -8% 0px" });
+document.querySelectorAll(".words").forEach(el => io.observe(el));
 </script>
 </body>
 </html>

@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Forza Club, salle de sport, démo Saitora</title>
+<meta name="description" content="Démo de site vitrine pour une salle de sport : le planning des cours avec les places restantes, les disciplines, les tarifs, la séance d'essai. Réalisé par Saitora.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="Saitora">
+<meta property="og:title" content="Forza Club, démo Saitora">
+<meta property="og:description" content="Une salle de sport qui montre ses places libres en direct. Démo réalisée par Saitora.">
+<meta name="theme-color" content="#FF4D1A">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23FF4D1A'/%3E%3Cpath d='M18 50L30 14H50L46 24H36L33 32H44L41 41H30L27 50Z' fill='%23111'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="polices/unbounded-manrope-ee3e44.css">
+<style>
+/* Forza Club, genre « énergie » : blanc, noir et un orange vif, une touche de citron vert ; titres très larges et gras,
+   sections coupées en diagonale, photos d'effort en noir et blanc, gros chiffres, mouvement franc et court. */
+:root{
+  --white:#FAFAF7; --ink:#111111; --orange:#FF4D1A; --lime:#D9FF3D; --grey:#EDEDE8; --soft:#55554F;
+  --m:clamp(16px,4vw,56px);
+  --wide:"Unbounded",system-ui,sans-serif; --sans:"Manrope",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+html:focus-within{scroll-behavior:smooth}
+body{background:var(--white);color:var(--ink);font:400 17px/1.55 var(--sans);-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+.wrap{max-width:1320px;margin-inline:auto;padding-inline:var(--m)}
+.demo{background:var(--ink);color:#BDBDB6;font-size:13px;text-align:center;padding:6px 16px}
+.bw{filter:grayscale(1) contrast(1.15)}
+.wd{font-family:var(--wide);font-weight:800;text-transform:uppercase;letter-spacing:-.02em;line-height:1.02}
+.pill{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 26px;border-radius:999px;background:var(--orange);color:var(--ink);font-weight:800;text-decoration:none;border:0;cursor:pointer;transition:transform .15s cubic-bezier(.23,1,.32,1),background-color .15s}
+.pill.dark{background:var(--ink);color:var(--white)}
+.pill.line{background:none;box-shadow:inset 0 0 0 2px currentColor}
+@media (hover:hover) and (pointer:fine){.pill:hover{transform:translateY(-2px)}}
+.pill:active{transform:scale(.97)}
+
+/* ---- en-tête ---- */
+.top .wrap{display:flex;align-items:center;gap:26px;min-height:76px}
+.logo{font:900 1.5rem/1 var(--wide);text-transform:uppercase;text-decoration:none;margin-right:auto;letter-spacing:-.03em}
+.logo i{font-style:normal;color:var(--orange)}
+.top nav{display:flex;gap:24px;font-weight:700}
+.top nav a{text-decoration:none;min-height:44px;display:inline-flex;align-items:center}
+@media (hover:hover) and (pointer:fine){.top nav a:hover{color:var(--orange)}}
+.top .pill{min-height:46px;padding:0 20px}
+
+/* ---- titre monumental, et trois photos qui débordent ---- */
+.hero{padding-top:clamp(24px,4vw,56px)}
+.hero h1{font-size:clamp(4.4rem,1rem + 15.5vw,17rem);line-height:.86;letter-spacing:-.05em}
+.hero h1 span{display:inline-block;transform:skewX(-8deg)}
+.hero h1 i{font-style:normal;color:var(--orange)}
+.hero .under{display:grid;grid-template-columns:1.3fr 1fr;gap:clamp(20px,4vw,64px);align-items:end;margin-top:clamp(20px,3vw,36px)}
+.hero .say{font-size:clamp(1.15rem,1rem + .5vw,1.5rem);font-weight:500;max-width:34ch}
+.hero .acts{display:flex;flex-wrap:wrap;gap:12px;justify-content:flex-end}
+.strip{display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:clamp(10px,1.4vw,18px);align-items:end;margin-top:clamp(36px,5vw,64px);position:relative;z-index:2;margin-bottom:calc(-1 * clamp(70px,9vw,140px))}
+.strip figure{overflow:hidden;position:relative}
+.strip img{width:100%;object-fit:cover}
+.strip figure:nth-child(1) img{aspect-ratio:4/4.6}
+.strip figure:nth-child(2) img{aspect-ratio:4/3.4}
+.strip figure:nth-child(3) img{aspect-ratio:4/4}
+.strip figcaption{position:absolute;left:12px;bottom:12px;padding:6px 12px;border-radius:999px;background:var(--lime);font-weight:800;font-size:14px}
+/* dévoilement, une fois la photo chargée */
+.js .curtain img{opacity:0;transform:scale(1.06);transition:opacity .8s ease-out,transform 1.2s cubic-bezier(.23,1,.32,1);transition-delay:var(--d,0ms)}
+.js .curtain.on img{opacity:1;transform:none}
+
+/* ---- sections en diagonale ---- */
+section{padding-block:clamp(80px,9vw,130px)}
+.diag{clip-path:polygon(0 0,100% 4vw,100% 100%,0 100%);margin-top:-4vw;padding-top:calc(4vw + clamp(80px,9vw,130px))}
+.black{background:var(--ink);color:var(--white)}
+.orange{background:var(--orange)}
+.h2{font-size:clamp(2.2rem,1.2rem + 3.8vw,4.8rem)}
+.lede{margin-top:16px;max-width:50ch;font-size:clamp(1.05rem,1rem + .25vw,1.2rem)}
+.black .lede{color:#CFCFC8}
+
+/* ---- le planning : les places restantes ---- */
+.planning{padding-top:calc(clamp(70px,9vw,140px) + clamp(70px,8vw,110px))}
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:clamp(32px,4vw,48px)}
+.days button{min-height:64px;border:0;border-radius:14px;background:#1E1E1C;color:var(--white);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;transition:background-color .15s,transform .15s cubic-bezier(.23,1,.32,1)}
+.days button b{font:800 1.3rem/1 var(--wide)}
+.days button small{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#A9A9A2}
+.days button[aria-pressed="true"]{background:var(--orange);color:var(--ink)}
+.days button[aria-pressed="true"] small{color:var(--ink)}
+.days button:active{transform:scale(.96)}
+.kinds{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.kinds button{min-height:44px;padding:0 16px;border-radius:999px;border:1.5px solid #3A3A36;background:none;color:var(--white);font-weight:700;cursor:pointer}
+.kinds button[aria-pressed="true"]{background:var(--lime);border-color:var(--lime);color:var(--ink)}
+.classes{list-style:none;margin-top:22px;display:grid;gap:8px}
+.cls{display:grid;grid-template-columns:110px 1fr 220px auto;gap:18px;align-items:center;padding:16px 18px;border-radius:18px;background:#1B1B19}
+.cls .t{font:800 1.5rem/1 var(--wide)}
+.cls .n b{display:block;font-weight:800;font-size:1.1rem}
+.cls .n span{color:#A9A9A2;font-size:15px}
+.dots{display:flex;flex-wrap:wrap;gap:4px}
+.dots i{width:12px;height:12px;border-radius:50%;background:#3A3A36}
+.dots i.taken{background:#6B6B65}
+.dots i.free{background:var(--lime)}
+.cls .left{font-size:14px;color:#CFCFC8;margin-top:6px}
+.cls .left b{color:var(--lime)}
+.cls.full{opacity:.5}
+.cls .pill{min-height:46px;padding:0 20px}
+.cls .pill:disabled{background:#3A3A36;color:#A9A9A2;cursor:not-allowed}
+.trial{margin-top:18px;border-radius:18px;background:var(--orange);color:var(--ink);padding:20px;display:grid;grid-template-columns:1.2fr 1fr 1fr auto;gap:12px;align-items:end}
+.trial[hidden]{display:none}
+.trial p{align-self:center;font-weight:700}
+.trial label{display:block;font-weight:800;font-size:14px;margin-bottom:6px}
+.trial input{width:100%;min-height:50px;padding:0 16px;border-radius:999px;border:0;background:var(--white);font-size:16px}
+.done{margin-top:12px;font-weight:700;color:var(--lime);min-height:1.5em}
+.empty{padding:22px;border-radius:18px;background:#1B1B19;color:#CFCFC8}
+
+/* ---- les disciplines en rangées alternées ---- */
+.disc{display:grid;gap:clamp(40px,6vw,90px);margin-top:clamp(40px,5vw,64px)}
+.d{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(24px,4vw,64px);align-items:center}
+.d:nth-child(even) figure{order:2}
+.d figure{overflow:hidden;border-radius:4px}
+.d img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.d h3{font-size:clamp(1.8rem,1.2rem + 2vw,3rem)}
+.d p{margin-top:12px;max-width:44ch}
+.meter{display:flex;align-items:center;gap:12px;margin-top:18px;font-weight:700;font-size:15px}
+.meter span{display:flex;gap:4px}
+.meter i{width:26px;height:10px;transform:skewX(-20deg);background:var(--grey)}
+.meter i.on{background:var(--orange)}
+.d .meta{margin-top:10px;color:var(--soft);font-size:15px}
+
+/* ---- chiffres clés ---- */
+.figs{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(12px,2vw,24px);margin-top:clamp(36px,5vw,56px)}
+.figs b{display:block;font:900 clamp(3rem,1.6rem + 4.6vw,6.4rem)/.9 var(--wide);letter-spacing:-.05em;color:var(--lime)}
+.figs span{display:block;margin-top:10px;color:#CFCFC8;max-width:22ch}
+.wide{margin-top:clamp(40px,5vw,64px)}
+.wide img{width:100%;aspect-ratio:21/8;object-fit:cover;object-position:50% 35%}
+
+/* ---- la lettre du coach ---- */
+.letter{display:grid;grid-template-columns:1fr 1.4fr;gap:clamp(28px,4vw,64px);align-items:start}
+.letter .text p{font-size:clamp(1.1rem,1rem + .35vw,1.3rem);margin-top:16px;max-width:52ch}
+.letter .sign{margin-top:24px;font:italic 700 1.4rem/1.2 var(--sans)}
+.letter .sign small{display:block;font:500 15px/1.4 var(--sans);font-style:normal;color:var(--soft);margin-top:2px}
+
+/* ---- tarifs et contact : plein écran orange ---- */
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:clamp(36px,5vw,56px)}
+.plan{background:var(--white);border-radius:24px;padding:24px;display:flex;flex-direction:column}
+.plan.star{background:var(--ink);color:var(--white)}
+.plan h3{font:800 1.1rem/1.2 var(--wide);text-transform:uppercase}
+.plan b{display:block;margin-top:14px;font:900 clamp(2.6rem,2rem + 2vw,3.6rem)/1 var(--wide);letter-spacing:-.04em}
+.plan b small{font:700 1rem/1 var(--sans);letter-spacing:0}
+.plan p{margin-top:10px}
+.plan.star .tag{align-self:flex-start;margin-bottom:12px;padding:4px 12px;border-radius:999px;background:var(--lime);color:var(--ink);font-weight:800;font-size:13px}
+.contact{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:clamp(48px,6vw,80px);padding-top:24px;border-top:3px solid var(--ink)}
+.contact h3{font:800 .95rem/1.2 var(--wide);text-transform:uppercase;margin-bottom:8px}
+.contact .tel{font:800 1.4rem/1.2 var(--wide);text-decoration:none}
+footer{background:var(--ink);color:#BDBDB6;font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:20px}
+
+/* ---- barre basse (téléphone) ---- */
+.dock{display:none}
+@media (prefers-reduced-motion:reduce){.js .curtain img{opacity:1;transform:none;transition:none}.pill:hover{transform:none}}
+@media (max-width:960px){
+  .top nav{display:none}
+  .hero .under{grid-template-columns:1fr}
+  .hero .acts{justify-content:flex-start}
+  .cls{grid-template-columns:80px 1fr auto}
+  .cls .cap{grid-column:2 / -1;grid-row:2}
+  .cls .t{font-size:1.2rem}
+  .trial{grid-template-columns:1fr 1fr}
+  .trial p{grid-column:1 / -1}
+  .d,.letter{grid-template-columns:minmax(0,1fr)}
+  .d:nth-child(even) figure{order:0}
+  .figs{grid-template-columns:1fr 1fr;row-gap:28px}
+  .plans,.contact{grid-template-columns:1fr}
+  footer .wrap{padding-bottom:96px}
+  .dock{display:flex;position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:40;gap:6px;padding:6px;border-radius:999px;background:var(--ink);transform:translateY(140%);transition:transform .25s cubic-bezier(.23,1,.32,1)}
+  .dock.on{transform:none}
+  .dock a{flex:1;display:flex;align-items:center;justify-content:center;min-height:50px;border-radius:999px;color:var(--white);font-weight:800;text-decoration:none}
+  .dock a.go{background:var(--orange);color:var(--ink)}
+}
+@media (max-width:560px){
+  .days{grid-template-columns:repeat(7,1fr);gap:4px}
+  .days button{min-height:58px;border-radius:10px}
+  .days button b{font-size:1.05rem}
+  .days button small{font-size:10px;letter-spacing:.02em}
+  .cls{grid-template-columns:1fr auto;padding:14px}
+  .cls .t{grid-column:1;font-size:1.1rem}
+  .cls .n{grid-column:1}
+  .cls .cap{grid-column:1 / -1;grid-row:auto}
+  .cls .pill{grid-column:2;grid-row:1 / span 2}
+  .trial{grid-template-columns:1fr}
+  .strip{grid-template-columns:1fr 1fr}
+  .strip figure:nth-child(3){display:none}
+}
+</style>
+</head>
+<body>
+<div class="demo">Site de démonstration réalisé par Saitora, salle fictive</div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#">Forza<i>.</i></a>
+    <nav aria-label="Navigation"><a href="#planning">Le planning</a><a href="#disciplines">Les cours</a><a href="#tarifs">Les tarifs</a></nav>
+    <a class="pill" href="#planning">Séance d'essai</a>
+  </div>
+</header>
+
+<main>
+<section class="hero" id="top" style="padding-bottom:0">
+  <div class="wrap">
+    <h1 class="wd"><span>Forza<i>.</i></span></h1>
+    <div class="under">
+      <p class="say">Une salle de sport à Ajaccio, des cours de douze personnes au plus, de 6 h à 22 h. Votre première séance est offerte.</p>
+      <div class="acts"><a class="pill" href="#planning">Voir les places libres</a><a class="pill line" href="#tarifs">Les tarifs</a></div>
+    </div>
+    <div class="strip">
+      <figure class="curtain"><img class="bw" src="images/sport/boxe.webp" alt="Une sportive qui frappe dans un sac de boxe" width="1000" height="750" fetchpriority="high"><figcaption>Boxe</figcaption></figure>
+      <figure class="curtain" style="--d:120ms"><img class="bw" src="images/sport/squat.webp" alt="Un athlète en squat avec une barre chargée" width="1600" height="1000"><figcaption>Cross training</figcaption></figure>
+      <figure class="curtain" style="--d:240ms"><img class="bw" src="images/sport/pompes.webp" alt="Deux personnes en pompes face à face" width="1000" height="750"><figcaption>HIIT</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="black planning" id="planning">
+  <div class="wrap">
+    <h2 class="wd h2">Places libres cette semaine</h2>
+    <p class="lede">Choisissez un jour : chaque cours affiche ses places restantes. Réservez votre séance d'essai en deux champs.</p>
+    <div class="days" id="days" role="group" aria-label="Le jour"></div>
+    <div class="kinds" id="kinds" role="group" aria-label="La discipline"></div>
+    <ul class="classes" id="classes"></ul>
+    <form class="trial" id="trial" hidden novalidate>
+      <p id="tTxt"></p>
+      <div><label for="tName">Prénom</label><input id="tName" autocomplete="given-name"></div>
+      <div><label for="tTel">Téléphone</label><input id="tTel" type="tel" inputmode="tel" autocomplete="tel"></div>
+      <button class="pill dark" type="submit">Réserver</button>
+    </form>
+    <p class="done" id="done" aria-live="polite"></p>
+  </div>
+</section>
+
+<section class="diag" id="disciplines">
+  <div class="wrap">
+    <h2 class="wd h2">Les cours</h2>
+    <p class="lede">Quatre disciplines, toutes encadrées par un coach, pour tous les niveaux : on adapte chaque exercice.</p>
+    <div class="disc">
+      <article class="d"><figure class="curtain"><img class="bw" src="images/sport/sac.webp" alt="Un coup de pied sauté dans un sac de frappe" width="1000" height="750" loading="lazy"></figure><div><h3 class="wd">Boxe</h3><p>Technique, sac et travail à deux, sans combat. On en ressort vidé et léger.</p><div class="meter">Intensité <span><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></div><p class="meta">55 min · gants prêtés</p></div></article>
+      <article class="d"><figure class="curtain"><img class="bw" src="images/sport/squat.webp" alt="Un squat avec une barre chargée" width="1600" height="1000" loading="lazy"></figure><div><h3 class="wd">Cross training</h3><p>Force et cardio mélangés, un enchaînement différent chaque jour, écrit au tableau.</p><div class="meter">Intensité <span><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></div><p class="meta">50 min · tous niveaux, charges adaptées</p></div></article>
+      <article class="d"><figure class="curtain"><img class="bw" src="images/sport/abdos.webp" alt="Une sportive qui fait des abdominaux sur un tapis" width="1000" height="750" loading="lazy"></figure><div><h3 class="wd">Renfo et gainage</h3><p>Le dos, les abdos, les épaules : la base qui protège de tout le reste.</p><div class="meter">Intensité <span><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></div><p class="meta">45 min · au sol et aux élastiques</p></div></article>
+      <article class="d"><figure class="curtain"><img class="bw" src="images/sport/halteres.webp" alt="Une main qui prend un haltère sur le rack" width="1000" height="750" loading="lazy"></figure><div><h3 class="wd">Mobilité</h3><p>Étirements actifs et respiration, pour bien récupérer et bouger sans douleur.</p><div class="meter">Intensité <span><i class="on"></i><i></i><i></i><i></i><i></i></span></div><p class="meta">45 min · idéal le dimanche</p></div></article>
+    </div>
+  </div>
+</section>
+
+<section class="black diag">
+  <div class="wrap">
+    <h2 class="wd h2">La salle en quatre chiffres</h2>
+    <div class="figs">
+      <div><b>12</b><span>personnes au plus par cours, le coach vous voit</span></div>
+      <div><b>6-22</b><span>heures d'ouverture, du lundi au samedi</span></div>
+      <div><b>0</b><span>engagement : on arrête quand on veut</span></div>
+      <div><b>1<sup style="font-size:.4em">re</sup></b><span>séance offerte, sans rien à payer</span></div>
+    </div>
+    <figure class="wide curtain"><img class="bw" src="images/sport/salle.webp" alt="Une grande salle d'entraînement avec un ring" width="1600" height="700" loading="lazy"></figure>
+  </div>
+</section>
+
+<section>
+  <div class="wrap letter">
+    <h2 class="wd h2">Le mot du coach</h2>
+    <div class="text">
+      <p>J'ai ouvert Forza pour une raison simple : dans les grandes salles, on s'ennuie et on abandonne. Ici, on se connaît par son prénom, on vient à des heures fixes, et quelqu'un remarque quand vous n'êtes pas venu.</p>
+      <p>Pas besoin d'être en forme pour commencer : c'est justement pour ça qu'on vient. Venez faire une séance, on regarde ensemble ce qui vous convient.</p>
+      <p class="sign">Marc<small>coach et fondateur, fictif lui aussi</small></p>
+    </div>
+  </div>
+</section>
+
+<section class="orange diag" id="tarifs">
+  <div class="wrap">
+    <h2 class="wd h2">Les tarifs</h2>
+    <p class="lede">Sans frais d'inscription, sans engagement. Prix de démonstration.</p>
+    <div class="plans">
+      <div class="plan"><h3>À la séance</h3><b>15 €</b><p>Pour venir quand vous voulez, sur réservation.</p></div>
+      <div class="plan star"><span class="tag">Le plus choisi</span><h3>Illimité</h3><b>59 € <small>par mois</small></b><p>Tous les cours, tous les jours, résiliable chaque mois.</p></div>
+      <div class="plan"><h3>Carnet de 10</h3><b>120 €</b><p>Valable six mois, partageable en couple.</p></div>
+    </div>
+    <div class="contact">
+      <div><h3>La salle</h3><p>Zone de Baleone, Ajaccio<br>Parking, douches, vestiaires</p></div>
+      <div><h3>Les horaires</h3><p>Lundi au vendredi : 6 h – 22 h<br>Samedi : 8 h – 18 h · Dimanche : 9 h – 12 h</p></div>
+      <div><h3>Nous joindre</h3><a class="tel" href="tel:+33400000000">04 00 00 00 00</a><p>salut@forza-club.fr</p></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap"><span>© Forza Club, salle fictive · site réalisé par <a href="accueil.html">Saitora</a></span><span>Photos : Pixabay</span></div></footer>
+
+<nav class="dock" id="dock" aria-label="Accès rapide"><a href="tel:+33400000000">Appeler</a><a class="go" href="#planning">Séance d'essai</a></nav>
+
+<script>
+document.documentElement.classList.add("js");
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[m]);
+const hm = m => `${Math.floor(m / 60)} h${m % 60 ? " " + String(m % 60).padStart(2, "0") : ""}`;
+const CAP = 12, now = new Date();
+
+// ——— le planning type : [jour (0 dimanche), minute, discipline, coach]
+const WEEK = [];
+const add = (days, m, k, c) => days.forEach(d => WEEK.push([d, m, k, c]));
+add([1, 3, 5], 390, "Cross training", "Marc"); add([2, 4], 390, "Boxe", "Lisa");
+add([1, 2, 3, 4, 5], 750, "Renfo et gainage", "Lisa"); add([1, 3, 5], 1080, "Boxe", "Lisa"); add([2, 4], 1080, "Cross training", "Marc");
+add([1, 2, 3, 4, 5], 1170, "Cross training", "Marc"); add([2, 4], 1230, "Mobilité", "Lisa");
+add([6], 540, "Cross training", "Marc"); add([6], 630, "Boxe", "Lisa"); add([6], 960, "Renfo et gainage", "Marc"); add([0], 600, "Mobilité", "Lisa");
+const KINDS = ["Tout", "Cross training", "Boxe", "Renfo et gainage", "Mobilité"];
+const DN = ["dim.", "lun.", "mar.", "mer.", "jeu.", "ven.", "sam."];
+// les places prises : tirées de la date et de l'heure, toujours les mêmes pour un cours donné (démo)
+const taken = (d, m) => { const x = Math.sin((d.getFullYear() * 400 + d.getMonth() * 31 + d.getDate()) * 7.1 + m * .37) * 10000; return Math.min(CAP, Math.floor(((x % 1 + 1) % 1) * (CAP + 3))); };
+const DAYS = Array.from({ length: 7 }, (_, i) => { const d = new Date(now); d.setDate(now.getDate() + i); d.setHours(0, 0, 0, 0); return d; });
+let day = 0, kind = "Tout", picked = null;
+{ const nm = now.getHours() * 60 + now.getMinutes(); if (WEEK.filter(([wd, m]) => wd === now.getDay() && m >= nm).length < 2) day = 1; }   // le soir, on montre d'abord demain
+function render() {
+  $("days").innerHTML = DAYS.map((d, i) => `<button type="button" data-i="${i}" aria-pressed="${i === day}"><small>${i === 0 ? "auj." : DN[d.getDay()]}</small><b>${d.getDate()}</b></button>`).join("");
+  $("kinds").innerHTML = KINDS.map(k => `<button type="button" data-k="${k}" aria-pressed="${k === kind}">${k}</button>`).join("");
+  const d = DAYS[day], nowM = now.getHours() * 60 + now.getMinutes();
+  const list = WEEK.filter(([wd, m, k]) => wd === d.getDay() && (kind === "Tout" || k === kind) && !(day === 0 && m < nowM)).sort((a, b) => a[1] - b[1]);
+  $("classes").innerHTML = list.length ? list.map(([, m, k, c]) => { const t = taken(d, m), left = CAP - t, id = `${day}-${m}`;
+    return `<li class="cls${left ? "" : " full"}"><span class="t">${hm(m)}</span><span class="n"><b>${k}</b><span>avec ${c}</span></span><span class="cap"><span class="dots" aria-hidden="true">${Array.from({ length: CAP }, (_, i) => `<i class="${i < t ? "taken" : "free"}"></i>`).join("")}</span><p class="left">${left ? `<b>${left}</b> place${left > 1 ? "s" : ""} sur ${CAP}` : "Complet"}</p></span><button class="pill" type="button" data-id="${id}" data-m="${m}" data-k="${k}"${left ? "" : " disabled"}>${left ? "Réserver" : "Complet"}</button></li>`; }).join("")
+    : `<li class="empty">Pas de cours ${kind === "Tout" ? "" : "de " + kind.toLowerCase() + " "}ce jour-là${day === 0 ? " à partir de maintenant" : ""}. Essayez un autre jour.</li>`;
+}
+$("days").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; day = +b.dataset.i; $("trial").hidden = true; render(); });
+$("kinds").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; kind = b.dataset.k; $("trial").hidden = true; render(); });
+$("classes").addEventListener("click", e => { const b = e.target.closest("button[data-m]"); if (!b || b.disabled) return;
+  picked = { d: DAYS[day], m: +b.dataset.m, k: b.dataset.k };
+  $("tTxt").textContent = `${picked.k}, ${day === 0 ? "aujourd'hui" : picked.d.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric" })} à ${hm(picked.m)} : votre séance d'essai, offerte.`;
+  $("trial").hidden = false; $("done").textContent = ""; $("tName").focus({ preventScroll: true }); });
+$("trial").addEventListener("submit", e => { e.preventDefault();
+  if (!$("tName").value.trim() || !$("tTel").value.trim()) { $("done").textContent = "Il manque votre prénom ou votre téléphone."; return; }
+  $("done").textContent = `C'est noté, ${$("tName").value.trim()} ! Rendez-vous ${hm(picked.m)}, venez dix minutes avant. (Démo : rien n'est envoyé.)`; $("trial").hidden = true; });
+render();
+
+// ——— dévoilement des photos une fois chargées, et la barre du bas après le premier écran
+const ready = img => img.complete && img.naturalWidth ? Promise.resolve() : new Promise(r => { img.addEventListener("load", r, { once: true }); img.addEventListener("error", r, { once: true }); });
+const io = new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting) return; io.unobserve(e.target); const img = e.target.querySelector("img");
+  (img.decode ? img.decode().catch(() => {}) : ready(img)).then(() => ready(img)).then(() => requestAnimationFrame(() => e.target.classList.add("on"))); }), { rootMargin: "0px 0px -8% 0px" });
+document.querySelectorAll(".curtain").forEach(el => io.observe(el));
+new IntersectionObserver(([e]) => $("dock").classList.toggle("on", !e.isIntersecting && e.boundingClientRect.top < 0)).observe($("top"));
+</script>
+</body>
+</html>

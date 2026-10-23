@@ -567,5 +567,365 @@
       "Grands numéros",
       "Chaque section porte un grand numéro de chapitre pâle en arrière-plan."
     ]
-  ]
+  ],
+  "_genre": {
+    "_note": "Pour chaque genre, les seules options permises dans certaines familles (le reste ne va pas avec le genre). Les familles absentes restent libres.",
+    "art-deco": {
+      "formes": [
+        "cadres",
+        "droites"
+      ],
+      "texture": [
+        "aucune",
+        "forme",
+        "motif-logo"
+      ],
+      "decoupes": [
+        "droites",
+        "chevauchement"
+      ],
+      "boutons": [
+        "souligne",
+        "rectangle"
+      ],
+      "ornement": [
+        "filet",
+        "numeros",
+        "sceau"
+      ],
+      "appoint": [
+        "aucune",
+        "italique"
+      ],
+      "titres": [
+        "capitales",
+        "geants"
+      ],
+      "rythme": [
+        "sombre",
+        "alterne"
+      ]
+    },
+    "magazine": {
+      "formes": [
+        "droites"
+      ],
+      "texture": [
+        "aucune",
+        "grain"
+      ],
+      "decoupes": [
+        "droites",
+        "chevauchement"
+      ],
+      "boutons": [
+        "souligne",
+        "rectangle"
+      ],
+      "ornement": [
+        "numeros",
+        "filet",
+        "aucun"
+      ],
+      "titres": [
+        "italiques",
+        "geants",
+        "normaux"
+      ],
+      "appoint": [
+        "aucune",
+        "italique"
+      ]
+    },
+    "suisse": {
+      "formes": [
+        "droites"
+      ],
+      "texture": [
+        "aucune"
+      ],
+      "decoupes": [
+        "droites"
+      ],
+      "boutons": [
+        "rectangle",
+        "souligne"
+      ],
+      "ornement": [
+        "aucun",
+        "numeros"
+      ],
+      "titres": [
+        "geants",
+        "normaux"
+      ],
+      "appoint": [
+        "aucune"
+      ],
+      "photos": [
+        "naturelles",
+        "noir-blanc"
+      ],
+      "rythme": [
+        "blocs",
+        "alterne",
+        "clair"
+      ],
+      "arrivee": [
+        "fondu",
+        "calme"
+      ]
+    },
+    "affiche-brute": {
+      "formes": [
+        "droites"
+      ],
+      "texture": [
+        "aucune",
+        "grain"
+      ],
+      "decoupes": [
+        "droites",
+        "diagonale"
+      ],
+      "boutons": [
+        "rectangle"
+      ],
+      "ornement": [
+        "etiquettes",
+        "aucun",
+        "numeros"
+      ],
+      "titres": [
+        "geants",
+        "capitales"
+      ],
+      "appoint": [
+        "aucune",
+        "affiche"
+      ],
+      "rythme": [
+        "blocs",
+        "alterne"
+      ]
+    },
+    "retro-70": {
+      "formes": [
+        "arrondies",
+        "organiques"
+      ],
+      "texture": [
+        "aucune",
+        "grain",
+        "forme"
+      ],
+      "decoupes": [
+        "vague",
+        "arrondies"
+      ],
+      "boutons": [
+        "pilule",
+        "rond"
+      ],
+      "ornement": [
+        "sceau",
+        "etiquettes",
+        "aucun"
+      ],
+      "titres": [
+        "geants",
+        "normaux"
+      ],
+      "appoint": [
+        "aucune",
+        "manuscrite"
+      ],
+      "photos": [
+        "naturelles",
+        "douces"
+      ],
+      "rythme": [
+        "clair",
+        "blocs",
+        "alterne"
+      ]
+    },
+    "fait-main": {
+      "formes": [
+        "organiques",
+        "arrondies",
+        "droites"
+      ],
+      "texture": [
+        "grain",
+        "carreaux"
+      ],
+      "boutons": [
+        "pilule",
+        "rond",
+        "souligne"
+      ],
+      "ornement": [
+        "etiquettes",
+        "sceau"
+      ],
+      "appoint": [
+        "manuscrite"
+      ],
+      "rythme": [
+        "clair",
+        "alterne"
+      ]
+    },
+    "luxe-minimal": {
+      "formes": [
+        "droites",
+        "cadres"
+      ],
+      "texture": [
+        "aucune"
+      ],
+      "decoupes": [
+        "droites",
+        "chevauchement"
+      ],
+      "boutons": [
+        "souligne"
+      ],
+      "ornement": [
+        "aucun",
+        "filet",
+        "numeros"
+      ],
+      "titres": [
+        "geants",
+        "capitales",
+        "italiques"
+      ],
+      "appoint": [
+        "aucune",
+        "italique"
+      ],
+      "rythme": [
+        "clair",
+        "sombre"
+      ],
+      "arrivee": [
+        "fondu",
+        "rideau",
+        "calme",
+        "zoom"
+      ]
+    },
+    "mediterraneen": {
+      "formes": [
+        "arrondies",
+        "organiques",
+        "cadres"
+      ],
+      "texture": [
+        "carreaux",
+        "forme",
+        "grain"
+      ],
+      "decoupes": [
+        "vague",
+        "arrondies",
+        "droites"
+      ],
+      "boutons": [
+        "pilule",
+        "rond",
+        "rectangle"
+      ],
+      "photos": [
+        "naturelles",
+        "douces"
+      ],
+      "rythme": [
+        "blocs",
+        "alterne",
+        "clair"
+      ]
+    },
+    "moderne-doux": {
+      "formes": [
+        "arrondies",
+        "organiques"
+      ],
+      "texture": [
+        "aucune",
+        "forme"
+      ],
+      "decoupes": [
+        "arrondies",
+        "vague",
+        "droites"
+      ],
+      "boutons": [
+        "pilule",
+        "rond"
+      ],
+      "ornement": [
+        "aucun",
+        "etiquettes"
+      ],
+      "appoint": [
+        "aucune",
+        "manuscrite"
+      ],
+      "photos": [
+        "naturelles",
+        "douces"
+      ],
+      "rythme": [
+        "clair",
+        "blocs",
+        "alterne"
+      ]
+    },
+    "sombre-cinema": {
+      "formes": [
+        "droites"
+      ],
+      "texture": [
+        "aucune",
+        "grain"
+      ],
+      "decoupes": [
+        "droites",
+        "chevauchement"
+      ],
+      "boutons": [
+        "souligne",
+        "rectangle"
+      ],
+      "ornement": [
+        "aucun",
+        "numeros"
+      ],
+      "titres": [
+        "geants",
+        "capitales"
+      ],
+      "appoint": [
+        "aucune",
+        "italique"
+      ],
+      "rythme": [
+        "sombre"
+      ],
+      "photos": [
+        "naturelles",
+        "noir-blanc",
+        "teintees"
+      ],
+      "arrivee": [
+        "zoom",
+        "mots",
+        "rideau",
+        "fondu"
+      ]
+    }
+  }
 }

@@ -72,14 +72,20 @@ def main():
         if f not in FAMILLES or v not in options(f):
             sys.exit(f"Choix inconnu : {paire}")
         choix[f] = v
+    permis = CATALOGUE.get("_genre", {}).get(choix.get("genre"), {})
+    for f, v in choix.items():
+        if f in permis and v not in permis[f]:
+            print(f"Remarque : {f}={v} ne va pas d'habitude avec le genre {choix['genre']}.")
     # écarter des choix impossibles pour ce client (pas d'avis réels, pas de photos de la personne…)
     exclus = {tuple(p.split("=")) for p in filter(None, (arg("--exclure") or "").split(","))}
     # tirer le reste : parmi les options les moins utilisées
     hasard = random.Random(arg("--graine") or site)
-    for f in FAMILLES:
+    for f in FAMILLES:  # le genre est la première famille : il est tiré avant les autres
         if f in choix:
             continue
-        compte = {o: 0 for o in options(f) if (f, o) not in exclus}
+        # le genre limite les autres familles à ce qui va avec lui (catalogue.json, clé « _genre »)
+        permis = CATALOGUE.get("_genre", {}).get(choix.get("genre"), {}).get(f)
+        compte = {o: 0 for o in options(f) if (f, o) not in exclus and (not permis or o in permis)}
         for v in autres.values():
             if v.get(f) in compte:
                 compte[v[f]] += 1

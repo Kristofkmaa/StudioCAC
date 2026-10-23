@@ -10,263 +10,332 @@
 <meta property="og:site_name" content="Saitora">
 <meta property="og:title" content="Atelier Bois Massif, démo Saitora">
 <meta property="og:description" content="Démo de site vitrine pour ébéniste : choix des essences de bois, réalisations cotées, méthode et demande de projet. Réalisé par Saitora.">
-<meta name="theme-color" content="#140D08">
+<meta name="theme-color" content="#0D0B0A">
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Crect%20width=%2264%22%20height=%2264%22%20fill=%22%232B1E15%22/%3E%3Ccircle%20cx=%2232%22%20cy=%2232%22%20r=%228%22%20fill=%22none%22%20stroke=%22%23C49A6C%22%20stroke-width=%223%22/%3E%3Ccircle%20cx=%2232%22%20cy=%2232%22%20r=%2216%22%20fill=%22none%22%20stroke=%22%23C49A6C%22%20stroke-width=%223%22/%3E%3Ccircle%20cx=%2232%22%20cy=%2232%22%20r=%2224%22%20fill=%22none%22%20stroke=%22%23C49A6C%22%20stroke-width=%223%22/%3E%3C/svg%3E">
-<link rel="stylesheet" href="polices/gloock-schibsted-grotesk-70cc9c.css">
+<link rel="stylesheet" href="polices/big-shoulders-display-source-sans-3-4348c9.css">
 <style>
-/* Téléphone : pas de flash gris au toucher, pas de texte grossi en paysage, réponse dès que le doigt se pose,
-   libellés des boutons non sélectionnables, contenu tenu hors de l'encoche en paysage. */
-html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%}
-:where(a,button,[role="button"],summary,label,select,input[type="range"]){touch-action:manipulation}
-:where(button,.btn,[role="button"],[role="tab"]){-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
-:where(button:not([disabled]),.btn):active{opacity:.82}
-:where(.in,.page){padding-inline:env(safe-area-inset-left,0px) env(safe-area-inset-right,0px)}
-/* Atelier Bois Massif. Idée : le bois lui-même. La première page est un échantillon qu'on change : chêne, noyer,
-   châtaignier, frêne, et la page prend la teinte du bois choisi. Les réalisations sont présentées avec leurs cotes,
-   tracées au crayon de menuisier. Gloock (empattements tranchés, comme un trait de ciseau) et Schibsted Grotesk. */
+/* Atelier Bois Massif, genre « sombre cinéma » : fond noir, photos plein cadre très contrastées, titres immenses en capitales,
+   petites capitales comme un générique de film. La couleur d'accent est celle du bois choisi : elle change avec l'essence. */
 :root{
-  --walnut:#2B1E15; --walnut-2:#3A2A1E; --paper:#F3EFE8; --paper-2:#E8E1D5; --ink:#221811; --muted:#6A5A4B; --rule:rgba(34,24,17,.18);
-  --pencil:#C8402A; --wood:#C49A6C;
-  --serif:"Gloock",Georgia,serif;
-  --sans:"Schibsted Grotesk","Helvetica Neue",Arial,sans-serif;
-  color-scheme:light;
+  --black:#0D0B0A; --night:#16120F; --ink:#F2EDE6; --grey:#9A9189; --line:rgba(242,237,230,.16);
+  --wood:#C49A6C;
+  --m:clamp(16px,4vw,64px);
+  --disp:"Big Shoulders Display",Impact,sans-serif; --sans:"Source Sans 3",system-ui,sans-serif;
 }
-*,*::before,*::after{box-sizing:border-box}
-html{scroll-behavior:smooth;background:var(--paper)}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.6}
-h1,h2,h3,p,ul,ol,figure{margin:0}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+html:focus-within{scroll-behavior:smooth}
+body{background:var(--black);color:var(--ink);font:400 18px/1.55 var(--sans);-webkit-font-smoothing:antialiased;position:relative;isolation:isolate}
+body::before{content:"";position:fixed;inset:0;z-index:50;pointer-events:none;opacity:.22;mix-blend-mode:overlay;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+img{display:block;max-width:100%;height:auto}
 a{color:inherit}
-img{display:block;max-width:100%}
-:focus-visible{outline:2px solid var(--pencil);outline-offset:3px}
-.in{width:min(1200px,100% - 2 * clamp(16px,4vw,40px));margin-inline:auto}
+button,input,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--wood);outline-offset:3px}
+.wrap{max-width:1400px;margin-inline:auto;padding-inline:var(--m)}
+.demo{position:relative;z-index:31;background:#000;color:#A39A90;font-size:13px;text-align:center;padding:6px 16px}
+.sc{font:600 13px/1.4 var(--sans);letter-spacing:.3em;text-transform:uppercase}
+.disp{font-family:var(--disp);font-weight:900;text-transform:uppercase;line-height:.86;letter-spacing:.005em}
+.link{display:inline-flex;align-items:center;gap:12px;min-height:44px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:15px;text-decoration:underline;text-decoration-color:var(--wood);text-decoration-thickness:2px;text-underline-offset:.5em;background:none;border:0;cursor:pointer;transition:text-decoration-color .3s}
+.link::after{content:"→";text-decoration:none;color:var(--wood);transition:transform .25s cubic-bezier(.23,1,.32,1),color .3s}
+@media (hover:hover) and (pointer:fine){.link:hover::after{transform:translateX(6px)}}
 
-.demo{background:#140D08;color:rgba(243,239,232,.65);font-size:13px;text-align:center;padding:6px 16px}
+/* ---- navigation centrée, posée sur la photo ---- */
+.top{position:absolute;left:0;right:0;z-index:30;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:20px var(--m)}
+.top nav{display:flex;gap:28px}
+.top nav:last-child{justify-content:flex-end}
+.top nav a{min-height:44px;display:inline-flex;align-items:center;text-decoration:none;font:600 13px/1 var(--sans);letter-spacing:.24em;text-transform:uppercase;transition:color .15s}
+@media (hover:hover) and (pointer:fine){.top nav a:hover{color:var(--wood)}}
+.top .name{font:900 1.5rem/1 var(--disp);letter-spacing:.12em;text-transform:uppercase;text-decoration:none}
 
-.top{background:var(--walnut);color:var(--paper)}
-.top .in{display:flex;align-items:center;gap:28px;height:66px}
-.name{font:400 1.5rem/1 var(--serif);text-decoration:none}
-.top nav{display:flex;gap:24px;margin-left:auto;font-size:15px}
-.top nav a{text-decoration:none;opacity:.8}
+/* ---- ouverture plein cadre ---- */
+.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden}
+.hero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:contrast(1.12) saturate(.9)}
+.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 80% 70% at 0% 100%,rgba(13,11,10,.92),rgba(13,11,10,.55) 45%,transparent 75%),linear-gradient(rgba(13,11,10,.55),transparent 22%)}
+.hero .wrap{position:relative;z-index:2;width:100%;padding-top:110px;padding-bottom:clamp(36px,6vw,80px)}
+.hero .sc{color:var(--wood)}
+.hero h1{margin-top:16px;font-size:clamp(3.6rem,1.2rem + 7.4vw,10rem);max-width:13ch}
+.hero .say{margin-top:22px;max-width:44ch;font-size:clamp(1.1rem,1rem + .35vw,1.3rem);color:#DDD5CB}
+.hero .acts{display:flex;flex-wrap:wrap;gap:12px 32px;margin-top:26px}
 
-.btn{display:inline-flex;align-items:center;justify-content:center;font:600 15px var(--sans);padding:12px 22px;border-radius:2px;border:0;cursor:pointer;text-decoration:none;background:var(--wood);color:var(--walnut);transition:background-color 300ms ease,transform 140ms ease}
-.btn:active{transform:scale(.97)}
-.btn.ink{background:var(--walnut);color:var(--paper)}
+/* ---- sections numérotées ---- */
+section{position:relative;padding-block:clamp(90px,10vw,150px)}
+.n{position:absolute;top:clamp(30px,5vw,70px);right:var(--m);font:900 clamp(8rem,5rem + 12vw,20rem)/.8 var(--disp);color:var(--ink);opacity:.05;pointer-events:none}
+.h2{font-size:clamp(3.4rem,1.6rem + 6.4vw,9rem)}
+.h2 em{font-family:var(--sans);font-style:italic;font-weight:400;text-transform:none;letter-spacing:0;font-size:.32em;display:block;color:var(--wood);margin-top:.5em;line-height:1.2}
+.lede{margin-top:18px;max-width:52ch;color:#CFC7BD;font-size:clamp(1.05rem,1rem + .25vw,1.2rem)}
 
-/* l'échantillon */
-.sample{background:var(--walnut);color:var(--paper);padding-block:clamp(36px,5vw,64px) clamp(56px,7vw,96px)}
-.sample .grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(28px,5vw,72px);align-items:center}
-.sample h1{font:400 clamp(2.6rem,1.6rem + 3.8vw,5rem)/1 var(--serif);letter-spacing:-.01em;max-width:13ch}
-.sample .lead{margin-top:20px;color:rgba(243,239,232,.78);max-width:44ch;font-size:1.08rem}
-.sample .actions{display:flex;gap:22px;align-items:center;margin-top:28px;flex-wrap:wrap}
-.sample .actions a.more{color:var(--paper);text-underline-offset:5px;text-decoration-color:var(--wood)}
-.board{position:relative}
-.board img{width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;border-radius:2px;transition:opacity 200ms ease}
-.board img.swap{opacity:.25}
-.essences{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:-1px;border:1px solid rgba(243,239,232,.2)}
-.ess{font:500 15px var(--sans);padding:14px 8px;border:0;border-right:1px solid rgba(243,239,232,.2);background:none;color:rgba(243,239,232,.7);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
-.ess:last-child{border-right:0}
-.ess i{width:12px;height:12px;border-radius:50%}
-.ess[aria-pressed="true"]{background:var(--paper);color:var(--walnut)}
-.ess-info{display:grid;grid-template-columns:1fr auto;gap:6px 24px;margin-top:20px;align-items:baseline}
-.ess-info h2{font:400 2.2rem/1 var(--serif);color:var(--wood);transition:color 300ms ease}
-.ess-info .price{font-size:15px;color:rgba(243,239,232,.75);text-align:right}
-.ess-info .price b{display:block;font:400 1.6rem/1.1 var(--serif);color:var(--paper)}
-.ess-info p{grid-column:1/-1;color:rgba(243,239,232,.8);max-width:56ch}
-.ess-info .use{grid-column:1/-1;font-size:15px;font-weight:600;color:var(--paper)}
+/* ---- 01 configurateur : choisir son bois ---- */
+.config{display:grid;grid-template-columns:1.1fr 1fr;align-items:stretch;margin-top:clamp(40px,5vw,64px);min-height:560px}
+.config .pic{position:relative;overflow:hidden}
+.config .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .35s ease,transform .8s cubic-bezier(.23,1,.32,1)}
+.config .pic img.swap{opacity:0;transform:scale(1.04)}
+.config .pic .big{position:absolute;left:clamp(16px,2vw,28px);bottom:clamp(10px,1.4vw,20px);font:900 clamp(4rem,2rem + 7vw,10rem)/.8 var(--disp);text-transform:uppercase;color:var(--ink);text-shadow:0 2px 30px rgba(0,0,0,.5)}
+.config .pic::after{content:"";position:absolute;inset:50% 0 0;background:linear-gradient(transparent,rgba(13,11,10,.6))}
+.config .pic .big{z-index:2}
+.config .side{background:var(--night);padding:clamp(24px,3vw,48px);display:flex;flex-direction:column}
+.ess{list-style:none;border-top:1px solid var(--line)}
+.ess button{width:100%;display:flex;align-items:baseline;justify-content:space-between;gap:16px;min-height:64px;padding:12px 0;background:none;border:0;border-bottom:1px solid var(--line);cursor:pointer;text-align:left;transition:color .2s}
+.ess button b{font:700 clamp(1.8rem,1.4rem + 1.2vw,2.6rem)/1 var(--disp);text-transform:uppercase;letter-spacing:.02em}
+.ess button span{font-size:14px;color:var(--grey)}
+.ess button[aria-pressed="true"] b{color:var(--wood)}
+.ess button i{width:14px;height:14px;flex:none;background:var(--c);align-self:center}
+@media (hover:hover) and (pointer:fine){.ess button:not([aria-pressed="true"]):hover b{color:#fff}}
+.config .desc{margin-top:auto;padding-top:28px}
+.config .desc p{color:#CFC7BD}
+.config .desc .price{margin-top:14px;font:700 clamp(1.8rem,1.4rem + 1vw,2.4rem)/1 var(--disp);text-transform:uppercase;color:var(--wood)}
+.config .desc .price small{display:block;font:600 12px/1.4 var(--sans);letter-spacing:.24em;color:var(--grey);margin-bottom:6px}
+.config .desc .use{margin-top:10px;font-style:italic;color:var(--grey)}
 
-/* réalisations cotées */
-.sec{padding-block:clamp(64px,8vw,112px)}
-.sec h2.t{font:400 clamp(2.2rem,1.5rem + 2.8vw,3.8rem)/1 var(--serif);letter-spacing:-.01em;max-width:18ch}
-.sec .sub{margin-top:14px;color:var(--muted);max-width:56ch}
-.works{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,3vw,40px);margin-top:44px;align-items:start}
-.work:nth-child(2){margin-top:64px}
-.work img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;border-radius:2px}
-.cote{position:relative;margin-top:16px;height:22px;border-left:1.5px solid var(--pencil);border-right:1.5px solid var(--pencil)}
-.cote::before{content:"";position:absolute;left:0;right:0;top:50%;border-top:1.5px solid var(--pencil)}
-.cote span{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--paper);padding:0 8px;font:600 14px var(--sans);color:var(--pencil);font-variant-numeric:tabular-nums;white-space:nowrap}
-.work h3{font:400 1.6rem/1.1 var(--serif);margin-top:14px}
-.work p{color:var(--muted);margin-top:4px}
-.work .dims{font-size:14px;color:var(--ink);margin-top:6px}
+/* ---- 02 le mur des réalisations ---- */
+.wall{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:clamp(180px,20vw,300px);gap:4px;margin-top:clamp(40px,5vw,64px)}
+.wall figure{position:relative;overflow:hidden;background:var(--night)}
+.wall .tall{grid-row:span 2}.wall .wide{grid-column:span 2}
+.wall img{width:100%;height:100%;object-fit:cover;filter:contrast(1.1)}
+.wall figcaption{position:absolute;left:0;right:0;bottom:0;padding:40px 16px 14px;background:linear-gradient(transparent,rgba(13,11,10,.88))}
+.wall figcaption b{display:block;font:700 1.5rem/1 var(--disp);text-transform:uppercase}
+.wall figcaption span{font-size:14px;color:#CFC7BD}
+.cote{position:absolute;left:14px;right:14px;top:16px;display:flex;align-items:center;gap:8px;font:600 12px/1 var(--sans);letter-spacing:.1em;color:var(--ink)}
+.cote::before,.cote::after{content:"";flex:1;height:1px;background:var(--ink);opacity:.7}
+.cote::before{box-shadow:-1px 0 0 0 var(--ink)}
+.wall .blk{background:var(--wood);color:var(--black);padding:20px;display:flex;flex-direction:column;justify-content:flex-end;transition:background-color .4s}
+.wall .blk b{font:900 clamp(2.2rem,1.6rem + 2vw,3.6rem)/.85 var(--disp);text-transform:uppercase}
+.wall .blk span{margin-top:8px;font-weight:600}
+.curtain img{transition:opacity .9s ease-out,transform 1.4s cubic-bezier(.23,1,.32,1);transition-delay:var(--d,0ms)}
+.js .curtain img{opacity:0;transform:scale(1.05)}
+.js .curtain.on img{opacity:1;transform:none}
 
-/* méthode */
-.method{background:var(--paper-2)}
-.steps{list-style:none;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(18px,3vw,36px);margin-top:44px;counter-reset:s}
-.steps li{counter-increment:s;border-top:2px solid var(--walnut);padding-top:16px}
-.steps li::before{content:counter(s);font:400 2.6rem/1 var(--serif);color:var(--pencil)}
-.steps h3{font:600 1.15rem/1.3 var(--sans);margin-top:10px}
-.steps .when{font-size:14px;color:var(--muted)}
-.steps p{margin-top:8px;color:var(--muted);font-size:15.5px}
+/* ---- 03 la grande phrase ---- */
+.phrase{background:var(--night)}
+.phrase blockquote{font:900 clamp(2.8rem,1.4rem + 5.4vw,8rem)/.9 var(--disp);text-transform:uppercase;max-width:16ch}
+.phrase blockquote em{font-style:normal;color:var(--wood)}
+.phrase cite{display:block;margin-top:28px;font-style:italic;color:var(--grey)}
 
-/* projet */
-.project .grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(28px,5vw,72px);align-items:start}
-.project .contact{margin-top:28px;display:grid;gap:16px}
-.project .contact h3{font:600 15px var(--sans);color:var(--muted)}
-.project .contact a{font:400 1.6rem/1.2 var(--serif);text-decoration:none}
-form.pj{background:#fff;border:1px solid var(--rule);padding:clamp(22px,3vw,34px);display:flex;flex-direction:column;gap:20px}
-.lbl{display:block;font-size:15px;font-weight:600;margin-bottom:8px}
-.choices{display:flex;flex-wrap:wrap;gap:6px}
-.ch{font:500 15px var(--sans);padding:9px 14px;border:1px solid var(--rule);border-radius:2px;background:var(--paper);color:var(--ink);cursor:pointer}
-.ch[aria-pressed="true"]{background:var(--walnut);border-color:var(--walnut);color:var(--paper)}
-.budget{display:flex;justify-content:space-between;align-items:baseline}
-.budget b{font:400 1.6rem/1 var(--serif)}
-.budget span{font-size:14px;color:var(--muted)}
-input[type=range]{width:100%;accent-color:var(--pencil)}
-form.pj textarea,form.pj input[type=text],form.pj input[type=tel]{font:16px var(--sans);padding:12px 14px;border:1px solid var(--rule);border-radius:2px;background:var(--paper);color:var(--ink);width:100%}
-form.pj textarea{min-height:96px;resize:vertical}
-form.pj textarea:focus,form.pj input:focus{outline:none;border-color:var(--walnut)}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.ok{background:var(--paper);border-left:3px solid var(--pencil);padding:12px 14px;font-size:15px}
+/* ---- 04 tableau des prix ---- */
+.tw{overflow-x:auto;margin-top:clamp(40px,5vw,64px);-webkit-overflow-scrolling:touch}
+table.prices{width:100%;min-width:720px;border-collapse:collapse}
+.prices th{text-align:left;padding:0 16px 14px 0;border-bottom:1px solid var(--ink)}
+.prices td{padding:20px 16px 20px 0;border-bottom:1px solid var(--line);vertical-align:baseline;color:#CFC7BD}
+.prices td:first-child{font:700 clamp(1.6rem,1.3rem + .8vw,2.2rem)/1 var(--disp);text-transform:uppercase;color:var(--ink)}
+.prices td.p{font:700 1.5rem/1 var(--disp);color:var(--wood);white-space:nowrap}
+.credits{margin-top:clamp(64px,8vw,110px);display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(16px,2vw,32px);text-align:center}
+.credits div{border-top:1px solid var(--line);padding-top:20px}
+.credits small{display:block;color:var(--grey)}
+.credits b{display:block;margin-top:8px;font:700 1.7rem/1 var(--disp);text-transform:uppercase}
+.credits p{margin-top:8px;font-size:15px;color:#CFC7BD}
 
-footer{background:var(--walnut);color:rgba(243,239,232,.6);font-size:14px}
-footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:20px}
+/* ---- 05 votre projet ---- */
+.project{display:grid;grid-template-columns:1fr 1.2fr;gap:clamp(28px,5vw,80px);align-items:start;margin-top:clamp(40px,5vw,64px)}
+.project .infos p{margin-top:18px;color:#CFC7BD}
+.project .infos b{display:block;color:var(--ink);font:700 1.4rem/1.1 var(--disp);text-transform:uppercase}
+.form{display:grid;gap:22px}
+.form .lab{display:block;margin-bottom:10px;color:var(--grey)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips button{min-height:44px;padding:0 16px;border:1px solid var(--line);background:none;cursor:pointer;font-weight:600;transition:border-color .15s,background-color .15s,color .15s}
+.chips button[aria-pressed="true"]{background:var(--wood);border-color:var(--wood);color:var(--black)}
+@media (hover:hover) and (pointer:fine){.chips button:not([aria-pressed="true"]):hover{border-color:var(--ink)}}
+.form input[type=text],.form input[type=tel],.form textarea{width:100%;min-height:52px;padding:12px 0;border:0;border-bottom:1px solid var(--ink);background:none;font-size:17px;border-radius:0}
+.form textarea{min-height:90px;resize:vertical}
+.form input[type=range]{width:100%;accent-color:var(--wood)}
+.form .two{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.bout{display:flex;justify-content:space-between;align-items:baseline}
+.bout b{font:700 1.8rem/1 var(--disp);color:var(--wood)}
+.form .ok{color:var(--wood);min-height:1.5em}
 
+/* ---- pied : bloc couleur bois ---- */
+footer{background:var(--wood);color:var(--black);transition:background-color .4s}
+footer .last{font:900 clamp(3rem,1.6rem + 5.4vw,8.4rem)/.86 var(--disp);text-transform:uppercase;max-width:14ch;padding-top:clamp(70px,8vw,120px)}
+footer .link{color:var(--black);text-decoration-color:var(--black)}
+footer .link::after{color:var(--black)}
+footer .row{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:clamp(56px,7vw,96px);padding-top:20px;border-top:1px solid rgba(13,11,10,.3)}
+footer .row b{display:block;font:700 1.3rem/1 var(--disp);text-transform:uppercase;margin-bottom:6px}
+footer .legal{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:28px 0 calc(28px + 70px);font-size:13px}
+
+/* ---- bandeau collant ---- */
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:40;display:flex;justify-content:center;gap:4px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:rgba(13,11,10,.94);border-top:1px solid var(--line);transform:translateY(110%);transition:transform .3s cubic-bezier(.23,1,.32,1)}
+.dock.on{transform:none}
+.dock a{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 24px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:14px;text-decoration:none;border:1px solid var(--line)}
+.dock a.go{background:var(--wood);border-color:var(--wood);color:var(--black)}
+
+@media (prefers-reduced-motion:reduce){.js .curtain img{opacity:1;transform:none;transition:none}}
 @media (max-width:900px){
+  .top{grid-template-columns:1fr}
   .top nav{display:none}
-  .top .btn{margin-left:auto}
-  .sample .grid,.project .grid{grid-template-columns:1fr}
-  .works{grid-template-columns:1fr}
-  .work:nth-child(2){margin-top:0}
-  .steps{grid-template-columns:1fr 1fr}
+  .top .name{text-align:center}
+  .hero::after{background:linear-gradient(rgba(13,11,10,.45),rgba(13,11,10,.55) 35%,rgba(13,11,10,.92) 70%)}
+  .config{grid-template-columns:1fr}
+  .config .pic{min-height:340px}
+  .wall{grid-template-columns:repeat(2,1fr);grid-auto-flow:dense}
+  .credits{grid-template-columns:1fr 1fr;row-gap:28px}
+  .project{grid-template-columns:1fr}
+  footer .row{grid-template-columns:1fr}
+  .dock a{flex:1;padding:0 10px}
 }
-@media (max-width:480px){.essences{grid-template-columns:1fr 1fr}.ess:nth-child(2){border-right:0}.ess:nth-child(-n+2){border-bottom:1px solid rgba(243,239,232,.2)}.two{grid-template-columns:1fr}.steps{grid-template-columns:1fr}}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.board img,.btn,.ess-info h2{transition:none}.btn:active{transform:none}}
-/* survols : souris uniquement, sinon l'état reste collé après un toucher */
-@media (hover:hover) and (pointer:fine){
-  .top nav a:hover{opacity:1}
-}
-@media (pointer:coarse){
-  .name{display:inline-block;padding-block:10px;margin-block:-10px}
-  .sample .actions a.more{display:inline-block;padding-block:9px;margin-block:-9px}
-  .ch{min-height:44px}
-}
+@media (max-width:520px){.form .two{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-
 <div class="demo">Site de démonstration réalisé par Saitora, atelier fictif</div>
 
 <header class="top">
-  <div class="in">
-    <a class="name" href="#top">Bois Massif</a>
-    <nav aria-label="Sections"><a href="#realisations">Réalisations</a><a href="#methode">Méthode</a><a href="#projet">Votre projet</a></nav>
-    <a class="btn" href="#projet">Parler de mon projet</a>
-  </div>
+  <nav aria-label="Navigation"><a href="#bois">Le bois</a><a href="#realisations">Réalisations</a></nav>
+  <a class="name" href="#">Bois Massif</a>
+  <nav aria-label="Navigation suite"><a href="#prix">Prix</a><a href="#projet">Votre projet</a></nav>
 </header>
 
-<main id="top">
-  <section class="sample" aria-labelledby="t-hero">
-    <div class="in grid">
-      <div>
-        <h1 id="t-hero">Des meubles en bois de la région, faits à la main</h1>
-        <p class="lead">Cuisines, tables, bibliothèques et escaliers dessinés pour votre maison, avec des planches choisies chez les scieurs à moins de 80 km de l'atelier.</p>
-        <div class="actions"><a class="btn" href="#projet">Décrire mon projet</a><a class="more" href="#realisations">Voir des réalisations</a></div>
-      </div>
-      <div class="board">
-        <img id="essImg" src="images/bois/chene.webp" alt="Veinage du bois de chêne" width="560" height="560" fetchpriority="high">
-        <div class="essences" id="essList" role="group" aria-label="Choisir une essence"></div>
-        <div class="ess-info" aria-live="polite">
-          <h2 id="essName">Chêne</h2>
-          <p class="price" id="essPrice"></p>
-          <p id="essDesc"></p>
-          <p class="use" id="essUse"></p>
-        </div>
+<main>
+<section class="hero" id="top" style="padding:0">
+  <img src="images/bois/atelier.webp" alt="L'établi de l'atelier, outils et planches de bois" width="857" height="857" fetchpriority="high">
+  <div class="wrap">
+    <p class="sc">Atelier Bois Massif présente</p>
+    <h1 class="disp">Des meubles en bois d'ici</h1>
+    <p class="say">Cuisines, tables, bibliothèques et escaliers dessinés pour votre maison, avec des planches choisies chez les scieurs à moins de 80 km de l'atelier.</p>
+    <div class="acts"><a class="link" href="#bois">Choisir son bois</a><a class="link" href="#projet">Décrire mon projet</a></div>
+  </div>
+</section>
+
+<section id="bois">
+  <span class="n" aria-hidden="true">01</span>
+  <div class="wrap">
+    <h2 class="disp h2">Choisissez votre bois<em>La page prend sa couleur.</em></h2>
+    <div class="config">
+      <div class="pic"><img id="essImg" src="images/bois/chene.webp" alt="Veinage du bois de chêne" width="560" height="560"><span class="big" id="essBig" aria-hidden="true">Chêne</span></div>
+      <div class="side">
+        <ul class="ess" id="essList"></ul>
+        <div class="desc" aria-live="polite"><p id="essDesc"></p><p class="price" id="essPrice"></p><p class="use" id="essUse"></p></div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section class="sec" id="realisations" aria-labelledby="t-works">
-    <div class="in">
-      <h2 class="t" id="t-works">Trois meubles sortis de l'atelier cette année</h2>
-      <p class="sub">Chaque pièce est dessinée pour un mur, une pièce, une famille. Les cotes sont les vraies.</p>
-      <div class="works" id="works"></div>
+<section id="realisations" style="padding-top:0">
+  <span class="n" aria-hidden="true">02</span>
+  <div class="wrap">
+    <h2 class="disp h2">Sortis de l'atelier<em>Les cotes sont les vraies, en millimètres.</em></h2>
+    <div class="wall">
+      <figure class="tall curtain"><img src="images/bois/table.webp" alt="Grande table en chêne dressée pour un dîner aux chandelles" width="560" height="700" loading="lazy"><span class="cote">2 200</span><figcaption><b>Table de ferme</b><span>Chêne massif, huile naturelle</span></figcaption></figure>
+      <figure class="tall curtain" style="--d:120ms"><img src="images/bois/bibliotheque.webp" alt="Bibliothèque murale en noyer du sol au plafond" width="560" height="700" loading="lazy"><span class="cote">3 200</span><figcaption><b>Bibliothèque murale</b><span>Noyer, tenons et mortaises</span></figcaption></figure>
+      <figure class="wide curtain" style="--d:240ms"><img src="images/bois/cuisine.webp" alt="Cuisine avec îlot central en bois massif" width="560" height="700" loading="lazy" style="object-position:50% 60%"><span class="cote">4 100</span><figcaption><b>Cuisine en châtaignier</b><span>Façades massives, plan en chêne</span></figcaption></figure>
+      <div class="blk"><b>4 à 8 semaines</b><span>de l'atelier à chez vous</span></div>
+      <figure class="curtain" style="--d:360ms"><img src="images/bois/noyer.webp" alt="Planche de noyer" width="560" height="560" loading="lazy"><figcaption><b>Le noyer</b><span>pour la bibliothèque</span></figcaption></figure>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section class="sec method" id="methode" aria-labelledby="t-method">
-    <div class="in">
-      <h2 class="t" id="t-method">Du croquis à la pose</h2>
-      <ol class="steps">
-        <li><h3>La visite</h3><p class="when">Première semaine</p><p>On vient chez vous, on mesure, on écoute vos envies et vos contraintes.</p></li>
-        <li><h3>Le plan et le devis</h3><p class="when">Deuxième semaine</p><p>Plan coté, choix de l'essence et de la finition, devis détaillé.</p></li>
-        <li><h3>La fabrication</h3><p class="when">De 4 à 8 semaines</p><p>Débit, assemblage et finition à l'atelier. Vous pouvez passer voir où on en est.</p></li>
-        <li><h3>La pose</h3><p class="when">Une journée</p><p>Livraison et installation, ajustements sur place, chantier nettoyé derrière nous.</p></li>
-      </ol>
+<section class="phrase">
+  <span class="n" aria-hidden="true">03</span>
+  <div class="wrap">
+    <blockquote>On choisit chaque planche <em>chez le scieur</em>, à moins de 80 km.</blockquote>
+    <cite>Le bois sèche deux ans dans la cour avant d'entrer à l'atelier.</cite>
+  </div>
+</section>
+
+<section id="prix">
+  <span class="n" aria-hidden="true">04</span>
+  <div class="wrap">
+    <h2 class="disp h2">Ce que ça coûte<em>Des ordres de prix, pour savoir où l'on va.</em></h2>
+    <div class="tw"><table class="prices">
+      <thead><tr><th class="sc">Le meuble</th><th class="sc">Ce qui est compris</th><th class="sc">Délai</th><th class="sc">À partir de</th></tr></thead>
+      <tbody>
+        <tr><td>Table</td><td>Plateau 40 mm, pieds assemblés, huile naturelle</td><td>5 semaines</td><td class="p">1 800 €</td></tr>
+        <tr><td>Bibliothèque</td><td>Sur mesure du sol au plafond, fixations murales</td><td>6 semaines</td><td class="p">3 500 €</td></tr>
+        <tr><td>Cuisine</td><td>Façades massives, plan de travail, pose</td><td>8 semaines</td><td class="p">9 000 €</td></tr>
+        <tr><td>Escalier</td><td>Limons et marches massives, pose</td><td>7 semaines</td><td class="p">6 500 €</td></tr>
+        <tr><td>Dressing</td><td>Caissons, portes, tiroirs, pose</td><td>6 semaines</td><td class="p">4 200 €</td></tr>
+      </tbody>
+    </table></div>
+    <p style="margin-top:14px;font-size:14px;color:var(--grey)">Prix de démonstration, pose comprise quand elle est indiquée.</p>
+    <div class="credits">
+      <div><small class="sc">Première semaine</small><b>La visite</b><p>On mesure, on écoute vos envies et vos contraintes.</p></div>
+      <div><small class="sc">Deuxième semaine</small><b>Le plan</b><p>Plan coté, essence, finition, devis détaillé.</p></div>
+      <div><small class="sc">4 à 8 semaines</small><b>L'atelier</b><p>Débit, assemblage, finition. Passez voir où on en est.</p></div>
+      <div><small class="sc">Une journée</small><b>La pose</b><p>Ajustements sur place, chantier nettoyé derrière nous.</p></div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section class="sec project" id="projet" aria-labelledby="t-project">
-    <div class="in grid">
-      <div>
-        <h2 class="t" id="t-project">Parlons de votre meuble</h2>
-        <p class="sub">Quelques informations suffisent pour qu'on vous rappelle avec une première estimation. La visite et le devis sont gratuits.</p>
-        <div class="contact">
-          <div><h3>Atelier</h3><p>ZA des Scieries, bâtiment 3<br>Visite sur rendez-vous</p></div>
-          <div><h3>Téléphone</h3><a href="tel:+33600000000">06 00 00 00 00</a></div>
-        </div>
+<section id="projet" style="padding-top:0">
+  <span class="n" aria-hidden="true">05</span>
+  <div class="wrap">
+    <h2 class="disp h2">Votre projet<em>La visite et le devis sont gratuits.</em></h2>
+    <div class="project">
+      <div class="infos">
+        <p>Quelques informations suffisent pour qu'on vous rappelle avec une première estimation.</p>
+        <p><b>L'atelier</b>ZA des Scieries, bâtiment 3. Visite sur rendez-vous.</p>
+        <p><b>Téléphone</b><a href="tel:+33600000000">06 00 00 00 00</a></p>
       </div>
-      <form class="pj" id="pj" novalidate>
-        <div><span class="lbl">Le projet</span><div class="choices" id="kind" role="group" aria-label="Le projet"></div></div>
-        <div><span class="lbl">L'essence</span><div class="choices" id="woodPick" role="group" aria-label="L'essence"></div></div>
-        <div><label class="lbl" for="budget">Budget indicatif</label><div class="budget"><b id="bOut">3 000 €</b><span>de 1 000 € à plus de 15 000 €</span></div><input type="range" id="budget" min="1000" max="15000" step="500" value="3000"></div>
-        <div><label class="lbl" for="pDesc">Dimensions, envies, contraintes</label><textarea id="pDesc" placeholder="Par exemple : table pour huit, plateau d'un seul tenant, pieds en métal noir"></textarea></div>
-        <div class="two"><input type="text" id="pName" placeholder="Votre nom" autocomplete="name" aria-label="Votre nom"><input type="tel" id="pTel" enterkeyhint="send" placeholder="Téléphone" autocomplete="tel" aria-label="Téléphone"></div>
-        <button class="btn ink" type="submit">Envoyer ma demande</button>
-        <p class="ok" id="ok" hidden></p>
+      <form class="form" id="pj" novalidate>
+        <div><span class="lab sc">Le meuble</span><div class="chips" id="kind"></div></div>
+        <div><span class="lab sc">L'essence</span><div class="chips" id="woodPick"></div></div>
+        <div><div class="bout"><label class="lab sc" for="budget">Budget indicatif</label><b id="bOut">3 000 €</b></div><input type="range" id="budget" min="1000" max="15000" step="500" value="3000"></div>
+        <div><label class="lab sc" for="pMsg">Dimensions, envies, contraintes</label><textarea id="pMsg" placeholder="Une table pour dix, 2,40 m maximum, pieds en fer…"></textarea></div>
+        <div class="two"><div><label class="lab sc" for="pName">Votre nom</label><input type="text" id="pName" autocomplete="name"></div><div><label class="lab sc" for="pTel">Téléphone</label><input type="tel" id="pTel" inputmode="tel" autocomplete="tel"></div></div>
+        <button class="link" type="submit" style="justify-self:start">Envoyer ma demande</button>
+        <p class="ok" id="ok" aria-live="polite"></p>
       </form>
     </div>
-  </section>
+  </div>
+</section>
 </main>
 
-<footer><div class="in"><span>© Atelier Bois Massif, atelier fictif</span><span>Site réalisé par Saitora</span></div></footer>
+<footer>
+  <div class="wrap">
+    <p class="last">Un meuble qui durera plus que la maison.</p>
+    <p style="margin-top:24px"><a class="link" href="#projet">Parler de mon projet</a></p>
+    <div class="row"><p><b>L'atelier</b>ZA des Scieries, bâtiment 3</p><p><b>Téléphone</b>06 00 00 00 00</p><p><b>Sur rendez-vous</b>Du lundi au vendredi</p></div>
+    <div class="legal"><span>© Atelier Bois Massif, atelier fictif</span><span>Site réalisé par <a href="accueil.html">Saitora</a> · Photos : Pixabay</span></div>
+  </div>
+</footer>
+
+<nav class="dock" id="dock" aria-label="Accès rapide"><a href="tel:+33600000000">Appeler</a><a class="go" href="#projet">Parler de mon projet</a></nav>
 
 <script>
+document.documentElement.classList.add("js");
 const $ = id => document.getElementById(id);
-const esc = s => String(s).replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+const esc = s => String(s).replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[m]);
 
-// les essences : l'échantillon change, et la page prend la teinte du bois
+// ——— les essences : l'échantillon change, et la page prend la teinte du bois
 const ESS = [
-  {n:"Chêne",img:"chene",c:"#C49A6C",p:"de 90 à 120 € le mètre linéaire",d:"Dense et stable, il prend une belle patine avec les années. Le choix sûr pour une table ou un escalier.",use:"Pour les tables, escaliers et parquets"},
-  {n:"Noyer",img:"noyer",c:"#9C6B4A",p:"de 160 à 210 € le mètre linéaire",d:"Teinte chocolat profonde et veinage spectaculaire. Plus rare, il donne du caractère à un meuble de salon.",use:"Pour les bibliothèques, buffets et bureaux"},
-  {n:"Châtaignier",img:"chataignier",c:"#B98450",p:"de 70 à 95 € le mètre linéaire",d:"Il résiste naturellement à l'humidité et aux insectes, sans traitement. Idéal en cuisine et dehors.",use:"Pour les cuisines, le bardage et le mobilier d'extérieur"},
-  {n:"Frêne",img:"frene",c:"#E3CFA8",p:"de 85 à 110 € le mètre linéaire",d:"Clair, souple et nerveux, il apporte de la lumière. Très apprécié pour les chaises et les intérieurs clairs.",use:"Pour les chaises, les lits et les aménagements clairs"}
+  { n: "Chêne", img: "chene", c: "#C49A6C", p: "90 à 120 €", d: "Dense et stable, il prend une belle patine avec les années. Le choix sûr pour une table ou un escalier.", use: "Pour les tables, escaliers et parquets" },
+  { n: "Noyer", img: "noyer", c: "#B07A55", p: "160 à 210 €", d: "Teinte chocolat profonde et veinage spectaculaire. Plus rare, il donne du caractère à un meuble de salon.", use: "Pour les bibliothèques, buffets et bureaux" },
+  { n: "Châtaignier", img: "chataignier", c: "#C98B4F", p: "70 à 95 €", d: "Il résiste naturellement à l'humidité et aux insectes, sans traitement. Idéal en cuisine et dehors.", use: "Pour les cuisines, le bardage et l'extérieur" },
+  { n: "Frêne", img: "frene", c: "#E3CFA8", p: "85 à 110 €", d: "Clair, souple et nerveux, il apporte de la lumière. Très apprécié pour les chaises et les intérieurs clairs.", use: "Pour les chaises, les lits et les intérieurs clairs" },
 ];
 let cur = 0;
-function renderEss(){
-  const e = ESS[cur];
-  $("essList").innerHTML = ESS.map((x, i) => `<button type="button" class="ess" aria-pressed="${i === cur}" data-i="${i}"><i style="background:${x.c}"></i>${x.n}</button>`).join("");
+$("essList").innerHTML = ESS.map((e, i) => `<li><button type="button" data-i="${i}" aria-pressed="${i === 0}"><b>${e.n}</b><span>${e.p} le mètre</span><i style="--c:${e.c}"></i></button></li>`).join("");
+function renderEss() {
+  const e = ESS[cur], img = $("essImg");
+  [...$("essList").querySelectorAll("button")].forEach((b, k) => b.setAttribute("aria-pressed", k === cur));
   document.documentElement.style.setProperty("--wood", e.c);
-  const img = $("essImg");
-  if (!img.src.endsWith(`${e.img}.webp`)) { img.classList.add("swap"); setTimeout(() => { img.src = `images/bois/${e.img}.webp`; img.alt = `Veinage du bois de ${e.n.toLowerCase()}`; img.classList.remove("swap"); }, 150); }
-  $("essName").textContent = e.n;
-  $("essPrice").innerHTML = `Plateau en 40 mm<b>${e.p.replace(/ le mètre linéaire$/, "")}</b>le mètre linéaire`;
-  $("essDesc").textContent = e.d; $("essUse").textContent = e.use;
+  $("essBig").textContent = e.n; $("essDesc").textContent = e.d; $("essUse").textContent = e.use;
+  $("essPrice").innerHTML = `<small>Plateau en 40 mm, le mètre linéaire</small>${e.p}`;
+  if (!img.src.endsWith(`${e.img}.webp`)) { img.classList.add("swap");
+    const pre = new Image(); pre.src = `images/bois/${e.img}.webp`;
+    Promise.all([(pre.decode ? pre.decode().catch(() => {}) : null), new Promise(r => setTimeout(r, 200))]).then(() => { img.src = pre.src; img.alt = `Veinage du bois de ${e.n.toLowerCase()}`; img.classList.remove("swap"); }); }
 }
-$("essList").addEventListener("click", ev => { const b = ev.target.closest(".ess"); if (!b) return; cur = Number(b.dataset.i); renderEss(); });
+$("essList").addEventListener("click", ev => { const b = ev.target.closest("button"); if (!b) return; cur = +b.dataset.i; renderEss(); });
 renderEss();
 
-// réalisations avec leurs cotes
-const WORKS = [
-  {n:"Table de ferme",w:"Chêne massif, huile naturelle",l:2200,dims:"Largeur 950, hauteur 750",img:"table",alt:"Grande table en bois dressée pour un dîner aux chandelles"},
-  {n:"Bibliothèque murale",w:"Noyer, assemblages à tenons et mortaises",l:3200,dims:"Hauteur 2400, profondeur 350",img:"bibliotheque",alt:"Bibliothèque murale en bois sombre du sol au plafond"},
-  {n:"Cuisine en châtaignier",w:"Façades massives, plan de travail en chêne",l:4100,dims:"Hauteur 900, profondeur 650",img:"cuisine",alt:"Cuisine rustique avec îlot central en bois massif"}
-];
-$("works").innerHTML = WORKS.map(w => `<article class="work"><img src="images/bois/${w.img}.webp" alt="${esc(w.alt)}" width="560" height="700" loading="lazy" decoding="async"><div class="cote" aria-label="Longueur ${w.l} millimètres"><span>${w.l.toLocaleString("fr-FR")} mm</span></div><h3>${esc(w.n)}</h3><p>${esc(w.w)}</p><p class="dims">${esc(w.dims)}, en millimètres</p></article>`).join("");
-
-// demande de projet
-const KINDS = ["Table","Cuisine","Bibliothèque","Escalier","Dressing","Autre"];
-const WOODS = [...ESS.map(e => e.n), "Je ne sais pas"];
+// ——— demande de projet
+const KINDS = ["Table", "Cuisine", "Bibliothèque", "Escalier", "Dressing", "Autre"], WOODS = [...ESS.map(e => e.n), "Je ne sais pas"];
 let kind = "Table", wood = "Chêne";
-function chips(el, list, val){ el.innerHTML = list.map(x => `<button type="button" class="ch" aria-pressed="${x === val}" data-v="${x}">${x}</button>`).join(""); }
+const chips = (el, list, val) => el.innerHTML = list.map(x => `<button type="button" data-v="${x}" aria-pressed="${x === val}">${x}</button>`).join("");
 chips($("kind"), KINDS, kind); chips($("woodPick"), WOODS, wood);
-$("kind").onclick = e => { const b = e.target.closest(".ch"); if (!b) return; kind = b.dataset.v; chips($("kind"), KINDS, kind); };
-$("woodPick").onclick = e => { const b = e.target.closest(".ch"); if (!b) return; wood = b.dataset.v; chips($("woodPick"), WOODS, wood); };
+$("kind").onclick = e => { const b = e.target.closest("button"); if (b) chips($("kind"), KINDS, kind = b.dataset.v); };
+$("woodPick").onclick = e => { const b = e.target.closest("button"); if (!b) return; chips($("woodPick"), WOODS, wood = b.dataset.v);
+  const i = ESS.findIndex(x => x.n === wood); if (i >= 0) { cur = i; renderEss(); } };
 const fmtB = v => v >= 15000 ? "15 000 € et plus" : Number(v).toLocaleString("fr-FR") + " €";
 $("budget").oninput = () => $("bOut").textContent = fmtB($("budget").value);
-$("pj").addEventListener("submit", e => {
-  e.preventDefault(); const ok = $("ok"); ok.hidden = false;
-  if (!$("pName").value.trim() || !$("pTel").value.trim()) { ok.textContent = "Indiquez votre nom et votre téléphone pour qu'on vous rappelle."; return; }
-  ok.textContent = `Merci ${$("pName").value.trim()}. Projet « ${kind}${wood === "Je ne sais pas" ? ", essence à définir ensemble" : " en " + wood.toLowerCase()} », budget ${fmtB($("budget").value)}. On vous rappelle sous 48 h pour fixer la visite. (Démo : rien n'est réellement envoyé.)`;
-});
+$("pj").addEventListener("submit", e => { e.preventDefault();
+  if (!$("pName").value.trim() || !$("pTel").value.trim()) { $("ok").textContent = "Indiquez votre nom et votre téléphone pour qu'on vous rappelle."; return; }
+  $("ok").textContent = `Merci ${$("pName").value.trim()}. Projet « ${kind}${wood === "Je ne sais pas" ? ", essence à définir ensemble" : " en " + wood.toLowerCase()} », budget ${fmtB($("budget").value)}. On vous rappelle sous 48 h. (Démo : rien n'est envoyé.)`; });
+
+// ——— bandeau collant après l'ouverture, dévoilement des photos une fois chargées
+new IntersectionObserver(([e]) => $("dock").classList.toggle("on", !e.isIntersecting && e.boundingClientRect.top < 0)).observe($("top"));
+const ready = img => img.complete && img.naturalWidth ? Promise.resolve() : new Promise(r => { img.addEventListener("load", r, { once: true }); img.addEventListener("error", r, { once: true }); });
+const io = new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting) return; io.unobserve(e.target); const img = e.target.querySelector("img");
+  (img.decode ? img.decode().catch(() => {}) : ready(img)).then(() => ready(img)).then(() => requestAnimationFrame(() => e.target.classList.add("on"))); }), { rootMargin: "0px 0px -8% 0px" });
+document.querySelectorAll(".curtain").forEach(el => io.observe(el));
 </script>
 </body>
 </html>

@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>La grotte Napoléon, restaurant</title>
+<meta name="description" content="La grotte Napoléon : un restaurant de produits corses, servis dans une salle voûtée. La carte, le lieu, les horaires et la réservation.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#7A2232">
+<link rel="icon" href="images/logo-symbole.png">
+<link rel="stylesheet" href="../../polices/cormorant-garamond-mulish-6da598.css">
+<link rel="stylesheet" href="../../polices/jost-a2e892.css">
+<link rel="stylesheet" href="../../polices/caveat-familjen-grotesk-48bed4.css">
+<style>
+/* Téléphone : pas de flash gris au toucher, pas de texte grossi en paysage, réponse dès que le doigt se pose,
+   libellés des boutons non sélectionnables, contenu tenu hors de l'encoche. */
+html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(a,button,label,select,input,textarea){touch-action:manipulation}
+:where(button,.btn,.chip){-webkit-user-select:none;user-select:none}
+
+/* La grotte Napoléon. Charte : noir #141012, fond rose crème #F5E6E1, bordeaux #7A2232, titres Cormorant Garamond.
+   Composition tirée par outils/tirage.py (voir style.md) : ouverture en affiche, barre basse sur téléphone,
+   la carte en rangées alternées, le lieu une photo à la fois, une lettre signée, réserver en trois temps,
+   formes douces, photos adoucies, alternance de fonds, titres géants, et l'idée originale : ouvert maintenant. */
+:root{
+  --bg:#F5E6E1; --bg2:#EDD5CD; --ink:#141012; --muted:#5E4C4A; --wine:#7A2232; --cream:#FBF4F1;
+  --serif:"Cormorant Garamond",Garamond,Georgia,serif;
+  --sans:"Jost","Helvetica Neue",Arial,sans-serif;
+  --hand:"Caveat","Segoe Print",cursive;
+  --m:clamp(20px,5vw,80px);
+  --giant:clamp(3.6rem,1.6rem + 8vw,9.5rem);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{background:var(--bg)}
+html:focus-within{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.65 var(--sans)}
+h1,h2,h3,p,ul,ol,figure{margin:0}
+ul,ol{padding:0;list-style:none}
+a{color:inherit;text-underline-offset:.25em;text-decoration-thickness:1px}
+img{display:block;max-width:100%;height:auto}
+:focus-visible{outline:2px solid var(--wine);outline-offset:3px}
+.maquette{background:var(--ink);color:#CDBFBC;font-size:13px;text-align:center;padding:6px 16px}
+.wrap{width:min(1200px,100% - 2 * var(--m));margin-inline:auto}
+.giant{font:500 var(--giant)/.9 var(--serif);letter-spacing:-.03em}
+.lead{margin-top:18px;max-width:46ch;color:var(--muted);font-size:18px}
+section{padding-block:clamp(90px,10vw,150px)}
+.alt{background:var(--bg2)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 28px;border:1px solid var(--wine);border-radius:999px;background:var(--wine);color:var(--cream);font:500 15px/1 var(--sans);letter-spacing:.04em;text-decoration:none;cursor:pointer;transition:background-color 160ms ease,color 160ms ease,transform 160ms cubic-bezier(.23,1,.32,1)}
+.btn:active{transform:scale(.97)}
+.btn.line{background:transparent;color:inherit;border-color:currentColor}
+@media (hover:hover) and (pointer:fine){.btn:hover{background:#621A28;border-color:#621A28;color:var(--cream)}.btn.line:hover{background:var(--cream);color:var(--wine);border-color:var(--cream)}}
+.soft img{filter:saturate(.82) contrast(.98)}
+.arch{border-radius:999px 999px 24px 24px;overflow:hidden}
+.round{border-radius:28px;overflow:hidden}
+.state{display:inline-flex;align-items:center;gap:10px;font-size:15px}
+.state i{width:9px;height:9px;border-radius:50%;background:#7FC48A;box-shadow:0 0 0 4px rgba(127,196,138,.25)}
+.state.closed i{background:#C9A5A0;box-shadow:none}
+
+/* ---- l'affiche ---- */
+.poster{position:relative;min-height:calc(100svh - 32px);background:var(--wine);color:var(--cream);display:grid;grid-template-rows:auto 1fr auto;padding:0 0 clamp(28px,4vw,48px)}
+.top{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-block:22px}
+.top .logo img{height:44px;width:auto}
+.top nav{display:flex;align-items:center;gap:30px;font-size:15px}
+.top nav a:not(.btn){text-decoration:none;opacity:.85;transition:opacity 160ms ease}
+@media (hover:hover) and (pointer:fine){.top nav a:not(.btn):hover{opacity:1}}
+.top .btn{background:var(--cream);color:var(--wine);border-color:var(--cream);min-height:46px}
+.poster .mid{display:grid;grid-template-columns:1.4fr 1fr;gap:clamp(24px,5vw,80px);align-items:center}
+.poster h1{font:500 clamp(4rem,1.8rem + 9vw,11rem)/.86 var(--serif);letter-spacing:-.035em}
+.poster h1 em{font-style:italic;font-weight:400}
+.poster .say{margin-top:28px;font-size:clamp(1.1rem,1rem + .4vw,1.35rem);max-width:34ch;color:#F2D9D4}
+.poster .acts{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.poster .acts .btn:not(.line){background:var(--cream);color:var(--wine);border-color:var(--cream)}
+.poster .seal{justify-self:center;width:min(340px,80%);aspect-ratio:1;border-radius:50%;border:1px solid rgba(251,244,241,.35);display:grid;place-items:center;position:relative}
+.poster .seal img{width:58%;height:auto}
+.poster .seal svg{position:absolute;inset:-14px;width:calc(100% + 28px);height:calc(100% + 28px);animation:turn 40s linear infinite}
+.poster .seal text{font:500 13px var(--sans);letter-spacing:.32em;fill:#F2D9D4;text-transform:uppercase}
+@keyframes turn{to{transform:rotate(360deg)}}
+.poster .bottom{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;border-top:1px solid rgba(251,244,241,.25);padding-top:18px;font-size:15px;color:#F2D9D4}
+
+/* ---- la carte : rangées alternées ---- */
+.menu .head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap}
+.course{display:grid;grid-template-columns:1fr 1.15fr;gap:clamp(36px,6vw,96px);align-items:center;margin-top:clamp(64px,8vw,110px)}
+.course:nth-of-type(even) figure{order:2}
+.course figure img{width:100%;aspect-ratio:4/5;object-fit:cover}
+.course h3{font:500 clamp(2.2rem,1.7rem + 2vw,3.4rem)/1 var(--serif)}
+.course .note{margin-top:8px;color:var(--muted)}
+.course li{display:flex;justify-content:space-between;gap:20px;padding:16px 0;border-bottom:1px solid rgba(20,16,18,.14)}
+.course li:first-child{margin-top:18px}
+.course li small{display:block;color:var(--muted);font-size:14px}
+.course li .p{font:500 1.3rem/1 var(--serif);white-space:nowrap}
+.menu .fine{margin-top:56px;color:var(--muted);font-size:15px;max-width:60ch}
+
+/* ---- le lieu : une photo à la fois ---- */
+.place .stage{position:relative;margin-top:48px}
+.place .frame{position:relative;aspect-ratio:16/9;border-radius:28px;overflow:hidden;background:var(--ink)}
+.place .frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.03);transition:opacity 700ms ease,transform 1200ms cubic-bezier(.23,1,.32,1)}
+.place .frame img.on{opacity:1;transform:none}
+.place .story{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:start;margin-top:24px}
+.place .story h3{font:500 clamp(1.8rem,1.4rem + 1.4vw,2.6rem)/1.05 var(--serif)}
+.place .story p{margin-top:8px;color:var(--muted);max-width:52ch}
+.place .ctrl{display:flex;align-items:center;gap:10px}
+.place .ctrl button{width:52px;height:52px;border-radius:50%;border:1px solid var(--ink);background:transparent;color:var(--ink);font:400 1.3rem/1 var(--sans);cursor:pointer;transition:background-color 160ms ease,color 160ms ease,transform 160ms cubic-bezier(.23,1,.32,1)}
+.place .ctrl button:active{transform:scale(.94)}
+@media (hover:hover) and (pointer:fine){.place .ctrl button:hover{background:var(--ink);color:var(--cream)}}
+.place .ctrl span{min-width:52px;text-align:center;font-size:15px;color:var(--muted);font-variant-numeric:tabular-nums}
+.place .fade{transition:opacity 260ms ease}
+.place .fade.out{opacity:0}
+
+/* ---- la lettre ---- */
+.letter .paper{max-width:760px;margin-inline:auto;background:var(--cream);border-radius:28px;padding:clamp(32px,6vw,80px)}
+.letter .giant{font-size:clamp(3rem,1.8rem + 5vw,6.5rem);text-align:center}
+.letter p{margin-top:22px;font:400 clamp(1.25rem,1.1rem + .5vw,1.5rem)/1.55 var(--serif)}
+.letter .sign{margin-top:34px;font:400 clamp(2rem,1.6rem + 1.4vw,2.8rem)/1 var(--hand);color:var(--wine)}
+
+/* ---- réserver ---- */
+.book .grid{display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(40px,6vw,96px);align-items:start;margin-top:48px}
+.book ol{display:grid;gap:26px;counter-reset:s}
+.book ol li{display:grid;grid-template-columns:56px 1fr;gap:18px;align-items:start}
+.book ol li::before{counter-increment:s;content:counter(s);display:grid;place-items:center;width:56px;height:56px;border-radius:50%;background:var(--wine);color:var(--cream);font:500 1.6rem/1 var(--serif)}
+.book ol b{display:block;font:500 1.5rem/1.15 var(--serif)}
+.book ol span{color:var(--muted)}
+.book .infos{margin-top:40px;display:grid;grid-template-columns:1.4fr 1fr;gap:24px}
+.book .infos h3{font:500 1.25rem/1.2 var(--serif);margin-bottom:4px}
+.book .infos p{color:var(--muted);font-size:15px}
+.book .infos td{padding:1px 0;font-size:14px;color:var(--muted);white-space:nowrap}.book .infos td+td{padding-left:14px}
+.book .infos tr.now td{color:var(--ink);font-weight:500}
+form.res{background:var(--cream);border-radius:28px;padding:clamp(24px,4vw,44px);display:grid;gap:20px}
+form.res .k{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{min-height:46px;min-width:56px;padding:0 16px;border:1px solid rgba(20,16,18,.2);border-radius:999px;background:transparent;color:var(--ink);font:500 15px/1 var(--sans);cursor:pointer;transition:background-color 160ms ease,color 160ms ease,border-color 160ms ease}
+.chip[aria-pressed="true"]{background:var(--wine);color:var(--cream);border-color:var(--wine)}
+.chip:disabled{opacity:.35;text-decoration:line-through;cursor:default}
+@media (hover:hover) and (pointer:fine){.chip:not(:disabled):not([aria-pressed="true"]):hover{border-color:var(--wine)}}
+form.res input{width:100%;min-height:52px;padding:10px 18px;border:1px solid rgba(20,16,18,.2);border-radius:999px;background:var(--bg);color:var(--ink);font:400 16px/1.3 var(--sans)}
+form.res .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+form.res .sum{font:500 1.35rem/1.35 var(--serif)}
+form.res .btn{justify-self:start}
+form.res .done{color:var(--wine);font-weight:500}
+footer{background:var(--ink);color:#CDBFBC}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-block:32px;font-size:13px}
+footer img{height:34px;width:auto}
+
+/* ---- barre basse sur téléphone ---- */
+.dock{display:none}
+
+/* ---- apparitions discrètes ---- */
+.js .rise{opacity:0;transform:translateY(16px);transition:opacity 800ms cubic-bezier(.23,1,.32,1),transform 800ms cubic-bezier(.23,1,.32,1)}
+.js .rise.on{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.js .rise{opacity:1;transform:none;transition:none}.poster .seal svg{animation:none}.place .frame img{transition:none}}
+
+@media (max-width:960px){
+  .top nav a:not(.btn){display:none}
+  .poster .mid{grid-template-columns:1fr}
+  .poster .seal{display:none}
+  .course,.book .grid{grid-template-columns:1fr}
+  .course:nth-of-type(even) figure{order:0}
+  .course figure{max-width:440px}
+}
+@media (max-width:640px){
+  body{padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+  .top nav{display:none}
+  .poster{min-height:calc(100svh - 110px)}
+  .place .frame{aspect-ratio:4/5}
+  .place .story{grid-template-columns:1fr}
+  .book .infos,form.res .two{grid-template-columns:1fr}
+  .dock{display:grid;grid-template-columns:1fr 1fr 1.3fr;gap:8px;position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:20;padding:8px;border-radius:999px;background:var(--ink);box-shadow:0 8px 24px rgba(20,16,18,.25)}
+  .dock a{display:flex;align-items:center;justify-content:center;min-height:48px;border-radius:999px;color:var(--cream);font:500 15px/1 var(--sans);text-decoration:none}
+  .dock a.go{background:var(--wine)}
+}
+</style>
+</head>
+<body>
+<div class="maquette">Maquette préparée par Saitora pour La grotte Napoléon : carte, prix, horaires et coordonnées à valider ensemble</div>
+
+<header class="poster">
+  <div class="wrap top">
+    <a class="logo" href="#" aria-label="La grotte Napoléon, haut de page"><img src="images/logo-blanc.png" alt="La grotte Napoléon" width="900" height="242"></a>
+    <nav aria-label="Navigation principale"><a href="#carte">La carte</a><a href="#lieu">Le lieu</a><a href="#reserver">Infos</a><a class="btn" href="#reserver">Réserver</a></nav>
+  </div>
+  <div class="wrap mid">
+    <div>
+      <h1>La grotte <em>Napoléon</em></h1>
+      <p class="say">Un restaurant où tout vient de l'île, servi sous une voûte de pierre. Charcuterie, fromages, plats du jour et vins corses.</p>
+      <div class="acts"><a class="btn" href="#reserver">Réserver une table</a><a class="btn line" href="#carte">Voir la carte</a></div>
+    </div>
+    <div class="seal" aria-hidden="true">
+      <svg viewBox="0 0 200 200"><defs><path id="c" d="M100 100 m-86 0 a86 86 0 1 1 172 0 a86 86 0 1 1 -172 0"/></defs><text><textPath href="#c">Produits corses · Salle voûtée · Ajaccio · </textPath></text></svg>
+      <img src="images/logo-symbole_blanc.png" alt="" width="256" height="256">
+    </div>
+  </div>
+  <div class="wrap bottom"><span class="state" id="state"><i></i><span id="stateTxt">Du mardi au dimanche</span></span><span>Ajaccio · <a href="tel:+33400000000">04 00 00 00 00</a></span></div>
+</header>
+
+<main>
+  <section class="menu" id="carte" aria-labelledby="t-menu">
+    <div class="wrap">
+      <div class="head"><h2 class="giant rise" id="t-menu">La carte</h2><p class="lead rise">Seulement des produits de l'île, choisis chez des éleveurs, des fromagers et des vignerons corses. Elle change avec les saisons.</p></div>
+      <article class="course">
+        <figure class="arch soft rise"><img src="images/charcuterie.webp" alt="Saucisson, pain et vin sur une nappe" width="900" height="1125" loading="lazy"></figure>
+        <div class="rise"><h3>À partager</h3><p class="note">Pour commencer, au milieu de la table.</p>
+          <ul><li><span>Planche de charcuterie corse<small>Coppa, lonzu, prisuttu, figatellu en saison</small></span><span class="p">18 €</span></li>
+          <li><span>Brocciu frais à l'huile d'olive<small>De novembre à juin, poivre et herbes du maquis</small></span><span class="p">9 €</span></li>
+          <li><span>Soupe corse<small>Haricots, légumes du jardin, os de jambon</small></span><span class="p">11 €</span></li>
+          <li><span>Beignets de courgette<small>À la menthe, sauce au brocciu</small></span><span class="p">10 €</span></li></ul></div>
+      </article>
+      <article class="course">
+        <figure class="arch soft rise"><img src="images/raviolis.webp" alt="Des raviolis faits maison" width="900" height="1125" loading="lazy"></figure>
+        <div class="rise"><h3>Les plats</h3><p class="note">Cuisinés comme à la maison, selon le marché.</p>
+          <ul><li><span>Cannelloni au brocciu<small>Sauce tomate, gratinés au four</small></span><span class="p">19 €</span></li>
+          <li><span>Veau aux olives<small>Mijoté longtemps, pommes de terre</small></span><span class="p">24 €</span></li>
+          <li><span>Civet de sanglier<small>Polenta à la farine de châtaigne</small></span><span class="p">26 €</span></li>
+          <li><span>Le poisson du jour<small>Selon la pêche, légumes de saison</small></span><span class="p">selon arrivage</span></li></ul></div>
+      </article>
+      <article class="course">
+        <figure class="arch soft rise"><img src="images/fromage.webp" alt="Fromage, jambon et bouchon de liège sur une planche" width="900" height="1125" loading="lazy"></figure>
+        <div class="rise"><h3>Fromages et desserts</h3><p class="note">Pour finir doucement.</p>
+          <ul><li><span>Assiette de fromages corses<small>Brebis et chèvre, confiture de figue</small></span><span class="p">12 €</span></li>
+          <li><span>Fiadone<small>Gâteau au brocciu et au citron</small></span><span class="p">8 €</span></li>
+          <li><span>Beignets à la farine de châtaigne<small>Servis tièdes</small></span><span class="p">8 €</span></li>
+          <li><span>Les vins<small>Patrimonio, Ajaccio, Calvi, au verre ou à la bouteille</small></span><span class="p">dès 6 €</span></li></ul></div>
+      </article>
+      <p class="fine">Carte et prix donnés pour la maquette, à remplacer par la vraie carte du restaurant.</p>
+    </div>
+  </section>
+
+  <section class="place alt" id="lieu" aria-labelledby="t-place">
+    <div class="wrap">
+      <h2 class="giant rise" id="t-place">Le lieu</h2>
+      <div class="stage rise">
+        <div class="frame soft" id="frame"></div>
+        <div class="story">
+          <div class="fade" id="story"></div>
+          <div class="ctrl"><button type="button" id="prev" aria-label="Photo précédente">&#8592;</button><span id="count"></span><button type="button" id="next" aria-label="Photo suivante">&#8594;</button></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="letter" aria-labelledby="t-letter">
+    <div class="wrap">
+      <div class="paper rise">
+        <h2 class="giant" id="t-letter">Bienvenue</h2>
+        <p>Ici, on a fait un choix simple : ne servir que ce que l'île produit. La charcuterie vient de chez un éleveur de la montagne, les fromages d'une bergerie que l'on connaît, le vin de vignerons d'à côté.</p>
+        <p>Et puis il y a la salle : une voûte de pierre, fraîche l'été, chaleureuse l'hiver, éclairée aux chandelles le soir. On vient pour manger corse, on revient pour l'endroit.</p>
+        <p class="sign">L'équipe de La grotte Napoléon</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="book alt" id="reserver" aria-labelledby="t-book">
+    <div class="wrap">
+      <h2 class="giant rise" id="t-book">Réserver</h2>
+      <div class="grid">
+        <div class="rise">
+          <ol>
+            <li><div><b>Choisissez votre moment</b><span>Le jour, le service et le nombre de couverts.</span></div></li>
+            <li><div><b>On vous confirme</b><span>Par un SMS dans l'heure, avec le numéro de votre table.</span></div></li>
+            <li><div><b>On vous attend</b><span>La table est gardée un quart d'heure. Un empêchement ? Un simple appel suffit.</span></div></li>
+          </ol>
+          <div class="infos">
+            <div><h3>Horaires</h3><table id="hrs"></table></div>
+            <div><h3>Adresse</h3><p>Ajaccio (adresse à confirmer)</p><h3 style="margin-top:16px">Téléphone</h3><p><a href="tel:+33400000000">04 00 00 00 00</a></p><p style="margin-top:12px"><a href="https://www.google.com/maps/search/La+grotte+Napol%C3%A9on+Ajaccio" rel="noopener">Nos avis sur Google</a></p></div>
+          </div>
+        </div>
+        <form class="res rise" id="res" novalidate>
+          <div><p class="k">Le jour</p><div class="chips" id="days"></div></div>
+          <div><p class="k">Le service</p><div class="chips" id="slots"></div></div>
+          <div><p class="k">Couverts</p><div class="chips" id="people"></div></div>
+          <p class="sum" id="sum" aria-live="polite"></p>
+          <div class="two"><input id="rName" autocomplete="name" placeholder="Votre nom" aria-label="Votre nom"><input id="rTel" type="tel" inputmode="tel" autocomplete="tel" placeholder="Téléphone mobile" aria-label="Téléphone mobile"></div>
+          <button class="btn" type="submit">Réserver la table</button>
+          <p class="done" id="done" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap"><img src="images/logo-blanc.png" alt="La grotte Napoléon" width="900" height="242"><span>Maquette du site, réalisée par <a href="https://saitora.fr">Saitora</a> · Photos : Pixabay</span></div></footer>
+
+<nav class="dock" aria-label="Accès rapide"><a href="tel:+33400000000">Appeler</a><a href="#carte">La carte</a><a class="go" href="#reserver">Réserver</a></nav>
+
+<script>
+document.documentElement.classList.add("js");
+const $ = id => document.getElementById(id);
+const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+
+// ——— horaires : [midi, soir] par jour (null : fermé), en heures
+const DN = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];
+const H = { 0: [[12, 14.5], null], 1: null, 2: [[12, 14.5], [19, 22.5]], 3: [[12, 14.5], [19, 22.5]], 4: [[12, 14.5], [19, 22.5]], 5: [[12, 14.5], [19, 23]], 6: [[12, 14.5], [19, 23]] };
+const hh = h => `${Math.floor(h)} h${h % 1 ? " " + String(Math.round(h % 1 * 60)).padStart(2, "0") : ""}`;
+const span = s => s ? `${hh(s[0])}–${hh(s[1])}` : "";
+const now = new Date(), d = now.getDay(), t = now.getHours() + now.getMinutes() / 60;
+$("hrs").innerHTML = [2, 3, 4, 5, 6, 0, 1].map(i => `<tr class="${i === d ? "now" : ""}"><td>${DN[i][0].toUpperCase() + DN[i].slice(1)}</td><td>${H[i] ? H[i].filter(Boolean).map(span).join(", ") : "Fermé"}</td></tr>`).join("");
+
+// ——— ouvert maintenant ?
+function status() {
+  const today = (H[d] || []).filter(Boolean), cur = today.find(([a, b]) => t >= a && t < b), next = today.find(([a]) => t < a);
+  if (cur) return [true, `Ouvert en ce moment, service jusqu'à ${hh(cur[1])}`];
+  if (next) return [false, `Fermé pour l'instant, on ouvre à ${hh(next[0])}`];
+  for (let k = 1; k <= 7; k++) { const j = (d + k) % 7; if (H[j]) { const f = H[j].find(Boolean); return [false, `Fermé, on rouvre ${k === 1 ? "demain" : DN[j]} à ${hh(f[0])}`]; } }
+}
+const [open, txt] = status();
+$("stateTxt").textContent = txt; $("state").classList.toggle("closed", !open);
+
+// ——— le lieu, une photo à la fois
+const PLACE = [
+  ["salle", "La salle voûtée", "Des tables de bois sous la pierre : on mange comme dans une grotte, au frais l'été."],
+  ["chandelles", "Le soir, aux chandelles", "Quand la nuit tombe, la salle ne s'éclaire qu'à la bougie."],
+  ["cave", "La cave", "Les vins de l'île attendent sous la voûte, à la bonne température."],
+  ["table", "La table à partager", "Planches, fromages et pain de campagne, pour les grandes tablées."],
+  ["voute", "La lumière du jour", "À midi, le soleil entre par une petite fenêtre et vient se poser sur la pierre."],
+];
+let i = 0;
+$("frame").innerHTML = PLACE.map(([f, t], k) => `<img src="images/${f}.webp" alt="${t}" width="1280" height="800" ${k ? 'loading="lazy"' : ""} class="${k ? "" : "on"}">`).join("");
+function show(n) {
+  i = (n + PLACE.length) % PLACE.length;
+  [...$("frame").children].forEach((im, k) => im.classList.toggle("on", k === i));
+  const put = () => { $("story").innerHTML = `<h3>${PLACE[i][1]}</h3><p>${PLACE[i][2]}</p>`; $("story").classList.remove("out"); };
+  $("count").textContent = `${i + 1} / ${PLACE.length}`;
+  if (reduce.matches) return put();
+  $("story").classList.add("out"); setTimeout(put, 220);
+}
+$("prev").onclick = () => show(i - 1); $("next").onclick = () => show(i + 1);
+let sx = 0; $("frame").addEventListener("touchstart", e => sx = e.touches[0].clientX, { passive: true });
+$("frame").addEventListener("touchend", e => { const dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 40) show(i + (dx < 0 ? 1 : -1)); }, { passive: true });
+$("story").innerHTML = `<h3>${PLACE[0][1]}</h3><p>${PLACE[0][2]}</p>`; $("count").textContent = `1 / ${PLACE.length}`;
+
+// ——— réserver
+const DAYS = []; for (let k = 0; DAYS.length < 7; k++) { const x = new Date(now); x.setDate(now.getDate() + k); if (H[x.getDay()]) DAYS.push(x); }
+const st = { day: 0, slot: null, n: 2 };
+const label = x => x.toDateString() === now.toDateString() ? "Aujourd'hui" : x.toLocaleDateString("fr-FR", { weekday: "short", day: "numeric" }).replace(".", "");
+function slotsOf(x) {
+  const out = [], today = x.toDateString() === now.toDateString();
+  (H[x.getDay()] || []).forEach((s, k) => { if (!s) return; for (let h = s[0]; h <= s[1] - 1.5; h += .5) out.push({ h, svc: k ? "Soir" : "Midi", past: today && h <= t + .5 }); });
+  return out;
+}
+function book() {
+  $("days").innerHTML = DAYS.map((x, k) => `<button type="button" class="chip" data-d="${k}" aria-pressed="${k === st.day}">${label(x)}</button>`).join("");
+  const sl = slotsOf(DAYS[st.day]);
+  if (st.slot != null && !sl.some(s => s.h === st.slot && !s.past)) st.slot = null;
+  $("slots").innerHTML = sl.map(s => `<button type="button" class="chip" data-s="${s.h}" ${s.past ? "disabled" : ""} aria-pressed="${s.h === st.slot}">${hh(s.h)}</button>`).join("") || "<span>Plus de table ce jour-là.</span>";
+  $("people").innerHTML = [1, 2, 3, 4, 5, 6, 8].map(n => `<button type="button" class="chip" data-n="${n}" aria-pressed="${n === st.n}">${n === 8 ? "8 et +" : n}</button>`).join("");
+  const x = DAYS[st.day];
+  $("sum").textContent = st.slot != null ? `${st.n} couvert${st.n > 1 ? "s" : ""}, ${x.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })} à ${hh(st.slot)}` : "Choisissez une heure.";
+}
+$("res").addEventListener("click", e => { const b = e.target.closest(".chip"); if (!b || b.disabled) return;
+  if (b.dataset.d != null) { st.day = +b.dataset.d; st.slot = null; } else if (b.dataset.s != null) st.slot = +b.dataset.s; else st.n = +b.dataset.n; book(); });
+$("res").addEventListener("submit", e => { e.preventDefault();
+  if (st.slot == null) return $("done").textContent = "Choisissez d'abord une heure.";
+  if (!$("rName").value.trim()) return $("rName").focus();
+  if (!$("rTel").value.trim()) return $("rTel").focus();
+  $("done").textContent = "Maquette : sur le vrai site, la demande arriverait au restaurant, qui vous confirme par SMS."; });
+book();
+
+// ——— apparitions discrètes
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("on"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -6% 0px" });
+document.querySelectorAll(".rise").forEach(el => io.observe(el));
+</script>
+</body>
+</html>

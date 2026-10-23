@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>Vitrier Prince, vitrier de famille</title>
+<meta name="description" content="Vitrier Prince : remplacement de vitres, double vitrage, miroirs, parois de douche et verre sur mesure. Devis gratuit, dépannage rapide.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#F9F6F1">
+<link rel="icon" href="images/logo-symbole.png">
+<link rel="stylesheet" href="../../polices/cormorant-garamond-mulish-6da598.css">
+<link rel="stylesheet" href="../../polices/jost-a2e892.css">
+<style>
+/* Téléphone : pas de flash gris au toucher, pas de texte grossi en paysage, réponse dès que le doigt se pose,
+   libellés des boutons non sélectionnables. */
+html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:where(a,button,label,select,input,textarea){touch-action:manipulation}
+:where(button,.btn,.chip){-webkit-user-select:none;user-select:none}
+
+/* Vitrier Prince, d'après sa charte graphique : ardoise #2F3741, fond #F9F6F1, bleu #415DAA pour les boutons,
+   Cormorant Garamond pour les titres, Jost pour le texte. Ambiance : nature, simple, chic. */
+:root{
+  --bg:#F9F6F1; --sand:#EFEAE1; --ink:#2F3741; --muted:#5E6670; --blue:#415DAA; --white:#FFFFFF;
+  --serif:"Cormorant Garamond",Garamond,Georgia,serif;
+  --sans:"Jost","Helvetica Neue",Arial,sans-serif;
+  --m:clamp(20px,5vw,80px);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{background:var(--bg)}
+html:focus-within{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.65 var(--sans)}
+h1,h2,h3,p,ul,figure{margin:0}
+ul{padding:0;list-style:none}
+a{color:inherit;text-underline-offset:.25em;text-decoration-thickness:1px}
+img{display:block;max-width:100%;height:auto}
+:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+.maquette{background:var(--ink);color:#C9CED4;font-size:13px;text-align:center;padding:6px 16px}
+.wrap{width:min(1180px,100% - 2 * var(--m));margin-inline:auto}
+h2{font:500 clamp(2.4rem,1.8rem + 2.2vw,3.75rem)/1.02 var(--serif);letter-spacing:-.01em}
+.lead{margin-top:16px;max-width:46ch;color:var(--muted)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:0 26px;border:1px solid var(--blue);border-radius:4px;background:var(--blue);color:var(--white);font:500 15px/1 var(--sans);letter-spacing:.02em;text-decoration:none;cursor:pointer;transition:background-color 160ms ease,color 160ms ease,transform 160ms cubic-bezier(.23,1,.32,1)}
+.btn:active{transform:scale(.97)}
+.btn.ghost{background:transparent;color:var(--ink);border-color:rgba(47,55,65,.35)}
+@media (hover:hover) and (pointer:fine){.btn:hover{background:#344C8F;border-color:#344C8F;color:var(--white)}}
+.photo img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:4px}
+
+/* ---- en-tête ---- */
+.top{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-block:18px}
+.top .logo img{height:46px;width:auto}
+.top nav{display:flex;align-items:center;gap:30px;font-size:15px}
+.top nav a:not(.btn){text-decoration:none;color:var(--muted);transition:color 160ms ease}
+@media (hover:hover) and (pointer:fine){.top nav a:not(.btn):hover{color:var(--ink)}}
+
+/* ---- ouverture ---- */
+.hero{display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(40px,6vw,96px);align-items:center;padding-block:clamp(36px,5vw,72px) clamp(80px,9vw,130px)}
+.hero h1{font:500 clamp(3.2rem,2rem + 4.4vw,6rem)/.98 var(--serif);letter-spacing:-.015em}
+.hero p{margin-top:24px;max-width:40ch;font-size:19px}
+.hero .acts{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
+.hero .facts{display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:40px;font-size:15px;color:var(--muted)}
+.hero .facts span::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--blue);margin-right:10px;vertical-align:middle}
+.hero .photo img{aspect-ratio:5/6}
+
+/* ---- les services ---- */
+.services{background:var(--sand);padding-block:clamp(80px,9vw,130px)}
+.services ul{display:grid;grid-template-columns:repeat(3,1fr);gap:44px clamp(24px,4vw,56px);margin-top:52px}
+.services li{border-top:1px solid rgba(47,55,65,.2);padding-top:18px}
+.services h3{font:500 1.7rem/1.1 var(--serif)}
+.services p{margin-top:8px;color:var(--muted);font-size:16px}
+
+/* ---- réalisations ---- */
+.work{padding-block:clamp(80px,9vw,130px)}
+.work .row{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,2vw,24px);margin-top:48px}
+.work figcaption{margin-top:12px;font:500 1.3rem/1.2 var(--serif)}
+.work figcaption small{display:block;font:400 14px/1.5 var(--sans);color:var(--muted)}
+
+/* ---- estimer le prix d'une vitre ---- */
+.est{background:var(--ink);color:var(--white);padding-block:clamp(80px,9vw,130px)}
+.est .grid{display:grid;grid-template-columns:1fr 1.2fr;gap:clamp(40px,6vw,96px);align-items:start}
+.est .lead{color:#B9C0C8}
+.form{display:grid;gap:22px}
+.field>p,.field>label{display:block;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:#9EA7B1;margin-bottom:8px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{min-height:46px;padding:0 16px;border:1px solid rgba(255,255,255,.28);border-radius:4px;background:transparent;color:var(--white);font:500 15px/1 var(--sans);cursor:pointer;transition:background-color 160ms ease,border-color 160ms ease,color 160ms ease}
+.chip[aria-pressed="true"]{background:var(--blue);border-color:var(--blue)}
+@media (hover:hover) and (pointer:fine){.chip:not([aria-pressed="true"]):hover{border-color:var(--white)}}
+.dims{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:end}
+.dims span{padding-bottom:14px;color:#9EA7B1}
+input,textarea,select{width:100%;min-height:50px;padding:10px 14px;border:1px solid rgba(255,255,255,.28);border-radius:4px;background:transparent;color:var(--white);font:400 16px/1.4 var(--sans)}
+input::placeholder,textarea::placeholder{color:#8A939D}
+.result{background:var(--white);color:var(--ink);border-radius:4px;padding:26px 28px}
+.result .k{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.result .price{margin-top:6px;font:500 clamp(2.4rem,1.8rem + 2vw,3.4rem)/1 var(--serif)}
+.result .detail{margin-top:10px;color:var(--muted);font-size:15px}
+.result .btn{margin-top:20px}
+.est .note{font-size:14px;color:#9EA7B1}
+
+/* ---- la famille ---- */
+.family{padding-block:clamp(80px,9vw,130px)}
+.family .grid{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(40px,6vw,96px);align-items:center}
+.family .text p{margin-top:18px;max-width:52ch}
+.family .promises{display:grid;gap:16px;margin-top:28px}
+.family .promises li{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:baseline}
+.family .promises b{font:500 1.35rem/1.2 var(--serif);white-space:nowrap}
+.family .promises span{color:var(--muted)}
+
+/* ---- dépannage ---- */
+.urgent{background:var(--blue);color:var(--white)}
+.urgent .wrap{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;padding-block:44px}
+.urgent h2{font-size:clamp(2rem,1.6rem + 1.6vw,2.9rem)}
+.urgent p{margin-top:6px;color:#DCE3F4}
+.urgent a.tel{font:500 clamp(1.8rem,1.4rem + 1.4vw,2.6rem)/1 var(--serif);color:var(--white);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.5);padding-bottom:4px}
+
+/* ---- contact ---- */
+.contact{padding-block:clamp(80px,9vw,130px)}
+.contact .grid{display:grid;grid-template-columns:1fr 1.2fr;gap:clamp(40px,6vw,96px);align-items:start}
+.contact h3{font:500 1.4rem/1.2 var(--serif);margin:28px 0 6px}
+.contact .info p{color:var(--muted)}
+.contact form{display:grid;gap:12px;background:var(--white);padding:clamp(22px,3vw,36px);border-radius:4px}
+.contact form input,.contact form textarea,.contact form select{border-color:rgba(47,55,65,.22);color:var(--ink);background:var(--bg)}
+.contact form input::placeholder,.contact form textarea::placeholder{color:#8B9198}
+.contact form label{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.contact .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.contact form .btn{justify-self:start;margin-top:6px}
+.contact .done{color:var(--blue);font-weight:500}
+textarea{min-height:110px;resize:vertical}
+footer{border-top:1px solid rgba(47,55,65,.14)}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-block:26px;font-size:13px;color:var(--muted)}
+footer img{height:30px;width:auto}
+
+/* ---- apparitions discrètes ---- */
+.js .rise{opacity:0;transform:translateY(14px);transition:opacity 800ms cubic-bezier(.23,1,.32,1),transform 800ms cubic-bezier(.23,1,.32,1)}
+.js .rise.on{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.js .rise{opacity:1;transform:none;transition:none}}
+
+/* ---- tablette et téléphone ---- */
+@media (max-width:960px){
+  .top nav a:not(.btn){display:none}
+  .hero,.est .grid,.family .grid,.contact .grid{grid-template-columns:1fr}
+  .hero .photo{max-width:560px}
+  .services ul{grid-template-columns:1fr 1fr}
+}
+@media (max-width:640px){
+  .top .logo img{height:36px}
+  .top .btn{min-height:44px;padding:0 16px;font-size:14px}
+  .services ul{grid-template-columns:1fr;gap:28px}
+  .work .row{grid-template-columns:1fr;gap:36px}
+  .work .photo img{aspect-ratio:4/3}
+  .contact .two{grid-template-columns:1fr}
+  .family .promises li{grid-template-columns:1fr;gap:2px}
+}
+</style>
+</head>
+<body>
+<div class="maquette">Maquette préparée par Saitora pour Vitrier Prince : textes, prix et coordonnées à valider ensemble</div>
+
+<header class="wrap top">
+  <a class="logo" href="#" aria-label="Vitrier Prince, haut de page"><img src="images/logo-couleur.png" alt="Vitrier Prince, vitre et le verre en général" width="900" height="241"></a>
+  <nav aria-label="Navigation principale"><a href="#services">Services</a><a href="#realisations">Réalisations</a><a href="#estimer">Estimer</a><a href="#contact">Contact</a><a class="btn" href="#contact">Demander un devis</a></nav>
+</header>
+
+<main>
+  <section class="wrap hero" aria-labelledby="t-hero">
+    <div>
+      <h1 id="t-hero">Vitrier de famille</h1>
+      <p>Vitres, double vitrage, miroirs, parois de douche et verre sur mesure. On mesure, on fabrique, on pose, et on repart en laissant la maison propre.</p>
+      <div class="acts"><a class="btn" href="#contact">Demander un devis gratuit</a><a class="btn ghost" href="#estimer">Estimer le prix d'une vitre</a></div>
+      <p class="facts"><span>Devis gratuit</span><span>Dépannage rapide</span><span>Pose soignée</span></p>
+    </div>
+    <figure class="photo"><img src="images/baies.webp" alt="Grandes baies vitrées ouvertes sur un jardin" width="1280" height="800" fetchpriority="high"></figure>
+  </section>
+
+  <section class="services" id="services" aria-labelledby="t-services">
+    <div class="wrap">
+      <h2 class="rise" id="t-services">Le verre, sous toutes ses formes</h2>
+      <p class="lead rise">Pour la maison comme pour le commerce, du petit carreau cassé à la grande baie.</p>
+      <ul>
+        <li class="rise"><h3>Remplacement de vitre</h3><p>Une vitre fêlée ou cassée : on sécurise, on mesure et on remplace, souvent dans la semaine.</p></li>
+        <li class="rise"><h3>Double vitrage</h3><p>Moins de bruit, moins de froid : on remplace vos simples vitrages sans changer les fenêtres.</p></li>
+        <li class="rise"><h3>Miroirs sur mesure</h3><p>Salle de bain, entrée, dressing : coupés à vos mesures, avec ou sans biseau.</p></li>
+        <li class="rise"><h3>Parois de douche</h3><p>Verre trempé clair ou dépoli, fixe ou en porte, posé au millimètre.</p></li>
+        <li class="rise"><h3>Vitrines de commerce</h3><p>Verre feuilleté de sécurité pour les devantures, et intervention rapide en cas de casse.</p></li>
+        <li class="rise"><h3>Crédences et garde-corps</h3><p>Crédence de cuisine en verre laqué, garde-corps et marches en verre feuilleté.</p></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="wrap work" id="realisations" aria-labelledby="t-work">
+    <h2 class="rise" id="t-work">Quelques réalisations</h2>
+    <div class="row">
+      <figure class="photo rise"><img src="images/douche.webp" alt="Une paroi de douche en verre clair" width="900" height="1125" loading="lazy"><figcaption>Paroi de douche<small>Verre trempé de 8 mm</small></figcaption></figure>
+      <figure class="photo rise"><img src="images/miroir.webp" alt="Un miroir rond au-dessus d'une vasque" width="900" height="1125" loading="lazy"><figcaption>Miroir sur mesure<small>Salle de bain</small></figcaption></figure>
+      <figure class="photo rise"><img src="images/vitrine.webp" alt="Une grande fenêtre vitrée donnant sur l'eau" width="900" height="1125" loading="lazy"><figcaption>Grande vitre fixe<small>Verre feuilleté</small></figcaption></figure>
+    </div>
+  </section>
+
+  <section class="est" id="estimer" aria-labelledby="t-est">
+    <div class="wrap grid">
+      <div class="rise">
+        <h2 id="t-est">Combien coûte votre vitre ?</h2>
+        <p class="lead">Indiquez la taille et le type de verre : vous avez un ordre de prix tout de suite. Le prix exact vient après notre passage pour mesurer.</p>
+      </div>
+      <div class="form">
+        <div class="field"><p>Le verre</p><div class="chips" id="kind"></div></div>
+        <div class="field"><p>Les dimensions</p>
+          <div class="dims"><div><input id="w" type="number" inputmode="numeric" min="10" max="400" value="80" aria-label="Largeur en centimètres"></div><span>×</span><div><input id="h" type="number" inputmode="numeric" min="10" max="400" value="120" aria-label="Hauteur en centimètres"></div></div>
+          <p class="note" style="margin-top:8px">Largeur × hauteur, en centimètres.</p>
+        </div>
+        <div class="field"><p>La pose</p><div class="chips" id="pose"><button type="button" class="chip" data-v="1" aria-pressed="true">Avec la pose</button><button type="button" class="chip" data-v="0" aria-pressed="false">Verre seul, à récupérer</button></div></div>
+        <div class="result" aria-live="polite"><p class="k">Ordre de prix</p><p class="price" id="price"></p><p class="detail" id="detail"></p><a class="btn" href="#contact" id="toQuote">Demander le devis exact</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap family" aria-labelledby="t-family">
+    <div class="grid">
+      <div class="text rise">
+        <h2 id="t-family">Une affaire de famille</h2>
+        <p>Chez Vitrier Prince, le métier se transmet. On travaille le verre comme on aimerait qu'on le fasse chez nous : en prenant le temps de bien mesurer, de bien poser, et d'expliquer.</p>
+        <ul class="promises">
+          <li><b>On vient mesurer</b><span>Le devis se fait chez vous, gratuitement, avec les vraies dimensions.</span></li>
+          <li><b>On tient les délais</b><span>La date de pose est donnée avec le devis, et respectée.</span></li>
+          <li><b>On laisse propre</b><span>Pas un éclat de verre derrière nous, les anciens vitrages repartent avec nous.</span></li>
+        </ul>
+      </div>
+      <figure class="photo rise"><img src="images/pose.webp" alt="Deux vitriers portent une grande plaque de verre" width="900" height="1125" loading="lazy"></figure>
+    </div>
+  </section>
+
+  <section class="urgent" aria-labelledby="t-urgent">
+    <div class="wrap">
+      <div><h2 id="t-urgent">Une vitre cassée ?</h2><p>On sécurise rapidement, puis on remplace. Appelez, on vous dit quand on peut passer.</p></div>
+      <a class="tel" href="tel:+33400000000">04 00 00 00 00</a>
+    </div>
+  </section>
+
+  <section class="wrap contact" id="contact" aria-labelledby="t-contact">
+    <div class="grid">
+      <div class="info rise">
+        <h2 id="t-contact">Demander un devis</h2>
+        <p class="lead">Décrivez votre projet : on vous rappelle pour fixer un passage et mesurer. Le devis est gratuit.</p>
+        <h3>Téléphone</h3><p><a href="tel:+33400000000">04 00 00 00 00</a></p>
+        <h3>E-mail</h3><p><a href="mailto:contact@vitrier-prince.fr">contact@vitrier-prince.fr</a></p>
+        <h3>Horaires</h3><p>Du lundi au vendredi, 8 h à 18 h<br>Le samedi matin sur rendez-vous</p>
+      </div>
+      <form id="quote" class="rise">
+        <div class="two"><div><label for="qName">Nom</label><input id="qName" autocomplete="name" required></div><div><label for="qTel">Téléphone</label><input id="qTel" type="tel" inputmode="tel" autocomplete="tel" required></div></div>
+        <div><label for="qKind">Votre besoin</label><select id="qKind"><option>Remplacement de vitre</option><option>Double vitrage</option><option>Miroir sur mesure</option><option>Paroi de douche</option><option>Vitrine de commerce</option><option>Crédence ou garde-corps</option><option>Autre</option></select></div>
+        <div><label for="qMsg">Votre projet</label><textarea id="qMsg" placeholder="Dimensions, nombre de vitres, adresse, disponibilités…"></textarea></div>
+        <button class="btn" type="submit">Envoyer ma demande</button>
+        <p class="done" id="done" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap"><img src="images/logo-couleur.png" alt="Vitrier Prince" width="900" height="241"><span>Maquette du site, réalisée par <a href="https://saitora.fr">Saitora</a> · Photos : Pixabay</span></div></footer>
+
+<script>
+document.documentElement.classList.add("js");
+const $ = id => document.getElementById(id);
+
+// ——— l'ordre de prix : [verre, prix au mètre carré, détail]
+const KINDS = [["Simple vitrage", 70, "verre clair de 4 mm"], ["Double vitrage", 160, "4/16/4, isolant"], ["Feuilleté sécurité", 140, "anti-effraction, pour vitrines et portes"], ["Miroir", 110, "argenté, chants polis"], ["Paroi de douche", 260, "verre trempé de 8 mm"]];
+const POSE = 90;   // déplacement et pose, par chantier
+const st = { kind: 1, pose: true };
+$("kind").innerHTML = KINDS.map(([n], i) => `<button type="button" class="chip" data-i="${i}" aria-pressed="${i === st.kind}">${n}</button>`).join("");
+const round5 = n => Math.round(n / 5) * 5;
+function estimate() {
+  const w = Math.min(400, Math.max(10, +$("w").value || 0)), h = Math.min(400, Math.max(10, +$("h").value || 0));
+  const m2 = Math.max(.5, w * h / 1e4), [n, perM2, d] = KINDS[st.kind];
+  const base = m2 * perM2 + (st.pose ? POSE : 0);
+  $("price").textContent = `${round5(base * .9)} à ${round5(base * 1.15)} €`;
+  $("detail").textContent = `${n} (${d}), ${String(Math.round(m2 * 100) / 100).replace(".", ",")} m²${st.pose ? ", pose comprise" : ", sans pose"}. Prix indicatif, à confirmer sur place.`;
+}
+$("kind").addEventListener("click", e => { const b = e.target.closest(".chip"); if (!b) return; st.kind = +b.dataset.i; [...$("kind").children].forEach(c => c.setAttribute("aria-pressed", c === b)); estimate(); });
+$("pose").addEventListener("click", e => { const b = e.target.closest(".chip"); if (!b) return; st.pose = b.dataset.v === "1"; [...$("pose").children].forEach(c => c.setAttribute("aria-pressed", c === b)); estimate(); });
+["w", "h"].forEach(id => $(id).addEventListener("input", estimate));
+estimate();
+// le devis reprend ce qui a été estimé
+$("toQuote").addEventListener("click", () => {
+  const map = { 0: "Remplacement de vitre", 1: "Double vitrage", 2: "Vitrine de commerce", 3: "Miroir sur mesure", 4: "Paroi de douche" };
+  $("qKind").value = map[st.kind];
+  if (!$("qMsg").value.trim()) $("qMsg").value = `${KINDS[st.kind][0]}, ${$("w").value} × ${$("h").value} cm${st.pose ? ", avec la pose" : ""}. `;
+});
+$("quote").addEventListener("submit", e => { e.preventDefault(); $("done").textContent = "Maquette : sur le vrai site, votre demande arriverait directement chez Vitrier Prince."; });
+
+// ——— apparitions discrètes
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("on"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -6% 0px" });
+document.querySelectorAll(".rise").forEach(el => io.observe(el));
+</script>
+</body>
+</html>

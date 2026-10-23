@@ -3,3 +3,4 @@ Allow: /
 Disallow: /outils/
 
 Sitemap: https://saitora.fr/sitemap.xml
+Disallow: /clients/

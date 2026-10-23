@@ -10,7 +10,7 @@
 - [x] Boîte contact@saitora.fr créée.
 
 ## Technique
-- [ ] Créer un formulaire Formspree et mettre son adresse dans `FORM_ENDPOINT` (`devis.html`) : les devis arriveront directement par e-mail. Penser à le citer dans la page de confidentialité.
+- [x] Formulaire Formspree branché sur `devis.html` (demandes reçues sur contact@saitora.fr), cité dans les mentions légales.
 - [ ] GitHub Pages : activer « Enforce HTTPS ».
 - [ ] OVH : vérifier que l'entrée CNAME est bien `www` (et non `ftp`).
 - [ ] Google Search Console : déclarer saitora.fr et envoyer `https://saitora.fr/sitemap.xml`.

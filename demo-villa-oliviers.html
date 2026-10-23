@@ -10,323 +10,360 @@
 <meta property="og:site_name" content="Saitora">
 <meta property="og:title" content="Villa Les Oliviers, démo Saitora">
 <meta property="og:description" content="Démo de site vitrine pour location de vacances : plan de la villa, photos, calendrier des disponibilités et devis instantané selon la saison. Réalisé par Saitora.">
-<meta name="theme-color" content="#2F3A24">
+<meta name="theme-color" content="#6B7A4B">
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Crect%20width=%2264%22%20height=%2264%22%20rx=%2232%22%20fill=%22%232F3A24%22/%3E%3Cellipse%20cx=%2224%22%20cy=%2228%22%20rx=%2212%22%20ry=%225%22%20transform=%22rotate(-30%2024%2028)%22%20fill=%22%23B9C49A%22/%3E%3Cellipse%20cx=%2240%22%20cy=%2228%22%20rx=%2212%22%20ry=%225%22%20transform=%22rotate(30%2040%2028)%22%20fill=%22%23B9C49A%22/%3E%3C/svg%3E">
-<link rel="stylesheet" href="polices/cormorant-garamond-mulish-6da598.css">
+<link rel="stylesheet" href="polices/italiana-figtree-b5a329.css">
 <style>
-/* Téléphone : pas de flash gris au toucher, pas de texte grossi en paysage, réponse dès que le doigt se pose,
-   libellés des boutons non sélectionnables, contenu tenu hors de l'encoche en paysage. */
-html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%}
-:where(a,button,[role="button"],summary,label,select,input[type="range"]){touch-action:manipulation}
-:where(button,.btn,[role="button"],[role="tab"]){-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
-:where(button:not([disabled]),.btn):active{opacity:.82}
-:where(.in,.page){padding-inline:env(safe-area-inset-left,0px) env(safe-area-inset-right,0px)}
-/* Villa Les Oliviers. Idée : le plan du mas. Avant de réserver une maison, on veut savoir où l'on dort, où l'on mange,
-   à quelle distance est la piscine. La villa se visite sur son plan : on touche une pièce, sa photo s'ouvre.
-   Cormorant Garamond pour la voix de la maison, Mulish pour l'information. Pierre claire, olivier, lavande. */
+/* Villa Les Oliviers, genre « luxe minimal » : énormément d'air, une serif fine en très grand, des capitales minuscules espacées,
+   blanc cassé et noir avec une seule touche de vert olive, de grandes photos dans des cadres fins. */
 :root{
-  --stone:#EEEEE6; --stone-2:#E0DFD3; --olive:#2F3A24; --leaf:#6E7C4A; --sage:#B9C49A; --lavender:#7E72B0; --ink:#1F2418; --muted:#5B6250; --white:#FBFBF8; --rule:rgba(31,36,24,.16);
-  --serif:"Cormorant Garamond",Garamond,Georgia,serif;
-  --sans:"Mulish","Helvetica Neue",Arial,sans-serif;
-  color-scheme:light;
+  --bg:#F7F5F0; --ink:#1E1E1C; --soft:#6B6A64; --olive:#6B7A4B; --line:rgba(30,30,28,.14);
+  --m:clamp(20px,5vw,80px);
+  --serif:"Italiana",Georgia,serif; --sans:"Figtree",system-ui,sans-serif;
 }
-*,*::before,*::after{box-sizing:border-box}
-html{scroll-behavior:smooth;background:var(--stone)}
-body{margin:0;background:var(--stone);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.65}
-h1,h2,h3,p,ul,figure{margin:0}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+html:focus-within{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font:300 17px/1.7 var(--sans);-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%;height:auto}
 a{color:inherit}
-img{display:block;max-width:100%}
-:focus-visible{outline:2px solid var(--lavender);outline-offset:3px}
-.in{width:min(1200px,100% - 2 * clamp(16px,4vw,40px));margin-inline:auto}
+button{font:inherit;color:inherit}
+:focus-visible{outline:1px solid var(--olive);outline-offset:4px}
+.wrap{max-width:1360px;margin-inline:auto;padding-inline:var(--m)}
+.demo{background:var(--ink);color:#CFCDC6;font-size:12px;letter-spacing:.04em;text-align:center;padding:6px 16px}
+.caps{font:400 12px/1.4 var(--sans);letter-spacing:.32em;text-transform:uppercase}
+.link{display:inline-flex;align-items:center;gap:12px;min-height:44px;font:400 13px/1 var(--sans);letter-spacing:.24em;text-transform:uppercase;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.7em;background:none;border:0;cursor:pointer}
+.link::after{content:"→";text-decoration:none;transition:transform .25s cubic-bezier(.23,1,.32,1)}
+@media (hover:hover) and (pointer:fine){.link:hover::after{transform:translateX(6px)}}
+.link:disabled{opacity:.35;cursor:not-allowed}
 
-.demo{background:var(--olive);color:rgba(251,251,248,.7);font-size:13px;text-align:center;padding:6px 16px}
+/* ---- navigation centrée ---- */
+.top{text-align:center;padding:30px 0 0}
+.top .name{font:400 1.6rem/1 var(--serif);letter-spacing:.3em;text-transform:uppercase;text-decoration:none}
+.top nav{display:flex;justify-content:center;flex-wrap:wrap;gap:4px 34px;margin-top:14px}
+.top nav a{min-height:44px;display:inline-flex;align-items:center;text-decoration:none;font:400 12px/1 var(--sans);letter-spacing:.3em;text-transform:uppercase;color:var(--soft);transition:color .15s}
+@media (hover:hover) and (pointer:fine){.top nav a:hover{color:var(--ink)}}
 
-/* première page : l'oliveraie */
-.hero{position:relative;min-height:min(88svh,820px);color:var(--white);display:flex;flex-direction:column}
-.hero > img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(rgba(20,26,14,.45),rgba(20,26,14,0) 30%,rgba(20,26,14,0) 45%,rgba(20,26,14,.7))}
-.hero .bar,.hero .title{position:relative;z-index:1}
-.hero .bar .in{display:flex;align-items:center;gap:28px;padding-block:20px}
-.name{font:500 1.6rem/1 var(--serif);text-decoration:none;font-style:italic}
-.hero nav{display:flex;gap:26px;margin-left:auto;font-size:15px;font-weight:500}
-.hero nav a{text-decoration:none;opacity:.9}
+/* ---- ouverture : la photo dans une arche, le nom de part et d'autre ---- */
+.hero{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:clamp(16px,3vw,48px);padding-block:clamp(40px,6vw,90px) clamp(60px,7vw,110px)}
+.hero h1{display:contents}
+.hero .w{font:400 clamp(3.2rem,1rem + 7vw,9.6rem)/.9 var(--serif);letter-spacing:.02em}
+.hero .w:first-child{text-align:right}
+.arch{width:clamp(240px,30vw,430px);aspect-ratio:3/4.3;border-radius:999px 999px 0 0;overflow:hidden;outline:1px solid var(--line);outline-offset:12px}
+.arch img{width:100%;height:100%;object-fit:cover}
+.hero .under{grid-column:1 / -1;text-align:center;margin-top:clamp(40px,5vw,64px)}
+.hero .under p{max-width:44ch;margin:14px auto 22px;font-size:clamp(1.05rem,1rem + .25vw,1.2rem)}
+.zoom{overflow:hidden}
+.js .zoom img{transform:scale(1.08);transition:transform 2.2s cubic-bezier(.23,1,.32,1)}
+.js .zoom.on img{transform:none}
 
-.btn{display:inline-flex;align-items:center;justify-content:center;font:600 15px var(--sans);padding:13px 24px;border-radius:999px;border:0;cursor:pointer;text-decoration:none;background:var(--white);color:var(--olive);transition:background-color 150ms ease}
+/* ---- sections numérotées ---- */
+section{position:relative;padding-block:clamp(90px,11vw,170px)}
+.n{position:absolute;top:clamp(40px,6vw,90px);right:var(--m);font:400 clamp(7rem,4rem + 10vw,15rem)/1 var(--serif);color:var(--ink);opacity:.06;pointer-events:none}
+.h2{font:400 clamp(2.6rem,1.4rem + 4vw,5.6rem)/1 var(--serif);letter-spacing:.06em;text-transform:uppercase}
+.lede{margin-top:20px;max-width:50ch;font-size:clamp(1.05rem,1rem + .25vw,1.22rem);color:var(--soft)}
+.big{font:400 clamp(1.8rem,1.2rem + 2vw,3rem)/1.25 var(--serif);max-width:28ch}
+.big em{font-style:normal;color:var(--olive)}
 
-.btn.dark{background:var(--olive);color:var(--white)}
+/* ---- la villa : onglets ---- */
+.tabs{display:flex;flex-wrap:wrap;gap:6px 30px;margin-top:clamp(40px,5vw,64px);border-bottom:1px solid var(--line)}
+.tabs button{min-height:48px;background:none;border:0;border-bottom:1px solid transparent;margin-bottom:-1px;font:400 12px/1 var(--sans);letter-spacing:.28em;text-transform:uppercase;color:var(--soft);cursor:pointer;transition:color .15s,border-color .15s}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--ink)}
+.room{display:grid;grid-template-columns:1.5fr 1fr;gap:clamp(28px,5vw,80px);align-items:end;margin-top:clamp(32px,4vw,48px)}
+.frame{outline:1px solid var(--line);outline-offset:12px}
+.room .frame img{width:100%;aspect-ratio:4/3;object-fit:cover;transition:opacity .35s ease}
+.room .frame img.fade{opacity:0}
+.room h3{font:400 clamp(2rem,1.5rem + 1.6vw,3rem)/1.05 var(--serif)}
+.room p{margin-top:16px;color:var(--soft)}
+.room .t{margin-top:22px;padding-top:16px;border-top:1px solid var(--line)}
 
-.btn[disabled]{opacity:.4;cursor:not-allowed}
-.hero .title{margin-top:auto}
-.hero .title .in{padding-bottom:clamp(36px,6vw,72px)}
-.hero h1{font:400 clamp(3rem,1.6rem + 5.6vw,7rem)/.95 var(--serif);letter-spacing:-.02em;max-width:13ch}
-.hero .title p{margin-top:18px;max-width:44ch;font-size:1.1rem;opacity:.92}
-.hero .title .btn{margin-top:24px}
+/* ---- la photo qui chevauche ---- */
+.over{position:relative;z-index:2;margin-bottom:calc(-1 * clamp(80px,12vw,180px))}
+.over img{width:100%;aspect-ratio:21/9;object-fit:cover}
+.after-over{padding-top:calc(clamp(80px,12vw,180px) + clamp(80px,9vw,140px));background:#EFECE4}
 
-/* la maison en une phrase */
-.facts{padding-block:clamp(48px,6vw,80px)}
-.facts p{font:400 clamp(1.6rem,1.2rem + 1.5vw,2.5rem)/1.3 var(--serif);max-width:34ch}
+/* ---- autour, une photo à la fois ---- */
+.around{display:grid;grid-template-columns:1fr 1.4fr;gap:clamp(28px,5vw,80px);align-items:center;margin-top:clamp(40px,5vw,64px)}
+.around .frame{position:relative;aspect-ratio:4/3;overflow:hidden}
+.around .frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .5s ease}
+.around .frame img.hide{opacity:0}
+.around .when{color:var(--olive)}
+.around h3{margin-top:12px;font:400 clamp(2rem,1.5rem + 1.6vw,3rem)/1.05 var(--serif)}
+.around p{margin-top:14px;color:var(--soft);max-width:38ch}
+.steps{display:flex;align-items:center;gap:18px;margin-top:30px}
+.steps button{width:52px;height:52px;border-radius:50%;border:1px solid var(--ink);background:none;cursor:pointer;transition:background-color .15s,color .15s}
+@media (hover:hover) and (pointer:fine){.steps button:hover{background:var(--ink);color:var(--bg)}}
+.steps button:active{transform:scale(.95)}
 
-/* le plan */
-.plan-sec{padding-bottom:clamp(64px,8vw,112px)}
-.plan-sec h2,.sec h2{font:400 clamp(2.4rem,1.6rem + 3vw,4rem)/1 var(--serif);letter-spacing:-.015em}
-.plan-sec .sub,.sec .sub{margin-top:12px;color:var(--muted);max-width:56ch}
-.plan-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(24px,4vw,56px);margin-top:36px;align-items:start}
-.plan{width:100%;height:auto;display:block;background:var(--white);border:1px solid var(--rule);border-radius:4px}
-.plan .room{cursor:pointer}
-.plan .room rect,.plan .room path{fill:var(--stone);stroke:var(--olive);stroke-width:2;transition:fill 160ms ease}
+/* ---- la lettre ---- */
+.letter{max-width:720px;margin-inline:auto;text-align:left}
+.letter p{margin-top:18px;font-size:clamp(1.05rem,1rem + .25vw,1.2rem)}
+.letter .sign{margin-top:30px;font:400 2.4rem/1 var(--serif);transform:skewX(-10deg);transform-origin:left}
+.letter .sign small{display:block;margin-top:8px;font:300 15px/1.4 var(--sans);transform:skewX(10deg);color:var(--soft)}
 
-.plan .room.on rect,.plan .room.on path{fill:var(--sage)}
-.plan .room text{font:600 15px var(--sans);fill:var(--ink);pointer-events:none}
-.plan .room:focus{outline:none}
-.plan .room:focus-visible rect,.plan .room:focus-visible path{stroke:var(--lavender);stroke-width:4}
-.plan .room rect.water{fill:#BFD7DA}
-.plan .room.on rect.water{fill:#9CC3C8}
-.plan .tree{fill:var(--leaf);opacity:.55}
-.plan .label{font:italic 500 18px var(--serif);fill:var(--muted)}
-.room-view figure img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:4px}
-.room-view h3{font:500 2rem/1.1 var(--serif);margin-top:18px}
-.room-view p{color:var(--muted);margin-top:8px;max-width:48ch}
-.room-view .tags{margin-top:12px;font-size:15px;font-weight:600;color:var(--leaf)}
+/* ---- dates et prix ---- */
+.book{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(28px,5vw,80px);margin-top:clamp(40px,5vw,64px);align-items:start}
+.cal{outline:1px solid var(--line);outline-offset:12px;padding:8px}
+.cal .head{display:flex;justify-content:space-between;align-items:center}
+.cal .head b{font:400 1.8rem/1 var(--serif);text-transform:capitalize}
+.cal .head button{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:none;cursor:pointer}
+.cal .head button:disabled{opacity:.3;cursor:default}
+.wk,.days{display:grid;grid-template-columns:repeat(7,1fr);text-align:center}
+.wk{margin-top:18px;color:var(--soft)}
+.wk span{padding:8px 0}
+.days button,.days span{aspect-ratio:1;display:grid;place-items:center;font-size:15px}
+.days button{border:0;background:none;cursor:pointer;border-radius:50%;transition:background-color .12s}
+.days button:disabled{color:#BDBAB2;cursor:default}
+.days button.booked{color:#BDBAB2;text-decoration:line-through}
+.days button.range{background:rgba(107,122,75,.14);border-radius:0}
+.days button.sel{background:var(--ink);color:var(--bg)}
+@media (hover:hover) and (pointer:fine){.days button:not(:disabled):not(.booked):not(.sel):hover{background:rgba(30,30,28,.06)}}
+.legend{display:flex;gap:22px;margin-top:14px;font-size:14px;color:var(--soft)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:8px;vertical-align:0}
+.rates{list-style:none;border-top:1px solid var(--line)}
+.rates li{display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--line)}
+.rates b{font:400 1.6rem/1 var(--serif)}
+.guests{display:flex;align-items:center;justify-content:space-between;margin-top:26px}
+.guests div{display:flex;align-items:center;gap:16px}
+.guests button{width:44px;height:44px;border-radius:50%;border:1px solid var(--ink);background:none;cursor:pointer}
+.guests output{font:400 1.8rem/1 var(--serif);min-width:24px;text-align:center}
+.quote{margin-top:26px;min-height:120px}
+.quote .r{display:flex;justify-content:space-between;gap:16px;padding:8px 0;color:var(--soft)}
+.quote .t{display:flex;justify-content:space-between;align-items:baseline;padding-top:16px;margin-top:8px;border-top:1px solid var(--ink)}
+.quote .t b{font:400 clamp(2.6rem,2rem + 2vw,3.8rem)/1 var(--serif);color:var(--olive)}
+.quote .hint{color:var(--soft);font-style:italic}
+.ok{margin-top:14px;color:var(--olive)}
 
-/* autour */
-.sec{padding-block:clamp(64px,8vw,112px)}
-.around{background:var(--olive);color:var(--white)}
-.around .sub{color:rgba(251,251,248,.75)}
-.around .wide{margin-top:36px;width:100%;height:auto;aspect-ratio:15/6;object-fit:cover;border-radius:4px}
-.walks{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(18px,3vw,36px);margin-top:32px}
-.walk h3{font:500 1.6rem/1.1 var(--serif)}
-.walk .t{font-weight:700;color:var(--sage);font-size:15px}
-.walk p{color:rgba(251,251,248,.78);font-size:15.5px;margin-top:6px}
-.pair{display:grid;grid-template-columns:1fr 1fr 1fr;gap:clamp(12px,2vw,20px);margin-top:clamp(32px,4vw,48px)}
-.pair img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:4px}
-.pair figcaption{margin-top:8px;font:italic 400 1.15rem/1.3 var(--serif);color:rgba(251,251,248,.85)}
+/* ---- venir : plan et infos ---- */
+.come{display:grid;grid-template-columns:1.2fr 1fr;gap:clamp(28px,5vw,80px);margin-top:clamp(40px,5vw,64px);align-items:center}
+.map{outline:1px solid var(--line);outline-offset:12px;background:#EFECE4}
+.map text{font:400 13px var(--sans);letter-spacing:.14em;text-transform:uppercase;fill:var(--ink)}
+.map .min{fill:var(--olive);letter-spacing:.04em;text-transform:none;font-size:13px}
+.infos{display:grid;gap:26px}
+.infos div{padding-top:16px;border-top:1px solid var(--line)}
+.infos p{margin-top:8px;color:var(--soft)}
 
-/* disponibilités */
-.book .grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,56px);margin-top:36px;align-items:start}
-.cal{background:var(--white);border:1px solid var(--rule);border-radius:4px;padding:clamp(16px,2.5vw,28px)}
-.cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-.cal-head h3{font:500 1.6rem/1 var(--serif);text-transform:capitalize}
-.cal-head button{width:40px;height:40px;border-radius:50%;border:1px solid var(--rule);background:none;color:var(--ink);font-size:20px;cursor:pointer}
-.cal-head button[disabled]{opacity:.3;cursor:not-allowed}
-.dow,.days{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
-.dow span{font-size:13px;font-weight:600;color:var(--muted);padding-bottom:6px}
-.d{aspect-ratio:1;border:0;border-radius:4px;background:none;font:500 15px var(--sans);color:var(--ink);cursor:pointer;font-variant-numeric:tabular-nums}
+footer{border-top:1px solid var(--line);padding-block:clamp(56px,7vw,96px) 28px}
+footer .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,3vw,48px)}
+footer .cols p{margin-top:10px;color:var(--soft)}
+footer .end{margin-top:clamp(56px,7vw,96px);text-align:center;font:400 clamp(2.6rem,1.4rem + 4vw,5.6rem)/1 var(--serif);letter-spacing:.3em;text-transform:uppercase}
+footer .legal{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:40px;font-size:13px;color:var(--soft)}
 
-.d[disabled]{color:rgba(31,36,24,.3);cursor:not-allowed}
-.d.booked{background:repeating-linear-gradient(135deg,var(--stone-2) 0 3px,transparent 3px 7px);color:rgba(31,36,24,.45)}
-.d.range{background:#DDE3CB}
-.d.sel{background:var(--olive);color:var(--white)}
-.d.off{visibility:hidden}
-.legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:14px;font-size:14px;color:var(--muted)}
-.legend i{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:6px}
-.sim{display:flex;flex-direction:column;gap:22px}
-.rates .r,.quote .r{display:flex;justify-content:space-between;gap:16px;padding-block:10px;border-bottom:1px solid var(--rule);font-size:15.5px}
-.rates .r b{font:500 1.4rem/1 var(--serif);white-space:nowrap}
-.rates h3{font:500 1.5rem/1 var(--serif);margin-bottom:6px}
-.guests{display:flex;align-items:center;justify-content:space-between}
-.stepper{display:flex;align-items:center;gap:14px}
-.stepper button{width:40px;height:40px;border-radius:50%;border:1px solid var(--olive);background:none;color:var(--olive);font:600 20px/1 var(--sans);cursor:pointer}
-.stepper b{min-width:24px;text-align:center;font:500 1.6rem/1 var(--serif)}
-.quote{background:var(--white);border:1px solid var(--rule);border-radius:4px;padding:18px 20px}
-.quote .hint{color:var(--muted)}
-.quote .t{display:flex;justify-content:space-between;padding-top:12px;font:500 1.8rem/1 var(--serif)}
-.ok{background:#E5E3F1;border-left:3px solid var(--lavender);padding:12px 14px;font-size:15px}
-
-footer{background:var(--ink);color:rgba(251,251,248,.8)}
-footer .in{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;padding-block:52px}
-footer h3{font:italic 500 1.5rem/1 var(--serif);color:var(--sage);margin-bottom:10px}
-footer a{text-decoration:none;font-weight:700}
-.bottom{background:var(--ink);color:rgba(251,251,248,.5);font-size:14px;border-top:1px solid rgba(251,251,248,.12)}
-.bottom .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:16px}
-
+@media (prefers-reduced-motion:reduce){.js .zoom img{transform:none;transition:none}}
 @media (max-width:900px){
-  .hero nav{display:none}
-  .hero .bar .btn{margin-left:auto}
-  .plan-grid,.book .grid{grid-template-columns:1fr}
-  .walks{grid-template-columns:1fr 1fr}
-  .pair{grid-template-columns:1fr 1fr}
-  .pair figure:last-child{display:none}
-  footer .in{grid-template-columns:1fr}
+  .hero{grid-template-columns:1fr;text-align:center}
+  .hero .w:first-child,.hero .w{text-align:center}
+  .arch{margin-inline:auto;order:3;width:min(78vw,360px)}
+  .hero .under{order:4}
+  .room,.around,.book,.come{grid-template-columns:1fr}
+  .over img{aspect-ratio:16/10}
+  footer .cols{grid-template-columns:1fr}
 }
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-/* survols : souris uniquement, sinon l'état reste collé après un toucher */
-@media (hover:hover) and (pointer:fine){
-  .hero nav a:hover{opacity:1;text-decoration:underline;text-underline-offset:5px}
-  .btn:hover{background:var(--sage)}
-  .btn.dark:hover{background:var(--leaf)}
-  .plan .room:hover rect,.plan .room:hover path{fill:var(--stone-2)}
-  .d:hover:not([disabled]){background:var(--stone)}
-}
-@media (pointer:coarse){
-  .name{display:inline-block;padding-block:9px;margin-block:-9px}
-  .stepper button,.cal-head button{width:44px;height:44px}
-}
+@media (max-width:480px){.top nav{gap:0 14px}.top nav a{letter-spacing:.16em;font-size:11px}}
 </style>
 </head>
 <body>
-
 <div class="demo">Site de démonstration réalisé par Saitora, villa fictive</div>
 
-<header class="hero" id="top">
-  <img src="images/villa/oliveraie-hero.webp" alt="Oliviers centenaires dans la lumière du soir" width="1500" height="1000" fetchpriority="high">
-  <div class="bar">
-    <div class="in">
-      <a class="name" href="#top">Les Oliviers</a>
-      <nav aria-label="Sections"><a href="#plan">La villa</a><a href="#autour">Autour</a><a href="#dispo">Disponibilités</a></nav>
-      <a class="btn" href="#dispo">Voir les dates libres</a>
-    </div>
-  </div>
-  <div class="title">
-    <div class="in">
-      <h1>Une villa pour vous seuls, sous les oliviers</h1>
-      <p>Un mas en pierre restauré, louée en entier à la semaine ou pour un long week-end, jusqu'à huit personnes.</p>
-    </div>
-  </div>
+<header class="top wrap">
+  <a class="name" href="#">Les Oliviers</a>
+  <nav aria-label="Navigation"><a href="#villa">La villa</a><a href="#autour">Autour</a><a href="#dates">Dates et prix</a><a href="#venir">Venir</a></nav>
 </header>
 
 <main>
-  <section class="facts in" aria-label="La villa en bref">
-    <p>220 m² de pierre et de poutres, quatre chambres dont deux suites, une piscine chauffée de 12 mètres face aux collines, et un hectare d'oliviers centenaires autour.</p>
-  </section>
+<div class="wrap hero">
+  <h1><span class="w">Les</span><span class="arch zoom"><img src="images/villa/oliveraie-hero.webp" alt="Le mas en pierre au milieu des oliviers centenaires" width="1500" height="1000" fetchpriority="high"></span><span class="w">Oliviers</span></h1>
+  <div class="under">
+    <p class="caps" style="color:var(--olive)">Une villa pour vous seuls</p>
+    <p>Un mas en pierre restauré sous les oliviers, loué en entier à la semaine ou pour un long week-end, jusqu'à huit personnes.</p>
+    <a class="link" href="#dates">Voir les dates libres</a>
+  </div>
+</div>
 
-  <section class="plan-sec in" id="plan" aria-labelledby="t-plan">
-    <h2 id="t-plan">Le mas, pièce par pièce</h2>
-    <p class="sub">Touchez une pièce sur le plan pour la voir.</p>
-    <div class="plan-grid">
-      <svg class="plan" viewBox="0 0 600 520" role="group" aria-label="Plan de la villa">
-        <g aria-hidden="true">
-          <circle class="tree" cx="40" cy="40" r="22"/><circle class="tree" cx="560" cy="60" r="26"/><circle class="tree" cx="30" cy="480" r="20"/><circle class="tree" cx="566" cy="470" r="22"/><circle class="tree" cx="520" cy="300" r="18"/>
-          <text class="label" x="300" y="34" text-anchor="middle">Oliveraie</text>
-          <text class="label" x="300" y="508" text-anchor="middle">Vue sur les collines</text>
-        </g>
-        <g class="room" data-r="sejour" tabindex="0" role="button" aria-label="Séjour"><rect x="80" y="70" width="230" height="150"/><text x="195" y="150" text-anchor="middle">Séjour et cuisine</text></g>
-        <g class="room" data-r="suite" tabindex="0" role="button" aria-label="Suite parentale"><rect x="310" y="70" width="170" height="150"/><text x="395" y="150" text-anchor="middle">Suite parentale</text></g>
-        <g class="room" data-r="chambres" tabindex="0" role="button" aria-label="Chambres"><rect x="80" y="220" width="400" height="80"/><text x="280" y="265" text-anchor="middle">Trois chambres</text></g>
-        <g class="room" data-r="terrasse" tabindex="0" role="button" aria-label="Terrasse"><path d="M80 300h400v60H80z"/><text x="280" y="335" text-anchor="middle">Terrasse couverte</text></g>
-        <g class="room" data-r="piscine" tabindex="0" role="button" aria-label="Piscine"><rect class="water" x="150" y="390" width="260" height="80" rx="4"/><text x="280" y="435" text-anchor="middle">Piscine 12 × 5 m</text></g>
+<section id="villa">
+  <span class="n" aria-hidden="true">01</span>
+  <div class="wrap">
+    <p class="caps" style="color:var(--olive)">La villa</p>
+    <p class="big" style="margin-top:18px">220 m² de pierre et de poutres, quatre chambres, <em>une piscine chauffée face aux collines</em> et un hectare d'oliviers centenaires.</p>
+    <div class="tabs" role="tablist" id="tabs"></div>
+    <div class="room" role="tabpanel" id="room">
+      <div class="frame"><img id="rImg" src="images/villa/sejour.webp" alt="" width="640" height="480"></div>
+      <div><h3 id="rName"></h3><p id="rDesc"></p><p class="t caps" id="rTags"></p></div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap over zoom"><img src="images/villa/piscine.webp" alt="Le mas et sa piscine privée sous le ciel bleu" width="1056" height="960" loading="lazy"></div>
+
+<section class="after-over" id="autour">
+  <span class="n" aria-hidden="true">02</span>
+  <div class="wrap">
+    <h2 class="h2">Autour</h2>
+    <p class="lede">Le vieux village est au bout du chemin des oliviers. La voiture reste au parking la plupart du temps.</p>
+    <div class="around">
+      <div><p class="caps when" id="aWhen"></p><h3 id="aName"></h3><p id="aTxt"></p>
+        <div class="steps"><button type="button" id="aPrev" aria-label="Lieu précédent">←</button><span class="caps" id="aNum" aria-live="polite"></span><button type="button" id="aNext" aria-label="Lieu suivant">→</button></div></div>
+      <div class="frame" id="aFrame"></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <span class="n" aria-hidden="true">03</span>
+  <div class="wrap">
+    <div class="letter">
+      <p class="caps" style="color:var(--olive)">Un mot de nous</p>
+      <p>Nous avons restauré ce mas pierre après pierre, pendant trois hivers. Les oliviers étaient là bien avant nous ; certains ont plus de trois cents ans.</p>
+      <p>Vous trouverez la maison prête, le linge plié, le frigo avec de quoi petit-déjeuner le premier matin, et notre carnet d'adresses sur la table : le boulanger, le moulin, la crique où l'on va le soir.</p>
+      <p>Nous habitons au village, à dix minutes à pied. Nous ne viendrons que si vous nous appelez.</p>
+      <p class="sign">Hélène et Paul<small>vos hôtes, fictifs eux aussi</small></p>
+    </div>
+  </div>
+</section>
+
+<section id="dates" style="background:#EFECE4">
+  <span class="n" aria-hidden="true">04</span>
+  <div class="wrap">
+    <h2 class="h2">Dates et prix</h2>
+    <p class="lede">Touchez votre jour d'arrivée, puis votre jour de départ. Le prix se calcule tout seul, ménage et taxe de séjour compris.</p>
+    <div class="book">
+      <div class="cal">
+        <div class="head"><button type="button" id="prev" aria-label="Mois précédent">‹</button><b id="month"></b><button type="button" id="nextM" aria-label="Mois suivant">›</button></div>
+        <div class="wk caps" aria-hidden="true"><span>Lu</span><span>Ma</span><span>Me</span><span>Je</span><span>Ve</span><span>Sa</span><span>Di</span></div>
+        <div class="days" id="days"></div>
+        <div class="legend"><span><i style="border:1px solid #BDBAB2"></i>Déjà loué</span><span><i style="background:var(--ink)"></i>Votre séjour</span></div>
+      </div>
+      <div>
+        <p class="caps">Prix par nuit, villa entière</p>
+        <ul class="rates" style="margin-top:14px">
+          <li><span>D'octobre à avril, 3 nuits minimum</span><b>290 €</b></li>
+          <li><span>Mai, juin et septembre, 3 nuits minimum</span><b>390 €</b></li>
+          <li><span>Juillet et août, 7 nuits minimum</span><b>520 €</b></li>
+        </ul>
+        <div class="guests"><span class="caps">Voyageurs</span><div><button type="button" id="gm" aria-label="Un voyageur de moins">−</button><output id="guests">4</output><button type="button" id="gp" aria-label="Un voyageur de plus">+</button></div></div>
+        <div class="quote" id="quote" aria-live="polite"></div>
+        <button class="link" type="button" id="send" style="margin-top:18px">Demander ces dates</button>
+        <p class="ok" id="ok" aria-live="polite"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="venir">
+  <span class="n" aria-hidden="true">05</span>
+  <div class="wrap">
+    <h2 class="h2">Venir</h2>
+    <div class="come">
+      <svg class="map" viewBox="0 0 600 420" role="img" aria-label="Plan des environs : le village, les sentiers, le moulin et la crique autour de la villa">
+        <path d="M-10 330C80 300 140 340 220 310S380 250 470 280 560 330 610 300" fill="none" stroke="#1E1E1C" stroke-width="1" stroke-dasharray="2 6"/>
+        <path d="M300 210C260 170 230 140 170 110" fill="none" stroke="#6B7A4B" stroke-width="1.5"/>
+        <path d="M300 210C360 180 420 150 480 90" fill="none" stroke="#1E1E1C" stroke-width="1"/>
+        <path d="M300 210C330 260 380 330 450 370" fill="none" stroke="#1E1E1C" stroke-width="1"/>
+        <path d="M300 210C250 240 200 250 110 240" fill="none" stroke="#6B7A4B" stroke-width="1.5" stroke-dasharray="5 5"/>
+        <circle cx="300" cy="210" r="9" fill="#6B7A4B"/><circle cx="300" cy="210" r="22" fill="none" stroke="#6B7A4B"/>
+        <text x="272" y="268" text-anchor="end">La villa</text>
+        <circle cx="170" cy="110" r="4"/><text x="170" y="78" text-anchor="middle">Le village</text><text class="min" x="170" y="96" text-anchor="middle">10 min à pied</text>
+        <circle cx="480" cy="90" r="4"/><text x="480" y="56" text-anchor="middle">Le moulin</text><text class="min" x="480" y="74" text-anchor="middle">15 min en voiture</text>
+        <circle cx="450" cy="370" r="4"/><text x="464" y="368" text-anchor="start">La crique</text><text class="min" x="464" y="388" text-anchor="start">20 min en voiture</text>
+        <circle cx="110" cy="240" r="4"/><text x="110" y="222" text-anchor="middle">Les sentiers</text><text class="min" x="110" y="264" text-anchor="middle">5 min à pied</text>
+        <text class="min" x="40" y="352">la mer</text>
       </svg>
-      <div class="room-view" aria-live="polite">
-        <figure><img id="rImg" src="images/villa/sejour.webp" alt="" width="640" height="480"></figure>
-        <h3 id="rName"></h3>
-        <p id="rDesc"></p>
-        <p class="tags" id="rTags"></p>
+      <div class="infos">
+        <div><p class="caps">L'adresse</p><p>Chemin des Oliviers. Arrivée à partir de 16 h, départ avant 10 h.</p></div>
+        <div><p class="caps">Compris dans le prix</p><p>Linge de lit et de toilette, ménage de fin de séjour, wifi par la fibre, climatisation, parking pour trois voitures. Caution de 1 500 €.</p></div>
+        <div><p class="caps">Nous joindre</p><p><a href="tel:+33600000000">06 00 00 00 00</a>, réponse sous 24 h.</p></div>
       </div>
     </div>
-  </section>
-
-  <section class="sec around" id="autour" aria-labelledby="t-around">
-    <div class="in">
-      <h2 id="t-around">Autour, à pied ou presque</h2>
-      <p class="sub">Le vieux village est au bout du chemin des oliviers. Pour le reste, la voiture reste au parking la plupart du temps.</p>
-      <img class="wide" src="images/villa/village-rue.webp" alt="Rue en pente bordée de façades ocre et de volets verts, collines au fond" width="1500" height="700" loading="lazy" decoding="async">
-      <div class="walks">
-        <div class="walk"><p class="t">5 min à pied</p><h3>Les sentiers</h3><p>Randonnées balisées au départ de la villa, cartes prêtées.</p></div>
-        <div class="walk"><p class="t">10 min à pied</p><h3>Le village</h3><p>Marché le samedi matin, épicerie et boulangerie.</p></div>
-        <div class="walk"><p class="t">15 min en voiture</p><h3>Le moulin</h3><p>Visite et dégustation d'huile d'olive chez le producteur.</p></div>
-        <div class="walk"><p class="t">20 min en voiture</p><h3>La crique</h3><p>Plage de sable, paillote ouverte de mai à septembre.</p></div>
-      </div>
-      <div class="pair">
-        <figure><img src="images/villa/village-ruelle.webp" alt="Ruelle pavée et fleurie aux volets bleus" width="800" height="600" loading="lazy" decoding="async"><figcaption>La ruelle du lavoir</figcaption></figure>
-        <figure><img src="images/villa/village-toits.webp" alt="Les toits du vieux village vus depuis les hauteurs" width="800" height="600" loading="lazy" decoding="async"><figcaption>Le village depuis le sentier</figcaption></figure>
-        <figure><img src="images/villa/lavande.webp" alt="Champ de lavande devant un mas provençal" width="640" height="480" loading="lazy" decoding="async"><figcaption>Les lavandes, en juillet</figcaption></figure>
-      </div>
-    </div>
-  </section>
-
-  <section class="sec book" id="dispo" aria-labelledby="t-book">
-    <div class="in">
-      <h2 id="t-book">Choisissez vos dates</h2>
-      <p class="sub">Touchez votre jour d'arrivée, puis votre jour de départ. Le prix se calcule tout seul, ménage et taxe de séjour compris.</p>
-      <div class="grid">
-        <div class="cal">
-          <div class="cal-head"><button type="button" id="prev" aria-label="Mois précédent">‹</button><h3 id="month"></h3><button type="button" id="nextM" aria-label="Mois suivant">›</button></div>
-          <div class="dow" aria-hidden="true"><span>Lu</span><span>Ma</span><span>Me</span><span>Je</span><span>Ve</span><span>Sa</span><span>Di</span></div>
-          <div class="days" id="days"></div>
-          <div class="legend"><span><i style="background:var(--white);border:1px solid var(--rule)"></i>Libre</span><span><i style="background:repeating-linear-gradient(135deg,var(--stone-2) 0 3px,transparent 3px 6px);border:1px solid var(--rule)"></i>Déjà loué</span><span><i style="background:var(--olive)"></i>Votre séjour</span></div>
-        </div>
-        <div class="sim">
-          <div class="rates"><h3>Prix par nuit, villa entière</h3>
-            <div class="r"><span>D'octobre à avril, 3 nuits minimum</span><b>290 €</b></div>
-            <div class="r"><span>Mai, juin et septembre, 3 nuits minimum</span><b>390 €</b></div>
-            <div class="r"><span>Juillet et août, 7 nuits minimum</span><b>520 €</b></div>
-          </div>
-          <div class="guests"><span>Voyageurs</span><div class="stepper"><button type="button" id="gm" aria-label="Un voyageur de moins">−</button><b id="guests">4</b><button type="button" id="gp" aria-label="Un voyageur de plus">+</button></div></div>
-          <div class="quote" id="quote" aria-live="polite"></div>
-          <button class="btn dark" type="button" id="send">Demander ces dates</button>
-          <p class="ok" id="ok" hidden></p>
-        </div>
-      </div>
-    </div>
-  </section>
+  </div>
+</section>
 </main>
 
 <footer>
-  <div class="in">
-    <div><h3>La villa</h3><p>Chemin des Oliviers<br>Arrivée à partir de 16 h, départ avant 10 h</p></div>
-    <div><h3>Contact</h3><a href="tel:+33600000000">06 00 00 00 00</a><p>Réponse sous 24 h</p></div>
-    <div><h3>Compris dans le prix</h3><p>Linge de lit et de toilette, ménage de fin de séjour, wifi par la fibre, climatisation, parking pour trois voitures. Caution de 1 500 €.</p></div>
+  <div class="wrap">
+    <div class="cols">
+      <div><p class="caps">La villa</p><p>Chemin des Oliviers<br>Jusqu'à huit personnes</p></div>
+      <div><p class="caps">Contact</p><p>06 00 00 00 00<br>Réponse sous 24 h</p></div>
+      <div><p class="caps">Réserver</p><p><a class="link" href="#dates">Voir les dates libres</a></p></div>
+    </div>
+    <p class="end">Les Oliviers</p>
+    <div class="legal"><span>© Villa Les Oliviers, villa fictive</span><span>Site réalisé par <a href="accueil.html">Saitora</a> · Photos : Pixabay</span></div>
   </div>
 </footer>
-<div class="bottom"><div class="in"><span>© Villa Les Oliviers, villa fictive</span><span>Site réalisé par Saitora</span></div></div>
 
 <script>
+document.documentElement.classList.add("js");
 const $ = id => document.getElementById(id);
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-// le plan : une pièce, sa photo
-const ROOMS = {
-  sejour:{n:"Séjour et cuisine",d:"Murs de pierre, poutres apparentes, une grande table pour dix et une cuisine équipée qui ouvre sur la terrasse.",t:"Cheminée, lave-vaisselle, machine à café en grains",img:"sejour",alt:"Séjour rustique aux murs de pierre et poutres apparentes"},
-  suite:{n:"Suite parentale",d:"Une grande chambre au calme avec sa salle d'eau, une armoire ancienne et la vue sur l'oliveraie.",t:"Lit 180, douche à l'italienne, climatisation",img:"chambre-2",alt:"Chambre méditerranéenne avec armoire en bois et murs blancs"},
-  chambres:{n:"Trois chambres",d:"Une seconde suite et deux chambres doubles, toutes climatisées, avec une literie d'hôtel.",t:"Deux lits 160, deux lits simples, deux salles de bain",img:"chambres",alt:"Chambre aux murs de pierre avec grand lit"},
-  terrasse:{n:"Terrasse couverte",d:"Le cœur des journées : petit-déjeuner à l'ombre, dîner à la tombée de la nuit, plancha et grande table.",t:"Plancha, salon d'extérieur, éclairage du soir",img:"terrasse",alt:"Terrasse en pierre avec tables dressées"},
-  piscine:{n:"Piscine chauffée",d:"Douze mètres sur cinq, chauffée de mai à octobre, face aux collines et sans vis-à-vis.",t:"Bains de soleil, douche extérieure, alarme de sécurité",img:"piscine",alt:"Mas en pierre et sa piscine privée sous le ciel bleu"}
-};
-function showRoom(k){
-  const r = ROOMS[k];
-  document.querySelectorAll(".plan .room").forEach(g => { g.classList.toggle("on", g.dataset.r === k); g.setAttribute("aria-pressed", g.dataset.r === k); });
-  $("rImg").src = `images/villa/${r.img}.webp`; $("rImg").alt = r.alt;
-  $("rName").textContent = r.n; $("rDesc").textContent = r.d; $("rTags").textContent = r.t;
+// ——— les pièces en onglets
+const ROOMS = [
+  ["Séjour et cuisine", "Murs de pierre, poutres apparentes, une grande table pour dix et une cuisine équipée qui ouvre sur la terrasse.", "Cheminée · lave-vaisselle · café en grains", "sejour", "Séjour rustique aux murs de pierre et poutres apparentes"],
+  ["Suite parentale", "Une grande chambre au calme avec sa salle d'eau, une armoire ancienne et la vue sur l'oliveraie.", "Lit 180 · douche à l'italienne · climatisation", "chambre-2", "Chambre avec armoire en bois et murs blancs"],
+  ["Trois chambres", "Une seconde suite et deux chambres doubles, toutes climatisées, avec une literie d'hôtel.", "Deux lits 160 · deux lits simples · deux salles de bain", "chambres", "Chambre aux murs de pierre avec grand lit"],
+  ["Terrasse couverte", "Le cœur des journées : petit-déjeuner à l'ombre, dîner à la tombée de la nuit, plancha et grande table.", "Plancha · salon d'extérieur · éclairage du soir", "terrasse", "Terrasse en pierre avec tables dressées"],
+  ["Piscine", "Douze mètres sur cinq, chauffée de mai à octobre, face aux collines et sans vis-à-vis.", "Bains de soleil · douche extérieure · alarme", "piscine", "Le mas et sa piscine privée"],
+];
+$("tabs").innerHTML = ROOMS.map(([n], i) => `<button type="button" role="tab" aria-selected="${i === 0}" tabindex="${i ? -1 : 0}">${n}</button>`).join("");
+function showRoom(i) {
+  [...$("tabs").children].forEach((b, k) => { b.setAttribute("aria-selected", k === i); b.tabIndex = k === i ? 0 : -1; });
+  const [n, d, t, img, alt] = ROOMS[i], im = $("rImg");
+  $("rName").textContent = n; $("rDesc").textContent = d; $("rTags").textContent = t;
+  if (reduce) { im.src = `images/villa/${img}.webp`; im.alt = alt; return; }
+  im.classList.add("fade");
+  setTimeout(() => { const pre = new Image(); pre.src = `images/villa/${img}.webp`;
+    (pre.decode ? pre.decode().catch(() => {}) : Promise.resolve()).then(() => { im.src = pre.src; im.alt = alt; im.classList.remove("fade"); }); }, 200);
 }
-document.querySelector(".plan").addEventListener("click", e => { const g = e.target.closest(".room"); if (g) showRoom(g.dataset.r); });
-document.querySelector(".plan").addEventListener("keydown", e => { const g = e.target.closest(".room"); if (g && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); showRoom(g.dataset.r); } });
-showRoom("sejour");
+$("tabs").addEventListener("click", e => { const b = e.target.closest("button"); if (b) showRoom([...$("tabs").children].indexOf(b)); });
+$("tabs").addEventListener("keydown", e => { const k = { ArrowRight: 1, ArrowLeft: -1 }[e.key]; if (!k) return;
+  const i = ([...$("tabs").children].findIndex(b => b.getAttribute("aria-selected") === "true") + k + ROOMS.length) % ROOMS.length; showRoom(i); $("tabs").children[i].focus(); });
+showRoom(0);
 
-// calendrier et devis (locations fictives, du samedi au samedi)
+// ——— autour, un lieu à la fois
+const AROUND = [["5 min à pied", "Les sentiers", "Randonnées balisées au départ de la villa, cartes prêtées. La lumière est la plus belle à sept heures.", "village-toits", "Les toits du village depuis le sentier"],
+  ["10 min à pied", "Le village", "Marché le samedi matin, épicerie et boulangerie. La ruelle du lavoir descend jusqu'à la place.", "village-ruelle", "La ruelle du lavoir"],
+  ["15 min en voiture", "Le moulin", "Visite et dégustation d'huile d'olive chez le producteur, en novembre pendant la récolte.", "village-rue", "Une rue du vieux village"],
+  ["En juillet", "Les lavandes", "Les champs fleurissent derrière la colline : on y va à pied, le matin, avant la chaleur.", "lavande", "Un champ de lavande en fleur"]];
+let ai = 0;
+$("aFrame").innerHTML = AROUND.map(([, , , f, alt], i) => `<img src="images/villa/${f}.webp" alt="${alt}" loading="lazy" class="${i ? "hide" : ""}">`).join("");
+function showAround(i) { ai = (i + AROUND.length) % AROUND.length; [...$("aFrame").children].forEach((im, k) => im.classList.toggle("hide", k !== ai));
+  $("aWhen").textContent = AROUND[ai][0]; $("aName").textContent = AROUND[ai][1]; $("aTxt").textContent = AROUND[ai][2]; $("aNum").textContent = `${ai + 1} / ${AROUND.length}`; }
+$("aPrev").onclick = () => showAround(ai - 1); $("aNext").onclick = () => showAround(ai + 1);
+showAround(0);
+
+// ——— calendrier et prix (locations fictives)
 const CAP = 8, CLEANING = 150, TAX = 2;
 const season = d => { const m = d.getMonth(); return m === 6 || m === 7 ? { p: 520, min: 7 } : (m === 4 || m === 5 || m === 8) ? { p: 390, min: 3 } : { p: 290, min: 3 }; };
 const today = new Date(); today.setHours(0, 0, 0, 0);
 let view = new Date(today.getFullYear(), today.getMonth(), 1), start = null, end = null, guests = 4;
 const key = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 const isBooked = d => { const w = Math.floor((Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) - Date.UTC(2024, 0, 6)) / 6048e5); return (w * 37 + 11) % 5 < 2; };
-function renderCal(){
+const eur = n => n.toLocaleString("fr-FR") + " €";
+function renderCal() {
   $("month").textContent = view.toLocaleDateString("fr-FR", { month: "long", year: "numeric" });
   $("prev").disabled = view <= new Date(today.getFullYear(), today.getMonth(), 1);
   const first = (view.getDay() + 6) % 7, dim = new Date(view.getFullYear(), view.getMonth() + 1, 0).getDate();
-  let html = ""; for (let i = 0; i < first; i++) html += `<button class="d off" type="button" tabindex="-1" aria-hidden="true"></button>`;
+  let html = ""; for (let i = 0; i < first; i++) html += `<span></span>`;
   for (let day = 1; day <= dim; day++) {
-    const d = new Date(view.getFullYear(), view.getMonth(), day);
-    const past = d < today, booked = !past && isBooked(d), departOnly = booked && !isBooked(new Date(d.getFullYear(), d.getMonth(), day - 1));
-    let cls = "d"; if (booked) cls += " booked";
-    if (start && key(d) === key(start) || end && key(d) === key(end)) cls += " sel";
-    else if (start && end && d > start && d < end) cls += " range";
-    html += `<button class="${cls}" type="button" data-k="${key(d)}" ${past || (booked && !departOnly) ? "disabled" : ""} aria-label="${d.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })}${booked ? ", déjà loué" : ""}">${day}</button>`;
+    const d = new Date(view.getFullYear(), view.getMonth(), day), past = d < today, booked = !past && isBooked(d);
+    let cls = booked ? "booked" : "";
+    if (start && key(d) === key(start) || end && key(d) === key(end)) cls += " sel"; else if (start && end && d > start && d < end) cls += " range";
+    html += `<button type="button" class="${cls}" data-k="${key(d)}"${past ? " disabled" : ""} aria-label="${d.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })}${booked ? ", déjà loué" : ""}">${day}</button>`;
   }
   $("days").innerHTML = html; renderQuote();
 }
-function rangeFree(a, b){ for (let d = new Date(a); d < b; d.setDate(d.getDate() + 1)) if (isBooked(d)) return false; return true; }
+const rangeFree = (a, b) => { for (let d = new Date(a); d < b; d.setDate(d.getDate() + 1)) if (isBooked(d)) return false; return true; };
 $("days").addEventListener("click", e => {
-  const b = e.target.closest(".d"); if (!b || b.disabled || !b.dataset.k) return;
-  const d = new Date(b.dataset.k + "T00:00");
-  const isStart = !start || end || d <= start;
+  const b = e.target.closest("button"); if (!b || b.disabled) return;
+  const d = new Date(b.dataset.k + "T00:00"), isStart = !start || end || d <= start;
   if (isStart && b.classList.contains("booked")) return;
   if (isStart) { start = d; end = null; } else if (rangeFree(start, d)) end = d; else { start = d; end = null; }
-  $("ok").hidden = true; renderCal();
+  $("ok").textContent = ""; renderCal();
 });
 $("prev").onclick = () => { view = new Date(view.getFullYear(), view.getMonth() - 1, 1); renderCal(); };
 $("nextM").onclick = () => { view = new Date(view.getFullYear(), view.getMonth() + 1, 1); renderCal(); };
 $("gm").onclick = () => { guests = Math.max(1, guests - 1); renderQuote(); };
 $("gp").onclick = () => { guests = Math.min(CAP, guests + 1); renderQuote(); };
-const eur = n => n.toLocaleString("fr-FR") + " €";
-function renderQuote(){
+function renderQuote() {
   $("guests").textContent = guests;
   const q = $("quote"), send = $("send");
   if (!start || !end) { q.innerHTML = `<p class="hint">${start ? "Touchez maintenant votre jour de départ." : "Touchez votre jour d'arrivée dans le calendrier."}</p>`; send.disabled = true; return; }
@@ -339,11 +376,17 @@ function renderQuote(){
     ${remise ? `<div class="r"><span>Remise semaine, 10 %</span><span>−${eur(remise)}</span></div>` : ""}
     <div class="r"><span>Ménage de fin de séjour</span><span>${eur(CLEANING)}</span></div>
     <div class="r"><span>Taxe de séjour, ${guests} personne${guests > 1 ? "s" : ""}</span><span>${eur(taxe)}</span></div>
-    <div class="t"><span>Total</span><span>${eur(base - remise + CLEANING + taxe)}</span></div>`;
+    <div class="t"><span class="caps">Total</span><b>${eur(base - remise + CLEANING + taxe)}</b></div>`;
   send.disabled = false;
 }
-$("send").onclick = () => { const ok = $("ok"); ok.hidden = false; ok.textContent = `Demande envoyée pour ${guests} voyageur${guests > 1 ? "s" : ""}. Vous recevez sous 24 h le contrat et le lien pour régler l'acompte de 30 %. (Démo : rien n'est réellement envoyé.)`; };
+$("send").onclick = () => { $("ok").textContent = `Demande envoyée pour ${guests} voyageur${guests > 1 ? "s" : ""}. Vous recevez sous 24 h le contrat et le lien pour l'acompte de 30 %. (Démo : rien n'est envoyé.)`; };
 renderCal();
+
+// ——— zoom lent, une fois la photo chargée
+const ready = img => img.complete && img.naturalWidth ? Promise.resolve() : new Promise(r => { img.addEventListener("load", r, { once: true }); img.addEventListener("error", r, { once: true }); });
+const io = new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting) return; io.unobserve(e.target); const img = e.target.querySelector("img");
+  ready(img).then(() => requestAnimationFrame(() => e.target.classList.add("on"))); }), { rootMargin: "0px 0px -8% 0px" });
+document.querySelectorAll(".zoom").forEach(el => io.observe(el));
 </script>
 </body>
 </html>

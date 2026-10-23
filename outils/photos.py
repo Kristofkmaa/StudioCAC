@@ -28,16 +28,9 @@ PHOTOS = {
         "crique-sanguinaires.webp": ("sanguinaires islands", "all", 900, 900),
     },
     "zia-rosa": {
-        "interieur.webp": ("delicatessen shelves", "horizontal", 1600, 1000, 13),
-        "vallee.webp": ("mountain road corsica", "horizontal", 1600, 1000),
-        "coupe-comptoir.webp": ("sliced charcuterie board", "all", 700, 700),
-        "cave.webp": ("wine bottles shelf", "all", 700, 700),
         "pain.webp": ("bread loaves bakery", "vertical", 600, 750, 9),
-        "journaux.webp": ("newspapers stack", "vertical", 600, 750),
-        "coupe.webp": ("cured ham slicing", "vertical", 600, 750),
         "camionnette.webp": ("vintage van", "vertical", 600, 750, 14),
         "legumes.webp": ("vegetables market crate", "vertical", 600, 750, 8),
-        "village.webp": ("corsica village evening", "vertical", 600, 750),
     },
     "funtana": {   # les photos de coiffure sont déjà là (reprises de l'ancienne démo du salon)
         "hammam.webp": ("hammam", "all", 1600, 1000, 11),

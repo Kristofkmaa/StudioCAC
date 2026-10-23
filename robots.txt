@@ -1,6 +1,6 @@
 User-agent: *
 Allow: /
 Disallow: /outils/
+Disallow: /clients/
 
 Sitemap: https://saitora.fr/sitemap.xml
-Disallow: /clients/

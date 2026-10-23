@@ -15,12 +15,14 @@
    libellés des boutons non sélectionnables. */
 html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 :where(a,button,label,select,input,textarea){touch-action:manipulation}
-:where(button,.btn,.chip){-webkit-user-select:none;user-select:none}
+:where(button,.btn,.ans){-webkit-user-select:none;user-select:none}
 
-/* Vitrier Prince, d'après sa charte graphique : ardoise #2F3741, fond #F9F6F1, bleu #415DAA pour les boutons,
-   Cormorant Garamond pour les titres, Jost pour le texte. Ambiance : nature, simple, chic. */
+/* Vitrier Prince. Charte : ardoise #2F3741, fond #F9F6F1, bleu #415DAA, Cormorant Garamond et Jost, ambiance
+   nature, simple, chic. Composition tirée par outils/tirage.py (voir style.md) : ouverture en passe-partout,
+   menu plein écran, services en sommaire illustré, mur de photos encadrées et teintées, grande phrase,
+   plan de la zone, et l'idée originale : trouver son verre en trois questions. */
 :root{
-  --bg:#F9F6F1; --sand:#EFEAE1; --ink:#2F3741; --muted:#5E6670; --blue:#415DAA; --white:#FFFFFF;
+  --bg:#F9F6F1; --ink:#2F3741; --muted:#5E6670; --blue:#415DAA; --white:#FFFFFF; --line:rgba(47,55,65,.16);
   --serif:"Cormorant Garamond",Garamond,Georgia,serif;
   --sans:"Jost","Helvetica Neue",Arial,sans-serif;
   --m:clamp(20px,5vw,80px);
@@ -29,124 +31,163 @@ html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-
 html{background:var(--bg)}
 html:focus-within{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.65 var(--sans)}
-h1,h2,h3,p,ul,figure{margin:0}
-ul{padding:0;list-style:none}
+body.menu-open{overflow:hidden}
+h1,h2,h3,p,ul,ol,figure,blockquote{margin:0}
+ul,ol{padding:0;list-style:none}
 a{color:inherit;text-underline-offset:.25em;text-decoration-thickness:1px}
 img{display:block;max-width:100%;height:auto}
 :focus-visible{outline:2px solid var(--blue);outline-offset:3px}
 .maquette{background:var(--ink);color:#C9CED4;font-size:13px;text-align:center;padding:6px 16px}
 .wrap{width:min(1180px,100% - 2 * var(--m));margin-inline:auto}
-h2{font:500 clamp(2.4rem,1.8rem + 2.2vw,3.75rem)/1.02 var(--serif);letter-spacing:-.01em}
+.label{font:500 13px/1 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--blue)}
+h2{margin-top:16px;font:500 clamp(2.4rem,1.8rem + 2.2vw,3.75rem)/1.02 var(--serif);letter-spacing:-.01em}
 .lead{margin-top:16px;max-width:46ch;color:var(--muted)}
-.btn{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:0 26px;border:1px solid var(--blue);border-radius:4px;background:var(--blue);color:var(--white);font:500 15px/1 var(--sans);letter-spacing:.02em;text-decoration:none;cursor:pointer;transition:background-color 160ms ease,color 160ms ease,transform 160ms cubic-bezier(.23,1,.32,1)}
+section{padding-block:clamp(90px,10vw,150px)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:0 26px;border:1px solid var(--blue);border-radius:0;background:var(--blue);color:var(--white);font:500 14px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;text-decoration:none;cursor:pointer;transition:background-color 160ms ease,color 160ms ease,transform 160ms cubic-bezier(.23,1,.32,1)}
 .btn:active{transform:scale(.97)}
-.btn.ghost{background:transparent;color:var(--ink);border-color:rgba(47,55,65,.35)}
+.btn.line{background:transparent;color:var(--ink);border-color:var(--ink)}
 @media (hover:hover) and (pointer:fine){.btn:hover{background:#344C8F;border-color:#344C8F;color:var(--white)}}
-.photo img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:4px}
 
-/* ---- en-tête ---- */
-.top{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-block:18px}
-.top .logo img{height:46px;width:auto}
-.top nav{display:flex;align-items:center;gap:30px;font-size:15px}
-.top nav a:not(.btn){text-decoration:none;color:var(--muted);transition:color 160ms ease}
-@media (hover:hover) and (pointer:fine){.top nav a:not(.btn):hover{color:var(--ink)}}
+/* photos : tirages encadrés de blanc, teintés au bleu de la charte */
+.tirage{background:var(--white);padding:clamp(8px,1vw,14px);box-shadow:0 1px 0 rgba(47,55,65,.08)}
+.tirage .t{position:relative;background:#C3CCE2;overflow:hidden}
+.tirage img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.06) brightness(1.04);mix-blend-mode:multiply}
 
-/* ---- ouverture ---- */
-.hero{display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(40px,6vw,96px);align-items:center;padding-block:clamp(36px,5vw,72px) clamp(80px,9vw,130px)}
-.hero h1{font:500 clamp(3.2rem,2rem + 4.4vw,6rem)/.98 var(--serif);letter-spacing:-.015em}
-.hero p{margin-top:24px;max-width:40ch;font-size:19px}
-.hero .acts{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
-.hero .facts{display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:40px;font-size:15px;color:var(--muted)}
-.hero .facts span::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--blue);margin-right:10px;vertical-align:middle}
-.hero .photo img{aspect-ratio:5/6}
+/* ---- navigation : le logo, un bouton menu ---- */
+.top{position:relative;z-index:30;display:flex;align-items:center;justify-content:space-between;gap:20px;padding-block:20px}
+.top .logo img{height:44px;width:auto}
+.top .right{display:flex;align-items:center;gap:22px}
+.top .tel{font-size:15px;text-decoration:none;color:var(--muted)}
+.menu-btn{display:inline-flex;align-items:center;gap:12px;min-height:46px;padding:0 6px;border:0;background:none;color:var(--ink);font:500 14px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;cursor:pointer}
+.menu-btn i{position:relative;width:26px;height:10px}
+.menu-btn i::before,.menu-btn i::after{content:"";position:absolute;left:0;right:0;height:1.5px;background:currentColor;transition:transform 260ms cubic-bezier(.23,1,.32,1)}
+.menu-btn i::before{top:0}.menu-btn i::after{bottom:0}
+.menu-open .menu-btn i::before{transform:translateY(4.25px) rotate(45deg)}
+.menu-open .menu-btn i::after{transform:translateY(-4.25px) rotate(-45deg)}
+.menu{position:fixed;inset:0;z-index:20;background:var(--bg);display:grid;align-content:center;padding:100px var(--m) 40px;opacity:0;visibility:hidden;transition:opacity 260ms ease,visibility 0s 260ms}
+.menu-open .menu{opacity:1;visibility:visible;transition:opacity 260ms ease}
+.menu ol{display:grid;gap:4px}
+.menu a{font:500 clamp(2.6rem,1.6rem + 5vw,5.5rem)/1.05 var(--serif);text-decoration:none;display:inline-block;transform:translateY(16px);opacity:0;transition:transform 500ms cubic-bezier(.23,1,.32,1),opacity 500ms ease,color 160ms ease}
+.menu-open .menu a{transform:none;opacity:1}
+.menu li:nth-child(2) a{transition-delay:50ms}.menu li:nth-child(3) a{transition-delay:100ms}.menu li:nth-child(4) a{transition-delay:150ms}.menu li:nth-child(5) a{transition-delay:200ms}
+@media (hover:hover) and (pointer:fine){.menu a:hover{color:var(--blue)}}
+.menu .foot{margin-top:40px;display:flex;flex-wrap:wrap;gap:12px 32px;color:var(--muted)}
+.fixed-top .top{position:relative}
 
-/* ---- les services ---- */
-.services{background:var(--sand);padding-block:clamp(80px,9vw,130px)}
-.services ul{display:grid;grid-template-columns:repeat(3,1fr);gap:44px clamp(24px,4vw,56px);margin-top:52px}
-.services li{border-top:1px solid rgba(47,55,65,.2);padding-top:18px}
-.services h3{font:500 1.7rem/1.1 var(--serif)}
-.services p{margin-top:8px;color:var(--muted);font-size:16px}
+/* ---- ouverture : la photo dans son passe-partout, le titre sur le bord ---- */
+.open{padding:clamp(10px,2vw,24px) 0 clamp(90px,10vw,140px)}
+.frame{position:relative;margin-inline:auto;width:min(1180px,100% - 2 * var(--m))}
+.frame .tirage{padding:clamp(14px,2.4vw,34px)}
+.frame .t{aspect-ratio:16/8}
+.frame h1{position:relative;margin-top:calc(-1 * clamp(2.6rem,1.6rem + 4.6vw,6.6rem) * .55);padding-inline:clamp(28px,4vw,64px);font:500 clamp(3.2rem,1.8rem + 5.6vw,7.5rem)/.95 var(--serif);letter-spacing:-.02em}
+.frame h1 span{background:var(--bg);padding:0 .18em .05em;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.open .under{display:grid;grid-template-columns:1.2fr 1fr;gap:clamp(24px,5vw,80px);align-items:end;margin-top:28px;padding-inline:clamp(28px,4vw,64px)}
+.open .under p{font-size:19px;max-width:42ch}
+.open .acts{display:flex;flex-wrap:wrap;gap:12px;justify-content:flex-end}
 
-/* ---- réalisations ---- */
-.work{padding-block:clamp(80px,9vw,130px)}
-.work .row{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,2vw,24px);margin-top:48px}
-.work figcaption{margin-top:12px;font:500 1.3rem/1.2 var(--serif)}
-.work figcaption small{display:block;font:400 14px/1.5 var(--sans);color:var(--muted)}
+/* ---- services : le sommaire, la photo qui suit ---- */
+.services .grid{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(40px,6vw,96px);align-items:start;margin-top:48px}
+.list li{border-top:1px solid var(--line)}
+.list li:last-child{border-bottom:1px solid var(--line)}
+.list button{display:flex;justify-content:space-between;align-items:baseline;gap:20px;width:100%;padding:22px 0;border:0;background:none;color:var(--ink);text-align:left;cursor:pointer;font:500 clamp(1.6rem,1.3rem + 1.1vw,2.3rem)/1.1 var(--serif);transition:color 160ms ease,padding-left 300ms cubic-bezier(.23,1,.32,1)}
+.list button small{font:500 12px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.list li.on button{color:var(--blue);padding-left:14px}
+.list .d{display:grid;grid-template-rows:0fr;transition:grid-template-rows 360ms cubic-bezier(.23,1,.32,1)}
+.list .d>div{overflow:hidden}
+.list .d p{padding:0 0 22px 14px;color:var(--muted);max-width:44ch}
+.list li.on .d{grid-template-rows:1fr}
+@media (hover:hover) and (pointer:fine){.list button:hover{color:var(--blue)}}
+.services .show{position:sticky;top:40px}
+.services .show .t{aspect-ratio:4/5}
+.services .show img{transition:opacity 300ms ease}
+.services .show img.fade{opacity:0}
+.services .show figcaption{margin-top:12px;font-size:14px;color:var(--muted)}
 
-/* ---- estimer le prix d'une vitre ---- */
-.est{background:var(--ink);color:var(--white);padding-block:clamp(80px,9vw,130px)}
-.est .grid{display:grid;grid-template-columns:1fr 1.2fr;gap:clamp(40px,6vw,96px);align-items:start}
-.est .lead{color:#B9C0C8}
-.form{display:grid;gap:22px}
-.field>p,.field>label{display:block;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:#9EA7B1;margin-bottom:8px}
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{min-height:46px;padding:0 16px;border:1px solid rgba(255,255,255,.28);border-radius:4px;background:transparent;color:var(--white);font:500 15px/1 var(--sans);cursor:pointer;transition:background-color 160ms ease,border-color 160ms ease,color 160ms ease}
-.chip[aria-pressed="true"]{background:var(--blue);border-color:var(--blue)}
-@media (hover:hover) and (pointer:fine){.chip:not([aria-pressed="true"]):hover{border-color:var(--white)}}
-.dims{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:end}
-.dims span{padding-bottom:14px;color:#9EA7B1}
-input,textarea,select{width:100%;min-height:50px;padding:10px 14px;border:1px solid rgba(255,255,255,.28);border-radius:4px;background:transparent;color:var(--white);font:400 16px/1.4 var(--sans)}
-input::placeholder,textarea::placeholder{color:#8A939D}
-.result{background:var(--white);color:var(--ink);border-radius:4px;padding:26px 28px}
-.result .k{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.result .price{margin-top:6px;font:500 clamp(2.4rem,1.8rem + 2vw,3.4rem)/1 var(--serif)}
-.result .detail{margin-top:10px;color:var(--muted);font-size:15px}
-.result .btn{margin-top:20px}
-.est .note{font-size:14px;color:#9EA7B1}
+/* ---- trouver son verre : trois questions ---- */
+.quiz .box{margin-top:48px;border:1px solid var(--line);background:var(--white);display:grid;grid-template-columns:1fr 1fr}
+.quiz .qs{padding:clamp(24px,4vw,52px);border-right:1px solid var(--line)}
+.quiz .step{font:500 12px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.quiz h3{margin-top:12px;font:500 clamp(1.7rem,1.4rem + 1vw,2.3rem)/1.1 var(--serif)}
+.answers{display:grid;gap:8px;margin-top:24px}
+.ans{display:flex;justify-content:space-between;align-items:center;min-height:52px;padding:0 18px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:400 16px/1.3 var(--sans);text-align:left;cursor:pointer;transition:border-color 160ms ease,background-color 160ms ease,transform 160ms cubic-bezier(.23,1,.32,1)}
+.ans::after{content:"→";color:var(--blue);opacity:0;transform:translateX(-6px);transition:opacity 160ms ease,transform 200ms ease}
+.ans:active{transform:scale(.98)}
+@media (hover:hover) and (pointer:fine){.ans:hover{border-color:var(--blue)}.ans:hover::after{opacity:1;transform:none}}
+.quiz .dots{display:flex;gap:6px;margin-top:28px}
+.quiz .dots i{width:28px;height:3px;background:var(--line)}
+.quiz .dots i.on{background:var(--blue)}
+.quiz .back{margin-top:18px;border:0;background:none;padding:6px 0;color:var(--muted);font:inherit;font-size:15px;cursor:pointer;text-decoration:underline;text-underline-offset:.25em}
+.quiz .res{padding:clamp(24px,4vw,52px);display:flex;flex-direction:column;justify-content:center}
+.quiz .res .wait{color:var(--muted);font:italic 400 1.5rem/1.35 var(--serif);max-width:24ch}
+.quiz .res h4{margin:12px 0 0;font:500 clamp(2rem,1.6rem + 1.4vw,2.9rem)/1.05 var(--serif)}
+.quiz .res p{margin-top:12px;max-width:40ch}
+.quiz .res dl{display:grid;grid-template-columns:auto 1fr;gap:6px 20px;margin:20px 0 0;font-size:15px}
+.quiz .res dt{color:var(--muted)}.quiz .res dd{margin:0}
+.quiz .res .btn{margin-top:26px;align-self:flex-start}
+.quiz .swap{animation:in 420ms cubic-bezier(.23,1,.32,1)}
+@keyframes in{from{opacity:0;transform:translateY(10px)}}
 
-/* ---- la famille ---- */
-.family{padding-block:clamp(80px,9vw,130px)}
-.family .grid{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(40px,6vw,96px);align-items:center}
-.family .text p{margin-top:18px;max-width:52ch}
-.family .promises{display:grid;gap:16px;margin-top:28px}
-.family .promises li{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:baseline}
-.family .promises b{font:500 1.35rem/1.2 var(--serif);white-space:nowrap}
-.family .promises span{color:var(--muted)}
+/* ---- le mur ---- */
+.wall .grid{display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:clamp(110px,12vw,170px);gap:clamp(10px,1.4vw,18px);margin-top:48px}
+.wall .tirage{height:100%}
+.wall .tirage .t{height:100%}
+.wall .a{grid-column:1/3;grid-row:1/4}.wall .b{grid-column:3/5;grid-row:1/3}.wall .c{grid-column:5/7;grid-row:1/4}
+.wall .d{grid-column:3/5;grid-row:3/5}.wall .e{grid-column:1/3;grid-row:4/6}.wall .f{grid-column:5/7;grid-row:4/6}.wall .g{grid-column:3/5;grid-row:5/6}
+.wall figcaption{position:absolute;left:0;bottom:0;padding:8px 12px;background:rgba(47,55,65,.72);color:var(--white);font:500 12px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;z-index:1}
 
-/* ---- dépannage ---- */
-.urgent{background:var(--blue);color:var(--white)}
-.urgent .wrap{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;padding-block:44px}
-.urgent h2{font-size:clamp(2rem,1.6rem + 1.6vw,2.9rem)}
-.urgent p{margin-top:6px;color:#DCE3F4}
-.urgent a.tel{font:500 clamp(1.8rem,1.4rem + 1.4vw,2.6rem)/1 var(--serif);color:var(--white);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.5);padding-bottom:4px}
+/* ---- la grande phrase ---- */
+.phrase{text-align:center}
+.phrase blockquote{font:500 clamp(2.4rem,1.4rem + 4.2vw,5.6rem)/1.05 var(--serif);letter-spacing:-.015em;max-width:20ch;margin-inline:auto}
+.phrase cite{display:block;margin-top:28px;font:500 13px/1 var(--sans);font-style:normal;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.phrase img{width:64px;height:64px;margin:0 auto 34px}
 
-/* ---- contact ---- */
-.contact{padding-block:clamp(80px,9vw,130px)}
-.contact .grid{display:grid;grid-template-columns:1fr 1.2fr;gap:clamp(40px,6vw,96px);align-items:start}
-.contact h3{font:500 1.4rem/1.2 var(--serif);margin:28px 0 6px}
-.contact .info p{color:var(--muted)}
-.contact form{display:grid;gap:12px;background:var(--white);padding:clamp(22px,3vw,36px);border-radius:4px}
-.contact form input,.contact form textarea,.contact form select{border-color:rgba(47,55,65,.22);color:var(--ink);background:var(--bg)}
-.contact form input::placeholder,.contact form textarea::placeholder{color:#8B9198}
-.contact form label{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.contact .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.contact form .btn{justify-self:start;margin-top:6px}
-.contact .done{color:var(--blue);font-weight:500}
-textarea{min-height:110px;resize:vertical}
-footer{border-top:1px solid rgba(47,55,65,.14)}
-footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-block:26px;font-size:13px;color:var(--muted)}
+/* ---- venir : le plan de la zone, les infos ---- */
+.zone .grid{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(40px,6vw,96px);align-items:start;margin-top:48px}
+.plan{background:var(--white);border:1px solid var(--line);padding:clamp(16px,2.5vw,30px)}
+.plan svg{width:100%;height:auto;display:block}
+.plan .ring{fill:none;stroke:var(--blue)}
+.plan text{font:500 13px var(--sans);fill:var(--muted);letter-spacing:.06em}
+.plan .home{font:500 17px var(--serif);fill:var(--ink);letter-spacing:0}
+.plan .legend{display:flex;flex-wrap:wrap;gap:8px 24px;margin-top:14px;font-size:14px;color:var(--muted)}
+.plan .legend i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:8px;vertical-align:-1px}
+.infos h3{font:500 13px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--blue);margin:30px 0 8px}
+.infos h3:first-child{margin-top:0}
+.infos .big{font:500 clamp(1.8rem,1.4rem + 1.4vw,2.6rem)/1.1 var(--serif);text-decoration:none}
+.infos p{color:var(--muted)}
+form.quote{display:grid;gap:10px;margin-top:30px}
+form.quote input,form.quote textarea,form.quote select{width:100%;min-height:50px;padding:10px 14px;border:1px solid var(--line);border-radius:0;background:var(--white);color:var(--ink);font:400 16px/1.4 var(--sans)}
+form.quote textarea{min-height:100px;resize:vertical}
+form.quote .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+form.quote .btn{justify-self:start;margin-top:4px}
+form.quote .done{color:var(--blue);font-weight:500}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-block:28px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
 footer img{height:30px;width:auto}
 
 /* ---- apparitions discrètes ---- */
 .js .rise{opacity:0;transform:translateY(14px);transition:opacity 800ms cubic-bezier(.23,1,.32,1),transform 800ms cubic-bezier(.23,1,.32,1)}
 .js .rise.on{opacity:1;transform:none}
-@media (prefers-reduced-motion:reduce){.js .rise{opacity:1;transform:none;transition:none}}
+@media (prefers-reduced-motion:reduce){.js .rise,.menu a{opacity:1;transform:none;transition:none}.quiz .swap{animation:none}.list button,.list .d{transition:none}}
 
 /* ---- tablette et téléphone ---- */
 @media (max-width:960px){
-  .top nav a:not(.btn){display:none}
-  .hero,.est .grid,.family .grid,.contact .grid{grid-template-columns:1fr}
-  .hero .photo{max-width:560px}
-  .services ul{grid-template-columns:1fr 1fr}
+  .services .grid,.zone .grid{grid-template-columns:1fr}
+  .services .show{display:none}
+  .quiz .box{grid-template-columns:1fr}
+  .quiz .qs{border-right:0;border-bottom:1px solid var(--line)}
+  .open .under{grid-template-columns:1fr}
+  .open .acts{justify-content:flex-start}
 }
 @media (max-width:640px){
+  .top .tel{display:none}
   .top .logo img{height:36px}
-  .top .btn{min-height:44px;padding:0 16px;font-size:14px}
-  .services ul{grid-template-columns:1fr;gap:28px}
-  .work .row{grid-template-columns:1fr;gap:36px}
-  .work .photo img{aspect-ratio:4/3}
-  .contact .two{grid-template-columns:1fr}
-  .family .promises li{grid-template-columns:1fr;gap:2px}
+  .frame .t{aspect-ratio:4/5}
+  .frame h1{padding-inline:14px}
+  .open .under{padding-inline:14px}
+  .wall .grid{grid-template-columns:1fr 1fr;grid-auto-rows:150px}
+  .wall .a,.wall .b,.wall .c,.wall .d,.wall .e,.wall .f,.wall .g{grid-column:auto;grid-row:span 1}
+  .wall .a,.wall .d{grid-row:span 2}
+  .wall .g{display:none}
+  form.quote .two{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -155,100 +196,99 @@ footer img{height:30px;width:auto}
 
 <header class="wrap top">
   <a class="logo" href="#" aria-label="Vitrier Prince, haut de page"><img src="images/logo-couleur.png" alt="Vitrier Prince, vitre et le verre en général" width="900" height="241"></a>
-  <nav aria-label="Navigation principale"><a href="#services">Services</a><a href="#realisations">Réalisations</a><a href="#estimer">Estimer</a><a href="#contact">Contact</a><a class="btn" href="#contact">Demander un devis</a></nav>
+  <div class="right"><a class="tel" href="tel:+33400000000">04 00 00 00 00</a><button class="menu-btn" type="button" id="menuBtn" aria-expanded="false" aria-controls="menu"><span id="menuLbl">Menu</span><i aria-hidden="true"></i></button></div>
 </header>
+<nav class="menu" id="menu" aria-label="Menu">
+  <ol>
+    <li><a href="#services">Nos services</a></li>
+    <li><a href="#trouver">Quel verre pour vous ?</a></li>
+    <li><a href="#realisations">Réalisations</a></li>
+    <li><a href="#venir">Devis et contact</a></li>
+  </ol>
+  <p class="foot"><a href="tel:+33400000000">04 00 00 00 00</a><a href="mailto:contact@vitrier-prince.fr">contact@vitrier-prince.fr</a><span>Du lundi au vendredi, 8 h à 18 h</span></p>
+</nav>
 
 <main>
-  <section class="wrap hero" aria-labelledby="t-hero">
-    <div>
-      <h1 id="t-hero">Vitrier de famille</h1>
+  <div class="open">
+    <div class="frame">
+      <div class="tirage"><div class="t"><img src="images/baies.webp" alt="Grandes baies vitrées ouvertes sur un jardin" width="1280" height="800" fetchpriority="high"></div></div>
+      <h1><span>Vitrier de famille</span></h1>
+    </div>
+    <div class="wrap under">
       <p>Vitres, double vitrage, miroirs, parois de douche et verre sur mesure. On mesure, on fabrique, on pose, et on repart en laissant la maison propre.</p>
-      <div class="acts"><a class="btn" href="#contact">Demander un devis gratuit</a><a class="btn ghost" href="#estimer">Estimer le prix d'une vitre</a></div>
-      <p class="facts"><span>Devis gratuit</span><span>Dépannage rapide</span><span>Pose soignée</span></p>
+      <div class="acts"><a class="btn" href="#venir">Devis gratuit</a><a class="btn line" href="#trouver">Quel verre pour moi ?</a></div>
     </div>
-    <figure class="photo"><img src="images/baies.webp" alt="Grandes baies vitrées ouvertes sur un jardin" width="1280" height="800" fetchpriority="high"></figure>
-  </section>
+  </div>
 
-  <section class="services" id="services" aria-labelledby="t-services">
-    <div class="wrap">
-      <h2 class="rise" id="t-services">Le verre, sous toutes ses formes</h2>
-      <p class="lead rise">Pour la maison comme pour le commerce, du petit carreau cassé à la grande baie.</p>
-      <ul>
-        <li class="rise"><h3>Remplacement de vitre</h3><p>Une vitre fêlée ou cassée : on sécurise, on mesure et on remplace, souvent dans la semaine.</p></li>
-        <li class="rise"><h3>Double vitrage</h3><p>Moins de bruit, moins de froid : on remplace vos simples vitrages sans changer les fenêtres.</p></li>
-        <li class="rise"><h3>Miroirs sur mesure</h3><p>Salle de bain, entrée, dressing : coupés à vos mesures, avec ou sans biseau.</p></li>
-        <li class="rise"><h3>Parois de douche</h3><p>Verre trempé clair ou dépoli, fixe ou en porte, posé au millimètre.</p></li>
-        <li class="rise"><h3>Vitrines de commerce</h3><p>Verre feuilleté de sécurité pour les devantures, et intervention rapide en cas de casse.</p></li>
-        <li class="rise"><h3>Crédences et garde-corps</h3><p>Crédence de cuisine en verre laqué, garde-corps et marches en verre feuilleté.</p></li>
-      </ul>
-    </div>
-  </section>
-
-  <section class="wrap work" id="realisations" aria-labelledby="t-work">
-    <h2 class="rise" id="t-work">Quelques réalisations</h2>
-    <div class="row">
-      <figure class="photo rise"><img src="images/douche.webp" alt="Une paroi de douche en verre clair" width="900" height="1125" loading="lazy"><figcaption>Paroi de douche<small>Verre trempé de 8 mm</small></figcaption></figure>
-      <figure class="photo rise"><img src="images/miroir.webp" alt="Un miroir rond au-dessus d'une vasque" width="900" height="1125" loading="lazy"><figcaption>Miroir sur mesure<small>Salle de bain</small></figcaption></figure>
-      <figure class="photo rise"><img src="images/vitrine.webp" alt="Une grande fenêtre vitrée donnant sur l'eau" width="900" height="1125" loading="lazy"><figcaption>Grande vitre fixe<small>Verre feuilleté</small></figcaption></figure>
-    </div>
-  </section>
-
-  <section class="est" id="estimer" aria-labelledby="t-est">
-    <div class="wrap grid">
-      <div class="rise">
-        <h2 id="t-est">Combien coûte votre vitre ?</h2>
-        <p class="lead">Indiquez la taille et le type de verre : vous avez un ordre de prix tout de suite. Le prix exact vient après notre passage pour mesurer.</p>
-      </div>
-      <div class="form">
-        <div class="field"><p>Le verre</p><div class="chips" id="kind"></div></div>
-        <div class="field"><p>Les dimensions</p>
-          <div class="dims"><div><input id="w" type="number" inputmode="numeric" min="10" max="400" value="80" aria-label="Largeur en centimètres"></div><span>×</span><div><input id="h" type="number" inputmode="numeric" min="10" max="400" value="120" aria-label="Hauteur en centimètres"></div></div>
-          <p class="note" style="margin-top:8px">Largeur × hauteur, en centimètres.</p>
-        </div>
-        <div class="field"><p>La pose</p><div class="chips" id="pose"><button type="button" class="chip" data-v="1" aria-pressed="true">Avec la pose</button><button type="button" class="chip" data-v="0" aria-pressed="false">Verre seul, à récupérer</button></div></div>
-        <div class="result" aria-live="polite"><p class="k">Ordre de prix</p><p class="price" id="price"></p><p class="detail" id="detail"></p><a class="btn" href="#contact" id="toQuote">Demander le devis exact</a></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="wrap family" aria-labelledby="t-family">
+  <section class="wrap services" id="services" aria-labelledby="t-services">
+    <p class="label rise">Nos services</p>
+    <h2 class="rise" id="t-services">Le verre, sous toutes ses formes</h2>
     <div class="grid">
-      <div class="text rise">
-        <h2 id="t-family">Une affaire de famille</h2>
-        <p>Chez Vitrier Prince, le métier se transmet. On travaille le verre comme on aimerait qu'on le fasse chez nous : en prenant le temps de bien mesurer, de bien poser, et d'expliquer.</p>
-        <ul class="promises">
-          <li><b>On vient mesurer</b><span>Le devis se fait chez vous, gratuitement, avec les vraies dimensions.</span></li>
-          <li><b>On tient les délais</b><span>La date de pose est donnée avec le devis, et respectée.</span></li>
-          <li><b>On laisse propre</b><span>Pas un éclat de verre derrière nous, les anciens vitrages repartent avec nous.</span></li>
-        </ul>
-      </div>
-      <figure class="photo rise"><img src="images/pose.webp" alt="Deux vitriers portent une grande plaque de verre" width="900" height="1125" loading="lazy"></figure>
+      <ol class="list" id="list"></ol>
+      <figure class="show" aria-hidden="true"><div class="tirage"><div class="t"><img id="showImg" src="images/vitrine.webp" alt="" width="900" height="1125" loading="lazy"></div></div><figcaption id="showCap"></figcaption></figure>
     </div>
   </section>
 
-  <section class="urgent" aria-labelledby="t-urgent">
-    <div class="wrap">
-      <div><h2 id="t-urgent">Une vitre cassée ?</h2><p>On sécurise rapidement, puis on remplace. Appelez, on vous dit quand on peut passer.</p></div>
-      <a class="tel" href="tel:+33400000000">04 00 00 00 00</a>
+  <section class="wrap quiz" id="trouver" aria-labelledby="t-quiz">
+    <p class="label rise">Trois questions</p>
+    <h2 class="rise" id="t-quiz">Quel verre pour vous ?</h2>
+    <p class="lead rise">Répondez à trois questions : on vous dit quel verre convient, ce qu'il coûte à peu près, et en combien de temps on peut le poser.</p>
+    <div class="box rise">
+      <div class="qs" id="qs" aria-live="polite"></div>
+      <div class="res" id="res" aria-live="polite"><p class="wait">Votre conseil apparaîtra ici, après la troisième question.</p></div>
     </div>
   </section>
 
-  <section class="wrap contact" id="contact" aria-labelledby="t-contact">
+  <section class="wrap wall" id="realisations" aria-labelledby="t-wall">
+    <p class="label rise">Réalisations</p>
+    <h2 class="rise" id="t-wall">Du carreau à la baie</h2>
     <div class="grid">
-      <div class="info rise">
-        <h2 id="t-contact">Demander un devis</h2>
-        <p class="lead">Décrivez votre projet : on vous rappelle pour fixer un passage et mesurer. Le devis est gratuit.</p>
-        <h3>Téléphone</h3><p><a href="tel:+33400000000">04 00 00 00 00</a></p>
-        <h3>E-mail</h3><p><a href="mailto:contact@vitrier-prince.fr">contact@vitrier-prince.fr</a></p>
-        <h3>Horaires</h3><p>Du lundi au vendredi, 8 h à 18 h<br>Le samedi matin sur rendez-vous</p>
+      <figure class="tirage a rise"><div class="t"><img src="images/pose.webp" alt="Deux vitriers portent une grande plaque de verre" width="900" height="1125" loading="lazy"><figcaption>La pose</figcaption></div></figure>
+      <figure class="tirage b rise"><div class="t"><img src="images/salle-de-bain.webp" alt="Une douche à l'italienne fermée par une paroi de verre" width="1280" height="800" loading="lazy"><figcaption>Douche</figcaption></div></figure>
+      <figure class="tirage c rise"><div class="t"><img src="images/facade.webp" alt="Une façade vitrée qui reflète le ciel" width="900" height="1125" loading="lazy"><figcaption>Façade</figcaption></div></figure>
+      <figure class="tirage d rise"><div class="t"><img src="images/miroir.webp" alt="Un miroir rond au-dessus d'une vasque" width="900" height="1125" loading="lazy"><figcaption>Miroir</figcaption></div></figure>
+      <figure class="tirage e rise"><div class="t"><img src="images/vitrine.webp" alt="Une grande vitre fixe donnant sur l'eau" width="900" height="1125" loading="lazy"><figcaption>Vitre fixe</figcaption></div></figure>
+      <figure class="tirage f rise"><div class="t"><img src="images/douche.webp" alt="Une paroi de douche en verre clair" width="900" height="1125" loading="lazy"><figcaption>Paroi</figcaption></div></figure>
+      <figure class="tirage g rise"><div class="t"><img src="images/reflet.webp" alt="Un immeuble de verre vu d'en bas" width="900" height="1125" loading="lazy"><figcaption>Vitrage</figcaption></div></figure>
+    </div>
+  </section>
+
+  <section class="wrap phrase" aria-labelledby="t-phrase">
+    <h2 class="label" id="t-phrase" style="margin-bottom:34px">Notre façon de faire</h2>
+    <img class="rise" src="images/logo-symbole.png" alt="" width="256" height="256">
+    <blockquote class="rise">Le verre ne pardonne pas l'à-peu-près : on mesure deux fois, on coupe une fois.</blockquote>
+    <cite class="rise">La famille Prince</cite>
+  </section>
+
+  <section class="wrap zone" id="venir" aria-labelledby="t-zone">
+    <p class="label rise">Devis et contact</p>
+    <h2 class="rise" id="t-zone">On vient chez vous</h2>
+    <div class="grid">
+      <figure class="plan rise">
+        <svg viewBox="0 0 520 420" role="img" aria-label="Zone d'intervention autour de l'atelier : sous 24 heures au plus près, sous 48 heures plus loin, sur rendez-vous au-delà">
+          <circle class="ring" cx="260" cy="210" r="190" stroke-width="1" stroke-dasharray="3 6" opacity=".6"/>
+          <circle class="ring" cx="260" cy="210" r="130" stroke-width="1.5" opacity=".75"/>
+          <circle cx="260" cy="210" r="70" fill="#415DAA" fill-opacity=".1" stroke="#415DAA" stroke-width="2"/>
+          <rect x="250" y="200" width="20" height="20" fill="#2F3741"/>
+          <text class="home" x="282" y="216">L'atelier</text>
+          <text x="260" y="160" text-anchor="middle">SOUS 24 H</text>
+          <text x="260" y="98" text-anchor="middle">SOUS 48 H</text>
+          <text x="260" y="38" text-anchor="middle">SUR RENDEZ-VOUS</text>
+        </svg>
+        <figcaption class="legend"><span><i style="background:rgba(65,93,170,.35)"></i>Dépannage sous 24 h</span><span><i style="background:#415DAA"></i>Sous 48 h</span><span><i style="border:1px dashed #415DAA"></i>Plus loin, sur rendez-vous</span></figcaption>
+      </figure>
+      <div class="infos rise">
+        <h3>Téléphone</h3><a class="big" href="tel:+33400000000">04 00 00 00 00</a>
+        <h3>Horaires</h3><p>Du lundi au vendredi, 8 h à 18 h. Le samedi matin sur rendez-vous.</p>
+        <h3>Votre demande</h3>
+        <form class="quote" id="quote">
+          <div class="two"><input id="qName" autocomplete="name" placeholder="Votre nom" aria-label="Votre nom" required><input id="qTel" type="tel" inputmode="tel" autocomplete="tel" placeholder="Téléphone" aria-label="Téléphone" required></div>
+          <select id="qKind" aria-label="Votre besoin"><option>Remplacement de vitre</option><option>Double vitrage</option><option>Miroir sur mesure</option><option>Paroi de douche</option><option>Vitrine de commerce</option><option>Crédence ou garde-corps</option><option>Autre</option></select>
+          <textarea id="qMsg" placeholder="Dimensions, nombre de vitres, adresse, disponibilités…" aria-label="Votre projet"></textarea>
+          <button class="btn" type="submit">Envoyer</button>
+          <p class="done" id="done" aria-live="polite"></p>
+        </form>
       </div>
-      <form id="quote" class="rise">
-        <div class="two"><div><label for="qName">Nom</label><input id="qName" autocomplete="name" required></div><div><label for="qTel">Téléphone</label><input id="qTel" type="tel" inputmode="tel" autocomplete="tel" required></div></div>
-        <div><label for="qKind">Votre besoin</label><select id="qKind"><option>Remplacement de vitre</option><option>Double vitrage</option><option>Miroir sur mesure</option><option>Paroi de douche</option><option>Vitrine de commerce</option><option>Crédence ou garde-corps</option><option>Autre</option></select></div>
-        <div><label for="qMsg">Votre projet</label><textarea id="qMsg" placeholder="Dimensions, nombre de vitres, adresse, disponibilités…"></textarea></div>
-        <button class="btn" type="submit">Envoyer ma demande</button>
-        <p class="done" id="done" aria-live="polite"></p>
-      </form>
     </div>
   </section>
 </main>
@@ -258,30 +298,79 @@ footer img{height:30px;width:auto}
 <script>
 document.documentElement.classList.add("js");
 const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[m]);
+const reduce = matchMedia("(prefers-reduced-motion: reduce)");
 
-// ——— l'ordre de prix : [verre, prix au mètre carré, détail]
-const KINDS = [["Simple vitrage", 70, "verre clair de 4 mm"], ["Double vitrage", 160, "4/16/4, isolant"], ["Feuilleté sécurité", 140, "anti-effraction, pour vitrines et portes"], ["Miroir", 110, "argenté, chants polis"], ["Paroi de douche", 260, "verre trempé de 8 mm"]];
-const POSE = 90;   // déplacement et pose, par chantier
-const st = { kind: 1, pose: true };
-$("kind").innerHTML = KINDS.map(([n], i) => `<button type="button" class="chip" data-i="${i}" aria-pressed="${i === st.kind}">${n}</button>`).join("");
-const round5 = n => Math.round(n / 5) * 5;
-function estimate() {
-  const w = Math.min(400, Math.max(10, +$("w").value || 0)), h = Math.min(400, Math.max(10, +$("h").value || 0));
-  const m2 = Math.max(.5, w * h / 1e4), [n, perM2, d] = KINDS[st.kind];
-  const base = m2 * perM2 + (st.pose ? POSE : 0);
-  $("price").textContent = `${round5(base * .9)} à ${round5(base * 1.15)} €`;
-  $("detail").textContent = `${n} (${d}), ${String(Math.round(m2 * 100) / 100).replace(".", ",")} m²${st.pose ? ", pose comprise" : ", sans pose"}. Prix indicatif, à confirmer sur place.`;
+// ——— le menu plein écran
+const setMenu = open => { document.body.classList.toggle("menu-open", open); $("menuBtn").setAttribute("aria-expanded", open); $("menuLbl").textContent = open ? "Fermer" : "Menu"; };
+$("menuBtn").addEventListener("click", () => setMenu(!document.body.classList.contains("menu-open")));
+$("menu").addEventListener("click", e => { if (e.target.closest("a")) setMenu(false); });
+addEventListener("keydown", e => { if (e.key === "Escape") setMenu(false); });
+
+// ——— les services : la liste, et la photo qui suit
+const SERVICES = [
+  ["Remplacement de vitre", "Dépannage", "Une vitre fêlée ou cassée : on sécurise, on mesure et on remplace, souvent dans la semaine.", "vitrine", "Une vitre fixe remplacée"],
+  ["Double vitrage", "Confort", "Moins de bruit, moins de froid : on remplace vos simples vitrages sans changer les fenêtres.", "facade", "Des vitrages qui isolent"],
+  ["Miroirs sur mesure", "Intérieur", "Salle de bain, entrée, dressing : coupés à vos mesures, avec ou sans biseau.", "miroir", "Un miroir rond, salle de bain"],
+  ["Parois de douche", "Salle de bain", "Verre trempé clair ou dépoli, fixe ou en porte, posé au millimètre.", "douche", "Une paroi de douche en verre clair"],
+  ["Vitrines de commerce", "Sécurité", "Verre feuilleté de sécurité pour les devantures, et intervention rapide en cas de casse.", "reflet", "Du verre feuilleté de sécurité"],
+  ["Crédences et garde-corps", "Sur mesure", "Crédence de cuisine en verre laqué, garde-corps et marches en verre feuilleté.", "pose", "Une grande plaque posée à deux"],
+];
+let cur = 0;
+$("list").innerHTML = SERVICES.map(([t, k, d], i) => `<li class="${i === 0 ? "on" : ""}"><button type="button" data-i="${i}" aria-expanded="${i === 0}">${esc(t)}<small>${esc(k)}</small></button><div class="d"><div><p>${esc(d)}</p></div></div></li>`).join("");
+function pick(i) {
+  if (i === cur) return; cur = i;
+  [...$("list").children].forEach((li, k) => { li.classList.toggle("on", k === i); li.querySelector("button").setAttribute("aria-expanded", k === i); });
+  const img = $("showImg"), go = () => { img.src = `images/${SERVICES[i][3]}.webp`; $("showCap").textContent = SERVICES[i][4]; img.classList.remove("fade"); };
+  if (reduce.matches) return go();
+  img.classList.add("fade"); setTimeout(go, 220);
 }
-$("kind").addEventListener("click", e => { const b = e.target.closest(".chip"); if (!b) return; st.kind = +b.dataset.i; [...$("kind").children].forEach(c => c.setAttribute("aria-pressed", c === b)); estimate(); });
-$("pose").addEventListener("click", e => { const b = e.target.closest(".chip"); if (!b) return; st.pose = b.dataset.v === "1"; [...$("pose").children].forEach(c => c.setAttribute("aria-pressed", c === b)); estimate(); });
-["w", "h"].forEach(id => $(id).addEventListener("input", estimate));
-estimate();
-// le devis reprend ce qui a été estimé
-$("toQuote").addEventListener("click", () => {
-  const map = { 0: "Remplacement de vitre", 1: "Double vitrage", 2: "Vitrine de commerce", 3: "Miroir sur mesure", 4: "Paroi de douche" };
-  $("qKind").value = map[st.kind];
-  if (!$("qMsg").value.trim()) $("qMsg").value = `${KINDS[st.kind][0]}, ${$("w").value} × ${$("h").value} cm${st.pose ? ", avec la pose" : ""}. `;
+$("showCap").textContent = SERVICES[0][4];
+$("list").addEventListener("click", e => { const b = e.target.closest("button"); if (b) pick(+b.dataset.i); });
+if (matchMedia("(hover: hover) and (pointer: fine)").matches) $("list").addEventListener("mouseover", e => { const b = e.target.closest("button"); if (b) pick(+b.dataset.i); });
+
+// ——— quel verre pour vous : trois questions, un conseil
+const QS = [
+  ["Où est le verre ?", [["fenetre", "Une fenêtre ou une porte-fenêtre"], ["bain", "La salle de bain"], ["cuisine", "La cuisine ou un meuble"], ["commerce", "Une vitrine ou une porte de commerce"], ["escalier", "Un escalier, un balcon"]]],
+  ["Qu'est-ce qui compte le plus ?", [["isolation", "Moins de bruit, moins de froid"], ["securite", "La sécurité"], ["intimite", "Ne pas être vu"], ["lumiere", "La lumière et la beauté"]]],
+  ["C'est pour quand ?", [["urgent", "C'est cassé, au plus vite"], ["mois", "Un projet dans le mois"], ["renseigne", "Je me renseigne"]]],
+];
+function advise([ou, quoi, quand]) {
+  let r;
+  if (ou === "fenetre") r = quoi === "securite" ? ["Feuilleté retardateur d'effraction", "Deux verres collés par un film : il se fêle mais reste en place.", "180 à 260 € le m²", "Fenêtre"]
+    : quoi === "intimite" ? ["Double vitrage dépoli", "Il laisse passer la lumière sans laisser voir, et isole comme un double vitrage.", "190 à 270 € le m²", "Fenêtre"]
+    : ["Double vitrage isolant", "Deux verres et une lame de gaz : moins de bruit, moins de froid, sans changer la fenêtre.", "140 à 220 € le m²", "Fenêtre"];
+  if (ou === "bain") r = quoi === "intimite" ? ["Paroi en verre dépoli", "Verre trempé de 8 mm sablé : on voit la lumière, pas la silhouette.", "450 à 900 € posée", "Douche"]
+    : ["Paroi de douche en verre clair", "Verre trempé de 8 mm, traité anticalcaire, fixe ou avec porte.", "400 à 850 € posée", "Douche"];
+  if (ou === "cuisine") r = ["Crédence en verre laqué", "Un seul panneau, sans joints, de la couleur de votre choix : se nettoie d'un coup d'éponge.", "180 à 320 € le mètre", "Cuisine"];
+  if (ou === "commerce") r = ["Verre feuilleté de sécurité", "Pour les vitrines et les portes : il résiste aux chocs et reste en place s'il casse.", "200 à 320 € le m²", "Commerce"];
+  if (ou === "escalier") r = ["Garde-corps en verre feuilleté", "Verre trempé et feuilleté, fixé par pinces ou en profil au sol : la vue reste dégagée.", "350 à 600 € le mètre", "Escalier"];
+  const delai = quand === "urgent" ? "On sécurise sous 24 h, puis on remplace dans la semaine." : quand === "mois" ? "Mesure chez vous cette semaine, pose sous deux à trois semaines." : "Le devis est gratuit : on peut venir mesurer quand vous voulez.";
+  return { nom: r[0], pourquoi: r[1], prix: r[2], besoin: r[3], delai };
+}
+const KIND = { Fenêtre: "Double vitrage", Douche: "Paroi de douche", Cuisine: "Crédence ou garde-corps", Commerce: "Vitrine de commerce", Escalier: "Crédence ou garde-corps" };
+let answers = [];
+function quiz() {
+  const n = answers.length;
+  if (n < 3) {
+    const [q, list] = QS[n];
+    $("qs").innerHTML = `<div class="swap"><p class="step">Question ${n + 1} sur 3</p><h3>${q}</h3><div class="answers">${list.map(([k, t]) => `<button type="button" class="ans" data-k="${k}">${esc(t)}</button>`).join("")}</div>
+      <div class="dots">${[0, 1, 2].map(i => `<i class="${i <= n ? "on" : ""}"></i>`).join("")}</div>${n ? `<button type="button" class="back" id="qBack">Question précédente</button>` : ""}</div>`;
+    if (n === 0) $("res").innerHTML = `<p class="wait">Votre conseil apparaîtra ici, après la troisième question.</p>`;
+    return;
+  }
+  const a = advise(answers);
+  $("qs").innerHTML = `<div class="swap"><p class="step">C'est fait</p><h3>Voici ce qu'on vous conseille</h3><div class="dots"><i class="on"></i><i class="on"></i><i class="on"></i></div><button type="button" class="back" id="qAgain">Recommencer</button></div>`;
+  $("res").innerHTML = `<div class="swap"><p class="label">Notre conseil</p><h4>${esc(a.nom)}</h4><p>${esc(a.pourquoi)}</p><dl><dt>Prix indicatif</dt><dd>${esc(a.prix)}</dd><dt>Délai</dt><dd>${esc(a.delai)}</dd></dl><a class="btn" href="#venir" id="qGo">Demander ce devis</a></div>`;
+  $("qGo").addEventListener("click", () => { $("qKind").value = KIND[a.besoin]; if (!$("qMsg").value.trim()) $("qMsg").value = `Conseil du site : ${a.nom}. `; });
+}
+$("qs").addEventListener("click", e => {
+  const b = e.target.closest(".ans"); if (b) { answers.push(b.dataset.k); return quiz(); }
+  if (e.target.id === "qBack") { answers.pop(); return quiz(); }
+  if (e.target.id === "qAgain") { answers = []; return quiz(); }
 });
+quiz();
+
 $("quote").addEventListener("submit", e => { e.preventDefault(); $("done").textContent = "Maquette : sur le vrai site, votre demande arriverait directement chez Vitrier Prince."; });
 
 // ——— apparitions discrètes

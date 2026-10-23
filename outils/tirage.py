@@ -1,0 +1,95 @@
+"""Tire le style d'un nouveau site pour qu'il ne ressemble pas aux précédents.
+
+    python3 outils/tirage.py vitrier-prince                       # tire une composition, écrit la fiche
+    python3 outils/tirage.py vitrier-prince --comme libecciu      # reprend tout le style d'un autre site
+    python3 outils/tirage.py vitrier-prince --comme libecciu --garder ouverture,rythme   # seulement ces familles
+    python3 outils/tirage.py vitrier-prince --imposer signature=estimateur,formes=organiques
+    python3 outils/tirage.py vitrier-prince --exclure preuves=citations   # écarter un choix (ex. pas encore de vrais avis)
+    python3 outils/tirage.py vitrier-prince --enregistrer         # note le dernier tirage dans le registre
+
+Pour chaque famille du catalogue (ouverture, navigation, services…), on garde les options les moins
+utilisées par les sites du registre, puis on en tire une au hasard. Les couleurs, les polices et le logo
+viennent de la charte du client : le tirage ne décide que de la composition.
+La fiche est écrite dans clients/<nom>/style.md (ou à l'endroit donné par --fiche).
+"""
+import json, pathlib, random, sys
+
+RACINE = pathlib.Path(__file__).resolve().parent.parent
+DOSSIER = RACINE / "outils" / "styles"
+CATALOGUE = json.loads((DOSSIER / "catalogue.json").read_text())
+REGISTRE_F = DOSSIER / "registre.json"
+FAMILLES = [k for k in CATALOGUE if not k.startswith("_")]
+NOMS = {"ouverture": "Ouverture", "navigation": "Navigation", "services": "Services", "preuves": "Réalisations", "a_propos": "À propos",
+        "contact": "Contact", "formes": "Formes", "photos": "Photos", "rythme": "Rythme des couleurs", "titres": "Titres", "signature": "L'idée originale"}
+
+def options(f):
+    return {o[0]: o for o in CATALOGUE[f]}
+
+def arg(nom):
+    a = sys.argv
+    return a[a.index(nom) + 1] if nom in a and a.index(nom) + 1 < len(a) else None
+
+def main():
+    if len(sys.argv) < 2 or sys.argv[1].startswith("--"):
+        sys.exit(__doc__)
+    site = sys.argv[1]
+    registre = json.loads(REGISTRE_F.read_text())
+    sites = registre["sites"]
+    fiche = pathlib.Path(arg("--fiche") or RACINE / "clients" / site / "style.md")
+    dernier = fiche.with_suffix(".json")
+
+    if "--enregistrer" in sys.argv:
+        if not dernier.exists():
+            sys.exit(f"Pas de tirage pour {site} : lancez d'abord le tirage.")
+        sites[site] = json.loads(dernier.read_text())
+        REGISTRE_F.write_text(json.dumps(registre, ensure_ascii=False, indent=2) + "\n")
+        print(f"{site} ajouté au registre ({len(sites)} sites).")
+        return
+
+    autres = {k: v for k, v in sites.items() if k != site}
+    choix = {}
+    # reprendre le style d'un site existant (« comme tel site »)
+    modele = arg("--comme")
+    if modele:
+        if modele not in sites:
+            sys.exit(f"{modele} n'est pas dans le registre. Sites connus : {', '.join(sites)}")
+        garder = (arg("--garder") or ",".join(FAMILLES)).split(",")
+        choix.update({f: sites[modele][f] for f in garder if f in sites[modele] and sites[modele][f] in options(f)})
+    # imposer certains choix
+    for paire in filter(None, (arg("--imposer") or "").split(",")):
+        f, v = paire.split("=")
+        if f not in FAMILLES or v not in options(f):
+            sys.exit(f"Choix inconnu : {paire}")
+        choix[f] = v
+    # écarter des choix impossibles pour ce client (pas d'avis réels, pas de photos de la personne…)
+    exclus = {tuple(p.split("=")) for p in filter(None, (arg("--exclure") or "").split(","))}
+    # tirer le reste : parmi les options les moins utilisées
+    hasard = random.Random(arg("--graine") or site)
+    for f in FAMILLES:
+        if f in choix:
+            continue
+        compte = {o: 0 for o in options(f) if (f, o) not in exclus}
+        for v in autres.values():
+            if v.get(f) in compte:
+                compte[v[f]] += 1
+        moins = min(compte.values())
+        choix[f] = hasard.choice(sorted(o for o, n in compte.items() if n == moins))
+
+    lignes = [f"# Fiche de style : {site}", "",
+              "Tirée par `outils/tirage.py` pour que ce site ne ressemble pas aux précédents.",
+              "Les couleurs, les polices et le logo viennent de la charte du client ; cette fiche décide de la composition.",
+              "Règles communes à tous les sites : page aérée, deux polices au plus, photos d'un même ton, une seule idée originale, lisible sur téléphone.", ""]
+    for f in FAMILLES:
+        _, nom, desc = options(f)[choix[f]]
+        lignes += [f"## {NOMS.get(f, f)} : {nom}", desc, ""]
+    deja = [s for s, v in autres.items() if sum(v.get(f) == choix[f] for f in FAMILLES) >= 4]
+    if deja and not modele:
+        lignes += [f"Attention : proche de {', '.join(deja)} sur au moins quatre familles.", ""]
+    fiche.parent.mkdir(parents=True, exist_ok=True)
+    fiche.write_text("\n".join(lignes))
+    dernier.write_text(json.dumps(choix, ensure_ascii=False, indent=2) + "\n")
+    print("\n".join(lignes))
+    print(f"(fiche écrite dans {fiche.relative_to(RACINE)} ; une fois le site fait : python3 outils/tirage.py {site} --enregistrer)")
+
+if __name__ == "__main__":
+    main()

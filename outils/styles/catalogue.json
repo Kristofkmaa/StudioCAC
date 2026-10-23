@@ -1,0 +1,100 @@
+{
+  "_note": "Catalogue des façons de construire un site Saitora. Chaque site tire une option par famille (outils/tirage.py), en évitant ce qui a déjà servi (registre.json). Les couleurs, les polices et le logo viennent de la charte du client ; le catalogue décide de la composition.",
+
+  "ouverture": [
+    ["partage", "Partagé", "Texte à gauche (titre, phrase, deux boutons), une photo verticale à droite."],
+    ["plein-cadre", "Plein cadre", "Une photo occupe tout le premier écran ; le titre est posé en bas à gauche sur un voile sombre limité au coin, la navigation en clair par-dessus."],
+    ["monumental", "Titre monumental", "Le nom ou la promesse en très grand, centré, sur toute la largeur ; une phrase dessous ; une bande de trois photos de hauteurs différentes qui dépasse dans la section suivante."],
+    ["passe-partout", "Passe-partout", "Une photo au centre dans un large cadre de la couleur de fond (comme un tableau encadré) ; le titre chevauche le bord du cadre."],
+    ["colonne", "Colonne latérale", "Le nom, la navigation et le bouton sont dans une colonne fixe à gauche (un tiers de l'écran, couleur principale) ; le contenu défile à droite. Sur téléphone, la colonne devient une barre en haut."],
+    ["mosaique", "Mosaïque", "Une grille de 4 à 5 cases de tailles différentes : 3 ou 4 photos et une case de couleur pleine qui porte le titre et le bouton."],
+    ["affiche", "Affiche", "Pas de photo à l'ouverture : un fond de couleur pleine, un titre énorme, une phrase, le logo en grand comme un objet ; les photos arrivent juste après."],
+    ["fenetre", "Fenêtre", "Une photo découpée dans une forme (arche, cercle, rectangle aux coins très arrondis) au centre ; le titre écrit en arc ou réparti de part et d'autre."],
+    ["panorama", "Panorama", "Une photo très large (21:9) en haut sous la navigation ; dessous, le titre à gauche et la phrase avec les boutons à droite, alignés sur la même ligne."],
+    ["carte-posee", "Carte posée", "Photo plein écran ; une carte claire posée dessus (en bas à droite ou au centre) avec le titre, la phrase et le bouton, comme une étiquette."]
+  ],
+
+  "navigation": [
+    ["classique", "Classique", "Logo à gauche, liens et bouton à droite."],
+    ["centree", "Centrée", "Logo au centre, liens répartis à gauche et à droite."],
+    ["pilule", "Pilule flottante", "Une barre arrondie qui flotte en haut au centre, avec le logo réduit, trois liens et le bouton ; elle reste visible au défilement."],
+    ["minimale", "Minimale + menu plein écran", "Seulement le logo et un bouton « Menu » ; le menu s'ouvre en plein écran avec de très grands liens."],
+    ["basse", "Barre basse sur téléphone", "Sur téléphone, une barre fixe en bas (Appeler, Devis, Plan) ; sur ordinateur, une navigation discrète en haut."]
+  ],
+
+  "services": [
+    ["grille-3", "Grille de trois", "Six services en 3 colonnes, titre et deux lignes, séparés par un filet."],
+    ["zigzag", "Rangées alternées", "Trois ou quatre services, chacun une rangée : photo d'un côté, texte de l'autre, en alternance."],
+    ["accordeon", "Liste qui s'ouvre", "Les services en grande liste typographique (titres en grand) ; un clic ouvre le détail et une petite photo."],
+    ["onglets", "Onglets", "Les services en onglets ; chaque onglet montre une grande photo, le texte et les prix."],
+    ["defilant", "Cartes qui défilent", "Une rangée de cartes verticales (photo + titre) qui défile de côté, avec des flèches."],
+    ["sommaire", "Sommaire illustré", "Une liste de titres à gauche ; au survol ou au toucher, la photo correspondante change à droite."],
+    ["tableau", "Tableau de prix", "Les services sous forme de tableau clair : service, détail, délai, prix indicatif."]
+  ],
+
+  "preuves": [
+    ["rangee-3", "Rangée de photos", "Trois photos au même format avec une légende."],
+    ["avant-apres", "Avant / après", "Une photo coupée en deux par un curseur à faire glisser : avant à gauche, après à droite."],
+    ["mur", "Mur de photos", "Une mosaïque de 6 à 8 photos de tailles différentes, sans marges, comme un mur."],
+    ["une-a-une", "Une à la fois", "Une grande photo à la fois avec son histoire (le chantier, le problème, la solution), flèches pour passer à la suivante."],
+    ["chiffres", "Chiffres clés", "Trois ou quatre chiffres en très grand (années, chantiers, délai moyen), avec une phrase chacun ; une photo large dessous."],
+    ["citations", "Paroles de clients", "Deux ou trois citations en grand, guillemets typographiques ; à remplir seulement avec de vrais avis."]
+  ],
+
+  "a_propos": [
+    ["texte-photo", "Texte et photo", "Un paragraphe et trois engagements à côté d'une photo."],
+    ["lettre", "Lettre signée", "Un texte écrit à la première personne comme une lettre, sur fond papier, signé à la main (police manuscrite)."],
+    ["chronologie", "Chronologie", "L'histoire en quelques dates sur une ligne de temps horizontale."],
+    ["citation", "Grande phrase", "Une seule phrase forte en très grand sur toute la largeur, et le nom de qui la dit."],
+    ["portrait", "Portrait", "Une grande photo de la personne ou de l'atelier, avec trois lignes de présentation posées dessus."]
+  ],
+
+  "contact": [
+    ["formulaire", "Formulaire sur carte", "Infos à gauche, formulaire sur une carte blanche à droite."],
+    ["plein-ecran", "Plein écran couleur", "Toute la section dans la couleur principale ; le téléphone et l'e-mail écrits en très grand."],
+    ["plan", "Plan et infos", "Une carte stylisée du quartier ou de la zone d'intervention, avec l'adresse et les horaires à côté."],
+    ["etapes", "Comment ça se passe", "Trois étapes (on vous rappelle, on vient mesurer, on pose) puis un formulaire court."],
+    ["bandeau-collant", "Bandeau collant", "Pas de grande section : un bandeau « Appeler / Devis » qui reste collé en bas de l'écran, et un formulaire court en fin de page."]
+  ],
+
+  "formes": [
+    ["droites", "Angles droits", "Photos, boutons et cartes à angles droits."],
+    ["arrondies", "Doucement arrondies", "Rayon de 12 à 16 px partout, boutons en pilule."],
+    ["organiques", "Formes douces", "Photos découpées en arche ou en formes arrondies irrégulières, boutons en pilule."],
+    ["cadres", "Cadres", "Photos avec un cadre blanc épais (comme des tirages), angles droits."]
+  ],
+
+  "photos": [
+    ["naturelles", "Naturelles", "Photos en couleurs, telles quelles."],
+    ["douces", "Douces", "Couleurs légèrement adoucies (saturation 80 %) pour un ensemble calme."],
+    ["noir-blanc", "Noir et blanc", "Photos en noir et blanc ; la couleur vient seulement de la charte."],
+    ["teintees", "Teintées", "Photos teintées à la couleur principale de la charte (duotone)."]
+  ],
+
+  "rythme": [
+    ["clair", "Clair et uni", "Un fond clair partout, les sections séparées par l'espace seulement."],
+    ["alterne", "Alternance", "Les sections alternent fond clair et fond légèrement teinté."],
+    ["blocs", "Blocs de couleur", "Deux ou trois sections entièrement dans la couleur principale ou la couleur des boutons."],
+    ["sombre", "Sombre", "Fond sombre (couleur principale très foncée) sur toute la page, texte clair."]
+  ],
+
+  "titres": [
+    ["normaux", "Normaux", "Titres en casse normale, comme dans la charte."],
+    ["capitales", "Capitales espacées", "Petits titres de section en capitales espacées, grands titres en casse normale."],
+    ["geants", "Géants", "Un titre par section en très grand (2 à 3 fois la taille habituelle), qui déborde presque de l'écran."],
+    ["italiques", "Avec italique", "Un mot de chaque grand titre en italique (si la police le permet)."]
+  ],
+
+  "signature": [
+    ["estimateur", "Estimer un prix", "Le visiteur règle quelques curseurs (taille, matière, option) et lit un ordre de prix tout de suite."],
+    ["avant-apres", "Avant / après", "Curseur à glisser sur une photo coupée en deux."],
+    ["ouvert", "Ouvert maintenant", "L'en-tête dit en direct si c'est ouvert, jusqu'à quelle heure, et quand on rouvre."],
+    ["quiz", "Trois questions", "Trois questions au visiteur, puis la recommandation qui lui correspond (le bon produit, le bon service)."],
+    ["calendrier", "Calendrier", "Ce qui est disponible selon le mois ou la saison, mois en cours en avant."],
+    ["zone", "Zone d'intervention", "On tape sa commune : le site dit si on intervient et en combien de temps."],
+    ["creneaux", "Prochains créneaux", "Les prochains rendez-vous libres affichés directement, un clic pour réserver."],
+    ["configurateur", "Configurateur", "On choisit une couleur, une matière ou une forme et l'image change sous les yeux."],
+    ["delai", "Compte à rebours", "Le temps restant avant la prochaine fournée, livraison, tournée ou fermeture."],
+    ["comparateur", "Comparer", "Deux ou trois options côte à côte (formules, matériaux), on coche ce qui compte et la meilleure ressort."]
+  ]
+}

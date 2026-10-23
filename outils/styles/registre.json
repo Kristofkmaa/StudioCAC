@@ -1,0 +1,101 @@
+{
+  "_note": "Ce que chaque site déjà fait utilise, famille par famille (voir catalogue.json). Le tirage évite ces choix. Un site est ajouté avec : python3 outils/tirage.py <nom> --enregistrer",
+  "sites": {
+    "table-du-port": {
+      "ouverture": "partage",
+      "navigation": "classique",
+      "rythme": "sombre",
+      "signature": "ardoise du jour"
+    },
+    "durand-plomberie": {
+      "ouverture": "partage",
+      "navigation": "classique",
+      "rythme": "blocs",
+      "signature": "zone"
+    },
+    "pain-dore": {
+      "ouverture": "fenetre",
+      "navigation": "classique",
+      "rythme": "blocs",
+      "formes": "arrondies",
+      "signature": "delai"
+    },
+    "villa-oliviers": {
+      "ouverture": "plein-cadre",
+      "navigation": "classique",
+      "rythme": "sombre",
+      "signature": "plan interactif"
+    },
+    "bois-massif": {
+      "ouverture": "partage",
+      "navigation": "classique",
+      "rythme": "sombre",
+      "signature": "configurateur"
+    },
+    "a-funtana": {
+      "ouverture": "partage",
+      "navigation": "classique",
+      "services": "grille-3",
+      "preuves": "rangee-3",
+      "a_propos": "texte-photo",
+      "contact": "formulaire",
+      "formes": "droites",
+      "photos": "douces",
+      "rythme": "alterne",
+      "titres": "normaux",
+      "signature": "composer sa visite"
+    },
+    "libecciu": {
+      "ouverture": "partage",
+      "navigation": "classique",
+      "services": "tableau",
+      "preuves": "rangee-3",
+      "a_propos": "texte-photo",
+      "contact": "formulaire",
+      "formes": "arrondies",
+      "photos": "naturelles",
+      "rythme": "sombre",
+      "titres": "normaux",
+      "signature": "meteo de la semaine"
+    },
+    "zia-rosa": {
+      "ouverture": "partage",
+      "navigation": "classique",
+      "services": "onglets",
+      "preuves": "rangee-3",
+      "a_propos": "texte-photo",
+      "contact": "formulaire",
+      "formes": "droites",
+      "photos": "naturelles",
+      "rythme": "sombre",
+      "titres": "italiques",
+      "signature": "zone"
+    },
+    "castagnetu": {
+      "ouverture": "partage",
+      "navigation": "classique",
+      "services": "tableau",
+      "preuves": "rangee-3",
+      "a_propos": "texte-photo",
+      "contact": "plein-ecran",
+      "formes": "droites",
+      "photos": "naturelles",
+      "rythme": "blocs",
+      "titres": "normaux",
+      "signature": "calendrier"
+    },
+    "vitrier-prince": {
+      "ouverture": "passe-partout",
+      "navigation": "minimale",
+      "services": "sommaire",
+      "preuves": "mur",
+      "a_propos": "citation",
+      "contact": "plan",
+      "formes": "cadres",
+      "photos": "teintees",
+      "rythme": "clair",
+      "titres": "capitales",
+      "signature": "quiz"
+    }
+  }
+}

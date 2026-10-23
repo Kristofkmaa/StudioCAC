@@ -12,6 +12,6 @@ Après chaque modification, sans attendre de confirmation :
 
 Avant de construire un site, tirer sa composition pour qu'il ne ressemble pas aux autres :
 1. `python3 outils/tirage.py <nom>` (ajouter `--exclure famille=option` pour un choix impossible, par exemple `preuves=citations` sans vrais avis ; `--comme <site>` et `--garder ouverture,rythme` seulement si l'utilisateur demande une ressemblance).
-2. Suivre la fiche écrite dans `clients/<nom>/style.md` ; les couleurs, polices et logo viennent de la charte du client.
+2. Suivre la fiche écrite dans `clients/<nom>/style.md` ; les couleurs, polices et logo viennent de la charte du client. Le code de chaque option est dans `outils/styles/recettes.md`.
 3. Une fois le site fait : `python3 outils/tirage.py <nom> --enregistrer` (registre : `outils/styles/registre.json`, catalogue : `outils/styles/catalogue.json`).
 Sites clients : `clients/<nom>/index.html`, non indexés (`noindex`, `robots.txt`).

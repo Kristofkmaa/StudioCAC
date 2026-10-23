@@ -20,7 +20,9 @@ CATALOGUE = json.loads((DOSSIER / "catalogue.json").read_text())
 REGISTRE_F = DOSSIER / "registre.json"
 FAMILLES = [k for k in CATALOGUE if not k.startswith("_")]
 NOMS = {"ouverture": "Ouverture", "navigation": "Navigation", "services": "Services", "preuves": "Réalisations", "a_propos": "À propos",
-        "contact": "Contact", "formes": "Formes", "photos": "Photos", "rythme": "Rythme des couleurs", "titres": "Titres", "signature": "L'idée originale"}
+        "contact": "Contact", "formes": "Formes", "photos": "Photos", "rythme": "Rythme des couleurs", "titres": "Titres",
+        "appoint": "Police d'appoint", "texture": "Texture", "arrivee": "Arrivée des éléments", "decoupes": "Passage entre les sections",
+        "boutons": "Boutons", "pied": "Pied de page", "ornement": "Ornement", "signature": "L'idée originale"}
 
 def options(f):
     return {o[0]: o for o in CATALOGUE[f]}
@@ -78,8 +80,10 @@ def main():
     lignes = [f"# Fiche de style : {site}", "",
               "Tirée par `outils/tirage.py` pour que ce site ne ressemble pas aux précédents.",
               "Les couleurs, les polices et le logo viennent de la charte du client ; cette fiche décide de la composition.",
-              "Règles communes à tous les sites : page aérée, deux polices au plus, photos d'un même ton, une seule idée originale, lisible sur téléphone.", ""]
-    for f in FAMILLES:
+              "Règles communes à tous les sites : page aérée, deux polices de charte (plus la police d'appoint si tirée), photos d'un même ton, une seule idée originale, lisible sur téléphone.",
+              "Le code de chaque option est dans outils/styles/recettes.md.", ""]
+    ordre = [f for f in NOMS if f in FAMILLES] + [f for f in FAMILLES if f not in NOMS]
+    for f in ordre:
         _, nom, desc = options(f)[choix[f]]
         lignes += [f"## {NOMS.get(f, f)} : {nom}", desc, ""]
     deja = [s for s, v in autres.items() if sum(v.get(f) == choix[f] for f in FAMILLES) >= 4]
@@ -89,7 +93,7 @@ def main():
     fiche.write_text("\n".join(lignes))
     dernier.write_text(json.dumps(choix, ensure_ascii=False, indent=2) + "\n")
     print("\n".join(lignes))
-    print(f"(fiche écrite dans {fiche.relative_to(RACINE)} ; une fois le site fait : python3 outils/tirage.py {site} --enregistrer)")
+    print(f"(fiche écrite dans {fiche.relative_to(RACINE) if fiche.is_relative_to(RACINE) else fiche} ; une fois le site fait : python3 outils/tirage.py {site} --enregistrer)")
 
 if __name__ == "__main__":
     main()

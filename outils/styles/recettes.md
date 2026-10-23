@@ -40,9 +40,10 @@ Sur téléphone, garder les zones de toucher à 44 px au moins.
 ```css
 .js .rise{opacity:0;transform:translateY(16px);transition:opacity .8s cubic-bezier(.23,1,.32,1),transform .8s cubic-bezier(.23,1,.32,1)}
 .js .rise.on{opacity:1;transform:none}
-/* rideau : la photo se découvre de bas en haut, sans jamais rester cachée si le script ne passe pas */
-.js .curtain img{clip-path:inset(100% 0 0 0);transition:clip-path 1.1s cubic-bezier(.23,1,.32,1)}
-.js .curtain.on img{clip-path:inset(0)}
+/* dévoilement (option « rideau ») : fondu et léger recul, en opacité et transform seulement (fluide sur téléphone).
+   Pas de clip-path : il saccade et montre un cadre vide si l'image n'est pas encore chargée. */
+.js .curtain img{opacity:0;transform:scale(1.045);transition:opacity .9s ease-out,transform 1.4s cubic-bezier(.23,1,.32,1);transition-delay:var(--d,0ms)}
+.js .curtain.on img{opacity:1;transform:none}
 /* zoom lent */
 .js .zoom img{transform:scale(1.08);transition:transform 1.8s cubic-bezier(.23,1,.32,1)}
 .js .zoom.on img{transform:none}
@@ -53,7 +54,11 @@ Sur téléphone, garder les zones de toucher à 44 px au moins.
 document.querySelectorAll(".words").forEach(h => { h.innerHTML = h.textContent.split(" ").map((w, i) => `<span style="--i:${i}">${w}</span>`).join(" "); });
 // CSS : .js .words span{display:inline-block;opacity:0;transform:translateY(.4em);transition:.7s cubic-bezier(.23,1,.32,1) calc(var(--i)*70ms)} .js .words.on span{opacity:1;transform:none}
 // une seule observation pour tout : .rise, .curtain, .zoom, .words
-const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("on"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -6% 0px" });
+// une photo ne s'anime qu'une fois chargée (sinon l'animation passe sur du vide puis l'image tombe d'un coup)
+const ready = img => img.complete && img.naturalWidth ? Promise.resolve() : new Promise(r => { img.addEventListener("load", r, { once: true }); img.addEventListener("error", r, { once: true }); });
+const show = el => { const img = el.querySelector("img"); if (!img) return el.classList.add("on"); (img.decode ? img.decode().catch(() => {}) : ready(img)).then(() => ready(img)).then(() => requestAnimationFrame(() => el.classList.add("on"))); };
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { show(e.target); io.unobserve(e.target); } }), { rootMargin: "0px 0px -8% 0px" });
+// dans une mosaïque, décaler les photos : style="--d:120ms", "--d:240ms"…
 document.querySelectorAll(".rise,.curtain,.zoom,.words").forEach(el => io.observe(el));
 ```
 

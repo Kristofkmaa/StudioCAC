@@ -48,12 +48,12 @@ h2 em,.it{font-style:italic;font-weight:400}
 /* grands numéros de chapitre, en chiffres romains */
 .chap::before{content:attr(data-n);position:absolute;top:clamp(30px,4vw,60px);right:var(--m);font:italic 400 clamp(7rem,16vw,15rem)/1 var(--serif);color:var(--wine);opacity:.07;pointer-events:none}
 
-/* cadres blancs, photos adoucies, découverte en rideau */
+/* cadres blancs, photos adoucies ; les photos se dévoilent en douceur une fois chargées (le cadre reste en place) */
 .cadre{background:var(--paper);padding:clamp(8px,1vw,12px);box-shadow:0 1px 0 rgba(20,16,18,.06)}
 .cadre .in{position:relative;overflow:hidden;height:100%}
 .cadre img{width:100%;height:100%;object-fit:cover;filter:saturate(.82)}
-.js .rideau img{clip-path:inset(100% 0 0 0);transition:clip-path 1.2s var(--ease)}
-.js .rideau.on img{clip-path:inset(0)}
+.js .rideau img{opacity:0;transform:scale(1.045);transition:opacity .9s ease-out,transform 1.4s var(--ease);transition-delay:var(--d,0ms)}
+.js .rideau.on img{opacity:1;transform:none}
 .js .rise{opacity:0;transform:translateY(14px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
 .js .rise.on{opacity:1;transform:none}
 
@@ -160,7 +160,7 @@ footer .legal{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);
 .stick .go{min-height:48px;gap:10px;font-size:15px}
 .stick .go i{width:48px;height:48px}
 
-@media (prefers-reduced-motion:reduce){.js .rise,.js .rideau img{opacity:1;transform:none;clip-path:none;transition:none}}
+@media (prefers-reduced-motion:reduce){.js .rise,.js .rideau img{opacity:1;transform:none;transition:none}}
 
 @media (max-width:960px){
   .top{grid-template-columns:auto 1fr auto}
@@ -212,8 +212,8 @@ footer .legal{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);
       </div>
     </div>
     <figure class="cadre a rideau"><div class="in"><img src="images/salle.webp" alt="La salle voûtée en pierre, tables de bois" width="1280" height="800"></div></figure>
-    <figure class="cadre b rideau"><div class="in"><img src="images/voute.webp" alt="Une salle voûtée en pierre, baignée de lumière" width="1280" height="800"></div></figure>
-    <figure class="cadre c rideau"><div class="in"><img src="images/charcuterie.webp" alt="Saucisson, pain et vin sur une nappe" width="900" height="1125"></div></figure>
+    <figure class="cadre b rideau" style="--d:120ms"><div class="in"><img src="images/voute.webp" alt="Une salle voûtée en pierre, baignée de lumière" width="1280" height="800"></div></figure>
+    <figure class="cadre c rideau" style="--d:240ms"><div class="in"><img src="images/charcuterie.webp" alt="Saucisson, pain et vin sur une nappe" width="900" height="1125"></div></figure>
   </div>
 
   <section class="carte chap" id="carte" data-n="I" aria-labelledby="t-carte">
@@ -336,9 +336,14 @@ $("res").addEventListener("submit", e => { e.preventDefault();
   $("done").textContent = "Maquette : sur le vrai site, la demande arriverait au restaurant, qui vous confirme par SMS."; });
 draw();
 
-// ——— apparitions : fondu pour les textes, rideau pour les photos
-const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("on"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -6% 0px" });
+// ——— apparitions : fondu pour les textes ; une photo ne se dévoile qu'une fois à l'écran ET chargée,
+// sinon on verrait l'animation passer sur un cadre vide puis l'image tomber d'un coup
+const ready = img => img.complete && img.naturalWidth ? Promise.resolve() : new Promise(r => { img.addEventListener("load", r, { once: true }); img.addEventListener("error", r, { once: true }); });
+const show = el => { const img = el.querySelector("img"); if (!img) return el.classList.add("on"); (img.decode ? img.decode().catch(() => {}) : ready(img)).then(() => ready(img)).then(() => requestAnimationFrame(() => el.classList.add("on"))); };
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { show(e.target); io.unobserve(e.target); } }), { rootMargin: "0px 0px -8% 0px" });
 document.querySelectorAll(".rise,.rideau").forEach(el => io.observe(el));
+// filet de sécurité : rien ne doit rester caché si le défilement saute (lien d'ancre, impression)
+addEventListener("load", () => setTimeout(() => document.querySelectorAll(".rideau:not(.on)").forEach(el => { if (el.getBoundingClientRect().top < innerHeight) show(el); }), 300));
 </script>
 </body>
 </html>

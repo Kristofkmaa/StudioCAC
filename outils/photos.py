@@ -17,18 +17,7 @@ RACINE = pathlib.Path(__file__).resolve().parent.parent
 PHOTOS = {
     # libecciu : photos choisies à la main dans Pixabay (voir images/libecciu/SOURCES.txt)
     # zia-rosa : photos choisies à la main dans Pixabay (voir images/zia-rosa/SOURCES.txt)
-    "funtana": {   # les photos de coiffure sont déjà là (reprises de l'ancienne démo du salon)
-        "hammam.webp": ("hammam", "all", 1600, 1000, 11),
-        "galets.webp": ("hot stones massage", "all", 1200, 900, 2),
-        "huile.webp": ("spa towels stones", "all", 1000, 1000, 7),
-        "ciseaux.webp": ("hair salon", "all", 1200, 900, 7),
-        "bacs.webp": ("hair salon", "all", 1200, 900, 14),
-        "rue.webp": ("ajaccio", "all", 900, 1200, 9),
-        "golfe.webp": ("ajaccio", "all", 1600, 1000, 1),
-        "fontaine.webp": ("ajaccio", "all", 1600, 1000, 9),
-        "massage.webp": ("back massage oil spa", "horizontal", 1600, 1000),
-        "immortelle.webp": ("helichrysum flowers", "vertical", 800, 1000),
-    },
+    # funtana : photos choisies à la main dans Pixabay (voir images/funtana/SOURCES.txt)
     # castagnetu : photos choisies à la main dans Pixabay (voir images/castagnetu/SOURCES.txt)
 }
 

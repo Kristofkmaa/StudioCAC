@@ -17,6 +17,12 @@
 - [ ] Créer la fiche Google Business Profile de Saitora (Ajaccio).
 - [ ] Mesure d'audience sans cookies (Plausible ou GoatCounter), si besoin.
 
+## Nouvelles démos (en attente des photos)
+Trois démos sont prêtes mais pas encore reliées au site : `demo-libecciu.html` (location nautique), `demo-zia-rosa.html` (épicerie), `demo-castagnetu.html` (producteur corse).
+- [ ] Ajouter la clé Pixabay dans les réglages de l'environnement, sous le nom `PIXABAY_API_KEY`, puis ouvrir une nouvelle session.
+- [ ] Lancer `python3 outils/photos.py` (30 photos), vérifier chaque photo, en changer au besoin (`python3 outils/photos.py mer.webp`).
+- [ ] Générer les aperçus (`node outils/apercus.js`), puis relier les trois démos : liste `DEMOS` et bas de page de `accueil.html`, mur de `index.html`, styles de `devis.html`, `outils/partage.html`, `sitemap.xml`, `README.md`.
+
 ## Idées pour la suite
 - [ ] Lien de reprise de la charte graphique (retrouver sa charte sur un autre appareil, sans compte).
 - [ ] Remplacer les démos par de vraies réalisations (avant / après) et ajouter de vrais avis clients.

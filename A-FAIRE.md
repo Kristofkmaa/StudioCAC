@@ -7,7 +7,7 @@
 - [ ] Adhérer à un médiateur de la consommation (CM2C, Medicys…) et l'indiquer à l'article 13 de `cgv.html`.
 - [ ] Faire relire `cgv.html` (expert-comptable, juriste ou CCI de Corse). Paiement de la création choisi : 50 % à la signature, 50 % à la mise en ligne.
 - [ ] Souscrire une assurance responsabilité civile professionnelle.
-- [ ] Finir la boîte contact@saitora.fr (Zimbra) et vérifier qu'elle reçoit bien.
+- [x] Boîte contact@saitora.fr créée.
 
 ## Technique
 - [ ] Créer un formulaire Formspree et mettre son adresse dans `FORM_ENDPOINT` (`devis.html`) : les devis arriveront directement par e-mail. Penser à le citer dans la page de confidentialité.

@@ -1,0 +1,639 @@
+{
+  "_note": "La base des thèmes (genres) de Saitora. Une seule source : le devis la montre au client (devis.html), outils/themes.html la présente, et outils/tirage.py y prend la famille « genre » et ce qui va avec chaque genre. Pour ajouter un thème : une entrée ici, puis son rendu dans themes.js.",
+  "themes": [
+    {
+      "id": "art-deco",
+      "nom": "Art déco / Empire",
+      "accroche": "Élégant et précieux, comme une adresse de prestige : du noir, de l'or, tout est centré.",
+      "pour": [
+        "Restaurant",
+        "Cave, bar à vins",
+        "Hôtel",
+        "Bijouterie"
+      ],
+      "couleurs": {
+        "fond": "#141012",
+        "texte": "#F5E6E1",
+        "accent": "#C9A55A",
+        "second": "#7A2232"
+      },
+      "polices": {
+        "titres": "Bodoni Moda",
+        "texte": "Josefin Sans",
+        "css": "polices/bodoni-moda-josefin-sans-1b967d.css"
+      },
+      "photo": "images/funtana/vasque.webp",
+      "exemple": null,
+      "recette": "Fond sombre (noir ou couleur principale très foncée) et or ; symétrie, tout centré ; titres en capitales très espacées dans une Didone (Bodoni, Didot) ; cadres dorés à double filet et coins à redans ; éventails et rayons de soleil dessinés ; séparateurs à chevrons ; photos en arches à gradins.",
+      "va_avec": {
+        "formes": [
+          "cadres",
+          "droites"
+        ],
+        "texture": [
+          "aucune",
+          "forme",
+          "motif-logo"
+        ],
+        "decoupes": [
+          "droites",
+          "chevauchement"
+        ],
+        "boutons": [
+          "souligne",
+          "rectangle"
+        ],
+        "ornement": [
+          "filet",
+          "numeros",
+          "sceau"
+        ],
+        "appoint": [
+          "aucune",
+          "italique"
+        ],
+        "titres": [
+          "capitales",
+          "geants"
+        ],
+        "rythme": [
+          "sombre",
+          "alterne"
+        ]
+      }
+    },
+    {
+      "id": "magazine",
+      "nom": "Magazine éditorial",
+      "accroche": "Comme un beau magazine : de grandes photos avec leur légende, des textes en colonnes, des rubriques.",
+      "pour": [
+        "Producteur",
+        "Domaine viticole",
+        "Galerie",
+        "Association"
+      ],
+      "couleurs": {
+        "fond": "#1E1510",
+        "texte": "#F3EADF",
+        "accent": "#D9A25B",
+        "second": "#2A1D15"
+      },
+      "polices": {
+        "titres": "Playfair Display",
+        "texte": "Karla",
+        "css": "polices/playfair-display-karla-d33a63.css"
+      },
+      "photo": "images/castagnetu/jambons.webp",
+      "exemple": {
+        "nom": "U Castagnetu",
+        "url": "demo-castagnetu.html"
+      },
+      "recette": "Grille de 12 colonnes asymétrique, grandes photos pleine largeur, textes en colonnes comme un journal, lettrines, titres très contrastés, légendes en petit sous chaque photo, numéros de rubrique.",
+      "va_avec": {
+        "formes": [
+          "droites"
+        ],
+        "texture": [
+          "aucune",
+          "grain"
+        ],
+        "decoupes": [
+          "droites",
+          "chevauchement"
+        ],
+        "boutons": [
+          "souligne",
+          "rectangle"
+        ],
+        "ornement": [
+          "numeros",
+          "filet",
+          "aucun"
+        ],
+        "titres": [
+          "italiques",
+          "geants",
+          "normaux"
+        ],
+        "appoint": [
+          "aucune",
+          "italique"
+        ]
+      }
+    },
+    {
+      "id": "suisse",
+      "nom": "Grille suisse",
+      "accroche": "Net et efficace : une grille stricte, de grands chiffres, des aplats de couleur francs.",
+      "pour": [
+        "Location",
+        "Sport, loisirs",
+        "Transport",
+        "Conseil"
+      ],
+      "couleurs": {
+        "fond": "#F3F2EE",
+        "texte": "#0E1A26",
+        "accent": "#F5C518",
+        "second": "#0F2A4A"
+      },
+      "polices": {
+        "titres": "Archivo",
+        "texte": "Archivo",
+        "css": "polices/archivo-1da6c8.css"
+      },
+      "photo": "images/libecciu/golfe.webp",
+      "exemple": {
+        "nom": "Libecciu",
+        "url": "demo-libecciu.html"
+      },
+      "recette": "Une sans-serif grasse, tout aligné à gauche sur une grille stricte, grands chiffres, aplats de couleur francs, aucun ornement, photos rectangulaires alignées sur la grille.",
+      "va_avec": {
+        "formes": [
+          "droites"
+        ],
+        "texture": [
+          "aucune"
+        ],
+        "decoupes": [
+          "droites"
+        ],
+        "boutons": [
+          "rectangle",
+          "souligne"
+        ],
+        "ornement": [
+          "aucun",
+          "numeros"
+        ],
+        "titres": [
+          "geants",
+          "normaux"
+        ],
+        "appoint": [
+          "aucune"
+        ],
+        "photos": [
+          "naturelles",
+          "noir-blanc"
+        ],
+        "rythme": [
+          "blocs",
+          "alterne",
+          "clair"
+        ],
+        "arrivee": [
+          "fondu",
+          "calme"
+        ]
+      }
+    },
+    {
+      "id": "affiche-brute",
+      "nom": "Affiche brute",
+      "accroche": "Direct et percutant, comme une affiche : un titre énorme, des couleurs vives, des bords noirs.",
+      "pour": [
+        "Artisan, BTP",
+        "Dépannage",
+        "Salle de sport",
+        "Événement"
+      ],
+      "couleurs": {
+        "fond": "#F0ECE2",
+        "texte": "#111111",
+        "accent": "#FFD23F",
+        "second": "#1F4BD8"
+      },
+      "polices": {
+        "titres": "Anton",
+        "texte": "Public Sans",
+        "css": "polices/anton-public-sans-266b86.css"
+      },
+      "photo": "images/plomberie/fuite.webp",
+      "exemple": {
+        "nom": "Durand Plomberie",
+        "url": "demo-durand-plomberie.html"
+      },
+      "recette": "Typographie énorme qui déborde, couleurs franches en blocs, bordures noires épaisses, ombres décalées pleines, boutons rectangulaires épais : direct et percutant.",
+      "va_avec": {
+        "formes": [
+          "droites"
+        ],
+        "texture": [
+          "aucune",
+          "grain"
+        ],
+        "decoupes": [
+          "droites",
+          "diagonale"
+        ],
+        "boutons": [
+          "rectangle"
+        ],
+        "ornement": [
+          "etiquettes",
+          "aucun",
+          "numeros"
+        ],
+        "titres": [
+          "geants",
+          "capitales"
+        ],
+        "appoint": [
+          "aucune",
+          "affiche"
+        ],
+        "rythme": [
+          "blocs",
+          "alterne"
+        ]
+      }
+    },
+    {
+      "id": "retro-70",
+      "nom": "Rétro années 70",
+      "accroche": "Chaleureux et joyeux, années 70 : orange, moutarde et brun, des formes rondes, des bandes de couleur.",
+      "pour": [
+        "Épicerie",
+        "Café, glacier",
+        "Food truck",
+        "Boutique"
+      ],
+      "couleurs": {
+        "fond": "#F4E3C4",
+        "texte": "#3E2414",
+        "accent": "#E2692A",
+        "second": "#E8A72B"
+      },
+      "polices": {
+        "titres": "Fraunces",
+        "texte": "DM Sans",
+        "css": "polices/fraunces-dm-sans-yellowtail-7d4f41.css"
+      },
+      "photo": "images/zia-rosa/epicerie.webp",
+      "exemple": {
+        "nom": "Épicerie Zia Rosa",
+        "url": "demo-zia-rosa.html"
+      },
+      "recette": "Formes rondes et pilules, couleurs chaudes (orange, moutarde, brun), une serif grasse arrondie (Cooper, Recoleta), bandes arc-en-ciel, photos aux coins très arrondis.",
+      "va_avec": {
+        "formes": [
+          "arrondies",
+          "organiques"
+        ],
+        "texture": [
+          "aucune",
+          "grain",
+          "forme"
+        ],
+        "decoupes": [
+          "vague",
+          "arrondies"
+        ],
+        "boutons": [
+          "pilule",
+          "rond"
+        ],
+        "ornement": [
+          "sceau",
+          "etiquettes",
+          "aucun"
+        ],
+        "titres": [
+          "geants",
+          "normaux"
+        ],
+        "appoint": [
+          "aucune",
+          "manuscrite"
+        ],
+        "photos": [
+          "naturelles",
+          "douces"
+        ],
+        "rythme": [
+          "clair",
+          "blocs",
+          "alterne"
+        ]
+      }
+    },
+    {
+      "id": "fait-main",
+      "nom": "Fait main",
+      "accroche": "Authentique et gourmand : du papier kraft, des photos posées avec du ruban, de l'écriture à la main.",
+      "pour": [
+        "Boulangerie",
+        "Pâtisserie",
+        "Créateur",
+        "Ferme"
+      ],
+      "couleurs": {
+        "fond": "#FBF5E9",
+        "texte": "#3A2210",
+        "accent": "#C2361F",
+        "second": "#D9B98C"
+      },
+      "polices": {
+        "titres": "Lora",
+        "texte": "Outfit",
+        "css": "polices/lora-outfit-kalam-14f0e0.css"
+      },
+      "photo": "images/boulangerie/miches.webp",
+      "exemple": {
+        "nom": "Au Pain Doré",
+        "url": "demo-pain-dore.html"
+      },
+      "recette": "Papier, carton ou ardoise, écritures à la main, photos posées de travers avec du ruban adhésif, petits dessins au trait, étiquettes et tampons.",
+      "va_avec": {
+        "formes": [
+          "organiques",
+          "arrondies",
+          "droites"
+        ],
+        "texture": [
+          "grain",
+          "carreaux"
+        ],
+        "boutons": [
+          "pilule",
+          "rond",
+          "souligne"
+        ],
+        "ornement": [
+          "etiquettes",
+          "sceau"
+        ],
+        "appoint": [
+          "manuscrite"
+        ],
+        "rythme": [
+          "clair",
+          "alterne"
+        ]
+      }
+    },
+    {
+      "id": "luxe-minimal",
+      "nom": "Luxe minimal",
+      "accroche": "Haut de gamme et épuré : beaucoup d'espace, une écriture fine, une seule touche de couleur.",
+      "pour": [
+        "Villa, gîte",
+        "Architecte",
+        "Spa",
+        "Mode"
+      ],
+      "couleurs": {
+        "fond": "#F7F5F0",
+        "texte": "#1E1E1C",
+        "accent": "#6B7A4B",
+        "second": "#EFECE4"
+      },
+      "polices": {
+        "titres": "Italiana",
+        "texte": "Figtree",
+        "css": "polices/italiana-figtree-b5a329.css"
+      },
+      "photo": "images/villa/oliveraie-hero.webp",
+      "exemple": {
+        "nom": "Villa Les Oliviers",
+        "url": "demo-villa-oliviers.html"
+      },
+      "recette": "Énormément d'espace, très peu d'éléments, une serif fine en très grand, capitales minuscules espacées, noir et blanc et une seule touche de couleur, photos immenses.",
+      "va_avec": {
+        "formes": [
+          "droites",
+          "cadres"
+        ],
+        "texture": [
+          "aucune"
+        ],
+        "decoupes": [
+          "droites",
+          "chevauchement"
+        ],
+        "boutons": [
+          "souligne"
+        ],
+        "ornement": [
+          "aucun",
+          "filet",
+          "numeros"
+        ],
+        "titres": [
+          "geants",
+          "capitales",
+          "italiques"
+        ],
+        "appoint": [
+          "aucune",
+          "italique"
+        ],
+        "rythme": [
+          "clair",
+          "sombre"
+        ],
+        "arrivee": [
+          "fondu",
+          "rideau",
+          "calme",
+          "zoom"
+        ]
+      }
+    },
+    {
+      "id": "mediterraneen",
+      "nom": "Méditerranéen coloré",
+      "accroche": "Ensoleillé et coloré : bleu de mer, terre cuite et ocre, carreaux de faïence, vagues.",
+      "pour": [
+        "Restaurant",
+        "Plage, paillote",
+        "Camping",
+        "Hôtel"
+      ],
+      "couleurs": {
+        "fond": "#FBF6EC",
+        "texte": "#1D2B36",
+        "accent": "#C8553D",
+        "second": "#1F5C86"
+      },
+      "polices": {
+        "titres": "DM Serif Display",
+        "texte": "Plus Jakarta Sans",
+        "css": "polices/dm-serif-display-plus-jakarta-sans-190a57.css"
+      },
+      "photo": "images/port/terrasse-coucher.webp",
+      "exemple": {
+        "nom": "La Table du Port",
+        "url": "demo-table-du-port.html"
+      },
+      "recette": "Couleurs du sud en aplats (bleu, ocre, terre cuite), carreaux et azulejos, arches, ombres de feuillage, typographie chaleureuse.",
+      "va_avec": {
+        "formes": [
+          "arrondies",
+          "organiques",
+          "cadres"
+        ],
+        "texture": [
+          "carreaux",
+          "forme",
+          "grain"
+        ],
+        "decoupes": [
+          "vague",
+          "arrondies",
+          "droites"
+        ],
+        "boutons": [
+          "pilule",
+          "rond",
+          "rectangle"
+        ],
+        "photos": [
+          "naturelles",
+          "douces"
+        ],
+        "rythme": [
+          "blocs",
+          "alterne",
+          "clair"
+        ]
+      }
+    },
+    {
+      "id": "moderne-doux",
+      "nom": "Moderne doux",
+      "accroche": "Doux et accueillant : des couleurs pastel, des coins arrondis, une écriture ronde.",
+      "pour": [
+        "Beauté, bien-être",
+        "Santé",
+        "Enfance",
+        "Coiffure"
+      ],
+      "couleurs": {
+        "fond": "#FBF7F2",
+        "texte": "#2E2422",
+        "accent": "#2F4A3A",
+        "second": "#F3DCD3"
+      },
+      "polices": {
+        "titres": "Quicksand",
+        "texte": "Nunito",
+        "css": "polices/quicksand-nunito-caveat-8420c4.css"
+      },
+      "photo": "images/funtana/galets.webp",
+      "exemple": {
+        "nom": "A Funtana",
+        "url": "demo-a-funtana.html"
+      },
+      "recette": "Sans-serif ronde, cartes aux coins arrondis, dégradés interdits mais aplats pastel, petites illustrations, boutons pilule : accueillant et actuel.",
+      "va_avec": {
+        "formes": [
+          "arrondies",
+          "organiques"
+        ],
+        "texture": [
+          "aucune",
+          "forme"
+        ],
+        "decoupes": [
+          "arrondies",
+          "vague",
+          "droites"
+        ],
+        "boutons": [
+          "pilule",
+          "rond"
+        ],
+        "ornement": [
+          "aucun",
+          "etiquettes"
+        ],
+        "appoint": [
+          "aucune",
+          "manuscrite"
+        ],
+        "photos": [
+          "naturelles",
+          "douces"
+        ],
+        "rythme": [
+          "clair",
+          "blocs",
+          "alterne"
+        ]
+      }
+    },
+    {
+      "id": "sombre-cinema",
+      "nom": "Sombre cinéma",
+      "accroche": "Spectaculaire, comme un film : fond noir, photos en grand, titres immenses.",
+      "pour": [
+        "Artisan d'art",
+        "Photographe",
+        "Bar de nuit",
+        "Garage"
+      ],
+      "couleurs": {
+        "fond": "#0D0B0A",
+        "texte": "#F2EDE6",
+        "accent": "#C49A6C",
+        "second": "#16120F"
+      },
+      "polices": {
+        "titres": "Big Shoulders Display",
+        "texte": "Source Sans 3",
+        "css": "polices/big-shoulders-display-source-sans-3-4348c9.css"
+      },
+      "photo": "images/bois/atelier.webp",
+      "exemple": {
+        "nom": "Atelier Bois Massif",
+        "url": "demo-bois-massif.html"
+      },
+      "recette": "Fond noir, photos plein cadre très contrastées, titres en très grand qui se superposent aux images, petites capitales, sensation de générique de film.",
+      "va_avec": {
+        "formes": [
+          "droites"
+        ],
+        "texture": [
+          "aucune",
+          "grain"
+        ],
+        "decoupes": [
+          "droites",
+          "chevauchement"
+        ],
+        "boutons": [
+          "souligne",
+          "rectangle"
+        ],
+        "ornement": [
+          "aucun",
+          "numeros"
+        ],
+        "titres": [
+          "geants",
+          "capitales"
+        ],
+        "appoint": [
+          "aucune",
+          "italique"
+        ],
+        "rythme": [
+          "sombre"
+        ],
+        "photos": [
+          "naturelles",
+          "noir-blanc",
+          "teintees"
+        ],
+        "arrivee": [
+          "zoom",
+          "mots",
+          "rideau",
+          "fondu"
+        ]
+      }
+    }
+  ]
+}

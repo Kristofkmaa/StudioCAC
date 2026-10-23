@@ -21,6 +21,9 @@ import json, pathlib, random, sys
 RACINE = pathlib.Path(__file__).resolve().parent.parent
 DOSSIER = RACINE / "outils" / "styles"
 CATALOGUE = json.loads((DOSSIER / "catalogue.json").read_text())
+# la famille « genre » vient de la base des thèmes (themes.json, à la racine) : elle passe en premier
+THEMES = json.loads((RACINE / "themes.json").read_text())["themes"]
+CATALOGUE = {"genre": [[t["id"], t["nom"], t["recette"]] for t in THEMES], "_genre": {t["id"]: t["va_avec"] for t in THEMES}, **CATALOGUE}
 REGISTRE_F = DOSSIER / "registre.json"
 POLICES = json.loads((DOSSIER / "polices.json").read_text())
 FAMILLES = [k for k in CATALOGUE if not k.startswith("_")]
@@ -83,7 +86,7 @@ def main():
     for f in FAMILLES:  # le genre est la première famille : il est tiré avant les autres
         if f in choix:
             continue
-        # le genre limite les autres familles à ce qui va avec lui (catalogue.json, clé « _genre »)
+        # le genre limite les autres familles à ce qui va avec lui (themes.json, champ « va_avec »)
         permis = CATALOGUE.get("_genre", {}).get(choix.get("genre"), {}).get(f)
         compte = {o: 0 for o in options(f) if (f, o) not in exclus and (not permis or o in permis)}
         for v in autres.values():

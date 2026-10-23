@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Les thèmes · Saitora</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../polices/jost-a2e892.css">
+<style>
+/* Le catalogue des thèmes de Saitora : tout ce que contient themes.json, avec l'aperçu de chaque thème.
+   Page de travail (non indexée) : pour choisir un genre avec un client, ou vérifier la base. */
+:root{--bg:#FAFAF9;--ink:#141414;--muted:#6B6B6B;--line:#E4E2DE;--accent:#B57EDC;--font:"Jost",system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--font)}
+a{color:inherit}
+.page{width:min(1180px,100% - 32px);margin-inline:auto}
+header{padding:56px 0 28px;border-bottom:1px solid var(--line)}
+header h1{font-weight:400;font-size:clamp(2.2rem,1.6rem + 2.4vw,3.6rem);line-height:1.05;letter-spacing:-.02em}
+header p{margin-top:12px;color:var(--muted);max-width:60ch}
+header code{font-size:.92em;background:#EFEDEA;padding:1px 6px;border-radius:4px}
+.jump{display:flex;flex-wrap:wrap;gap:6px;margin-top:20px}
+.jump a{padding:6px 12px;border:1px solid var(--line);border-radius:999px;text-decoration:none;font-size:14px}
+.theme{display:grid;grid-template-columns:1.25fr 1fr;gap:32px;padding:48px 0;border-bottom:1px solid var(--line);align-items:start;scroll-margin-top:16px}
+.prev{border-radius:10px;overflow:hidden;box-shadow:0 20px 50px -30px rgba(0,0,0,.45);border:1px solid var(--line)}
+.info .id{font-size:13px;color:var(--muted);letter-spacing:.04em}
+.info h2{font-weight:500;font-size:2rem;line-height:1.1;margin-top:2px}
+.info .acc{margin-top:10px;font-size:1.08rem}
+.info dl{margin-top:18px;display:grid;grid-template-columns:110px 1fr;gap:8px 14px;font-size:15px}
+.info dt{color:var(--muted)}
+.sw{display:flex;gap:6px;align-items:center}
+.sw i{width:26px;height:26px;border-radius:50%;border:1px solid rgba(0,0,0,.12)}
+.sw small{margin-left:6px;color:var(--muted)}
+.rec{margin-top:16px;font-size:14px;color:var(--muted);border-left:2px solid var(--accent);padding-left:12px}
+details{margin-top:12px;font-size:14px}
+details summary{cursor:pointer;color:var(--muted)}
+details pre{margin-top:8px;white-space:pre-wrap;font-size:12.5px;background:#F1EFEC;padding:12px;border-radius:6px}
+@media (max-width:860px){.theme{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <h1>Les thèmes</h1>
+    <p>La base des thèmes de Saitora, <code>themes.json</code> à la racine du site. Le devis la montre au client pour qu'il choisisse un style, et <code>outils/tirage.py</code> y prend le genre de chaque nouveau site et ce qui va avec lui.</p>
+    <nav class="jump" id="jump" aria-label="Aller à un thème"></nav>
+  </header>
+  <main id="list"></main>
+</div>
+<script src="../themes.js"></script>
+<script>
+const esc = s => String(s).replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[m]);
+Themes.load("../").then(list => {
+  Themes.fonts(list, "../");
+  document.getElementById("jump").innerHTML = list.map(t => `<a href="#${t.id}">${esc(t.nom)}</a>`).join("");
+  document.getElementById("list").innerHTML = list.map(t => `
+    <section class="theme" id="${t.id}">
+      <div class="prev">${Themes.render(t, {}, "../")}</div>
+      <div class="info">
+        <p class="id">${t.id}</p>
+        <h2>${esc(t.nom)}</h2>
+        <p class="acc">${esc(t.accroche)}</p>
+        <dl>
+          <dt>Pour</dt><dd>${t.pour.map(esc).join(", ")}</dd>
+          <dt>Couleurs</dt><dd class="sw">${Object.values(t.couleurs).map(c => `<i style="background:${c}" title="${c}"></i>`).join("")}<small>exemple, à remplacer par la charte</small></dd>
+          <dt>Polices</dt><dd>${esc(t.polices.titres)} et ${esc(t.polices.texte)}</dd>
+          <dt>Exemple</dt><dd>${t.exemple ? `<a href="../${t.exemple.url}">${esc(t.exemple.nom)}</a>` : "Pas encore de démo"}</dd>
+        </dl>
+        <p class="rec">${esc(t.recette)}</p>
+        <details><summary>Ce qui va avec ce genre (tirage)</summary><pre>${esc(JSON.stringify(t.va_avec, null, 1))}</pre></details>
+      </div>
+    </section>`).join("");
+});
+</script>
+</body>
+</html>

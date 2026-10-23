@@ -5,7 +5,6 @@ epicerie.webp | https://pixabay.com/photos/old-vintage-retro-trade-past-1578895/
 jambons.webp | https://pixabay.com/photos/ham-ganda-ham-places-gourmet-3853604/ (photo de NoName_13, licence Pixabay)
 legumes.webp | https://pixabay.com/photos/potatos-carrots-vegetables-fruit-1508843/ (photo de voltamax, licence Pixabay)
 marche.webp | https://pixabay.com/photos/apples-farmers-market-buy-buying-1841132/ (photo de Pexels, licence Pixabay)
-pain.webp | https://pixabay.com/photos/bread-fresh-artisan-wooden-board-10348179/ (photo de Couleur, licence Pixabay)
 porte.webp | https://pixabay.com/photos/door-entry-facade-street-blue-8029231/ (photo de lecreusois, licence Pixabay)
 ruelle.webp | https://pixabay.com/photos/corsica-bonifacja-france-the-coast-5016297/ (photo de Piotrarssale, licence Pixabay)
 saucisson.webp | https://pixabay.com/photos/salami-sausage-cut-hearty-fat-2645403/ (photo de Couleur, licence Pixabay)

@@ -15,23 +15,8 @@ from PIL import Image
 RACINE = pathlib.Path(__file__).resolve().parent.parent
 # fichier : (recherche en anglais, orientation, largeur, hauteur[, choix])
 PHOTOS = {
-    "libecciu": {
-        "mer.webp": ("boat turquoise cove mediterranean", "vertical", 1000, 1500),
-        "kayak.webp": ("kayak sea", "vertical", 1000, 1500, 2),
-        "paddle.webp": ("stand up paddle sea", "vertical", 1000, 1500),
-        "bateau.webp": ("motorboat sea", "vertical", 1000, 1500, 6),
-        "semirigide.webp": ("motorboat sea", "vertical", 1000, 1500, 7),
-        "jetski.webp": ("jet ski", "vertical", 1000, 1500, 2),
-        "coucher.webp": ("sunset sea boat mediterranean", "vertical", 1000, 1500, 8),
-        "crique-pins.webp": ("pine trees beach cove", "all", 900, 900),
-        "crique-tour.webp": ("genoese tower corsica", "all", 900, 900),
-        "crique-sanguinaires.webp": ("sanguinaires islands", "all", 900, 900),
-    },
-    "zia-rosa": {
-        "pain.webp": ("bread loaves bakery", "vertical", 600, 750, 9),
-        "camionnette.webp": ("vintage van", "vertical", 600, 750, 14),
-        "legumes.webp": ("vegetables market crate", "vertical", 600, 750, 8),
-    },
+    # libecciu : photos choisies à la main dans Pixabay (voir images/libecciu/SOURCES.txt)
+    # zia-rosa : photos choisies à la main dans Pixabay (voir images/zia-rosa/SOURCES.txt)
     "funtana": {   # les photos de coiffure sont déjà là (reprises de l'ancienne démo du salon)
         "hammam.webp": ("hammam", "all", 1600, 1000, 11),
         "galets.webp": ("hot stones massage", "all", 1200, 900, 2),
@@ -44,18 +29,7 @@ PHOTOS = {
         "massage.webp": ("back massage oil spa", "horizontal", 1600, 1000),
         "immortelle.webp": ("helichrysum flowers", "vertical", 800, 1000),
     },
-    "castagnetu": {
-        "chataigneraie.webp": ("pigs forest", "horizontal", 1800, 1100, 13),
-        "sechoir.webp": ("hams hanging", "all", 1800, 1100, 5),
-        "automne.webp": ("autumn forest sunlight", "horizontal", 1800, 1100, 7),
-        "figatellu.webp": ("smoked sausage", "horizontal", 440, 294),
-        "farine.webp": ("flour bag rustic", "horizontal", 440, 294, 8),
-        "cave.webp": ("hams hanging", "all", 840, 1050, 2),
-        "village.webp": ("stone house mountains", "all", 720, 1060, 13),
-        "chataignes.webp": ("sweet chestnuts", "vertical", 1000, 1250, 4),
-        "foret.webp": ("forest fog", "vertical", 720, 1060, 8),
-        "ferme.webp": ("stone house mountains", "all", 320, 320, 6),
-    },
+    # castagnetu : photos choisies à la main dans Pixabay (voir images/castagnetu/SOURCES.txt)
 }
 
 # Pixabay refuse l'agent par défaut de Python (403) : on se présente comme curl

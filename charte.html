@@ -614,6 +614,7 @@ figcaption b{display:block;color:var(--ink);font-weight:500;font-size:15px}
 
       <div class="final">
         <button class="btn" type="button" data-go="5">Précédent</button>
+        <a class="btn primary" id="join" href="devis.html#charte" hidden>Joindre à mon devis</a>
         <button class="btn primary" type="button" id="print">Télécharger ma charte en PDF</button>
         <button class="btn" type="button" id="send">Me l'envoyer</button>
         <a class="btn" id="mine" href="charte.html" hidden>Créer la mienne</a>
@@ -650,7 +651,13 @@ const HUE = { Restaurant: 200, Boulangerie: 32, "Beauté": 340, Artisan: 212, Bo
 const state = { trade: "", logoMode: "", logoName: "", logoData: "", logoEl: null, shape: "rond", content: "initiale", picto: "", casse: "normal", espace: "normal", ideaSeed: 1, layout: "ligne", font: "moderne", mood: [], assets: [], multi: false, actColors: [], baseline: true };
 let step = 0;
 // ?exemple : la charte d'une entreprise imaginaire, pour montrer le résultat complet (rien n'est enregistré)
-const EXEMPLE = new URLSearchParams(location.search).has("exemple");
+const Q = new URLSearchParams(location.search);
+const EXEMPLE = Q.has("exemple");
+// ?voir=… : une charte reçue avec une demande de devis, rouverte pour la lire et la télécharger en PDF (rien n'est enregistré)
+let VOIR = null; try { if (Q.get("voir")) VOIR = JSON.parse(decodeURIComponent(escape(atob(Q.get("voir").replace(/-/g, "+").replace(/_/g, "/"))))); } catch (_) {}
+const LECTURE = EXEMPLE || !!VOIR;
+// ?devis : la charte est faite pendant une demande de devis, et y retourne une fois prête
+const DEVIS = Q.has("devis");
 const SAMPLE = { nom: "OSTRALE", phrase: "Vos murs, votre toit, votre confort, depuis 2009", metier: "Artisan", activites: "Maçonnerie, Toiture, Isolation",
   principale: "#2E3740", fond: "#F6F5F1", boutons: "#C4552D", titres: "Affiche", ambiance: "Sobre, Moderne", deja: "Une enseigne, Des cartes de visite",
   perso: "70,40,60,45", forme: "carre", dispo: "ligne", logo: "créé avec l'outil", multi: true, couleursActivites: "#C4552D, #46627A, #5E8C31", ligne: true };
@@ -1016,7 +1023,7 @@ function render(){
   $("swatches").innerHTML = [["Principale", d.principale], ["Fond", d.fond], ["Boutons", d.boutons]].map(([n, h]) => `<div class="sw"><span style="background:${h}"></span><p>${n}<code>${h}</code></p></div>`).join("");
 
   if (step === 6) charter(d);
-  if (!EXEMPLE) try { localStorage.setItem(KEY, JSON.stringify({ ...d, quand: Date.now() })); } catch (_) {}
+  if (!LECTURE) try { localStorage.setItem(KEY, JSON.stringify({ ...d, quand: Date.now() })); } catch (_) {}
 }
 
 // ——— la charte complète, chapitre par chapitre
@@ -1163,7 +1170,7 @@ $("send").addEventListener("click", () => {
 $("print").addEventListener("click", () => { render(); print(); });
 
 // ——— on retrouve ce qui avait été saisi
-let saved = {}; try { saved = EXEMPLE ? SAMPLE : JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (_) {}
+let saved = {}; try { saved = EXEMPLE ? SAMPLE : VOIR ? VOIR : JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (_) {}
 if (saved.nom) $("name").value = saved.nom;
 if (saved.phrase) $("tagline").value = saved.phrase;
 if (saved.metier) state.trade = saved.metier;
@@ -1194,7 +1201,7 @@ function go(n, push = true){
   $("prev").textContent = step === 1 ? "Retour" : "Précédent";
   $("next").textContent = step === 5 ? "Voir ma charte" : "Suivant";
   if (push) history.pushState({ step }, "", step ? `#etape-${step}` : location.pathname + location.search);
-  if (!EXEMPLE) try { localStorage.setItem(KEY + "-etape", step); } catch (_) {}
+  if (!LECTURE) try { localStorage.setItem(KEY + "-etape", step); } catch (_) {}
   document.title = step ? `${TITLES[step]}, votre charte graphique, Saitora` : "Créez votre charte graphique, Saitora";
   scrollTo({ top: 0, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
   render();
@@ -1204,9 +1211,15 @@ $("prev").addEventListener("click", () => go(step - 1));
 $("next").addEventListener("click", () => go(step + 1));
 addEventListener("popstate", e => go(e.state?.step ?? 0, false));   // bouton retour du téléphone : étape précédente
 let lastStep = 0; try { lastStep = Number(localStorage.getItem(KEY + "-etape")) || 0; } catch (_) {}
-if (!EXEMPLE && lastStep > 0 && saved.nom) { $("resume").hidden = false; $("resume").addEventListener("click", () => go(lastStep)); }
-const fromHash = Number((location.hash.match(/etape-(\d)/) || [])[1]) || (EXEMPLE ? 6 : 0);
+if (!LECTURE && lastStep > 0 && saved.nom) { $("resume").hidden = false; $("resume").addEventListener("click", () => go(lastStep)); }
+const fromHash = Number((location.hash.match(/etape-(\d)/) || [])[1]) || (LECTURE ? 6 : 0);
 if (EXEMPLE) { $("demo").hidden = false; $("mine").hidden = false; $("send").hidden = true; $("nextDevis").hidden = true; }
+if (VOIR) { $("demo").hidden = false; $("demo").textContent = `Charte reçue avec une demande de devis${VOIR.nom ? `, pour ${VOIR.nom}` : ""}.`; $("send").hidden = true; $("nextDevis").hidden = true; }
+// la charte part avec la demande de devis : gardée le temps de l'onglet, puis retour au devis
+const joinDevis = () => { try { sessionStorage.setItem("saitora-devis-charte", JSON.stringify(data())); } catch (_) {} };
+if (DEVIS && !LECTURE) { $("join").hidden = false; $("print").classList.remove("primary"); $("send").hidden = true; $("nextDevis").hidden = true; }
+$("join").addEventListener("click", joinDevis);
+$("toDevis").addEventListener("click", joinDevis);
 history.replaceState({ step: fromHash }, "", location.href);
 go(fromHash, false);
 // le logo et les idées sont dessinés sur un canevas : on charge les cinq polices, puis on redessine

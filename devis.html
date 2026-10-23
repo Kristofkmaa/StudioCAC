@@ -141,6 +141,17 @@ a{color:inherit}
 .offer .est{font-size:13.5px;color:var(--faint);margin-top:4px}
 .offer-mini{background:var(--bg-alt);border-left:3px solid var(--accent);padding:12px 14px;font-size:15px;margin-top:-6px}
 .offer-mini:empty{display:none}
+/* l'étape de la charte graphique */
+.cbox{border:1px solid var(--line);border-radius:8px;padding:24px;background:var(--bg)}
+.cbox .cta{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px}
+.cbox .note{margin-top:14px;font-size:15px;color:var(--muted);max-width:52ch}
+.cbox .joined{display:flex;align-items:center;gap:10px;font-weight:500}
+.cbox .joined::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--accent)}
+.cbox .sw{display:flex;gap:8px;margin:18px 0 12px}
+.cbox .sw i{width:44px;height:44px;border-radius:6px;border:1px solid var(--line)}
+.cbox dl{display:grid;grid-template-columns:auto 1fr;gap:4px 16px;font-size:15px}
+.cbox dt{color:var(--muted)}
+.cbox .edit{display:inline-block;margin-top:16px}
 .offer-mini b{font-weight:500}
 .summary .promise{font-size:15px;color:var(--muted);line-height:1.5}
 
@@ -197,12 +208,12 @@ a{color:inherit}
 <main class="page">
   <section class="intro">
     <h1>Parlons de votre futur site<span class="dot" aria-hidden="true"></span></h1>
-    <p>Cinq questions sur votre activité, deux minutes en tout. Je vous réponds sous 24 h avec un devis gratuit et sur mesure.</p>
+    <p>Six étapes sur votre activité et votre image, quelques minutes en tout. Je vous réponds sous 24 h avec un devis gratuit et sur mesure.</p>
   </section>
 
   <div class="layout">
     <form class="wizard surface" id="wizard" novalidate>
-      <div class="progress" id="progress" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="progress" id="progress" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>
 
       <section class="step" data-step="1">
         <h2>Quelle est votre activité ?</h2>
@@ -218,18 +229,24 @@ a{color:inherit}
 
       <section class="step" data-step="3">
         <h2>Quel style vous parle le plus ?</h2>
-        <p class="hint">Juste pour connaître vos goûts : votre site sera fait à votre image. Vous avez déjà un logo et des couleurs ? <a href="charte.html" target="_blank" rel="noopener">Présentez votre charte graphique</a>, elle sera jointe à cette demande.</p>
+        <p class="hint">Juste pour connaître vos goûts : votre site sera fait à votre image.</p>
         <div class="opts styles" id="style" role="group" aria-label="Style préféré"></div>
       </section>
 
       <section class="step" data-step="4">
+        <h2>Votre charte graphique</h2>
+        <p class="hint">Vos couleurs, vos lettres et votre logo : c'est la base de votre site. Préparez-la avec l'outil en quelques minutes, elle sera jointe à votre demande.</p>
+        <div class="cbox" id="charteBox"></div>
+      </section>
+
+      <section class="step" data-step="5">
         <h2>Où en êtes-vous ?</h2>
         <div class="group"><b>Avez-vous déjà un site ?</b><div class="pills" data-key="site"></div></div>
         <div class="group"><b>Un nom de domaine (par exemple mon-commerce.fr) ?</b><div class="pills" data-key="domain"></div></div>
         <div class="group"><b>Pour quand ?</b><div class="pills" data-key="when"></div></div>
       </section>
 
-      <section class="step" data-step="5">
+      <section class="step" data-step="6">
         <h2>Comment vous recontacter ?</h2>
         <p class="offer-mini" id="offerMini"></p>
         <div class="fields">
@@ -275,10 +292,13 @@ const NEEDS = [["Présenter mon activité","Qui vous êtes, ce que vous faites"]
 const STYLES = [["table-du-port","La Table du Port","L'ardoise du bord de mer"],["durand-plomberie","Durand Plomberie","Franc et direct"],["a-funtana","A Funtana","Rose poudré et myrte"],["pain-dore","Au Pain Doré","Gourmand et chaleureux"],["villa-oliviers","Villa Les Oliviers","Nature et élégant"],["bois-massif","Bois Massif","Artisanal et sobre"],["libecciu","Libecciu","Bleu de mer et soleil"],["zia-rosa","Zia Rosa","Bordeaux d'épicerie"],["castagnetu","U Castagnetu","Roux d'automne"],["","Je ne sais pas encore","Conseillez-moi"]];
 const SITUATION = { site:["Pas encore","Oui, à refaire"], domain:["Oui","Non","Je ne sais pas"], when:["Au plus vite","Dans le mois","Pas pressé"] };
 const LABELS = { sector:"Activité", needs:"Besoins", style:"Style", charte:"Charte graphique", site:"Site actuel", domain:"Nom de domaine", when:"Délai", contact:"Contact" };
-// charte graphique préparée sur charte.html (gardée sur l'appareil quelques jours), jointe à la demande
+// charte graphique faite sur charte.html pendant cette demande (gardée le temps de l'onglet, jamais une ancienne)
 function charte() {
-  try { const c = JSON.parse(localStorage.getItem("saitora-charte") || "null"); return c && c.quand > Date.now() - 14 * 864e5 && (c.nom || c.logo || c.ambiance) ? c : null; } catch (_) { return null; }
+  try { return JSON.parse(sessionStorage.getItem("saitora-devis-charte") || "null"); } catch (_) { return null; }
 }
+// lien qui rouvre la charte, prête à télécharger en PDF
+const b64 = o => btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+const charteLink = c => c ? `https://saitora.fr/charte.html?voir=${b64(c)}#etape-6` : "";
 const charteText = c => c ? [`logo ${c.logo || "à préciser"}`, `couleurs ${c.principale}, ${c.fond}, ${c.boutons}`, `titres ${c.titres}`, c.ambiance && `ambiance ${c.ambiance}`, c.deja && `déjà : ${c.deja}`, c.reseaux && `en ligne : ${c.reseaux}`].filter(Boolean).join(" ; ") : "";
 
 const $ = id => document.getElementById(id);
@@ -305,7 +325,8 @@ function valid(n) {
   if (n === 1) return !!state.sector && (state.sector !== "Autre activité" || $("otherSector").value.trim());
   if (n === 2) return state.needs.length > 0;
   if (n === 3) return state.style !== null;
-  if (n === 4) return state.site && state.domain && state.when;
+  if (n === 4) return !!charte();
+  if (n === 5) return state.site && state.domain && state.when;
   return $("fName").value.trim() && mailOk();
 }
 
@@ -334,7 +355,6 @@ function renderOffer() {
     ${mine && a ? `<p class="why">Conseillée d'après vos réponses : ${OFFRES[a.k].nom}.</p>` : a ? `<p class="why">${esc(a.why)}</p>` : ""}
     ${k === "essentiel" ? `<p class="alt">Ou sans avance : ${prixTexte("sansavance")}.</p>` : ""}
     <div class="switch" role="group" aria-label="Changer de formule">${Object.keys(OFFRES).map(x => `<button type="button" data-k="${x}" aria-pressed="${x === k}">${OFFRES[x].nom}</button>`).join("")}</div>
-    ${charte() ? `<p class="alt">Votre charte graphique est jointe à la demande.</p>` : ""}
     <p class="est">Estimation, confirmée après notre échange.</p>`;
   $("offerMini").innerHTML = `Formule ${mine ? "choisie" : "conseillée"} : <b>${o.nom}</b>, ${prixTexte(k)}. Estimation confirmée après notre échange.`;
 }
@@ -345,21 +365,35 @@ function refresh() {
   document.querySelectorAll("#needs .opt").forEach(b => b.setAttribute("aria-pressed", state.needs.includes(b.dataset.v)));
   document.querySelectorAll("#style .opt").forEach(b => b.setAttribute("aria-pressed", b.dataset.v === state.style));
   document.querySelectorAll(".pills").forEach(p => p.querySelectorAll(".pill").forEach(b => b.setAttribute("aria-pressed", b.dataset.v === state[p.dataset.key])));
-  $("next").disabled = step < 5 && !valid(step);   // à la dernière étape, on explique ce qui manque au clic
+  $("next").disabled = step < 6 && !valid(step);   // à la dernière étape, on explique ce qui manque au clic
   const contact = [$("fName").value.trim(), $("fBiz").value.trim()].filter(Boolean).join(" · ");
   const ch = charte();
-  const rows = { sector: sectorText(), needs: state.needs.join(", "), style: state.style || "", ...(ch ? { charte: `Jointe : ${ch.logo === "à créer" ? "logo à créer" : "logo fourni"}, couleurs ${ch.principale}, ${ch.boutons}` } : {}), site: state.site, domain: state.domain, when: state.when, contact };
+  const rows = { sector: sectorText(), needs: state.needs.join(", "), style: state.style || "", charte: ch ? `Jointe, couleurs ${ch.principale}, ${ch.boutons}` : "", site: state.site, domain: state.domain, when: state.when, contact };
+  renderCharte(ch);
+  save();
   renderOffer();
   $("recap").innerHTML = Object.entries(rows).map(([k, v]) => `<div><dt>${LABELS[k]}</dt><dd class="${v ? "" : "empty"}">${v ? esc(v) : "À préciser"}</dd></div>`).join("");
 }
+
+function renderCharte(c) {
+  $("charteBox").innerHTML = c ? `<p class="joined">Votre charte est jointe à la demande</p>
+      <div class="sw" aria-hidden="true">${[c.principale, c.fond, c.boutons].map(h => `<i style="background:${esc(h)}"></i>`).join("")}</div>
+      <dl>${c.nom ? `<dt>Commerce</dt><dd>${esc(c.nom)}</dd>` : ""}<dt>Logo</dt><dd>${esc(c.logo || "à préciser")}</dd><dt>Titres</dt><dd>${esc(c.titres)}</dd>${c.ambiance ? `<dt>Ambiance</dt><dd>${esc(c.ambiance)}</dd>` : ""}</dl>
+      <a class="edit" href="charte.html?devis#etape-1">Modifier ma charte</a>`
+    : `<div class="cta"><a class="btn primary" href="charte.html?devis">Créer ma charte graphique</a><span>Six petites étapes, avec un aperçu en direct.</span></div>
+      <p class="note">Vous avez déjà un logo et des couleurs ? L'outil vous permet de les présenter. Vous n'en avez pas ? Il vous aide à les trouver. Vos réponses ici sont gardées, vous reviendrez au même endroit.</p>`;
+}
+// la demande en cours est gardée le temps de l'onglet, pour aller faire la charte et revenir
+const FIELDS = ["otherSector", "fName", "fBiz", "fMail", "fTel", "fMsg"];
+function save() { try { sessionStorage.setItem("saitora-devis", JSON.stringify({ state, step, f: Object.fromEntries(FIELDS.map(id => [id, $(id).value])) })); } catch (_) {} }
 
 function show(n, dir) {
   step = n;
   document.querySelectorAll(".step").forEach(s => { const on = Number(s.dataset.step) === n; s.classList.toggle("on", on); s.classList.toggle("back", on && dir < 0); });
   [...$("progress").children].forEach((s, i) => { s.className = i + 1 < n ? "ok" : i + 1 === n ? "cur" : ""; });
   $("prev").style.visibility = n === 1 ? "hidden" : "visible";
-  $("next").textContent = n === 5 ? "Envoyer ma demande" : "Continuer";
-  $("count").textContent = `Étape ${n} sur 5`;
+  $("next").textContent = n === 6 ? "Envoyer ma demande" : "Continuer";
+  $("count").textContent = `Étape ${n} sur 6`;
   $("err").textContent = "";
   refresh();
 }
@@ -374,6 +408,7 @@ function recapText() {
     `Nom de domaine : ${state.domain}`,
     `Délai : ${state.when}`,
     charte() ? `Charte graphique : ${charteText(charte())}` : null,
+    charte() ? `Voir et télécharger la charte en PDF : ${charteLink(charte())}` : null,
     offerKey() ? `Formule ${state.offer ? "choisie" : "conseillée"} : ${OFFRES[offerKey()].nom}, ${prixTexte(offerKey())} (estimation)` : null,
     "",
     `Nom : ${$("fName").value.trim()}`,
@@ -387,10 +422,10 @@ function recapText() {
 $("wizard").addEventListener("submit", e => {
   e.preventDefault();
   if (!valid(step)) {
-    if (step === 5) $("err").textContent = !$("fName").value.trim() ? "Indiquez votre nom pour qu'on sache qui recontacter." : "Cet e-mail ne semble pas valide.";
+    if (step === 6) $("err").textContent = !$("fName").value.trim() ? "Indiquez votre nom pour qu'on sache qui recontacter." : "Cet e-mail ne semble pas valide.";
     return;
   }
-  if (step < 5) return show(step + 1, 1);
+  if (step < 6) return show(step + 1, 1);
   send();
 });
 
@@ -419,6 +454,7 @@ async function send() {
         nom: $("fName").value.trim(), entreprise: $("fBiz").value.trim(), email: $("fMail").value.trim(), telephone: $("fTel").value.trim(),
         activite: sectorText(), besoins: state.needs.join(", "), style: state.style,
         charte_graphique: charteText(charte()),
+        charte_pdf: charteLink(charte()),
         site_actuel: state.site, nom_de_domaine: state.domain, delai: state.when, message: $("fMsg").value.trim(),
         formule: offerKey() ? `${OFFRES[offerKey()].nom} (${state.offer ? "choisie" : "conseillée"}), ${prixTexte(offerKey())}` : "",
       }),
@@ -443,7 +479,15 @@ const preOffer = new URLSearchParams(location.search).get("offre");
 if (preOffer && OFFRES[preOffer]) state.offer = preOffer;
 const preStyle = STYLES.find(([k]) => k && k === pre);
 if (preStyle) state.style = preStyle[1];
-show(1, 1);
+let startStep = 1;
+try {
+  const back = JSON.parse(sessionStorage.getItem("saitora-devis") || "null");
+  if (back) { Object.assign(state, back.state); FIELDS.forEach(id => { if (back.f[id] != null) $(id).value = back.f[id]; }); $("otherSector").hidden = state.sector !== "Autre activité"; startStep = back.step || 1; }
+} catch (_) {}
+if (preOffer && OFFRES[preOffer]) state.offer = preOffer;
+if (preStyle) state.style = preStyle[1];
+if (location.hash === "#charte") startStep = 4;   // retour depuis l'outil de charte
+show(startStep, 1);
 </script>
 </body>
 </html>

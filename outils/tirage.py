@@ -5,6 +5,7 @@
     python3 outils/tirage.py vitrier-prince --comme libecciu --garder ouverture,rythme   # seulement ces familles
     python3 outils/tirage.py vitrier-prince --imposer signature=estimateur,formes=organiques
     python3 outils/tirage.py vitrier-prince --exclure preuves=citations   # écarter un choix (ex. pas encore de vrais avis)
+    python3 outils/tirage.py vitrier-prince --refaire              # refaire un site : s'éloigner aussi de sa version précédente
     python3 outils/tirage.py vitrier-prince --enregistrer         # note le dernier tirage dans le registre
 
 Pour chaque famille du catalogue (ouverture, navigation, services…), on garde les options les moins
@@ -48,7 +49,11 @@ def main():
         print(f"{site} ajouté au registre ({len(sites)} sites).")
         return
 
+    # --refaire : la nouvelle version doit aussi s'éloigner de l'ancienne (elle compte deux fois)
     autres = {k: v for k, v in sites.items() if k != site}
+    if "--refaire" in sys.argv and site in sites:
+        autres[site + " (ancienne version)"] = sites[site]
+        autres[site + " (ancienne version, bis)"] = sites[site]
     choix = {}
     # reprendre le style d'un site existant (« comme tel site »)
     modele = arg("--comme")

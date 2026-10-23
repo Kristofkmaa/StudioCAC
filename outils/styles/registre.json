@@ -133,24 +133,24 @@
       "boutons": "rectangle"
     },
     "la-grotte-napoleon": {
-      "preuves": "une-a-une",
+      "ouverture": "mosaique",
+      "navigation": "centree",
+      "services": "accordeon",
+      "preuves": "chiffres",
+      "a_propos": "portrait",
+      "contact": "bandeau-collant",
+      "formes": "cadres",
       "photos": "douces",
-      "signature": "ouvert",
-      "ouverture": "affiche",
-      "navigation": "basse",
-      "services": "zigzag",
-      "a_propos": "lettre",
-      "contact": "etapes",
-      "formes": "organiques",
-      "rythme": "alterne",
-      "titres": "geants",
-      "appoint": "manuscrite",
-      "texture": "aucune",
-      "arrivee": "fondu",
-      "decoupes": "droites",
-      "pied": "simple",
-      "ornement": "sceau",
-      "boutons": "pilule"
+      "rythme": "clair",
+      "titres": "italiques",
+      "signature": "creneaux",
+      "appoint": "italique",
+      "texture": "carreaux",
+      "arrivee": "rideau",
+      "decoupes": "arrondies",
+      "boutons": "rond",
+      "pied": "infos",
+      "ornement": "numeros"
     }
   }
 }

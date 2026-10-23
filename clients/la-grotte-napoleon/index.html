@@ -59,19 +59,20 @@ section{padding-block:clamp(90px,10vw,150px)}
 /* ---- l'affiche ---- */
 .poster{position:relative;min-height:calc(100svh - 32px);background:var(--wine);color:var(--cream);display:grid;grid-template-rows:auto 1fr auto;padding:0 0 clamp(28px,4vw,48px)}
 .top{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-block:22px}
-.top .logo img{height:44px;width:auto}
+.top .logo{display:inline-flex;align-items:center;gap:12px;text-decoration:none;font:500 1.35rem/1 var(--serif)}
+.top .logo img{height:30px;width:auto}
 .top nav{display:flex;align-items:center;gap:30px;font-size:15px}
 .top nav a:not(.btn){text-decoration:none;opacity:.85;transition:opacity 160ms ease}
 @media (hover:hover) and (pointer:fine){.top nav a:not(.btn):hover{opacity:1}}
 .top .btn{background:var(--cream);color:var(--wine);border-color:var(--cream);min-height:46px}
 .poster .mid{display:grid;grid-template-columns:1.4fr 1fr;gap:clamp(24px,5vw,80px);align-items:center}
 .poster h1{font:500 clamp(4rem,1.8rem + 9vw,11rem)/.86 var(--serif);letter-spacing:-.035em}
-.poster h1 em{font-style:italic;font-weight:400}
+.poster h1.mark img{width:min(680px,100%);height:auto;margin-left:-6px}
 .poster .say{margin-top:28px;font-size:clamp(1.1rem,1rem + .4vw,1.35rem);max-width:34ch;color:#F2D9D4}
 .poster .acts{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
 .poster .acts .btn:not(.line){background:var(--cream);color:var(--wine);border-color:var(--cream)}
 .poster .seal{justify-self:center;width:min(340px,80%);aspect-ratio:1;border-radius:50%;border:1px solid rgba(251,244,241,.35);display:grid;place-items:center;position:relative}
-.poster .seal img{width:58%;height:auto}
+.poster .seal img{width:36%;height:auto}
 .poster .seal svg{position:absolute;inset:-14px;width:calc(100% + 28px);height:calc(100% + 28px);animation:turn 40s linear infinite}
 .poster .seal text{font:500 13px var(--sans);letter-spacing:.32em;fill:#F2D9D4;text-transform:uppercase}
 @keyframes turn{to{transform:rotate(360deg)}}
@@ -138,7 +139,7 @@ form.res .btn{justify-self:start}
 form.res .done{color:var(--wine);font-weight:500}
 footer{background:var(--ink);color:#CDBFBC}
 footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-block:32px;font-size:13px}
-footer img{height:34px;width:auto}
+footer img{height:64px;width:auto}
 
 /* ---- barre basse sur téléphone ---- */
 .dock{display:none}
@@ -174,18 +175,18 @@ footer img{height:34px;width:auto}
 
 <header class="poster">
   <div class="wrap top">
-    <a class="logo" href="#" aria-label="La grotte Napoléon, haut de page"><img src="images/logo-blanc.png" alt="La grotte Napoléon" width="900" height="242"></a>
+    <a class="logo" href="#" aria-label="La grotte Napoléon, haut de page"><img src="images/couronne.png" alt="" width="312" height="276">Dipoi 1769</a>
     <nav aria-label="Navigation principale"><a href="#carte">La carte</a><a href="#lieu">Le lieu</a><a href="#reserver">Infos</a><a class="btn" href="#reserver">Réserver</a></nav>
   </div>
   <div class="wrap mid">
     <div>
-      <h1>La grotte <em>Napoléon</em></h1>
+      <h1 class="mark"><img src="images/logo-blanc.png" alt="La grotte Napoléon, dipoi 1769" width="898" height="383" fetchpriority="high"></h1>
       <p class="say">Un restaurant où tout vient de l'île, servi sous une voûte de pierre. Charcuterie, fromages, plats du jour et vins corses.</p>
       <div class="acts"><a class="btn" href="#reserver">Réserver une table</a><a class="btn line" href="#carte">Voir la carte</a></div>
     </div>
     <div class="seal" aria-hidden="true">
-      <svg viewBox="0 0 200 200"><defs><path id="c" d="M100 100 m-86 0 a86 86 0 1 1 172 0 a86 86 0 1 1 -172 0"/></defs><text><textPath href="#c">Produits corses · Salle voûtée · Ajaccio · </textPath></text></svg>
-      <img src="images/logo-symbole_blanc.png" alt="" width="256" height="256">
+      <svg viewBox="0 0 200 200"><defs><path id="c" d="M100 100 m-86 0 a86 86 0 1 1 172 0 a86 86 0 1 1 -172 0"/></defs><text><textPath href="#c">Dipoi 1769 · Produits corses · Salle voûtée · </textPath></text></svg>
+      <img src="images/couronne.png" alt="" width="312" height="276">
     </div>
   </div>
   <div class="wrap bottom"><span class="state" id="state"><i></i><span id="stateTxt">Du mardi au dimanche</span></span><span>Ajaccio · <a href="tel:+33400000000">04 00 00 00 00</a></span></div>
@@ -276,7 +277,7 @@ footer img{height:34px;width:auto}
   </section>
 </main>
 
-<footer><div class="wrap"><img src="images/logo-blanc.png" alt="La grotte Napoléon" width="900" height="242"><span>Maquette du site, réalisée par <a href="https://saitora.fr">Saitora</a> · Photos : Pixabay</span></div></footer>
+<footer><div class="wrap"><img src="images/logo-blanc.png" alt="La grotte Napoléon" width="898" height="383"><span>Maquette du site, réalisée par <a href="https://saitora.fr">Saitora</a> · Photos : Pixabay</span></div></footer>
 
 <nav class="dock" aria-label="Accès rapide"><a href="tel:+33400000000">Appeler</a><a href="#carte">La carte</a><a class="go" href="#reserver">Réserver</a></nav>
 

@@ -17,26 +17,26 @@ RACINE = pathlib.Path(__file__).resolve().parent.parent
 PHOTOS = {
     "libecciu": {
         "mer.webp": ("boat turquoise cove mediterranean", "vertical", 1000, 1500),
-        "kayak.webp": ("sea kayak clear water", "vertical", 1000, 1500),
+        "kayak.webp": ("kayak sea", "vertical", 1000, 1500, 2),
         "paddle.webp": ("stand up paddle sea", "vertical", 1000, 1500),
-        "bateau.webp": ("small motor boat anchored rocks", "vertical", 1000, 1500),
-        "semirigide.webp": ("rib boat speed sea", "vertical", 1000, 1500),
-        "jetski.webp": ("jet ski", "vertical", 1000, 1500),
-        "coucher.webp": ("sunset sea islands", "vertical", 1000, 1500),
+        "bateau.webp": ("motorboat sea", "vertical", 1000, 1500, 6),
+        "semirigide.webp": ("motorboat sea", "vertical", 1000, 1500, 7),
+        "jetski.webp": ("jet ski", "vertical", 1000, 1500, 2),
+        "coucher.webp": ("sunset sea boat mediterranean", "vertical", 1000, 1500, 8),
         "crique-pins.webp": ("pine trees beach cove", "all", 900, 900),
         "crique-tour.webp": ("genoese tower corsica", "all", 900, 900),
         "crique-sanguinaires.webp": ("sanguinaires islands", "all", 900, 900),
     },
     "zia-rosa": {
-        "interieur.webp": ("old grocery store shelves", "horizontal", 1600, 1000),
+        "interieur.webp": ("delicatessen shelves", "horizontal", 1600, 1000, 13),
         "vallee.webp": ("mountain road corsica", "horizontal", 1600, 1000),
         "coupe-comptoir.webp": ("sliced charcuterie board", "all", 700, 700),
         "cave.webp": ("wine bottles shelf", "all", 700, 700),
-        "pain.webp": ("rustic bread loaves", "vertical", 600, 750),
+        "pain.webp": ("bread loaves bakery", "vertical", 600, 750, 9),
         "journaux.webp": ("newspapers stack", "vertical", 600, 750),
         "coupe.webp": ("cured ham slicing", "vertical", 600, 750),
-        "camionnette.webp": ("old delivery van village", "vertical", 600, 750),
-        "legumes.webp": ("vegetables crate garden", "vertical", 600, 750),
+        "camionnette.webp": ("vintage van", "vertical", 600, 750, 14),
+        "legumes.webp": ("vegetables market crate", "vertical", 600, 750, 8),
         "village.webp": ("corsica village evening", "vertical", 600, 750),
     },
     "funtana": {   # les photos de coiffure sont déjà là (reprises de l'ancienne démo du salon)
@@ -45,22 +45,26 @@ PHOTOS = {
         "immortelle.webp": ("helichrysum flowers", "vertical", 800, 1000),
     },
     "castagnetu": {
-        "chataigneraie.webp": ("pigs chestnut forest", "horizontal", 1800, 1100),
-        "sechoir.webp": ("wood smoke old house", "horizontal", 1800, 1100),
-        "automne.webp": ("chestnut forest autumn", "horizontal", 1800, 1100),
+        "chataigneraie.webp": ("pigs forest", "horizontal", 1800, 1100, 13),
+        "sechoir.webp": ("hams hanging", "all", 1800, 1100, 5),
+        "automne.webp": ("autumn forest sunlight", "horizontal", 1800, 1100, 7),
         "figatellu.webp": ("smoked sausage", "horizontal", 440, 294),
-        "farine.webp": ("chestnut flour", "horizontal", 440, 294),
-        "cave.webp": ("hams hanging cellar", "vertical", 840, 1050),
-        "village.webp": ("corsica mountain village", "vertical", 720, 1060),
-        "chataignes.webp": ("chestnuts burr", "vertical", 1000, 1250),
-        "foret.webp": ("chestnut trees fog", "vertical", 720, 1060),
-        "ferme.webp": ("stone farmhouse mountain", "all", 320, 320),
+        "farine.webp": ("flour bag rustic", "horizontal", 440, 294, 8),
+        "cave.webp": ("hams hanging", "all", 840, 1050, 2),
+        "village.webp": ("stone house mountains", "all", 720, 1060, 13),
+        "chataignes.webp": ("sweet chestnuts", "vertical", 1000, 1250, 4),
+        "foret.webp": ("forest fog", "vertical", 720, 1060, 8),
+        "ferme.webp": ("stone house mountains", "all", 320, 320, 6),
     },
 }
 
+# Pixabay refuse l'agent par défaut de Python (403) : on se présente comme curl
+def ouvre(url, timeout):
+    return urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": "curl/8"}), timeout=timeout)
+
 def cherche(cle, q, orientation):
     params = {"key": cle, "q": q, "image_type": "photo", "orientation": orientation, "safesearch": "true", "per_page": 20, "order": "popular", "min_width": 1000}
-    with urllib.request.urlopen("https://pixabay.com/api/?" + urllib.parse.urlencode(params), timeout=30) as r:
+    with ouvre("https://pixabay.com/api/?" + urllib.parse.urlencode(params), 30) as r:
         return json.load(r).get("hits", [])
 
 def recadre(data, w, h):
@@ -93,7 +97,7 @@ def main():
             if not hits:
                 print(f"rien trouvé pour {demo}/{f} ({q})"); continue
             hit = hits[min(choix[0] if choix else 0, len(hits) - 1)]
-            with urllib.request.urlopen(hit["largeImageURL"], timeout=60) as r:
+            with ouvre(hit["largeImageURL"], 60) as r:
                 recadre(r.read(), w, h).save(cible, "WEBP", quality=80, method=6)
             notes[f] = f"{hit['pageURL']} (photo de {hit['user']}, licence Pixabay)"
             print(f"ok {demo}/{f}  {hit['pageURL']}")

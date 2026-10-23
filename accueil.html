@@ -94,6 +94,10 @@ img,video{display:block;max-width:100%}
 .chip[aria-pressed="true"]{color:var(--ink)}
 .chip[aria-pressed="true"]::before{transform:scale(1)}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+/* nombre impair de démos : la dernière prend toute la ligne, texte à gauche et écrans à droite */
+.grid .proj:last-child:nth-child(odd){grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:min-content;column-gap:40px;min-height:400px}
+.grid .proj:last-child:nth-child(odd) > :not(.stage){grid-column:1}
+.grid .proj:last-child:nth-child(odd) .stage{grid-column:2;grid-row:1 / span 5;align-self:end;height:340px;margin-top:0}
 .proj{position:relative;display:flex;flex-direction:column;min-height:520px;padding:32px 32px 0;border-radius:12px;overflow:hidden;
   background:var(--bg);color:var(--fg);text-decoration:none;transition:transform 250ms var(--ease-out)}
 .proj .sector{font-size:15px;opacity:.75}
@@ -233,6 +237,8 @@ form.add input:focus,form.add select:focus{outline:none;border-color:var(--accen
   .bar .theme-toggle{margin-left:auto}
   .hero{grid-template-columns:1fr;gap:40px}
   .grid{grid-template-columns:1fr}
+  .grid .proj:last-child:nth-child(odd){display:flex;min-height:0}
+  .grid .proj:last-child:nth-child(odd) .stage{height:240px;margin-top:auto}
   .proj{min-height:0}
   .proj .stage{height:240px}
   .timeline{grid-template-columns:1fr;gap:36px}
@@ -311,8 +317,8 @@ form.add input:focus,form.add select:focus{outline:none;border-color:var(--accen
     <section class="work page" id="vitrines">
       <div class="work-head">
         <div>
-          <h2>Six commerces, six sites qui leur ressemblent</h2>
-          <p>Six exemples pour six métiers, pour vous montrer ce qu'un site peut faire pour vous. Le vôtre sera fait à votre image, avec votre logo et vos couleurs.</p>
+          <h2>Neuf commerces, neuf sites qui leur ressemblent</h2>
+          <p>Neuf exemples pour neuf métiers, pour vous montrer ce qu'un site peut faire pour vous. Le vôtre sera fait à votre image, avec votre logo et vos couleurs.</p>
         </div>
         <div class="filters" id="chips" role="group" aria-label="Filtrer par métier"></div>
       </div>
@@ -416,7 +422,7 @@ form.add input:focus,form.add select:focus{outline:none;border-color:var(--accen
           <p>Sites vitrines sur mesure pour les restaurants, les artisans et les commerces de Corse. Depuis Ajaccio, partout sur l'île.</p>
         </div>
         <nav aria-label="Le site"><h3>Le site</h3><a href="#vitrines">Réalisations</a><a href="#methode">Méthode</a><a href="tarifs.html" data-transition="Les tarifs">Tarifs</a><a href="charte.html" data-transition="Votre charte graphique">Créer ma charte graphique</a><a href="#apropos">À propos</a><a href="#contact">Contact</a><a href="devis.html" data-transition="Construisons votre site">Demander un devis</a></nav>
-        <nav aria-label="Les démos"><h3>Les démos</h3><a href="demo-table-du-port.html" target="_blank" rel="noopener">La Table du Port</a><a href="demo-durand-plomberie.html" target="_blank" rel="noopener">Durand Plomberie</a><a href="demo-a-funtana.html" target="_blank" rel="noopener">A Funtana</a><a href="demo-pain-dore.html" target="_blank" rel="noopener">Au Pain Doré</a><a href="demo-villa-oliviers.html" target="_blank" rel="noopener">Villa Les Oliviers</a><a href="demo-bois-massif.html" target="_blank" rel="noopener">Atelier Bois Massif</a></nav>
+        <nav aria-label="Les démos"><h3>Les démos</h3><a href="demo-table-du-port.html" target="_blank" rel="noopener">La Table du Port</a><a href="demo-durand-plomberie.html" target="_blank" rel="noopener">Durand Plomberie</a><a href="demo-a-funtana.html" target="_blank" rel="noopener">A Funtana</a><a href="demo-pain-dore.html" target="_blank" rel="noopener">Au Pain Doré</a><a href="demo-villa-oliviers.html" target="_blank" rel="noopener">Villa Les Oliviers</a><a href="demo-bois-massif.html" target="_blank" rel="noopener">Atelier Bois Massif</a><a href="demo-libecciu.html" target="_blank" rel="noopener">Libecciu</a><a href="demo-zia-rosa.html" target="_blank" rel="noopener">Épicerie Zia Rosa</a><a href="demo-castagnetu.html" target="_blank" rel="noopener">U Castagnetu</a></nav>
         <div class="foot-contact"><h3>Contact</h3><a href="mailto:contact@saitora.fr">contact@saitora.fr</a><p>Réponse sous 24 heures</p></div>
       </div>
       <div class="foot-bottom"><span>© 2026 Saitora, Ajaccio</span><a href="mentions-legales.html">Mentions légales et confidentialité</a><a href="cgv.html">Conditions de vente</a><a href="#accueil-haut">Revenir en haut</a></div>
@@ -460,7 +466,10 @@ const DEMOS = [
   {name:"A Funtana", sector:"Beauté", desc:"Coiffure, soins et hammam au même endroit : on compose son moment en une phrase, et on réserve.", url:"demo-a-funtana.html", bg:"#DEDAD3", fg:"#0A0A0A", ac:"#256F82", feats:["Moment à composer","Carte des soins","Réservation"]},
   {name:"Au Pain Doré", sector:"Commerce", desc:"Une boulangerie qui affiche ses fournées en direct et prend les commandes pour le lendemain.", url:"demo-pain-dore.html", bg:"#EFC35A", fg:"#3A2210", ac:"#C2361F", feats:["Fournées en direct","Commande à retirer","Panier"]},
   {name:"Villa Les Oliviers", sector:"Location", desc:"Une villa qui se visite sur son plan et se loue en direct, avec le prix calculé selon la saison.", url:"demo-villa-oliviers.html", bg:"#2F3A24", fg:"#FBFBF8", ac:"#B9C49A", feats:["Plan interactif","Calendrier","Devis instantané"]},
-  {name:"Atelier Bois Massif", sector:"Artisan", desc:"Un ébéniste qui fait choisir son bois et montre ses meubles avec leurs vraies cotes.", url:"demo-bois-massif.html", bg:"#2B1E15", fg:"#F3EFE8", ac:"#C49A6C", feats:["Choix des essences","Réalisations cotées","Demande de projet"]}
+  {name:"Atelier Bois Massif", sector:"Artisan", desc:"Un ébéniste qui fait choisir son bois et montre ses meubles avec leurs vraies cotes.", url:"demo-bois-massif.html", bg:"#2B1E15", fg:"#F3EFE8", ac:"#C49A6C", feats:["Choix des essences","Réalisations cotées","Demande de projet"]},
+  {name:"Libecciu", sector:"Location", desc:"Un loueur de kayaks et de bateaux qui publie la mer du jour et prend les réservations, en trois langues.", url:"demo-libecciu.html", bg:"#0B2A33", fg:"#FFFFFF", ac:"#8FE3D6", feats:["Bulletin de mer","Flotte et réservation","Français, anglais, italien"]},
+  {name:"Épicerie Zia Rosa", sector:"Commerce", desc:"Une épicerie de village qui affiche ses rayons et livre les hameaux, commande comprise.", url:"demo-zia-rosa.html", bg:"#161C1A", fg:"#E3E2DA", ac:"#C8A577", feats:["Rayons et prix","Tournée des hameaux","Commande"]},
+  {name:"U Castagnetu", sector:"Producteur", desc:"Un éleveur de Castagniccia qui raconte son année mois par mois et vend à la ferme et sur les marchés.", url:"demo-castagnetu.html", bg:"#23422B", fg:"#FFFFFF", ac:"#C8A577", feats:["Almanach de la ferme","Produits de saison","Marchés et vente à la ferme"]}
 ];
 
 const esc = s => String(s).replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));

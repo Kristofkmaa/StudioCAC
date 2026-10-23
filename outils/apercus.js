@@ -13,8 +13,8 @@ const DEMOS = fs.readdirSync(ROOT).filter(f => /^demo-.*\.html$/.test(f) && (!ON
 (async () => {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "apercus-"));
   const browser = await chromium.launch(process.env.CHROMIUM ? { executablePath: process.env.CHROMIUM } : {});
-  const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
-  const phone = await browser.newPage({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2 });
+  const page = await browser.newPage({ viewport: { width: 1280, height: 800 }, locale: "fr-FR" });   // en français (Libecciu suit la langue du navigateur)
+  const phone = await browser.newPage({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, locale: "fr-FR" });
   for (const file of DEMOS) {
     await page.goto("file://" + path.join(ROOT, file));
     await page.evaluate(() => document.fonts.ready);

@@ -22,7 +22,7 @@ Site 100 % statique : pas de build, pas de dépendance, chaque page est un fichi
 | `demo-*.html` | Une démo de site vitrine par secteur. |
 | `media/showreel-clair.*`, `media/showreel-sombre.*` | Vidéo de présentation de la page d'accueil, une version par thème (MP4 + WebM + image d'attente). |
 | `media/apercus/` | Captures des démos affichées dans les cartes de la page d'accueil. |
-| `images/<démo>/` | Photos des démos (Pixabay, licence libre, usage commercial autorisé), en WebP. |
+| `images/<démo>/` | Photos des démos (Pixabay, licence libre, usage commercial autorisé), en WebP, téléchargées par `outils/photos.py` (sources dans `SOURCES.txt`). |
 | `outils/video/` | Film de présentation (demande, plan, design, construction, mise en ligne) et script qui en fabrique la vidéo. |
 | `favicon.svg` | Icône de la page d'accueil (les démos ont chacune la leur, intégrée). |
 
@@ -31,6 +31,8 @@ Site 100 % statique : pas de build, pas de dépendance, chaque page est un fichi
 1. Créer `demo-mon-client.html` (en partant d'une démo existante).
 2. Dans son `<head>`, adapter `<title>`, `description`, `og:*`, `theme-color` et le favicon.
 3. Ajouter une ligne dans la liste `DEMOS` en bas de `accueil.html` (nom, secteur, description, `url`, couleurs de l'aperçu).
+4. Photos : ajouter ses recherches dans `outils/photos.py`, puis `PIXABAY_API_KEY=… python3 outils/photos.py` (vérifier chaque photo ; pour en changer, modifier la recherche ou son rang puis `python3 outils/photos.py fichier.webp`).
+5. Générer ses aperçus (`node outils/apercus.js mon-client`), puis l'ajouter au bas de page de `accueil.html`, au mur de `index.html` et de `outils/partage.html` (puis `node outils/partage.js`), aux styles de `devis.html` et à `sitemap.xml`.
 
 ## Régénérer les aperçus des démos
 

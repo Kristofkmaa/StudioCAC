@@ -52,7 +52,7 @@ const server = http.createServer((req, res) => {
       if (CAPTURES && (w === 1440 || w === 390)) {
         fs.mkdirSync(CAPTURES, { recursive: true });
         // les éléments qui apparaissent au défilement sont montrés tels qu'à l'arrivée, les images chargées
-        await p.evaluate(() => { document.querySelectorAll("img").forEach(i => i.loading = "eager"); document.querySelectorAll(".rise,.rideau,.curtain,.zoom,.words").forEach(e => e.classList.add("on")); });
+        await p.evaluate(() => { document.querySelectorAll("img").forEach(i => i.loading = "eager"); document.querySelectorAll(".rise,.ph,.rideau,.curtain,.zoom,.words").forEach(e => e.classList.add("on")); });
         await p.waitForTimeout(1800);
         const h = await p.evaluate(() => document.documentElement.scrollHeight), step = w === 1440 ? 2700 : 2400;
         const name = page.replace(/\/index\.html$/, "").replace(/[\/.]/g, "-").replace(/-html$/, "") + (w === 1440 ? "-ordinateur" : "-telephone");

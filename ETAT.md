@@ -1,6 +1,6 @@
 # Où on en est (à lire au début de chaque session)
 
-Mis à jour le 29 octobre 2026. Ce fichier remplace l'historique des discussions : il dit ce qui existe, ce qui a été décidé et ce qui reste à faire.
+Mis à jour le 29 octobre 2026 (labo 09). Ce fichier remplace l'historique des discussions : il dit ce qui existe, ce qui a été décidé et ce qui reste à faire.
 Les règles de travail sont dans `CLAUDE.md`, le détail des fichiers dans `README.md`, les tâches administratives dans `A-FAIRE.md`.
 
 ## Saitora en deux lignes
@@ -27,6 +27,8 @@ Le site : écran d'entrée (`index.html`), accueil (`accueil.html`), tarifs, dev
   - 04 et 05 : Libecciu refait en Astro et en Next.js ;
   - 06 : le comparatif mesuré ;
   - 07 : douze composants de la communauté (Magic UI, Motion Primitives, React Bits) essayés dans Astro, avec un verdict pour chacun.
+  - 08 (en pause, pas encore construit) : les pièces « à brancher » dans de vraies démos en Astro (avant / après sur Durand Plomberie, fiche qui s'ouvre sur la carte de La Table du Port, tampon qui tourne sur Au Pain Doré). Sources commencées dans `labo/sources/demos-astro/`.
+  - 09 : l'accueil de Saitora en « parchemin et sphère », d'après la fiche Refero OFF+BRAND (papier `#E5E4E0`, encre `#1D1D1D`, police Uncut Sans, une sphère dégradée). En attente de l'avis de l'utilisateur avant de remplacer `accueil.html`.
   - Sources des essais en framework : `labo/sources/` (sans `node_modules`) ; on reconstruit avec `npm install && npm run build` dans chaque projet.
 
 ## Décisions prises
@@ -42,7 +44,9 @@ Le site : écran d'entrée (`index.html`), accueil (`accueil.html`), tarifs, dev
 - **Bobyshop** (`clients/bobyshop/`, site d'un ami qui a testé le devis) : fait comme une boulangerie « pains du monde » d'après sa charte, alors que son devis disait AXI, restaurant / bar / café. À réorienter quand l'utilisateur saura la vraie activité de son ami.
 - **Charte** (`charte.html`) : elle garde en mémoire les réponses d'un ancien essai (localStorage). Correction proposée, pas encore demandée.
 - **Labo 03** : refaire ou abandonner (voir plus haut).
-- **Idée proposée, sans réponse** : ajouter l'avant / après à une démo (par exemple Durand Plomberie) pour le voir en vrai.
+- **Labo 08** : demandé par l'utilisateur, en pause (voir plus haut).
+- **Refero** (`styles.refero.design`) est bloqué par le réseau : l'utilisateur colle les fiches dans la discussion.
+- **Idées de thème pour le site de Saitora** proposées : la rue commerçante (devantures dessinées en SVG, la préférée), l'atelier d'imprimeur, le plan d'architecte, la chambre noire (ORYZO + la Corse en 3D).
 
 ## Pièges connus de l'environnement
 

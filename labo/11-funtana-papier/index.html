@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<meta name="robots" content="noindex">
+<title>A Funtana, démo Saitora</title>
+<meta name="description" content="Démo de site vitrine pour un institut à Ajaccio qui réunit hammam, massages, soins et coiffure : la visite, la carte et ses prix, et les prochaines places libres à réserver en un clic. Réalisé par Saitora.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="Saitora">
+<meta property="og:title" content="A Funtana, démo Saitora">
+<meta property="og:description" content="Hammam, soins et coiffure au même endroit, cours Grandval à Ajaccio. Démo réalisée par Saitora.">
+<meta name="theme-color" content="#E5E4E0">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Cdefs%3E%3ClinearGradient%20id=%22g%22%20x1=%221%22%20y1=%220%22%20x2=%220%22%20y2=%221%22%3E%3Cstop%20offset=%220%22%20stop-color=%22%23FACB0E%22/%3E%3Cstop%20offset=%22.3%22%20stop-color=%22%23F06BA8%22/%3E%3Cstop%20offset=%22.65%22%20stop-color=%22%2378BAE6%22/%3E%3Cstop%20offset=%221%22%20stop-color=%22%23fff%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width=%2264%22%20height=%2264%22%20fill=%22%23E5E4E0%22/%3E%3Ccircle%20cx=%2232%22%20cy=%2232%22%20r=%2222%22%20fill=%22url(%23g)%22/%3E%3C/svg%3E">
+<link rel="preload" href="../../polices/uncut-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+/* A Funtana, genre « grille suisse » habillé selon la fiche OFF+BRAND (Refero) :
+   papier chaud #E5E4E0, encre #1D1D1D, cartes blanches à angles droits, filets cendre, une seule police (Uncut Sans,
+   à la place d'Ataero Retina, réservée à l'agence) en 400 et 700, titres en capitales serrés (interligne 0,8),
+   étiquettes à 11 px très espacées, liens fantômes à 10 px d'arrondi, aucune ombre, aucun aplat de couleur.
+   La seule couleur : la bulle irisée de l'ouverture (jaune, rose, bleu, blanc), comme une bulle de savon au hammam. */
+@font-face{font-family:"Uncut Sans";font-weight:400;font-display:swap;src:url(../../polices/uncut-sans-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Uncut Sans";font-weight:700;font-display:swap;src:url(../../polices/uncut-sans-latin-700-normal.woff2) format("woff2")}
+:root{
+  --parchment:#E5E4E0; --ink:#1D1D1D; --paper:#FFFFFF; --ash:#BFBEBE; --stone:#CDCDC9; --muted:#55544F;
+  --sphere:linear-gradient(255deg,rgb(250,203,14),rgb(240,107,168) 30%,rgb(120,186,230) 65%,rgb(255,255,255));
+  --font:"Uncut Sans","Helvetica Neue",Arial,sans-serif;
+  --display:clamp(3.1rem,1.5rem + 6.6vw,6.44rem);     /* 103 px */
+  --heading:clamp(2.6rem,1.6rem + 4vw,4.375rem);       /* 70 px */
+  --heading-sm:clamp(2rem,1.5rem + 1.9vw,2.875rem);    /* 46 px */
+  --sub:clamp(1.55rem,1.25rem + 1.1vw,2.125rem);       /* 34 px */
+  --m:max(16px,clamp(16px,2.2vw,30px)); --gap:clamp(76px,9vw,119px);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--parchment);color:var(--ink);font:400 18px/1.4 var(--font);letter-spacing:.013em;-webkit-tap-highlight-color:transparent;overflow-x:clip}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+h1,h2,h3,p,ul,ol,dl,dd{margin:0}
+ul,ol{list-style:none;padding:0}
+h1,h2,h3{font-weight:400;text-wrap:balance}
+button,input,select{font:inherit;color:inherit;letter-spacing:inherit}
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:10px}
+.page{width:min(1400px,100%);margin-inline:auto;padding-inline:var(--m)}
+/* étiquette de section : signalétique de musée */
+.label{font-size:11px;line-height:1.4;letter-spacing:.05em;text-transform:uppercase}
+.caps{text-transform:uppercase;line-height:.8;letter-spacing:.013em}
+.sm{font-size:15px;line-height:1.4;letter-spacing:.01em}
+/* lien fantôme : le seul style cliquable */
+.go{display:inline-flex;align-items:center;gap:.45em;min-height:44px;padding:5px 0;border-radius:10px;font-size:15px;text-decoration:none;background:linear-gradient(currentColor,currentColor) 0 calc(100% - 9px)/0 1px no-repeat;transition:background-size .25s ease}
+.go::after{content:"→";transition:transform .25s ease}
+@media (hover:hover) and (pointer:fine){.go:hover{background-size:100% 1px}.go:hover::after{transform:translateX(3px)}}
+/* pastille fantôme (filtres) : bord encre ; choisie ou survolée = pleine d'encre */
+.pill{display:inline-flex;align-items:center;gap:.6em;min-height:44px;padding:8px 19px;border:1px solid var(--ink);border-radius:10px;background:none;font-size:11px;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;text-decoration:none;transition:background-color .2s,color .2s}
+.pill.arrow::after{content:"→"}
+.pill[aria-pressed="true"],.pill.plein{background:var(--ink);color:var(--parchment)}
+@media (hover:hover) and (pointer:fine){.pill:hover{background:var(--ink);color:var(--parchment)}}
+.pill:active{transform:scale(.97)}
+/* apparition calme */
+.rise{opacity:0;transform:translateY(16px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
+.rise.on{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rise{opacity:1;transform:none;transition:none}}
+
+.demo{padding:8px var(--m);border-bottom:1px solid var(--ash);text-align:center}
+
+/* ---- en-tête minimal, pas collant ---- */
+.top{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;padding-block:18px}
+.brand{font-weight:700;font-size:15px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;justify-self:start;padding:10px 0}
+.top .mid{display:flex;gap:28px}
+.top .mid a{text-decoration:none;padding:10px 0}
+.top .menu{justify-self:end}
+.sheet{position:fixed;inset:0;z-index:30;background:var(--parchment);display:flex;flex-direction:column;padding:18px var(--m) max(24px,env(safe-area-inset-bottom));visibility:hidden;opacity:0;transition:opacity .3s,visibility 0s .3s;overflow:auto}
+.sheet.open{visibility:visible;opacity:1;transition:opacity .3s}
+.sheet .row{display:flex;justify-content:space-between;align-items:center}
+.sheet nav{margin-top:auto;border-top:1px solid var(--ash)}
+.sheet nav a{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:14px 0;border-bottom:1px solid var(--ash);text-decoration:none;font-size:var(--heading-sm);line-height:1;text-transform:uppercase}
+.sheet nav a .label{font-size:11px}
+.sheet .bas{margin-top:28px;display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center}
+
+/* ---- ouverture : le titre posé sur la bulle irisée ---- */
+.hero{position:relative;isolation:isolate;overflow:clip;padding-inline:max(var(--m),(100% - 1400px)/2 + var(--m));min-height:calc(100svh - 110px);display:grid;grid-template-rows:auto 1fr auto;padding-bottom:30px}
+.hero .where{padding-top:clamp(18px,4vh,46px);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.hero .where .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--ink);margin-right:8px;vertical-align:1px}
+.hero .where .ferme .dot{background:none;box-shadow:inset 0 0 0 1px var(--ink)}
+.sphere{position:absolute;z-index:-1;right:max(-14vw,(100% - 1400px)/2 + 8%);top:50%;width:min(56vh,600px,84vw);aspect-ratio:1;translate:0 -52%}
+.sphere i{position:absolute;inset:0;border-radius:50%;background:var(--sphere)}
+.sphere svg{position:absolute;inset:-36%;width:172%;height:172%;overflow:visible}
+.sphere circle{fill:none;stroke:var(--ash);stroke-width:1;vector-effect:non-scaling-stroke}
+.hero h1{align-self:center;font-size:var(--display);padding-block:clamp(28px,6vh,64px);max-width:9ch}
+.hero .base{display:flex;justify-content:space-between;align-items:flex-end;gap:22px 40px;flex-wrap:wrap}
+.hero .base p{max-width:36ch}
+.hero .acts{display:flex;flex-wrap:wrap;gap:4px 28px;margin-top:10px}
+.scroll{position:fixed;right:max(30px,env(safe-area-inset-right));bottom:max(30px,env(safe-area-inset-bottom));z-index:5;transition:opacity .3s}
+.scroll.gone{opacity:0;pointer-events:none}
+
+/* ---- présentation en deux colonnes ---- */
+.intro{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:19px clamp(19px,5vw,76px);padding-top:var(--gap)}
+.intro .lab{font-size:15px;letter-spacing:.05em;text-transform:uppercase;max-width:30ch}
+.intro .lab+.go{margin-top:10px}
+.intro .txt{font-size:var(--sub);line-height:1.08}
+.intro .txt+p{margin-top:22px;max-width:52ch;color:var(--muted)}
+
+.sec{padding-top:var(--gap)}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px 40px;flex-wrap:wrap}
+.head h2{font-size:var(--heading);max-width:12ch}
+.head .label{max-width:34ch}
+.head>div{display:grid;gap:19px}
+
+/* ---- les places libres : la grille à filets ---- */
+.filters{margin-top:46px;display:flex;flex-wrap:wrap;gap:8px}
+.slots{margin-top:19px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--ash);border:1px solid var(--ash)}
+.slot{display:grid;align-content:start;gap:10px;min-height:190px;padding:30px;border:0;background:var(--paper);text-align:left;cursor:pointer;transition:background-color .2s,color .2s}
+.slot .h{font-size:var(--heading-sm);line-height:.9;font-variant-numeric:tabular-nums}
+.slot .what{margin-top:auto;font-size:15px}
+.slot .meta{display:flex;justify-content:space-between;font-size:15px;color:var(--muted)}
+.slot[aria-pressed="true"]{background:var(--ink);color:var(--parchment)}
+.slot[aria-pressed="true"] .meta{color:var(--stone)}
+@media (hover:hover) and (pointer:fine){.slot:not([aria-pressed="true"]):hover{background:#F6F5F2}}
+.slots .vide{grid-column:1/-1;background:var(--paper);padding:30px}
+.confirm{margin-top:19px;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,1fr) auto;gap:12px 19px;align-items:end;padding:30px;background:var(--paper)}
+.confirm[hidden]{display:none}
+.confirm .choix{grid-column:1/-1;font-size:var(--sub);line-height:1.1}
+.confirm label{display:grid;gap:6px}
+.confirm input{width:100%;min-height:48px;padding:10px 14px;border:1px solid var(--ink);border-radius:10px;background:none;font-size:16px}
+.done{margin-top:14px;max-width:60ch}
+
+/* ---- la visite : trois cartes sur papier quadrillé ---- */
+.cards{margin-top:46px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:19px}
+.card{display:flex;flex-direction:column;gap:14px;padding:30px;background-color:var(--paper);background-image:linear-gradient(var(--parchment) 1px,transparent 1px),linear-gradient(90deg,var(--parchment) 1px,transparent 1px);background-size:24px 24px;background-position:-1px -1px}
+.card h3{font-size:var(--heading-sm);line-height:.9;text-transform:uppercase}
+.card p{font-size:15px;max-width:40ch}
+.card img{margin-top:auto;width:100%;aspect-ratio:4/3;object-fit:cover}
+
+/* ---- la carte : onglets et lignes à filets ---- */
+.list{margin-top:19px;border-top:1px solid var(--ink)}
+.list li{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,3fr) 7em 5em;gap:6px 19px;align-items:baseline;padding:19px 0;border-bottom:1px solid var(--ash)}
+.list b{font-weight:400;font-size:var(--sub);line-height:1}
+.list .d{color:var(--muted);font-size:15px}
+.list .t,.list .p{font-size:15px;text-align:right;font-variant-numeric:tabular-nums}
+.list .p{font-weight:700}
+.fine{margin-top:14px;color:var(--muted)}
+
+/* ---- les chiffres : cellules blanches, filets cendre ---- */
+.nums{margin-top:46px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--ash);border:1px solid var(--ash)}
+.nums li{background:var(--paper);padding:30px;min-height:220px;display:flex;flex-direction:column;justify-content:space-between;gap:19px}
+.nums b{font-weight:400;font-size:var(--display);line-height:.8;font-variant-numeric:tabular-nums}
+
+/* ---- la grande phrase : panneau pierre ---- */
+.phrase{margin-top:var(--gap);background:var(--stone);padding-block:var(--gap)}
+.phrase blockquote{margin:0;font-size:var(--heading);text-transform:uppercase;line-height:.8;max-width:16ch}
+.phrase cite{display:block;margin-top:30px;font-style:normal}
+
+/* ---- en trois temps ---- */
+.steps{margin-top:46px;border-top:1px solid var(--ash)}
+.steps li{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr) minmax(0,2fr);gap:10px clamp(19px,3vw,46px);padding-block:30px;border-bottom:1px solid var(--ash)}
+.steps .n{font-size:var(--heading-sm);line-height:.9}
+.steps h3{font-size:var(--sub);line-height:1;text-transform:uppercase}
+.steps p{color:var(--muted)}
+.infos{margin-top:46px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--ash);border:1px solid var(--ash)}
+.infos>div{background:var(--paper);padding:30px;display:grid;align-content:start;gap:12px}
+.infos table{border-collapse:collapse;width:100%;font-size:15px}
+.infos td{padding:5px 0;border-bottom:1px solid var(--parchment)}
+.infos td+td{text-align:right;font-variant-numeric:tabular-nums}
+.infos .grand{font-size:var(--sub);line-height:1.05;text-decoration:none;overflow-wrap:anywhere}
+
+footer{margin-top:var(--gap);border-top:1px solid var(--ash);padding-block:30px calc(30px + env(safe-area-inset-bottom))}
+footer .page{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px 30px}
+
+/* ---- barre du bas (téléphone), après le premier écran ---- */
+.dock{position:fixed;inset:auto 0 0;z-index:20;display:none;grid-template-columns:1fr 1fr;gap:8px;padding:10px var(--m) max(10px,env(safe-area-inset-bottom));background:var(--parchment);border-top:1px solid var(--ash);transform:translateY(110%);transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+.dock.on{transform:none}
+.dock .pill{justify-content:center}
+
+@media (max-width:980px){
+  .top{grid-template-columns:1fr auto}
+  .top .mid{display:none}
+  .intro{grid-template-columns:minmax(0,1fr)}
+  .slots,.cards,.infos{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .nums{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .confirm{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .confirm .pill{grid-column:1/-1;justify-self:start}
+  .steps li{grid-template-columns:auto minmax(0,1fr)}
+  .steps li p{grid-column:2}
+  .dock{display:grid}
+  body{padding-bottom:72px}
+  .scroll{display:none}
+}
+@media (max-width:620px){
+  body{font-size:17px}
+  .sphere{width:92vw;right:-30vw;top:46%}
+  .slots,.cards,.infos,.nums{grid-template-columns:minmax(0,1fr)}
+  .slot{min-height:0;padding:22px}
+  .nums li{min-height:0;padding:24px}
+  .confirm{grid-template-columns:minmax(0,1fr);padding:22px}
+  .list li{grid-template-columns:minmax(0,1fr) auto;padding:16px 0}
+  .list .d{grid-column:1/-1;grid-row:2}
+  .list .t{grid-row:3;text-align:left}
+  .list .p{grid-row:1/4;grid-column:2;align-self:start}
+  .card{padding:22px}
+}
+</style>
+</head>
+<body>
+<p class="demo label">Site de démonstration réalisé par Saitora, institut fictif</p>
+
+<div class="page" id="top">
+  <header class="top">
+    <a class="brand" href="#">A Funtana</a>
+    <nav class="mid label" aria-label="Sections"><a href="#places">Places libres</a><a href="#visite">La visite</a><a href="#carte">La carte</a><a href="#venir">Venir</a></nav>
+    <button class="pill menu" type="button" id="menuBtn" aria-expanded="false" aria-controls="sheet">Menu</button>
+  </header>
+</div>
+
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="Menu">
+  <div class="row"><span class="brand">A Funtana</span><button class="pill" type="button" id="closeBtn">Fermer</button></div>
+  <nav aria-label="Menu"><a href="#places">Places libres <span class="label">01</span></a><a href="#visite">La visite <span class="label">02</span></a><a href="#carte">La carte <span class="label">03</span></a><a href="#venir">Venir <span class="label">04</span></a></nav>
+  <div class="bas"><a class="pill plein arrow" href="#places">Réserver</a><a class="go" href="tel:+33400000000">04 00 00 00 00</a></div>
+</div>
+
+<main>
+  <section class="hero" id="hero">
+    <div class="where label"><span>Institut · 12, cours Grandval, Ajaccio</span><span id="now"><i class="dot"></i><span>Ouvert</span></span></div>
+    <div class="sphere" aria-hidden="true"><i></i><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="31"/><circle cx="50" cy="50" r="40.5"/><circle cx="50" cy="50" r="49.5"/></svg></div>
+    <h1 class="caps">Hammam, soins et coiffure</h1>
+    <div class="base">
+      <div>
+        <p>Au même endroit : la chaleur du hammam, un massage ou un soin, puis vous repartez coiffée.</p>
+        <div class="acts"><a class="go" href="#places">Voir les places libres</a><a class="go" href="#carte">La carte et les prix</a></div>
+      </div>
+    </div>
+  </section>
+  <p class="scroll label" id="scroll" aria-hidden="true">Défiler ↓</p>
+
+  <section class="page intro" aria-label="L'institut">
+    <div class="rise">
+      <p class="lab">Un institut au cœur d'Ajaccio, où l'on vient prendre un peu de temps pour soi.</p>
+      <a class="go" href="#visite">La visite</a>
+    </div>
+    <div class="rise">
+      <p class="txt">L'eau d'abord, le soin ensuite, les cheveux à la fin : chaque étape prépare la suivante.</p>
+      <p>Hammam de marbre et sauna, deux cabines de massage dont une pour les duos, et le salon de coiffure à l'étage. Prenez une étape, deux ou les trois.</p>
+    </div>
+  </section>
+
+  <section class="page sec" id="places" aria-labelledby="t-places">
+    <div class="head rise"><div><p class="label">Un peu de temps pour vous ?</p><h2 class="caps" id="t-places">Les prochaines places libres</h2></div><p class="label">Touchez une place : elle vous est gardée, on vous confirme par SMS dans l'heure.</p></div>
+    <div class="filters" id="filters" role="group" aria-label="Filtrer par soin"></div>
+    <div class="slots" id="slots"></div>
+    <form class="confirm" id="confirm" hidden novalidate>
+      <p class="choix" id="cTxt"></p>
+      <label class="label" for="cName">Votre prénom<input id="cName" autocomplete="given-name"></label>
+      <label class="label" for="cTel">Téléphone<input id="cTel" type="tel" inputmode="tel" autocomplete="tel"></label>
+      <span></span>
+      <button class="pill plein arrow" type="submit">Réserver</button>
+    </form>
+    <p class="done sm" id="done" aria-live="polite"></p>
+  </section>
+
+  <section class="page sec" id="visite" aria-labelledby="t-visite">
+    <div class="head rise"><div><p class="label">Toujours dans cet ordre</p><h2 class="caps" id="t-visite">D'abord l'eau, puis les cheveux</h2></div></div>
+    <div class="cards">
+      <article class="card rise"><p class="label">D'abord</p><h3>La chaleur</h3><p>Hammam et sauna ouvrent la peau et détendent le corps. Une tisane de myrte vous attend à la sortie.</p><img src="../../images/funtana/hammam.webp" alt="Le hammam de marbre et sa fontaine" width="900" height="675" loading="lazy" decoding="async"></article>
+      <article class="card rise"><p class="label">Ensuite</p><h3>Le soin</h3><p>Massage à l'huile d'olive et à l'immortelle, soin du visage ou gommage au sel de mer.</p><img src="../../images/funtana/massage.webp" alt="Un massage des épaules" width="900" height="675" loading="lazy" decoding="async"></article>
+      <article class="card rise"><p class="label">Enfin</p><h3>La coiffure</h3><p>Coupe, couleur ou brushing sur des cheveux reposés : vous repartez prête.</p><img src="../../images/funtana/lavage.webp" alt="Un shampooing au bac du salon" width="900" height="675" loading="lazy" decoding="async"></article>
+    </div>
+  </section>
+
+  <section class="page sec" id="carte" aria-labelledby="t-carte">
+    <div class="head rise"><div><p class="label">Tous les soins se combinent</p><h2 class="caps" id="t-carte">La carte</h2></div><p class="label">Les durées comprennent l'installation et le thé de la fin.</p></div>
+    <div class="filters" id="cats" role="tablist" aria-label="Parties de la carte"></div>
+    <ul class="list" id="list" role="tabpanel"></ul>
+    <p class="fine sm">Prix de démonstration.</p>
+  </section>
+
+  <section class="page sec" aria-labelledby="t-nums">
+    <div class="head rise"><div><p class="label">La maison</p><h2 class="caps" id="t-nums">En quatre chiffres</h2></div></div>
+    <ul class="nums rise">
+      <li><b>2</b><span class="sm">cabines de massage, dont une pour les duos</span></li>
+      <li><b>1</b><span class="sm">hammam de marbre, et un sauna</span></li>
+      <li><b>3</b><span class="sm">étapes, toujours dans le même ordre</span></li>
+      <li><b>12</b><span class="sm">mois de validité pour la carte cadeau</span></li>
+    </ul>
+  </section>
+
+  <section class="phrase" aria-label="La maison">
+    <div class="page rise">
+      <blockquote>On vient pour une heure, on en repart plus calme qu'en arrivant.</blockquote>
+      <cite class="label">La maison, cours Grandval</cite>
+    </div>
+  </section>
+
+  <section class="page sec" id="venir" aria-labelledby="t-venir">
+    <div class="head rise"><div><p class="label">Comment se passe une visite</p><h2 class="caps" id="t-venir">En trois temps</h2></div></div>
+    <ol class="steps">
+      <li class="rise"><span class="n">01</span><h3>Vous choisissez une place</h3><p>Ici, en un clic, ou par téléphone au 04&nbsp;00&nbsp;00&nbsp;00&nbsp;00.</p></li>
+      <li class="rise"><span class="n">02</span><h3>On vous confirme par SMS</h3><p>Dans l'heure, avec un rappel la veille.</p></li>
+      <li class="rise"><span class="n">03</span><h3>Vous venez les mains vides</h3><p>Peignoir, serviettes et sandales sont prêts. Arrivez dix minutes avant.</p></li>
+    </ol>
+    <div class="infos rise">
+      <div><p class="label">L'adresse</p><p class="grand">12, cours Grandval<br>20000 Ajaccio</p></div>
+      <div><p class="label">Les horaires</p><table id="hrs"></table></div>
+      <div><p class="label">Nous joindre</p><a class="grand" href="tel:+33400000000">04 00 00 00 00</a><a class="go" href="mailto:bonjour@afuntana.fr">bonjour@afuntana.fr</a><p class="sm">Carte cadeau valable un an.</p></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="page label"><span>© A Funtana, institut fictif · site réalisé par <a href="../../accueil.html">Saitora</a></span><span>Photos : Pixabay</span></div>
+</footer>
+
+<nav class="dock" id="dock" aria-label="Accès rapide"><a class="pill" href="tel:+33400000000">Appeler</a><a class="pill plein" href="#places">Réserver</a></nav>
+
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[m]);
+const hm = m => `${Math.floor(m / 60)} h${m % 60 ? " " + String(m % 60).padStart(2, "0") : ""}`;
+
+// ——— la carte : [groupe, [[nom, détail, minutes, prix]]]
+const CARTE = [
+  ["Hammam", [["Accès libre", "Hammam, sauna et tisane", 60, 25], ["Hammam et savon noir", "Avec gommage au gant", 60, 45]]],
+  ["Massage", [["Massage relaxant", "Huile d'olive et immortelle", 60, 85], ["Massage court", "Dos, nuque et épaules", 30, 50], ["Pierres chaudes", "Galets de rivière chauffés", 75, 95]]],
+  ["Soin", [["Soin visage à l'immortelle", "Nettoyage, masque, massage du visage", 60, 75], ["Soin visage express", "Pour un coup d'éclat", 30, 45], ["Gommage sel et myrte", "Tout le corps, puis hydratation", 45, 55], ["Manucure", "Limage, cuticules, vernis", 45, 35]]],
+  ["Coiffure", [["Coupe et brushing", "Femme, cheveux courts à longs", 60, 48], ["Brushing", "Lisse ou wavy", 30, 30], ["Couleur", "Coloration et brushing", 90, 65], ["Balayage", "Éclaircissement naturel et soin", 150, 110], ["Coupe homme", "Shampooing, coupe, coiffage", 30, 28], ["Coupe et barbe", "Contours au rasoir", 45, 38]]],
+];
+let cat = "Hammam";
+function renderCarte() {
+  $("cats").innerHTML = CARTE.map(([g]) => `<button class="pill" type="button" role="tab" data-g="${g}" aria-selected="${g === cat}" aria-pressed="${g === cat}">${g}</button>`).join("");
+  $("list").innerHTML = CARTE.find(([g]) => g === cat)[1].map(([n, d, m, p]) => `<li><b>${esc(n)}</b><span class="d">${esc(d)}</span><span class="t">${m} min</span><span class="p">${p}&nbsp;€</span></li>`).join("");
+}
+$("cats").addEventListener("click", e => { const b = e.target.closest("button"); if (!b || b.dataset.g === cat) return; cat = b.dataset.g; renderCarte(); });
+renderCarte();
+
+// ——— horaires (du mardi au samedi, nocturne le jeudi) et « ouvert maintenant »
+const DN = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
+const OPEN = d => d >= 2 && d <= 6, CLOSE = d => d === 4 ? 21 * 60 : 19 * 60;
+const now = new Date(), nowM = now.getHours() * 60 + now.getMinutes();
+$("hrs").innerHTML = [2, 3, 4, 5, 6].map(i => `<tr><td>${DN[i]}</td><td>9 h – ${CLOSE(i) / 60} h</td></tr>`).join("") + `<tr><td>Dimanche et lundi</td><td>Fermé</td></tr>`;
+const isOpen = OPEN(now.getDay()) && nowM >= 540 && nowM < CLOSE(now.getDay());
+$("now").classList.toggle("ferme", !isOpen);
+$("now").querySelector("span").textContent = isOpen ? `Ouvert, jusqu'à ${CLOSE(now.getDay()) / 60} h` : "Fermé en ce moment";
+
+// ——— les prochaines places libres (démo : tirées du jour, toujours les mêmes pour une date donnée)
+const SERV = CARTE.flatMap(([g, list]) => list.map(x => [g, ...x]));
+const seed = (d, x) => ((Math.sin((d.getFullYear() * 400 + d.getMonth() * 31 + d.getDate()) * x) * 10000) % 1 + 1) % 1;
+function freeSlots() {
+  const out = [];
+  for (let k = 0; k < 10 && out.length < 18; k++) {
+    const day = new Date(now); day.setDate(now.getDate() + k); day.setHours(0, 0, 0, 0);
+    if (!OPEN(day.getDay())) continue;
+    for (let m = 9 * 60; m < CLOSE(day.getDay()) - 30; m += 30) {
+      if (k === 0 && m < nowM + 60) continue;
+      if (seed(day, m * 1.37 + 3.1) > .16) continue;
+      const s = SERV[Math.floor(seed(day, m + 7.7) * SERV.length)];
+      if (m + s[3] > CLOSE(day.getDay())) continue;
+      out.push({ day, m, s });
+    }
+  }
+  return out;
+}
+const ALL = freeSlots(), GROUPS = ["Tout", ...CARTE.map(c => c[0])];
+let filtre = "Tout", picked = null;
+const dayLabel = d => { const t = new Date(now); t.setHours(0, 0, 0, 0); const diff = Math.round((d - t) / 864e5);
+  return diff === 0 ? "Aujourd'hui" : diff === 1 ? "Demain" : d.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric" }).replace(/^./, c => c.toUpperCase()); };
+function renderSlots() {
+  $("filters").innerHTML = GROUPS.map(g => `<button class="pill" type="button" data-g="${g}" aria-pressed="${g === filtre}">${g}</button>`).join("");
+  const list = ALL.filter(x => filtre === "Tout" || x.s[0] === filtre).slice(0, 6);
+  $("slots").innerHTML = list.length ? list.map(x => { const i = ALL.indexOf(x);
+    return `<button type="button" class="slot" data-i="${i}" aria-pressed="${i === picked}"><span class="label">${dayLabel(x.day)} · ${x.s[0]}</span><span class="h">${hm(x.m)}</span><span class="what">${esc(x.s[1])}</span><span class="meta"><span>${x.s[3]} min</span><span>${x.s[4]}&nbsp;€</span></span></button>`; }).join("")
+    : `<p class="vide">Pas de place libre cette semaine pour ce soin : appelez-nous, on trouve souvent un moment.</p>`;
+}
+$("filters").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; filtre = b.dataset.g; renderSlots(); });
+$("slots").addEventListener("click", e => { const b = e.target.closest(".slot"); if (!b) return; picked = +b.dataset.i; renderSlots();
+  const x = ALL[picked]; $("cTxt").innerHTML = `${esc(x.s[1])}, ${dayLabel(x.day).toLowerCase()} à ${hm(x.m)}, sortie vers ${hm(x.m + x.s[3])}. ${x.s[4]}&nbsp;€.`;
+  $("confirm").hidden = false; $("done").textContent = ""; $("cName").focus({ preventScroll: true }); });
+$("confirm").addEventListener("submit", e => { e.preventDefault();
+  if (!$("cName").value.trim() || !$("cTel").value.trim()) { $("done").textContent = "Il manque votre prénom ou votre téléphone."; return; }
+  const x = ALL[picked]; $("done").textContent = `C'est noté, ${$("cName").value.trim()} : ${x.s[1].toLowerCase()} ${dayLabel(x.day).toLowerCase()} à ${hm(x.m)}. Confirmation par SMS dans l'heure. (Démo : rien n'est envoyé.)`;
+  $("confirm").hidden = true; });
+renderSlots();
+
+// ——— menu plein écran
+const sheet = $("sheet"), menuBtn = $("menuBtn");
+const setMenu = open => { sheet.classList.toggle("open", open); menuBtn.setAttribute("aria-expanded", open); document.body.style.overflow = open ? "hidden" : ""; (open ? $("closeBtn") : menuBtn).focus(); };
+menuBtn.addEventListener("click", () => setMenu(true));
+$("closeBtn").addEventListener("click", () => setMenu(false));
+sheet.addEventListener("click", e => { if (e.target.closest("a")) setMenu(false); });
+addEventListener("keydown", e => { if (e.key === "Escape" && sheet.classList.contains("open")) setMenu(false); });
+
+// ——— « Défiler » s'efface dès qu'on descend ; la barre du bas n'apparaît qu'après le premier écran
+addEventListener("scroll", () => $("scroll").classList.toggle("gone", scrollY > 40), { passive: true });
+new IntersectionObserver(([e]) => $("dock").classList.toggle("on", !e.isIntersecting && e.boundingClientRect.top < 0)).observe($("hero"));
+
+// ——— apparitions calmes ; une photo n'apparaît qu'une fois chargée
+const io = new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting) return; io.unobserve(e.target);
+  const img = e.target.querySelector("img"), go = () => requestAnimationFrame(() => e.target.classList.add("on"));
+  img && !(img.complete && img.naturalWidth) ? (img.decode ? img.decode().then(go, go) : img.addEventListener("load", go, { once: true })) : go(); }), { rootMargin: "0px 0px -8% 0px" });
+document.querySelectorAll(".rise").forEach(el => io.observe(el));
+</script>
+</body>
+</html>

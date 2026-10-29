@@ -31,6 +31,8 @@ Le site : écran d'entrée (`index.html`), accueil (`accueil.html`), tarifs, dev
   - 09 : l'accueil de Saitora en « parchemin et sphère », d'après la fiche Refero OFF+BRAND (papier `#E5E4E0`, encre `#1D1D1D`, police Uncut Sans, une sphère dégradée). En attente de l'avis de l'utilisateur avant de remplacer `accueil.html`.
   - 10 : l'accueil de Saitora en « abysse », d'après la fiche Auros (vert d'eau profonde, Inter Tight, sphère de particules en canvas, titre géant « Votre vitrine, ouverte jour et nuit. » dont les lignes arrivent de la gauche et de la droite puis repartent au défilement, chiffres qui comptent, carte des villes). Même attente que le 09.
   - Les essais 09 et 10 sont aussi publiés en page privée claude.ai pour être vus sans la branche publiée.
+  - 11 : la démo A Funtana refaite selon la fiche OFF+BRAND (papier `#E5E4E0`, encre, cartes blanches à angles droits, bulle irisée, Uncut Sans seule), même contenu que la démo en ligne. Fiche de tirage : `labo/11-funtana-papier/style.md` (genre « grille suisse » imposé, la fiche OFF+BRAND passe avant le tirage). En attente de l'avis de l'utilisateur avant de remplacer `demo-a-funtana.html` (puis `tirage.py a-funtana --enregistrer`, aperçus, carte de l'accueil, `themes.json`).
+  - Essai Garage Santoni en style Caldera : fait puis supprimé à la demande de l'utilisateur (« pas beau »).
 - **Le site Saitora est en style « abysse » depuis le 29 octobre 2026** (voir plus bas). L'ancien style clair / sombre reste dans l'historique git (commit `17f11b9` et avant).
 
 ## Décisions prises

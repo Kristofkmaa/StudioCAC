@@ -49,7 +49,9 @@
 
   /* ---------- la structure ---------- */
   $("appli").innerHTML = `<div class="page" id="page"></div><div class="onglets"><nav id="onglets" aria-label="Onglets"></nav><button type="button" class="plus" id="plus" hidden>${plusIco.replace('width="22" height="22"', 'width="24" height="24"')}</button></div><div class="hud" id="hud" role="status" aria-live="polite"></div>`;
-  function hud(t) { const h = $("hud"); h.textContent = t; h.classList.add("vu"); clearTimeout(hud.t); hud.t = setTimeout(() => h.classList.remove("vu"), 2200); }
+  /* le message du haut : une coche qui se dessine, ou une petite icône */
+  function hud(t, icone = "coche") {
+    const h = $("hud"); h.innerHTML = `<span class="h-rond ${icone === "coche" ? "" : "autre"}">${icone === "coche" ? '<svg width="14" height="14" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 9.5l3.6 3.6L14.5 5.5"/></svg>' : ico(icone, 15)}</span><span>${esc(t)}</span>`; h.classList.add("vu"); clearTimeout(hud.t); hud.t = setTimeout(() => h.classList.remove("vu"), 2200); }
 
   function onglets(actif) {
     const b = { commandes: (D.commandes || []).filter(o => o.statut === "nouvelle").length, agenda: (D.rdv || []).filter(r => r.statut === "demande").length, sejours: (D.sejours || []).filter(r => r.statut === "demande").length };
@@ -166,7 +168,8 @@
       <circle class="c-doigt" r="6" fill="var(--blanc)" stroke="var(--encre)" stroke-width="2.5" opacity="0"/></svg>`;
     /* le trait se dessine, en pixels réels (fiable sur Safari) */
     const chemin = el.querySelector(".c-ligne");
-    if (!matchMedia("(prefers-reduced-motion: reduce)").matches && chemin.getTotalLength) {
+    const neuve = el.dataset.pts !== courbeVue; courbeVue = el.dataset.pts;
+    if (neuve && !calme.matches && chemin.getTotalLength) {
       const L = chemin.getTotalLength(); chemin.style.strokeDasharray = L; chemin.style.strokeDashoffset = L;
       chemin.getBoundingClientRect(); chemin.style.transition = "stroke-dashoffset 1.1s cubic-bezier(.32,.72,0,1)"; chemin.style.strokeDashoffset = 0;
       el.classList.add("anime");
@@ -235,7 +238,7 @@
       <div class="groupe"><div class="ligne"><span><b>${esc(o.remise)}</b>${o.mot ? `<small class="deux">« ${esc(o.mot)} »</small>` : ""}</span></div>${o.email ? `<div class="ligne"><span><b>${esc(o.email)}</b></span></div>` : ""}</div>
       ${o.source === "site" ? '<p class="pied-groupe">Envoyée depuis le panier du site.</p>' : ""}
       ${suiv ? `<div class="boutons"><button class="bouton" id="avance">${{ "a-coudre": "Commencer à coudre", prete: "Marquer prête", remise: "Marquer remise" }[suiv[0]]}</button></div>` : ""}` });
-    if (suiv) $("avance").onclick = () => { o.statut = suiv[0]; sauver(suiv[0] === "prete" ? "Prête : prévenez la cliente" : suiv[1]); ficheCommande(id); onglets("commandes"); };
+    if (suiv) $("avance").onclick = () => { o.statut = suiv[0]; sauver(suiv[0] === "prete" ? "Prête : prévenez la cliente" : suiv[1]); route(); document.querySelector(".etapes .ici")?.animate([{ transform: "scale(1)" }, { transform: "scale(1.12)" }, { transform: "scale(1)" }], { duration: 380, easing: DOUX }); };
   }
 
   let filtrePro = "tous", cherche = "";
@@ -373,7 +376,7 @@
     f.querySelector("#rAbsent")?.addEventListener("click", () => { r.statut = "absent"; sauver("Noté : absent"); fermeFeuille(); route(); });
     f.querySelector("#rAnnule")?.addEventListener("click", () => { const dem = r.statut === "demande"; r.statut = "annule"; sauver(dem ? "Demande refusée" : "Rendez-vous annulé"); fermeFeuille(); route(); });
   }
-  function brancheOui(scope = document) { scope.querySelectorAll("[data-oui]").forEach(b => b.onclick = () => { const r = D.rdv.find(x => x.id === b.dataset.oui); r.statut = "confirme"; sauver("Rendez-vous confirmé"); fermeFeuille(); route(); }); }
+  function brancheOui(scope = document) { scope.querySelectorAll("[data-oui]").forEach(b => b.onclick = () => { const r = D.rdv.find(x => x.id === b.dataset.oui); r.statut = "confirme"; sauver("Rendez-vous confirmé"); fermeFeuille(); apresAction(b, r.id); }); }
 
   /* les créneaux libres : la prestation tient entre deux rendez-vous, dans les horaires */
   function creneaux(date, prId, eqId) {
@@ -561,7 +564,7 @@
      COMMUN : aujourd'hui, mon site
      ===================================================================== */
   /* la période du gros chiffre : 7 jours, 1 mois, 3 mois */
-  let per = "1m";
+  let per = "1m", chiffreVu = 0, courbeVue = "";
   const PERIODES = [["7j", "7 J"], ["1m", "1 M"], ["3m", "3 M"]], NJ = { "7j": 7, "1m": 30, "3m": 90 };
   /* une série par jour sur la fenêtre, et la même somme sur la fenêtre d'avant pour l'évolution */
   function serie(debut, n, parJour, cumul) {
@@ -574,10 +577,13 @@
     document.querySelectorAll("[data-per]").forEach(b => b.onclick = () => { per = b.dataset.per; const el = document.querySelector(".chiffre"); el.outerHTML = refaire(); brancheChiffre(refaire); });
     dessineCourbe();
     /* le montant défile jusqu'à sa valeur */
-    const el = document.querySelector(".c-val[data-n]");
-    if (!el || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const fin = +el.dataset.n, t0 = performance.now(), d = 900;
-    const pas = t => { const k = Math.min(1, (t - t0) / d), e = 1 - Math.pow(1 - k, 3); el.innerHTML = eurG(fin * e); if (k < 1) requestAnimationFrame(pas); };
+    /* le montant défile depuis le dernier montant affiché : à l'ouverture depuis zéro, ensuite seulement s'il a changé */
+    const el = document.querySelector(".c-val[data-n]"); if (!el) return;
+    const fin = +el.dataset.n, de = chiffreVu; chiffreVu = fin;
+    if (de === fin || calme.matches) return;
+    const t0 = performance.now(), d = de ? 700 : 900;
+    el.innerHTML = eurG(de);
+    const pas = t => { const k = Math.min(1, (t - t0) / d), e = 1 - Math.pow(1 - k, 3); el.innerHTML = eurG(de + (fin - de) * e); if (k < 1) requestAnimationFrame(pas); };
     requestAnimationFrame(pas);
   }
 
@@ -788,21 +794,116 @@
 
   function introuvable(retour) { ecran({ titre: "Introuvable", retour, corps: `<div class="vide-doux">Cette page n'existe plus.</div>` }); }
 
+  /* ---------- passer d'un écran à l'autre, comme sur iPhone ----------
+     une fiche arrive par la droite par-dessus la liste, qui recule un peu et s'assombrit ; le retour fait l'inverse.
+     L'écran quitté est gardé en image (un clone figé) pour le voir dessous pendant le retour au doigt. */
+  const calme = matchMedia("(prefers-reduced-motion: reduce)"), DOUX = "cubic-bezier(.32,.72,0,1)";
+  const profondeur = h => h.replace(/^#\/?/, "").split("?")[0].split("/").filter(Boolean).length || 1;
+  const photos = {}, pile = [];
+  let hashAvant = null, sansAnim = false;
+  function calque(ph, dessus) {
+    const c = document.createElement("div"); c.className = `calque${dessus ? " dessus" : ""}`; c.setAttribute("aria-hidden", "true");
+    if (ph) {
+      const n = ph.n.cloneNode(true); n.removeAttribute("id"); n.classList.remove("entree", "en-glisse"); n.style.transform = `translateY(${-ph.y}px)`;
+      const nav = n.querySelector(".nav-haut"); if (nav) Object.assign(nav.style, { position: "absolute", top: `${ph.y}px`, left: "0", right: "0", margin: "0" });
+      c.append(n);
+    }
+    document.body.append(c); return c;
+  }
+  const assombri = z => { const o = document.createElement("div"); o.className = "assombri"; o.style.zIndex = z; document.body.append(o); return o; };
+  const entree = () => { const p = $("page"); p.classList.add("entree"); clearTimeout(entree.t); entree.t = setTimeout(() => p.classList.remove("entree"), 900); };
+
   /* ---------- les adresses ---------- */
   const ECRANS = { aujourdhui, commandes, produits, agenda, clients, prestations, sejours, chambres, site };
   function route() {
     const h = (location.hash || "").replace(/^#\/?/, "");
     const [chemin, q] = h.split("?"); let [m, id] = chemin.split("/");
-    if (!MODS.includes(m) || !ECRANS[m]) m = MODS[0];
+    if (!MODS.includes(m) || !ECRANS[m]) { m = MODS[0]; id = undefined; }
     if (q && m === "commandes") filtreCmd = q;
     if (q && m === "produits") filtrePro = q;
     if (q && m === "sejours") filtreSej = q;
+    const cle = `#/${m}${id ? `/${id}` : ""}${q ? `?${q}` : ""}`, avant = hashAvant, page = $("page");
+    const mode = avant === null ? "premier" : cle === avant ? "meme" : profondeur(cle) > profondeur(avant) ? "pousse" : profondeur(cle) < profondeur(avant) ? "retour" : "onglet";
+    const y = scrollY, ph = mode !== "premier" && mode !== "meme" ? { n: page.cloneNode(true), y } : null;
+    if (ph) photos[avant] = ph;
+    if (mode === "pousse") pile.push(avant); else if (mode === "retour") pile.pop(); else if (mode === "onglet") pile.length = 0;
+    hashAvant = cle;
     fermeFeuille(true);
     onglets(m);
-    ECRANS[m](id);
+    const rendre = () => { ECRANS[m](id); if (mode === "meme") scrollTo(0, y); else if (mode === "retour" && photos[cle]) scrollTo(0, photos[cle].y); };
+    const glisse = !sansAnim && !calme.matches && innerWidth < 700 && (mode === "pousse" || mode === "retour");
+    if (!glisse) { rendre(); if (!sansAnim && (mode === "premier" || mode === "onglet" || mode === "pousse" || mode === "retour")) entree(); sansAnim = false; return; }
+    const o = { duration: 460, easing: DOUX };
+    if (mode === "pousse") {
+      const c = calque(ph, false), a = assombri(21);
+      rendre(); page.classList.add("en-glisse");
+      c.animate([{ transform: "none" }, { transform: "translateX(-30%)" }], o);
+      a.animate([{ opacity: 0 }, { opacity: .1 }], o);
+      page.animate([{ transform: "translateX(100%)" }, { transform: "none" }], o).onfinish = () => { c.remove(); a.remove(); page.classList.remove("en-glisse"); };
+    } else {
+      const c = calque(ph, true), a = assombri(27);
+      rendre();
+      page.querySelector(".ecran")?.animate([{ transform: "translateX(-30%)" }, { transform: "none" }], o);
+      a.animate([{ opacity: .1 }, { opacity: 0 }], o);
+      c.animate([{ transform: "none" }, { transform: "translateX(100%)" }], o).onfinish = () => { c.remove(); a.remove(); };
+    }
+  }
+  /* la flèche de retour ramène là d'où l'on vient (Aujourd'hui, ou la liste) */
+  document.addEventListener("click", e => { if (!e.target.closest("#navHaut .rond[href]") || !pile.length) return; e.preventDefault(); location.hash = pile[pile.length - 1]; });
+  /* glisser depuis le bord gauche pour revenir ; dans Safari (appli pas installée), Safari le fait déjà lui-même */
+  let geste = null;
+  document.addEventListener("touchstart", e => {
+    geste = null;
+    const t = e.touches[0];
+    if (e.touches.length > 1 || t.clientX > 24 || calme.matches || innerWidth >= 700 || (/iP(hone|ad|od)/.test(navigator.userAgent) && !installee())) return;
+    const r = document.querySelector("#navHaut .rond[href]");
+    if (!r || document.querySelector(".feuille,.tuto")) return;
+    geste = { x0: t.clientX, y0: t.clientY, vers: pile[pile.length - 1] || r.getAttribute("href"), dx: 0, v: 0 };
+  }, { passive: true });
+  document.addEventListener("touchmove", e => {
+    if (!geste) return;
+    const t = e.touches[0], mx = t.clientX - geste.x0, my = t.clientY - geste.y0;
+    if (!geste.c) {
+      if (Math.abs(mx) < 6 && Math.abs(my) < 6) return;
+      if (mx <= Math.abs(my)) { geste = null; return; }
+      geste.c = calque(photos[geste.vers], false); geste.a = assombri(21); $("page").classList.add("en-glisse");
+    }
+    e.preventDefault();
+    const W = innerWidth, dx = Math.max(0, Math.min(W, mx)), p = dx / W;
+    if (geste.ts) geste.v = (dx - geste.dx) / Math.max(1, e.timeStamp - geste.ts);
+    geste.ts = e.timeStamp; geste.dx = dx;
+    $("page").style.transform = `translateX(${dx}px)`; geste.c.style.transform = `translateX(${-30 * (1 - p)}%)`; geste.a.style.opacity = .1 * (1 - p);
+  }, { passive: false });
+  const lacheGeste = () => {
+    const g = geste; geste = null; if (!g || !g.c) return;
+    const page = $("page"), W = innerWidth, part = g.dx > W * .4 || g.v > .4;
+    const o = { duration: part ? 280 : 340, easing: DOUX, fill: "forwards" };
+    const fin = page.animate([{ transform: `translateX(${g.dx}px)` }, { transform: `translateX(${part ? W : 0}px)` }], o);
+    const fc = g.c.animate([{ transform: g.c.style.transform }, { transform: part ? "none" : "translateX(-30%)" }], o);
+    const fa = g.a.animate([{ opacity: g.a.style.opacity }, { opacity: part ? 0 : .1 }], o);
+    fin.onfinish = () => {
+      if (part) { sansAnim = true; history.pushState(null, "", g.vers); route(); }
+      fin.cancel(); fc.cancel(); fa.cancel(); page.style.transform = ""; page.classList.remove("en-glisse"); g.c.remove(); g.a.remove();
+    };
+  };
+  document.addEventListener("touchend", lacheGeste);
+  document.addEventListener("touchcancel", lacheGeste);
+  /* après une action sur une ligne : si elle quitte la liste, elle se replie à sa place ; sinon son étiquette fait un petit saut */
+  function apresAction(el, id) {
+    const bloc = el.closest(".glisse") || el.closest(".ligne"), groupes = [...document.querySelectorAll("#page .groupe")];
+    const g = bloc && bloc.parentElement, ig = groupes.indexOf(g), rang = g ? [...g.children].indexOf(bloc) : -1, fantome = bloc && bloc.cloneNode(true);
+    route();
+    if (!fantome || ig < 0 || calme.matches) return;
+    const k = String(id).replace(/["\\]/g, ""), reste = document.querySelector(`#page [href$="/${k}"], #page [data-rdv="${k}"], #page [data-sej="${k}"], #page [data-oui="${k}"], #page [data-act*="|${k}|"]`);
+    if (reste) { (reste.closest(".glisse,.ligne")?.querySelector(".pastille") || reste).animate([{ transform: "scale(1)" }, { transform: "scale(1.14)" }, { transform: "scale(1)" }], { duration: 380, easing: DOUX }); return; }
+    const ng = [...document.querySelectorAll("#page .groupe")];
+    if (ng.length !== groupes.length) return;
+    ng[ig].insertBefore(fantome, ng[ig].children[rang] || null);
+    fantome.inert = true; fantome.style.overflow = "hidden";
+    fantome.animate([{ height: `${fantome.offsetHeight}px`, opacity: 1 }, { height: "0px", opacity: 0 }], { duration: 340, easing: DOUX }).onfinish = () => fantome.remove();
   }
   addEventListener("hashchange", route);
-  addEventListener("storage", e => { if (e.key === "saitorapp-commandes-recues" && recevoir()) { hud("Nouvelle commande du site"); route(); } });
+  addEventListener("storage", e => { if (e.key === "saitorapp-commandes-recues" && recevoir()) { hud("Nouvelle commande du site", "sac"); route(); } });
   /* pas de zoom dans l'appli : ni au pincement, ni au double toucher (Safari ignore user-scalable=no) */
   ["gesturestart", "gesturechange", "gestureend"].forEach(t => document.addEventListener(t, e => e.preventDefault(), { passive: false }));
   document.addEventListener("touchmove", e => { if (e.touches.length > 1) e.preventDefault(); }, { passive: false });
@@ -836,7 +937,7 @@
     const liste = { cmd: D.commandes, rdv: D.rdv, sej: D.sejours }[quoi], x = liste && liste.find(y => y.id === id); if (!x) return;
     x.statut = statut; ouverte = null; if (navigator.vibrate) navigator.vibrate(12);
     sauver(quoi === "cmd" ? `${x.client} : ${nomEtape(statut).toLowerCase()}` : { confirme: "Confirmé", annule: quoi === "rdv" ? "Annulé" : "Refusé", venu: "Noté : venu", absent: "Noté : absent" }[statut]);
-    route();
+    apresAction(b, id);
   });
 
   let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(dessineCourbe, 150); });
@@ -844,4 +945,7 @@
   /* la toute première version de l'appli posait un service worker : on le retire pour toujours servir la dernière version */
   if ("serviceWorker" in navigator) navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => r.unregister())).catch(() => {});
   route();
+  /* l'écran d'ouverture (le symbole de Saitora) laisse place à l'appli */
+  const ouv = $("ouverture");
+  if (ouv) setTimeout(() => { ouv.classList.add("part"); setTimeout(() => ouv.remove(), 600); }, Math.max(0, 700 - performance.now()));
 })();

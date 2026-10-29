@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mademoiselle Charlotte · accessoires sur mesure pour enfants</title>
+<meta name="description" content="Bavoirs en gaze de coton, coffrets de naissance, doudous et cadres, personnalisés au prénom de l'enfant ou avec un mot corse.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#F8F1FA">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Ccircle%20cx=%2232%22%20cy=%2232%22%20r=%2232%22%20fill=%22%23DCC8E8%22/%3E%3Ctext%20x=%2232%22%20y=%2244%22%20text-anchor=%22middle%22%20font-family=%22Georgia,serif%22%20font-style=%22italic%22%20font-size=%2236%22%20fill=%22%23C2579B%22%3EC%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="../../polices/fraunces-schibsted-grotesk-6570f1.css">
+<style>
+:root{
+  --toile:#F8F1FA;      /* le fond, lilas à peine teinté (le vert d'eau de la fiche, aux couleurs du logo) */
+  --papier:#FFFFFF;
+  --creme:#FBEFE6;      /* le halo derrière les silhouettes du logo */
+  --rose:#F4C3DA;       /* l'action principale, texte noir dessus */
+  --fuchsia:#C2579B;    /* la petite fille du logo */
+  --lilas:#A985C8;      /* le petit garçon du logo */
+  --prune:#3B2142;      /* le bloc sombre */
+  --encre:#000;
+  --ardoise:#2F2A33;
+  --filet:#DDD3E2;
+  --degrade:linear-gradient(90deg,#B4458A,#8E68B8 55%,#D0709F);
+  --ombre:0 0 28px rgba(0,0,0,.09);
+  --serif:"Fraunces",Georgia,serif;
+  --sans:"Schibsted Grotesk",system-ui,sans-serif;
+  --r-carte:24px;
+  --doux:cubic-bezier(.22,1,.36,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--toile);color:var(--encre);font:400 16px/1.5 var(--sans);letter-spacing:-.01em;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+.wrap{max-width:1200px;margin:0 auto;padding:0 clamp(16px,4vw,40px)}
+.maquette{background:var(--prune);color:#E9DCEB;font-size:13px;text-align:center;padding:6px 16px}
+
+/* boutons en pilule */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:12px 24px;border-radius:200px;font:500 16px/1 var(--sans);letter-spacing:-.01em;text-decoration:none;transition:transform .2s var(--doux),background-color .2s}
+.btn:active{transform:scale(.97)}
+.btn.rose{background:var(--rose);color:var(--encre)}
+.btn.noir{background:var(--encre);color:#fff}
+.btn.trait{border:1px solid var(--encre)}
+@media (hover:hover){.btn.rose:hover{background:#EEB1CE}.btn.noir:hover{background:#2a2a2a}.btn.trait:hover{background:#fff}}
+
+.sourcil{font:700 12px/1.2 var(--sans);letter-spacing:.08em;text-transform:uppercase}
+.titre{font:300 clamp(40px,6vw,72px)/.98 var(--serif);letter-spacing:-.017em}
+.titre em{font-style:italic}
+.chapo{font-size:18px;line-height:1.45;color:var(--ardoise);max-width:34em}
+
+/* en-tête */
+.top{display:flex;align-items:center;justify-content:space-between;gap:20px;height:72px;position:relative;z-index:41}
+.marque{font:italic 300 24px/1 var(--serif);letter-spacing:-.02em;text-decoration:none;white-space:nowrap}
+.marque b{font-weight:300;background:var(--degrade);-webkit-background-clip:text;background-clip:text;color:transparent}
+.top nav{display:flex;gap:28px;font-size:15px}
+.top nav a{text-decoration:none}
+.top nav a:hover{text-decoration:underline;text-underline-offset:4px}
+.menu-btn{display:none}
+@media (max-width:860px){
+  .top nav,.top .btn{display:none}
+  .menu-btn{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:0 4px;font-size:15px}
+  .menu-btn i{display:grid;gap:5px;width:20px}
+  .menu-btn i::before,.menu-btn i::after{content:"";height:1.5px;background:currentColor;transition:transform .3s var(--doux)}
+  .ouvert .menu-btn i::before{transform:translateY(3.25px) rotate(45deg)}
+  .ouvert .menu-btn i::after{transform:translateY(-3.25px) rotate(-45deg)}
+}
+.feuille{position:fixed;inset:0;z-index:40;background:var(--toile);padding:96px clamp(16px,6vw,40px) 32px;display:flex;flex-direction:column;gap:6px;opacity:0;visibility:hidden;transition:opacity .3s,visibility 0s .3s}
+.ouvert .feuille{opacity:1;visibility:visible;transition:opacity .3s}
+.feuille a.l{font:300 40px/1.15 var(--serif);text-decoration:none;padding:6px 0;border-bottom:1px solid var(--filet)}
+.feuille p{margin-top:auto;color:var(--ardoise)}
+.feuille .btn{margin-top:16px}
+.entete{position:relative;z-index:50}
+
+/* ouverture */
+.ouverture{text-align:center;padding-top:clamp(56px,9vw,120px)}
+.ouverture h1{font:100 clamp(52px,10vw,120px)/.95 var(--serif);letter-spacing:-.02em;max-width:11ch;margin:22px auto 0}
+.ouverture h1 em{font-style:italic;font-weight:300;background:var(--degrade);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.04em}
+.ouverture .chapo{margin:26px auto 0}
+.actions{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:32px}
+.vitrine{display:grid;grid-template-columns:repeat(5,1fr);gap:clamp(10px,1.6vw,20px);align-items:start;margin-top:clamp(48px,7vw,88px);padding-bottom:clamp(64px,9vw,120px)}
+.vitrine figure{background:var(--papier);border-radius:var(--r-carte);padding:10px;box-shadow:var(--ombre)}
+.vitrine figure:nth-child(2n){margin-top:clamp(24px,4vw,56px)}
+.vitrine figure:nth-child(3){margin-top:clamp(48px,7vw,96px)}
+.vitrine img{border-radius:16px;aspect-ratio:1;object-fit:cover;width:100%}
+.vitrine figcaption{font:italic 300 15px/1.3 var(--serif);padding:10px 4px 4px;text-align:left}
+@media (max-width:700px){
+  .vitrine{grid-template-columns:repeat(3,1fr)}
+  .vitrine figure:nth-child(n+4){display:none}
+  .vitrine figure{padding:6px;border-radius:18px}
+  .vitrine img{border-radius:13px}
+  .vitrine figcaption{font-size:13px;padding:8px 2px 2px}
+}
+
+/* sections */
+section{padding:clamp(72px,10vw,120px) 0}
+.tete{display:grid;grid-template-columns:1fr auto;align-items:end;gap:20px 40px;margin-bottom:clamp(32px,4vw,48px)}
+.tete .sourcil{grid-column:1/-1}
+.num{font:100 1em/1 var(--serif)}
+@media (max-width:700px){.tete{grid-template-columns:1fr}}
+
+/* créations */
+.creations{background:var(--papier)}
+.filtres{display:flex;flex-wrap:wrap;gap:8px}
+.filtres button{min-height:44px;padding:0 18px;border-radius:200px;border:1px solid var(--filet);font-size:15px;transition:background-color .2s,border-color .2s}
+.filtres button[aria-pressed="true"]{background:var(--rose);border-color:var(--rose)}
+@media (hover:hover){.filtres button:hover{border-color:var(--encre)}}
+.grille{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(12px,2vw,24px)}
+@media (max-width:900px){.grille{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:600px){.grille{grid-template-columns:repeat(2,1fr)}}
+.piece{background:var(--toile);border-radius:var(--r-carte);padding:10px 10px 16px;display:flex;flex-direction:column;text-decoration:none}
+.piece[hidden]{display:none}
+.piece .ph{position:relative;border-radius:16px;overflow:hidden;background:var(--creme)}
+.piece img{aspect-ratio:1;object-fit:cover;width:100%;transition:transform .5s var(--doux)}
+@media (hover:hover){.piece:hover img{transform:scale(1.04)}}
+.piece .badge{position:absolute;left:8px;top:8px;background:#fff;border-radius:10px;padding:4px 8px;font:500 12px/1.2 var(--sans)}
+.piece h3{font:500 15px/1.3 var(--sans);margin:12px 4px 0}
+.piece .prix{margin:auto 4px 0;padding-top:8px;font:300 22px/1 var(--serif)}
+.creations .note{margin-top:28px;color:var(--ardoise);font-size:15px}
+
+/* broder un prénom */
+.atelier-v{background:var(--toile)}
+.broderie{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(20px,3vw,40px);align-items:stretch}
+@media (max-width:860px){.broderie{grid-template-columns:1fr}}
+.apercu{background:var(--creme);border-radius:var(--r-carte);display:grid;place-items:center;padding:clamp(20px,4vw,48px);min-height:420px;position:relative}
+.apercu svg{width:min(100%,380px);height:auto;overflow:visible}
+.apercu .tag{position:absolute;left:20px;bottom:18px;font:italic 300 15px/1.3 var(--serif);color:var(--ardoise)}
+.reglages{background:var(--papier);border-radius:var(--r-carte);box-shadow:var(--ombre);padding:clamp(22px,3vw,34px);display:flex;flex-direction:column;gap:24px}
+.reglages label,.reglages .lbl{display:block;font:700 12px/1.2 var(--sans);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px}
+.champ{width:100%;min-height:52px;padding:14px 24px;border-radius:100px;border:1px solid #ccc;background:#fff;font:400 16px/1.2 var(--sans);transition:border-color .2s}
+.champ:focus{outline:none;border-color:var(--fuchsia)}
+.mots{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.mots button{min-height:40px;padding:0 14px;border-radius:200px;background:var(--toile);font:italic 300 16px/1 var(--serif)}
+.mots button span{font:400 12px var(--sans);color:var(--ardoise);font-style:normal;margin-left:6px}
+.pastilles{display:flex;flex-wrap:wrap;gap:10px}
+.pastilles button{display:flex;align-items:center;gap:8px;min-height:44px;padding:0 16px 0 6px;border-radius:200px;border:1px solid var(--filet);font-size:15px}
+.pastilles button i{width:32px;height:32px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+.pastilles button[aria-pressed="true"]{border-color:var(--encre);box-shadow:inset 0 0 0 1px var(--encre)}
+.total{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:20px;border-top:1px solid var(--filet);margin-top:auto}
+.total p{font:300 30px/1 var(--serif)}
+.total small{display:block;font:400 14px/1.4 var(--sans);color:var(--ardoise);margin-top:6px}
+
+/* phrase en grand */
+.phrase{padding:clamp(40px,7vw,96px) 0;text-align:center;overflow:hidden}
+.phrase p{font:100 clamp(56px,11vw,140px)/.95 var(--serif);letter-spacing:-.02em;background:var(--degrade);-webkit-background-clip:text;background-clip:text;color:transparent}
+.phrase p em{font-weight:300}
+
+/* l'atelier, bloc sombre */
+.prune{background:var(--prune);color:#F6ECF5}
+.prune .chapo{color:#D9C9DD}
+.atelier{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(32px,5vw,72px);align-items:center}
+@media (max-width:860px){.atelier{grid-template-columns:1fr}}
+.atelier blockquote{font:300 clamp(30px,3.6vw,46px)/1.12 var(--serif);letter-spacing:-.015em}
+.atelier blockquote em{font-style:italic;color:var(--rose)}
+.atelier cite{display:block;margin-top:20px;font:400 15px var(--sans);color:#C9B6CE;font-style:normal}
+.promesses{display:grid;gap:12px}
+.promesses li{list-style:none;background:rgba(255,255,255,.06);border-radius:var(--r-carte);padding:22px 24px}
+.promesses h3{font:300 24px/1.2 var(--serif);margin-bottom:6px}
+.promesses p{color:#D9C9DD;font-size:15px}
+
+/* commander */
+.etapes{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(12px,2vw,24px)}
+@media (max-width:860px){.etapes{grid-template-columns:1fr}}
+.etapes li{list-style:none;background:var(--papier);border-radius:var(--r-carte);box-shadow:var(--ombre);padding:30px}
+.etapes b{display:block;font:100 64px/1 var(--serif);background:var(--degrade);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:18px}
+.etapes h3{font:300 26px/1.15 var(--serif);margin-bottom:8px}
+.etapes p{color:var(--ardoise)}
+.fin{display:flex;flex-wrap:wrap;gap:12px;margin-top:40px;justify-content:center}
+
+/* pied */
+footer{background:var(--papier);padding-top:56px;overflow:hidden}
+.pied{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px 32px;font-size:15px;color:var(--ardoise)}
+.pied nav{display:flex;flex-wrap:wrap;gap:8px 24px}
+.pied a{text-decoration:none}
+.pied a:hover{text-decoration:underline}
+.geant{font:100 clamp(48px,13.4vw,172px)/.8 var(--serif);letter-spacing:-.03em;white-space:nowrap;text-align:center;margin-top:40px;transform:translateY(.16em);background:var(--degrade);-webkit-background-clip:text;background-clip:text;color:transparent}
+.geant em{font-weight:300}
+@media (max-width:600px){.geant{font-size:clamp(40px,19vw,120px);white-space:normal;line-height:.86}}
+
+/* barre du bas sur téléphone */
+.barre{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:30;display:none;gap:8px;transform:translateY(140%);transition:transform .4s var(--doux)}
+.barre .btn{flex:1;box-shadow:var(--ombre)}
+.barre.vue{transform:none}
+@media (max-width:860px){.barre{display:flex}footer{padding-bottom:84px}}
+
+/* photos qui arrivent */
+.js .arrive{opacity:0;transform:scale(.97);transition:opacity .7s var(--doux),transform .7s var(--doux)}
+.js .arrive.la{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.js .arrive{opacity:1;transform:none;transition:none}}
+:focus-visible{outline:2px solid var(--fuchsia);outline-offset:3px}
+</style>
+</head>
+<body>
+<div class="maquette">Maquette préparée par Saitora pour Mademoiselle Charlotte : textes, prix et photos à valider ensemble</div>
+
+<div class="entete" id="entete">
+  <header class="wrap top">
+    <a class="marque" href="#">Mademoiselle <b>Charlotte</b></a>
+    <nav aria-label="Menu principal"><a href="#creations">Créations</a><a href="#broder">Broder un prénom</a><a href="#atelier">L'atelier</a><a href="#commander">Commander</a></nav>
+    <a class="btn rose" href="https://mademoiselle-charlotte-1.sumupstore.com/" target="_blank" rel="noopener">La boutique</a>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="feuille"><span id="menuTxt">Menu</span><i aria-hidden="true"></i></button>
+  </header>
+  <div class="feuille" id="feuille">
+    <a class="l" href="#creations">Créations</a>
+    <a class="l" href="#broder">Broder un prénom</a>
+    <a class="l" href="#atelier">L'atelier</a>
+    <a class="l" href="#commander">Commander</a>
+    <p>Bavoirs, coffrets, doudous et cadres, personnalisés au prénom de l'enfant.</p>
+    <a class="btn rose" href="https://mademoiselle-charlotte-1.sumupstore.com/" target="_blank" rel="noopener">Ouvrir la boutique</a>
+  </div>
+</div>
+
+<main>
+  <div class="wrap ouverture" id="ouverture">
+    <p class="sourcil">Création d'accessoires sur mesure pour enfants</p>
+    <h1>Des petites choses, <em>brodées</em> à&nbsp;son&nbsp;prénom.</h1>
+    <p class="chapo">Bavoirs en gaze de coton, coffrets de naissance, doudous et cadres. Chaque pièce est cousue à la main et porte un prénom, ou un mot corse qui fait sourire.</p>
+    <div class="actions">
+      <a class="btn rose" href="#creations">Voir les créations</a>
+      <a class="btn noir" href="#broder">Broder un prénom</a>
+    </div>
+    <div class="vitrine" aria-label="Quelques créations">
+      <figure><img class="arrive" src="images/bavoir-prenom-fille.webp" alt="Bavoir bleu ciel brodé « Louise » en lettres dorées" width="360" height="360"><figcaption>Louise, gaze ciel</figcaption></figure>
+      <figure><img class="arrive" src="images/doudou-grenouille.webp" alt="Doudou grenouille en tissu vert, assis" width="360" height="360"><figcaption>Le doudou grenouille</figcaption></figure>
+      <figure><img class="arrive" src="images/bavoir-corse-garcon.webp" alt="Bavoir bleu nuit étoilé brodé « Stragnu »" width="360" height="360"><figcaption>Stragnu, en corse</figcaption></figure>
+      <figure><img class="arrive" src="images/boite-souris.webp" alt="Boîte à dent de lait en forme de petite chambre de souris" width="360" height="360"><figcaption>La boîte souris</figcaption></figure>
+      <figure><img class="arrive" src="images/coffret-matteu.webp" alt="Coffret de naissance brodé « Matteu »" width="360" height="360"><figcaption>Coffret « Matteu »</figcaption></figure>
+    </div>
+  </div>
+
+  <section class="creations" id="creations">
+    <div class="wrap">
+      <div class="tete">
+        <p class="sourcil"><span class="num">01</span> · Les créations</p>
+        <h2 class="titre">Tout l'atelier, <em>en un coup d'œil</em></h2>
+        <div class="filtres" role="group" aria-label="Filtrer les créations" id="filtres"></div>
+      </div>
+      <div class="grille" id="grille"></div>
+      <p class="note">On choisit ici, on commande sur la boutique en ligne : le paiement se fait là-bas, en toute sécurité.</p>
+    </div>
+  </section>
+
+  <section class="atelier-v" id="broder">
+    <div class="wrap">
+      <div class="tete">
+        <p class="sourcil"><span class="num">02</span> · Broder un prénom</p>
+        <h2 class="titre">Essayez <em>son bavoir</em></h2>
+        <p class="chapo">Écrivez le prénom, choisissez la gaze et le fil : le bavoir se brode sous vos yeux.</p>
+      </div>
+      <div class="broderie">
+        <div class="apercu">
+          <svg id="bavoir" viewBox="0 0 320 360" role="img" aria-labelledby="bavoirTxt">
+            <title id="bavoirTxt">Aperçu du bavoir</title>
+            <defs>
+              <linearGradient id="or" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#A97A22"/><stop offset=".45" stop-color="#F2D27A"/><stop offset=".7" stop-color="#C4952F"/><stop offset="1" stop-color="#E9C766"/></linearGradient>
+              <linearGradient id="blanc" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F3F0EA"/><stop offset="1" stop-color="#FFFFFF"/></linearGradient>
+              <linearGradient id="rosefil" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#D9649E"/><stop offset="1" stop-color="#F3A5C8"/></linearGradient>
+              <pattern id="gaze" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M0 3q5-2 10 0M0 8q5 2 10 0" stroke="#000" stroke-opacity=".07" fill="none"/></pattern>
+              <pattern id="pois" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="5" cy="6" r="1.3" fill="#fff"/><circle cx="16" cy="15" r="1" fill="#fff" opacity=".8"/></pattern>
+              <pattern id="paillettes" width="14" height="14" patternUnits="userSpaceOnUse"><circle cx="2" cy="3" r=".9" fill="#fff" opacity=".85"/><circle cx="9" cy="8" r=".7" fill="#fff" opacity=".6"/><circle cx="5" cy="12" r=".6" fill="#fff" opacity=".7"/><circle cx="12" cy="2" r=".5" fill="#fff" opacity=".5"/></pattern>
+              <clipPath id="forme"><path id="formeP" d="M160 348C78 330 30 262 30 190 30 118 70 70 112 58c4 34 24 52 48 52s44-18 48-52c42 12 82 60 82 132 0 72-48 140-130 158z"/></clipPath>
+            </defs>
+            <path d="M112 58C104 36 112 16 136 12" stroke="#E9E1D4" stroke-width="10" fill="none" stroke-linecap="round"/>
+            <path d="M208 58c8-22 0-42-24-46" stroke="#E9E1D4" stroke-width="10" fill="none" stroke-linecap="round"/>
+            <circle cx="186" cy="14" r="6" fill="#D8CDBB"/>
+            <g clip-path="url(#forme)">
+              <rect id="tissu" width="320" height="360" fill="#B9D3EC" style="transition:fill .5s ease"/>
+              <rect id="motif" width="320" height="360" fill="url(#pois)" opacity="0" style="transition:opacity .4s"/>
+              <rect width="320" height="360" fill="url(#gaze)"/>
+              
+            </g>
+            <use href="#formeP" fill="none" stroke="#fff" stroke-width="7"/>
+            <use href="#formeP" fill="none" stroke="#000" stroke-opacity=".06" stroke-width="1"/>
+            <g id="brode" style="transition:opacity .25s">
+              <text id="prenom" x="160" y="214" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-weight="600" font-size="52" fill="url(#or)" stroke="#000" stroke-opacity=".12" stroke-width=".6" letter-spacing="1">Louise</text>
+              <text id="prenomP" x="160" y="214" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-weight="600" font-size="52" fill="url(#paillettes)" letter-spacing="1" aria-hidden="true">Louise</text>
+              <path id="coeur" d="M160 262c-9-7-15-12-15-18a7 7 0 0 1 15-3 7 7 0 0 1 15 3c0 6-6 11-15 18z" fill="url(#or)"/>
+              <path id="etoile" d="M160 242l4 9 10 1-7.5 6.5 2.3 9.8L160 263l-8.8 5.3 2.3-9.8L146 252l10-1z" fill="url(#or)" opacity="0"/>
+            </g>
+          </svg>
+          <p class="tag" id="tag">Gaze ciel, fil doré pailleté</p>
+        </div>
+        <form class="reglages" id="reglages" onsubmit="return false">
+          <div>
+            <label for="nom">Le prénom ou le mot</label>
+            <input class="champ" id="nom" name="nom" maxlength="11" autocomplete="off" value="Louise" placeholder="Son prénom">
+            <div class="mots" id="mots" aria-label="Quelques mots corses">
+              <button type="button" data-m="Stragnu">Stragnu<span>coquin</span></button>
+              <button type="button" data-m="Pianu">Pianu<span>doucement</span></button>
+              <button type="button" data-m="O Basta">O Basta<span>ça suffit !</span></button>
+              <button type="button" data-m="Sampieru">Sampieru</button>
+            </div>
+          </div>
+          <div>
+            <p class="lbl" id="lblTissu">La gaze de coton</p>
+            <div class="pastilles" role="group" aria-labelledby="lblTissu" id="tissus"></div>
+          </div>
+          <div>
+            <p class="lbl" id="lblFil">Le fil</p>
+            <div class="pastilles" role="group" aria-labelledby="lblFil" id="fils"></div>
+          </div>
+          <div>
+            <p class="lbl" id="lblSigne">Le petit signe</p>
+            <div class="pastilles" role="group" aria-labelledby="lblSigne" id="signes"></div>
+          </div>
+          <div class="total">
+            <p>6&nbsp;€<small>Bavoir personnalisé, gaze de coton</small></p>
+            <a class="btn noir" href="https://mademoiselle-charlotte-1.sumupstore.com/" target="_blank" rel="noopener">Commander ce bavoir</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <div class="phrase" aria-hidden="true"><p>Fait main, <em>un&nbsp;par&nbsp;un.</em></p></div>
+
+  <section class="prune" id="atelier">
+    <div class="wrap atelier">
+      <div>
+        <p class="sourcil"><span class="num">03</span> · L'atelier</p>
+        <blockquote style="margin-top:24px">« Parce que les petites choses font les <em>plus grands bonheurs</em>… »<cite>Mademoiselle Charlotte</cite></blockquote>
+      </div>
+      <ul class="promesses">
+        <li><h3>À son prénom</h3><p>Chaque bavoir, coffret ou cadre est brodé pour un enfant précis : son prénom, sa date, un mot corse.</p></li>
+        <li><h3>Cousu à la main</h3><p>Coupé, cousu et assemblé à l'atelier, une pièce après l'autre, sans série.</p></li>
+        <li><h3>Doux pour la peau</h3><p>Gaze de coton, tissus choisis pour les tout-petits, finitions sans rien qui gratte.</p></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="commander">
+    <div class="wrap">
+      <div class="tete">
+        <p class="sourcil"><span class="num">04</span> · Commander</p>
+        <h2 class="titre">Trois pas, <em>et c'est brodé</em></h2>
+      </div>
+      <ol class="etapes">
+        <li><b>1</b><h3>Choisir</h3><p>Repérez la création sur ce site, puis ouvrez-la sur la boutique en ligne.</p></li>
+        <li><b>2</b><h3>Préciser</h3><p>Indiquez le prénom, la couleur et le petit signe dans la note de commande.</p></li>
+        <li><b>3</b><h3>Recevoir</h3><p>La pièce est cousue pour vous, puis envoyée ou remise en main propre.</p></li>
+      </ol>
+      <div class="fin">
+        <a class="btn rose" href="https://mademoiselle-charlotte-1.sumupstore.com/" target="_blank" rel="noopener">Ouvrir la boutique</a>
+        <a class="btn trait" href="#broder">Essayer un prénom</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap pied">
+    <span>© 2026 Mademoiselle Charlotte · Maquette réalisée par <a href="https://saitora.fr">Saitora</a></span>
+    <nav aria-label="Pied de page"><a href="https://mademoiselle-charlotte-1.sumupstore.com/" target="_blank" rel="noopener">Boutique</a><a href="#creations">Créations</a><a href="#commander">Commander</a></nav>
+  </div>
+  <p class="geant" aria-hidden="true">Mademoiselle <em>Charlotte</em></p>
+</footer>
+
+<div class="barre" id="barre"><a class="btn noir" href="#broder">Broder un prénom</a><a class="btn rose" href="https://mademoiselle-charlotte-1.sumupstore.com/" target="_blank" rel="noopener">Boutique</a></div>
+
+<script>
+document.documentElement.classList.add("js");
+const $ = id => document.getElementById(id);
+
+/* les créations : [nom, catégorie, image, prix, personnalisable] (prix relevés sur la boutique actuelle) */
+const PIECES = [
+  ["Bavoir prénom, gaze fille", "bavoirs", "bavoir-prenom-fille", 6, 1],
+  ["Bavoir prénom, gaze garçon", "bavoirs", "bavoir-prenom-garcon", 6, 1],
+  ["Bavoir expression corse fille", "bavoirs", "bavoir-corse-fille", 6, 1],
+  ["Bavoir expression corse garçon", "bavoirs", "bavoir-corse-garcon", 6, 1],
+  ["Bavoirs « jours de la semaine » en corse", "bavoirs", "bavoirs-jours", 50, 0],
+  ["Coffret de naissance « Matteu »", "naissance", "coffret-matteu", 35, 1],
+  ["Coffret bavoirs et bandeau", "naissance", "coffret-40", 40, 1],
+  ["Coffret de naissance en bois", "naissance", "coffret-58", 58, 1],
+  ["Grand coffret de naissance", "naissance", "coffret-100", 100, 1],
+  ["Boîte souris pour la dent de lait", "naissance", "boite-souris", 50, 0],
+  ["Souris dent de lait garçon", "naissance", "souris-garcon", 30, 0],
+  ["Doudou grenouille", "doudous", "doudou-grenouille", 40, 0],
+  ["Doudou abeille", "doudous", "doudou-abeille", 40, 0],
+  ["Lapin en tissu et sa carotte", "doudous", "lapin", 30, 0],
+  ["Ourson ou panda personnalisé", "doudous", "ourson", 40, 1],
+  ["Danseuse au tutu vert", "doudous", "danseuse-40", 40, 0],
+  ["Danseuse rose", "doudous", "danseuse-50", 50, 0],
+  ["Cadre enfant rond", "deco", "cadre-rond", 35, 1],
+  ["Cadre mural à l'initiale", "deco", "cadre-mural", 30, 1],
+  ["Montgolfière décorative", "deco", "montgolfiere", 50, 0],
+  ["Attache-sucette", "quotidien", "attache-sucette", 5, 1],
+  ["Pochette à sucette", "quotidien", "pochette-sucette", 10, 0],
+  ["Poncho de bain enfant", "quotidien", "poncho", 35, 1],
+  ["Sac en tissu", "quotidien", "sac-tissu", 28, 0]
+];
+const FAMILLES = [["tout","Tout"],["bavoirs","Bavoirs"],["naissance","Naissance"],["doudous","Doudous"],["deco","Déco"],["quotidien","Au quotidien"]];
+const BOUTIQUE = "https://mademoiselle-charlotte-1.sumupstore.com/";
+
+$("grille").innerHTML = PIECES.map(([n, f, img, p, perso]) =>
+  `<a class="piece" data-f="${f}" href="${BOUTIQUE}" target="_blank" rel="noopener"><div class="ph"><img class="arrive" src="images/${img}.webp" alt="${n}" width="360" height="360" loading="lazy">${perso ? '<span class="badge">À son prénom</span>' : ""}</div><h3>${n}</h3><p class="prix">${p}&nbsp;€</p></a>`).join("");
+$("filtres").innerHTML = FAMILLES.map(([k, t], i) => `<button type="button" data-f="${k}" aria-pressed="${i === 0}">${t}</button>`).join("");
+$("filtres").addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  $("filtres").querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b));
+  document.querySelectorAll(".piece").forEach(p => p.hidden = b.dataset.f !== "tout" && p.dataset.f !== b.dataset.f);
+});
+
+/* photos qui arrivent, une fois chargées et visibles */
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (!e.isIntersecting) return; io.unobserve(e.target);
+  const im = e.target; (im.decode ? im.decode() : Promise.resolve()).catch(() => {}).then(() => im.classList.add("la"));
+}), { rootMargin: "0px 0px -8% 0px" });
+const suivre = () => document.querySelectorAll(".arrive:not(.la)").forEach(i => io.observe(i));
+suivre();
+
+/* le bavoir */
+const TISSUS = [["Ciel","#B9D3EC",0],["Rose","#E9A3B2",0],["Sauge","#9DAA8C",0],["Nuit étoilée","#1E2847",1],["Écru","#EEE5D3",0]];
+const FILS = [["Doré pailleté","or"],["Blanc","blanc"],["Rose","rosefil"]];
+const SIGNES = [["Cœur","coeur"],["Étoile","etoile"],["Aucun",""]];
+const choix = { tissu: 0, fil: 0, signe: 0 };
+const pastilles = (id, liste, cle, fond) => {
+  $(id).innerHTML = liste.map((x, i) => `<button type="button" data-i="${i}" aria-pressed="${i === 0}"><i style="background:${fond(x)}"></i>${x[0]}</button>`).join("");
+  $(id).addEventListener("click", e => {
+    const b = e.target.closest("button"); if (!b) return;
+    choix[cle] = +b.dataset.i;
+    $(id).querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b));
+    dessine();
+  });
+};
+pastilles("tissus", TISSUS, "tissu", x => x[1]);
+pastilles("fils", FILS, "fil", x => ({ or: "linear-gradient(135deg,#A97A22,#F2D27A,#C4952F)", blanc: "#fff", rosefil: "linear-gradient(135deg,#D9649E,#F3A5C8)" })[x[1]]);
+pastilles("signes", SIGNES, "signe", x => x[1] === "coeur" ? "radial-gradient(circle,#C2579B 30%,#F8F1FA 34%)" : x[1] === "etoile" ? "radial-gradient(circle,#C4952F 30%,#F8F1FA 34%)" : "#F8F1FA");
+
+function dessine() {
+  const t = TISSUS[choix.tissu], f = FILS[choix.fil], s = SIGNES[choix.signe];
+  const mot = ($("nom").value.trim() || "Son prénom").slice(0, 11);
+  const taille = Math.min(56, Math.round(220 / Math.max(4, mot.length) * 1.55));
+  ["prenom", "prenomP"].forEach(id => { $(id).textContent = mot; $(id).setAttribute("font-size", taille); });
+  $("prenom").setAttribute("fill", `url(#${f[1]})`);
+  $("prenomP").style.opacity = f[1] === "or" ? 1 : 0;
+  $("tissu").setAttribute("fill", t[1]);
+  $("motif").setAttribute("opacity", t[2] ? 1 : 0);
+  /* un fil blanc ne se voit pas sur l'écru : contour plus marqué */
+  $("prenom").setAttribute("stroke-opacity", f[1] === "blanc" ? .35 : .12);
+  ["coeur", "etoile"].forEach(id => { $(id).setAttribute("opacity", s[1] === id ? 1 : 0); $(id).setAttribute("fill", `url(#${f[1]})`); });
+  $("tag").textContent = `Gaze ${t[0].toLowerCase()}, fil ${f[0].toLowerCase()}`;
+}
+$("nom").addEventListener("input", dessine);
+$("mots").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; $("nom").value = b.dataset.m; dessine(); });
+dessine();
+
+/* menu du téléphone */
+const ent = $("entete");
+const ferme = () => { ent.classList.remove("ouvert"); $("menuBtn").setAttribute("aria-expanded", false); $("menuTxt").textContent = "Menu"; document.body.style.overflow = ""; };
+$("menuBtn").addEventListener("click", () => {
+  const o = !ent.classList.contains("ouvert");
+  if (!o) return ferme();
+  ent.classList.add("ouvert"); $("menuBtn").setAttribute("aria-expanded", true); $("menuTxt").textContent = "Fermer"; document.body.style.overflow = "hidden";
+});
+$("feuille").addEventListener("click", e => { if (e.target.closest("a")) ferme(); });
+addEventListener("keydown", e => { if (e.key === "Escape") ferme(); });
+
+/* la barre du bas, cachée tant que l'ouverture est visible */
+new IntersectionObserver(([e]) => $("barre").classList.toggle("vue", !e.isIntersecting)).observe(document.querySelector(".actions"));
+</script>
+</body>
+</html>

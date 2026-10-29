@@ -371,6 +371,28 @@
       "boutons": "souligne",
       "pied": "infos",
       "ornement": "aucun"
+    },
+    "mademoiselle-charlotte": {
+      "genre": "magazine",
+      "ouverture": "plein-cadre",
+      "navigation": "basse",
+      "services": "tableau",
+      "preuves": "avant-apres",
+      "a_propos": "texte-photo",
+      "contact": "bandeau-collant",
+      "formes": "droites",
+      "photos": "teintees",
+      "rythme": "blocs",
+      "titres": "italiques",
+      "signature": "comparateur",
+      "appoint": "italique",
+      "texture": "aucune",
+      "arrivee": "rideau",
+      "decoupes": "chevauchement",
+      "boutons": "rectangle",
+      "pied": "geant",
+      "ornement": "numeros",
+      "police": "Gloock + Schibsted Grotesk"
     }
   }
 }

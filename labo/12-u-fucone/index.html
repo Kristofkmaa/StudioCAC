@@ -12,7 +12,7 @@
 <meta property="og:title" content="U Fucone, démo Saitora">
 <meta property="og:description" content="Maison d'hôtes et table au coin du feu, en Castagniccia. Démo réalisée par Saitora.">
 <meta name="theme-color" content="#FEFFFC">
-<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%208%2010%22%20shape-rendering=%22crispEdges%22%3E%3Cpath%20fill=%22%23E8743B%22%20d=%22M4%200h1v1H4zM3%201h2v1H3zM3%202h3v1H3zM2%203h4v1H2zM2%204h5v1H2zM1%205h6v1H1zM1%206h6v1H1zM1%207h6v1H1zM2%208h4v1H2z%22/%3E%3Cpath%20fill=%22%23F2C14E%22%20d=%22M4%204h1v1H4zM3%205h3v1H3zM3%206h3v1H3zM3%207h2v1H3z%22/%3E%3Cpath%20fill=%22%232C2C2C%22%20d=%22M0%209h8v1H0z%22/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Crect%20width=%2264%22%20height=%2264%22%20rx=%2214%22%20fill=%22%23FEFFFC%22/%3E%3Ctext%20x=%2232%22%20y=%2246%22%20text-anchor=%22middle%22%20font-family=%22Georgia,serif%22%20font-size=%2240%22%20fill=%22%232C2C2C%22%3EU%3C/text%3E%3C/svg%3E">
 <link rel="preload" href="../../polices/redaction-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="../../polices/geist-a40a00.css">
 <style>
@@ -20,7 +20,7 @@
    un fond papier presque blanc, une serif fine (Redaction) pour tous les titres, une sans-serif discrète (Geist) pour le reste,
    de grands tableaux peints posés entre les sections, arrondis de 24 px ; un seul bleu, en contour sur l'action principale ;
    des filets vert-gris seulement sur les cartes blanches et les champs. Le fucone, c'est l'âtre de la maison corse :
-   la petite flamme en pixels du logo est le seul autre éclat de couleur. */
+   un point orange sur la ligne de temps est le seul autre éclat de couleur. */
 @font-face{font-family:"Redaction";font-style:normal;font-weight:400;font-display:swap;src:url(../../polices/redaction-latin-400-normal.woff2) format("woff2")}
 @font-face{font-family:"Redaction";font-style:italic;font-weight:400;font-display:swap;src:url(../../polices/redaction-latin-400-italic.woff2) format("woff2")}
 :root{
@@ -76,10 +76,10 @@ figcaption{margin-top:10px;font-size:var(--t-petit);color:var(--cendre);font-fam
 .demo{padding:9px var(--m);text-align:center;font-size:13px;color:var(--cendre);background:var(--lin);max-width:none}
 
 /* ---- en-tête classique : le nom et sa flamme, quatre liens, l'action ---- */
-.top{display:flex;align-items:center;justify-content:space-between;gap:24px;padding-block:18px}
-.marque{display:inline-flex;align-items:center;gap:10px;font-family:var(--serif);font-size:1.5rem;letter-spacing:-.02em;text-decoration:none;padding:6px 0}
-.marque svg{width:16px;height:20px}
-.top nav{display:flex;align-items:center;gap:28px;font-size:15px;font-weight:500;color:var(--charbon)}
+.top{display:flex;align-items:center;justify-content:flex-end;gap:24px;padding-block:18px}
+.top nav{margin-right:auto}
+.top nav .reserver{margin-left:auto}
+.top nav{flex:1;display:flex;align-items:center;gap:28px;font-size:15px;font-weight:500;color:var(--charbon)}
 .top nav a:not(.btn){text-decoration:none;padding:10px 0}
 @media (hover:hover) and (pointer:fine){.top nav a:hover{color:var(--encre);text-decoration:underline;text-underline-offset:.35em;text-decoration-color:var(--brume)}}
 .top .menu{display:none;width:46px;height:46px;padding:0;border:1px solid var(--nuit);border-radius:var(--r-bouton);background:none;cursor:pointer;place-items:center}
@@ -122,22 +122,38 @@ figcaption{margin-top:10px;font-size:var(--t-petit);color:var(--cendre);font-fam
 .compris h3{font-size:var(--t-phrase);margin-bottom:8px}
 .compris p{color:var(--charbon);max-width:34ch}
 
-/* ---- les chambres, une à la fois : le tableau en grand, son histoire à côté, des flèches ---- */
-.chambres{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:32px clamp(32px,4vw,64px);align-items:end}
-.chambres .cadre{position:relative;aspect-ratio:4/3}
-.chambres .cadre img{position:absolute;inset:0;height:100%;opacity:0;transition:opacity .7s ease}
-.chambres .cadre img.vu{opacity:1}
-.chambres .recit{display:grid;gap:18px;align-content:end}
-.chambres .recit .num{font-size:var(--t-petit);color:var(--cendre)}
-.chambres .recit h3{font-size:var(--t-titre)}
-.chambres dl{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;font-size:15px;color:var(--charbon);padding-top:14px;border-top:1px solid var(--brume)}
-.chambres dt{color:var(--cendre)}
-.chambres .fleches{display:flex;gap:10px;align-items:center;margin-top:8px}
-.chambres .fleches .btn{width:46px;padding:0}
-.chambres .points{display:flex;gap:8px;margin-left:10px}
-.chambres .points button{width:10px;height:10px;padding:0;border-radius:50%;border:1px solid var(--nuit);background:none;cursor:pointer}
-.chambres .points button[aria-current="true"]{background:var(--nuit)}
-.chambres .points button::before{content:"";display:block;margin:-17px;width:44px;height:44px}
+/* ---- les chambres, une à la fois : la photo en grand, les flèches posées dessus ; le nom et le prix en étiquette,
+   et l'histoire de la chambre dans un nuage qui apparaît au survol (il suit la souris) ou au toucher sur téléphone ---- */
+.scene{position:relative;aspect-ratio:16/9;border-radius:var(--r-tableau);overflow:hidden;background:var(--brume);touch-action:pan-y;outline-offset:4px}
+.scene>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .7s ease}
+.scene>img.vu{opacity:1}
+.scene .fl{position:absolute;top:50%;z-index:3;width:52px;height:52px;margin-top:-26px;border:0;border-radius:50%;background:rgba(255,255,255,.92);color:var(--nuit);font-size:20px;cursor:pointer;display:grid;place-items:center;transition:transform .2s var(--doux),background-color .2s}
+.scene .fl.g{left:16px}.scene .fl.d{right:16px}
+@media (hover:hover) and (pointer:fine){.scene .fl:hover{background:#fff;transform:scale(1.08)}}
+.scene .fl:active{transform:scale(.94)}
+.etiquette{position:absolute;left:16px;bottom:16px;z-index:2;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;max-width:calc(100% - 32px);padding:12px 18px;border-radius:12px;background:var(--papier);transition:opacity .25s}
+.etiquette b{font-family:var(--serif);font-weight:400;font-size:var(--t-phrase);line-height:1}
+.etiquette span{font-size:15px;color:var(--charbon)}
+.etiquette small{font-size:13px;color:var(--cendre)}
+.etiquette .tactile{display:none}
+@media (hover:none){.etiquette .souris{display:none}.etiquette .tactile{display:inline}}
+.scene .points{position:absolute;left:50%;bottom:22px;z-index:2;transform:translateX(-50%);display:flex;gap:10px}
+.scene .points button{width:10px;height:10px;padding:0;border-radius:50%;border:0;background:rgba(255,255,255,.55);cursor:pointer;position:relative}
+.scene .points button[aria-current="true"]{background:#fff}
+.scene .points button::before{content:"";position:absolute;inset:-17px}
+/* le nuage : une carte blanche aux bords irréguliers, deux petites bulles en guise de queue, comme une pensée */
+.nuage{position:absolute;left:0;top:0;z-index:4;width:min(360px,calc(100% - 32px));padding:22px 26px 20px;background:var(--papier);color:var(--graphite);border-radius:46px 58px 50px 40px / 42px 48px 56px 50px;box-shadow:0 10px 30px rgba(20,22,30,.18);opacity:0;visibility:hidden;transform:translate(var(--x,24px),var(--y,24px)) scale(.94);transform-origin:0 0;transition:opacity .22s ease,visibility 0s .22s,transform .22s var(--doux);pointer-events:none}
+.nuage::before,.nuage::after{content:"";position:absolute;background:var(--papier);border-radius:50%}
+.nuage::before{width:18px;height:16px;left:-6px;top:-10px}
+.nuage::after{width:9px;height:9px;left:-18px;top:-22px}
+.scene.voit .nuage{opacity:1;visibility:visible;transform:translate(var(--x,24px),var(--y,24px));transition:opacity .22s ease,transform .3s var(--doux)}
+.scene.voit .etiquette{opacity:0}
+.nuage h3{font-size:var(--t-phrase);margin-bottom:8px}
+.nuage h3 em{font-size:.62em;color:var(--cendre)}
+.nuage p{font-size:15px;color:var(--charbon)}
+.nuage dl{margin-top:12px;padding-top:10px;border-top:1px solid var(--brume);display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:14px;color:var(--charbon)}
+.nuage dt{color:var(--cendre)}
+.sous-scene{max-width:none;margin-top:14px;display:flex;justify-content:space-between;gap:12px;font-size:var(--t-petit);color:var(--cendre)}
 
 /* ---- la table : deux tableaux et le menu du soir ---- */
 .table{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:clamp(32px,4vw,64px);align-items:start}
@@ -230,7 +246,8 @@ footer .legal span{max-width:80ch}
   .compris{grid-template-columns:repeat(2,minmax(0,1fr))}
   .compris li:not(:nth-child(3n+1)){padding-left:0;border-left:0}
   .compris li:nth-child(2n){padding-left:24px;border-left:1px solid var(--brume)}
-  .chambres,.table,.autour,.sejour,.ancien-bloc{grid-template-columns:minmax(0,1fr)}
+  .table,.autour,.sejour,.ancien-bloc{grid-template-columns:minmax(0,1fr)}
+  .scene{aspect-ratio:4/3}
   .ancien-bloc .phrase{padding-bottom:0}
   .autour .tableau{aspect-ratio:16/10}
   .temps{grid-template-columns:minmax(0,1fr);gap:0}
@@ -243,6 +260,14 @@ footer .legal span{max-width:80ch}
   body{padding-bottom:72px}
 }
 @media (max-width:620px){
+  .scene{aspect-ratio:4/5}
+  .scene .fl{width:44px;height:44px;margin-top:0;top:14px}
+  .nuage::before{left:26px;top:-12px}.nuage::after{left:14px;top:-24px}
+  .sous-scene span+span{display:none}
+  .scene .fl.g{left:10px}.scene .fl.d{right:10px}
+  .etiquette{left:10px;bottom:44px;padding:10px 14px}
+  .scene .points{bottom:18px}
+  .nuage{width:calc(100% - 24px)}
   .fenetre-h{grid-template-columns:minmax(0,1fr);margin-block:0}
   .fenetre-h .tableau{grid-column:1!important;grid-row:2;aspect-ratio:4/5;max-height:none;object-position:42% 50%}
   .fenetre-h h1 span{grid-column:1!important;font-size:clamp(3.4rem,17vw,5rem)}
@@ -262,18 +287,16 @@ footer .legal span{max-width:80ch}
 <body>
 <p class="demo">Site de démonstration réalisé par Saitora : la maison d'hôtes est fictive ; le tableau de l'ouverture et les photos viennent de Pixabay.</p>
 
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="flamme" viewBox="0 0 8 10" shape-rendering="crispEdges"><path fill="#E8743B" d="M4 0h1v1H4zM3 1h2v1H3zM3 2h3v1H3zM2 3h4v1H2zM2 4h5v1H2zM1 5h6v1H1zM1 6h6v1H1zM1 7h6v1H1zM2 8h4v1H2z"/><path fill="#F2C14E" d="M4 4h1v1H4zM3 5h3v1H3zM3 6h3v1H3zM3 7h2v1H3z"/><path fill="#2C2C2C" d="M0 9h8v1H0z"/></symbol></svg>
 
 <div class="page">
   <header class="top" id="haut">
-    <a class="marque" href="#"><svg aria-hidden="true"><use href="#flamme"/></svg>U Fucone</a>
     <nav aria-label="Sections"><a href="#chambres">Les chambres</a><a href="#table">La table</a><a href="#maison">La maison</a><a href="#autour">Autour</a><a class="btn bleu reserver" href="#sejour">Vos dates <span class="rond" aria-hidden="true">→</span></a></nav>
     <button class="menu" type="button" id="menuBtn" aria-expanded="false" aria-controls="feuille" aria-label="Ouvrir le menu"><span class="traits" aria-hidden="true"></span></button>
   </header>
 </div>
 
 <div class="feuille" id="feuille" role="dialog" aria-modal="true" aria-label="Menu">
-  <div class="top"><span class="marque"><svg aria-hidden="true"><use href="#flamme"/></svg>U Fucone</span><button class="menu ouvert" type="button" id="closeBtn" aria-label="Fermer le menu"><span class="traits" aria-hidden="true"></span></button></div>
+  <div class="top"><span></span><button class="menu ouvert" type="button" id="closeBtn" aria-label="Fermer le menu"><span class="traits" aria-hidden="true"></span></button></div>
   <img class="tableau vue" src="../../images/fucone/village.webp" alt="" width="1280" height="548" loading="lazy" decoding="async">
   <nav aria-label="Menu"><a href="#chambres">Les chambres</a><a href="#table">La table</a><a href="#maison">La maison</a><a href="#autour">Autour</a><a href="#sejour">Vos dates</a></nav>
   <div class="bas"><a class="btn" href="tel:+33495000000">Appeler</a><a class="btn bleu" href="#sejour">Vos dates</a></div>
@@ -311,16 +334,15 @@ footer .legal span{max-width:80ch}
       <h2 class="grand" id="t-chambres">Les quatre chambres</h2>
       <p>Chacune porte le nom de ce qu'on y voit en premier en ouvrant les yeux. Le petit-déjeuner est compris dans tous les prix.</p>
     </div>
-    <div class="chambres" id="chambresBloc">
-      <figure class="cadre" id="chCadre" aria-live="polite"></figure>
-      <div class="recit">
-        <p class="num" id="chNum"></p>
-        <h3 id="chNom"></h3>
-        <p id="chTexte"></p>
-        <dl id="chInfos"></dl>
-        <div class="fleches"><button class="btn" type="button" id="chAvant" aria-label="Chambre précédente">←</button><button class="btn" type="button" id="chApres" aria-label="Chambre suivante">→</button><div class="points" id="chPoints"></div></div>
-      </div>
+    <div class="scene" id="chScene" tabindex="0" role="group" aria-roledescription="diaporama" aria-label="Les chambres : flèches pour passer de l'une à l'autre">
+      <div id="chImgs" style="display:contents"></div>
+      <button class="fl g" type="button" id="chAvant" aria-label="Chambre précédente">←</button>
+      <button class="fl d" type="button" id="chApres" aria-label="Chambre suivante">→</button>
+      <p class="etiquette" id="chEtiquette"></p>
+      <div class="nuage" id="chNuage" aria-live="polite"></div>
+      <div class="points" id="chPoints"></div>
     </div>
+    <p class="sous-scene"><span id="chNum"></span><span>Petit-déjeuner compris dans tous les prix</span></p>
   </section>
 
   <section class="page sec" id="table" aria-labelledby="t-table">
@@ -442,24 +464,38 @@ const CH = [
   ["A Casetta", "la maisonnette", "maisonnette", "La petite maison en pierre au fond du jardin, rien que pour vous, avec sa terrasse sous les lauriers-roses.", "2 personnes", "Un lit de 160", 120],
 ];
 let ch = 0;
-$("chCadre").innerHTML = CH.map(([n, , img], i) => `<img class="tableau${i ? "" : " vu"}" src="../../images/fucone/${img}.webp" alt="La chambre ${n}" loading="${i ? "lazy" : "eager"}" decoding="async">`).join("");
+const scene = $("chScene"), nuage = $("chNuage");
+$("chImgs").outerHTML = CH.map(([n, , img], i) => `<img class="${i ? "" : "vu"}" src="../../images/fucone/${img}.webp" alt="La chambre ${n}" loading="${i ? "lazy" : "eager"}" decoding="async">`).join("");
 $("chPoints").innerHTML = CH.map(([n], i) => `<button type="button" aria-label="${n}" data-i="${i}"></button>`).join("");
 function montreChambre(i) {
   ch = (i + CH.length) % CH.length; const [n, sens, , txt, pers, lit, prix] = CH[ch];
-  [...$("chCadre").children].forEach((im, k) => im.classList.toggle("vu", k === ch));
+  scene.querySelectorAll(":scope>img").forEach((im, k) => im.classList.toggle("vu", k === ch));
+  $("chEtiquette").innerHTML = `<b>${esc(n)}</b><span>${prix}&nbsp;€ la nuit</span><small class="souris">Survolez la photo</small><small class="tactile">Touchez la photo</small>`;
+  nuage.innerHTML = `<h3>${esc(n)} <em>${esc(sens)}</em></h3><p>${esc(txt)}</p><dl><dt>Pour</dt><dd>${pers}</dd><dt>Le lit</dt><dd>${lit}</dd><dt>La nuit</dt><dd>${prix}&nbsp;€, petit-déjeuner compris</dd></dl>`;
   $("chNum").textContent = `Chambre ${ch + 1} sur ${CH.length}`;
-  $("chNom").innerHTML = `${esc(n)} <em class="doux" style="font-size:.55em">${esc(sens)}</em>`;
-  $("chTexte").textContent = txt;
-  $("chInfos").innerHTML = `<dt>Pour</dt><dd>${pers}</dd><dt>Le lit</dt><dd>${lit}</dd><dt>La nuit</dt><dd>${prix}&nbsp;€, petit-déjeuner compris</dd>`;
   [...$("chPoints").children].forEach((b, k) => b.setAttribute("aria-current", k === ch));
 }
+// le nuage suit la souris, sans jamais sortir de la photo ; au clavier ou au toucher, il se pose en bas à gauche
+const place = (x, y) => { const r = scene.getBoundingClientRect(), w = nuage.offsetWidth, h = nuage.offsetHeight;
+  nuage.style.setProperty("--x", Math.max(12, Math.min(r.width - w - 12, x + 22)) + "px");
+  nuage.style.setProperty("--y", Math.max(12, Math.min(r.height - h - 12, y + 22)) + "px"); };
+const enBas = () => { const r = scene.getBoundingClientRect(); place(0, r.height); };
+const surBouton = e => e.target.closest("button");
+scene.addEventListener("pointermove", e => { if (e.pointerType !== "mouse") return; const r = scene.getBoundingClientRect();
+  const dessus = !surBouton(e); scene.classList.toggle("voit", dessus); if (dessus) place(e.clientX - r.left, e.clientY - r.top); });
+scene.addEventListener("pointerleave", e => { if (e.pointerType === "mouse") scene.classList.remove("voit"); });
+scene.addEventListener("focus", () => { enBas(); scene.classList.add("voit"); });
+scene.addEventListener("blur", () => scene.classList.remove("voit"));
+scene.addEventListener("keydown", e => { if (e.key === "ArrowRight") montreChambre(ch + 1); if (e.key === "ArrowLeft") montreChambre(ch - 1); });
 $("chAvant").addEventListener("click", () => montreChambre(ch - 1));
 $("chApres").addEventListener("click", () => montreChambre(ch + 1));
 $("chPoints").addEventListener("click", e => { const b = e.target.closest("button"); if (b) montreChambre(+b.dataset.i); });
-// au doigt : on glisse sur le tableau pour passer à la suivante
+// au doigt : glisser change de chambre, toucher montre ou cache le nuage
 let x0 = null;
-$("chCadre").addEventListener("pointerdown", e => { x0 = e.clientX; });
-$("chCadre").addEventListener("pointerup", e => { if (x0 !== null && Math.abs(e.clientX - x0) > 40) montreChambre(ch + (e.clientX < x0 ? 1 : -1)); x0 = null; });
+scene.addEventListener("pointerdown", e => { if (e.pointerType !== "mouse" && !surBouton(e)) x0 = e.clientX; });
+scene.addEventListener("pointerup", e => { if (x0 === null) return; const dx = e.clientX - x0; x0 = null;
+  if (Math.abs(dx) > 40) { montreChambre(ch + (dx < 0 ? 1 : -1)); return; }
+  enBas(); scene.classList.toggle("voit"); });
 montreChambre(0);
 
 // ——— le calendrier : les six prochains mois, la maison est fermée en janvier ; les jours déjà pris sont tirés d'une graine

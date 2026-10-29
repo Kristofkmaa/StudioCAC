@@ -25,7 +25,7 @@ img{display:block;max-width:100%}
 .cts{color:var(--gris-2)}
 :focus-visible{outline:2px solid var(--encre);outline-offset:2px;border-radius:10px}
 
-.page{max-width:560px;margin:0 auto;padding:0 20px calc(120px + env(safe-area-inset-bottom))}
+.page{max-width:560px;margin:0 auto;padding:0 20px calc(96px + env(safe-area-inset-bottom))}
 @media (min-width:900px){.page{max-width:640px}}
 
 /* barre du haut : retour en rond gris, petit titre au centre quand on descend */
@@ -161,16 +161,16 @@ button.ligne:active,a.ligne:active{background:var(--carte-2)}
 .recherche input{flex:1;border:0;background:none;outline:none;font-size:16px;color:var(--encre);min-width:0}
 
 /* la barre d'onglets flottante (Ro) et le + noir (Fuse) */
-.onglets{position:fixed;left:0;right:0;bottom:calc(14px + env(safe-area-inset-bottom));z-index:40;display:flex;justify-content:center;align-items:center;gap:10px;padding:0 16px;pointer-events:none}
-.onglets nav{pointer-events:auto;display:flex;gap:2px;padding:6px;border-radius:32px;background:var(--verre-barre);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);box-shadow:var(--ombre),0 0 0 1px var(--sep);max-width:100%}
-.onglets a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-width:62px;height:56px;padding:0 8px;border-radius:26px;color:var(--encre);font-size:11px;font-weight:500;position:relative;transition:background-color .2s}
-.onglets a[aria-current="page"]{background:var(--actif)}
-.onglets a .badge{position:absolute;top:4px;right:10px;min-width:17px;height:17px;padding:0 5px;border-radius:9px;background:var(--rouge);color:#fff;font-size:11px;font-weight:600;display:grid;place-items:center;line-height:1}
+.onglets{position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--verre-barre);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);box-shadow:0 -1px 0 var(--sep);padding:6px 10px env(safe-area-inset-bottom);display:flex;align-items:center;gap:6px}
+.onglets nav{flex:1;display:flex;justify-content:space-around;gap:2px;max-width:560px;margin:0 auto}
+.onglets a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-width:0;height:54px;border-radius:16px;color:var(--gris);font-size:11px;font-weight:500;position:relative;transition:color .2s,background-color .2s}
+.onglets a[aria-current="page"]{color:var(--encre)}
+.onglets a .badge{position:absolute;top:2px;left:calc(50% + 6px);min-width:17px;height:17px;padding:0 5px;border-radius:9px;background:var(--rouge);color:#fff;font-size:11px;font-weight:600;display:grid;place-items:center;line-height:1}
 .onglets a:active svg{transform:scale(.88)}
 .onglets svg{transition:transform .15s}
-.plus{pointer-events:auto;width:60px;height:60px;flex:none;border-radius:50%;background:var(--encre);color:var(--sur-encre);display:grid;place-items:center;box-shadow:0 8px 20px rgba(0,0,0,.22);transition:transform .2s var(--doux)}
+.plus{width:48px;height:48px;flex:none;border-radius:50%;background:var(--encre);color:var(--sur-encre);display:grid;place-items:center;transition:transform .2s var(--doux)}
 .plus:active{transform:scale(.92)}
-@media (max-width:400px){.onglets a{min-width:54px;padding:0 4px;font-size:10px}.onglets{gap:8px;padding:0 10px}.plus{width:56px;height:56px}}
+@media (max-width:400px){.onglets a{font-size:10px}.onglets{padding-left:6px;padding-right:8px}.plus{width:46px;height:46px}}
 
 /* feuille qui monte du bas (Fuse) */
 .voile{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.32);opacity:0;transition:opacity .3s}
@@ -304,7 +304,6 @@ a,button{touch-action:manipulation}
 /* la courbe se dessine, les tuiles arrivent l'une après l'autre */
 .ecran .tuile{animation:arrive .5s var(--doux) both}
 .ecran .tuile:nth-child(2){animation-delay:.05s}.ecran .tuile:nth-child(3){animation-delay:.1s}.ecran .tuile:nth-child(4){animation-delay:.15s}
-.onglets a[aria-current="page"] svg{stroke-width:2.2}
 @media (prefers-reduced-motion:reduce){.courbe .c-onde{display:none}}
 .ligne .icone-carre.av{background:hsl(var(--h) 70% 58% / .16);color:hsl(var(--h) 50% 38%)}
 @media (prefers-color-scheme:dark){.ligne .icone-carre.av{background:hsl(var(--h) 60% 55% / .2);color:hsl(var(--h) 70% 74%)}}

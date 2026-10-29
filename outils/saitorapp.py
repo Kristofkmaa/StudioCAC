@@ -47,6 +47,15 @@ def icones_du_logo(site, dossier):
         im.save(dossier / "apercu.png", optimize=True)
 
 
+def version():
+    """Une empreinte de app.js, app.css et sites.js : le navigateur recharge l'appli dès qu'elle change."""
+    import hashlib
+    h = hashlib.sha1()
+    for f in ("app.js", "app.css", "sites.js"):
+        h.update((APP / f).read_bytes())
+    return h.hexdigest()[:8]
+
+
 def page(site):
     s = {k: site.get(k) for k in ("id", "nom", "court", "metier", "accent", "site", "racine", "demo", "contenu", "modules", "photo", "fond", "marque")}
     scripts = "".join(f'<script src="{html.escape(x)}"></script>\n' for x in site.get("scripts", []))
@@ -64,14 +73,14 @@ def page(site):
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icone-192.png">
 <link rel="apple-touch-icon" href="icone-180.png">
-<link rel="stylesheet" href="../app.css">
+<link rel="stylesheet" href="../app.css?v={version()}">
 <style>:root{{--accent:{site["accent"]}}}</style>
 </head>
 <body>
 <div id="appli"></div>
 <script>window.SITE = {json.dumps(s, ensure_ascii=False)};</script>
-{scripts}<script src="../sites.js"></script>
-<script src="../app.js"></script>
+{scripts}<script src="../sites.js?v={version()}"></script>
+<script src="../app.js?v={version()}"></script>
 </body>
 </html>
 """
@@ -97,7 +106,7 @@ def lanceur(sites):
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#FFFFFF">
 <link rel="icon" href="symbole.svg" type="image/svg+xml">
-<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="app.css?v={version()}">
 </head>
 <body class="lanceur">
 <main class="page">

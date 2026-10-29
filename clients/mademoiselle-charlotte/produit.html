@@ -16,29 +16,27 @@
 .fil a:hover{text-decoration:underline}
 .fiche{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:clamp(24px,5vw,72px);align-items:start;padding:clamp(24px,4vw,48px) 0 clamp(72px,9vw,112px)}
 @media (max-width:860px){.fiche{grid-template-columns:1fr}}
-.photo{background:var(--papier);border-radius:var(--r-carte);box-shadow:var(--ombre);padding:12px;position:sticky;top:24px}
+.photo{background:var(--papier);border-radius:var(--r-carte);padding:12px;position:sticky;top:24px}
 @media (max-width:860px){.photo{position:relative;top:0}}
 .photo img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:16px;background:var(--creme)}
-.photo .badge{position:absolute;left:24px;top:24px;background:#fff;border-radius:10px;padding:5px 10px;font:500 13px/1.2 var(--sans)}
-.infos h1{font:300 clamp(40px,5.4vw,68px)/.98 var(--serif);letter-spacing:-.017em;margin-top:14px}
+.infos h1{font:300 clamp(40px,5.4vw,68px)/.98 var(--serif);letter-spacing:-.017em}
 .infos .prix-g{font:100 clamp(56px,7vw,88px)/1 var(--serif);letter-spacing:-.02em;margin-top:18px;background:var(--degrade);-webkit-background-clip:text;background-clip:text;color:transparent;width:max-content}
 .infos .texte{font-size:18px;line-height:1.5;color:var(--ardoise);margin-top:20px;max-width:32em}
-.bloc{background:var(--papier);border-radius:var(--r-carte);box-shadow:var(--ombre);padding:clamp(20px,3vw,28px);margin-top:28px;display:flex;flex-direction:column;gap:20px}
-.bloc label,.bloc .lbl{display:block;font:700 12px/1.2 var(--sans);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px}
-.qte{display:inline-flex;align-items:center;border:1px solid #ccc;border-radius:100px;background:#fff}
-.qte button{width:48px;height:48px;font-size:20px;border-radius:50%}
-.qte output{min-width:28px;text-align:center;font-weight:500}
+.bloc{margin-top:32px;display:flex;flex-direction:column;gap:26px}
+.bloc label,.bloc .lbl{display:block;font:300 22px/1.2 var(--serif);margin-bottom:10px}
+.qte{display:inline-flex;align-items:center;gap:6px}
+.qte button{width:48px;height:48px;font-size:22px;border-radius:50%;background:var(--papier);transition:transform .2s var(--doux),background-color .2s}
+.qte button:active{transform:scale(.92)}
+.qte button:disabled{opacity:.35;cursor:default}
+.qte output{min-width:44px;text-align:center;font:300 34px/1 var(--serif)}
 .achat{display:flex;flex-wrap:wrap;gap:10px}
 .achat .btn{flex:1 1 200px}
 .astuce{font-size:14px;color:var(--ardoise);min-height:1.4em}
-.atouts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:20px}
-.atouts li{list-style:none;border:1px solid var(--filet);border-radius:18px;padding:14px 16px;font-size:14px;color:var(--ardoise)}
-.atouts b{display:block;font:300 19px/1.2 var(--serif);color:var(--encre);margin-bottom:2px}
-@media (max-width:520px){.atouts{grid-template-columns:1fr}}
+.atouts{margin-top:22px;font:italic 300 17px/1.45 var(--serif);color:var(--ardoise)}
 .voisins{display:flex;justify-content:space-between;gap:12px;margin-top:32px;font-size:15px}
 .voisins a{text-decoration:none;display:flex;flex-direction:column;gap:2px;max-width:48%}
 .voisins a:last-child{text-align:right;margin-left:auto}
-.voisins span{font:700 12px/1.2 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--ardoise)}
+.voisins span{font-size:14px;color:var(--ardoise)}
 .voisins a:hover em{text-decoration:underline}
 .voisins em{font:italic 300 19px/1.25 var(--serif)}
 .aussi{background:var(--papier)}
@@ -67,18 +65,17 @@
 
 <main id="page">
   <div class="wrap">
-    <p class="fil" id="fil"><a href="index.html">Accueil</a> / <a href="index.html#creations">Créations</a></p>
+    <p class="fil" id="fil"><a href="index.html">Accueil</a> / <a href="index.html#creations" id="filFam">Créations</a></p>
     <div class="fiche" id="fiche">
       <div class="photo" id="photo"></div>
       <div class="infos">
-        <p class="sourcil" id="famille"></p>
         <h1 id="nom"></h1>
         <p class="prix-g" id="prix"></p>
         <p class="texte" id="texte"></p>
         <form class="bloc" id="commande" onsubmit="return false">
           <div id="persoBloc" hidden>
-            <label for="prenom">Le prénom ou le mot à broder</label>
-            <input class="champ" id="prenom" maxlength="20" autocomplete="off" placeholder="Son prénom, ou un mot corse">
+            <label for="prenom">Le prénom à broder</label>
+            <input class="ecrit" id="prenom" maxlength="20" autocomplete="off" placeholder="Son prénom">
           </div>
           <div>
             <p class="lbl" id="lblQte">Quantité</p>
@@ -88,13 +85,9 @@
             <a class="btn noir" id="commander" href="https://mademoiselle-charlotte-1.sumupstore.com/" target="_blank" rel="noopener">Commander sur la boutique</a>
             <a class="btn trait" id="essayer" href="index.html#broder" hidden>Essayer sur le bavoir</a>
           </div>
-          <p class="astuce" id="astuce" aria-live="polite">Le paiement se fait sur la boutique en ligne de Mademoiselle Charlotte, en toute sécurité.</p>
+          <p class="astuce" id="astuce" aria-live="polite"></p>
         </form>
-        <ul class="atouts">
-          <li><b>Fait main</b>Cousu à l'atelier, pièce par pièce.</li>
-          <li><b id="atout2">À son prénom</b><span id="atout2t">Brodé pour un enfant précis.</span></li>
-          <li><b>Paiement sûr</b>Par carte, sur la boutique.</li>
-        </ul>
+        <p class="atouts" id="atouts">Cousu à la main, pièce par pièce. Paiement par carte sur la boutique.</p>
         <nav class="voisins" id="voisins" aria-label="Créations voisines"></nav>
       </div>
     </div>
@@ -103,8 +96,7 @@
   <section class="aussi">
     <div class="wrap">
       <div class="tete">
-        <p class="sourcil">Dans la même famille</p>
-        <h2 class="titre">Vous aimerez <em>aussi</em></h2>
+                <h2 class="titre">Vous aimerez <em>aussi</em></h2>
       </div>
       <div class="grille" id="aussi"></div>
     </div>
@@ -124,20 +116,25 @@
 <script>
 document.documentElement.classList.add("js");
 const $ = id => document.getElementById(id);
+
+/* une fiche s'ouvre toujours en haut, même si le navigateur garde la position de la page d'avant */
+if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+const enHaut = () => { if (!location.hash) { document.documentElement.style.scrollBehavior = "auto"; scrollTo(0, 0); document.documentElement.style.scrollBehavior = ""; } };
+enHaut(); addEventListener("pageshow", enHaut); addEventListener("load", enHaut);
 const i = Math.max(0, PIECES.findIndex(x => x.s === new URLSearchParams(location.search).get("p")));
 const x = PIECES[i];
 
 document.title = `${x.n} · Mademoiselle Charlotte`;
 document.querySelector('meta[name="description"]').content = x.t;
 $("fil").insertAdjacentHTML("beforeend", ` / <span aria-current="page">${x.n}</span>`);
-$("photo").innerHTML = `<img class="arrive" src="images/${x.grand || x.s}.webp" alt="${x.n}" width="700" height="700">${x.perso ? '<span class="badge">À son prénom</span>' : ""}`;
-$("famille").textContent = FAMILLES[x.f];
+$("photo").innerHTML = `<img class="arrive" src="images/${x.grand || x.s}.webp" alt="${x.n}" width="700" height="700">`;
+$("filFam").textContent = FAMILLES[x.f];
 $("nom").textContent = x.n;
 $("prix").innerHTML = `${x.p}&nbsp;€`;
 $("texte").textContent = x.t;
 $("persoBloc").hidden = !x.perso;
 $("essayer").hidden = x.f !== "bavoirs";
-if (!x.perso) { $("atout2").textContent = "Pièce unique"; $("atout2t").textContent = "Chaque modèle est un peu différent."; }
+$("atouts").textContent = x.perso ? "Brodé à son prénom, cousu à la main. Paiement par carte sur la boutique." : "Cousu à la main, pièce par pièce. Paiement par carte sur la boutique.";
 
 /* précédente et suivante */
 const av = PIECES[(i - 1 + PIECES.length) % PIECES.length], ap = PIECES[(i + 1) % PIECES.length];
@@ -146,7 +143,7 @@ $("voisins").innerHTML = `<a href="produit.html?p=${av.s}"><span>← Précédent
 /* même famille d'abord, puis les autres, quatre en tout */
 const autres = [...PIECES.filter(y => y.f === x.f && y !== x), ...PIECES.filter(y => y.f !== x.f)].slice(0, 4);
 $("aussi").innerHTML = autres.map(y =>
-  `<a class="piece" href="produit.html?p=${y.s}"><div class="ph"><img class="arrive" src="images/${y.s}.webp" alt="${y.n}" width="360" height="360" loading="lazy">${y.perso ? '<span class="badge">À son prénom</span>' : ""}</div><h3>${y.n}</h3><p class="prix">${y.p}&nbsp;€</p></a>`).join("");
+  `<a class="piece" href="produit.html?p=${y.s}"><div class="ph"><img class="arrive" src="images/${y.s}.webp" alt="${y.n}" width="360" height="360" loading="lazy"></div><h3>${y.n}</h3>${y.perso ? '<p class="perso">brodé à son prénom</p>' : ""}<p class="prix">${y.p}&nbsp;€</p></a>`).join("");
 
 /* quantité */
 let q = 1;

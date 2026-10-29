@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Mademoiselle Charlotte · accessoires sur mesure pour enfants</title>
-<meta name="description" content="Bavoirs en gaze de coton, coffrets de naissance, doudous et cadres, personnalisés au prénom de l'enfant ou avec un mot corse.">
+<meta name="description" content="Bavoirs en gaze de coton, coffrets de naissance, doudous et cadres, personnalisés au prénom de l'enfant ou avec un petit mot.">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#F8F1FA">
 <link rel="icon" href="images/logo-petit.png">
@@ -34,9 +34,8 @@
 <main>
   <div class="wrap ouverture" id="ouverture">
     <img class="logo-grand" src="images/logo.webp" alt="Logo de Mademoiselle Charlotte : une petite fille et un petit garçon qui tend la main vers un papillon" width="640" height="640">
-    <p class="sourcil">Création d'accessoires sur mesure pour enfants</p>
     <h1>Des petites choses, <em>brodées</em> à&nbsp;son&nbsp;prénom.</h1>
-    <p class="chapo">Bavoirs en gaze de coton, coffrets de naissance, doudous et cadres. Chaque pièce est cousue à la main et porte un prénom, ou un mot corse qui fait sourire.</p>
+    <p class="chapo">Bavoirs en gaze de coton, coffrets de naissance, doudous et cadres pour les tout-petits, cousus à la main et brodés à leur prénom.</p>
     <div class="actions">
       <a class="btn rose" href="#creations">Voir les créations</a>
       <a class="btn noir" href="#broder">Broder un prénom</a>
@@ -44,7 +43,7 @@
     <div class="vitrine" aria-label="Quelques créations">
       <figure><img class="arrive" src="images/bavoir-prenom-fille.webp" alt="Bavoir bleu ciel brodé « Louise » en lettres dorées" width="360" height="360"><figcaption>Louise, gaze ciel</figcaption></figure>
       <figure><img class="arrive" src="images/doudou-grenouille.webp" alt="Doudou grenouille en tissu vert, assis" width="360" height="360"><figcaption>Le doudou grenouille</figcaption></figure>
-      <figure><img class="arrive" src="images/bavoir-corse-garcon.webp" alt="Bavoir bleu nuit étoilé brodé « Stragnu »" width="360" height="360"><figcaption>Stragnu, en corse</figcaption></figure>
+      <figure><img class="arrive" src="images/bavoir-mot-garcon.webp" alt="Bavoir bleu nuit étoilé brodé « Stragnu »" width="360" height="360"><figcaption>Stragnu, gaze étoilée</figcaption></figure>
       <figure><img class="arrive" src="images/boite-souris.webp" alt="Boîte à dent de lait en forme de petite chambre de souris" width="360" height="360"><figcaption>La boîte souris</figcaption></figure>
       <figure><img class="arrive" src="images/coffret-matteu.webp" alt="Coffret de naissance brodé « Matteu »" width="360" height="360"><figcaption>Coffret « Matteu »</figcaption></figure>
     </div>
@@ -53,7 +52,6 @@
   <section class="creations" id="creations">
     <div class="wrap">
       <div class="tete">
-        <p class="sourcil"><span class="num">01</span> · Les créations</p>
         <h2 class="titre">Tout l'atelier, <em>en un coup d'œil</em></h2>
         <div class="filtres" role="group" aria-label="Filtrer les créations" id="filtres"></div>
       </div>
@@ -65,7 +63,6 @@
   <section class="atelier-v" id="broder">
     <div class="wrap">
       <div class="tete">
-        <p class="sourcil"><span class="num">02</span> · Broder un prénom</p>
         <h2 class="titre">Essayez <em>son bavoir</em></h2>
         <p class="chapo">Écrivez le prénom, choisissez la gaze et le fil : le bavoir se brode sous vos yeux.</p>
       </div>
@@ -103,30 +100,25 @@
           <p class="tag" id="tag">Gaze ciel, fil doré pailleté</p>
         </div>
         <form class="reglages" id="reglages" onsubmit="return false">
-          <div>
-            <label for="nom">Le prénom ou le mot</label>
-            <input class="champ" id="nom" name="nom" maxlength="11" autocomplete="off" value="Louise" placeholder="Son prénom">
-            <div class="mots" id="mots" aria-label="Quelques mots corses">
-              <button type="button" data-m="Stragnu">Stragnu<span>coquin</span></button>
-              <button type="button" data-m="Pianu">Pianu<span>doucement</span></button>
-              <button type="button" data-m="O Basta">O Basta<span>ça suffit !</span></button>
-              <button type="button" data-m="Sampieru">Sampieru</button>
-            </div>
+          <div class="rang">
+            <label class="lbl" for="nom">Le prénom</label>
+            <input class="ecrit" id="nom" name="nom" maxlength="11" autocomplete="off" value="Louise" placeholder="Son prénom">
+            <p class="mots" id="mots">ou un petit mot&nbsp;: <button type="button" data-m="Stragnu">Stragnu</button>, <button type="button" data-m="Pianu">Pianu</button>, <button type="button" data-m="O Basta">O&nbsp;Basta</button>, <button type="button" data-m="Sampieru">Sampieru</button></p>
           </div>
-          <div>
-            <p class="lbl" id="lblTissu">La gaze de coton</p>
-            <div class="pastilles" role="group" aria-labelledby="lblTissu" id="tissus"></div>
+          <div class="rang">
+            <p class="lbl" id="lblTissu">La gaze</p>
+            <div class="choix-l" role="group" aria-labelledby="lblTissu" id="tissus"></div>
           </div>
-          <div>
+          <div class="rang">
             <p class="lbl" id="lblFil">Le fil</p>
-            <div class="pastilles" role="group" aria-labelledby="lblFil" id="fils"></div>
+            <div class="choix-l" role="group" aria-labelledby="lblFil" id="fils"></div>
           </div>
-          <div>
+          <div class="rang">
             <p class="lbl" id="lblSigne">Le petit signe</p>
-            <div class="pastilles" role="group" aria-labelledby="lblSigne" id="signes"></div>
+            <div class="choix-l" role="group" aria-labelledby="lblSigne" id="signes"></div>
           </div>
           <div class="total">
-            <p>6&nbsp;€<small>Bavoir personnalisé, gaze de coton</small></p>
+            <p><span class="prix-b">6&nbsp;€</span>le bavoir en gaze de coton, brodé à la main</p>
             <a class="btn noir" href="https://mademoiselle-charlotte-1.sumupstore.com/" target="_blank" rel="noopener">Commander ce bavoir</a>
           </div>
         </form>
@@ -139,13 +131,13 @@
   <section class="prune" id="atelier">
     <div class="wrap atelier">
       <div>
-        <p class="sourcil"><span class="num">03</span> · L'atelier</p>
-        <blockquote style="margin-top:24px">« Parce que les petites choses font les <em>plus grands bonheurs</em>… »<cite>Mademoiselle Charlotte</cite></blockquote>
+        <h2 class="titre">L'atelier</h2>
+        <blockquote>« Parce que les petites choses font les <em>plus grands bonheurs</em>… »<cite>Mademoiselle Charlotte</cite></blockquote>
       </div>
       <ul class="promesses">
-        <li><h3>À son prénom</h3><p>Chaque bavoir, coffret ou cadre est brodé pour un enfant précis : son prénom, sa date, un mot corse.</p></li>
-        <li><h3>Cousu à la main</h3><p>Coupé, cousu et assemblé à l'atelier, une pièce après l'autre, sans série.</p></li>
-        <li><h3>Doux pour la peau</h3><p>Gaze de coton, tissus choisis pour les tout-petits, finitions sans rien qui gratte.</p></li>
+        <li><b>À son prénom.</b> Chaque bavoir, coffret ou cadre est brodé pour un enfant précis : son prénom, sa date, un petit mot.</li>
+        <li><b>Cousu à la main.</b> Coupé, cousu et assemblé à l'atelier, une pièce après l'autre, sans série.</li>
+        <li><b>Doux pour la peau.</b> Gaze de coton, tissus choisis pour les tout-petits, finitions sans rien qui gratte.</li>
       </ul>
     </div>
   </section>
@@ -153,13 +145,12 @@
   <section id="commander">
     <div class="wrap">
       <div class="tete">
-        <p class="sourcil"><span class="num">04</span> · Commander</p>
         <h2 class="titre">Trois pas, <em>et c'est brodé</em></h2>
       </div>
       <ol class="etapes">
-        <li><b>1</b><h3>Choisir</h3><p>Repérez la création sur ce site, puis ouvrez-la sur la boutique en ligne.</p></li>
-        <li><b>2</b><h3>Préciser</h3><p>Indiquez le prénom, la couleur et le petit signe dans la note de commande.</p></li>
-        <li><b>3</b><h3>Recevoir</h3><p>La pièce est cousue pour vous, puis envoyée ou remise en main propre.</p></li>
+        <li><h3>Choisir</h3><p>Repérez la création sur ce site, puis ouvrez-la sur la boutique en ligne.</p></li>
+        <li><h3>Préciser</h3><p>Indiquez le prénom, la couleur et le petit signe dans la note de commande.</p></li>
+        <li><h3>Recevoir</h3><p>La pièce est cousue pour vous, puis envoyée ou remise en main propre.</p></li>
       </ol>
       <div class="fin">
         <a class="btn rose" href="https://mademoiselle-charlotte-1.sumupstore.com/" target="_blank" rel="noopener">Ouvrir la boutique</a>
@@ -188,8 +179,8 @@ const $ = id => document.getElementById(id);
 const FAM = [["tout", "Tout"], ...Object.entries(FAMILLES)];
 
 $("grille").innerHTML = PIECES.map(x =>
-  `<a class="piece" data-f="${x.f}" href="produit.html?p=${x.s}"><div class="ph"><img class="arrive" src="images/${x.s}.webp" alt="${x.n}" width="360" height="360" loading="lazy">${x.perso ? '<span class="badge">À son prénom</span>' : ""}</div><h3>${x.n}</h3><p class="prix">${x.p}&nbsp;€</p></a>`).join("");
-$("filtres").innerHTML = FAM.map(([k, t], i) => `<button type="button" data-f="${k}" aria-pressed="${i === 0}">${t}</button>`).join("");
+  `<a class="piece" data-f="${x.f}" href="produit.html?p=${x.s}"><div class="ph"><img class="arrive" src="images/${x.s}.webp" alt="${x.n}" width="360" height="360" loading="lazy"></div><h3>${x.n}</h3>${x.perso ? '<p class="perso">brodé à son prénom</p>' : ""}<p class="prix">${x.p}&nbsp;€</p></a>`).join("");
+$("filtres").innerHTML = FAM.map(([k, t], i) => `<button type="button" data-f="${k}" aria-pressed="${i === 0}">${t}<sup>${k === "tout" ? PIECES.length : PIECES.filter(x => x.f === k).length}</sup></button>`).join("");
 $("filtres").addEventListener("click", e => {
   const b = e.target.closest("button"); if (!b) return;
   $("filtres").querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b));
@@ -206,11 +197,25 @@ suivre();
 
 /* le bavoir */
 const TISSUS = [["Ciel","#B9D3EC",0],["Rose","#E9A3B2",0],["Sauge","#9DAA8C",0],["Nuit étoilée","#1E2847",1],["Écru","#EEE5D3",0]];
-const FILS = [["Doré pailleté","or"],["Blanc","blanc"],["Rose","rosefil"]];
-const SIGNES = [["Cœur","coeur"],["Étoile","etoile"],["Aucun",""]];
+const FILS = [["Doré pailleté","or","#CFA448"],["Blanc","blanc","#F7F4EE"],["Rose","rosefil","#DB6FA6"]];
+const SIGNES = [["Cœur","coeur"],["Étoile","etoile"],["Sans",""]];
 const choix = { tissu: 0, fil: 0, signe: 0 };
-const pastilles = (id, liste, cle, fond) => {
-  $(id).innerHTML = liste.map((x, i) => `<button type="button" data-i="${i}" aria-pressed="${i === 0}"><i style="background:${fond(x)}"></i>${x[0]}</button>`).join("");
+
+/* un coupon de gaze aux bords crantés (ciseaux à cranter) */
+const dents = (n, l) => { let d = ""; for (let k = 0; k <= n; k++) d += `${(k / n * l).toFixed(1)},${k % 2 ? 3 : 0} `; return d; };
+const coupon = c => {
+  const n = 14, l = 52;
+  const haut = dents(n, l).trim().split(" ").map(p => p.split(",").map(Number));
+  const pts = [...haut.map(([x, y]) => [x, y]), ...haut.map(([x, y]) => [l - y, x]), ...haut.map(([x, y]) => [l - x, l - y]), ...haut.map(([x, y]) => [y, l - x])];
+  return `<svg viewBox="-2 -2 56 56" width="56" height="56" aria-hidden="true"><polygon points="${pts.map(p => p.join(",")).join(" ")}" fill="${c[1]}"/>${c[2] ? '<g fill="#fff"><circle cx="14" cy="16" r="1.4"/><circle cx="34" cy="12" r="1"/><circle cx="24" cy="30" r="1.2"/><circle cx="40" cy="36" r="1.4"/><circle cx="12" cy="40" r="1"/></g>' : ""}<path d="M6 14h40M6 24h40M6 34h40M6 44h40" stroke="#000" stroke-opacity=".05"/></svg>`;
+};
+/* une bobine de fil */
+const bobine = c => `<svg viewBox="0 0 40 56" width="40" height="56" aria-hidden="true"><rect x="4" y="2" width="32" height="7" rx="2" fill="#D8C3A2"/><rect x="4" y="47" width="32" height="7" rx="2" fill="#D8C3A2"/><rect x="8" y="9" width="24" height="38" fill="${c[2]}"/><path d="M8 14h24M8 19h24M8 24h24M8 29h24M8 34h24M8 39h24M8 44h24" stroke="#000" stroke-opacity=".12"/>${c[1] === "or" ? '<g fill="#fff"><circle cx="13" cy="17" r=".9"/><circle cx="25" cy="27" r=".8"/><circle cx="18" cy="37" r=".9"/><circle cx="28" cy="15" r=".7"/></g>' : ""}${c[1] === "blanc" ? '<rect x="8" y="9" width="24" height="38" fill="none" stroke="#000" stroke-opacity=".12"/>' : ""}</svg>`;
+const signe = c => c[1] === "coeur" ? '<svg viewBox="0 0 40 40" width="40" height="40" aria-hidden="true"><path d="M20 33C9 25 4 19.5 4 13.5A8 8 0 0 1 20 10a8 8 0 0 1 16 3.5C36 19.5 31 25 20 33z" fill="#C2579B"/></svg>'
+  : c[1] === "etoile" ? '<svg viewBox="0 0 40 40" width="40" height="40" aria-hidden="true"><path d="M20 4l4.7 10.4 11.3 1.2-8.5 7.6 2.4 11.2L20 28.7l-9.9 5.7 2.4-11.2L4 15.6l11.3-1.2z" fill="#CFA448"/></svg>'
+  : '<svg viewBox="0 0 40 40" width="40" height="40" aria-hidden="true"><circle cx="20" cy="20" r="14" fill="none" stroke="#2F2A33" stroke-opacity=".35" stroke-width="1.5" stroke-dasharray="3 4"/></svg>';
+const rangee = (id, liste, cle, vue) => {
+  $(id).innerHTML = liste.map((x, i) => `<button type="button" class="choix" data-i="${i}" aria-pressed="${i === 0}"><span class="vue">${vue(x)}</span><span class="nom">${x[0]}</span></button>`).join("");
   $(id).addEventListener("click", e => {
     const b = e.target.closest("button"); if (!b) return;
     choix[cle] = +b.dataset.i;
@@ -218,9 +223,9 @@ const pastilles = (id, liste, cle, fond) => {
     dessine();
   });
 };
-pastilles("tissus", TISSUS, "tissu", x => x[1]);
-pastilles("fils", FILS, "fil", x => ({ or: "linear-gradient(135deg,#A97A22,#F2D27A,#C4952F)", blanc: "#fff", rosefil: "linear-gradient(135deg,#D9649E,#F3A5C8)" })[x[1]]);
-pastilles("signes", SIGNES, "signe", x => x[1] === "coeur" ? "radial-gradient(circle,#C2579B 30%,#F8F1FA 34%)" : x[1] === "etoile" ? "radial-gradient(circle,#C4952F 30%,#F8F1FA 34%)" : "#F8F1FA");
+rangee("tissus", TISSUS, "tissu", coupon);
+rangee("fils", FILS, "fil", bobine);
+rangee("signes", SIGNES, "signe", signe);
 
 function dessine() {
   const t = TISSUS[choix.tissu], f = FILS[choix.fil], s = SIGNES[choix.signe];
@@ -235,6 +240,7 @@ function dessine() {
   $("prenom").setAttribute("stroke-opacity", f[1] === "blanc" ? .35 : .12);
   ["coeur", "etoile"].forEach(id => { $(id).setAttribute("opacity", s[1] === id ? 1 : 0); $(id).setAttribute("fill", `url(#${f[1]})`); });
   $("tag").textContent = `Gaze ${t[0].toLowerCase()}, fil ${f[0].toLowerCase()}`;
+  $("mots").querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.m === $("nom").value.trim()));
 }
 $("nom").addEventListener("input", dessine);
 $("mots").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; $("nom").value = b.dataset.m; dessine(); });

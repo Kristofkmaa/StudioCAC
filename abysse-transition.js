@@ -31,8 +31,11 @@
     const [, g, d, seam] = cover();
     g.animate([{ transform: "translateX(-100%)" }, { transform: "none" }], { duration: 560, easing: INOUT, fill: "both" });
     d.animate([{ transform: "translateX(100%)" }, { transform: "none" }], { duration: 560, easing: INOUT, fill: "both" });
-    seam.animate([{ opacity: 0, transform: "scaleY(0)" }, { opacity: 1, transform: "none" }], { delay: 420, duration: 220, easing: OUT, fill: "both" })
-      .finished.then(() => { location.href = a.href; });
+    // on change de page à la fin de l'animation, ou au bout de 0,7 s si le navigateur l'a mise en pause
+    let parti = false;
+    const part = () => { if (!parti) { parti = true; location.href = a.href; } };
+    seam.animate([{ opacity: 0, transform: "scaleY(0)" }, { opacity: 1, transform: "none" }], { delay: 420, duration: 220, easing: OUT, fill: "both" }).finished.then(part);
+    setTimeout(part, 700);
   });
 
   if (reduce) { root.classList.remove("sc-pending"); return; }
@@ -42,6 +45,9 @@
     // la page s'ouvre fermée, exactement comme la page précédente s'est terminée
     const [c, g, d, seam] = cover();
     seam.style.opacity = 1;
+    // sécurité : si l'animation ne démarre pas (page chargée en arrière-plan, navigateur qui la met en pause),
+    // les volets disparaissent quand même au bout de 2,5 s : la page n'est jamais cachée
+    const secours = setTimeout(() => { if (current) current.done(); else { c.remove(); root.classList.remove("sc-pending"); } }, 2500);
     const go = () => requestAnimationFrame(() => requestAnimationFrame(() => {
       root.classList.remove("sc-pending");
       const h = innerHeight, anims = [], seen = new Set();
@@ -75,7 +81,7 @@
       const stop = () => anims.forEach(a => a.finish());
       addEventListener("pointerdown", stop, { once: true });
       addEventListener("keydown", stop, { once: true });
-      const done = () => { removeEventListener("pointerdown", stop); removeEventListener("keydown", stop); anims.forEach(a => a.cancel()); c.remove(); [root.style.overflowX, document.body.style.overflowX] = prevX; current = null; };
+      const done = () => { clearTimeout(secours); removeEventListener("pointerdown", stop); removeEventListener("keydown", stop); anims.forEach(a => a.cancel()); c.remove(); [root.style.overflowX, document.body.style.overflowX] = prevX; current = null; };
       Promise.all(anims.map(a => a.finished.catch(() => {}))).then(done);
       current = { done };
     }));

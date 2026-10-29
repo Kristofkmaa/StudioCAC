@@ -376,6 +376,13 @@ const DEMOS = [
   ["Forza Club", "Salle de sport", "sejours", "Les places libres cours par cours, et la séance d'essai en deux champs.", "forza"],
   ["Agence Piazza", "Immobilier", "services", "On estime son bien en trois questions, avec le plan de sa surface.", "piazza"],
 ];
+$("works").innerHTML = DEMOS.map(([nom, metier, , txt, slug]) => `
+  <a class="work rise" href="demo-${slug}.html" target="_blank" rel="noopener">
+    <div class="top"><div><h3>${esc(nom)}</h3><span class="eyebrow">${esc(metier)}</span></div><span class="arrow">${fleche}</span></div>
+    <p>${esc(txt)}</p>
+    <div class="shot"><img src="media/apercus/${slug}.webp" alt="La page d'accueil de la démo ${esc(nom)}" width="720" height="450" loading="lazy" decoding="async"></div>
+  </a>`).join("");
+
 // ——— le titre géant : en descendant, chaque ligne repart de son côté (gauche, droite, gauche)
 (() => {
   if (calme) return;

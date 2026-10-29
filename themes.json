@@ -899,7 +899,7 @@
     {
       "id": "recit",
       "nom": "Récit peint",
-      "accroche": "Comme un beau livre : un fond papier, une serif calme, de grands tableaux peints entre les sections, une seule couleur.",
+      "accroche": "Comme un beau livre : un fond papier, une serif calme, un grand tableau peint en ouverture, puis les vraies photos du lieu, une seule couleur.",
       "pour": [
         "Maison d'hôtes",
         "Librairie",
@@ -922,7 +922,7 @@
         "nom": "U Fucone",
         "url": "demo-u-fucone.html"
       },
-      "recette": "Une serif fine (Redaction) pour tous les titres, une sans-serif discrète pour le reste ; fond papier presque blanc ; les émotions viennent de grands tableaux peints posés entre les sections, arrondis de 24 px ; un seul bleu, en contour sur les boutons ; filets fins vert-gris sur les cartes blanches.",
+      "recette": "Une serif fine (Redaction) pour tous les titres, une sans-serif discrète pour le reste ; fond papier presque blanc ; un grand tableau peint ouvre la page comme une couverture de livre, puis les vraies photos du lieu (chambres, table, village), arrondies de 24 px ; un seul bleu, en contour sur les boutons ; filets fins vert-gris sur les cartes blanches.",
       "va_avec": {
         "formes": [
           "arrondies"

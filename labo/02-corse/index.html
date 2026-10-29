@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex"><link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<title>La Corse en 3D, labo Saitora</title>
+<link rel="stylesheet" href="../../polices/jost-a2e892.css">
+<link rel="stylesheet" href="../../polices/independantes-libre.css">
+<style>
+:root{--ink:#F6F1E7;--muted:#B9C6CC;--fond:#0A2433;--carte:rgba(8,26,37,.78);--accent:#F2B36B}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--fond);color:var(--ink);font:16px/1.5 "Jost",sans-serif;overflow:hidden;-webkit-tap-highlight-color:transparent}
+#scene{position:fixed;inset:0;touch-action:none}
+#scene canvas{display:block}
+header{position:fixed;left:0;right:0;top:0;padding:max(18px,env(safe-area-inset-top)) clamp(16px,4vw,40px) 0;display:flex;justify-content:space-between;align-items:baseline;pointer-events:none;z-index:3}
+header a,header span{pointer-events:auto;color:var(--ink);text-decoration:none;font-size:15px;opacity:.85;padding:10px 0}
+.titre{position:fixed;left:clamp(16px,4vw,40px);top:clamp(70px,12vh,120px);margin:0;pointer-events:none;z-index:2}
+.titre h1{margin:0;font:400 clamp(3rem,1.6rem + 6vw,6.4rem)/.9 "Redaction",serif;letter-spacing:-.02em}
+.titre h1 i{color:var(--accent)}
+.titre p{margin:12px 0 0;max-width:30ch;color:var(--muted)}
+.etiquettes{position:fixed;inset:0;pointer-events:none;z-index:1}
+.pin{position:absolute;left:0;top:0;transform:translate(-50%,-100%);pointer-events:auto;display:flex;flex-direction:column;align-items:center;background:none;border:0;padding:6px 8px;color:var(--ink);font:500 14px "Jost",sans-serif;cursor:pointer;touch-action:manipulation;white-space:nowrap}
+.pin span{padding:4px 10px;border-radius:999px;background:var(--carte);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.pin b{display:inline-grid;place-items:center;min-width:20px;height:20px;margin-left:6px;border-radius:999px;background:var(--accent);color:#1B1206;font-size:12px}
+.pin::after{content:"";width:1px;height:18px;background:var(--ink);opacity:.8}
+.pin[aria-expanded=true] span{background:var(--accent);color:#1B1206}
+.pin[aria-expanded=true] b{background:#1B1206;color:var(--accent)}
+.sommet{position:absolute;left:0;top:0;transform:translate(-50%,-120%);font:italic 400 13px "Redaction",serif;color:var(--ink);opacity:.9;white-space:nowrap;text-shadow:0 1px 6px rgba(0,0,0,.5)}
+.cache{visibility:hidden}
+.fiche{position:fixed;right:clamp(16px,4vw,40px);bottom:max(24px,env(safe-area-inset-bottom));width:min(360px,100% - 32px);padding:20px 22px;border-radius:12px;background:var(--carte);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);z-index:3;transition:opacity .25s ease,transform .25s cubic-bezier(.2,.8,.2,1)}
+.fiche[hidden]{display:block;opacity:0;transform:translateY(12px);pointer-events:none}
+.fiche h2{margin:0;font:400 2rem/1 "Redaction",serif}
+.fiche p{margin:6px 0 0;color:var(--muted);font-size:15px}
+.fiche ul{list-style:none;margin:14px 0 0;padding:0}
+.fiche li a{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-top:1px solid rgba(246,241,231,.14);color:var(--ink);text-decoration:none}
+.fiche li a::after{content:"→";color:var(--accent)}
+.fiche .fermer{position:absolute;right:8px;top:8px;width:44px;height:44px;border:0;background:none;color:var(--ink);font-size:22px;cursor:pointer}
+.aide{position:fixed;left:clamp(16px,4vw,40px);bottom:max(24px,env(safe-area-inset-bottom));margin:0;font-size:14px;color:var(--muted);z-index:2;pointer-events:none}
+.secours{position:fixed;inset:0;display:grid;place-items:center;padding:24px;text-align:center;color:var(--muted)}
+@media (max-width:640px){.aide{display:none}.sommet{display:none}.titre p{display:none}.fiche{left:16px;right:16px;width:auto}}
+@media (prefers-reduced-motion:reduce){.fiche{transition:none}}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+</style>
+<script type="importmap">{"imports":{"three":"../lib/three.module.js","three/addons/":"../lib/three-addons/"}}</script>
+</head><body>
+<div id="scene" aria-hidden="true"></div>
+<div class="etiquettes" id="etiquettes"></div>
+<header><a href="../">← Le labo</a><span>02 · La Corse en 3D</span></header>
+<div class="titre"><h1>La <i>Corse</i></h1><p>Nos vitrines sur l'île. Tournez la carte, touchez une ville.</p></div>
+<p class="aide">Glisser pour tourner · molette ou pincer pour zoomer</p>
+<section class="fiche" id="fiche" hidden aria-live="polite">
+  <button class="fermer" type="button" id="fermer" aria-label="Fermer">×</button>
+  <h2 id="ville"></h2><p id="nombre"></p><ul id="sites"></ul>
+</section>
+<noscript><p class="secours">La carte en 3D demande JavaScript.</p></noscript>
+<script type="module">
+import * as THREE from "three";
+import { OrbitControls } from "three/addons/OrbitControls.js";
+import { CONTOUR } from "./contour.js";
+
+const calme = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const scene = document.getElementById("scene");
+let rendu;
+try { rendu = new THREE.WebGLRenderer({ antialias: true }); }
+catch (e) { scene.innerHTML = '<p class="secours">Votre appareil n\'affiche pas la 3D.</p>'; throw e; }
+
+// --- projection : degrés -> kilomètres, puis unités de la scène (1 = 10 km) ---
+const LON0 = 9.05, LAT0 = 42.15, KX = 111.32 * Math.cos(LAT0 * Math.PI / 180) / 10, KZ = 110.57 / 10;
+const proj = (lon, lat) => [(lon - LON0) * KX, -(lat - LAT0) * KZ];
+const cote = CONTOUR.map(([lo, la]) => proj(lo, la)).filter((p, i, a) => i === 0 || p[0] !== a[i - 1][0] || p[1] !== a[i - 1][1]);
+
+function dansIle(x, z) {                                  // point dans le polygone (règle pair-impair)
+  let d = false;
+  for (let i = 0, j = cote.length - 1; i < cote.length; j = i++) {
+    const [xi, zi] = cote[i], [xj, zj] = cote[j];
+    if ((zi > z) !== (zj > z) && x < (xj - xi) * (z - zi) / (zj - zi) + xi) d = !d;
+  }
+  return d;
+}
+function distCote(x, z) {                                 // distance au rivage, en unités
+  let m = Infinity;
+  for (let i = 0, j = cote.length - 1; i < cote.length; j = i++) {
+    const [ax, az] = cote[j], [bx, bz] = cote[i], dx = bx - ax, dz = bz - az;
+    const l = dx * dx + dz * dz, t = l ? Math.max(0, Math.min(1, ((x - ax) * dx + (z - az) * dz) / l)) : 0;
+    m = Math.min(m, Math.hypot(x - ax - t * dx, z - az - t * dz));
+  }
+  return m;
+}
+
+// --- relief : reconstitué à partir des vrais sommets (altitude en m) et de la chaîne centrale ---
+const SOMMETS = [
+  ["Monte Cinto", 8.946, 42.379, 2706, 1], ["Paglia Orba", 8.880, 42.338, 2525, 0], ["Monte Padro", 9.073, 42.462, 2390, 0],
+  ["Monte Rotondo", 9.064, 42.217, 2622, 0], ["Monte d'Oro", 9.103, 42.160, 2389, 0], ["Monte Renoso", 9.145, 42.060, 2352, 0],
+  ["Monte Incudine", 9.210, 41.851, 2134, 1], ["Aiguilles de Bavella", 9.226, 41.796, 1855, 0], ["San Petrone", 9.364, 42.360, 1767, 0],
+  ["Monte Stello", 9.410, 42.792, 1307, 0], ["Monte Cagna", 9.050, 41.640, 1217, 0], ["Monte San Pedrone", 9.30, 42.20, 1300, 0]
+].map(([n, lo, la, h, montre]) => { const [x, z] = proj(lo, la); return { n, x, z, h, montre }; });
+const EXAG = 2.6, M = 1 / 10000 * EXAG;                   // 1 m d'altitude -> unités, relief exagéré
+function crete(x, z) {                                    // crêtes et vallons (bruit « en arêtes »), de 0 à 1 environ
+  let v = 0, a = .5, f = 1.25;
+  for (let i = 0; i < 6; i++) {
+    const n = 1 - Math.abs(Math.sin(x * f + 1.7 * Math.sin(z * f * .8 + i)) * Math.cos(z * f * 1.2 - 1.3 * Math.sin(x * f * .6 + i * 2.1)));
+    v += a * n * n; a *= .5; f *= 2.1;
+  }
+  return v;
+}
+function altitude(x, z, d) {
+  let h = 0;
+  for (const s of SOMMETS) { const r2 = (x - s.x) ** 2 + (z - s.z) ** 2; h = Math.max(h, s.h * Math.exp(-r2 / .55)); }
+  // la dorsale nord-ouest / sud-est, plus basse à l'est (plaine orientale)
+  const axe = (x + .55 * z - .2) / 1.0;
+  h = Math.max(h, 1500 * Math.exp(-axe * axe / 1.8) * Math.min(1, d * 1.2));
+  h = h * (.5 + .8 * crete(x, z)) + 120 * crete(x * 1.7, z * 1.7);
+  return h * Math.min(1, d / .9) ** .7;                   // descend vers la mer
+}
+
+// --- maillage du terrain ---
+const xs = cote.map(p => p[0]), zs = cote.map(p => p[1]);
+const minX = Math.min(...xs) - 1.4, maxX = Math.max(...xs) + 1.4, minZ = Math.min(...zs) - 1.4, maxZ = Math.max(...zs) + 1.4;
+const PAS = innerWidth < 700 ? .055 : .04;
+const NX = Math.ceil((maxX - minX) / PAS), NZ = Math.ceil((maxZ - minZ) / PAS);
+const geo = new THREE.PlaneGeometry(maxX - minX, maxZ - minZ, NX, NZ);
+geo.rotateX(-Math.PI / 2); geo.translate((minX + maxX) / 2, 0, (minZ + maxZ) / 2);
+const pos = geo.attributes.position, cols = new Float32Array(pos.count * 3);
+const PALETTE = [[-1, "#C9B48A"], [0, "#D8C49A"], [25, "#7C8F4E"], [90, "#5E7A40"], [400, "#3E5A2F"], [1100, "#4A5A3C"], [1600, "#857C70"], [2200, "#B7AEA3"], [2500, "#EFEBE4"]]
+  .map(([h, c]) => [h, new THREE.Color(c)]);
+const FOND_HAUT = new THREE.Color("#3FA9B4"), FOND_BAS = new THREE.Color("#0C3A52");   // eau peu profonde -> grand fond
+const couleur = h => {
+  for (let i = 1; i < PALETTE.length; i++) if (h < PALETTE[i][0]) {
+    const [h0, c0] = PALETTE[i - 1], [h1, c1] = PALETTE[i];
+    return c0.clone().lerp(c1, (h - h0) / (h1 - h0));
+  }
+  return PALETTE[PALETTE.length - 1][1];
+};
+for (let i = 0; i < pos.count; i++) {
+  const x = pos.getX(i), z = pos.getZ(i), d = distCote(x, z), dedans = dansIle(x, z);
+  const h = dedans ? altitude(x, z, d) : 0;
+  pos.setY(i, dedans ? h * M + .004 : -.004);   // sous la mer, le fond descend
+  (dedans ? couleur(h) : FOND_HAUT.clone().lerp(FOND_BAS, Math.min(1, d / 1.2) ** .6)).toArray(cols, i * 3);
+}
+geo.setAttribute("color", new THREE.BufferAttribute(cols, 3));
+geo.computeVertexNormals();
+const terre = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ vertexColors: true, roughness: .95, flatShading: false }));
+
+// --- la mer ---
+const mer = new THREE.Mesh(new THREE.CircleGeometry(30, 96).rotateX(-Math.PI / 2),
+  new THREE.MeshStandardMaterial({ color: FOND_BAS, roughness: .95 }));
+mer.position.y = -.008;
+
+const monde = new THREE.Scene();
+monde.background = new THREE.Color("#0A2433");
+monde.fog = new THREE.Fog("#0A2433", 30, 56);
+monde.add(terre, mer);
+monde.add(new THREE.HemisphereLight("#CFE6F2", "#1A3A2A", .9));
+const soleil = new THREE.DirectionalLight("#FFE7C2", 2.4); soleil.position.set(-8, 10, -4); monde.add(soleil);
+
+// --- caméra et commandes ---
+const cam = new THREE.PerspectiveCamera(38, 1, .1, 200);
+const portrait = innerWidth < innerHeight;
+const DEPART = new THREE.Vector3(1, 36, 9), ARRIVEE = new THREE.Vector3(9, 14, 19).multiplyScalar(portrait ? 1.3 : 1);
+cam.position.copy(calme ? ARRIVEE : DEPART);
+const ctl = new OrbitControls(cam, rendu.domElement);
+ctl.target.set(0, 0, .6); ctl.enableDamping = true; ctl.enablePan = false;
+ctl.minDistance = 8; ctl.maxDistance = 46; ctl.maxPolarAngle = 1.25;
+ctl.autoRotate = !calme; ctl.autoRotateSpeed = .35;
+rendu.setPixelRatio(Math.min(devicePixelRatio, 2));
+scene.appendChild(rendu.domElement);
+function taille() { rendu.setSize(innerWidth, innerHeight); cam.aspect = innerWidth / innerHeight; cam.fov = innerWidth < innerHeight ? 52 : 38; cam.updateProjectionMatrix(); }
+addEventListener("resize", taille); taille();
+
+// --- villes et vitrines ---
+const VILLES = [
+  ["Ajaccio", 8.738, 41.919, [["Libecciu", "location de bateaux", "demo-libecciu.html"], ["Zia Rosa", "épicerie", "demo-zia-rosa.html"], ["A Funtana", "spa et bien-être", "demo-a-funtana.html"], ["Forza Club", "salle de sport", "demo-forza.html"], ["Garage Santoni", "garage", "demo-garage-santoni.html"]]],
+  ["Bastia", 9.450, 42.697, [["Fiori di Macchia", "fleuriste", "demo-fiori.html"], ["Agence Piazza", "immobilier", "demo-piazza.html"], ["U Castagnetu", "producteur", "demo-castagnetu.html"]]],
+  ["Calvi", 8.757, 42.567, []], ["Corte", 9.149, 42.306, []], ["Porto-Vecchio", 9.279, 41.591, []], ["Bonifacio", 9.159, 41.387, []]
+].map(([n, lo, la, sites]) => { const [x, z] = proj(lo, la); return { n, x, z, sites }; });
+const calque = document.getElementById("etiquettes"), fiche = document.getElementById("fiche");
+const hauteurSol = (x, z) => { const d = distCote(x, z); return dansIle(x, z) ? altitude(x, z, d) * M + .02 : .02; };
+const marques = [];
+for (const v of VILLES) {
+  const b = document.createElement("button");
+  b.className = "pin"; b.type = "button"; b.setAttribute("aria-expanded", "false");
+  b.innerHTML = `<span>${v.n}${v.sites.length ? `<b>${v.sites.length}</b>` : ""}</span>`;
+  b.addEventListener("click", () => ouvre(v, b));
+  calque.appendChild(b);
+  marques.push({ el: b, p: new THREE.Vector3(v.x, hauteurSol(v.x, v.z), v.z) });
+}
+for (const s of SOMMETS.filter(s => s.montre)) {
+  const e = document.createElement("span");
+  e.className = "sommet"; e.textContent = `${s.n} · ${s.h.toLocaleString("fr-FR")} m`;
+  calque.appendChild(e);
+  marques.push({ el: e, p: new THREE.Vector3(s.x, s.h * M, s.z) });
+}
+function ouvre(v, b) {
+  marques.forEach(m => m.el.classList.contains("pin") && m.el.setAttribute("aria-expanded", m.el === b));
+  document.getElementById("ville").textContent = v.n;
+  document.getElementById("nombre").textContent = v.sites.length ? `${v.sites.length} vitrine${v.sites.length > 1 ? "s" : ""} de démonstration` : "Pas encore de vitrine ici : la prochaine ?";
+  document.getElementById("sites").innerHTML = v.sites.map(([n, m, u]) => `<li><a href="../../${u}"><span>${n} <small style="color:var(--muted)">· ${m}</small></span></a></li>`).join("");
+  fiche.hidden = false; ctl.autoRotate = false;
+}
+document.getElementById("fermer").addEventListener("click", () => { fiche.hidden = true; marques.forEach(m => m.el.setAttribute?.("aria-expanded", "false")); });
+
+// --- animation : la caméra descend du ciel puis la carte tourne doucement ---
+const v3 = new THREE.Vector3(), VOL = 2600;
+let t0 = null, arrive = calme;                            // le vol part de la première image affichée
+const ease = t => 1 - Math.pow(1 - t, 3);
+function image() {
+  t0 ??= performance.now();
+  const t = Math.min(1, (performance.now() - t0) / VOL);
+  if (!arrive) { cam.position.lerpVectors(DEPART, ARRIVEE, ease(t)); ctl.update(0); arrive = t >= 1; }
+  else ctl.update();
+  rendu.render(monde, cam);
+  const w = innerWidth, h = innerHeight;
+  for (const m of marques) {
+    v3.copy(m.p).project(cam);
+    const visible = v3.z < 1 && Math.abs(v3.x) < 1.05 && Math.abs(v3.y) < 1.05;
+    m.el.classList.toggle("cache", !visible);
+    if (visible) m.el.style.transform = `translate(${(v3.x + 1) / 2 * w}px,${(1 - v3.y) / 2 * h}px) translate(-50%,-100%)`;
+  }
+}
+rendu.setAnimationLoop(() => { if (!document.hidden) image(); });
+</script>
+</body></html>

@@ -66,9 +66,9 @@ def page(site):
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>{html.escape(site["court"])}</title>
 <meta name="robots" content="noindex">
-<meta name="theme-color" content="#FFFFFF">
+<meta name="theme-color" content="#000000">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="{html.escape(site["court"])}">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icone-192.png">
@@ -89,7 +89,7 @@ def page(site):
 def manifeste(site):
     return json.dumps({
         "name": site["nom"], "short_name": site["court"], "lang": "fr", "start_url": "./", "scope": "./", "display": "standalone",
-        "background_color": "#FFFFFF", "theme_color": "#FFFFFF",
+        "background_color": "#000000", "theme_color": "#000000",
         "icons": [{"src": f"icone-{t}.png", "sizes": f"{t}x{t}", "type": "image/png"} for t in (192, 512)] +
                  [{"src": "icone-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}]
     }, ensure_ascii=False, indent=2)
@@ -104,7 +104,7 @@ def lanceur(sites):
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Saitorapp</title>
 <meta name="robots" content="noindex">
-<meta name="theme-color" content="#FFFFFF">
+<meta name="theme-color" content="#000000">
 <link rel="icon" href="symbole.svg" type="image/svg+xml">
 <link rel="stylesheet" href="app.css?v={version()}">
 </head>

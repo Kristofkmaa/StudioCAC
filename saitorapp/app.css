@@ -421,3 +421,59 @@ a,button{touch-action:manipulation}
 @keyframes ouvre{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:none}}
 @media (prefers-color-scheme:dark){.ouverture{color:#F5F5F7}}
 @media (prefers-reduced-motion:reduce){.hud .h-rond{transform:none;opacity:1}.hud .h-rond path{stroke-dashoffset:0}}
+
+/* l'agenda commun : bascule Jour / Mois, journée en blocs, mois en un seul bloc (app.js, AGENDA) */
+.bascule{display:grid;grid-template-columns:1fr 1fr;background:var(--carte-2);border-radius:12px;padding:3px;margin:4px 0 14px}
+.bascule button{height:34px;border-radius:9px;font-size:14px;font-weight:600;color:var(--texte);transition:background-color .25s var(--doux),box-shadow .25s}
+.bascule button[aria-pressed="true"]{background:var(--blanc);box-shadow:0 1px 4px rgba(0,0,0,.12),0 0 0 .5px rgba(0,0,0,.04)}
+.bloc{display:flex;flex-direction:column;gap:1px;text-align:left;border-radius:10px;padding:6px 9px;background:color-mix(in srgb,var(--c) 15%,var(--fond));box-shadow:inset 3px 0 0 var(--c);color:var(--texte);overflow:hidden;min-width:0;transition:transform .15s var(--doux)}
+.bloc:active{transform:scale(.98)}
+.bloc b{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:color-mix(in srgb,var(--c) 55%,var(--texte))}
+.bloc small{font-size:12px;color:var(--gris);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bloc.demande{background:var(--fond);box-shadow:none;border:1.5px dashed var(--c)}
+.bloc.ferme{background:repeating-linear-gradient(-45deg,var(--carte-2) 0 5px,var(--carte) 5px 10px);box-shadow:inset 3px 0 0 var(--gris-2)}
+.bloc.ferme b{color:var(--gris)}
+.bloc.venu,.bloc.part{opacity:.55}
+.bloc.absent{opacity:.45}.bloc.absent b{text-decoration:line-through}
+.bloc.libre{background:transparent;box-shadow:none;border:1.5px dashed var(--trait)}
+.bloc.libre b{color:var(--gris)}
+/* la journée en heures */
+.frise{position:relative;margin:14px 0 6px}
+.f-h{position:absolute;left:44px;right:0;height:0;border-top:1px solid var(--sep)}
+.f-h i{position:absolute;left:-44px;top:-8px;width:38px;text-align:right;font-style:normal;font-size:11px;color:var(--gris)}
+.f-zone{position:absolute;top:0;bottom:0;left:48px;right:0}
+.f-zone .bloc{position:absolute;padding:4px 8px}
+.f-zone .bloc.court{flex-direction:row;align-items:center;padding:0 8px}
+.f-zone .bloc.court b{font-size:12px}
+.f-now{position:absolute;left:-4px;right:0;height:2px;background:var(--rouge);border-radius:2px;pointer-events:none}
+.f-now::before{content:"";position:absolute;left:-4px;top:-4px;width:10px;height:10px;border-radius:50%;background:var(--rouge)}
+/* la journée en chambres */
+.ch-jour{display:flex;flex-direction:column;gap:16px;margin-top:12px}
+.ch-nom{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin:0 2px 7px;font-weight:600;font-size:15px}
+.ch-nom span{display:flex;align-items:center;gap:8px;min-width:0}
+.ch-nom i{width:8px;height:8px;border-radius:50%;flex:none}
+.ch-nom small{font-size:13px;color:var(--gris);font-weight:500;white-space:nowrap}
+.ch-blocs{display:flex;flex-direction:column;gap:6px}
+.ch-blocs .bloc{min-height:58px;justify-content:center;padding:10px 14px}
+/* le mois en un bloc */
+.mois{margin:2px 0 4px}
+.m-noms{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));font-size:11px;color:var(--gris);text-align:center;font-weight:600;padding-bottom:6px}
+.m-sem{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));grid-template-rows:32px repeat(3,17px) 15px;row-gap:2px;border-top:1px solid var(--sep);padding:3px 0}
+.m-jour{grid-row:1/-1;display:flex;flex-direction:column;align-items:center;justify-content:space-between;border-radius:10px;min-width:0}
+.m-jour b{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:15px;font-weight:500;transition:background-color .2s}
+.m-jour small{font-size:10px;color:var(--gris);font-weight:600;line-height:15px}
+.m-jour.hors b{color:var(--gris-2)}
+.m-jour.ferme b{color:var(--gris)}
+.m-jour.auj b{color:var(--rouge);font-weight:700}
+.m-jour[aria-pressed="true"] b{background:var(--encre);color:var(--sur-encre)}
+.m-jour.auj[aria-pressed="true"] b{background:var(--rouge);color:#fff}
+.m-barre{pointer-events:none;min-width:0;margin:0 1px;border-radius:5px;padding:0 4px;font-size:10.5px;font-weight:600;line-height:17px;white-space:nowrap;overflow:hidden;background:color-mix(in srgb,var(--c) 22%,var(--fond));color:color-mix(in srgb,var(--c) 60%,var(--texte))}
+.m-barre.suite{border-top-left-radius:0;border-bottom-left-radius:0;margin-left:0}
+.m-barre.continue{border-top-right-radius:0;border-bottom-right-radius:0;margin-right:0}
+.m-barre.demande{background:var(--fond);box-shadow:inset 0 0 0 1px var(--c)}
+.m-barre.ferme{background:repeating-linear-gradient(-45deg,var(--carte-2) 0 4px,var(--carte) 4px 8px);color:var(--gris)}
+.m-barre.venu{opacity:.6}
+.m-info{display:flex;flex-direction:column;align-items:center;gap:4px;width:100%;padding-bottom:8px}
+.m-info small{font-size:12px;color:var(--texte);font-weight:600;line-height:1}
+.m-occ{display:flex;width:70%;height:5px;border-radius:3px;background:var(--carte-2);overflow:hidden}
+.m-jour.hors .m-info{opacity:.45}

@@ -33,7 +33,8 @@ Saitorapp.MODULES = {
   const jour = 864e5;
   const auj = () => { const d = new Date(); d.setHours(0, 0, 0, 0); return d; };
   const iso = d => { const x = new Date(d); return `${x.getFullYear()}-${String(x.getMonth() + 1).padStart(2, "0")}-${String(x.getDate()).padStart(2, "0")}`; };
-  const plus = (d, n) => new Date(+new Date(d) + n * jour);
+  /* ajouter des jours au calendrier (et non 24 h) : juste aussi les jours de changement d'heure */
+  const plus = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
   const graine = s => () => (s = (s * 16807) % 2147483647) / 2147483647;
   Saitorapp.temps = { auj, iso, plus, jour };
 
@@ -101,7 +102,7 @@ Saitorapp.MODULES = {
     const hotes = ["Famille Moretti", "M. et Mme Durand", "Clara et Tom", "Famille Santoni", "Hélène V.", "M. Ferrandi", "Lena et Jonas", "Famille Leclerc", "Marc et Sylvie", "Irène B.", "Famille Cristofari", "Paul et Inès"];
     const sejours = []; let id = 300;
     chambres.forEach(c => {
-      let d = -8 + Math.floor(r() * 4);
+      let d = -34 + Math.floor(r() * 4);
       while (d < 44) {
         const nuits = 2 + Math.floor(r() * 4);
         sejours.push({ id: `${++id}`, chambre: c.id, arrivee: iso(plus(t, d)), depart: iso(plus(t, d + nuits)), nom: pick(hotes), personnes: c.places > 2 && r() > .5 ? 4 : 2, statut: d > 6 && r() > .82 ? "demande" : "confirme", source: r() > .3 ? "site" : "téléphone" });

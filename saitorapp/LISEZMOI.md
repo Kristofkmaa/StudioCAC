@@ -22,6 +22,15 @@ Une appli par site, faite pour son métier, que le commerçant installe sur son 
 
 Démos : `mademoiselle-charlotte` (boutique), `a-funtana` (institut), `u-fucone` (hébergement).
 
+## L'agenda, le même partout
+
+Un seul agenda pour tous les métiers qui en ont un (`agenda()` et l'objet `AGENDA` dans `app.js`) : chaque métier dit seulement ce qu'il y met. Une bascule **Jour / Mois** en haut, retenue par appli (clé `saitorapp-vue-<id>`).
+
+- **Jour** : la bande de la semaine, puis la journée en blocs de couleur. Institut : les heures, un bloc par rendez-vous de la hauteur de sa durée, couleur de la personne de l'équipe, ligne rouge de l'heure, toucher un moment libre pour ajouter. Hébergement : chaque chambre et qui y dort, ou « Libre ce soir » pour ajouter. Glisser la journée à gauche ou à droite change de jour.
+- **Mois** : le mois en un seul bloc. Hébergement : les séjours en barres qui s'étirent sur leurs nuits, une ligne par chambre. Institut : le nombre de rendez-vous et le remplissage de la journée aux couleurs de l'équipe. Toucher un jour montre sa liste dessous.
+- Mêmes blocs partout : plein = confirmé, pointillé = à confirmer, hachuré = fermé, pâli = passé (venu, départ).
+- Nouveau métier avec un agenda (restaurant, artisan) : ajouter son entrée dans `AGENDA` (titre, blocs, journée, liste).
+
 ## Les gestes et les animations
 
 - **Écran d'ouverture** : le symbole de Saitora et le nom court, puis l'appli (fabriqué par `outils/saitorapp.py`, retiré par `app.js`).

@@ -5,7 +5,7 @@ Une appli par site, faite pour son métier, que le commerçant installe sur son 
 ## Comment c'est rangé
 
 - `sites.json` : la liste des applis (nom, nom court, métier, couleur, logo, adresse du site, démo ou non, textes du site). Écrite à la main ou par `python3 outils/saitorapp.py ajoute …`.
-- `python3 outils/saitorapp.py` fabrique pour chaque site `saitorapp/<id>/` : sa page, son `manifest.webmanifest` (nom et icône sur l'écran d'accueil), ses icônes tirées du logo (ou ses initiales sur sa couleur). Il refait aussi `saitorapp/index.html`, la liste de toutes les applis pour Saitora.
+- `python3 outils/saitorapp.py` fabrique pour chaque site `saitorapp/<id>/` : sa page, son `manifest.webmanifest` (nom et icône sur l'écran d'accueil), la même icône pour toutes les applis sur l'écran d'accueil (le symbole de Saitora, `saitorapp/icone-*.png`), et une vignette `apercu.png` tirée du logo pour la liste de Saitora. Il refait aussi `saitorapp/index.html`, la liste de toutes les applis pour Saitora.
 - `sites.js` : quel métier a quels modules, et les données de démonstration.
 - `app.js` et `app.css` : l'appli elle-même, la même pour tous ; elle n'affiche que les modules du métier.
 

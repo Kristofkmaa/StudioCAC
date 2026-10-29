@@ -17,9 +17,17 @@ METIERS = {"boutique", "institut", "hebergement", "restaurant", "artisan", "vitr
 
 
 def icones(site, dossier):
+    """Toutes les applis ont la même icône sur l'écran d'accueil : le symbole de Saitora (saitorapp/icone-*.png)."""
+    import shutil
+    for taille in (180, 192, 512):
+        shutil.copy(APP / f"icone-{taille}.png", dossier / f"icone-{taille}.png")
+
+
+def icones_du_logo(site, dossier):
+    """La vignette du client dans la liste de Saitora : son logo, ou ses initiales sur sa couleur."""
     from PIL import Image, ImageDraw, ImageFont
     fond = (255, 255, 255)
-    for taille in (180, 192, 512):
+    for taille in (192,):
         im = Image.new("RGB", (taille, taille), fond)
         logo = RACINE / site["logo"] if site.get("logo") else None
         if logo and logo.exists():
@@ -36,7 +44,7 @@ def icones(site, dossier):
                     police = ImageFont.truetype(p, int(taille * 0.5)); break
             lettres = "".join(m[0] for m in re.findall(r"[A-ZÀ-Ý]\w*", site["nom"]))[:2] or site["nom"][:1].upper()
             d.text((taille / 2, taille / 2), lettres, fill="#FFFFFF", font=police, anchor="mm")
-        im.save(dossier / f"icone-{taille}.png", optimize=True)
+        im.save(dossier / "apercu.png", optimize=True)
 
 
 def page(site):
@@ -46,7 +54,7 @@ def page(site):
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>{html.escape(site["court"])}</title>
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#FFFFFF">
@@ -79,12 +87,12 @@ def manifeste(site):
 
 
 def lanceur(sites):
-    lignes = "".join(f"""<a class="ligne" href="{s["id"]}/"><img src="{s["id"]}/icone-192.png" alt="" width="48" height="48"><span><b>{html.escape(s["nom"])}</b><small>{html.escape(s["metier_nom"])}{" · démo" if s.get("demo") else ""}</small></span><svg width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 1l6 6-6 6"/></svg></a>""" for s in sites)
+    lignes = "".join(f"""<a class="ligne" href="{s["id"]}/"><img src="{s["id"]}/apercu.png" alt="" width="48" height="48"><span><b>{html.escape(s["nom"])}</b><small>{html.escape(s["metier_nom"])}{" · démo" if s.get("demo") else ""}</small></span><svg width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 1l6 6-6 6"/></svg></a>""" for s in sites)
     return f"""<!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Saitorapp</title>
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#FFFFFF">
@@ -114,6 +122,7 @@ def construire():
         (d / "index.html").write_text(page(s), encoding="utf-8")
         (d / "manifest.webmanifest").write_text(manifeste(s), encoding="utf-8")
         icones(s, d)
+        icones_du_logo(s, d)
         s["metier_nom"] = noms.get(s["metier"], s["metier"])
         print("ok", f"saitorapp/{s['id']}/")
     (APP / "index.html").write_text(lanceur(sites), encoding="utf-8")

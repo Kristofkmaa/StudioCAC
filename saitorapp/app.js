@@ -520,7 +520,7 @@
     const atelier = ouvertes.flatMap(o => o.lignes.map(l => ({ o, l }))).sort((a, b) => new Date(a.o.date) - new Date(b.o.date));
     const parJour = d => cmd.filter(o => o.date.slice(0, 10) === d).reduce((s, o) => s + total(o), 0);
     const leChiffre = () => { const n = NJ[per], r = serie(T.plus(t, -n + 1), n, parJour, true); return chiffre({ id: "leChiffre", lbl: `Ventes sur ${n} jours`, val: eurG(r.tot), delta: r.delta, periodes: PERIODES, actif: per, points: r.pts }); };
-    ecran({ titre: "Aujourd'hui", plus: () => feuilleProduit(), plusLabel: "Ajouter un produit",
+    ecran({ titre: "Aujourd'hui",
       hero: hero({ phrase: ouvertes.length ? `${pl(ouvertes.length, "commande")} à préparer<span>${nouv ? `, dont ${pl(nouv, "nouvelle")}` : ""}.</span>` : `Tout est prêt.<span> Aucune commande en attente.</span>`,
         verres: [["Nouveau produit", "boite", "", "vNouv"], ["Voir mon site", "site", S.site]] }),
       corps: `${leChiffre()}
@@ -542,7 +542,7 @@
     const dem = D.rdv.filter(r => r.statut === "demande").sort((a, b) => (a.date + String(a.debut).padStart(4, "0")).localeCompare(b.date + String(b.debut).padStart(4, "0")));
     const parJour = d => D.rdv.filter(r => r.date === d && ["venu", "confirme"].includes(r.statut) && d <= ti).reduce((s, r) => s + presta(r.presta).prix, 0);
     const leChiffre = () => { const n = NJ[per], r = serie(T.plus(t, -n + 1), n, parJour, true); return chiffre({ id: "leChiffre", lbl: `Chiffre sur ${n} jours`, val: eurG(r.tot), delta: r.delta, periodes: PERIODES, actif: per, points: r.pts }); };
-    ecran({ titre: "Aujourd'hui", plus: () => feuilleNouveauRdv({ date: ti }), plusLabel: "Nouveau rendez-vous",
+    ecran({ titre: "Aujourd'hui",
       hero: hero({ phrase: jourL.length ? `${pl(jourL.length, "rendez-vous", "rendez-vous")} aujourd'hui<span>${proch ? `, prochain à ${hm(proch.debut)} avec ${esc(client(proch.client).nom.split(" ")[0])}` : ", la journée est finie"}.</span>` : `Journée libre.<span> Aucun rendez-vous aujourd'hui.</span>`,
         verres: [["Nouveau rendez-vous", "agenda", "", "vRdv"], ["Voir l'agenda", "gens", "#/agenda"]] }),
       corps: `${leChiffre()}
@@ -568,7 +568,7 @@
     /* ce que rapportent les nuits réservées, jour par jour, sur les jours à venir */
     const parJour = d => L.filter(s => s.statut === "confirme" && s.arrivee <= d && s.depart > d).reduce((x, s) => x + chambre(s.chambre).prix, 0);
     const leChiffre = () => { const n = NJ[per], r = serie(t, n, parJour, true); return chiffre({ id: "leChiffre", lbl: `Réservé, ${n} prochains jours`, val: eurG(r.tot), periodes: PERIODES, actif: per, points: r.pts }); };
-    ecran({ titre: "Aujourd'hui", plus: () => feuilleNouveauSejour(), plusLabel: "Ajouter un séjour",
+    ecran({ titre: "Aujourd'hui",
       hero: hero({ phrase: arr.length ? `${pl(arr.length, "arrivée")} aujourd'hui<span>, ${Math.round(nuits / cap * 100)} % de remplissage sur 30 jours.</span>` : `Pas d'arrivée aujourd'hui.<span> ${Math.round(nuits / cap * 100)} % de remplissage sur 30 jours.</span>`,
         verres: [["Ajouter un séjour", "lit", "", "vSej"], ["Fermer des dates", "agenda", "", "vFerme"]] }),
       corps: `${leChiffre()}
@@ -642,5 +642,9 @@
   }
   addEventListener("hashchange", route);
   addEventListener("storage", e => { if (e.key === "saitorapp-commandes-recues" && recevoir()) { hud("Nouvelle commande du site"); route(); } });
+  /* pas de zoom dans l'appli : ni au pincement, ni au double toucher (Safari ignore user-scalable=no) */
+  ["gesturestart", "gesturechange", "gestureend"].forEach(t => document.addEventListener(t, e => e.preventDefault(), { passive: false }));
+  document.addEventListener("touchmove", e => { if (e.touches.length > 1) e.preventDefault(); }, { passive: false });
+  /* le double toucher est coupé par touch-action: manipulation (app.css), sans gêner le pavé numérique */
   route();
 })();

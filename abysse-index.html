@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Saitora, sites vitrines en Corse (version abysse)</title>
+<meta name="theme-color" content="#012624">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="polices/inter-tight-500-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="abysse.css">
+<style>
+/* Écran d'entrée, version test « abysse » : la sphère de particules, le nom en géant dont les deux moitiés
+   se rejoignent (« Sai » de la gauche, « tora » de la droite), puis la porte « Entrer ». Tient dans un écran. */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--abyss);color:var(--silver);font:400 16px/1.4 "Inter Tight",ui-sans-serif,system-ui,sans-serif;overflow:hidden;-webkit-tap-highlight-color:transparent}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--mist);outline-offset:3px}
+.door{position:relative;height:100%;display:grid;grid-template-rows:auto 1fr auto;padding:max(24px,env(safe-area-inset-top)) max(16px,clamp(16px,4vw,48px)) max(24px,env(safe-area-inset-bottom));isolation:isolate;overflow:clip}
+#orb{position:absolute;inset:0;z-index:-1;width:100%;height:100%}
+.top{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.mark{width:34px;height:27px;color:var(--white)}
+.eyebrow{font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase}
+.mid{align-self:center;display:grid;justify-items:center;text-align:center;gap:clamp(18px,3vh,32px)}
+h1{margin:0;color:var(--white);font-weight:500;font-size:clamp(4rem,min(26vw,30svh),18.4rem);line-height:.9;letter-spacing:-.05em;white-space:nowrap}
+h1 span{display:inline-block;animation:de-gauche 1.4s cubic-bezier(.16,1,.3,1) both}
+h1 span+span{animation-name:de-droite;color:transparent;-webkit-text-stroke:max(1.5px,.01em) var(--mist)}
+@keyframes de-gauche{from{transform:translateX(-80vw);opacity:0}}
+@keyframes de-droite{from{transform:translateX(80vw);opacity:0}}
+.mid p{margin:0;max-width:34ch;font-size:clamp(1.1rem,1rem + .5vw,1.5rem);line-height:1.3;color:var(--mist);letter-spacing:-.01em}
+.later{animation:monte 1s .8s cubic-bezier(.16,1,.3,1) both}
+@keyframes monte{from{opacity:0;transform:translateY(16px)}}
+.enter{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:64px;min-width:220px;padding:20px 32px;border-radius:6px;background:var(--aurora);background-size:200% 100%;color:#1A1A1A;font:500 15px/1 "Inter Tight",sans-serif;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;transition:background-position .6s ease,transform .15s}
+.enter::after{content:"→"}
+@media (hover:hover) and (pointer:fine){.enter:hover{background-position:100% 0}}
+.enter:active{transform:scale(.97)}
+.mid .links{margin:0;font-size:12px;display:flex;flex-wrap:wrap;justify-content:center;gap:6px 24px;font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase}
+.links a{text-decoration:none;padding:8px 0;color:var(--silver);transition:color .2s}
+@media (hover:hover) and (pointer:fine){.links a:hover{color:var(--white)}}
+.foot{display:flex;justify-content:space-between;gap:8px 24px;flex-wrap:wrap;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+@media (prefers-reduced-motion:reduce){h1 span,.later{animation:none}}
+@media (max-height:520px){.mid{gap:12px}.enter{min-height:52px}}
+</style>
+</head>
+<body>
+<script src="abysse-transition.js"></script>
+<main class="door" data-arrive-off>
+  <canvas id="orb" aria-hidden="true"></canvas>
+  <div class="top">
+    <svg class="mark" viewBox="246 330 740 590" aria-hidden="true"><path d="M262 901L624 341L695 456L407 901Z M725 504L970 901L828 901L653 613Z" fill="currentColor"/><circle cx="620" cy="818" r="55" fill="currentColor"/></svg>
+    <span class="eyebrow">Ajaccio · Corse</span>
+  </div>
+  <div class="mid">
+    <h1 aria-label="Saitora"><span>Sai</span><span>tora</span></h1>
+    <p class="later">Votre vitrine, ouverte jour et nuit. Des sites pour les restaurants, les artisans et les commerces de Corse.</p>
+    <a class="enter later" href="abysse-accueil.html">Entrer</a>
+    <p class="links later"><a href="abysse-tarifs.html">Les tarifs</a><a href="abysse-charte.html">Créer ma charte</a><a href="abysse-devis.html">Demander un devis</a></p>
+  </div>
+  <div class="foot later"><span>Sites vitrines sur mesure</span><span>Version de test « abysse »</span></div>
+</main>
+
+<script>
+// la sphère de particules (même dessin que l'accueil) : tourne, penche vers le doigt, s'arrête si l'onglet est caché
+(() => {
+  const cv = document.getElementById("orb"), ctx = cv.getContext("2d"), calme = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let W, H, R, pts = [], t = 0, raf = 0, tx = 0, ty = 0, px = 0, py = 0;
+  const build = () => {
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    W = cv.clientWidth; H = cv.clientHeight; cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    R = Math.min(W * .4, H * .36, 400);
+    const n = W < 700 ? 1400 : 2600, g = Math.PI * (3 - Math.sqrt(5));
+    pts = Array.from({ length: n }, (_, i) => { const y = 1 - (i / (n - 1)) * 2, r = Math.sqrt(1 - y * y), a = g * i; return [Math.cos(a) * r, y, Math.sin(a) * r, .6 + Math.random() * .8]; });
+  };
+  const draw = () => {
+    ctx.clearRect(0, 0, W, H);
+    px += (tx - px) * .05; py += (ty - py) * .05;
+    const ay = t * .12 + px * .6, ax = -.35 + py * .4, cy = Math.cos(ay), sy = Math.sin(ay), cx = Math.cos(ax), sx = Math.sin(ax), ox = W / 2, oy = H / 2;
+    const glow = ctx.createRadialGradient(ox, oy, 0, ox, oy, R * 1.25);
+    glow.addColorStop(0, "rgba(0,130,124,.28)"); glow.addColorStop(1, "rgba(0,130,124,0)"); ctx.fillStyle = glow; ctx.fillRect(0, 0, W, H);
+    for (const [x0, y0, z0, s] of pts) {
+      const x1 = x0 * cy + z0 * sy, z1 = -x0 * sy + z0 * cy, y1 = y0 * cx - z1 * sx, z2 = y0 * sx + z1 * cx;
+      const k = 2.6 / (2.6 - z2), X = ox + x1 * R * k, Y = oy + y1 * R * k, rim = 1 - Math.abs(z2), front = (z2 + 1) / 2, a = .18 + front * .82;
+      ctx.fillStyle = rim > .8 && x1 > -.2 ? `rgba(250,209,255,${Math.min(1, a * 1.3)})` : front > .55 ? `rgba(237,255,254,${a})` : `rgba(0,170,160,${a * .8})`;
+      const r = s * k * (W < 700 ? 1.5 : 1.9); ctx.fillRect(X - r / 2, Y - r / 2, r, r);
+    }
+  };
+  const loop = () => { t += 1 / 60; draw(); raf = requestAnimationFrame(loop); };
+  build(); draw();
+  addEventListener("resize", () => { build(); draw(); });
+  if (calme) return;
+  addEventListener("pointermove", e => { tx = e.clientX / innerWidth - .5; ty = e.clientY / innerHeight - .5; }, { passive: true });
+  document.addEventListener("visibilitychange", () => { cancelAnimationFrame(raf); if (!document.hidden) loop(); });
+  loop();
+})();
+</script>
+</body>
+</html>

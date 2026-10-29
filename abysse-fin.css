@@ -1,0 +1,18 @@
+/* Version test « abysse » : retouches chargées après le style propre à chaque page.
+   La police d'Auros (Matter) est remplacée par Inter Tight ; titres en poids moyen, lettres resserrées ;
+   boutons à 6 px d'arrondi, le principal en dégradé « aurore » ; aucune ombre. */
+:root{--font:"Inter Tight","Helvetica Neue",Arial,sans-serif}
+html,body{background:var(--bg)}
+body{font-family:var(--font)}
+::selection{background:#CBFFFC;color:#012624}
+main h1,main h2{font-family:var(--font);font-weight:500;letter-spacing:-.04em}
+main h3{font-family:var(--font);font-weight:500;letter-spacing:-.02em}
+.btn{border-radius:6px!important;font-family:var(--font);font-weight:500;letter-spacing:.04em;text-transform:uppercase;font-size:13px}
+/* le bouton principal : dégradé aurore ; les autres : surface varech, texte blanc (un seul dégradé par bloc) */
+.btn.primary{background:var(--aurora)!important;background-size:200% 100%!important;color:#1A1A1A!important;border-color:transparent!important;transition:background-position .6s ease,transform .15s}
+@media (hover:hover) and (pointer:fine){.btn.primary:hover{background-position:100% 0!important}}
+.btn:not(.primary){background:var(--kelp)!important;color:#fff!important;border:1px solid var(--line-hi)!important}
+@media (hover:hover) and (pointer:fine){.btn:not(.primary):hover{background:var(--kelp-hi)!important}}
+.btn:not(.primary):disabled,.btn.primary:disabled{opacity:.45}
+.surface,.card{box-shadow:none!important}
+.brand img,.logo img{filter:var(--logo-filter)}

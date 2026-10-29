@@ -4,5 +4,6 @@ Disallow: /outils/
 Disallow: /clients/
 Disallow: /essais/
 Disallow: /labo/
+Disallow: /abysse-
 
 Sitemap: https://saitora.fr/sitemap.xml

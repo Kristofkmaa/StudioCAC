@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<script>(()=>{const d=document.documentElement;let t;try{t=localStorage.getItem("saitora-theme")}catch(e){}d.dataset.theme=t||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");if(!matchMedia("(prefers-reduced-motion: reduce)").matches)d.classList.add("sc-pending")})()</script>
+<style>html,body{background:#FAFAF9}html[data-theme=dark],html[data-theme=dark] body{background:#0C0C0D}</style>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Photographier votre commerce, Saitora</title>
+<meta name="description" content="Le guide pour photographier votre commerce au téléphone : la lumière, le cadrage, la liste des photos à prendre selon votre métier et comment me les envoyer.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="polices/jost-a2e892.css">
+<link rel="stylesheet" href="abysse.css">
+<style>
+html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:root{--font:"Jost","Futura","Helvetica Neue",Arial,sans-serif;--page:min(1180px,100% - 2 * clamp(20px,4vw,40px))}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.65}
+h1,h2,p,ul{margin:0}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+.page{width:var(--page);margin-inline:auto}
+.dot{display:inline-block;width:.2em;height:.2em;border-radius:50%;background:var(--accent);margin-left:.04em}
+.bar{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--line)}
+.bar .page{display:flex;align-items:center;justify-content:space-between;gap:24px;height:68px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink)}
+.brand .mark{height:26px;width:auto;display:block}
+.brand img{display:block;height:18px;width:auto;filter:var(--logo-filter)}
+.bar .right{display:flex;align-items:center;gap:20px}
+@media (max-width:400px){.bar .page{gap:12px}.bar .right{gap:12px}}
+.back{font-size:15px;color:var(--muted);text-decoration:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;font:500 16px var(--font);padding:13px 22px;border-radius:4px;border:1px solid var(--line-hi);background:none;color:var(--ink);text-decoration:none}
+.btn.primary{border-color:transparent;background:var(--accent);color:var(--on-accent)}
+.doc{padding-block:clamp(48px,7vw,88px) clamp(64px,8vw,112px);max-width:760px}
+.doc h1{font-weight:400;font-size:clamp(2.2rem,1.5rem + 3vw,3.6rem);line-height:1.04;letter-spacing:-.03em}
+.doc .lead{margin-top:16px;color:var(--muted);font-size:1.1rem}
+.doc h2{font-weight:500;font-size:1.3rem;margin-top:44px;padding-top:24px;border-top:1px solid var(--line-hi)}
+.doc h3{font-weight:500;font-size:1.05rem;margin:22px 0 4px}
+.doc p,.doc ul{margin-top:10px}
+.doc ul{padding-left:20px}
+.doc li+li{margin-top:6px}
+.doc a{text-underline-offset:4px;text-decoration-color:var(--accent)}
+.doc .muted{color:var(--muted)}
+@media (pointer:coarse){.doc p a,.doc li a{display:inline-block;padding-block:8px;margin-block:-8px}}
+@media (hover:hover) and (pointer:fine){.back:hover{color:var(--ink)}.btn:hover{border-color:var(--ink)}.btn.primary:hover{background:var(--accent-hover)}}
+@media (pointer:coarse){.brand{padding-block:9px;margin-block:-9px}.theme-toggle{width:44px;height:44px}.back{padding-block:12px}}
+
+.doc{max-width:860px}
+.doc p,.doc ul,.doc ol{max-width:680px}
+.doc ol{padding-left:22px;margin-top:10px}
+.regles{list-style:none;padding:0;margin:28px 0 0;max-width:none!important;counter-reset:r}
+.regle{counter-increment:r;padding-top:28px;margin-top:28px;border-top:1px solid var(--line-hi)}
+.regle:first-child{border-top:0;margin-top:0;padding-top:0}
+.regle h3{font-size:1.25rem;font-weight:500;margin:0}
+.regle h3::before{content:counter(r) ". ";color:var(--accent)}
+.regle p{margin-top:8px}
+.paire{display:grid;grid-template-columns:1fr 1fr;gap:clamp(8px,1.6vw,16px);margin:16px 0 0}
+.paire figure{margin:0;min-width:0}
+.paire img{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;border-radius:4px;background:var(--line)}
+.paire figcaption{display:flex;gap:8px;align-items:baseline;margin-top:8px;font-size:15px;line-height:1.4;color:var(--muted)}
+.paire figcaption b{flex:none;font-weight:500;color:var(--ink)}
+.paire .non figcaption b::before{content:"✕ ";color:#C2410C}
+.paire .oui figcaption b::before{content:"✓ ";color:#15803D}
+.metiers{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.metiers button{font:inherit;font-size:15px;padding:10px 16px;border-radius:999px;border:1px solid var(--line-hi);background:none;color:var(--ink);cursor:pointer}
+.metiers button[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.liste{list-style:none;padding:0!important;margin-top:18px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 32px;max-width:none!important}
+.liste li{margin:0!important;border-bottom:1px solid var(--line)}
+.liste label{display:flex;gap:12px;align-items:flex-start;padding:12px 0;cursor:pointer}
+.liste input{flex:none;width:20px;height:20px;margin:2px 0 0;accent-color:var(--accent)}
+.liste input:checked+span{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--accent)}
+.compte{margin-top:14px;font-size:15px;color:var(--muted)}
+.encart{margin-top:22px;padding:20px 22px;border:1px solid var(--line-hi);border-radius:6px;max-width:680px}
+.encart p:first-child{margin-top:0}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+@media (max-width:640px){.liste{grid-template-columns:1fr}.paire figcaption{font-size:14px}}
+@media print{.bar,.metiers,.actions,.no-print{display:none!important}body{background:#fff;color:#000;font-size:12pt}.doc{padding:0;max-width:none}.regle{break-inside:avoid}.liste input{-webkit-print-color-adjust:exact}}
+</style>
+<link rel="stylesheet" href="abysse-fin.css">
+<meta name="robots" content="noindex">
+</head>
+<body>
+<script src="abysse-transition.js"></script>
+
+<header class="bar">
+  <div class="page">
+    <a class="brand" href="abysse-accueil.html" data-transition="Retour à l'accueil" aria-label="Saitora, accueil"><svg class="mark" viewBox="246 330 740 590" aria-hidden="true"><path d="M262 901L624 341L695 456L407 901Z M725 504L970 901L828 901L653 613Z" fill="currentColor"/><circle cx="620" cy="818" r="55" fill="var(--accent)"/></svg><img src="images/marque/saitora-noir.png" alt="Saitora" width="1165" height="162"></a>
+    <div class="right">
+      <a class="back" href="abysse-accueil.html" data-transition="Retour à l'accueil">Accueil</a>
+      <a class="back" href="abysse-devis.html" data-transition="Le devis">Devis</a>
+      
+    </div>
+  </div>
+</header>
+
+<main class="page doc" id="main">
+  <h1>Photographier votre commerce<span class="dot" aria-hidden="true"></span></h1>
+  <p class="lead">Votre téléphone suffit. Quinze bonnes photos de chez vous valent mieux que toutes les images de banque : ce sont elles qui font que votre site ne ressemble à aucun autre.</p>
+
+  <h2>Les cinq règles</h2>
+  <ol class="regles">
+    <li class="regle">
+      <h3>La lumière du jour, sans flash</h3>
+      <p>Photographiez le matin ou en fin d'après-midi, portes et volets ouverts. Éteignez le flash : il écrase les couleurs et laisse une tache blanche sur les vitres. À l'intérieur, placez-vous dos à la fenêtre.</p>
+      <div class="paire"><figure class="oui"><img src="images/guide-photo/lumiere-oui.webp" alt="Une devanture de fleuriste en plein jour, couleurs franches" width="800" height="534" loading="lazy"><figcaption><b>Oui</b> lumière du jour</figcaption></figure><figure class="non"><img src="images/guide-photo/lumiere-non.webp" alt="La même devanture, sombre et jaunie, avec le reflet du flash sur la porte" width="800" height="534" loading="lazy"><figcaption><b>Non</b> le soir, au flash</figcaption></figure></div>
+    </li>
+    <li class="regle">
+      <h3>Le téléphone à l'horizontale</h3>
+      <p>Un site s'affiche en largeur sur un ordinateur. Une photo prise en hauteur se fait couper ou laisse de grandes bandes vides. Gardez la hauteur pour les portraits et les détails.</p>
+      <div class="paire"><figure class="oui"><img src="images/guide-photo/horizontal-oui.webp" alt="Un atelier de garage photographié en largeur" width="800" height="534" loading="lazy"><figcaption><b>Oui</b> en largeur</figcaption></figure><figure class="non"><img src="images/guide-photo/horizontal-non.webp" alt="Le même atelier pris en hauteur, avec des bandes floues de chaque côté" width="800" height="534" loading="lazy"><figcaption><b>Non</b> en hauteur, puis étirée</figcaption></figure></div>
+    </li>
+    <li class="regle">
+      <h3>Avancez plutôt que zoomer</h3>
+      <p>Le zoom du téléphone abîme l'image. Faites deux pas vers le sujet. Montrez la matière : la croûte du pain, les mains au travail, le grain du bois, la vapeur du café.</p>
+      <div class="paire"><figure class="oui"><img src="images/guide-photo/avancer-oui.webp" alt="Des pains sur la pelle du four, nets et proches" width="800" height="534" loading="lazy"><figcaption><b>Oui</b> on s'approche</figcaption></figure><figure class="non"><img src="images/guide-photo/avancer-non.webp" alt="La même vue, floue et pixelisée par le zoom" width="800" height="534" loading="lazy"><figcaption><b>Non</b> on zoome de loin</figcaption></figure></div>
+    </li>
+    <li class="regle">
+      <h3>Bien droit</h3>
+      <p>Activez la grille de l'appareil photo (Réglages, Appareil photo, Grille) et alignez un mur, une porte ou le bord d'un comptoir sur une ligne. Tenez le téléphone à hauteur de poitrine.</p>
+      <div class="paire"><figure class="oui"><img src="images/guide-photo/droit-oui.webp" alt="Une salle voûtée photographiée bien droite" width="800" height="534" loading="lazy"><figcaption><b>Oui</b> les murs sont droits</figcaption></figure><figure class="non"><img src="images/guide-photo/droit-non.webp" alt="La même salle, penchée" width="800" height="534" loading="lazy"><figcaption><b>Non</b> l'image penche</figcaption></figure></div>
+    </li>
+    <li class="regle">
+      <h3>Sans filtre</h3>
+      <p>Pas de filtre Instagram ni de mode « beauté » : je règle les couleurs pour qu'elles aillent avec votre site. Envoyez la photo telle qu'elle sort du téléphone.</p>
+      <div class="paire"><figure class="oui"><img src="images/guide-photo/filtre-oui.webp" alt="Deux jambons suspendus, couleurs naturelles" width="800" height="534" loading="lazy"><figcaption><b>Oui</b> couleurs naturelles</figcaption></figure><figure class="non"><img src="images/guide-photo/filtre-non.webp" alt="Les mêmes jambons, couleurs saturées par un filtre" width="800" height="534" loading="lazy"><figcaption><b>Non</b> filtre appliqué</figcaption></figure></div>
+    </li>
+  </ol>
+
+  <h2 id="liste">Les photos à prendre</h2>
+  <p>Choisissez votre métier : cochez au fur et à mesure, la liste reste sur votre téléphone. Prenez deux ou trois versions de chaque, je garderai la meilleure.</p>
+  <div class="metiers" role="group" aria-label="Votre métier" id="metiers"></div>
+  <ul class="liste" id="photos"></ul>
+  <p class="compte" id="compte" aria-live="polite"></p>
+
+  <h2>Les personnes sur les photos</h2>
+  <p>Une main, un dos, une silhouette au travail rendent un lieu vivant. Si l'on reconnaît quelqu'un (vous, un employé, un client), il faut son accord écrit pour publier la photo : un simple message ou un papier signé suffit. Évitez les enfants.</p>
+
+  <h2>Me les envoyer</h2>
+  <ol>
+    <li>Gardez la qualité d'origine : sur WhatsApp, envoyez-les comme <b>document</b>, pas comme photo, sinon elles sont compressées.</li>
+    <li>Ou bien déposez-les toutes d'un coup sur <b>WeTransfer</b> ou <b>Google Drive</b> et envoyez-moi le lien.</li>
+    <li>Pas besoin de les trier ni de les renommer, je m'en occupe.</li>
+  </ol>
+  <div class="encart"><p>Par e-mail : <a href="mailto:contact@saitora.fr?subject=Mes%20photos">contact@saitora.fr</a>, en précisant le nom de votre commerce.</p><p>Pas le temps ou pas à l'aise ? Dites-le-moi : je peux venir les faire avec vous.</p></div>
+  <div class="actions"><button class="btn" type="button" onclick="print()">Imprimer ce guide</button><a class="btn primary" href="abysse-devis.html" data-transition="Le devis">Demander mon devis</a></div>
+</main>
+
+<script>
+(()=>{
+const L={
+ "Restaurant":["La salle vide, en largeur, avec la lumière du jour","La terrasse ou la vue","Vos trois plats signature, de près, sur la table","Un plat en train d'être dressé (les mains)","La cuisine au travail : feu, vapeur, poêle","Les boissons ou le comptoir du bar","Un détail de décor : vaisselle, nappe, mur","La devanture et l'enseigne, depuis la rue","L'ardoise ou la carte","Vous ou votre équipe, au travail ou devant la porte"],
+ "Boulangerie":["La vitrine pleine, le matin","Le four ouvert ou l'enfournement","Les mains qui façonnent la pâte","Vos pains phares, de près, la croûte bien visible","Les viennoiseries sur leur plaque","Les gâteaux ou la vitrine des pâtisseries","Les rayons ou les étagères (pour une épicerie)","La devanture et l'enseigne, depuis la rue","Un sac ou un emballage à votre nom","Vous derrière le comptoir"],
+ "Beauté":["Le salon vide, en largeur, bien rangé","Le poste de travail ou la cabine","Les mains au travail (sans montrer le visage du client)","Les produits que vous utilisez, alignés","Un détail : serviettes, flacons, plante, lumière","L'accueil ou la banque","Avant / après, avec l'accord écrit du client","La devanture et l'enseigne, depuis la rue","Vous au travail","La salle d'attente ou le coin café"],
+ "Artisan":["Un chantier terminé, en largeur","Le même endroit avant les travaux (avant / après)","Les mains et l'outil en action","Un détail de finition, de très près","L'atelier ou le dépôt","Le camion ou le véhicule avec votre nom","Les matériaux que vous utilisez","Trois à cinq réalisations différentes","Vous ou votre équipe sur un chantier","Votre carte de visite ou votre devis type, posé sur l'établi"],
+ "Boutique":["La vitrine depuis la rue","L'intérieur en largeur, depuis la porte","Vos produits phares, de près","Un rayon ou une étagère bien remplie","Un produit dans les mains","Le comptoir et l'emballage","Un détail de décor ou de matière","Les nouveautés de la saison","Vous derrière le comptoir","L'enseigne et le numéro de rue"],
+ "Location":["Le lieu depuis l'extérieur, en largeur","La vue depuis la terrasse ou la fenêtre","Chaque chambre ou chaque bateau, en largeur","La salle de bain ou le pont","Les détails : linge, vaisselle, équipement","L'accès : le chemin, le ponton, le parking","Les environs : la plage, le village, la crique","Le matériel prêt à partir","L'accueil ou la remise des clés","Le coucher de soleil depuis chez vous"]
+};
+const NOMS={"Restaurant":"Restaurant, café","Boulangerie":"Boulangerie, épicerie","Beauté":"Beauté, bien-être","Artisan":"Artisan, garage","Boutique":"Boutique","Location":"Location, hébergement"};
+const $=id=>document.getElementById(id);
+const lit=k=>{try{return localStorage.getItem(k)}catch(e){return null}};
+const ecrit=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}};
+let metier=new URLSearchParams(location.search).get("metier");
+if(!L[metier])metier=lit("saitora-photos-metier");
+if(!L[metier])metier="Restaurant";
+let faites={};try{faites=JSON.parse(lit("saitora-photos-faites")||"{}")}catch(e){}
+function rend(){
+  $("metiers").innerHTML=Object.keys(L).map(m=>`<button type="button" data-m="${m}" aria-pressed="${m===metier}">${NOMS[m]}</button>`).join("");
+  const f=faites[metier]||[];
+  $("photos").innerHTML=L[metier].map((t,i)=>`<li><label><input type="checkbox" data-i="${i}"${f.includes(i)?" checked":""}><span>${t}</span></label></li>`).join("");
+  $("compte").textContent=`${f.length} sur ${L[metier].length} photos prises`;
+}
+$("metiers").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;metier=b.dataset.m;ecrit("saitora-photos-metier",metier);rend()});
+$("photos").addEventListener("change",e=>{const i=+e.target.dataset.i,f=new Set(faites[metier]||[]);e.target.checked?f.add(i):f.delete(i);faites[metier]=[...f].sort((a,b)=>a-b);ecrit("saitora-photos-faites",JSON.stringify(faites));$("compte").textContent=`${faites[metier].length} sur ${L[metier].length} photos prises`});
+rend();
+})();
+</script>
+</body>
+</html>

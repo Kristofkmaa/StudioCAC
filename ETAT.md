@@ -31,6 +31,11 @@ Le site : écran d'entrée (`index.html`), accueil (`accueil.html`), tarifs, dev
   - 09 : l'accueil de Saitora en « parchemin et sphère », d'après la fiche Refero OFF+BRAND (papier `#E5E4E0`, encre `#1D1D1D`, police Uncut Sans, une sphère dégradée). En attente de l'avis de l'utilisateur avant de remplacer `accueil.html`.
   - 10 : l'accueil de Saitora en « abysse », d'après la fiche Auros (vert d'eau profonde, Inter Tight, sphère de particules en canvas, titre géant « Votre vitrine, ouverte jour et nuit. » dont les lignes arrivent de la gauche et de la droite puis repartent au défilement, chiffres qui comptent, carte des villes). Même attente que le 09.
   - Les essais 09 et 10 sont aussi publiés en page privée claude.ai pour être vus sans la branche publiée.
+- **Version test « abysse » de tout le site** (demandée par l'utilisateur, d'après la fiche Auros) : pages `abysse-*.html` à la racine (noindex, exclues de `robots.txt`).
+  - `abysse-index.html` (écran d'entrée : sphère, « Saitora » en géant) et `abysse-accueil.html` (l'essai 10 sans la carte des villes, sans les filtres de métiers, sans « À propos », à la demande de l'utilisateur) sont écrits à la main.
+  - Tarifs, devis, charte, guide photo, CGV et mentions légales sont **fabriqués** depuis les pages en ligne par `python3 outils/site_abysse.py` : relancer après chaque changement d'une de ces pages.
+  - Couleurs : `abysse.css` (mêmes noms de variables que `theme.css`) ; retouches : `abysse-fin.css` ; transition « plongée » entre les pages : `abysse-transition.js`.
+  - L'espace pro (`accueil.html#admin`) n'existe pas dans la version abysse : à reprendre si on l'adopte.
   - Sources des essais en framework : `labo/sources/` (sans `node_modules`) ; on reconstruit avec `npm install && npm run build` dans chaque projet.
 
 ## Décisions prises

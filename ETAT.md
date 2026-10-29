@@ -43,7 +43,7 @@ Le site : écran d'entrée (`index.html`), accueil (`accueil.html`), tarifs, dev
   - Plus de bouton clair / sombre : le site est toujours sombre.
   - Menu du téléphone (accueil) : en-tête identique à celui de la page (le bouton « Menu » devient « Fermer »), liens en grandes lignes numérotées avec flèche, qui entrent de la gauche et de la droite ; devis et contact en bas. Plus d'étiquette « Saitora · sites vitrines sur mesure » au-dessus du grand titre.
   - **Espace pro** : l'ancien accueil est gardé tel quel dans `espace-pro.html` (non indexé, exclu de `robots.txt`), il s'ouvre directement sur « Mes sites clients ».
-  - `404.html` garde l'ancien style (à reprendre).
+  - `404.html` et `espace-pro.html` ont aussi les couleurs abysse (la 404 avec la sphère en fond et la transition ; l'espace pro sans sphère, c'est un outil).
 
 - **Les vitrines restent en HTML** : c'est le plus rapide sur téléphone (comparatif labo 06 : HTML ≈ 4 Ko de script, Astro 117 Ko, Next.js 236 Ko ; page utilisable en 2,5 s, 3,3 s et 3,9 s).
 - **Astro** pour un site qui a besoin de beaucoup de pièces vivantes de la communauté. **Next.js** seulement pour de vraies applications (espace client, boutique sur mesure).

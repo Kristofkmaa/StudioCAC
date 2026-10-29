@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <!-- construction de la page : le fond nuit est peint dès la toute première image, avant transition.js -->
 <script>(()=>{const d=document.documentElement;let t;try{t=localStorage.getItem("saitora-theme")}catch(e){}d.dataset.theme=t||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");if(!matchMedia("(prefers-reduced-motion: reduce)").matches)d.classList.add("sc-pending")})()</script>
-<style>html.sc-pending,html.sc-pending body{background:#FAFAF9}html[data-theme=dark].sc-pending,html[data-theme=dark].sc-pending body{background:#0C0C0D}</style>
+<style>html.sc-pending,html.sc-pending body{background:#012624}</style>
 <meta name="robots" content="noindex">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <title>Espace pro, Saitora</title>
@@ -20,11 +20,11 @@
 <meta property="og:image:alt" content="Logo Saitora et la phrase « Votre vitrine, ouverte jour et nuit », devant des sites de commerces">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://saitora.fr/images/partage.jpg?v=2">
-<meta name="theme-color" content="#FAFAF9">
+<meta name="theme-color" content="#012624">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="polices/jost-young-serif-8a5b85.css">
-<link rel="stylesheet" href="theme.css?v=2">
+<link rel="stylesheet" href="abysse.css">
 <style>
 /* Téléphone : pas de flash gris au toucher, pas de texte grossi en paysage, réponse dès que le doigt se pose,
    libellés des boutons non sélectionnables, contenu tenu hors de l'encoche en paysage. */
@@ -286,17 +286,18 @@ form.add input:focus,form.add select:focus{outline:none;border-color:var(--accen
 }
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfessionalService","name":"Saitora","url":"https://saitora.fr/","email":"contact@saitora.fr","logo":"https://saitora.fr/favicon.svg","image":"https://saitora.fr/images/partage.jpg","description":"Création de sites vitrines pour les restaurants, artisans et commerces de Corse.","address":{"@type":"PostalAddress","addressLocality":"Ajaccio","addressRegion":"Corse","addressCountry":"FR"},"areaServed":{"@type":"AdministrativeArea","name":"Corse"}}</script>
+<link rel="stylesheet" href="abysse-fin.css">
 </head>
 <body>
-<script src="transition.js?v=13"></script>
-<script src="theme.js?v=1" defer></script>
+<script src="abysse-sphere.js"></script>
+<script src="abysse-transition.js"></script>
 
 <div id="public"><span id="accueil-haut"></span>
   <header class="bar">
     <div class="page">
       <a class="brand" href="accueil.html" aria-label="Saitora, accueil"><svg class="mark" viewBox="246 330 740 590" aria-hidden="true"><path d="M262 901L624 341L695 456L407 901Z M725 504L970 901L828 901L653 613Z" fill="currentColor"/><circle cx="620" cy="818" r="55" fill="var(--accent)"/></svg><img src="images/marque/saitora-noir.png" alt="Saitora" width="1165" height="162"></a>
       <nav aria-label="Sections"><a href="#vitrines">Réalisations</a><a href="#methode">Méthode</a><a href="tarifs.html" data-transition="Les tarifs">Tarifs</a><a href="#charte">Charte graphique</a><a href="#apropos">À propos</a><a href="#contact">Contact</a></nav>
-      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Changer de thème"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.6A8.2 8.2 0 0 1 9.4 4a8.2 8.2 0 1 0 10.6 10.6z"/></svg></button>
+      
       <a class="btn small" href="devis.html" data-transition="Construisons votre site"><span class="l">Demander un devis</span><span class="s">Devis gratuit</span></a>
     </div>
   </header>

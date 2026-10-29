@@ -8,9 +8,20 @@
     "logo": "clients/mademoiselle-charlotte/images/logo.webp",
     "site": "../../clients/mademoiselle-charlotte/",
     "racine": "../../clients/mademoiselle-charlotte/",
-    "scripts": ["../../clients/mademoiselle-charlotte/pieces.js"],
+    "scripts": [
+      "../../clients/mademoiselle-charlotte/pieces.js"
+    ],
     "demo": true,
-    "contenu": { "annonce": "Commandes de Noël jusqu'au 10 décembre", "annonceVisible": true, "accueil": "Bavoirs en gaze de coton, coffrets de naissance, doudous et cadres pour les tout-petits, cousus à la main et brodés à leur prénom.", "horaires": "10 à 15 jours de confection", "contact": "Par le formulaire du panier" }
+    "contenu": {
+      "annonce": "Commandes de Noël jusqu'au 10 décembre",
+      "annonceVisible": true,
+      "accueil": "Bavoirs en gaze de coton, coffrets de naissance, doudous et cadres pour les tout-petits, cousus à la main et brodés à leur prénom.",
+      "horaires": "10 à 15 jours de confection",
+      "contact": "Par le formulaire du panier"
+    },
+    "photo": "",
+    "fond": "linear-gradient(165deg,#F1E6F6 0%,#DCC6EA 100%)",
+    "marque": "../../clients/mademoiselle-charlotte/images/logo-petit.webp"
   },
   {
     "id": "a-funtana",
@@ -23,7 +34,16 @@
     "racine": "",
     "scripts": [],
     "demo": true,
-    "contenu": { "annonce": "Carte cadeau, valable un an", "annonceVisible": true, "accueil": "Hammam, soins et coiffure, cours Grandval à Ajaccio.", "horaires": "Du lundi au samedi, 9 h - 19 h", "contact": "04 00 00 00 00" }
+    "contenu": {
+      "annonce": "Carte cadeau, valable un an",
+      "annonceVisible": true,
+      "accueil": "Hammam, soins et coiffure, cours Grandval à Ajaccio.",
+      "horaires": "Du lundi au samedi, 9 h - 19 h",
+      "contact": "04 00 00 00 00"
+    },
+    "photo": "../../images/funtana/hammam.webp",
+    "fond": "",
+    "marque": ""
   },
   {
     "id": "u-fucone",
@@ -36,6 +56,15 @@
     "racine": "",
     "scripts": [],
     "demo": true,
-    "contenu": { "annonce": "Fermé en janvier, réouverture le 1er février", "annonceVisible": false, "accueil": "Quatre chambres dans une maison de pierre, la table du soir au coin du feu.", "horaires": "Arrivée à partir de 16 h, départ avant 11 h", "contact": "Par le calendrier du site" }
+    "contenu": {
+      "annonce": "Fermé en janvier, réouverture le 1er février",
+      "annonceVisible": false,
+      "accueil": "Quatre chambres dans une maison de pierre, la table du soir au coin du feu.",
+      "horaires": "Arrivée à partir de 16 h, départ avant 11 h",
+      "contact": "Par le calendrier du site"
+    },
+    "photo": "../../images/fucone/pre.webp",
+    "fond": "",
+    "marque": ""
   }
 ]

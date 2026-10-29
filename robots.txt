@@ -2,6 +2,7 @@ User-agent: *
 Allow: /
 Disallow: /outils/
 Disallow: /clients/
+Disallow: /saitorapp/
 Disallow: /essais/
 Disallow: /labo/
 Disallow: /espace-pro.html

@@ -519,6 +519,7 @@ figcaption b{display:block;color:var(--ink);font-weight:500;font-size:15px}
         <div class="choices" id="mood" role="group" aria-label="Ambiance"></div>
         <p class="label">Ce que vous avez déjà (plusieurs choix possibles)</p>
         <div class="choices" id="assets" role="group" aria-label="Ce que vous avez déjà"></div>
+        <p class="tip" style="margin-top:0">Pas encore de bonnes photos ? <a href="photos.html" id="guidePhotos" target="_blank" rel="noopener">Le guide pour les prendre au téléphone</a>, avec la liste à faire selon votre métier.</p>
         <label class="field">Votre page Facebook, Instagram ou Google (facultatif)<input type="text" id="social" inputmode="url" autocapitalize="none" placeholder="Lien vers votre page"></label>
       </section>
       <div class="wiz" aria-label="Navigation entre les étapes">
@@ -1125,6 +1126,7 @@ $("lfont").querySelectorAll(".choice").forEach(b => b.style.fontFamily = `'${fon
 $("picto").innerHTML = PICTOS.map(([k, n]) => `<button type="button" class="choice" data-v="${k}" aria-pressed="false"><canvas width="44" height="44" aria-hidden="true"></canvas>${n}</button>`).join("");
 const drawPictoChips = () => $("picto").querySelectorAll("canvas").forEach(cv => { const x = cv.getContext("2d"); x.clearRect(0, 0, 44, 44); x.fillStyle = getComputedStyle(document.body).color; drawPicto(x, cv.parentNode.dataset.v, 22, 22, 40); });
 drawPictoChips(); new MutationObserver(drawPictoChips).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+document.getElementById("guidePhotos").addEventListener("click", e => { if (state.trade) e.currentTarget.href = "photos.html?metier=" + encodeURIComponent(state.trade); });
 chips("trade", TRADES); chips("mood", MOODS); chips("assets", ASSETS); chips("shape", SHAPES); chips("layout", LAYOUTS); chips("baseLine", [["oui", "Avec vos activités"], ["non", "Sans"]]);
 $("presets").innerHTML = PRESETS.map(([n, a, b, c], i) => `<button type="button" class="preset" data-i="${i}"><i><span style="background:${a}"></span><span style="background:${b}"></span><span style="background:${c}"></span></i>${n}</button>`).join("");
 $("fonts").innerHTML = FONTS.map(([k, n, f, d]) => `<button type="button" class="font" data-k="${k}" aria-pressed="false"><b style="font-family:'${f}',var(--font)">${n}</b><small>${d}</small></button>`).join("");

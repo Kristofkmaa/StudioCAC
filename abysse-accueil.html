@@ -339,7 +339,7 @@ const fleche = '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strok
     px += (tx - px) * .05; py += (ty - py) * .05;
     const ay = t * .12 + px * .6, ax = -.35 + py * .4, cy = Math.cos(ay), sy = Math.sin(ay), cx = Math.cos(ax), sx = Math.sin(ax);
     if (dezoom && z0 === null) z0 = performance.now();
-    const zp = dezoom ? Math.min(1, (performance.now() - z0) / 1500) : 1, Z = 1 + 11 * Math.pow(1 - zp, 3);   // 12 → 1, de plus en plus doux
+    const zp = dezoom ? Math.min(1, (performance.now() - z0) / 2200) : 1, ze = zp < .5 ? 4 * zp ** 3 : 1 - (-2 * zp + 2) ** 3 / 2, Z = 1 + 11 * (1 - ze);   // 12 → 1 sur 2,2 s, doux au début et à la fin
     const ox = W / 2, oy = H / 2, fade = 1 - heroP * .55, RR = R * Z * (1 + heroP * .9);
     const glow = ctx.createRadialGradient(ox, oy, 0, ox, oy, RR * 1.25);           // halo d'eau éclairée derrière la sphère
     glow.addColorStop(0, `rgba(0,130,124,${.28 * fade})`); glow.addColorStop(1, "rgba(0,130,124,0)");
@@ -359,7 +359,7 @@ const fleche = '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strok
   build(); draw();
   addEventListener("resize", () => { build(); draw(); });
   if (calme) return;
-  addEventListener("pointermove", e => { tx = e.clientX / innerWidth - .5; ty = e.clientY / innerHeight - .5; }, { passive: true });
+  addEventListener("pointermove", e => { if (dezoom && (z0 === null || performance.now() - z0 < 2200)) return; tx = e.clientX / innerWidth - .5; ty = e.clientY / innerHeight - .5; }, { passive: true });   // pas pendant le recul
   addEventListener("scroll", () => { if (!run) draw(); }, { passive: true });
   new IntersectionObserver(([e]) => { run = e.isIntersecting && !document.hidden; cancelAnimationFrame(raf); if (run) loop(); }).observe(cv);
   document.addEventListener("visibilitychange", () => { cancelAnimationFrame(raf); if (!document.hidden && cv.getBoundingClientRect().bottom > 0) loop(); });

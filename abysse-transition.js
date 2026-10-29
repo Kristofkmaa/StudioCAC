@@ -7,11 +7,14 @@
 (() => {
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const root = document.documentElement;
-  const OUT = "cubic-bezier(.16,1,.3,1)", INOUT = "cubic-bezier(.76,0,.24,1)";
+  const OUT = "cubic-bezier(.16,1,.3,1)", DOUX = "cubic-bezier(.65,0,.35,1)";   // DOUX : départ et arrivée en douceur
   const css = document.createElement("style");
   css.textContent = `.ab-cover{position:fixed;inset:0;z-index:9999;pointer-events:none;overflow:hidden}
 .ab-vol{position:absolute;top:0;bottom:0;width:calc(50% + 1px);background:#011D1C}
 .ab-vol.g{left:0}.ab-vol.d{right:0}
+.ab-vol::after{content:"";position:absolute;top:0;bottom:0;width:18vw}
+.ab-vol.g::after{left:100%;background:linear-gradient(90deg,#011D1C,rgba(1,29,28,0))}
+.ab-vol.d::after{right:100%;background:linear-gradient(270deg,#011D1C,rgba(1,29,28,0))}
 .ab-seam{position:absolute;top:0;bottom:0;left:calc(50% - .5px);width:1px;background:linear-gradient(#CBFFFC,#FFFDFA 50%,#FAD1FF);opacity:0}`;
   document.head.appendChild(css);
   // l'écran fermé : deux volets et le trait du milieu
@@ -29,13 +32,15 @@
     if (url.origin !== location.origin || !/\/abysse-[\w-]+\.html$/.test(url.pathname) || url.pathname === location.pathname) return;
     e.preventDefault();
     const [, g, d, seam] = cover();
-    g.animate([{ transform: "translateX(-100%)" }, { transform: "none" }], { duration: 560, easing: INOUT, fill: "both" });
-    d.animate([{ transform: "translateX(100%)" }, { transform: "none" }], { duration: 560, easing: INOUT, fill: "both" });
+    // volets au bord flou (dégradé de 18vw devant chaque panneau), la page derrière s'assombrit et recule un peu
+    g.animate([{ transform: "translateX(calc(-100% - 18vw))" }, { transform: "none" }], { duration: 850, easing: DOUX, fill: "both" });
+    d.animate([{ transform: "translateX(calc(100% + 18vw))" }, { transform: "none" }], { duration: 850, easing: DOUX, fill: "both" });
+    document.querySelector("main")?.animate([{ opacity: 1, transform: "none" }, { opacity: .35, transform: "scale(.985)" }], { duration: 850, easing: DOUX, fill: "forwards" });
     // on change de page à la fin de l'animation, ou au bout de 0,7 s si le navigateur l'a mise en pause
     let parti = false;
     const part = () => { if (!parti) { parti = true; location.href = a.href; } };
-    seam.animate([{ opacity: 0, transform: "scaleY(0)" }, { opacity: 1, transform: "none" }], { delay: 420, duration: 220, easing: OUT, fill: "both" }).finished.then(part);
-    setTimeout(part, 700);
+    seam.animate([{ opacity: 0, transform: "scaleY(0)" }, { opacity: 1, transform: "none" }], { delay: 680, duration: 260, easing: OUT, fill: "both" }).finished.then(part);
+    setTimeout(part, 1100);
   });
 
   if (reduce) { root.classList.remove("sc-pending"); return; }
@@ -50,8 +55,8 @@
     const [c, g, d, seam] = cover();
     seam.style.opacity = 1;
     // sécurité : si l'animation ne démarre pas (page chargée en arrière-plan, navigateur qui la met en pause),
-    // les volets disparaissent quand même au bout de 2,5 s : la page n'est jamais cachée
-    const secours = setTimeout(() => { if (current) current.done(); else { c.remove(); root.classList.remove("sc-pending"); } }, 2500);
+    // les volets disparaissent quand même au bout de 3,2 s : la page n'est jamais cachée
+    const secours = setTimeout(() => { if (current) current.done(); else { c.remove(); root.classList.remove("sc-pending"); } }, 3200);
     const go = () => requestAnimationFrame(() => requestAnimationFrame(() => {
       root.classList.remove("sc-pending");
       const h = innerHeight, anims = [], seen = new Set();
@@ -60,9 +65,10 @@
       const prevX = [root.style.overflowX, document.body.style.overflowX];         // les titres viennent de hors de l'écran :
       root.style.overflowX = document.body.style.overflowX = "clip";            // la page ne s'élargit pas pendant ce temps
       // le trait s'éteint, puis les volets s'écartent chacun de son côté
-      anims.push(seam.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 180, easing: "ease-out", fill: "forwards" }));
-      anims.push(g.animate([{ transform: "none" }, { transform: "translateX(-100%)" }], { delay: 90, duration: 820, easing: INOUT, fill: "forwards" }));
-      anims.push(d.animate([{ transform: "none" }, { transform: "translateX(100%)" }], { delay: 90, duration: 820, easing: INOUT, fill: "forwards" }));
+      // les volets s'écartent lentement et s'effacent en fondu sur la fin, au lieu de glisser d'un bloc
+      anims.push(seam.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 280, easing: "ease-out", fill: "forwards" }));
+      anims.push(g.animate([{ transform: "none", opacity: 1 }, { opacity: 1, offset: .45 }, { transform: "translateX(calc(-100% - 18vw))", opacity: 0 }], { delay: 120, duration: 1200, easing: DOUX, fill: "forwards" }));
+      anims.push(d.animate([{ transform: "none", opacity: 1 }, { opacity: 1, offset: .45 }, { transform: "translateX(calc(100% + 18vw))", opacity: 0 }], { delay: 120, duration: 1200, easing: DOUX, fill: "forwards" }));
       // les grands titres : de la gauche, puis de la droite, puis de la gauche…
       let side = 1;
       for (const n of document.querySelectorAll("main h1, main h2")) {

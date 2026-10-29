@@ -83,7 +83,8 @@ h1 span+span{animation-name:de-droite;color:transparent;-webkit-text-stroke:max(
   build(); draw();
   addEventListener("resize", () => { build(); draw(); });
   if (calme) return;
-  addEventListener("pointermove", e => { tx = e.clientX / innerWidth - .5; ty = e.clientY / innerHeight - .5; }, { passive: true });
+  let plonge = false;   // pendant la plongée, la sphère ne suit plus la souris
+  addEventListener("pointermove", e => { if (plonge) return; tx = e.clientX / innerWidth - .5; ty = e.clientY / innerHeight - .5; }, { passive: true });
   document.addEventListener("visibilitychange", () => { cancelAnimationFrame(raf); if (!document.hidden) loop(); });
   loop();
   // « Entrer » : on plonge au centre de la sphère (le zoom accélère, les points passent de chaque côté de l'écran),
@@ -92,6 +93,7 @@ h1 span+span{animation-name:de-droite;color:transparent;-webkit-text-stroke:max(
   enter.addEventListener("click", e => {
     if (e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     e.preventDefault();                                       // la transition des volets ne se déclenche pas
+    plonge = true; tx = ty = 0;                              // la sphère se recentre doucement
     try { sessionStorage.setItem("abysse-arrivee", "sphere"); } catch (_) {}
     let parti = false;
     const part = () => { if (!parti) { parti = true; location.href = enter.href; } };

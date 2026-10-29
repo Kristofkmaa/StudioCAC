@@ -21,31 +21,57 @@ window.AbysseSphere = (() => {
     const ctx = cv.getContext("2d");
     let W, H, R, pts, mob;
     const size = () => {
-      const dpr = Math.min(devicePixelRatio || 1, 2);
+      const dpr = Math.min(devicePixelRatio || 1, 1.5);   // au-delà, l'œil ne voit pas la différence sur des points, le téléphone si
       W = cv.clientWidth || innerWidth; H = cv.clientHeight || innerHeight;
       cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       R = Math.min(W * .38, H * .34, 400); mob = W < 700; pts = points(mob ? 1200 : 2200);
     };
     size();
+    // Pour rester fluide, les points ne sont pas peints un par un avec leur propre couleur : on les range d'abord
+    // par teinte (rose du bord, blanc de devant, sarcelle de derrière) et par intensité (12 niveaux),
+    // puis chaque groupe est peint d'une seule couleur. Une trentaine de changements de couleur par image au lieu de 2 200.
+    const NIV = 12, GROUPES = 3 * NIV;
+    let px, py, pr, grp, ordre, compte = new Int32Array(GROUPES + 1);
+    const tampons = n => { px = new Float32Array(n); py = new Float32Array(n); pr = new Float32Array(n); grp = new Int16Array(n); ordre = new Int32Array(n); };
     // Z : zoom (1 = taille normale, 12 = on est dedans) ; A : intensité (1 = pleine) ; grow : grossissement au défilement
     const draw = ({ Z = 1, A = 1, grow = 1 } = {}) => {
       incl.x += (cible.x - incl.x) * .05; incl.y += (cible.y - incl.y) * .05;
       ctx.clearRect(0, 0, W, H);
       if (A <= 0) return;
+      if (!px || px.length !== pts.length) tampons(pts.length);
       const ay = (Date.now() / 1000 * VITESSE) % (Math.PI * 2) + incl.x * .6, ax = -.35 + incl.y * .4;
-      const cy = Math.cos(ay), sy = Math.sin(ay), cx = Math.cos(ax), sx = Math.sin(ax), ox = W / 2, oy = H / 2, RR = R * Z * grow;
+      const cy = Math.cos(ay), sy = Math.sin(ay), cx = Math.cos(ax), sx = Math.sin(ax), ox = W / 2, oy = H / 2, RR = R * Z * grow, taille = mob ? 1.5 : 1.9;
       const glow = ctx.createRadialGradient(ox, oy, 0, ox, oy, RR * 1.25);
-      glow.addColorStop(0, `rgba(0,130,124,${.28 * A})`); glow.addColorStop(1, "rgba(0,130,124,0)"); ctx.fillStyle = glow; ctx.fillRect(0, 0, W, H);
-      for (const [x0, y0, z0, s] of pts) {
+      glow.addColorStop(0, `rgba(0,130,124,${.28 * A})`); glow.addColorStop(1, "rgba(0,130,124,0)"); ctx.fillStyle = glow;
+      const gr = RR * 1.25, gx = Math.max(0, ox - gr), gy = Math.max(0, oy - gr);   // le halo n'est peint que là où il existe
+      ctx.fillRect(gx, gy, Math.min(W, ox + gr) - gx, Math.min(H, oy + gr) - gy);
+      compte.fill(0);
+      let n = 0;
+      for (let i = 0; i < pts.length; i++) {
+        const [x0, y0, z0, s] = pts[i];
         const x1 = x0 * cy + z0 * sy, z1 = -x0 * sy + z0 * cy, y1 = y0 * cx - z1 * sx, z2 = y0 * sx + z1 * cx;
         const k = 2.6 / (2.6 - z2), X = ox + x1 * RR * k, Y = oy + y1 * RR * k;
         if (X < -4 || Y < -4 || X > W + 4 || Y > H + 4) continue;
-        const rim = 1 - Math.abs(z2), front = (z2 + 1) / 2, a = (.18 + front * .82) * A;   // devant : blanc ; bord : rose ; derrière : sarcelle
-        ctx.fillStyle = rim > .8 && x1 > -.2 ? `rgba(250,209,255,${Math.min(1, a * 1.3)})` : front > .55 ? `rgba(237,255,254,${a})` : `rgba(0,170,160,${a * .8})`;
-        const r = s * k * (mob ? 1.5 : 1.9); ctx.fillRect(X - r / 2, Y - r / 2, r, r);
+        const rim = 1 - Math.abs(z2), front = (z2 + 1) / 2;   // devant : blanc ; bord : rose ; derrière : sarcelle
+        const teinte = rim > .8 && x1 > -.2 ? 0 : front > .55 ? 1 : 2, g = teinte * NIV + Math.min(NIV - 1, front * NIV | 0);
+        const r = s * k * taille;
+        px[n] = X - r / 2; py[n] = Y - r / 2; pr[n] = r; grp[n] = g; compte[g + 1]++; n++;
+      }
+      for (let g = 0; g < GROUPES; g++) compte[g + 1] += compte[g];          // début de chaque groupe
+      const pos = compte.slice(0, GROUPES);
+      for (let i = 0; i < n; i++) ordre[pos[grp[i]]++] = i;
+      for (let g = 0; g < GROUPES; g++) {
+        const de = compte[g], a = compte[g + 1];
+        if (de === a) continue;
+        const teinte = g / NIV | 0, f = ((g % NIV) + .5) / NIV, base = (.18 + f * .82) * A;
+        ctx.fillStyle = teinte === 0 ? `rgba(250,209,255,${Math.min(1, base * 1.3)})` : teinte === 1 ? `rgba(237,255,254,${base})` : `rgba(0,170,160,${base * .8})`;
+        for (let j = de; j < a; j++) { const i = ordre[j]; ctx.fillRect(px[i], py[i], pr[i], pr[i]); }
       }
     };
     return { draw, size };
   }
-  return { create, suivre };
+  // cache(true) : un rideau couvre l'écran (transition), les sphères de la page peuvent arrêter de se dessiner
+  let cachee = false;
+  const cache_ = on => { cachee = on; };
+  return { create, suivre, cache: cache_, get cachee() { return cachee; } };
 })();

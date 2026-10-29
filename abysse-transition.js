@@ -23,16 +23,24 @@
     const c = document.createElement("div"); c.className = "ab-cover"; c.setAttribute("aria-hidden", "true");
     const eau = document.createElement("div"); eau.className = "ab-eau"; c.appendChild(eau);
     document.body.appendChild(c);
-    let stop = () => {};
+    let stop = () => {}, t0 = null;   // t0 : début de l'animation de la sphère (elle reste figée avant)
     if (withOrb) {
       const cv = document.createElement("canvas"); c.appendChild(cv);
-      const sphere = AbysseSphere.create(cv), t0 = performance.now(); let raf = 0;   // la sphère du site, à sa place
-      const draw = now => { const [Z, A] = plan(Math.max(0, now - t0)); sphere.draw({ Z, A }); raf = requestAnimationFrame(draw); };
+      const sphere = AbysseSphere.create(cv); let raf = 0;   // la sphère du site, à sa place
+      const draw = now => { const [Z, A] = plan(t0 === null ? 0 : Math.max(0, now - t0)); sphere.draw({ Z, A }); raf = requestAnimationFrame(draw); };
       raf = requestAnimationFrame(draw);
       stop = () => cancelAnimationFrame(raf);
     }
-    return { c, eau, stop };
+    return { c, eau, stop, start: () => { t0 = performance.now(); } };
   }
+
+  // ——— la page suivante est demandée dès que le doigt se pose sur le lien (ou que la souris s'y arrête) :
+  // elle est déjà là à la fin de la plongée, l'image ne reste pas figée pendant le téléchargement
+  const dejaDemandees = new Set();
+  const interne = a => { if (!a || a.target === "_blank") return null; const u = new URL(a.href, location.href); return u.origin === location.origin && /\/abysse-[\w-]+\.html$/.test(u.pathname) && u.pathname !== location.pathname ? u : null; };
+  const precharge = href => { if (dejaDemandees.has(href)) return; dejaDemandees.add(href); const l = document.createElement("link"); l.rel = "prefetch"; l.href = href; document.head.appendChild(l); };
+  addEventListener("pointerdown", e => { const a = e.target.closest?.("a[href]"); if (interne(a)) precharge(a.href); }, { passive: true, capture: true });
+  addEventListener("pointerover", e => { const a = e.target.closest?.("a[href]"); if (e.pointerType === "mouse" && interne(a)) precharge(a.href); }, { passive: true });
 
   // ——— départ : vers une autre page de la version abysse
   document.addEventListener("click", e => {
@@ -41,16 +49,18 @@
     const url = new URL(a.href, location.href);
     if (url.origin !== location.origin || !/\/abysse-[\w-]+\.html$/.test(url.pathname) || url.pathname === location.pathname) return;
     e.preventDefault();
+    precharge(a.href);                                        // la page suivante se télécharge pendant la plongée
     AbysseSphere.suivre(false);                               // la sphère revient au centre pendant qu'on plonge
     try { sessionStorage.setItem(KEY, "mini"); } catch (_) {}
     let parti = false;
     const part = () => { if (!parti) { parti = true; location.href = a.href; } };
     // 0–350 ms : l'eau monte et la sphère apparaît ; 350–950 ms : on plonge dedans (le zoom accélère)
-    const { eau } = cover(true, ms => {
+    const { eau, start } = cover(true, ms => {
       if (ms >= 950) part();
       return [1 + 11 * easeIn(clamp((ms - 350) / 600)), clamp(ms / 300)];
     });
-    eau.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 380, easing: "ease-out", fill: "both" });
+    start();
+    eau.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 380, easing: "ease-out", fill: "both" }).finished.then(() => AbysseSphere.cache(true));
     setTimeout(part, 1300);                                   // si le navigateur met l'animation en pause
   });
 
@@ -64,11 +74,11 @@
     if (via === "sphere") { root.dataset.arrivee = "sphere"; root.classList.remove("sc-pending"); return; }
     const mini = via === "mini";
     // on ressort de la sphère : elle recule (12 → 1) en 1 s, puis s'efface ; l'eau s'éclaircit à partir de 0,85 s
-    const { c, eau, stop: stopOrb } = cover(mini, ms => [1 + 11 * (1 - easeInOut(clamp(ms / 1000))), 1 - clamp((ms - 900) / 400)]);
-    const tCover = performance.now();
+    if (mini) AbysseSphere.cache(true);                       // les autres sphères de la page attendent sous le rideau
+    const { c, eau, stop: stopOrb, start } = cover(mini, ms => [1 + 11 * (1 - easeInOut(clamp(ms / 1000))), 1 - clamp((ms - 900) / 400)]);
     // sécurité : si l'animation ne démarre pas (page chargée en arrière-plan, navigateur qui la met en pause),
     // le rideau disparaît quand même au bout de 3,2 s : la page n'est jamais cachée
-    const secours = setTimeout(() => { if (current) current.done(); else { stopOrb(); c.remove(); root.classList.remove("sc-pending"); } }, 3200);
+    const secours = setTimeout(() => { AbysseSphere.cache(false); if (current) current.done(); else { stopOrb(); c.remove(); root.classList.remove("sc-pending"); } }, 3200);
     const go = () => requestAnimationFrame(() => requestAnimationFrame(() => {
       root.classList.remove("sc-pending");
       const h = innerHeight, anims = [], seen = new Set();
@@ -76,7 +86,9 @@
       const under = n => { for (let p = n.parentElement; p; p = p.parentElement) if (seen.has(p)) return true; return false; };
       const prevX = [root.style.overflowX, document.body.style.overflowX];         // les titres viennent de hors de l'écran :
       root.style.overflowX = document.body.style.overflowX = "clip";            // la page ne s'élargit pas pendant ce temps
-      const late = Math.max(0, (mini ? 850 : 0) - (performance.now() - tCover)); // la page apparaît quand l'eau s'éclaircit
+      start();                                                  // la page est prête : le recul commence maintenant, sans à-coup
+      const late = mini ? 850 : 0;                              // la page apparaît quand l'eau s'éclaircit
+      setTimeout(() => AbysseSphere.cache(false), late);
       anims.push(eau.animate([{ opacity: 1 }, { opacity: 0 }], { delay: late, duration: mini ? 500 : 320, easing: "ease-in-out", fill: "forwards" }));
       if (mini) anims.push(c.animate([{ opacity: 1 }, { opacity: 1 }], { duration: late + 520 }));   // garde la sphère le temps qu'elle s'efface
       // les grands titres : de la gauche, puis de la droite, puis de la gauche…
@@ -94,13 +106,13 @@
         const r = n.getBoundingClientRect(), d = late + 120 + (r.top / h) * 420 + (r.left / innerWidth) * 80;
         const media = /^(IMG|VIDEO)$/.test(n.tagName);
         anims.push(n.animate(media
-          ? [{ opacity: 0, transform: "scale(1.04)", filter: "blur(8px)" }, { opacity: 1, transform: "none", filter: "blur(0)" }]
+          ? [{ opacity: 0, transform: "scale(1.04)" }, { opacity: 1, transform: "none" }]   // pas de flou : trop coûteux pendant la transition
           : [{ opacity: 0, transform: "translateY(18px)" }, { opacity: 1, transform: "none" }], { delay: d, duration: media ? 900 : 800, easing: OUT, fill: "backwards" }));
       }
       const stop = () => anims.forEach(a => a.finish());
       addEventListener("pointerdown", stop, { once: true });
       addEventListener("keydown", stop, { once: true });
-      const done = () => { clearTimeout(secours); removeEventListener("pointerdown", stop); removeEventListener("keydown", stop); anims.forEach(a => a.cancel()); stopOrb(); c.remove(); [root.style.overflowX, document.body.style.overflowX] = prevX; current = null; };
+      const done = () => { clearTimeout(secours); removeEventListener("pointerdown", stop); removeEventListener("keydown", stop); anims.forEach(a => a.cancel()); stopOrb(); c.remove(); AbysseSphere.cache(false); [root.style.overflowX, document.body.style.overflowX] = prevX; current = null; };
       Promise.all(anims.map(a => a.finished.catch(() => {}))).then(done);
       current = { done };
     }));

@@ -332,7 +332,7 @@ const fleche = '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strok
     if (dezoom && zp >= 1 && !calme) AbysseSphere.suivre(true);   // après le recul, la sphère suit de nouveau le doigt
     return { Z: 1 + 11 * (1 - ze), A: 1 - heroP * .55, grow: 1 + heroP * .9 };   // recul 12 → 1 sur 2,2 s, doux au début et à la fin
   };
-  const loop = () => { sphere.draw(etat()); raf = requestAnimationFrame(loop); };
+  const loop = () => { if (!AbysseSphere.cachee) sphere.draw(etat()); raf = requestAnimationFrame(loop); };   // pas sous un rideau de transition
   sphere.draw(etat());
   addEventListener("resize", () => { sphere.size(); sphere.draw(etat()); });
   if (calme) return;

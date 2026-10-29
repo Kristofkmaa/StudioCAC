@@ -10,8 +10,9 @@
   document.body.prepend(cv);
   const sphere = AbysseSphere.create(cv), FORCE = .42;      // assez visible pour l'ambiance, jamais gênante pour lire
   let raf = 0;
-  const loop = () => { sphere.draw({ A: FORCE }); raf = requestAnimationFrame(loop); };
-  sphere.draw({ A: FORCE });
+  // tant qu'un rideau de transition couvre l'écran, inutile de la dessiner : le navigateur garde ses forces pour la transition
+  const loop = () => { if (!AbysseSphere.cachee) sphere.draw({ A: FORCE }); raf = requestAnimationFrame(loop); };
+  if (!AbysseSphere.cachee) sphere.draw({ A: FORCE });
   addEventListener("resize", () => { sphere.size(); sphere.draw({ A: FORCE }); });
   if (calme) return;
   document.addEventListener("visibilitychange", () => { cancelAnimationFrame(raf); if (!document.hidden) loop(); });

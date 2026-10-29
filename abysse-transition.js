@@ -1,25 +1,25 @@
-// Transition « plongée » entre les pages de la version test abysse (remplace transition.js sur abysse-*.html).
-// Départ : un disque d'eau profonde s'ouvre depuis le doigt et recouvre la page.
-// Arrivée : le disque se referme vers le centre, les grands titres arrivent l'un de la gauche, l'autre de la droite,
-// le reste remonte doucement et les images passent du flou au net (≈ 1 s). Un clic ou une touche termine tout.
-// À inclure au tout début du <body>. Un bloc marqué data-arrive-off garde sa propre animation.
+// Transition « les deux volets » entre les pages de la version test abysse (remplace transition.js sur abysse-*.html).
+// Départ : deux panneaux d'eau profonde arrivent, l'un de la gauche, l'autre de la droite, et se rejoignent au milieu,
+// où s'allume un fin trait au dégradé aurore (le même geste que le grand titre de l'accueil).
+// Arrivée : la page s'ouvre sur ce même écran fermé, le trait s'éteint, les volets s'écartent chacun de son côté
+// pendant que les grands titres entrent (l'un de la gauche, l'autre de la droite) et que le reste remonte (≈ 1 s).
+// Un clic ou une touche termine tout. À inclure au tout début du <body>. Un bloc marqué data-arrive-off garde sa propre animation.
 (() => {
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const root = document.documentElement;
-  const OUT = "cubic-bezier(.16,1,.3,1)", INOUT = "cubic-bezier(.65,0,.35,1)";
+  const OUT = "cubic-bezier(.16,1,.3,1)", INOUT = "cubic-bezier(.76,0,.24,1)";
   const css = document.createElement("style");
-  // le halo est un vrai calque, placé en pixels au point touché : identique au départ et à l'arrivée,
-  // il ne saute pas d'une page à l'autre (avant, il était centré au doigt au départ et au milieu à l'arrivée)
-  css.textContent = `.ab-cover{position:fixed;inset:0;z-index:9999;pointer-events:none;background:#011D1C;overflow:hidden}
-.ab-glow{position:absolute;width:140vmax;height:140vmax;margin:-70vmax 0 0 -70vmax;border-radius:50%;background:radial-gradient(closest-side,rgba(0,130,124,.38),rgba(0,130,124,0))}`;
+  css.textContent = `.ab-cover{position:fixed;inset:0;z-index:9999;pointer-events:none;overflow:hidden}
+.ab-vol{position:absolute;top:0;bottom:0;width:calc(50% + 1px);background:#011D1C}
+.ab-vol.g{left:0}.ab-vol.d{right:0}
+.ab-seam{position:absolute;top:0;bottom:0;left:calc(50% - .5px);width:1px;background:linear-gradient(#CBFFFC,#FFFDFA 50%,#FAD1FF);opacity:0}`;
   document.head.appendChild(css);
-  const KEY = "abysse-point";
-  const cover = (x, y) => {
+  // l'écran fermé : deux volets et le trait du milieu
+  const cover = () => {
     const c = document.createElement("div"); c.className = "ab-cover"; c.setAttribute("aria-hidden", "true");
-    const g = document.createElement("div"); g.className = "ab-glow"; g.style.left = x + "px"; g.style.top = y + "px"; c.appendChild(g);
-    document.body.appendChild(c); return [c, g];
+    c.innerHTML = '<div class="ab-vol g"></div><div class="ab-vol d"></div><div class="ab-seam"></div>';
+    document.body.appendChild(c); return [c, c.children[0], c.children[1], c.children[2]];
   };
-  const rayon = (x, y) => Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y)) + 2;
 
   // ——— départ : vers une autre page de la version abysse
   document.addEventListener("click", e => {
@@ -28,9 +28,10 @@
     const url = new URL(a.href, location.href);
     if (url.origin !== location.origin || !/\/abysse-[\w-]+\.html$/.test(url.pathname) || url.pathname === location.pathname) return;
     e.preventDefault();
-    const x = e.clientX || innerWidth / 2, y = e.clientY || innerHeight / 2, r = rayon(x, y), [c] = cover(x, y);
-    try { sessionStorage.setItem(KEY, JSON.stringify([x / innerWidth, y / innerHeight])); } catch (_) {}   // la page suivante repart de ce point
-    c.animate([{ clipPath: `circle(0px at ${x}px ${y}px)` }, { clipPath: `circle(${r}px at ${x}px ${y}px)` }], { duration: 520, easing: INOUT, fill: "both" })
+    const [, g, d, seam] = cover();
+    g.animate([{ transform: "translateX(-100%)" }, { transform: "none" }], { duration: 560, easing: INOUT, fill: "both" });
+    d.animate([{ transform: "translateX(100%)" }, { transform: "none" }], { duration: 560, easing: INOUT, fill: "both" });
+    seam.animate([{ opacity: 0, transform: "scaleY(0)" }, { opacity: 1, transform: "none" }], { delay: 420, duration: 220, easing: OUT, fill: "both" })
       .finished.then(() => { location.href = a.href; });
   });
 
@@ -38,10 +39,9 @@
   let current = null;
 
   function arrive() {
-    // le point touché sur la page précédente (sinon le milieu de l'écran)
-    let fx = .5, fy = .5;
-    try { const v = JSON.parse(sessionStorage.getItem(KEY)); if (Array.isArray(v)) [fx, fy] = v; sessionStorage.removeItem(KEY); } catch (_) {}
-    const x = fx * innerWidth, y = fy * innerHeight, [c, glow] = cover(x, y);
+    // la page s'ouvre fermée, exactement comme la page précédente s'est terminée
+    const [c, g, d, seam] = cover();
+    seam.style.opacity = 1;
     const go = () => requestAnimationFrame(() => requestAnimationFrame(() => {
       root.classList.remove("sc-pending");
       const h = innerHeight, anims = [], seen = new Set();
@@ -49,9 +49,10 @@
       const under = n => { for (let p = n.parentElement; p; p = p.parentElement) if (seen.has(p)) return true; return false; };
       const prevX = [root.style.overflowX, document.body.style.overflowX];         // les titres viennent de hors de l'écran :
       root.style.overflowX = document.body.style.overflowX = "clip";            // la page ne s'élargit pas pendant ce temps
-      // exactement l'inverse du départ : le disque se referme vers le même point, le halo s'éteint en même temps
-      anims.push(c.animate([{ clipPath: `circle(${rayon(x, y)}px at ${x}px ${y}px)` }, { clipPath: `circle(0px at ${x}px ${y}px)` }], { duration: 760, easing: INOUT, fill: "forwards" }));
-      anims.push(glow.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 760, easing: "ease-in", fill: "forwards" }));
+      // le trait s'éteint, puis les volets s'écartent chacun de son côté
+      anims.push(seam.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 180, easing: "ease-out", fill: "forwards" }));
+      anims.push(g.animate([{ transform: "none" }, { transform: "translateX(-100%)" }], { delay: 90, duration: 820, easing: INOUT, fill: "forwards" }));
+      anims.push(d.animate([{ transform: "none" }, { transform: "translateX(100%)" }], { delay: 90, duration: 820, easing: INOUT, fill: "forwards" }));
       // les grands titres : de la gauche, puis de la droite, puis de la gauche…
       let side = 1;
       for (const n of document.querySelectorAll("main h1, main h2")) {

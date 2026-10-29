@@ -34,7 +34,7 @@ Le site : écran d'entrée (`index.html`), accueil (`accueil.html`), tarifs, dev
 - **Version test « abysse » de tout le site** (demandée par l'utilisateur, d'après la fiche Auros) : pages `abysse-*.html` à la racine (noindex, exclues de `robots.txt`).
   - `abysse-index.html` (écran d'entrée : sphère, « Saitora » en géant) et `abysse-accueil.html` (l'essai 10 sans la carte des villes, sans les filtres de métiers, sans « À propos », à la demande de l'utilisateur) sont écrits à la main.
   - Tarifs, devis, charte, guide photo, CGV et mentions légales sont **fabriqués** depuis les pages en ligne par `python3 outils/site_abysse.py` : relancer après chaque changement d'une de ces pages.
-  - Couleurs : `abysse.css` (mêmes noms de variables que `theme.css`) ; retouches : `abysse-fin.css` ; transition « plongée » entre les pages : `abysse-transition.js`.
+  - Couleurs : `abysse.css` (mêmes noms de variables que `theme.css`) ; retouches : `abysse-fin.css` ; transition « les deux volets » entre les pages : `abysse-transition.js`.
   - L'espace pro (`accueil.html#admin`) n'existe pas dans la version abysse : à reprendre si on l'adopte.
   - Sources des essais en framework : `labo/sources/` (sans `node_modules`) ; on reconstruit avec `npm install && npm run build` dans chaque projet.
 

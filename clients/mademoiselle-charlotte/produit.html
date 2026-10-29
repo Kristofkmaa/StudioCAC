@@ -50,7 +50,8 @@
   <header class="wrap top">
     <a class="marque" href="index.html"><img src="images/logo-petit.webp" alt="" width="160" height="160"><span>Mademoiselle <b>Charlotte</b></span></a>
     <nav aria-label="Menu principal"><a href="index.html#creations">Créations</a><a href="index.html#broder">Broder un prénom</a><a href="index.html#atelier">L'atelier</a><a href="index.html#commander">Commander</a></nav>
-    <a class="btn rose" href="https://mademoiselle-charlotte-1.sumupstore.com/" target="_blank" rel="noopener">La boutique</a>
+    <a class="btn rose" href="panier.html">Panier<span data-compte></span></a>
+    <a class="panier-tel" href="panier.html">Panier<span data-compte></span></a>
     <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="feuille"><span id="menuTxt">Menu</span><i aria-hidden="true"></i></button>
   </header>
   <div class="feuille" id="feuille">
@@ -59,7 +60,7 @@
     <a class="l" href="index.html#atelier">L'atelier</a>
     <a class="l" href="index.html#commander">Commander</a>
     <p>Bavoirs, coffrets, doudous et cadres, personnalisés au prénom de l'enfant.</p>
-    <a class="btn rose" href="https://mademoiselle-charlotte-1.sumupstore.com/" target="_blank" rel="noopener">Ouvrir la boutique</a>
+    <a class="btn rose" href="panier.html">Voir le panier<span data-compte></span></a>
   </div>
 </div>
 
@@ -82,12 +83,12 @@
             <div class="qte" role="group" aria-labelledby="lblQte"><button type="button" id="moins" aria-label="Une de moins">−</button><output id="qte" aria-live="polite">1</output><button type="button" id="plus" aria-label="Une de plus">+</button></div>
           </div>
           <div class="achat">
-            <a class="btn noir" id="commander" href="https://mademoiselle-charlotte-1.sumupstore.com/" target="_blank" rel="noopener">Commander sur la boutique</a>
+            <button type="button" class="btn noir" id="commander">Ajouter au panier</button>
             <a class="btn trait" id="essayer" href="index.html#broder" hidden>Essayer sur le bavoir</a>
           </div>
           <p class="astuce" id="astuce" aria-live="polite"></p>
         </form>
-        <p class="atouts" id="atouts">Cousu à la main, pièce par pièce. Paiement par carte sur la boutique.</p>
+        <p class="atouts" id="atouts">Cousu à la main, pièce par pièce.</p>
         <nav class="voisins" id="voisins" aria-label="Créations voisines"></nav>
       </div>
     </div>
@@ -107,12 +108,13 @@
   <div class="wrap pied">
     <img class="pied-logo" src="images/logo-petit.webp" alt="Mademoiselle Charlotte" width="160" height="160" loading="lazy">
     <span>© 2026 Mademoiselle Charlotte · Maquette réalisée par <a href="https://saitora.fr">Saitora</a></span>
-    <nav aria-label="Pied de page"><a href="https://mademoiselle-charlotte-1.sumupstore.com/" target="_blank" rel="noopener">Boutique</a><a href="index.html#creations">Créations</a><a href="index.html#commander">Commander</a></nav>
+    <nav aria-label="Pied de page"><a href="panier.html">Panier</a><a href="index.html#creations">Créations</a><a href="index.html#commander">Commander</a></nav>
   </div>
   <p class="geant" aria-hidden="true">Mademoiselle <em>Charlotte</em></p>
 </footer>
 
 <script src="pieces.js"></script>
+<script src="panier.js"></script>
 <script>
 document.documentElement.classList.add("js");
 const $ = id => document.getElementById(id);
@@ -134,7 +136,7 @@ $("prix").innerHTML = `${x.p}&nbsp;€`;
 $("texte").textContent = x.t;
 $("persoBloc").hidden = !x.perso;
 $("essayer").hidden = x.f !== "bavoirs";
-$("atouts").textContent = x.perso ? "Brodé à son prénom, cousu à la main. Paiement par carte sur la boutique." : "Cousu à la main, pièce par pièce. Paiement par carte sur la boutique.";
+$("atouts").textContent = x.perso ? "Brodé à son prénom, cousu à la main." : "Cousu à la main, pièce par pièce.";
 
 /* précédente et suivante */
 const av = PIECES[(i - 1 + PIECES.length) % PIECES.length], ap = PIECES[(i + 1) % PIECES.length];
@@ -152,13 +154,12 @@ $("moins").addEventListener("click", () => { q = Math.max(1, q - 1); majQ(); });
 $("plus").addEventListener("click", () => { q = Math.min(20, q + 1); majQ(); });
 majQ();
 
-/* en partant vers la boutique, on garde le texte de la commande à coller dans la note */
+/* ajouter au panier */
 $("commander").addEventListener("click", () => {
   const prenom = $("prenom").value.trim();
-  const note = `${x.n} × ${q}${x.perso && prenom ? ` : « ${prenom} »` : ""}`;
-  if (navigator.clipboard) navigator.clipboard.writeText(note).then(() => {
-    $("astuce").textContent = `Copié : ${note}. Collez-le dans la note de commande sur la boutique.`;
-  }).catch(() => {});
+  if (x.perso && !prenom) { $("prenom").focus(); $("astuce").textContent = "Écrivez d'abord le prénom à broder."; return; }
+  Panier.ajoute(x.s, q, x.perso ? prenom : "");
+  $("astuce").innerHTML = `Ajouté au panier. <a href="panier.html">Voir le panier</a>`;
 });
 
 /* photos qui arrivent */

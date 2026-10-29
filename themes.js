@@ -200,6 +200,16 @@
 .tp-carnet h4 em{color:var(--a)}
 .tp-carnet .plan{margin-top:2.4cqw;width:100%;height:auto}
 .tp-carnet .ph{height:30cqw;background:#fff;padding:1cqw;outline:.15cqw solid rgba(31,42,68,.2);outline-offset:.8cqw}
+
+/* Récit peint : fond papier, serif fine, un tableau peint dans un cadre arrondi, le nom de part et d'autre, un bouton en contour bleu */
+.tp-recit .nav .lg{font-weight:400;font-size:3cqw}
+.tp-recit .nav .lk{font-family:var(--fx);font-size:1.7cqw}
+.tp-recit .nav .btn{background:none;border:.15cqw solid var(--a);color:var(--a);border-radius:.8cqw;font-weight:500}
+.tp-recit .win{position:relative;margin:7cqw 12cqw 0;height:30cqw}
+.tp-recit .win .ph{height:100%;border-radius:2.4cqw;overflow:hidden}
+.tp-recit h4{position:absolute;font-family:var(--ft);font-weight:400;font-size:7.4cqw;line-height:.95;letter-spacing:-.04em}
+.tp-recit h4.g{left:-8cqw;top:-6.2cqw}
+.tp-recit h4.d{right:-8cqw;bottom:-6.6cqw;font-style:italic}
 `;
 
   // le dessin de chaque thème : n = nom, q = activité, img = photo d'exemple
@@ -218,6 +228,8 @@
     "herbier": (n, q, img) => `<div class="nav"><b class="lg">${n}</b><span class="lk"><i>Bouquets</i><i>Venir</i></span><span class="btn">Commander</span></div><div class="hero"><div><h4 class="ft">Les fleurs <em>de saison</em>, en bouquet</h4><p>Délicat et naturel, comme un herbier ancien.</p></div><figure class="sheet"><div class="ph">${img}</div><span class="label">Cistus salviifolius</span></figure></div>`,
     "energie": (n, q, img) => `<div class="nav"><b class="lg">${n}</b><span class="lk"><i>Planning</i><i>Tarifs</i></span><span class="btn">Essai gratuit</span></div><h4 class="ft">Forza<i>.</i></h4><div class="row"><div class="ph">${img}</div><div class="ph" style="background:#111"></div><div class="ph" style="background:var(--a)"></div></div><span class="chip">12 places max</span>`,
     "carnet": (n, q, img) => `<div class="nav"><b class="lg">${n}</b><span class="lk"><i>Estimer</i><i>Les biens</i></span><span class="btn">Estimer</span></div><div class="hero"><div><h4 class="ft">Votre bien, <em>au juste prix.</em></h4><svg class="plan" viewBox="0 0 200 90"><rect x="40" y="6" width="120" height="66" fill="rgba(210,69,43,.06)" stroke="#1F2A44" stroke-width="2.5"/><line x1="80" y1="6" x2="80" y2="44" stroke="#1F2A44"/><line x1="40" y1="82" x2="160" y2="82" stroke="#D2452B"/><text x="100" y="45" text-anchor="middle" font-size="16" fill="#1F2A44" font-family="Georgia">75 m²</text><text x="100" y="90" text-anchor="middle" font-size="8" fill="#D2452B">10,2 m</text></svg></div><div class="ph">${img}</div></div>`,
+    "recit": (n, q, img) => `<div class="nav"><b class="lg">${n}</b><span class="lk">Les chambres · La table · Autour</span><span class="btn">Vos dates</span></div><div class="win"><h4 class="g">${n},</h4><div class="ph">${img}</div><h4 class="d">une histoire</h4></div>`,
+
   };
 
   let cssDone = false;

@@ -895,6 +895,69 @@
           "alterne"
         ]
       }
+    },
+    {
+      "id": "recit",
+      "nom": "Récit peint",
+      "accroche": "Comme un beau livre : un fond papier, une serif calme, de grands tableaux peints entre les sections, une seule couleur.",
+      "pour": [
+        "Maison d'hôtes",
+        "Librairie",
+        "Refuge, gîte de montagne",
+        "Domaine viticole"
+      ],
+      "couleurs": {
+        "fond": "#FEFFFC",
+        "texte": "#2C2C2C",
+        "accent": "#41A1CF",
+        "second": "#DEE2DE"
+      },
+      "polices": {
+        "titres": "Redaction",
+        "texte": "Geist",
+        "css": "polices/redaction-geist.css"
+      },
+      "photo": "images/fucone/pre.webp",
+      "exemple": {
+        "nom": "U Fucone",
+        "url": "demo-u-fucone.html"
+      },
+      "recette": "Une serif fine (Redaction) pour tous les titres, une sans-serif discrète pour le reste ; fond papier presque blanc ; les émotions viennent de grands tableaux peints posés entre les sections, arrondis de 24 px ; un seul bleu, en contour sur les boutons ; filets fins vert-gris sur les cartes blanches.",
+      "va_avec": {
+        "formes": [
+          "arrondies"
+        ],
+        "texture": [
+          "aucune",
+          "grain"
+        ],
+        "decoupes": [
+          "arrondies",
+          "droites"
+        ],
+        "boutons": [
+          "rectangle",
+          "souligne"
+        ],
+        "ornement": [
+          "aucun"
+        ],
+        "titres": [
+          "normaux"
+        ],
+        "appoint": [
+          "aucune",
+          "italique"
+        ],
+        "rythme": [
+          "clair"
+        ],
+        "arrivee": [
+          "fondu",
+          "rideau",
+          "calme"
+        ]
+      }
     }
   ]
 }

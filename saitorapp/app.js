@@ -48,36 +48,39 @@
   const msgIco = '<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3C6.5 3 2 6.6 2 11c0 2.4 1.3 4.6 3.5 6.1L5 21l4.2-2.4c.9.2 1.8.4 2.8.4 5.5 0 10-3.6 10-8s-4.5-8-10-8z"/></svg>';
 
   /* ---------- la structure ---------- */
-  $("appli").innerHTML = `<div class="page" id="page"></div><div class="onglets"><nav id="onglets" aria-label="Onglets"></nav></div><div class="hud" id="hud" role="status" aria-live="polite"></div>`;
+  $("appli").innerHTML = `<div class="page" id="page"></div><div class="onglets"><nav id="onglets" aria-label="Onglets"></nav><button type="button" class="plus" id="plus" hidden>${plusIco.replace('width="22" height="22"', 'width="24" height="24"')}</button></div><div class="hud" id="hud" role="status" aria-live="polite"></div>`;
   function hud(t) { const h = $("hud"); h.textContent = t; h.classList.add("vu"); clearTimeout(hud.t); hud.t = setTimeout(() => h.classList.remove("vu"), 2200); }
 
   function onglets(actif) {
     const b = { commandes: (D.commandes || []).filter(o => o.statut === "nouvelle").length, agenda: (D.rdv || []).filter(r => r.statut === "demande").length, sejours: (D.sejours || []).filter(r => r.statut === "demande").length };
-    $("onglets").innerHTML = MODS.slice(0, 5).map(m => `<a href="#/${m}" ${m === actif ? 'aria-current="page"' : ""}>${ico(A.MODULES[m].icone, 27)}<span>${A.MODULES[m].onglet}</span>${b[m] ? `<span class="badge num" aria-label="${b[m]} en attente">${b[m]}</span>` : ""}</a>`).join("");
+    $("onglets").innerHTML = MODS.slice(0, 5).map(m => `<a href="#/${m}" ${m === actif ? 'aria-current="page"' : ""}>${ico(A.MODULES[m].icone, 24)}<span>${A.MODULES[m].onglet}</span>${b[m] ? `<span class="badge num" aria-label="${b[m]} en attente">${b[m]}</span>` : ""}</a>`).join("");
   }
 
-  /* une page : barre du haut (retour, petit titre, action), grand titre, contenu */
-  function ecran({ titre, sous = "", retour = "", action = "", corps, pousse = false, marque = false }) {
-    $("page").innerHTML = `<header class="nav-haut" id="navHaut"><div class="g">${retour ? `<a class="lien-nav" href="${retour[0]}">${retourIco}${esc(retour[1])}</a>` : ""}</div><div class="titre-petit">${esc(titre)}</div><div class="d">${action}</div></header>
-      <div class="ecran ${pousse ? "pousse" : ""}"><div class="grand-titre">${marque ? `<div class="marque">${esc(S.nom)}</div>` : ""}<h1 id="grandTitre">${esc(titre)}</h1>${sous ? `<p>${sous}</p>` : ""}</div>${corps}</div>`;
+  /* une page : barre du haut (retour en rond, petit titre), titre avec son sourcil, contenu ; le + noir à côté des onglets */
+  function ecran({ titre, sourcil = "", sous = "", retour = "", corps, pousse = false, plus = null, plusLabel = "Ajouter", hero = "" }) {
+    $("page").innerHTML = `<header class="nav-haut ${hero ? "sur-photo" : ""}" id="navHaut"><div class="g">${retour ? `<a class="rond" href="${retour}" aria-label="Retour">${retourIco}</a>` : ""}</div><div class="titre-petit">${esc(titre)}</div><div class="d"></div></header>
+      <div class="ecran ${pousse ? "pousse" : ""}">${hero || `<div class="grand-titre">${sourcil ? `<p class="sourcil">${esc(sourcil)}</p>` : ""}<h1 id="grandTitre">${esc(titre)}</h1>${sous ? `<p>${sous}</p>` : ""}</div>`}${corps}</div>`;
+    if (hero) { const n = $("navHaut"); n.style.position = "fixed"; n.style.left = n.style.right = "0"; n.style.margin = "0"; }
     /* un seul observateur à la fois : l'ancien titre retiré ne doit pas remplir la nouvelle barre */
     if (ecran.io) ecran.io.disconnect();
-    ecran.io = new IntersectionObserver(([e]) => $("navHaut").classList.toggle("pleine", !e.isIntersecting), { rootMargin: "-44px 0px 0px 0px" });
-    ecran.io.observe($("grandTitre"));
+    const cible = $("grandTitre") || document.querySelector(".hero");
+    ecran.io = new IntersectionObserver(([e]) => $("navHaut").classList.toggle("pleine", !e.isIntersecting), { rootMargin: "-52px 0px 0px 0px" });
+    if (cible) ecran.io.observe(cible);
+    const p = $("plus"); p.hidden = !plus; p.onclick = plus; p.setAttribute("aria-label", plusLabel);
     scrollTo(0, 0);
   }
 
   /* feuille qui monte du bas */
-  function feuille({ titre, gauche = "Annuler", droite = "", corps, ok }) {
+  function feuille({ titre, sous = "", droite = "", corps, ok }) {
     fermeFeuille(true);
     const v = document.createElement("div"); v.className = "voile";
     const f = document.createElement("div"); f.className = "feuille"; f.setAttribute("role", "dialog"); f.setAttribute("aria-modal", "true"); f.setAttribute("aria-label", titre);
-    f.innerHTML = `<div class="poignee"></div><div class="tete-feuille"><div class="g"><button type="button" data-ferme>${gauche}</button></div><h2>${esc(titre)}</h2><div class="d">${droite ? `<button type="button" class="fort" data-ok>${droite}</button>` : ""}</div></div>${corps}`;
+    f.innerHTML = `<div class="poignee"></div><div class="tete-feuille"><div class="g"><button type="button" class="rond" data-ferme aria-label="Fermer"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 2l8 8M10 2l-8 8"/></svg></button></div><h2>${esc(titre)}${sous ? `<small>${sous}</small>` : ""}</h2><div class="d"></div></div>${corps}${droite ? `<div class="boutons"><button type="button" class="bouton" data-ok>${droite}</button></div>` : ""}`;
     document.body.append(v, f);
     requestAnimationFrame(() => { v.classList.add("vu"); f.classList.add("vu"); });
     v.onclick = () => fermeFeuille();
     f.querySelector("[data-ferme]").onclick = () => fermeFeuille();
-    if (ok) f.querySelector("[data-ok]").onclick = () => ok(f);
+    if (ok) f.querySelectorAll("[data-ok]").forEach(b => b.onclick = () => ok(f));
     document.body.style.overflow = "hidden";
     /* glisser vers le bas pour fermer */
     let y0 = null;
@@ -92,8 +95,25 @@
   }
   addEventListener("keydown", e => { if (e.key === "Escape") fermeFeuille(); });
 
-  const tuile = ({ titre, val, sous = "", href = "", cls = "", petit = "" }) =>
-    `<${href ? `a href="${href}"` : "div"} class="tuile ${cls}"><span class="t-haut"><i></i>${titre}</span><span class="t-val num">${val}${petit ? `<small> ${petit}</small>` : ""}</span><span class="t-sous">${sous}</span></${href ? "a" : "div"}>`;
+  /* le pavé numérique, pour un prix ou un stock : le chiffre en grand, comme dans Fuse */
+  function pave({ titre, sous = "", valeur = 0, unite = "€", entier = false, ok }) {
+    let s = String(valeur).replace(".", ",");
+    const f = feuille({ titre, sous, corps: `<div class="montant"><b class="num" id="pvVal"></b><small>${unite === "€" ? "prix affiché sur le site" : "pièces"}</small></div>
+      <div class="pave" id="pv">${["1", "2", "3", "4", "5", "6", "7", "8", "9", entier ? "" : ",", "0", "⌫"].map(k => `<button type="button" data-k="${k}" ${k ? "" : 'disabled style="visibility:hidden"'} aria-label="${k === "⌫" ? "Effacer" : k}">${k === "⌫" ? '<svg width="26" height="20" viewBox="0 0 26 20" fill="currentColor"><path d="M8 1h15a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H8L1 10z"/><path d="M12 6l8 8M20 6l-8 8" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>' : k}</button>`).join("")}</div>
+      <button type="button" class="bouton" data-ok>Valider</button>`, ok: () => { ok(+s.replace(",", ".") || 0); fermeFeuille(); } });
+    const aff = () => { const [e, d] = s.split(","); f.querySelector("#pvVal").innerHTML = `${e || "0"}${d != null ? `<span class="cts">,${d}</span>` : ""}${unite ? ` <span class="cts">${unite}</span>` : ""}`; };
+    f.querySelector("#pv").onclick = e => {
+      const k = e.target.closest("button")?.dataset.k; if (!k) return;
+      if (k === "⌫") s = s.slice(0, -1);
+      else if (k === ",") { if (!s.includes(",")) s = (s || "0") + ","; }
+      else if (s.replace(",", "").length < 6 && !(s.includes(",") && s.split(",")[1].length >= 2)) s = s === "0" ? k : s + k;
+      aff();
+    };
+    aff();
+  }
+
+  /* un montant dont les centimes passent en gris */
+  const eurG = v => { const [e, d] = (Math.round(v * 100) / 100).toFixed(2).split("."); return `${Number(e).toLocaleString("fr-FR")}<span class="cts">,${d} €</span>`; };
   const segments = (id, liste, actif) => `<div class="segments" id="${id}" role="group">${liste.map(([k, t, n]) => `<button type="button" data-s="${k}" aria-pressed="${k === actif}">${t}${n != null ? `<span class="n num">${n}</span>` : ""}</button>`).join("")}</div>`;
   const surSegments = (id, fn) => $(id).addEventListener("click", e => { const b = e.target.closest("button"); if (b) fn(b.dataset.s); });
   const interr = (id, on, label) => `<button type="button" class="ligne" role="switch" id="${id}" aria-checked="${on}"><span>${label}</span><span class="interrupteur"></span></button>`;
@@ -101,11 +121,23 @@
   const coche = id => $(id).getAttribute("aria-checked") === "true";
   const pastille = (s, t) => `<span class="pastille p-${s}"><i></i>${t}</span>`;
 
-  /* petit graphique en barres arrondies */
-  function barres(valeurs, labels, actif) {
-    const max = Math.max(1, ...valeurs), w = 100 / valeurs.length;
-    return `<svg viewBox="0 0 100 60" preserveAspectRatio="none" role="img" aria-label="${labels.map((l, i) => `${l} : ${eur(valeurs[i])}`).join(", ")}">${valeurs.map((v, i) => { const h = Math.max(1.5, v / max * 56); return `<rect x="${i * w + w * .18}" y="${60 - h}" width="${w * .64}" height="${h}" rx="1.6" fill="var(--accent)" opacity="${i === actif ? 1 : .28}"/>`; }).join("")}</svg>`;
+  /* la grande photo du haut, avec la phrase du jour et deux cartes translucides */
+  function hero({ phrase, verres = [] }) {
+    const photo = S.photo ? `background-image:url('${S.photo}')` : `background:${S.fond || "var(--accent)"}`;
+    return `<section class="hero ${S.photo ? "" : "clair"}" style="${photo}"><div class="h-marque">${S.marque ? `<img src="${esc(S.marque)}" alt="">` : ""}${esc(S.nom)}</div>
+      <p class="h-date">${dL(T.auj())}</p><h1 id="grandTitre">${phrase}</h1>
+      <div class="verres">${verres.map(([t, icone, href, id]) => `<${href ? `a href="${href}"${href.startsWith("#") ? "" : ' target="_blank" rel="noopener"'}` : `button type="button" id="${id}"`} class="verre">${ico(icone, 22)}<span>${t}</span></${href ? "a" : "button"}>`).join("")}</div></section>`;
   }
+  /* le gros chiffre et sa courbe (Fuse) */
+  function chiffre({ id, lbl, val, delta = null, periodes, actif, points }) {
+    const max = Math.max(1, ...points), min = Math.min(...points), n = points.length;
+    const xy = points.map((v, i) => `${(i / Math.max(1, n - 1) * 100).toFixed(2)},${(52 - (v - min) / Math.max(1, max - min) * 46).toFixed(2)}`).join(" ");
+    return `<section class="chiffre" id="${id}"><p class="c-lbl">${lbl}${delta == null ? "" : ` <span class="delta ${delta < 0 ? "bas" : delta === 0 ? "zero" : ""}">${delta < 0 ? "↘" : "↗"} ${Math.abs(delta)} %</span>`}</p><p class="c-val num">${val}</p>
+      <svg class="courbe" viewBox="0 0 100 56" preserveAspectRatio="none" role="img" aria-label="${esc(lbl)}"><polyline points="${xy}" fill="none" stroke="var(--encre)" stroke-width="1.6" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round"/></svg>
+      <div class="periodes" role="group">${periodes.map(([k, t]) => `<button type="button" data-per="${k}" aria-pressed="${k === actif}">${t}</button>`).join("")}</div></section>`;
+  }
+  const tuile = ({ titre, sous = "", val = "", icone, couleur, href = "", cls = "" }) =>
+    `<${href ? `a href="${href}"` : "div"} class="tuile ${cls}"><span class="ic ${couleur}">${ico(icone, 19)}</span><b>${titre}</b>${val !== "" ? `<span class="t-val num">${val}</span>` : ""}${sous ? `<small>${sous}</small>` : ""}</${href ? "a" : "div"}>`;
 
   /* =====================================================================
      BOUTIQUE : commandes et produits
@@ -116,25 +148,6 @@
   const photoDe = id => { const p = (D.produits || []).find(x => x.id === id); return p && p.photo ? `<img class="photo" src="${esc(p.photo)}" alt="">` : ""; };
   const ligneCommande = o => `<a class="ligne" href="#/commandes/${o.id}"><span><b class="${o.statut === "nouvelle" ? "gras" : ""}">${esc(o.client)}</b><small>${o.lignes.map(l => esc(l.prenom ? `« ${l.prenom} »` : l.nom)).join(", ")}</small></span><span class="valeur" style="text-align:right"><span class="num" style="color:var(--texte);display:block">${eur(total(o))}</span>${pastille(o.statut, nomEtape(o.statut))}</span>${chev}</a>`;
 
-  function aujBoutique() {
-    const t = T.auj(), cmd = [...D.commandes].sort((a, b) => new Date(b.date) - new Date(a.date));
-    const ouvertes = cmd.filter(o => o.statut === "nouvelle" || o.statut === "a-coudre"), pretes = cmd.filter(o => o.statut === "prete");
-    const mois = cmd.filter(o => new Date(o.date).getMonth() === t.getMonth() && new Date(o.date).getFullYear() === t.getFullYear());
-    const bas = D.produits.filter(p => !p.surCommande && p.stock <= p.seuil);
-    const sem = [...Array(8)].map((_, i) => { const fin = T.plus(t, -7 * (7 - i) + 1), deb = T.plus(fin, -7); return { deb, v: cmd.filter(o => new Date(o.date) >= deb && new Date(o.date) < fin).reduce((s, o) => s + total(o), 0) }; });
-    const atelier = ouvertes.flatMap(o => o.lignes.map(l => ({ o, l }))).sort((a, b) => new Date(a.o.date) - new Date(b.o.date));
-    const nouv = ouvertes.filter(o => o.statut === "nouvelle").length;
-    return `<div class="tuiles">
-        ${tuile({ titre: "À préparer", val: ouvertes.length, sous: nouv ? pl(nouv, "nouvelle") : "rien de nouveau", href: "#/commandes", cls: ouvertes.length ? "" : "calme" })}
-        ${tuile({ titre: "Prêtes", val: pretes.length, sous: "à remettre", href: "#/commandes?prete", cls: pretes.length ? "" : "calme" })}
-        ${tuile({ titre: "Ventes", val: eur(mois.reduce((s, o) => s + total(o), 0)), sous: `en ${t.toLocaleDateString("fr-FR", { month: "long" })}, ${pl(mois.length, "commande")}` })}
-        ${tuile({ titre: "Stock bas", val: bas.length, sous: bas.length ? "à recoudre" : "tout va bien", href: "#/produits?bas", cls: bas.length ? "alerte" : "calme" })}
-      </div>
-      <p class="entete-groupe fort">À l'atelier <a href="#/commandes">Tout voir</a></p>
-      ${atelier.length ? `<div class="groupe">${atelier.slice(0, 6).map(({ o, l }) => `<a class="ligne av-image" href="#/commandes/${o.id}">${photoDe(l.produit)}<span><b class="gras">${l.prenom ? esc(l.prenom) : esc(l.nom)}</b><small>${l.prenom ? esc(l.nom) + " · " : ""}${esc(o.client)}, ${dC(o.date)}</small></span>${l.q > 1 ? `<span class="valeur num">× ${l.q}</span>` : ""}${chev}</a>`).join("")}</div>` : `<div class="vide-doux">Rien à coudre pour l'instant.</div>`}
-      <p class="entete-groupe fort">Ventes</p>
-      <div class="graphe"><div class="g-tete"><b>Cette semaine</b><b>8 semaines</b></div><p class="g-val num">${eur(sem[7].v)}</p>${barres(sem.map(s => s.v), sem.map(s => dC(s.deb)), 7)}<div class="g-x"><span>${dC(sem[0].deb)}</span><span>${dC(sem[4].deb)}</span><span>cette semaine</span></div></div>`;
-  }
 
   let filtreCmd = "a-faire";
   function commandes(id) {
@@ -152,7 +165,7 @@
     if (!o) return introuvable("#/commandes");
     const i = ETAPES.findIndex(x => x[0] === o.statut), suiv = ETAPES[i + 1];
     const tel = (o.tel || "").replace(/[^0-9+]/g, "");
-    ecran({ titre: `Commande ${o.id}`, retour: ["#/commandes", "Commandes"], pousse: true, corps: `
+    ecran({ titre: `Commande ${o.id}`, retour: "#/commandes", pousse: true, corps: `
       <div class="fiche-tete"><div class="avatar">${esc(initiales(o.client))}</div><h2>${esc(o.client)}</h2><p class="num">${dL(o.date)} · ${new Date(o.date).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}</p></div>
       ${tel.length > 8 ? `<div class="actions-rondes"><a href="tel:${tel}">${telIco}appeler</a><a href="sms:${tel}">${msgIco}message</a></div>` : ""}
       <div class="etapes">${ETAPES.map(([k, t], j) => `${j ? '<svg width="6" height="10" viewBox="0 0 6 10" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 1l4 4-4 4"/></svg>' : ""}<span class="${j < i ? "fait" : j === i ? "ici" : ""}">${t}</span>`).join("")}</div>
@@ -172,31 +185,30 @@
     const F = { tous: () => true, ligne: p => p.enLigne, bas: p => !p.surCommande && p.stock <= p.seuil };
     if (!F[filtrePro]) filtrePro = "tous";
     const filtre = () => { const q = cherche.toLowerCase(); return D.produits.filter(F[filtrePro]).filter(p => !q || p.nom.toLowerCase().includes(q)); };
-    ecran({ titre: "Produits", sous: `${D.produits.filter(p => p.enLigne).length} en ligne sur le site`, action: `<button class="rond-nav" id="ajoutPro" aria-label="Ajouter un produit">${plusIco}</button>`, corps: `
+    ecran({ titre: "Produits", sous: `${D.produits.filter(p => p.enLigne).length} en ligne sur le site`, plus: () => feuilleProduit(), plusLabel: "Ajouter un produit", corps: `
       <label class="recherche"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5"/></svg><input id="cherche" type="search" placeholder="Rechercher" value="${esc(cherche)}" aria-label="Rechercher un produit"></label>
       ${segments("segPro", [["tous", "Tous", D.produits.length], ["ligne", "En ligne", D.produits.filter(F.ligne).length], ["bas", "Stock bas", D.produits.filter(F.bas).length]], filtrePro)}
       <div style="margin-top:12px" id="listePro">${listeProduits(filtre())}</div>` });
     surSegments("segPro", s => { filtrePro = s; produits(); });
     $("cherche").addEventListener("input", e => { cherche = e.target.value; $("listePro").innerHTML = listeProduits(filtre()); });
-    $("ajoutPro").onclick = () => feuilleProduit();
   }
   const listeProduits = l => l.length ? `<div class="groupe">${l.map(p => `<a class="ligne av-image" href="#/produits/${p.id}">${p.photo ? `<img class="photo" src="${esc(p.photo)}" alt="" loading="lazy">` : `<span class="photo" style="width:48px;height:48px;border-radius:10px;background:var(--carte-2);flex:none"></span>`}<span><b>${esc(p.nom)}</b><small>${eur(p.prix)} · ${p.surCommande ? "sur commande" : `<span class="${p.stock <= p.seuil ? "danger" : ""}">${p.stock ? `${p.stock} en stock` : "épuisé"}</span>`}${p.enLigne ? "" : " · retiré du site"}</small></span>${chev}</a>`).join("")}</div>` : `<div class="vide-doux">Aucun produit.</div>`;
   function ficheProduit(id) {
     const p = D.produits.find(x => x.id === id);
     if (!p) return introuvable("#/produits");
     const fam = window.FAMILLES || {};
-    ecran({ titre: p.nom, retour: ["#/produits", "Produits"], pousse: true, corps: `
-      ${p.photo ? `<img src="${esc(p.photo)}" alt="" style="width:100%;max-width:340px;aspect-ratio:1;object-fit:cover;border-radius:18px;margin:4px auto 0">` : ""}
+    ecran({ titre: p.nom, retour: "#/produits", pousse: true, corps: `
+      ${p.photo ? `<div class="photo-produit"><img src="${esc(p.photo)}" alt=""></div>` : ""}
       <p class="entete-groupe">Vente</p>
       <div class="groupe">
-        <div class="champ-ligne"><label for="pPrix">Prix (€)</label><input id="pPrix" class="num" type="number" inputmode="decimal" min="0" value="${p.prix}"></div>
+        <button type="button" class="champ-ligne" id="pPrixB" style="width:100%"><label>Prix</label><span class="chiffre-bouton num" id="pPrix" data-v="${p.prix}">${eurG(p.prix)}</span></button>
         ${Object.keys(fam).length ? `<div class="champ-ligne"><label for="pFam">Famille</label><select id="pFam">${Object.entries(fam).map(([k, t]) => `<option value="${k}" ${k === p.famille ? "selected" : ""}>${t}</option>`).join("")}</select></div>` : ""}
         ${interr("pLigne", p.enLigne, "En ligne sur le site")}
       </div>
       <p class="entete-groupe">Stock</p>
       <div class="groupe">
         ${interr("pCmd", p.surCommande, "Fait sur commande")}
-        <div class="ligne" id="pStockL" ${p.surCommande ? "hidden" : ""}><span><b>En stock</b></span><span class="valeur fort num" id="pStock" style="min-width:28px;text-align:right">${p.stock ?? 0}</span><span class="segments" style="margin:0;grid-auto-columns:46px"><button type="button" id="pMoins" aria-label="Un de moins">−</button><button type="button" id="pPlus" aria-label="Un de plus">+</button></span></div>
+        <div class="ligne" id="pStockL" ${p.surCommande ? "hidden" : ""}><span><b>En stock</b></span><button type="button" class="valeur fort num" id="pStock" style="min-width:36px;text-align:right;font-weight:600" aria-label="Changer le stock">${p.stock ?? 0}</button><span style="display:flex;gap:6px;flex:none"><button type="button" class="rond" id="pMoins" aria-label="Un de moins" style="background:#fff">−</button><button type="button" class="rond" id="pPlus" aria-label="Un de plus" style="background:#fff">+</button></span></div>
         ${interr("pPerso", p.perso, "Prénom à broder")}
       </div>
       <p class="pied-groupe">L'appli vous prévient quand il en reste ${p.seuil} ou moins.</p>
@@ -205,12 +217,14 @@
       <div class="boutons"><button class="bouton" id="pOk">Enregistrer</button></div>
       <div class="groupe" style="margin-top:28px"><button class="ligne" id="pSuppr" style="justify-content:center"><b class="danger" style="text-align:center">Supprimer le produit</b></button></div>` });
     let st = p.stock ?? 0;
+    $("pPrixB").onclick = () => pave({ titre: "Prix", sous: esc(p.nom), valeur: +$("pPrix").dataset.v, ok: v => { $("pPrix").dataset.v = v; $("pPrix").innerHTML = eurG(v); } });
+    $("pStock").onclick = () => pave({ titre: "En stock", sous: esc(p.nom), valeur: st, unite: "", entier: true, ok: v => { st = Math.round(v); $("pStock").textContent = st; } });
     ["pLigne", "pPerso"].forEach(basculer);
     $("pCmd").onclick = () => { const v = !coche("pCmd"); $("pCmd").setAttribute("aria-checked", v); $("pStockL").hidden = v; };
     $("pMoins").onclick = () => { st = Math.max(0, st - 1); $("pStock").textContent = st; };
     $("pPlus").onclick = () => { st++; $("pStock").textContent = st; };
     $("pOk").onclick = () => {
-      Object.assign(p, { prix: Math.max(0, +$("pPrix").value || 0), famille: $("pFam") ? $("pFam").value : p.famille, enLigne: coche("pLigne"), surCommande: coche("pCmd"), perso: coche("pPerso"), texte: $("pTexte").value.trim() });
+      Object.assign(p, { prix: +$("pPrix").dataset.v, famille: $("pFam") ? $("pFam").value : p.famille, enLigne: coche("pLigne"), surCommande: coche("pCmd"), perso: coche("pPerso"), texte: $("pTexte").value.trim() });
       p.stock = p.surCommande ? null : st; sauver("Enregistré"); location.hash = "#/produits";
     };
     $("pSuppr").onclick = () => { if (!confirm(`Supprimer « ${p.nom} » ?`)) return; D.produits.splice(D.produits.indexOf(p), 1); sauver("Produit supprimé"); location.hash = "#/produits"; };
@@ -254,21 +268,6 @@
   const brancheRdv = () => document.querySelectorAll("[data-rdv]").forEach(b => b.onclick = () => feuilleRdv(b.dataset.rdv));
   const rdvDuJour = iso => D.rdv.filter(r => r.date === iso && r.statut !== "annule").sort((a, b) => a.debut - b.debut);
 
-  function aujInstitut() {
-    const t = T.auj(), ti = T.iso(t), now = new Date(), mn = now.getHours() * 60 + now.getMinutes();
-    const jourL = rdvDuJour(ti), restants = jourL.filter(r => r.debut + presta(r.presta).duree > mn && r.statut !== "absent"), proch = restants.find(r => r.debut >= mn) || restants[0];
-    const dem = D.rdv.filter(r => r.statut === "demande").sort((a, b) => (a.date + String(a.debut).padStart(4, "0")).localeCompare(b.date + String(b.debut).padStart(4, "0")));
-    const ca = jourL.filter(r => r.statut !== "absent").reduce((s, r) => s + presta(r.presta).prix, 0);
-    return `<div class="tuiles">
-        ${tuile({ titre: "Rendez-vous", val: jourL.length, sous: `aujourd'hui, ${pl(restants.length, "restant")}`, href: "#/agenda", cls: jourL.length ? "" : "calme" })}
-        ${tuile({ titre: "Prochain", val: proch ? hm(proch.debut) : "—", sous: proch ? esc(client(proch.client).nom) : "plus personne aujourd'hui", cls: proch ? "" : "calme" })}
-        ${tuile({ titre: "Chiffre du jour", val: eur(ca), sous: "prévu, sans les absents" })}
-        ${tuile({ titre: "À confirmer", val: dem.length, sous: "demandes du site", href: "#/agenda", cls: dem.length ? "" : "calme" })}
-      </div>
-      ${dem.length ? `<p class="entete-groupe fort">À confirmer</p><div class="groupe">${dem.slice(0, 4).map(r => `<div class="ligne"><span><b class="gras">${esc(client(r.client).nom)}</b><small>${esc(presta(r.presta).nom)} · ${dC(r.date)} à ${hm(r.debut)}</small></span><button class="bouton petit teinte" data-oui="${r.id}">Accepter</button></div>`).join("")}</div>` : ""}
-      <p class="entete-groupe fort">Rendez-vous du jour <a href="#/agenda">Agenda</a></p>
-      ${restants.length ? `<div class="groupe">${restants.map(ligneRdv).join("")}</div>` : `<div class="vide-doux">${jourL.length ? "La journée est terminée." : "Pas de rendez-vous aujourd'hui."}</div>`}`;
-  }
 
   let jourVu = null, filtreEq = "tous";
   function agenda() {
@@ -278,8 +277,8 @@
     const l = rdvDuJour(jourVu).filter(r => filtreEq === "tous" || r.equipe === filtreEq);
     const dem = D.rdv.filter(r => r.statut === "demande");
     const ferme = D.horaires.ferme.includes(j.getDay());
-    ecran({ titre: "Agenda", sous: `<span>${dL(jourVu)}</span>`, action: `<button class="rond-nav" id="ajoutRdv" aria-label="Nouveau rendez-vous">${plusIco}</button>`, corps: `
-      <div class="semaine-nav"><button class="lien-nav" id="semAv" aria-label="Semaine précédente">${retourIco}</button><p>${(t => t[0].toUpperCase() + t.slice(1))(lundi.toLocaleDateString("fr-FR", { month: "long", year: "numeric" }))}</p><button class="lien-nav" id="semAp" aria-label="Semaine suivante" style="transform:scaleX(-1)">${retourIco}</button></div>
+    ecran({ titre: "Agenda", sous: `<span>${dL(jourVu)}</span>`, plus: () => feuilleNouveauRdv({ date: jourVu }), plusLabel: "Nouveau rendez-vous", corps: `
+      <div class="semaine-nav"><button class="rond" id="semAv" aria-label="Semaine précédente">${retourIco}</button><p>${(t => t[0].toUpperCase() + t.slice(1))(lundi.toLocaleDateString("fr-FR", { month: "long", year: "numeric" }))}</p><button class="rond" id="semAp" aria-label="Semaine suivante" style="transform:scaleX(-1)">${retourIco}</button></div>
       <div class="jours" id="jours">${semaine.map(d => { const iso = T.iso(d), n = rdvDuJour(iso).length; return `<button type="button" data-j="${iso}" aria-pressed="${iso === jourVu}" class="${iso === T.iso(t) ? "aujourdhui" : ""}" aria-label="${dL(d)}, ${pl(n, "rendez-vous", "rendez-vous")}"><span>${d.toLocaleDateString("fr-FR", { weekday: "short" }).replace(".", "")}</span><b class="num">${d.getDate()}</b><i class="${n ? "" : "vide"}"></i></button>`; }).join("")}</div>
       ${D.equipe.length > 1 ? segments("segEq", [["tous", "Tous"], ...D.equipe.map(e => [e.id, e.nom])], filtreEq) : ""}
       ${dem.length ? `<p class="pied-groupe" style="padding-top:10px"><button class="lien-texte" id="voirDem">${pl(dem.length, "demande")} à confirmer</button></p>` : ""}
@@ -288,7 +287,6 @@
     $("semAv").onclick = () => { jourVu = T.iso(T.plus(jourVu, -7)); agenda(); };
     $("semAp").onclick = () => { jourVu = T.iso(T.plus(jourVu, 7)); agenda(); };
     if ($("segEq")) surSegments("segEq", s => { filtreEq = s; agenda(); });
-    $("ajoutRdv").onclick = () => feuilleNouveauRdv({ date: jourVu });
     if ($("ajoutVide")) $("ajoutVide").onclick = () => feuilleNouveauRdv({ date: jourVu });
     if ($("voirDem")) $("voirDem").onclick = () => { const r = [...dem].sort((a, b) => a.date.localeCompare(b.date))[0]; jourVu = r.date; agenda(); feuilleRdv(r.id); };
     brancheRdv();
@@ -379,7 +377,7 @@
     const c = D.clients.find(x => x.id === id); if (!c) return introuvable("#/clients");
     const h = D.rdv.filter(r => r.client === id && r.statut !== "annule").sort((a, b) => (b.date + String(b.debut).padStart(4, "0")).localeCompare(a.date + String(a.debut).padStart(4, "0")));
     const tel = (c.tel || "").replace(/[^0-9+]/g, ""), venus = h.filter(r => r.statut === "venu"), depense = venus.reduce((s, r) => s + presta(r.presta).prix, 0);
-    ecran({ titre: c.nom, retour: ["#/clients", "Clients"], pousse: true, corps: `
+    ecran({ titre: c.nom, retour: "#/clients", pousse: true, corps: `
       <div class="fiche-tete"><div class="avatar">${esc(initiales(c.nom))}</div><h2>${esc(c.nom)}</h2><p class="num">${pl(venus.length, "visite")} · ${eur(depense)}</p></div>
       <div class="actions-rondes">${tel.length > 8 ? `<a href="tel:${tel}">${telIco}appeler</a><a href="sms:${tel}">${msgIco}message</a>` : ""}<button type="button" id="cRdv">${ico("agenda", 22)}rendez-vous</button></div>
       <p class="entete-groupe">Note</p><div class="groupe"><div class="champ-ligne bloc"><textarea id="cNote" placeholder="Allergies, préférences, couleur utilisée…" aria-label="Note">${esc(c.note)}</textarea></div></div>
@@ -393,11 +391,10 @@
   const FAMILLES_PRESTA = { eau: "Hammam", soin: "Soins", coiffure: "Coiffure" };
   function prestations() {
     const fams = [...new Set(D.prestations.map(p => p.famille))];
-    ecran({ titre: "Carte", sous: "vos prestations et leurs prix, comme sur le site", action: `<button class="rond-nav" id="ajoutPr" aria-label="Ajouter une prestation">${plusIco}</button>`, corps: (fams.length ? fams.map(fa => `
+    ecran({ titre: "Carte", sous: "vos prestations et leurs prix, comme sur le site", plus: () => feuillePresta(null), plusLabel: "Ajouter une prestation", corps: (fams.length ? fams.map(fa => `
       <p class="entete-groupe">${esc(FAMILLES_PRESTA[fa] || fa || "Prestations")}</p>
       <div class="groupe">${D.prestations.filter(p => p.famille === fa).map(p => `<button type="button" class="ligne" data-pr="${p.id}"><span><b>${esc(p.nom)}</b><small>${p.duree} min${p.enLigne === false ? " · pas réservable en ligne" : ""}</small></span><span class="valeur num">${eur(p.prix)}</span>${chev}</button>`).join("")}</div>`).join("") : `<div class="vide-doux">Ajoutez votre première prestation avec +.</div>`) + `<p class="pied-groupe">Une prestation qui n'est plus réservable reste dans l'historique de vos clients.</p>` });
     document.querySelectorAll("[data-pr]").forEach(b => b.onclick = () => feuillePresta(b.dataset.pr));
-    $("ajoutPr").onclick = () => feuillePresta(null);
   }
   function feuillePresta(id) {
     const p = id ? D.prestations.find(x => x.id === id) : { id: "", nom: "", duree: 30, prix: 30, famille: Object.keys(FAMILLES_PRESTA)[0], enLigne: true };
@@ -430,24 +427,6 @@
   const brancheSej = () => document.querySelectorAll("[data-sej]").forEach(b => b.onclick = () => feuilleSejour(b.dataset.sej));
   const ligneSejour = s => { const n = nbj(s.arrivee, s.depart); return `<button type="button" class="ligne" data-sej="${s.id}"><span><b class="${s.statut === "demande" ? "gras" : ""}">${esc(s.nom)}</b><small>${esc(chambre(s.chambre).nom)} · ${dC(s.arrivee)} → ${dC(s.depart)} · ${pl(n, "nuit")}</small></span>${s.statut === "confirme" ? `<span class="valeur num">${eur(chambre(s.chambre).prix * n)}</span>` : pastille(s.statut, STATUT_SEJ[s.statut])}${chev}</button>`; };
 
-  function aujHebergement() {
-    const t = T.auj(), ti = T.iso(t), L = D.sejours.filter(s => !["annule", "ferme"].includes(s.statut));
-    const arr = L.filter(s => s.arrivee === ti), dep = L.filter(s => s.depart === ti), dem = L.filter(s => s.statut === "demande");
-    let nuits = 0; const cap = D.chambres.length * 30 || 1;
-    L.filter(s => s.statut === "confirme").forEach(s => { for (let d = new Date(s.arrivee); d < new Date(s.depart); d = T.plus(d, 1)) if (d >= t && d < T.plus(t, 30)) nuits++; });
-    const semaine = L.filter(s => s.statut === "confirme" && new Date(s.arrivee) > t && new Date(s.arrivee) < T.plus(t, 8)).sort((a, b) => a.arrivee.localeCompare(b.arrivee));
-    return `<div class="tuiles">
-        ${tuile({ titre: "Arrivées", val: arr.length, sous: arr.map(s => esc(s.nom)).join(", ") || "personne aujourd'hui", cls: arr.length ? "" : "calme" })}
-        ${tuile({ titre: "Départs", val: dep.length, sous: dep.map(s => esc(s.nom)).join(", ") || "personne aujourd'hui", cls: dep.length ? "" : "calme" })}
-        ${tuile({ titre: "Remplissage", val: Math.round(nuits / cap * 100), petit: "%", sous: `${nuits} nuits sur ${cap}, 30 jours` })}
-        ${tuile({ titre: "À confirmer", val: dem.length, sous: "demandes du site", href: "#/sejours?demande", cls: dem.length ? "" : "calme" })}
-      </div>
-      <p class="entete-groupe fort">La maison, 14 jours <a href="#/sejours">Séjours</a></p>
-      ${planning(t, 14)}
-      ${arr.length ? `<p class="entete-groupe fort">Arrivent aujourd'hui</p><div class="groupe">${arr.map(ligneSejour).join("")}</div>` : ""}
-      <p class="entete-groupe fort">Cette semaine</p>
-      ${semaine.length ? `<div class="groupe">${semaine.map(ligneSejour).join("")}</div>` : `<div class="vide-doux">Pas d'autre arrivée cette semaine.</div>`}`;
-  }
   let filtreSej = "avenir", decal = 0;
   function sejours() {
     const t = T.auj(), ti = T.iso(t);
@@ -455,15 +434,14 @@
     if (!F[filtreSej]) filtreSej = "avenir";
     const l = D.sejours.filter(F[filtreSej]).sort((a, b) => filtreSej === "passes" ? b.arrivee.localeCompare(a.arrivee) : a.arrivee.localeCompare(b.arrivee));
     const deb = T.plus(t, decal * 14);
-    ecran({ titre: "Séjours", sous: pl(D.chambres.length, "chambre"), action: `<button class="rond-nav" id="ajoutSej" aria-label="Ajouter un séjour">${plusIco}</button>`, corps: `
-      <div class="semaine-nav"><button class="lien-nav" id="plAv" aria-label="Deux semaines plus tôt">${retourIco}</button><p class="num">${dC(deb)} – ${dC(T.plus(deb, 13))}</p><button class="lien-nav" id="plAp" aria-label="Deux semaines plus tard" style="transform:scaleX(-1)">${retourIco}</button></div>
+    ecran({ titre: "Séjours", sous: pl(D.chambres.length, "chambre"), plus: () => feuilleNouveauSejour(), plusLabel: "Ajouter un séjour", corps: `
+      <div class="semaine-nav"><button class="rond" id="plAv" aria-label="Deux semaines plus tôt">${retourIco}</button><p class="num">${dC(deb)} – ${dC(T.plus(deb, 13))}</p><button class="rond" id="plAp" aria-label="Deux semaines plus tard" style="transform:scaleX(-1)">${retourIco}</button></div>
       <div style="margin-top:6px">${planning(deb, 14)}</div>
       <div style="margin-top:18px">${segments("segSej", [["avenir", "À venir"], ["demande", "À confirmer", D.sejours.filter(F.demande).length], ["passes", "Passés"]], filtreSej)}</div>
       <div style="margin-top:12px">${l.length ? `<div class="groupe">${l.slice(0, 40).map(ligneSejour).join("")}</div>` : `<div class="vide-doux">Rien ici.</div>`}</div>` });
     $("plAv").onclick = () => { decal--; sejours(); };
     $("plAp").onclick = () => { decal++; sejours(); };
     surSegments("segSej", s => { filtreSej = s; sejours(); });
-    $("ajoutSej").onclick = () => feuilleNouveauSejour();
     brancheSej();
   }
   function feuilleSejour(id) {
@@ -483,17 +461,17 @@
     f.querySelector("#sOui")?.addEventListener("click", () => { s.statut = "confirme"; sauver("Séjour confirmé"); fermeFeuille(); route(); });
     f.querySelector("#sNon")?.addEventListener("click", () => { const etait = s.statut; if (etait === "ferme") D.sejours.splice(D.sejours.indexOf(s), 1); else s.statut = "annule"; sauver(etait === "ferme" ? "Dates rouvertes" : etait === "demande" ? "Demande refusée" : "Séjour annulé"); fermeFeuille(); route(); });
   }
-  function feuilleNouveauSejour() {
-    let mode = "sejour", ch = D.chambres[0]?.id;
+  function feuilleNouveauSejour(mode = "sejour") {
+    let ch = D.chambres[0]?.id;
     const t = T.iso(T.auj());
     const f = feuille({ titre: "Ajouter", droite: "Ajouter", corps: `
       ${segments("sMode", [["sejour", "Un séjour"], ["ferme", "Fermer des dates"]], mode)}
       <p class="entete-groupe">Chambre</p><div class="groupe"><div class="puces" id="sCh">${D.chambres.map(c => `<button type="button" data-c="${c.id}" aria-pressed="${c.id === ch}">${esc(c.nom)}</button>`).join("")}</div></div>
       <div class="groupe" style="margin-top:20px">
-        <div class="champ-ligne" id="sNomL"><label for="sNom">Hôtes</label><input id="sNom" placeholder="Famille Martin" autocomplete="off"></div>
+        <div class="champ-ligne" id="sNomL" ${mode === "ferme" ? "hidden" : ""}><label for="sNom">Hôtes</label><input id="sNom" placeholder="Famille Martin" autocomplete="off"></div>
         <div class="champ-ligne"><label for="sA">Arrivée</label><input id="sA" type="date" value="${t}"></div>
         <div class="champ-ligne"><label for="sD">Départ</label><input id="sD" type="date" value="${T.iso(T.plus(t, 2))}"></div>
-        <div class="champ-ligne" id="sPL"><label for="sP">Personnes</label><input id="sP" type="number" inputmode="numeric" min="1" max="8" value="2"></div>
+        <div class="champ-ligne" id="sPL" ${mode === "ferme" ? "hidden" : ""}><label for="sP">Personnes</label><input id="sP" type="number" inputmode="numeric" min="1" max="8" value="2"></div>
       </div><p class="pied-groupe" id="sErr"></p>`, ok: () => {
         const nom = mode === "ferme" ? "Fermé" : $("sNom").value.trim(), a = $("sA").value, d = $("sD").value;
         if (!nom) { $("sErr").textContent = "Indiquez le nom des hôtes."; $("sNom").focus(); return; }
@@ -521,9 +499,100 @@
   /* =====================================================================
      COMMUN : aujourd'hui, mon site
      ===================================================================== */
+  /* la période du gros chiffre : 7 jours, 1 mois, 3 mois */
+  let per = "1m";
+  const PERIODES = [["7j", "7 J"], ["1m", "1 M"], ["3m", "3 M"]], NJ = { "7j": 7, "1m": 30, "3m": 90 };
+  /* une série par jour sur la fenêtre, et la même somme sur la fenêtre d'avant pour l'évolution */
+  function serie(debut, n, parJour, cumul) {
+    let c = 0; const pts = [...Array(n)].map((_, i) => { const v = parJour(T.iso(T.plus(debut, i))); c += v; return cumul ? c : v; });
+    const tot = pts.length ? (cumul ? pts[n - 1] : pts.reduce((a, b) => a + b, 0)) : 0;
+    let av = 0; for (let i = 1; i <= n; i++) av += parJour(T.iso(T.plus(debut, -i)));
+    return { pts, tot, delta: av ? Math.round((tot - av) / av * 100) : null };
+  }
+  function brancheChiffre(refaire) {
+    document.querySelectorAll("[data-per]").forEach(b => b.onclick = () => { per = b.dataset.per; const el = document.querySelector(".chiffre"); el.outerHTML = refaire(); brancheChiffre(refaire); });
+  }
+
+  function aujBoutique() {
+    const t = T.auj(), cmd = [...D.commandes].sort((a, b) => new Date(b.date) - new Date(a.date));
+    const ouvertes = cmd.filter(o => o.statut === "nouvelle" || o.statut === "a-coudre"), pretes = cmd.filter(o => o.statut === "prete");
+    const nouv = ouvertes.filter(o => o.statut === "nouvelle").length, bas = D.produits.filter(p => !p.surCommande && p.stock <= p.seuil);
+    const atelier = ouvertes.flatMap(o => o.lignes.map(l => ({ o, l }))).sort((a, b) => new Date(a.o.date) - new Date(b.o.date));
+    const parJour = d => cmd.filter(o => o.date.slice(0, 10) === d).reduce((s, o) => s + total(o), 0);
+    const leChiffre = () => { const n = NJ[per], r = serie(T.plus(t, -n + 1), n, parJour, true); return chiffre({ id: "leChiffre", lbl: `Ventes sur ${n} jours`, val: eurG(r.tot), delta: r.delta, periodes: PERIODES, actif: per, points: r.pts }); };
+    ecran({ titre: "Aujourd'hui", plus: () => feuilleProduit(), plusLabel: "Ajouter un produit",
+      hero: hero({ phrase: ouvertes.length ? `${pl(ouvertes.length, "commande")} à préparer<span>${nouv ? `, dont ${pl(nouv, "nouvelle")}` : ""}.</span>` : `Tout est prêt.<span> Aucune commande en attente.</span>`,
+        verres: [["Nouveau produit", "boite", "", "vNouv"], ["Voir mon site", "site", S.site]] }),
+      corps: `${leChiffre()}
+      <div class="tuiles">
+        ${tuile({ titre: "À préparer", val: ouvertes.length, sous: nouv ? pl(nouv, "nouvelle") : "rien de nouveau", icone: "sac", couleur: "bleu", href: "#/commandes" })}
+        ${tuile({ titre: "Prêtes", val: pretes.length, sous: "à remettre", icone: "sac", couleur: "vert", href: "#/commandes?prete" })}
+        ${tuile({ titre: "Stock bas", val: bas.length, sous: bas.length ? "à recoudre" : "tout va bien", icone: "boite", couleur: "orange", href: "#/produits?bas", cls: bas.length ? "alerte" : "" })}
+        ${tuile({ titre: "En ligne", val: D.produits.filter(p => p.enLigne).length, sous: "produits sur le site", icone: "site", couleur: "noir", href: "#/produits" })}
+      </div>
+      <p class="entete-groupe fort">À l'atelier <a href="#/commandes">Tout voir</a></p>
+      ${atelier.length ? `<div class="groupe">${atelier.slice(0, 6).map(({ o, l }) => `<a class="ligne av-image" href="#/commandes/${o.id}">${photoDe(l.produit)}<span><b class="gras">${l.prenom ? esc(l.prenom) : esc(l.nom)}</b><small>${l.prenom ? esc(l.nom) + " · " : ""}${esc(o.client)}, ${dC(o.date)}</small></span>${l.q > 1 ? `<span class="valeur num">× ${l.q}</span>` : ""}${chev}</a>`).join("")}</div>` : `<div class="vide-doux">Rien à coudre pour l'instant.</div>`}` });
+    $("vNouv").onclick = () => feuilleProduit();
+    brancheChiffre(leChiffre);
+  }
+
+  function aujInstitut() {
+    const t = T.auj(), ti = T.iso(t), now = new Date(), mn = now.getHours() * 60 + now.getMinutes();
+    const jourL = rdvDuJour(ti), restants = jourL.filter(r => r.debut + presta(r.presta).duree > mn && r.statut !== "absent"), proch = restants.find(r => r.debut >= mn) || restants[0];
+    const dem = D.rdv.filter(r => r.statut === "demande").sort((a, b) => (a.date + String(a.debut).padStart(4, "0")).localeCompare(b.date + String(b.debut).padStart(4, "0")));
+    const parJour = d => D.rdv.filter(r => r.date === d && ["venu", "confirme"].includes(r.statut) && d <= ti).reduce((s, r) => s + presta(r.presta).prix, 0);
+    const leChiffre = () => { const n = NJ[per], r = serie(T.plus(t, -n + 1), n, parJour, true); return chiffre({ id: "leChiffre", lbl: `Chiffre sur ${n} jours`, val: eurG(r.tot), delta: r.delta, periodes: PERIODES, actif: per, points: r.pts }); };
+    ecran({ titre: "Aujourd'hui", plus: () => feuilleNouveauRdv({ date: ti }), plusLabel: "Nouveau rendez-vous",
+      hero: hero({ phrase: jourL.length ? `${pl(jourL.length, "rendez-vous", "rendez-vous")} aujourd'hui<span>${proch ? `, prochain à ${hm(proch.debut)} avec ${esc(client(proch.client).nom.split(" ")[0])}` : ", la journée est finie"}.</span>` : `Journée libre.<span> Aucun rendez-vous aujourd'hui.</span>`,
+        verres: [["Nouveau rendez-vous", "agenda", "", "vRdv"], ["Voir l'agenda", "gens", "#/agenda"]] }),
+      corps: `${leChiffre()}
+      <div class="tuiles">
+        ${tuile({ titre: "À confirmer", val: dem.length, sous: "demandes du site", icone: "agenda", couleur: "bleu", href: "#/agenda" })}
+        ${tuile({ titre: "Restants", val: restants.length, sous: "aujourd'hui", icone: "agenda", couleur: "vert", href: "#/agenda" })}
+        ${tuile({ titre: "Clients", val: D.clients.length, sous: "dans le fichier", icone: "gens", couleur: "violet", href: "#/clients" })}
+        ${tuile({ titre: "Carte", val: D.prestations.length, sous: "prestations", icone: "ciseaux", couleur: "noir", href: "#/prestations" })}
+      </div>
+      ${dem.length ? `<p class="entete-groupe fort">À confirmer</p><div class="groupe">${dem.slice(0, 4).map(r => `<div class="ligne"><span><b class="gras">${esc(client(r.client).nom)}</b><small>${esc(presta(r.presta).nom)} · ${dC(r.date)} à ${hm(r.debut)}</small></span><button class="bouton petit" data-oui="${r.id}">Accepter</button></div>`).join("")}</div>` : ""}
+      <p class="entete-groupe fort">Rendez-vous du jour <a href="#/agenda">Agenda</a></p>
+      ${restants.length ? `<div class="groupe">${restants.map(ligneRdv).join("")}</div>` : `<div class="vide-doux">${jourL.length ? "La journée est terminée." : "Pas de rendez-vous aujourd'hui."}</div>`}` });
+    $("vRdv").onclick = () => feuilleNouveauRdv({ date: ti });
+    brancheChiffre(leChiffre);
+  }
+
+  function aujHebergement() {
+    const t = T.auj(), ti = T.iso(t), L = D.sejours.filter(s => !["annule", "ferme"].includes(s.statut));
+    const arr = L.filter(s => s.arrivee === ti), dep = L.filter(s => s.depart === ti), dem = L.filter(s => s.statut === "demande");
+    let nuits = 0; const cap = D.chambres.length * 30 || 1;
+    L.filter(s => s.statut === "confirme").forEach(s => { for (let d = new Date(s.arrivee); d < new Date(s.depart); d = T.plus(d, 1)) if (d >= t && d < T.plus(t, 30)) nuits++; });
+    const semaine = L.filter(s => s.statut === "confirme" && new Date(s.arrivee) > t && new Date(s.arrivee) < T.plus(t, 8)).sort((a, b) => a.arrivee.localeCompare(b.arrivee));
+    /* ce que rapportent les nuits réservées, jour par jour, sur les jours à venir */
+    const parJour = d => L.filter(s => s.statut === "confirme" && s.arrivee <= d && s.depart > d).reduce((x, s) => x + chambre(s.chambre).prix, 0);
+    const leChiffre = () => { const n = NJ[per], r = serie(t, n, parJour, true); return chiffre({ id: "leChiffre", lbl: `Réservé, ${n} prochains jours`, val: eurG(r.tot), periodes: PERIODES, actif: per, points: r.pts }); };
+    ecran({ titre: "Aujourd'hui", plus: () => feuilleNouveauSejour(), plusLabel: "Ajouter un séjour",
+      hero: hero({ phrase: arr.length ? `${pl(arr.length, "arrivée")} aujourd'hui<span>, ${Math.round(nuits / cap * 100)} % de remplissage sur 30 jours.</span>` : `Pas d'arrivée aujourd'hui.<span> ${Math.round(nuits / cap * 100)} % de remplissage sur 30 jours.</span>`,
+        verres: [["Ajouter un séjour", "lit", "", "vSej"], ["Fermer des dates", "agenda", "", "vFerme"]] }),
+      corps: `${leChiffre()}
+      <div class="tuiles">
+        ${tuile({ titre: "Arrivées", val: arr.length, sous: arr.map(s => esc(s.nom)).join(", ") || "aujourd'hui", icone: "lit", couleur: "bleu" })}
+        ${tuile({ titre: "Départs", val: dep.length, sous: dep.map(s => esc(s.nom)).join(", ") || "aujourd'hui", icone: "lit", couleur: "orange" })}
+        ${tuile({ titre: "Remplissage", val: `${Math.round(nuits / cap * 100)} %`, sous: `${nuits} nuits sur ${cap}`, icone: "agenda", couleur: "vert" })}
+        ${tuile({ titre: "À confirmer", val: dem.length, sous: "demandes du site", icone: "agenda", couleur: "noir", href: "#/sejours?demande" })}
+      </div>
+      <p class="entete-groupe fort">La maison, 14 jours <a href="#/sejours">Séjours</a></p>
+      ${planning(t, 14)}
+      ${arr.length ? `<p class="entete-groupe fort">Arrivent aujourd'hui</p><div class="groupe">${arr.map(ligneSejour).join("")}</div>` : ""}
+      <p class="entete-groupe fort">Cette semaine</p>
+      ${semaine.length ? `<div class="groupe">${semaine.map(ligneSejour).join("")}</div>` : `<div class="vide-doux">Pas d'autre arrivée cette semaine.</div>`}` });
+    $("vSej").onclick = () => feuilleNouveauSejour();
+    $("vFerme").onclick = () => feuilleNouveauSejour("ferme");
+    brancheChiffre(leChiffre);
+  }
+
   function aujourdhui() {
-    const corps = S.metier === "boutique" ? aujBoutique() : S.metier === "institut" ? aujInstitut() : S.metier === "hebergement" ? aujHebergement() : `<div class="vide-doux">Votre site est en ligne. Ses textes se changent dans « Mon site ».</div>`;
-    ecran({ titre: "Aujourd'hui", sous: `<span>${dL(T.auj())}</span>`, marque: true, corps });
+    if (S.metier === "boutique") aujBoutique();
+    else if (S.metier === "institut") aujInstitut();
+    else if (S.metier === "hebergement") aujHebergement();
+    else ecran({ titre: "Aujourd'hui", hero: hero({ phrase: `Votre site est en ligne.<span> Ses textes se changent dans « Mon site ».</span>`, verres: [["Mon site", "site", "#/site"], ["Voir le site", "site", S.site]] }), corps: "" });
     brancheRdv(); brancheOui(); brancheSej();
   }
 
@@ -556,7 +625,7 @@
     if ($("kZero")) $("kZero").onclick = () => { if (!confirm("Remettre les données de démonstration à zéro ?")) return; try { localStorage.removeItem(CLE); } catch (e) {} D = A.semer(S); recevoir(); sauver("Démo remise à zéro"); route(); };
   }
 
-  function introuvable(retour) { ecran({ titre: "Introuvable", retour: [retour, "Retour"], corps: `<div class="vide-doux">Cette page n'existe plus.</div>` }); }
+  function introuvable(retour) { ecran({ titre: "Introuvable", retour, corps: `<div class="vide-doux">Cette page n'existe plus.</div>` }); }
 
   /* ---------- les adresses ---------- */
   const ECRANS = { aujourdhui, commandes, produits, agenda, clients, prestations, sejours, chambres, site };

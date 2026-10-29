@@ -40,7 +40,7 @@ def icones(site, dossier):
 
 
 def page(site):
-    s = {k: site.get(k) for k in ("id", "nom", "court", "metier", "accent", "site", "racine", "demo", "contenu", "modules")}
+    s = {k: site.get(k) for k in ("id", "nom", "court", "metier", "accent", "site", "racine", "demo", "contenu", "modules", "photo", "fond", "marque")}
     scripts = "".join(f'<script src="{html.escape(x)}"></script>\n' for x in site.get("scripts", []))
     return f"""<!DOCTYPE html>
 <html lang="fr">
@@ -49,7 +49,7 @@ def page(site):
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{html.escape(site["court"])}</title>
 <meta name="robots" content="noindex">
-<meta name="theme-color" content="#F2F2F7">
+<meta name="theme-color" content="#FFFFFF">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="{html.escape(site["court"])}">
@@ -72,7 +72,7 @@ def page(site):
 def manifeste(site):
     return json.dumps({
         "name": site["nom"], "short_name": site["court"], "lang": "fr", "start_url": "./", "scope": "./", "display": "standalone",
-        "background_color": "#F2F2F7", "theme_color": "#F2F2F7",
+        "background_color": "#FFFFFF", "theme_color": "#FFFFFF",
         "icons": [{"src": f"icone-{t}.png", "sizes": f"{t}x{t}", "type": "image/png"} for t in (192, 512)] +
                  [{"src": "icone-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}]
     }, ensure_ascii=False, indent=2)
@@ -87,7 +87,7 @@ def lanceur(sites):
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Saitorapp</title>
 <meta name="robots" content="noindex">
-<meta name="theme-color" content="#F2F2F7">
+<meta name="theme-color" content="#FFFFFF">
 <link rel="icon" href="symbole.svg" type="image/svg+xml">
 <link rel="stylesheet" href="app.css">
 </head>
@@ -125,6 +125,7 @@ def main():
     ap.add_argument("id", nargs="?")
     ap.add_argument("--nom"); ap.add_argument("--court"); ap.add_argument("--metier", choices=sorted(METIERS))
     ap.add_argument("--accent", default="#1D1F20"); ap.add_argument("--logo", default=""); ap.add_argument("--site", default="")
+    ap.add_argument("--photo", default="", help="la grande photo du haut de l'appli, chemin vu depuis saitorapp/<id>/ (ex. ../../clients/<id>/images/vitrine.webp)")
     a = ap.parse_args()
     if a.action == "metiers":
         print("boutique : commandes, produits et stock\ninstitut : agenda, clientèle, prestations\nhebergement : séjours, chambres\nrestaurant : tables, carte (bientôt)\nartisan : demandes de devis (bientôt)\nvitrine : mon site seulement")
@@ -134,7 +135,8 @@ def main():
             sys.exit("Il faut l'identifiant, --nom et --metier.")
         sites = json.loads(LISTE.read_text(encoding="utf-8"))
         sites = [s for s in sites if s["id"] != a.id] + [{"id": a.id, "nom": a.nom, "court": a.court or a.nom[:14], "metier": a.metier, "accent": a.accent,
-                                                         "logo": a.logo, "site": a.site, "racine": a.site, "scripts": [], "demo": False, "contenu": {}}]
+                                                         "logo": a.logo, "site": a.site, "racine": a.site, "scripts": [], "demo": False, "contenu": {},
+                                                         "photo": a.photo, "fond": "", "marque": ("../../" + a.logo) if a.logo else ""}]
         LISTE.write_text(json.dumps(sites, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     construire()
 

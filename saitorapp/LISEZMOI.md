@@ -1,6 +1,6 @@
 # Saitorapp
 
-Une appli par site, faite pour son métier, que le commerçant installe sur son téléphone avec son nom et son logo. Style d'iOS : grands titres, listes groupées, boutons et interrupteurs d'Apple, feuilles qui montent du bas, barre d'onglets en bas. La couleur est celle du site.
+Une appli par site, faite pour son métier, que le commerçant installe sur son téléphone avec son nom et son logo. Style choisi par l'utilisateur sur Mobbin, d'après les applis Fuse et Ro : fond blanc, grande photo du site en haut avec la phrase du jour et deux cartes translucides, gros chiffre noir dont les centimes passent en gris avec sa courbe et ses périodes (7 J, 1 M, 3 M), tuiles à bord pointillé avec de petites icônes de couleur, boutons pilule noirs, « + » noir rond à côté de la barre d'onglets flottante, pavé numérique pour les prix et le stock. La photo du haut se règle dans sites.json (`photo`, ou `fond` et `marque` sans photo).
 
 ## Comment c'est rangé
 

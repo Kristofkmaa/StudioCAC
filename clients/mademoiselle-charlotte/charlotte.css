@@ -1,0 +1,192 @@
+[hidden]{display:none!important}
+:root{
+  --toile:#F8F1FA;      /* le fond, lilas à peine teinté (le vert d'eau de la fiche, aux couleurs du logo) */
+  --papier:#FFFFFF;
+  --creme:#FBEFE6;      /* le halo derrière les silhouettes du logo */
+  --rose:#F4C3DA;       /* l'action principale, texte noir dessus */
+  --fuchsia:#C2579B;    /* la petite fille du logo */
+  --lilas:#A985C8;      /* le petit garçon du logo */
+  --prune:#3B2142;      /* le bloc sombre */
+  --encre:#000;
+  --ardoise:#2F2A33;
+  --filet:#DDD3E2;
+  --degrade:linear-gradient(90deg,#B4458A,#8E68B8 55%,#D0709F);
+  --ombre:0 0 28px rgba(0,0,0,.09);
+  --serif:"Fraunces",Georgia,serif;
+  --sans:"Schibsted Grotesk",system-ui,sans-serif;
+  --r-carte:24px;
+  --doux:cubic-bezier(.22,1,.36,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--toile);color:var(--encre);font:400 16px/1.5 var(--sans);letter-spacing:-.01em;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+.wrap{max-width:1200px;margin:0 auto;padding:0 clamp(16px,4vw,40px)}
+.maquette{background:var(--prune);color:#E9DCEB;font-size:13px;text-align:center;padding:6px 16px}
+
+/* boutons en pilule */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:12px 24px;border-radius:200px;font:500 16px/1 var(--sans);letter-spacing:-.01em;text-decoration:none;transition:transform .2s var(--doux),background-color .2s}
+.btn:active{transform:scale(.97)}
+.btn.rose{background:var(--rose);color:var(--encre)}
+.btn.noir{background:var(--encre);color:#fff}
+.btn.trait{border:1px solid var(--encre)}
+@media (hover:hover){.btn.rose:hover{background:#EEB1CE}.btn.noir:hover{background:#2a2a2a}.btn.trait:hover{background:#fff}}
+
+.titre{font:300 clamp(40px,6vw,72px)/.98 var(--serif);letter-spacing:-.017em}
+.titre em{font-style:italic}
+.chapo{font-size:18px;line-height:1.45;color:var(--ardoise);max-width:34em}
+
+/* en-tête */
+.top{display:flex;align-items:center;justify-content:space-between;gap:20px;height:72px;position:relative;z-index:41}
+.marque{font:italic 300 24px/1 var(--serif);letter-spacing:-.02em;text-decoration:none;white-space:nowrap}
+.marque b{font-weight:300;background:var(--degrade);-webkit-background-clip:text;background-clip:text;color:transparent}
+.top nav{display:flex;gap:28px;font-size:15px}
+.top nav a{text-decoration:none}
+.top nav a:hover{text-decoration:underline;text-underline-offset:4px}
+.menu-btn{display:none}
+@media (max-width:860px){
+  .top nav,.top .btn{display:none}
+  .menu-btn{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:0 4px;font-size:15px}
+  .menu-btn i{display:grid;gap:5px;width:20px}
+  .menu-btn i::before,.menu-btn i::after{content:"";height:1.5px;background:currentColor;transition:transform .3s var(--doux)}
+  .ouvert .menu-btn i::before{transform:translateY(3.25px) rotate(45deg)}
+  .ouvert .menu-btn i::after{transform:translateY(-3.25px) rotate(-45deg)}
+}
+.feuille{position:fixed;inset:0;z-index:40;background:var(--toile);padding:96px clamp(16px,6vw,40px) 32px;display:flex;flex-direction:column;gap:6px;opacity:0;visibility:hidden;transition:opacity .3s,visibility 0s .3s}
+.ouvert .feuille{opacity:1;visibility:visible;transition:opacity .3s}
+.feuille a.l{font:300 40px/1.15 var(--serif);text-decoration:none;padding:6px 0;border-bottom:1px solid var(--filet)}
+.feuille p{margin-top:auto;color:var(--ardoise)}
+.feuille .btn{margin-top:16px}
+.entete{position:relative;z-index:50}
+
+/* ouverture */
+.ouverture{text-align:center;padding-top:clamp(56px,9vw,120px)}
+.ouverture h1{font:100 clamp(52px,10vw,120px)/.95 var(--serif);letter-spacing:-.02em;max-width:11ch;margin:22px auto 0}
+.ouverture h1 em{font-style:italic;font-weight:300;background:var(--degrade);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.04em}
+.ouverture .chapo{margin:26px auto 0}
+.actions{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:32px}
+.vitrine{display:grid;grid-template-columns:repeat(5,1fr);gap:clamp(10px,1.6vw,20px);align-items:start;margin-top:clamp(48px,7vw,88px);padding-bottom:clamp(64px,9vw,120px)}
+.vitrine figure{background:var(--papier);border-radius:var(--r-carte);padding:10px}
+.vitrine figure:nth-child(2n){margin-top:clamp(24px,4vw,56px)}
+.vitrine figure:nth-child(3){margin-top:clamp(48px,7vw,96px)}
+.vitrine img{border-radius:16px;aspect-ratio:1;object-fit:cover;width:100%}
+.vitrine figcaption{font:italic 300 15px/1.3 var(--serif);padding:10px 4px 4px;text-align:left}
+@media (max-width:700px){
+  .vitrine{grid-template-columns:repeat(3,1fr)}
+  .vitrine figure:nth-child(n+4){display:none}
+  .vitrine figure{padding:6px;border-radius:18px}
+  .vitrine img{border-radius:13px}
+  .vitrine figcaption{font-size:13px;padding:8px 2px 2px}
+}
+
+/* sections */
+section{padding:clamp(72px,10vw,120px) 0}
+.tete{display:grid;grid-template-columns:1fr auto;align-items:end;gap:20px 40px;margin-bottom:clamp(32px,4vw,48px)}
+@media (max-width:700px){.tete{grid-template-columns:1fr}}
+
+/* créations */
+.creations{background:var(--papier)}
+.filtres{display:flex;flex-wrap:wrap;gap:6px 22px}
+.filtres button{min-height:44px;font:300 22px/1 var(--serif);color:#8A7C8F;text-decoration:underline 1.5px transparent;text-underline-offset:7px;transition:color .2s,text-decoration-color .2s}
+.filtres sup{font:400 12px var(--sans);margin-left:3px;vertical-align:.9em}
+.filtres button[aria-pressed="true"]{color:var(--encre);text-decoration-color:var(--fuchsia)}
+@media (hover:hover){.filtres button:hover{border-color:var(--encre)}}
+.grille{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(12px,2vw,24px)}
+@media (max-width:900px){.grille{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:600px){.grille{grid-template-columns:repeat(2,1fr)}}
+.piece{display:flex;flex-direction:column;text-decoration:none}
+.piece[hidden]{display:none}
+.piece .ph{position:relative;border-radius:18px;overflow:hidden;background:var(--creme)}
+.piece img{aspect-ratio:1;object-fit:cover;width:100%;transition:transform .5s var(--doux)}
+@media (hover:hover){.piece:hover img{transform:scale(1.04)}}
+.piece h3{font:500 16px/1.3 var(--sans);margin:14px 2px 0}
+.piece .perso{font:italic 300 15px/1.3 var(--serif);color:var(--ardoise);margin:3px 2px 0}
+.piece .prix{margin:auto 2px 0;padding-top:8px;font:300 24px/1 var(--serif)}
+.creations .note{margin-top:28px;color:var(--ardoise);font-size:15px}
+
+/* broder un prénom */
+.atelier-v{background:var(--toile)}
+.broderie{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(20px,3vw,40px);align-items:stretch}
+@media (max-width:860px){.broderie{grid-template-columns:1fr}}
+.apercu{background:var(--creme);border-radius:var(--r-carte);display:grid;place-items:center;padding:clamp(20px,4vw,48px);min-height:460px;position:relative}
+.apercu svg{width:min(100%,380px);height:auto;overflow:visible}
+.apercu .tag{position:absolute;left:20px;bottom:18px;font:italic 300 15px/1.3 var(--serif);color:var(--ardoise)}
+.reglages{display:flex;flex-direction:column;gap:clamp(22px,3vw,30px);padding:clamp(4px,1vw,12px) 0}
+.reglages .lbl{display:block;font:300 22px/1.2 var(--serif);margin-bottom:12px}
+.ecrit{width:100%;min-height:56px;padding:4px 0 10px;border:0;border-bottom:1.5px solid var(--encre);background:transparent;font:italic 300 36px/1.1 var(--serif);letter-spacing:-.01em;color:var(--encre);border-radius:0;transition:border-color .2s}
+.ecrit:focus{outline:none;border-bottom-color:var(--fuchsia)}
+.ecrit::placeholder{color:#B3A6B8}
+.mots{margin-top:14px;font-size:16px;color:var(--ardoise)}
+.mots button{min-height:40px;padding:0 2px;font:italic 300 20px/1 var(--serif);color:var(--encre);text-decoration:underline 1px rgba(0,0,0,.25);text-underline-offset:5px;transition:text-decoration-color .2s}
+.mots button[aria-pressed="true"]{text-decoration:underline 1.5px var(--fuchsia)}
+@media (hover:hover){.mots button:hover{text-decoration-color:var(--encre)}}
+.choix-l{display:flex;flex-wrap:wrap;gap:14px 26px}
+.choix{display:flex;flex-direction:column;align-items:center;gap:8px;min-width:56px;min-height:44px}
+.choix .vue{display:block;transition:transform .35s var(--doux)}
+.choix svg{display:block}
+.choix .nom{font-size:14px;color:var(--ardoise);text-decoration:underline 1.5px transparent;text-underline-offset:5px;transition:color .2s,text-decoration-color .2s}
+.choix[aria-pressed="true"] .vue{transform:translateY(-6px) rotate(-4deg)}
+.choix[aria-pressed="true"] .nom{color:var(--encre);text-decoration-color:var(--fuchsia)}
+@media (hover:hover){.choix:hover .vue{transform:translateY(-3px)}.choix[aria-pressed="true"]:hover .vue{transform:translateY(-6px) rotate(-4deg)}}
+@media (prefers-reduced-motion:reduce){.choix .vue{transition:none}}
+.total{display:flex;align-items:center;justify-content:space-between;gap:16px 24px;flex-wrap:wrap;margin-top:8px}
+.total p{font-size:15px;color:var(--ardoise);max-width:16em}
+.prix-b{display:block;font:100 64px/1 var(--serif);letter-spacing:-.02em;color:var(--encre);margin-bottom:4px}
+
+/* phrase en grand */
+.phrase{padding:clamp(40px,7vw,96px) 0;text-align:center;overflow:hidden}
+.phrase p{font:100 clamp(56px,11vw,140px)/.95 var(--serif);letter-spacing:-.02em;background:var(--degrade);-webkit-background-clip:text;background-clip:text;color:transparent}
+.phrase p em{font-weight:300}
+
+/* l'atelier, bloc sombre */
+.prune{background:var(--prune);color:#F6ECF5}
+.prune .chapo{color:#D9C9DD}
+.atelier{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(32px,5vw,72px);align-items:start}
+@media (max-width:860px){.atelier{grid-template-columns:1fr}}
+.atelier blockquote{font:300 clamp(28px,3vw,36px)/1.15 var(--serif);letter-spacing:-.015em;margin-top:22px}
+.atelier blockquote em{font-style:italic;color:var(--rose)}
+.atelier cite{display:block;margin-top:20px;font:400 15px var(--sans);color:#C9B6CE;font-style:normal}
+.promesses{display:grid;gap:clamp(22px,3vw,34px)}
+.promesses li{list-style:none;font-size:17px;line-height:1.5;color:#D9C9DD;max-width:30em}
+.promesses b{display:block;font:300 30px/1.15 var(--serif);color:#F6ECF5;margin-bottom:6px}
+
+/* commander */
+.etapes{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(24px,4vw,56px)}
+@media (max-width:860px){.etapes{grid-template-columns:1fr}}
+.etapes li{list-style:none;padding-top:6px}
+.etapes h3{font:300 clamp(34px,3.6vw,46px)/1 var(--serif);letter-spacing:-.017em;margin-bottom:12px}
+.etapes p{color:var(--ardoise)}
+.fin{display:flex;flex-wrap:wrap;gap:12px;margin-top:40px;justify-content:center}
+
+/* pied */
+footer{background:var(--papier);padding-top:56px;overflow:hidden}
+.pied{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 32px;font-size:15px;color:var(--ardoise)}
+.pied nav{display:flex;flex-wrap:wrap;gap:8px 24px}
+.pied a{text-decoration:none}
+.pied a:hover{text-decoration:underline}
+.geant{font:100 clamp(48px,13.4vw,172px)/.8 var(--serif);letter-spacing:-.03em;white-space:nowrap;text-align:center;margin-top:40px;transform:translateY(.16em);background:var(--degrade);-webkit-background-clip:text;background-clip:text;color:transparent}
+.geant em{font-weight:300}
+@media (max-width:600px){.geant{font-size:clamp(40px,19vw,120px);white-space:normal;line-height:.86}}
+
+/* barre du bas sur téléphone */
+.barre{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:30;display:none;gap:8px;transform:translateY(140%);transition:transform .4s var(--doux)}
+.barre .btn{flex:1;box-shadow:var(--ombre)}
+.barre.vue{transform:none}
+@media (max-width:860px){.barre{display:flex}footer{padding-bottom:84px}}
+
+/* photos qui arrivent */
+.js .arrive{opacity:0;transform:scale(.97);transition:opacity .7s var(--doux),transform .7s var(--doux)}
+.js .arrive.la{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.js .arrive{opacity:1;transform:none;transition:none}}
+:focus-visible{outline:2px solid var(--fuchsia);outline-offset:3px}
+/* le logo */
+.marque{display:flex;align-items:center;gap:12px}
+.marque img{width:48px;height:48px;flex:none}
+.logo-grand{width:clamp(128px,13vw,170px);height:auto;margin:0 auto 26px;filter:drop-shadow(0 6px 18px rgba(80,40,90,.12))}
+.pied-logo{width:72px;height:72px}
+@media (max-width:420px){.marque{font-size:20px;gap:9px}.marque img{width:40px;height:40px}}
+@media (max-width:380px){.marque{font-size:18px}.menu-btn #menuTxt{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}}
+

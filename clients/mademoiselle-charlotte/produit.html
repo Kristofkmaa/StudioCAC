@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Création · Mademoiselle Charlotte</title>
+<meta name="description" content="Une création de Mademoiselle Charlotte, accessoires sur mesure pour enfants.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#F8F1FA">
+<link rel="icon" href="images/logo-petit.png">
+<link rel="stylesheet" href="../../polices/fraunces-schibsted-grotesk-6570f1.css">
+<link rel="stylesheet" href="charlotte.css">
+<style>
+.fil{font-size:14px;color:var(--ardoise);padding:8px 0 0}
+.fil a{text-decoration:none}
+.fil a:hover{text-decoration:underline}
+.fiche{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:clamp(24px,5vw,72px);align-items:start;padding:clamp(24px,4vw,48px) 0 clamp(72px,9vw,112px)}
+@media (max-width:860px){.fiche{grid-template-columns:1fr}}
+.photo{background:var(--papier);border-radius:var(--r-carte);padding:12px;position:sticky;top:24px}
+@media (max-width:860px){.photo{position:relative;top:0}}
+.photo img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:16px;background:var(--creme)}
+.infos h1{font:300 clamp(40px,5.4vw,68px)/.98 var(--serif);letter-spacing:-.017em}
+.infos .prix-g{font:100 clamp(56px,7vw,88px)/1 var(--serif);letter-spacing:-.02em;margin-top:18px;background:var(--degrade);-webkit-background-clip:text;background-clip:text;color:transparent;width:max-content}
+.infos .texte{font-size:18px;line-height:1.5;color:var(--ardoise);margin-top:20px;max-width:32em}
+.bloc{margin-top:32px;display:flex;flex-direction:column;gap:26px}
+.bloc label,.bloc .lbl{display:block;font:300 22px/1.2 var(--serif);margin-bottom:10px}
+.qte{display:inline-flex;align-items:center;gap:6px}
+.qte button{width:48px;height:48px;font-size:22px;border-radius:50%;background:var(--papier);transition:transform .2s var(--doux),background-color .2s}
+.qte button:active{transform:scale(.92)}
+.qte button:disabled{opacity:.35;cursor:default}
+.qte output{min-width:44px;text-align:center;font:300 34px/1 var(--serif)}
+.achat{display:flex;flex-wrap:wrap;gap:10px}
+.achat .btn{flex:1 1 200px}
+.astuce{font-size:14px;color:var(--ardoise);min-height:1.4em}
+.atouts{margin-top:22px;font:italic 300 17px/1.45 var(--serif);color:var(--ardoise)}
+.voisins{display:flex;justify-content:space-between;gap:12px;margin-top:32px;font-size:15px}
+.voisins a{text-decoration:none;display:flex;flex-direction:column;gap:2px;max-width:48%}
+.voisins a:last-child{text-align:right;margin-left:auto}
+.voisins span{font-size:14px;color:var(--ardoise)}
+.voisins a:hover em{text-decoration:underline}
+.voisins em{font:italic 300 19px/1.25 var(--serif)}
+.aussi{background:var(--papier)}
+.introuvable{text-align:center;padding:120px 0}
+</style>
+</head>
+<body>
+<div class="maquette">Maquette préparée par Saitora pour Mademoiselle Charlotte : textes, prix et photos à valider ensemble</div>
+
+<div class="entete" id="entete">
+  <header class="wrap top">
+    <a class="marque" href="index.html"><img src="images/logo-petit.webp" alt="" width="160" height="160"><span>Mademoiselle <b>Charlotte</b></span></a>
+    <nav aria-label="Menu principal"><a href="index.html#creations">Créations</a><a href="index.html#broder">Broder un prénom</a><a href="index.html#atelier">L'atelier</a><a href="index.html#commander">Commander</a></nav>
+    <a class="btn rose" href="https://mademoiselle-charlotte-1.sumupstore.com/" target="_blank" rel="noopener">La boutique</a>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="feuille"><span id="menuTxt">Menu</span><i aria-hidden="true"></i></button>
+  </header>
+  <div class="feuille" id="feuille">
+    <a class="l" href="index.html#creations">Créations</a>
+    <a class="l" href="index.html#broder">Broder un prénom</a>
+    <a class="l" href="index.html#atelier">L'atelier</a>
+    <a class="l" href="index.html#commander">Commander</a>
+    <p>Bavoirs, coffrets, doudous et cadres, personnalisés au prénom de l'enfant.</p>
+    <a class="btn rose" href="https://mademoiselle-charlotte-1.sumupstore.com/" target="_blank" rel="noopener">Ouvrir la boutique</a>
+  </div>
+</div>
+
+<main id="page">
+  <div class="wrap">
+    <p class="fil" id="fil"><a href="index.html">Accueil</a> / <a href="index.html#creations" id="filFam">Créations</a></p>
+    <div class="fiche" id="fiche">
+      <div class="photo" id="photo"></div>
+      <div class="infos">
+        <h1 id="nom"></h1>
+        <p class="prix-g" id="prix"></p>
+        <p class="texte" id="texte"></p>
+        <form class="bloc" id="commande" onsubmit="return false">
+          <div id="persoBloc" hidden>
+            <label for="prenom">Le prénom à broder</label>
+            <input class="ecrit" id="prenom" maxlength="20" autocomplete="off" placeholder="Son prénom">
+          </div>
+          <div>
+            <p class="lbl" id="lblQte">Quantité</p>
+            <div class="qte" role="group" aria-labelledby="lblQte"><button type="button" id="moins" aria-label="Une de moins">−</button><output id="qte" aria-live="polite">1</output><button type="button" id="plus" aria-label="Une de plus">+</button></div>
+          </div>
+          <div class="achat">
+            <a class="btn noir" id="commander" href="https://mademoiselle-charlotte-1.sumupstore.com/" target="_blank" rel="noopener">Commander sur la boutique</a>
+            <a class="btn trait" id="essayer" href="index.html#broder" hidden>Essayer sur le bavoir</a>
+          </div>
+          <p class="astuce" id="astuce" aria-live="polite"></p>
+        </form>
+        <p class="atouts" id="atouts">Cousu à la main, pièce par pièce. Paiement par carte sur la boutique.</p>
+        <nav class="voisins" id="voisins" aria-label="Créations voisines"></nav>
+      </div>
+    </div>
+  </div>
+
+  <section class="aussi">
+    <div class="wrap">
+      <div class="tete">
+                <h2 class="titre">Vous aimerez <em>aussi</em></h2>
+      </div>
+      <div class="grille" id="aussi"></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap pied">
+    <img class="pied-logo" src="images/logo-petit.webp" alt="Mademoiselle Charlotte" width="160" height="160" loading="lazy">
+    <span>© 2026 Mademoiselle Charlotte · Maquette réalisée par <a href="https://saitora.fr">Saitora</a></span>
+    <nav aria-label="Pied de page"><a href="https://mademoiselle-charlotte-1.sumupstore.com/" target="_blank" rel="noopener">Boutique</a><a href="index.html#creations">Créations</a><a href="index.html#commander">Commander</a></nav>
+  </div>
+  <p class="geant" aria-hidden="true">Mademoiselle <em>Charlotte</em></p>
+</footer>
+
+<script src="pieces.js"></script>
+<script>
+document.documentElement.classList.add("js");
+const $ = id => document.getElementById(id);
+
+/* une fiche s'ouvre toujours en haut, même si le navigateur garde la position de la page d'avant */
+if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+const enHaut = () => { if (!location.hash) { document.documentElement.style.scrollBehavior = "auto"; scrollTo(0, 0); document.documentElement.style.scrollBehavior = ""; } };
+enHaut(); addEventListener("pageshow", enHaut); addEventListener("load", enHaut);
+const i = Math.max(0, PIECES.findIndex(x => x.s === new URLSearchParams(location.search).get("p")));
+const x = PIECES[i];
+
+document.title = `${x.n} · Mademoiselle Charlotte`;
+document.querySelector('meta[name="description"]').content = x.t;
+$("fil").insertAdjacentHTML("beforeend", ` / <span aria-current="page">${x.n}</span>`);
+$("photo").innerHTML = `<img class="arrive" src="images/${x.grand || x.s}.webp" alt="${x.n}" width="700" height="700">`;
+$("filFam").textContent = FAMILLES[x.f];
+$("nom").textContent = x.n;
+$("prix").innerHTML = `${x.p}&nbsp;€`;
+$("texte").textContent = x.t;
+$("persoBloc").hidden = !x.perso;
+$("essayer").hidden = x.f !== "bavoirs";
+$("atouts").textContent = x.perso ? "Brodé à son prénom, cousu à la main. Paiement par carte sur la boutique." : "Cousu à la main, pièce par pièce. Paiement par carte sur la boutique.";
+
+/* précédente et suivante */
+const av = PIECES[(i - 1 + PIECES.length) % PIECES.length], ap = PIECES[(i + 1) % PIECES.length];
+$("voisins").innerHTML = `<a href="produit.html?p=${av.s}"><span>← Précédente</span><em>${av.n}</em></a><a href="produit.html?p=${ap.s}"><span>Suivante →</span><em>${ap.n}</em></a>`;
+
+/* même famille d'abord, puis les autres, quatre en tout */
+const autres = [...PIECES.filter(y => y.f === x.f && y !== x), ...PIECES.filter(y => y.f !== x.f)].slice(0, 4);
+$("aussi").innerHTML = autres.map(y =>
+  `<a class="piece" href="produit.html?p=${y.s}"><div class="ph"><img class="arrive" src="images/${y.s}.webp" alt="${y.n}" width="360" height="360" loading="lazy"></div><h3>${y.n}</h3>${y.perso ? '<p class="perso">brodé à son prénom</p>' : ""}<p class="prix">${y.p}&nbsp;€</p></a>`).join("");
+
+/* quantité */
+let q = 1;
+const majQ = () => { $("qte").textContent = q; $("moins").disabled = q === 1; };
+$("moins").addEventListener("click", () => { q = Math.max(1, q - 1); majQ(); });
+$("plus").addEventListener("click", () => { q = Math.min(20, q + 1); majQ(); });
+majQ();
+
+/* en partant vers la boutique, on garde le texte de la commande à coller dans la note */
+$("commander").addEventListener("click", () => {
+  const prenom = $("prenom").value.trim();
+  const note = `${x.n} × ${q}${x.perso && prenom ? ` : « ${prenom} »` : ""}`;
+  if (navigator.clipboard) navigator.clipboard.writeText(note).then(() => {
+    $("astuce").textContent = `Copié : ${note}. Collez-le dans la note de commande sur la boutique.`;
+  }).catch(() => {});
+});
+
+/* photos qui arrivent */
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (!e.isIntersecting) return; io.unobserve(e.target);
+  const im = e.target; (im.decode ? im.decode() : Promise.resolve()).catch(() => {}).then(() => im.classList.add("la"));
+}), { rootMargin: "0px 0px -8% 0px" });
+document.querySelectorAll(".arrive").forEach(im => io.observe(im));
+
+/* menu du téléphone */
+const ent = $("entete");
+const ferme = () => { ent.classList.remove("ouvert"); $("menuBtn").setAttribute("aria-expanded", false); $("menuTxt").textContent = "Menu"; document.body.style.overflow = ""; };
+$("menuBtn").addEventListener("click", () => {
+  if (ent.classList.contains("ouvert")) return ferme();
+  ent.classList.add("ouvert"); $("menuBtn").setAttribute("aria-expanded", true); $("menuTxt").textContent = "Fermer"; document.body.style.overflow = "hidden";
+});
+$("feuille").addEventListener("click", e => { if (e.target.closest("a")) ferme(); });
+addEventListener("keydown", e => { if (e.key === "Escape") ferme(); });
+</script>
+</body>
+</html>

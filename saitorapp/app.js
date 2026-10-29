@@ -597,7 +597,42 @@
   }
 
   let installer = null;
-  addEventListener("beforeinstallprompt", e => { e.preventDefault(); installer = e; });
+  addEventListener("beforeinstallprompt", e => { e.preventDefault(); installer = e; document.querySelector("#instDirect")?.removeAttribute("hidden"); });
+
+  /* à l'arrivée, proposer de mettre l'appli sur l'écran d'accueil, avec les gestes de l'iPhone ou d'Android */
+  const installee = () => matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+  const ua = navigator.userAgent, surIphone = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1), surAndroid = /Android/.test(ua);
+  const partageIco = '<svg width="20" height="24" viewBox="0 0 20 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2v13M5.5 6.5L10 2l4.5 4.5"/><path d="M6 10H3.5v11.5h13V10H14"/></svg>';
+  const ajoutIco = '<svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="2.5" y="2.5" width="17" height="17" rx="4.5"/><path d="M11 7v8M7 11h8"/></svg>';
+  const menuIco = '<svg width="6" height="22" viewBox="0 0 6 22" fill="currentColor" aria-hidden="true"><circle cx="3" cy="4" r="2"/><circle cx="3" cy="11" r="2"/><circle cx="3" cy="18" r="2"/></svg>';
+  const etape = (n, texte, icone) => `<div class="ligne"><span class="icone-carre num" style="background:var(--encre);color:#fff">${n}</span><span><b style="white-space:normal">${texte}</b></span>${icone ? `<span class="rond" style="background:#fff;flex:none">${icone}</span>` : ""}</div>`;
+  function feuilleInstaller(auto) {
+    let qui = surAndroid ? "android" : "iphone";
+    const f = feuille({ titre: "Sur l'écran d'accueil", sous: esc(S.court), corps: `
+      <div class="fiche-tete" style="padding-top:2px"><div class="avatar" style="border-radius:18px;background:#fff;box-shadow:var(--ombre)"><img src="icone-180.png" alt=""></div><h2>Gardez ${esc(S.court)} sous la main</h2><p>L'appli s'ouvre en plein écran, comme les autres, sans passer par le navigateur.</p></div>
+      <div style="display:flex;justify-content:center;margin:18px 0 6px">${segments("instQui", [["iphone", "iPhone"], ["android", "Android"]], qui)}</div>
+      <div id="instEtapes" style="margin-top:12px"></div>
+      <div class="boutons" style="flex-direction:column">
+        <button type="button" class="bouton" id="instDirect" ${installer ? "" : "hidden"}>Installer maintenant</button>
+        <button type="button" class="bouton gris" id="instPlusTard">${auto ? "Plus tard" : "Fermer"}</button>
+      </div>` });
+    const dessine = () => {
+      f.querySelector("#instEtapes").innerHTML = qui === "iphone"
+        ? `<div class="groupe">${etape(1, "Ouvrez cette page dans <b style=\"display:inline\">Safari</b>", "")}${etape(2, "Touchez le bouton Partager, en bas de l'écran", partageIco)}${etape(3, "Choisissez « Sur l'écran d'accueil »", ajoutIco)}${etape(4, "Touchez « Ajouter », en haut à droite", "")}</div>`
+        : `<div class="groupe">${etape(1, "Ouvrez cette page dans <b style=\"display:inline\">Chrome</b>", "")}${etape(2, "Touchez le menu, en haut à droite", menuIco)}${etape(3, "Choisissez « Installer l'application » ou « Ajouter à l'écran d'accueil »", ajoutIco)}${etape(4, "Confirmez avec « Installer »", "")}</div>`;
+      f.querySelectorAll("#instQui button").forEach(b => b.setAttribute("aria-pressed", b.dataset.s === qui));
+    };
+    f.querySelector("#instQui").onclick = e => { const b = e.target.closest("button"); if (b) { qui = b.dataset.s; dessine(); } };
+    f.querySelector("#instDirect").onclick = async () => { if (!installer) return; installer.prompt(); const r = await installer.userChoice.catch(() => null); installer = null; fermeFeuille(); if (r && r.outcome === "accepted") hud("Appli installée"); };
+    f.querySelector("#instPlusTard").onclick = () => { if (auto) try { localStorage.setItem("saitorapp-installer-plus-tard", Date.now()); } catch (e) {} fermeFeuille(); };
+    dessine();
+  }
+  /* proposé une fois à l'arrivée, puis pas avant 7 jours si on a répondu « Plus tard » */
+  setTimeout(() => {
+    if (installee() || document.querySelector(".feuille")) return;
+    let t = 0; try { t = +localStorage.getItem("saitorapp-installer-plus-tard") || 0; } catch (e) {}
+    if (Date.now() - t > 7 * T.jour) feuilleInstaller(true);
+  }, 900);
   function site() {
     const k = D.contenu;
     ecran({ titre: "Mon site", sous: "ce que vos visiteurs lisent", corps: `
@@ -618,10 +653,7 @@
     $("kVis").onclick = () => { $("kVis").setAttribute("aria-checked", !coche("kVis")); ap(); };
     $("kAnn").oninput = ap;
     $("kOk").onclick = () => { Object.assign(k, { annonce: $("kAnn").value.trim(), annonceVisible: coche("kVis"), accueil: $("kAcc").value.trim(), horaires: $("kHor").value.trim(), contact: $("kCon").value.trim() }); sauver("Enregistré"); };
-    $("kInstall").onclick = () => {
-      if (installer) { installer.prompt(); installer = null; return; }
-      feuille({ titre: "Écran d'accueil", gauche: "OK", corps: `<div class="groupe"><div class="ligne"><span><b>Sur iPhone</b><small class="deux">Dans Safari, touchez le bouton Partager, puis « Sur l'écran d'accueil ».</small></span></div><div class="ligne"><span><b>Sur Android</b><small class="deux">Dans Chrome, ouvrez le menu, puis « Installer l'application ».</small></span></div></div><p class="pied-groupe">L'appli apparaît avec le nom et le logo de ${esc(S.nom)}.</p>` });
-    };
+    $("kInstall").onclick = () => feuilleInstaller(false);
     if ($("kZero")) $("kZero").onclick = () => { if (!confirm("Remettre les données de démonstration à zéro ?")) return; try { localStorage.removeItem(CLE); } catch (e) {} D = A.semer(S); recevoir(); sauver("Démo remise à zéro"); route(); };
   }
 

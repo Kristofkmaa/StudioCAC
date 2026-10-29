@@ -18,6 +18,11 @@
 - [ ] Mesure d'audience sans cookies (Plausible ou GoatCounter), si besoin.
 
 ## Idées pour la suite
+- [ ] Boutique en ligne, quand un client la demandera. Trois niveaux :
+  1. Commande à retirer (comme Bobyshop) : site HTML actuel, paiement sur place.
+  2. Petite boutique (moins de 20-30 produits) : site HTML + paiement Stripe ; je mets à jour les produits (dans l'abonnement).
+  3. Vraie boutique (catalogue, stock, livraison sur le continent) : Shopify, le commerçant gère tout lui-même ; notre style via un thème Shopify sur mesure ou un site Astro branché dessus.
+  Avant le premier client : une démo (épicerie fine corse qui expédie, Stripe en mode test), puis une offre « Boutique » dans les tarifs et le devis. Les vitrines restent en HTML.
 - [ ] Lien de reprise de la charte graphique (retrouver sa charte sur un autre appareil, sans compte).
 - [ ] Remplacer les démos par de vraies réalisations (avant / après) et ajouter de vrais avis clients.
 - [ ] Espace client, plus tard, quand il y aura une quinzaine d'abonnés (portail Stripe et formulaire de demandes).

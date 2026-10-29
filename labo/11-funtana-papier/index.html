@@ -85,7 +85,7 @@ button,input{font:inherit;color:inherit;letter-spacing:inherit}
 .bulle{position:absolute;inset:0;z-index:-1;pointer-events:none}
 .bulle canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 /* repli sans WebGL : trois bulles en CSS qui montent et s'effacent */
-.bulle .css{position:absolute;bottom:-20%;border-radius:50%;background:var(--sphere);opacity:.75;animation:monte 11s linear infinite}
+.bulle .css{position:absolute;bottom:-20%;border-radius:50%;background:radial-gradient(circle at 32% 28%,rgba(255,255,255,.9) 0 7%,transparent 14%),conic-gradient(from 200deg,rgba(236,120,214,.45),rgba(110,214,196,.4),rgba(246,206,110,.45),rgba(140,170,250,.4),rgba(236,120,214,.45));-webkit-mask:radial-gradient(circle,rgba(0,0,0,.35) 55%,#000 70%);mask:radial-gradient(circle,rgba(0,0,0,.35) 55%,#000 70%);animation:monte 11s linear infinite}
 .bulle .css:nth-child(1){left:58%;width:min(26vw,190px);aspect-ratio:1}
 .bulle .css:nth-child(2){left:76%;width:min(16vw,120px);aspect-ratio:1;animation-delay:-4s;animation-duration:9s}
 .bulle .css:nth-child(3){left:66%;width:min(10vw,76px);aspect-ratio:1;animation-delay:-7s;animation-duration:8s}
@@ -257,7 +257,7 @@ footer .page{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px 
 <script>
 // ——— les bulles de savon : deux ou trois bulles montent en se balançant, puis éclatent en fines gouttelettes irisées ;
 // une nouvelle remonte du bas. On peut aussi les faire éclater du doigt. Les bulles sont dessinées en WebGL
-// (film transparent, couleurs de la fiche qui coulent, bord irisé, reflet), les gouttelettes sur un calque 2D.
+// (film transparent aux vraies couleurs d’interférence qui coulent et tourbillonnent, reflet de fenêtre), les gouttelettes sur un calque 2D.
 // Arrêtées hors de l'écran ; immobiles (sans éclatement) si l'on demande moins d'animations.
 (() => {
   const box = document.getElementById("bulle"), hero = document.getElementById("hero"), calme = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -281,29 +281,49 @@ vec3 p0=vec3(a0.xy,h.x);vec3 p1=vec3(a0.zw,h.y);vec3 p2=vec3(a1.xy,h.z);vec3 p3=
 vec4 nr=tis(vec4(dot(p0,p0),dot(p1,p1),dot(p2,p2),dot(p3,p3)));p0*=nr.x;p1*=nr.y;p2*=nr.z;p3*=nr.w;
 vec4 mm=max(.6-vec4(dot(x0,x0),dot(x1,x1),dot(x2,x2),dot(x3,x3)),0.);mm=mm*mm;
 return 42.*dot(mm*mm,vec4(dot(p0,x0),dot(p1,x1),dot(p2,x2),dot(p3,x3)));}
-vec3 degrade(float k){
-  vec3 j=vec3(.980,.796,.055),r=vec3(.941,.420,.659),bl=vec3(.471,.729,.902),w=vec3(1.);
-  return k<.3?mix(j,r,k/.3):k<.65?mix(r,bl,(k-.3)/.35):mix(bl,w,(k-.65)/.35);}
+// couleur d'un film de savon : la lumière renvoyée par les deux faces du film interfère,
+// R(λ) ∝ sin²(2π·n·e·cosθt/λ) ; on l'évalue sur sept longueurs d'onde, ramenées en RVB
+vec3 film(float e,float ct){
+  vec3 c=vec3(0.);
+  for(int k=0;k<7;k++){
+    float l=400.+float(k)*50.;float s=sin(6.2832*1.33*e*ct/l);
+    vec3 w=vec3(smoothstep(500.,620.,l)*(1.-smoothstep(660.,720.,l))+.35*(1.-smoothstep(400.,460.,l)),
+                exp(-pow((l-540.)/70.,2.)),exp(-pow((l-450.)/55.,2.)));
+    c+=w*s*s;
+  }
+  c/=vec3(1.7,1.9,1.45);
+  float g=dot(c,vec3(.333));return clamp(mix(vec3(g),c,1.8),0.,1.);   // un peu plus franc, comme à l'œil
+}
 void main(){
   vec3 col=vec3(0.);float al=0.;
   for(int i=0;i<3;i++){
     vec4 B=b[i];if(B.w<=0.)continue;
-    vec2 d=gl_FragCoord.xy-B.xy;float rr=length(d)/B.z;if(rr>1.12)continue;
+    vec2 d=gl_FragCoord.xy-B.xy;float rr=length(d)/B.z;if(rr>1.1)continue;
     float a=atan(d.y,d.x);vec2 cp=vec2(cos(a),sin(a));
-    float n=(sn(vec3(cp*.9+ph[i]*7.,t*.22+ph[i]*13.))*.75+sn(vec3(cp*1.7-ph[i]*3.,t*.31))*.25)*.045;   // le film ondule
+    float n=(sn(vec3(cp*.9+ph[i]*7.,t*.22+ph[i]*13.))*.75+sn(vec3(cp*1.7-ph[i]*3.,t*.31))*.25)*.03;   // le film tremble un peu
     float px=1.5/B.z,R=1.+n;
     float bord=1.-smoothstep(R-px,R+px,rr);if(bord<=0.)continue;
     vec2 q=d/(B.z*R);float z=sqrt(max(0.,1.-dot(q,q)));vec3 nm=normalize(vec3(q,z));
-    float f=sn(vec3(q*.75+ph[i]*5.,t*.1+ph[i]*9.));
-    float k=clamp(dot(q,normalize(vec2(-.966,-.259)))*.5+.5+f*.16,0.,1.);
-    vec3 c=degrade(k);
-    float fr=pow(1.-z,2.);
-    c=mix(c,vec3(1.),fr*.3);
-    c+=.09*fr*cos(6.2832*(vec3(0.,.33,.67)+fr*1.3+f*.5+t*.03+ph[i]));
-    vec3 L=normalize(vec3(-.45,.55,.75));float sp=pow(max(dot(reflect(-L,nm),vec3(0.,0.,1.)),0.),28.);
-    float A=(.32+.6*fr)*bord*B.w;          // un film : transparent au centre, plus coloré sur le bord
-    c=clamp(c+sp*.5,0.,1.);A=clamp(A+sp*.55*bord*B.w,0.,1.);
-    col=c*A+col*(1.-A);al=A+al*(1.-A);
+    // épaisseur du film : le savon coule vers le bas (fin en haut, épais en bas) et tourbillonne
+    vec2 w=vec2(sn(vec3(q*.8+ph[i],t*.07)),sn(vec3(q*.8-ph[i]+4.,t*.07+3.)))*.45;
+    float tour=sn(vec3((q+w)*.95+ph[i]*5.,t*.1+ph[i]*9.))*.8+sn(vec3((q-w)*1.8,t*.13))*.2;
+    float e=max(0.,300.-q.y*170.+tour*110.);        // de larges bandes, pas un hologramme
+    float ct=sqrt(1.-(1.-z*z)/1.77);                       // angle dans le film (n = 1,33)
+    vec3 c=film(e,ct);
+    float fr=pow(1.-z,2.5);                                // Fresnel : le bord renvoie bien plus de lumière que le centre
+    float k=.07+.7*fr;
+    float A=k*max(max(c.r,c.g),c.b);                       // presque transparent au centre, rien là où le film est noir (en haut)
+    vec3 C=c*k;
+    float trait=smoothstep(R-3.*px,R-px*.5,rr);              // le fin liseré du bord, qui dessine la bulle
+    C=C*(1.-trait*.35)+c*.5*trait*.35;A=A*(1.-trait*.35)+trait*.35;
+    // la fenêtre qui se reflète (en haut à gauche) et son petit écho en bas à droite
+    vec2 f1=(q-vec2(-.36,.4))/vec2(.2,.15);float win=(1.-smoothstep(.55,1.,max(abs(f1.x),abs(f1.y))+.25*length(f1)))*.85;
+    vec3 L=normalize(vec3(-.45,.55,.75));float sp=pow(max(dot(reflect(-L,nm),vec3(0.,0.,1.)),0.),60.);
+    float f2=1.-smoothstep(.0,.06,abs(length(q-vec2(.05,-.05))-.84));f2*=smoothstep(.1,.6,dot(normalize(q),normalize(vec2(.7,-.7))));
+    float hi=clamp(win*.55+sp*.9+f2*.25,0.,1.);
+    C=C*(1.-hi)+vec3(hi);A=A*(1.-hi)+hi;
+    A*=bord*B.w;C*=bord*B.w;                              // couleurs déjà multipliées par la transparence
+    col=C+col*(1.-A);al=A+al*(1.-A);
   }
   gl_FragColor=vec4(col,al);
 }`;
@@ -328,7 +348,9 @@ void main(){
   const nouvelle = (o, debut) => {
     const base = Math.min(W, H), tailles = mobile() ? [.2, .13, .085] : [.17, .11, .07];
     o.r = base * tailles[o.i] * hasard(.85, 1.15);
-    o.x0 = mobile() ? hasard(.22, .78) * W : hasard(.52, .9) * W;
+    // chacune son couloir : elles ne s'empilent pas les unes sur les autres
+    const couloir = (mobile() ? [[.2, .4], [.6, .8], [.4, .6]] : [[.56, .7], [.76, .9], [.64, .82]])[o.i];
+    o.x0 = hasard(...couloir) * W;
     // sur téléphone, le titre occupe le bas : les bulles vivent dans la moitié haute
     o.y = debut ? (mobile() ? hasard(.16, .46) : hasard(.28, .85)) * H : H + o.r + hasard(10, 80);
     o.vy = hasard(34, 52) * (1.25 - o.i * .12) * (mobile() ? 1.1 : 1);   // les petites montent un peu plus vite
@@ -338,14 +360,14 @@ void main(){
   };
   bulles.forEach(o => nouvelle(o, true));
   const gouttes = [], cercles = [];
-  const COUL = ["250,203,14", "240,107,168", "120,186,230", "255,255,255"];
+  const COUL = ["236,120,214", "110,214,196", "246,206,110", "140,170,250", "255,255,255"];
   const eclater = o => {
     if (o.pop >= 0 || o.attente > 0) return;
     o.pop = 0;
     const n = Math.round(10 + o.r / 8);
     for (let k = 0; k < n; k++) {
       const a = Math.random() * Math.PI * 2, v = hasard(70, 190) * (.6 + o.r / 220);
-      gouttes.push({ x: o.x + Math.cos(a) * o.r, y: o.y + Math.sin(a) * o.r, vx: Math.cos(a) * v, vy: Math.sin(a) * v - hasard(20, 70), t: 0, vie: hasard(.5, .9), s: hasard(1.2, 3.2), c: COUL[k % 4] });
+      gouttes.push({ x: o.x + Math.cos(a) * o.r, y: o.y + Math.sin(a) * o.r, vx: Math.cos(a) * v, vy: Math.sin(a) * v - hasard(20, 70), t: 0, vie: hasard(.5, .9), s: hasard(1.2, 3.2), c: COUL[k % 5] });
     }
     cercles.push({ x: o.x, y: o.y, r: o.r, t: 0 });
   };
@@ -381,7 +403,7 @@ void main(){
     gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT); gl.drawArrays(gl.TRIANGLES, 0, 3);
     ctx.clearRect(0, 0, W, H);
     for (const c of cercles) { const e = 1 - (1 - c.t) ** 3;                                  // le film qui se déchire : un anneau qui s'ouvre
-      ctx.strokeStyle = `rgba(240,107,168,${(1 - c.t) * .45})`; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.arc(c.x, c.y, c.r * (1 + .35 * e), 0, Math.PI * 2); ctx.stroke(); }
+      ctx.strokeStyle = `rgba(190,150,220,${(1 - c.t) * .4})`; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.arc(c.x, c.y, c.r * (1 + .35 * e), 0, Math.PI * 2); ctx.stroke(); }
     for (const g of gouttes) { const a = 1 - g.t / g.vie; ctx.fillStyle = `rgba(${g.c},${(a * .9).toFixed(3)})`;
       ctx.beginPath(); ctx.arc(g.x, g.y, g.s * (.6 + .4 * a), 0, Math.PI * 2); ctx.fill(); }
   };

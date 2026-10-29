@@ -91,17 +91,16 @@ button,input{font:inherit;color:inherit;letter-spacing:inherit}
 .sheet .fermer .traits::before{top:4.25px;transform:rotate(45deg)}
 .sheet .fermer .traits::after{top:4.25px;transform:rotate(-45deg)}
 /* le menu plein écran : le nom et la croix exactement à la place du nom et du bouton de la page (--haut),
-   une photo en arche et l'état du jour en haut, les quatre liens en grand, les deux actions en bas */
+   les quatre liens en grand, l'adresse et l'état du jour, les deux actions en bas */
 .sheet{position:fixed;inset:0;z-index:30;background:var(--parchment);display:none;flex-direction:column;padding:var(--haut,20px) var(--m) max(20px,env(safe-area-inset-bottom));overflow:auto;overscroll-behavior:contain}
 .sheet.open{display:flex;animation:ouvre .3s ease both}
 @keyframes ouvre{from{opacity:0}}
 .sheet .row{display:flex;justify-content:space-between;align-items:center;padding-block:20px}
 .sheet .fermer{display:grid}
-.sheet .lieu{margin-top:18px;display:grid;grid-template-columns:34% minmax(0,1fr);gap:18px;align-items:end}
-.sheet .lieu .photo{aspect-ratio:3/4}
-.sheet .lieu p{font-size:var(--t-petit);color:var(--muted)}
-.sheet .lieu p b{display:block;font-weight:400;color:var(--ink);font-size:var(--t-texte)}
-.sheet nav{margin-top:auto;padding-top:28px;display:grid}
+/* sur téléphone, pas de photo dans le menu : les liens en grand, puis l'adresse et l'état du jour au-dessus des deux actions */
+.sheet .lieu{margin-top:auto;padding-top:28px;font-size:var(--t-petit);color:var(--muted)}
+.sheet .lieu b{display:block;font-weight:400;color:var(--ink);font-size:var(--t-texte)}
+.sheet nav{margin-top:clamp(24px,6vh,56px);display:grid}
 .sheet nav a{display:flex;justify-content:space-between;align-items:center;gap:16px;text-decoration:none;font-size:clamp(2.1rem,10vw,3.25rem);line-height:1;text-transform:uppercase;padding:10px 0}
 .sheet nav a::after{content:"→";font-size:.5em;transition:transform .25s var(--doux)}
 .sheet nav a:active::after{transform:translateX(6px)}
@@ -296,8 +295,8 @@ footer .legal a{color:inherit}
 
 <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="Menu">
   <div class="row"><span class="brand">A Funtana</span><button class="fermer" type="button" id="closeBtn" aria-label="Fermer le menu"><span class="traits" aria-hidden="true"></span></button></div>
-  <div class="lieu entre"><img class="photo arche" src="images/funtana/vasque.webp" alt="" width="900" height="1125" loading="lazy" decoding="async"><p><b>12, cours Grandval</b>Ajaccio<br><span id="nowMenu">Ouvert</span></p></div>
   <nav aria-label="Menu"><a class="entre" style="--d:60ms" href="#places">Places libres</a><a class="entre" style="--d:110ms" href="#visite">La visite</a><a class="entre" style="--d:160ms" href="#carte">La carte</a><a class="entre" style="--d:210ms" href="#venir">Venir</a></nav>
+  <p class="lieu entre" style="--d:230ms"><b>12, cours Grandval, Ajaccio</b><span id="nowMenu">Ouvert</span></p>
   <div class="bas entre" style="--d:260ms"><a class="btn" href="tel:+33400000000">Appeler</a><a class="btn plein" href="#places">Réserver</a></div>
 </div>
 

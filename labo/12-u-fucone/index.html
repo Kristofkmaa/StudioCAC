@@ -93,11 +93,12 @@ figcaption{margin-top:10px;font-size:var(--t-petit);color:var(--cendre);font-fam
 @keyframes ouvre{from{opacity:0}}
 .feuille .top{padding-top:var(--haut,18px)}
 .feuille .menu{display:grid}
-.feuille nav{margin-top:auto;display:grid;padding-top:24px}
+.feuille nav{margin-top:clamp(24px,6vh,56px);display:grid}
 .feuille nav a{font-family:var(--serif);font-size:clamp(2.2rem,10vw,3.2rem);line-height:1.15;letter-spacing:-.02em;text-decoration:none;padding:6px 0;display:flex;justify-content:space-between;align-items:center}
 .feuille nav a::after{content:"→";font-family:var(--sans);font-size:.45em;color:var(--cendre)}
-.feuille .bas{margin-top:24px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.feuille .vue{margin-top:12px;aspect-ratio:16/9}
+.feuille .infos-menu{margin-top:auto;padding-top:28px;font-size:15px;color:var(--charbon);line-height:1.6}
+.feuille .infos-menu b{display:block;font-family:var(--serif);font-weight:400;font-size:var(--t-phrase);color:var(--graphite);margin-bottom:4px}
+.feuille .bas{margin-top:20px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
 
 /* ---- ouverture « fenêtre » : le tableau du pré dans un grand cadre arrondi, le nom réparti de part et d'autre ---- */
 .ouverture{padding-top:clamp(12px,3vw,40px)}
@@ -112,15 +113,16 @@ figcaption{margin-top:10px;font-size:var(--t-petit);color:var(--cendre);font-fam
 .ouverture .dessous .actions{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-content:flex-end}
 
 .sec{padding-top:var(--entre)}
-.tete{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px 64px;align-items:end;margin-bottom:clamp(40px,5vw,64px)}
-.tete p{color:var(--charbon)}
+/* en-tête de section : le titre sur une ligne, son texte d'introduction juste dessous, sur la même marge */
+.tete{display:grid;gap:18px;margin-bottom:clamp(40px,5vw,64px)}
+.tete p{color:var(--charbon);font-size:1.1875rem;line-height:1.55;max-width:52ch}
 
 /* ---- ce qui est compris : une grille de trois, séparée par des filets ---- */
 .compris{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--brume)}
 .compris li{padding:28px 28px 32px 0;border-bottom:1px solid var(--brume)}
 .compris li:not(:nth-child(3n+1)){padding-left:28px;border-left:1px solid var(--brume)}
 .compris h3{font-size:var(--t-phrase);margin-bottom:8px}
-.compris p{color:var(--charbon);max-width:34ch}
+.compris p{color:var(--charbon);max-width:36ch}
 
 /* ---- les chambres, une à la fois : la photo en grand, les flèches posées dessus, la description dans un encadré blanc ---- */
 .scene{position:relative;aspect-ratio:4/3;border-radius:var(--r-tableau);overflow:hidden;background:var(--brume);touch-action:pan-y;outline-offset:4px}
@@ -142,12 +144,13 @@ figcaption{margin-top:10px;font-size:var(--t-petit);color:var(--cendre);font-fam
 .fiche h3{font-size:var(--t-titre);margin-bottom:12px}
 .fiche h3 em{font-size:.62em;color:var(--cendre)}
 #chFiche>p:first-of-type{color:var(--charbon)}
-.fiche .infos{margin-top:16px;padding-top:12px;border-top:1px solid var(--brume);display:flex;flex-wrap:wrap;gap:4px 18px;font-size:15px;color:var(--charbon)}
+.fiche .infos{margin-top:16px;padding-top:12px;border-top:1px solid var(--brume);display:flex;flex-wrap:wrap;gap:4px 18px;font-size:16px;color:var(--charbon)}
 .fiche .infos b{font-weight:500;color:var(--graphite)}
 
 /* ---- la table : deux tableaux et le menu du soir ---- */
-.table{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:clamp(32px,4vw,64px);align-items:start}
-.table .feu{aspect-ratio:3/2}
+.table{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:clamp(32px,4vw,64px);align-items:stretch}
+.table>figure{display:flex;flex-direction:column}
+.table .feu{flex:1;min-height:320px;aspect-ratio:auto}
 .table .droite{display:grid;gap:28px}
 .table .carte{background:var(--papier);border:1px solid var(--brume);border-radius:var(--r-carte);padding:28px}
 .table .carte h3{font-size:var(--t-phrase);margin-bottom:6px}
@@ -155,7 +158,7 @@ figcaption{margin-top:10px;font-size:var(--t-petit);color:var(--cendre);font-fam
 .table .carte li{display:grid;grid-template-columns:5.5em minmax(0,1fr);gap:12px;align-items:baseline}
 .table .carte li span{font-size:var(--t-petit);color:var(--cendre)}
 .table .carte .prix{margin-top:18px;padding-top:14px;border-top:1px solid var(--brume);display:flex;justify-content:space-between;gap:12px;font-size:15px}
-.table .petitdej{display:grid;grid-template-columns:minmax(0,1fr) 38%;gap:20px;align-items:end}
+.table .petitdej{display:grid;grid-template-columns:minmax(0,1fr) 40%;gap:24px;align-items:center}
 .table .petitdej .tableau{aspect-ratio:4/5}
 
 /* ---- la maison : sa ligne de temps ---- */
@@ -165,7 +168,7 @@ figcaption{margin-top:10px;font-size:var(--t-petit);color:var(--cendre);font-fam
 .temps li::before{content:"";position:absolute;left:0;top:6px;width:11px;height:11px;border-radius:50%;background:var(--parchemin);border:1px solid var(--nuit)}
 .temps li:last-child::before{background:var(--flamme);border-color:var(--flamme)}
 .temps b{display:block;font-family:var(--serif);font-weight:400;font-size:var(--t-phrase);line-height:1.1;margin-bottom:8px}
-.temps p{color:var(--charbon);font-size:15px}
+.temps p{color:var(--charbon);font-size:16px}
 
 /* ---- un tableau en bandeau : le pré derrière la maison ---- */
 .bandeau .tableau{aspect-ratio:21/9}
@@ -180,7 +183,7 @@ figcaption{margin-top:10px;font-size:var(--t-petit);color:var(--cendre);font-fam
 .balades li:first-child{border-top:1px solid var(--brume)}
 .balades b{font-family:var(--serif);font-weight:400;font-size:var(--t-phrase);line-height:1.15}
 .balades .duree{font-size:15px;color:var(--charbon);white-space:nowrap;align-self:center}
-.balades p{grid-column:1/-1;color:var(--charbon);font-size:15px}
+.balades p{grid-column:1/-1;color:var(--charbon);font-size:16px}
 
 /* ---- l'idée : le calendrier des dates libres, mois par mois, et la page du carnet qui s'écrit ---- */
 .sejour{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(28px,4vw,56px);align-items:start}
@@ -232,7 +235,6 @@ footer .legal span{max-width:80ch}
   .top .menu{display:grid}
   .ouverture .dessous{grid-template-columns:minmax(0,1fr)}
   .ouverture .dessous .actions{justify-content:flex-start}
-  .tete{grid-template-columns:minmax(0,1fr)}
   .compris{grid-template-columns:repeat(2,minmax(0,1fr))}
   .compris li:not(:nth-child(3n+1)){padding-left:0;border-left:0}
   .compris li:nth-child(2n){padding-left:24px;border-left:1px solid var(--brume)}
@@ -283,8 +285,8 @@ footer .legal span{max-width:80ch}
 
 <div class="feuille" id="feuille" role="dialog" aria-modal="true" aria-label="Menu">
   <div class="top"><span></span><button class="menu ouvert" type="button" id="closeBtn" aria-label="Fermer le menu"><span class="traits" aria-hidden="true"></span></button></div>
-  <img class="tableau vue" src="../../images/fucone/village.webp" alt="" width="1280" height="548" loading="lazy" decoding="async">
   <nav aria-label="Menu"><a href="#chambres">Les chambres</a><a href="#table">La table</a><a href="#maison">La maison</a><a href="#autour">Autour</a><a href="#sejour">Vos dates</a></nav>
+  <p class="infos-menu"><b>Maison d'hôtes en Castagniccia</b>Quatre chambres, petit-déjeuner compris.<br>Ouvert toute l'année sauf en janvier.</p>
   <div class="bas"><a class="btn" href="tel:+33495000000">Appeler</a><a class="btn bleu" href="#sejour">Vos dates</a></div>
 </div>
 
@@ -386,7 +388,7 @@ footer .legal span{max-width:80ch}
     <div class="autour">
       <img class="tableau" src="../../images/fucone/chemin.webp" alt="Un chemin de terre sous les arbres, le long d'une barrière en bois" width="682" height="853" loading="lazy" decoding="async">
       <div>
-        <div class="tete" style="grid-template-columns:minmax(0,1fr);margin-bottom:32px">
+        <div class="tete" style="margin-bottom:32px">
           <h2 class="grand" id="t-autour">Autour de la maison</h2>
           <p>On part à pied depuis la porte. Les cartes sont dans l'entrée, la gourde aussi.</p>
         </div>

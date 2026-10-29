@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>U Fucone, démo Saitora</title>
+<meta name="description" content="Démo de site vitrine pour une maison d'hôtes en Castagniccia : quatre chambres, la table au coin du feu, la maison et son histoire, les balades, et les dates libres mois par mois. Réalisé par Saitora.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="Saitora">
+<meta property="og:title" content="U Fucone, démo Saitora">
+<meta property="og:description" content="Maison d'hôtes et table au coin du feu, en Castagniccia. Démo réalisée par Saitora.">
+<meta name="theme-color" content="#FEFFFC">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Crect%20width=%2264%22%20height=%2264%22%20rx=%2214%22%20fill=%22%23FEFFFC%22/%3E%3Ctext%20x=%2232%22%20y=%2246%22%20text-anchor=%22middle%22%20font-family=%22Georgia,serif%22%20font-size=%2240%22%20fill=%22%232C2C2C%22%3EU%3C/text%3E%3C/svg%3E">
+<link rel="preload" href="polices/redaction-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="polices/geist-a40a00.css">
+<style>
+/* U Fucone, genre « Récit peint » (fiche : labo/12-u-fucone/style.md), d'après la référence « journal littéraire au coin du feu » :
+   un fond papier presque blanc, une serif fine (Redaction) pour tous les titres, une sans-serif discrète (Geist) pour le reste,
+   de grands tableaux peints posés entre les sections, arrondis de 24 px ; un seul bleu, en contour sur l'action principale ;
+   des filets vert-gris seulement sur les cartes blanches et les champs. Le fucone, c'est l'âtre de la maison corse :
+   un point orange sur la ligne de temps est le seul autre éclat de couleur. */
+@font-face{font-family:"Redaction";font-style:normal;font-weight:400;font-display:swap;src:url(polices/redaction-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Redaction";font-style:italic;font-weight:400;font-display:swap;src:url(polices/redaction-latin-400-italic.woff2) format("woff2")}
+:root{
+  --parchemin:#FEFFFC; --papier:#FFFFFF; --lin:#F9FAF7;
+  --encre:#171717; --graphite:#2C2C2C; --charbon:#444141; --cendre:#646464; --brume:#DEE2DE; --nuit:#282834; --soir:#1F1F29;
+  --bleu:#41A1CF; --bleu-fonce:#1F7FAE; --flamme:#E8743B;
+  --serif:"Redaction",Georgia,"Times New Roman",serif; --sans:"Geist",system-ui,-apple-system,"Segoe UI",sans-serif;
+  /* cinq tailles */
+  --t-grand:clamp(2.6rem,1.5rem + 4.4vw,4.75rem);     /* 76 px : le nom, les titres de section */
+  --t-titre:clamp(2rem,1.4rem + 2.2vw,3rem);          /* 48 px */
+  --t-phrase:clamp(1.4rem,1.15rem + 1vw,1.75rem);     /* 28 px : phrases posées, noms de chambre */
+  --t-texte:1.0625rem;                                 /* 17 px */
+  --t-petit:.875rem;                                   /* 14 px */
+  --m:clamp(18px,4vw,64px); --entre:clamp(112px,12vw,192px);
+  --r-tableau:24px; --r-carte:14px; --r-bouton:8px;
+  --doux:cubic-bezier(.2,.7,.2,1);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--parchemin);color:var(--graphite);font:400 var(--t-texte)/1.55 var(--sans);letter-spacing:-.01em;-webkit-tap-highlight-color:transparent;overflow-x:clip}
+/* grain de papier, très discret */
+body::before{content:"";position:fixed;inset:0;z-index:100;pointer-events:none;opacity:.028;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23g)'/%3E%3C/svg%3E")}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+h1,h2,h3,p,ul,ol,figure,dl,dd{margin:0}
+ul,ol{list-style:none;padding:0}
+p{max-width:64ch}
+h1,h2,h3{font-family:var(--serif);font-weight:400;letter-spacing:-.02em;line-height:1.08;text-wrap:balance;color:var(--graphite)}
+button,input,select,textarea{font:inherit;color:inherit;letter-spacing:inherit}
+:focus-visible{outline:2px solid var(--bleu);outline-offset:3px;border-radius:4px}
+.page{width:min(1240px,100%);margin-inline:auto;padding-inline:var(--m)}
+.grand{font-size:var(--t-grand)}
+.titre{font-size:var(--t-titre)}
+.phrase{font-family:var(--serif);font-size:var(--t-phrase);line-height:1.3;letter-spacing:-.02em}
+.petit{font-size:var(--t-petit);line-height:1.45}
+.doux{color:var(--cendre)}
+em{font-style:italic}
+.tableau{width:100%;object-fit:cover;border-radius:var(--r-tableau);background:var(--brume)}
+figcaption{margin-top:10px;font-size:var(--t-petit);color:var(--cendre);font-family:var(--serif);font-style:italic;letter-spacing:0}
+
+/* boutons : l'action principale en contour bleu (8 px), la seconde en contour de nuit ; les liens soulignés avec une flèche */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6em;min-height:46px;padding:10px 18px;border:1px solid var(--nuit);border-radius:var(--r-bouton);background:none;color:var(--nuit);font-size:15px;font-weight:500;text-decoration:none;cursor:pointer;white-space:nowrap;transition:background-color .2s,color .2s,transform .15s}
+.btn.bleu{border-color:var(--bleu);color:var(--bleu-fonce)}
+.btn .rond{display:inline-grid;place-items:center;width:22px;height:22px;border:1px solid currentColor;border-radius:50%;font-size:12px;transition:transform .25s var(--doux)}
+@media (hover:hover) and (pointer:fine){.btn:hover{background:var(--nuit);color:#fff}.btn.bleu:hover{background:var(--bleu);color:#fff}.btn:hover .rond{transform:translateX(3px)}}
+.btn:active{transform:scale(.97)}
+.btn.plein{background:var(--soir);border-color:var(--soir);color:#fff}
+.lien{display:inline-flex;align-items:center;gap:.4em;min-height:44px;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.3em;text-decoration-color:var(--brume);transition:text-decoration-color .2s}
+.lien::after{content:"→";transition:transform .25s var(--doux)}
+@media (hover:hover) and (pointer:fine){.lien:hover{text-decoration-color:currentColor}.lien:hover::after{transform:translateX(4px)}}
+
+.demo{padding:9px var(--m);text-align:center;font-size:13px;color:var(--cendre);background:var(--lin);max-width:none}
+
+/* ---- en-tête classique : le nom et sa flamme, quatre liens, l'action ---- */
+.top{display:flex;align-items:center;justify-content:flex-end;gap:24px;padding-block:18px}
+.top nav{margin-right:auto}
+.top nav .reserver{margin-left:auto}
+.top nav{flex:1;display:flex;align-items:center;gap:28px;font-size:15px;font-weight:500;color:var(--charbon)}
+.top nav a:not(.btn){text-decoration:none;padding:10px 0}
+@media (hover:hover) and (pointer:fine){.top nav a:hover{color:var(--encre);text-decoration:underline;text-underline-offset:.35em;text-decoration-color:var(--brume)}}
+.top .menu{display:none;width:46px;height:46px;padding:0;border:1px solid var(--nuit);border-radius:var(--r-bouton);background:none;cursor:pointer;place-items:center}
+.traits{position:relative;width:18px;height:10px}
+.traits::before,.traits::after{content:"";position:absolute;left:0;width:100%;height:1.5px;background:currentColor;transition:transform .3s var(--doux),top .3s var(--doux)}
+.traits::before{top:0}.traits::after{top:8.5px}
+.ouvert .traits::before{top:4.25px;transform:rotate(45deg)}
+.ouvert .traits::after{top:4.25px;transform:rotate(-45deg)}
+.feuille{position:fixed;inset:0;z-index:30;background:var(--parchemin);display:none;flex-direction:column;padding:0 var(--m) max(20px,env(safe-area-inset-bottom));overflow:auto;overscroll-behavior:contain}
+.feuille.open{display:flex;animation:ouvre .3s ease both}
+@keyframes ouvre{from{opacity:0}}
+.feuille .top{padding-top:var(--haut,18px)}
+.feuille .menu{display:grid}
+.feuille nav{margin-top:clamp(24px,6vh,56px);display:grid}
+.feuille nav a{font-family:var(--serif);font-size:clamp(2.2rem,10vw,3.2rem);line-height:1.15;letter-spacing:-.02em;text-decoration:none;padding:6px 0;display:flex;justify-content:space-between;align-items:center}
+.feuille nav a::after{content:"→";font-family:var(--sans);font-size:.45em;color:var(--cendre)}
+.feuille .infos-menu{margin-top:auto;padding-top:28px;font-size:15px;color:var(--charbon);line-height:1.6}
+.feuille .infos-menu b{display:block;font-family:var(--serif);font-weight:400;font-size:var(--t-phrase);color:var(--graphite);margin-bottom:4px}
+.feuille .bas{margin-top:20px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* ---- ouverture « fenêtre » : le tableau du pré dans un grand cadre arrondi, le nom réparti de part et d'autre ---- */
+.ouverture{padding-top:clamp(12px,3vw,40px)}
+.fenetre-h{--F:clamp(3rem,1rem + 7.4vw,8.25rem);position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,5.2fr) minmax(0,1fr);align-items:center;margin-top:calc(var(--F) * .78);margin-bottom:calc(var(--F) * 1.15)}
+.fenetre-h .tableau{grid-column:2;grid-row:1;aspect-ratio:16/9;max-height:68svh}
+.fenetre-h h1{display:contents}
+.fenetre-h h1 span{font-size:var(--F);line-height:.95;letter-spacing:-.045em;position:relative;z-index:2;grid-row:1}
+/* le nom pose ses pieds sur le bord haut du tableau, dans le ciel ; « maison d'hôtes » est tout entier dessous : rien de foncé sur le pré */
+.fenetre-h h1 .g{grid-column:1/3;justify-self:start;align-self:start;transform:translateY(-80%)}
+.fenetre-h h1 .d{grid-column:2/4;justify-self:end;align-self:end;transform:translateY(98%)}
+.ouverture .dessous{margin-top:clamp(28px,3vw,48px);display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:24px 64px;align-items:end}
+.ouverture .dessous .actions{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-content:flex-end}
+
+.sec{padding-top:var(--entre)}
+/* en-tête de section : le titre sur une ligne, son texte d'introduction juste dessous, sur la même marge */
+.tete{display:grid;gap:18px;margin-bottom:clamp(40px,5vw,64px)}
+.tete p{color:var(--charbon);font-size:1.1875rem;line-height:1.55;max-width:52ch}
+
+/* ---- ce qui est compris : une grille de trois, séparée par des filets ---- */
+.compris{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--brume)}
+.compris li{padding:28px 28px 32px 0;border-bottom:1px solid var(--brume)}
+.compris li:not(:nth-child(3n+1)){padding-left:28px;border-left:1px solid var(--brume)}
+.compris h3{font-size:var(--t-phrase);margin-bottom:8px}
+.compris p{color:var(--charbon);max-width:36ch}
+
+/* ---- les chambres, une à la fois : la photo en grand, les flèches posées dessus, la description dans un encadré blanc ---- */
+.scene{position:relative;aspect-ratio:4/3;border-radius:var(--r-tableau);overflow:hidden;background:var(--brume);touch-action:pan-y;outline-offset:4px}
+.scene>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .7s ease}
+.scene>img.vu{opacity:1}
+.scene .fl{position:absolute;top:50%;z-index:3;width:52px;height:52px;margin-top:-26px;border:0;border-radius:50%;background:rgba(255,255,255,.92);color:var(--nuit);font-size:20px;cursor:pointer;display:grid;place-items:center;transition:transform .2s var(--doux),background-color .2s}
+.scene .fl.g{left:16px}.scene .fl.d{right:16px}
+@media (hover:hover) and (pointer:fine){.scene .fl:hover{background:#fff;transform:scale(1.08)}}
+.scene .fl:active{transform:scale(.94)}
+.scene .points{position:absolute;right:28px;bottom:26px;z-index:2;display:flex;gap:10px}
+.scene .points button{width:10px;height:10px;padding:0;border-radius:50%;border:0;background:rgba(255,255,255,.55);cursor:pointer;position:relative}
+.scene .points button[aria-current="true"]{background:#fff}
+.scene .points button::before{content:"";position:absolute;inset:-17px}
+/* la description : un encadré blanc posé en bas à gauche de la photo, toujours visible */
+/* la description à côté de la photo, à la même hauteur : rien n'est posé sur la photo */
+.chambres{display:grid;grid-template-columns:minmax(0,1.75fr) minmax(0,1fr);gap:28px clamp(32px,4vw,56px);align-items:center}
+.fiche .num{font-size:var(--t-petit);color:var(--cendre);margin-bottom:14px}
+.fiche .dejeuner{margin-top:18px;font-size:var(--t-petit);color:var(--cendre)}
+.fiche h3{font-size:var(--t-titre);margin-bottom:12px}
+.fiche h3 em{font-size:.62em;color:var(--cendre)}
+#chFiche>p:first-of-type{color:var(--charbon)}
+.fiche .infos{margin-top:16px;padding-top:12px;border-top:1px solid var(--brume);display:flex;flex-wrap:wrap;gap:4px 18px;font-size:16px;color:var(--charbon)}
+.fiche .infos b{font-weight:500;color:var(--graphite)}
+
+/* ---- la table : deux tableaux et le menu du soir ---- */
+.table{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:clamp(32px,4vw,64px);align-items:stretch}
+.table>figure{display:flex;flex-direction:column}
+.table .feu{flex:1;min-height:320px;aspect-ratio:auto}
+.table .droite{display:grid;gap:28px}
+.table .carte{background:var(--papier);border:1px solid var(--brume);border-radius:var(--r-carte);padding:28px}
+.table .carte h3{font-size:var(--t-phrase);margin-bottom:6px}
+.table .carte ol{margin-top:14px;display:grid;gap:12px}
+.table .carte li{display:grid;grid-template-columns:5.5em minmax(0,1fr);gap:12px;align-items:baseline}
+.table .carte li span{font-size:var(--t-petit);color:var(--cendre)}
+.table .carte .prix{margin-top:18px;padding-top:14px;border-top:1px solid var(--brume);display:flex;justify-content:space-between;gap:12px;font-size:15px}
+.table .petitdej{display:grid;grid-template-columns:minmax(0,1fr) 40%;gap:24px;align-items:center}
+.table .petitdej .tableau{aspect-ratio:4/5}
+
+/* ---- la maison : sa ligne de temps ---- */
+.temps{position:relative;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:24px}
+.temps::before{content:"";position:absolute;left:0;right:0;top:11px;height:1px;background:var(--brume)}
+.temps li{position:relative;padding-top:40px}
+.temps li::before{content:"";position:absolute;left:0;top:6px;width:11px;height:11px;border-radius:50%;background:var(--parchemin);border:1px solid var(--nuit)}
+.temps li:last-child::before{background:var(--flamme);border-color:var(--flamme)}
+.temps b{display:block;font-family:var(--serif);font-weight:400;font-size:var(--t-phrase);line-height:1.1;margin-bottom:8px}
+.temps p{color:var(--charbon);font-size:16px}
+
+/* ---- un tableau en bandeau : le pré derrière la maison ---- */
+.bandeau .tableau{aspect-ratio:21/9}
+.ancien-bloc{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:32px clamp(32px,4vw,64px);align-items:end;margin-bottom:clamp(48px,6vw,80px)}
+.ancien-bloc .phrase{max-width:28ch;padding-bottom:36px}
+.ancien .tableau{aspect-ratio:3/2}
+
+/* ---- autour : les pics, et les balades ---- */
+.autour{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:clamp(32px,4vw,64px);align-items:start}
+.autour .tableau{aspect-ratio:4/5}
+.balades li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 20px;padding:20px 0;border-bottom:1px solid var(--brume)}
+.balades li:first-child{border-top:1px solid var(--brume)}
+.balades b{font-family:var(--serif);font-weight:400;font-size:var(--t-phrase);line-height:1.15}
+.balades .duree{font-size:15px;color:var(--charbon);white-space:nowrap;align-self:center}
+.balades p{grid-column:1/-1;color:var(--charbon);font-size:16px}
+
+/* ---- l'idée : le calendrier des dates libres, mois par mois, et la page du carnet qui s'écrit ---- */
+.sejour{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(28px,4vw,56px);align-items:start}
+.mois,.qui{display:flex;flex-wrap:wrap;gap:8px}
+.mois button,.qui button{min-height:44px;padding:8px 14px;border:1px solid var(--brume);border-radius:var(--r-bouton);background:var(--papier);cursor:pointer;font-size:15px;font-weight:500;color:var(--charbon);transition:border-color .2s,background-color .2s,color .2s}
+.mois button[aria-pressed="true"],.qui button[aria-pressed="true"]{border-color:var(--nuit);background:var(--nuit);color:#fff}
+@media (hover:hover) and (pointer:fine){.mois button:not([aria-pressed="true"]):hover,.qui button:not([aria-pressed="true"]):hover{border-color:var(--nuit)}}
+.choix-chambre{margin-top:14px}
+.cal{margin-top:20px;background:var(--papier);border:1px solid var(--brume);border-radius:var(--r-carte);padding:18px}
+.cal .jours{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;text-align:center}
+.cal .jours .nom{font-size:12px;color:var(--cendre);padding-bottom:6px}
+.cal .jours button{aspect-ratio:1;min-height:40px;border:0;border-radius:6px;background:none;cursor:pointer;font-size:15px;font-variant-numeric:tabular-nums;color:var(--graphite);position:relative}
+.cal .jours button.libre{background:var(--lin);box-shadow:inset 0 0 0 1px var(--brume)}
+.cal .jours button.pris{color:#B8BCB8;text-decoration:line-through;cursor:not-allowed}
+.cal .jours button.dans{background:#E3F1F8;box-shadow:none}
+.cal .jours button.bout{background:var(--bleu);color:#fff;box-shadow:none}
+@media (hover:hover) and (pointer:fine){.cal .jours button.libre:hover{box-shadow:inset 0 0 0 1px var(--bleu)}}
+.cal .legende{margin-top:14px;display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13px;color:var(--cendre)}
+.cal .legende i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px;background:var(--lin);box-shadow:inset 0 0 0 1px var(--brume)}
+.cal .legende i.p{background:none;box-shadow:none;border-bottom:1px solid #B8BCB8;border-radius:0;height:7px}
+.carnet{position:sticky;top:20px;background:var(--papier);border:1px solid var(--brume);border-radius:var(--r-carte);padding:clamp(22px,3vw,34px);display:grid;gap:16px}
+.carnet .date{font-size:var(--t-petit);color:var(--cendre)}
+.carnet .ecrit{font-family:var(--serif);font-size:1.3rem;line-height:1.45;letter-spacing:-.015em;color:var(--graphite);min-height:7.2em}
+.carnet .total{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-top:14px;border-top:1px solid var(--brume);font-size:15px;color:var(--charbon)}
+.carnet .total b{font-family:var(--serif);font-weight:400;font-size:var(--t-phrase);color:var(--graphite)}
+.carnet form{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.carnet label{display:grid;gap:4px;font-size:13px;color:var(--cendre)}
+.carnet input{width:100%;min-height:46px;padding:10px 12px;border:0;border-bottom:1px solid var(--charbon);border-radius:0;background:var(--lin);font-size:16px;color:var(--charbon)}
+.carnet form .btn{grid-column:1/-1;justify-self:start}
+.carnet form[hidden]{display:none}
+.carnet .merci{font-size:15px;color:var(--charbon)}
+
+/* ---- pied de page : infos pratiques ---- */
+footer{margin-top:var(--entre);background:var(--papier);border-top:1px solid var(--brume);padding-block:clamp(56px,7vw,96px) calc(28px + env(safe-area-inset-bottom))}
+footer .mot{font-family:var(--serif);font-size:var(--t-titre);line-height:1.1;letter-spacing:-.02em;max-width:22ch}
+footer .infos{margin-top:clamp(40px,5vw,64px);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px}
+footer .infos h2{font-family:var(--sans);font-size:13px;font-weight:500;letter-spacing:0;color:var(--cendre);margin-bottom:10px}
+footer .infos p,footer .infos a{font-size:15px;color:var(--charbon)}
+footer .infos a{display:block;text-decoration:none;padding:3px 0}
+@media (hover:hover) and (pointer:fine){footer .infos a:hover{text-decoration:underline;text-underline-offset:.3em}}
+footer .legal{margin-top:clamp(48px,6vw,80px);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px 28px;font-size:13px;color:var(--cendre)}
+footer .legal span{max-width:80ch}
+
+.dock{position:fixed;inset:auto 0 0;z-index:20;display:none;grid-template-columns:1fr 1fr;gap:8px;padding:10px var(--m) max(10px,env(safe-area-inset-bottom));background:var(--parchemin);border-top:1px solid var(--brume);transform:translateY(110%);transition:transform .35s var(--doux)}
+.dock.on{transform:none}
+
+@media (max-width:1000px){
+  .top nav,.top .reserver{display:none}
+  .top .menu{display:grid}
+  .ouverture .dessous{grid-template-columns:minmax(0,1fr)}
+  .ouverture .dessous .actions{justify-content:flex-start}
+  .compris{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .compris li:not(:nth-child(3n+1)){padding-left:0;border-left:0}
+  .compris li:nth-child(2n){padding-left:24px;border-left:1px solid var(--brume)}
+  .chambres,.table,.autour,.sejour,.ancien-bloc{grid-template-columns:minmax(0,1fr)}
+  .scene{aspect-ratio:4/3}
+  .ancien-bloc .phrase{padding-bottom:0}
+  .autour .tableau{aspect-ratio:16/10}
+  .temps{grid-template-columns:minmax(0,1fr);gap:0}
+  .temps::before{left:5px;right:auto;top:0;bottom:0;width:1px;height:auto}
+  .temps li{padding:0 0 28px 36px}
+  .temps li::before{top:8px}
+  .carnet{position:static}
+  footer .infos{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .dock{display:grid}
+  body{padding-bottom:72px}
+}
+@media (max-width:620px){
+  .fiche h3{font-size:var(--t-phrase)}
+  .scene .fl{width:44px;height:44px;margin-top:0;top:14px}
+  .scene .fl.g{left:10px}.scene .fl.d{right:10px}
+  .scene .points{right:auto;left:50%;transform:translateX(-50%);bottom:auto;top:30px}
+  .fenetre-h{grid-template-columns:minmax(0,1fr);margin-block:0}
+  .fenetre-h .tableau{grid-column:1!important;grid-row:2;aspect-ratio:4/5;max-height:none;object-position:42% 50%}
+  .fenetre-h h1 span{grid-column:1!important;font-size:clamp(3.4rem,17vw,5rem)}
+  .fenetre-h h1 .g{grid-row:1;margin:0 0 -.17em;justify-self:start;transform:none}
+  .fenetre-h h1 .d{grid-row:3;margin:.08em 0 0;justify-self:end;transform:none;text-align:right}
+  .compris{grid-template-columns:minmax(0,1fr)}
+  .compris li,.compris li:nth-child(2n){padding:22px 0;border-left:0}
+  .table .petitdej{grid-template-columns:minmax(0,1fr)}
+  .table .petitdej .tableau{width:70%;justify-self:end}
+  .bandeau .tableau{aspect-ratio:4/3}
+  .carnet form{grid-template-columns:minmax(0,1fr)}
+  footer .infos{grid-template-columns:minmax(0,1fr)}
+  .cal{padding:12px}
+}
+</style>
+</head>
+<body>
+<p class="demo">Site de démonstration réalisé par Saitora : la maison d'hôtes est fictive ; le tableau de l'ouverture et les photos viennent de Pixabay.</p>
+
+
+<div class="page">
+  <header class="top" id="haut">
+    <nav aria-label="Sections"><a href="#chambres">Les chambres</a><a href="#table">La table</a><a href="#maison">La maison</a><a href="#autour">Autour</a><a class="btn bleu reserver" href="#sejour">Vos dates <span class="rond" aria-hidden="true">→</span></a></nav>
+    <button class="menu" type="button" id="menuBtn" aria-expanded="false" aria-controls="feuille" aria-label="Ouvrir le menu"><span class="traits" aria-hidden="true"></span></button>
+  </header>
+</div>
+
+<div class="feuille" id="feuille" role="dialog" aria-modal="true" aria-label="Menu">
+  <div class="top"><span></span><button class="menu ouvert" type="button" id="closeBtn" aria-label="Fermer le menu"><span class="traits" aria-hidden="true"></span></button></div>
+  <nav aria-label="Menu"><a href="#chambres">Les chambres</a><a href="#table">La table</a><a href="#maison">La maison</a><a href="#autour">Autour</a><a href="#sejour">Vos dates</a></nav>
+  <p class="infos-menu"><b>Maison d'hôtes en Castagniccia</b>Quatre chambres, petit-déjeuner compris.<br>Ouvert toute l'année sauf en janvier.</p>
+  <div class="bas"><a class="btn" href="tel:+33495000000">Appeler</a><a class="btn bleu" href="#sejour">Vos dates</a></div>
+</div>
+
+<main>
+  <section class="page ouverture" id="ouverture" aria-labelledby="t-nom">
+    <div class="fenetre-h">
+      <h1 id="t-nom"><span class="g">U&nbsp;Fucone,</span><span class="d"><em>maison d'hôtes</em></span></h1>
+      <img class="tableau" src="images/fucone/pre.webp" alt="Un pré fleuri sous un grand ciel d'été, des arbres sombres au loin (illustration)" width="1280" height="720" fetchpriority="high" decoding="async">
+    </div>
+    <div class="dessous">
+      <p class="phrase">Quatre chambres et une table au coin du feu, en Castagniccia, à une heure de Bastia.</p>
+      <div class="actions"><a class="lien" href="#chambres">Voir les chambres</a><a class="btn bleu" href="#sejour">Choisir vos dates <span class="rond" aria-hidden="true">→</span></a></div>
+    </div>
+  </section>
+
+  <section class="page sec" id="compris" aria-labelledby="t-compris">
+    <div class="tete">
+      <h2 class="grand" id="t-compris">Ce qui vous attend</h2>
+      <p>Le <em>fucone</em>, c'est l'âtre de la maison corse : on y cuisait, on s'y chauffait, on y faisait sécher les châtaignes. Ici, il est allumé chaque soir d'octobre à mai.</p>
+    </div>
+    <ul class="compris">
+      <li><h3>Le petit-déjeuner</h3><p>Pain de la veille grillé, confiture de châtaignes, brocciu et fruits du jardin. Compris dans le prix.</p></li>
+      <li><h3>Le dîner au feu</h3><p>Le soir, une seule table pour tous les hôtes. 35&nbsp;€ par personne, à réserver la veille.</p></li>
+      <li><h3>La cheminée</h3><p>Allumée à 18&nbsp;h, d'octobre à mai. Le bois vient de la châtaigneraie derrière la maison.</p></li>
+      <li><h3>Les balades</h3><p>Les cartes sont prêtées, le pique-nique est préparé sur demande pour le lendemain.</p></li>
+      <li><h3>L'eau d'Orezza</h3><p>La source est à vingt minutes à pied. Une carafe vous attend dans la chambre.</p></li>
+      <li><h3>Le linge</h3><p>Draps, serviettes et peignoirs fournis. Arrivée après 16&nbsp;h, départ avant 11&nbsp;h.</p></li>
+    </ul>
+  </section>
+
+  <section class="page sec" id="chambres" aria-labelledby="t-chambres">
+    <div class="tete">
+      <h2 class="grand" id="t-chambres">Les quatre chambres</h2>
+      <p>Chacune porte le nom de ce qu'on y voit en premier en ouvrant les yeux. Le petit-déjeuner est compris dans tous les prix.</p>
+    </div>
+    <div class="chambres">
+      <div class="scene" id="chScene" tabindex="0" role="group" aria-roledescription="diaporama" aria-label="Les chambres : flèches pour passer de l'une à l'autre">
+        <div id="chImgs" style="display:contents"></div>
+        <button class="fl g" type="button" id="chAvant" aria-label="Chambre précédente">←</button>
+        <button class="fl d" type="button" id="chApres" aria-label="Chambre suivante">→</button>
+        <div class="points" id="chPoints"></div>
+      </div>
+      <div class="fiche">
+        <p class="num" id="chNum"></p>
+        <div id="chFiche" aria-live="polite"></div>
+        <p class="dejeuner">Petit-déjeuner compris dans tous les prix.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="page sec" id="table" aria-labelledby="t-table">
+    <div class="tete">
+      <h2 class="grand" id="t-table">La table du soir</h2>
+      <p>On dîne tous ensemble, devant le feu, ce que la saison et le voisin ont apporté. Prévenez-nous la veille d'une allergie ou d'un régime.</p>
+    </div>
+    <div class="table">
+      <figure><img class="tableau feu" src="images/fucone/atre.webp" alt="Le feu de bois dans l'âtre voûté en pierre" width="1231" height="821" loading="lazy" decoding="async"><figcaption>Le soir, le fucone est le seul endroit où l'on a envie d'être.</figcaption></figure>
+      <div class="droite">
+        <div class="carte">
+          <h3>Ce soir, par exemple</h3>
+          <p class="petit doux">Le menu change chaque jour.</p>
+          <ol>
+            <li><span>Pour commencer</span>Soupe corse aux haricots et aux herbes du maquis</li>
+            <li><span>Puis</span>Veau aux olives, pulenda de farine de châtaigne</li>
+            <li><span>Le fromage</span>Tomme de brebis du berger d'à côté</li>
+            <li><span>Pour finir</span>Fiadone au brocciu et au citron</li>
+          </ol>
+          <p class="prix"><span>Le dîner, vin du domaine voisin compris</span><span>35&nbsp;€</span></p>
+        </div>
+        <div class="petitdej">
+          <p>Le matin, la table est mise près de la fenêtre à partir de 8&nbsp;h. On prend son temps : le premier car pour Bastia ne passe qu'à 10&nbsp;h.</p>
+          <img class="tableau" src="images/fucone/petit-dejeuner.webp" alt="Le petit-déjeuner : croissant, confiture, miel, pain et café" width="682" height="853" loading="lazy" decoding="async">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page sec" id="maison" aria-labelledby="t-maison">
+    <div class="tete">
+      <h2 class="grand" id="t-maison">L'histoire de la maison</h2>
+      <p>Deux cents ans de feux allumés, avec une longue pause au milieu.</p>
+    </div>
+    <div class="ancien-bloc"><figure class="ancien"><img class="tableau" src="images/fucone/fucone-ancien.webp" alt="Un âtre ancien dans une pièce en pierre, le chaudron suspendu au-dessus du feu" width="1204" height="803" loading="lazy" decoding="async"><figcaption>Le fucone comme il était avant 1961, le chaudron pendu à la crémaillère.</figcaption></figure>
+      <p class="phrase">La claie est toujours là, au-dessus de l'âtre. En novembre, on y sèche encore quelques châtaignes : elles finissent en farine, dans le fiadone du dimanche.</p></div>
+    <ol class="temps">
+      <li><b>1784</b><p>Un meunier bâtit la maison en pierre au-dessus de son moulin à châtaignes.</p></li>
+      <li><b>1890</b><p>Le fucone est agrandi : on y sèche les châtaignes sur la claie, tout l'hiver.</p></li>
+      <li><b>1961</b><p>La famille part à Bastia. Les volets restent fermés pendant soixante ans.</p></li>
+      <li><b>2019</b><p>Anna et Petru, les arrière-petits-enfants, rouvrent la maison et rallument le feu.</p></li>
+      <li><b>Aujourd'hui</b><p>Quatre chambres, une table, et la claie de 1890 toujours au-dessus de l'âtre.</p></li>
+    </ol>
+  </section>
+
+  <section class="page sec bandeau" aria-label="Le village">
+    <figure><img class="tableau" src="images/fucone/village.webp" alt="Un village de Haute-Corse et son clocher, la montagne derrière" width="1280" height="548" loading="lazy" decoding="async"><figcaption>Le village voisin et son clocher, à vingt minutes à pied par le chemin des châtaigniers.</figcaption></figure>
+  </section>
+
+  <section class="page sec" id="autour" aria-labelledby="t-autour">
+    <div class="autour">
+      <img class="tableau" src="images/fucone/chemin.webp" alt="Un chemin de terre sous les arbres, le long d'une barrière en bois" width="682" height="853" loading="lazy" decoding="async">
+      <div>
+        <div class="tete" style="margin-bottom:32px">
+          <h2 class="grand" id="t-autour">Autour de la maison</h2>
+          <p>On part à pied depuis la porte. Les cartes sont dans l'entrée, la gourde aussi.</p>
+        </div>
+        <ul class="balades">
+          <li><b>La source d'Orezza</b><span class="duree">40&nbsp;min aller-retour</span><p>L'eau pétillante sort de la roche, on la boit à la fontaine.</p></li>
+          <li><b>Le couvent en ruine</b><span class="duree">1&nbsp;h&nbsp;30</span><p>Par le chemin muletier, sous les châtaigniers, jusqu'aux murs du couvent d'Orezza.</p></li>
+          <li><b>Le moulin de la maison</b><span class="duree">15&nbsp;min</span><p>En descendant au ruisseau. La meule est toujours là, la roue aussi.</p></li>
+          <li><b>Le Monte San Petrone</b><span class="duree">5&nbsp;h</span><p>Le sommet de la Castagniccia. Par temps clair, on voit la mer et l'île d'Elbe.</p></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="page sec" id="sejour" aria-labelledby="t-sejour">
+    <div class="tete">
+      <h2 class="grand" id="t-sejour">Choisir vos dates</h2>
+      <p>Choisissez le mois et la chambre, touchez le jour d'arrivée puis celui du départ : la page de votre séjour s'écrit à côté. On vous répond dans la journée.</p>
+    </div>
+    <div class="sejour">
+      <div>
+        <div class="mois" id="mois" role="group" aria-label="Mois"></div>
+        <div class="qui choix-chambre" id="qui" role="group" aria-label="Chambre"></div>
+        <div class="cal"><div class="jours" id="jours"></div>
+          <p class="legende"><span><i></i>libre</span><span><i class="p"></i>déjà pris</span><span>Fermé en janvier</span></p></div>
+      </div>
+      <div class="carnet" id="carnet">
+        <p class="date" id="cDate">Votre séjour</p>
+        <p class="ecrit" id="cEcrit">Touchez un jour libre dans le calendrier : c'est le jour où vous arrivez.</p>
+        <p class="total"><span id="cDetail">Petit-déjeuner compris</span><b id="cPrix">—</b></p>
+        <form id="cForm" hidden novalidate>
+          <label for="cNom">Votre prénom<input id="cNom" autocomplete="given-name"></label>
+          <label for="cTel">Téléphone ou e-mail<input id="cTel" autocomplete="email"></label>
+          <button class="btn bleu" type="submit">Demander ces dates <span class="rond" aria-hidden="true">→</span></button>
+        </form>
+        <p class="merci" id="cMerci" aria-live="polite"></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="page">
+    <p class="mot">Le feu est allumé à partir de 18&nbsp;h. On vous attend.</p>
+    <div class="infos">
+      <div><h2>Venir</h2><p>U Fucone, hameau de la Fontaine<br>Castagniccia, Haute-Corse<br>1&nbsp;h de Bastia, 50&nbsp;min de Corte</p></div>
+      <div><h2>Nous joindre</h2><a href="tel:+33495000000">04 95 00 00 00</a><a href="mailto:bonjour@ufucone.fr">bonjour@ufucone.fr</a><p class="doux" style="font-size:14px">Ouvert toute l'année sauf en janvier.</p></div>
+      <div><h2>La maison</h2><a href="#chambres">Les chambres</a><a href="#table">La table</a><a href="#autour">Autour</a><a href="#sejour">Choisir vos dates</a></div>
+    </div>
+    <div class="legal"><span>© U Fucone, maison d'hôtes fictive. Site réalisé par <a href="accueil.html">Saitora</a>.</span><span>Tableau de l'ouverture : Facusio. Photos : simonefer, TheDigitalArtist, FernandoZ, jackmac34, Alexas_Fotos, guvo59, Jerzy Górecki, Zotx (Pixabay).</span></div>
+  </div>
+</footer>
+
+<nav class="dock" id="dock" aria-label="Accès rapide"><a class="btn" href="tel:+33495000000">Appeler</a><a class="btn bleu" href="#sejour">Vos dates</a></nav>
+
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[m]);
+const calme = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+// ——— les quatre chambres : [nom, ce qu'il veut dire, tableau, texte, personnes, lit, prix la nuit]
+const CH = [
+  ["A Trave", "la poutre", "chambre-poutres", "La plus ancienne, sous les poutres de châtaignier. Un lit en fer forgé, deux lampes de chevet et un pan de mur en pierre laissé nu.", "2 personnes", "Un lit de 160", 95],
+  ["U Sole", "le soleil", "chambre-jardin", "Au levant, une grande fenêtre sur le jardin et du lin sur le lit. Le soleil entre dès 7 h ; on laisse la fenêtre ouverte pour entendre le ruisseau.", "2 personnes", "Un lit de 160", 105],
+  ["A Nichja", "la niche", "chambre-niche", "La niche creusée dans le mur, l'armoire de la grand-mère, la couverture tissée à Bastia, et la vallée derrière la fenêtre.", "2 personnes", "Deux lits de 90 ou un de 180", 90],
+  ["A Casetta", "la maisonnette", "maisonnette", "La petite maison en pierre au fond du jardin, rien que pour vous, avec sa terrasse sous les lauriers-roses.", "2 personnes", "Un lit de 160", 120],
+];
+let ch = 0;
+const scene = $("chScene");
+$("chImgs").outerHTML = CH.map(([n, , img], i) => `<img class="${i ? "" : "vu"}" src="images/fucone/${img}.webp" alt="La chambre ${n}" loading="${i ? "lazy" : "eager"}" decoding="async">`).join("");
+$("chPoints").innerHTML = CH.map(([n], i) => `<button type="button" aria-label="${n}" data-i="${i}"></button>`).join("");
+function montreChambre(i) {
+  ch = (i + CH.length) % CH.length; const [n, sens, , txt, pers, lit, prix] = CH[ch];
+  scene.querySelectorAll(":scope>img").forEach((im, k) => im.classList.toggle("vu", k === ch));
+  $("chFiche").innerHTML = `<h3>${esc(n)} <em>${esc(sens)}</em></h3><p>${esc(txt)}</p><p class="infos"><span>${pers}</span><span>${lit}</span><span><b>${prix}&nbsp;€</b> la nuit</span></p>`;
+  $("chNum").textContent = `Chambre ${ch + 1} sur ${CH.length}`;
+  [...$("chPoints").children].forEach((b, k) => b.setAttribute("aria-current", k === ch));
+}
+scene.addEventListener("keydown", e => { if (e.key === "ArrowRight") montreChambre(ch + 1); if (e.key === "ArrowLeft") montreChambre(ch - 1); });
+$("chAvant").addEventListener("click", () => montreChambre(ch - 1));
+$("chApres").addEventListener("click", () => montreChambre(ch + 1));
+$("chPoints").addEventListener("click", e => { const b = e.target.closest("button"); if (b) montreChambre(+b.dataset.i); });
+// au doigt : on glisse sur la photo pour passer à la chambre suivante
+let x0 = null;
+scene.addEventListener("pointerdown", e => { if (e.pointerType !== "mouse" && !e.target.closest("button")) x0 = e.clientX; });
+scene.addEventListener("pointerup", e => { if (x0 === null) return; const dx = e.clientX - x0; x0 = null; if (Math.abs(dx) > 40) montreChambre(ch + (dx < 0 ? 1 : -1)); });
+montreChambre(0);
+
+// ——— le calendrier : les six prochains mois, la maison est fermée en janvier ; les jours déjà pris sont tirés d'une graine
+// (démo : toujours les mêmes pour une date donnée). On touche l'arrivée, puis le départ.
+const auj = new Date(); auj.setHours(0, 0, 0, 0);
+const MOIS = Array.from({ length: 6 }, (_, k) => new Date(auj.getFullYear(), auj.getMonth() + k, 1));
+const NOM_MOIS = d => d.toLocaleDateString("fr-FR", { month: "long" }).replace(/^./, c => c.toUpperCase());
+const JOUR = d => d.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" });
+const graine = (d, k) => ((Math.sin((d.getFullYear() * 372 + d.getMonth() * 31 + d.getDate()) * (k + 1.37)) * 10000) % 1 + 1) % 1;
+const pris = (d, k) => d < auj || d.getMonth() === 0 || graine(d, k) < (d.getDay() === 5 || d.getDay() === 6 ? .5 : .22);
+let mois = 0, chambre = 0, arrivee = null, depart = null;
+// en fin de mois, le calendrier s'ouvre directement sur le mois suivant
+if (new Date(auj.getFullYear(), auj.getMonth() + 1, 0).getDate() - auj.getDate() < 10) mois = 1;
+function nuitsLibres(a, b, k) { for (let d = new Date(a); d < b; d.setDate(d.getDate() + 1)) if (pris(d, k)) return false; return true; }
+function rendCal() {
+  $("mois").innerHTML = MOIS.map((d, i) => `<button type="button" data-i="${i}" aria-pressed="${i === mois}">${NOM_MOIS(d)}${d.getFullYear() !== auj.getFullYear() ? " " + d.getFullYear() : ""}</button>`).join("");
+  $("qui").innerHTML = CH.map(([n], i) => `<button type="button" data-i="${i}" aria-pressed="${i === chambre}">${n}</button>`).join("");
+  const m = MOIS[mois], debut = (m.getDay() + 6) % 7, nb = new Date(m.getFullYear(), m.getMonth() + 1, 0).getDate();
+  let h = ["L", "M", "M", "J", "V", "S", "D"].map(j => `<span class="nom" aria-hidden="true">${j}</span>`).join("") + "<span></span>".repeat(debut);
+  for (let j = 1; j <= nb; j++) {
+    const d = new Date(m.getFullYear(), m.getMonth(), j), t = +d, p = pris(d, chambre);
+    const bout = (arrivee && t === +arrivee) || (depart && t === +depart), dans = arrivee && depart && t > +arrivee && t < +depart;
+    h += `<button type="button" data-t="${t}" class="${bout ? "bout" : dans ? "dans" : p ? "pris" : "libre"}" ${p && !bout ? 'aria-disabled="true"' : ""} aria-label="${JOUR(d)}${p ? ", déjà pris" : ""}">${j}</button>`;
+  }
+  $("jours").innerHTML = h;
+}
+function ecris() {
+  const [n, , , , , , prix] = CH[chambre];
+  $("cForm").hidden = !(arrivee && depart); $("cMerci").textContent = "";
+  if (!arrivee) { $("cDate").textContent = "Votre séjour"; $("cEcrit").textContent = "Touchez un jour libre dans le calendrier : c'est le jour où vous arrivez."; $("cPrix").textContent = "—"; $("cDetail").textContent = "Petit-déjeuner compris"; return; }
+  const hiver = d => d.getMonth() >= 9 || d.getMonth() <= 4;
+  if (!depart) { $("cDate").textContent = `Arrivée le ${JOUR(arrivee)}`;
+    $("cEcrit").textContent = `Vous arrivez ${JOUR(arrivee)}, dans la chambre ${n}. Touchez maintenant le jour où vous repartez.`; $("cPrix").textContent = "—"; return; }
+  const nuits = Math.round((depart - arrivee) / 864e5);
+  $("cDate").textContent = `Du ${JOUR(arrivee)} au ${JOUR(depart)}`;
+  $("cEcrit").textContent = `Vous arrivez ${JOUR(arrivee)} en fin d'après-midi${hiver(arrivee) ? " : le feu sera déjà allumé" : " : le pré est encore au soleil"}. ${nuits} nuit${nuits > 1 ? "s" : ""} dans ${n}, ${hiver(arrivee) ? "le dîner devant l'âtre si vous le voulez" : "le dîner sous la treille si vous le voulez"}, et vous repartez ${JOUR(depart)} après le petit-déjeuner.`;
+  $("cDetail").textContent = `${nuits} × ${prix} €, petit-déjeuner compris`; $("cPrix").textContent = `${nuits * prix} €`;
+}
+$("mois").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; mois = +b.dataset.i; rendCal(); });
+$("qui").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; chambre = +b.dataset.i;
+  if (arrivee && (pris(arrivee, chambre) || (depart && !nuitsLibres(arrivee, depart, chambre)))) arrivee = depart = null; rendCal(); ecris(); });
+$("jours").addEventListener("click", e => {
+  const b = e.target.closest("button[data-t]"); if (!b) return; const d = new Date(+b.dataset.t);
+  if (!arrivee || depart || d <= arrivee) { if (pris(d, chambre)) return; arrivee = d; depart = null; }
+  else if (nuitsLibres(arrivee, d, chambre)) { depart = d; if (innerWidth < 1000) requestAnimationFrame(() => $("carnet").scrollIntoView({ behavior: calme ? "auto" : "smooth", block: "start" })); }
+  else { $("cEcrit").textContent = `Une nuit est déjà prise entre ces deux dates dans ${CH[chambre][0]}. Essayez une autre chambre ou un séjour plus court.`; return; }
+  rendCal(); ecris();
+});
+$("cForm").addEventListener("submit", e => { e.preventDefault();
+  if (!$("cNom").value.trim() || !$("cTel").value.trim()) { $("cMerci").textContent = "Il manque votre prénom, ou un moyen de vous répondre."; return; }
+  $("cMerci").textContent = `Merci ${$("cNom").value.trim()} : Anna vous répond dans la journée pour confirmer. (Démo : rien n'est envoyé.)`; $("cForm").hidden = true; });
+rendCal(); ecris();
+
+// ——— menu plein écran (téléphone) : le nom et la croix s'ouvrent exactement à la place de ceux de la page
+const feuille = $("feuille"), menuBtn = $("menuBtn");
+const setMenu = open => {
+  if (open) feuille.style.setProperty("--haut", Math.max(0, $("haut").getBoundingClientRect().top + 18) + "px");
+  feuille.classList.toggle("open", open); menuBtn.setAttribute("aria-expanded", open); document.body.style.overflow = open ? "hidden" : ""; (open ? $("closeBtn") : menuBtn).focus(); };
+menuBtn.addEventListener("click", () => setMenu(true));
+$("closeBtn").addEventListener("click", () => setMenu(false));
+feuille.addEventListener("click", e => { if (e.target.closest("a")) setMenu(false); });
+addEventListener("keydown", e => { if (e.key === "Escape" && feuille.classList.contains("open")) setMenu(false); });
+
+// ——— la barre du bas (téléphone) : après le premier écran, rangée quand on descend, revenue quand on remonte
+let apres = false, yAvant = scrollY;
+const dock = () => { const y = scrollY, bas = y + innerHeight > document.documentElement.scrollHeight - 80;
+  $("dock").classList.toggle("on", apres && (y < yAvant || bas)); yAvant = y; };
+new IntersectionObserver(([e]) => { apres = !e.isIntersecting && e.boundingClientRect.top < 0; dock(); }).observe($("ouverture"));
+addEventListener("scroll", dock, { passive: true });
+</script>
+</body>
+</html>

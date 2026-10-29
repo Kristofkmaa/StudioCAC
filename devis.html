@@ -504,7 +504,7 @@ $("copy").addEventListener("click", () => {
   try { navigator.clipboard.writeText(`À envoyer à ${EMAIL}\n\n${t}`).then(ok).catch(() => {}); } catch (_) {}
 });
 
-// préremplissage depuis une démo (devis.html?style=villa-oliviers) ou depuis les tarifs (devis.html?offre=pro)
+// préremplissage depuis une démo (devis.html?style=u-fucone) ou depuis les tarifs (devis.html?offre=pro)
 const pre = new URLSearchParams(location.search).get("style");
 const preOffer = new URLSearchParams(location.search).get("offre");
 if (preOffer && OFFRES[preOffer]) state.offer = preOffer;

@@ -132,12 +132,63 @@
       <div class="verres">${verres.map(([t, icone, href, id]) => `<${href ? `a href="${href}"${href.startsWith("#") ? "" : ' target="_blank" rel="noopener"'}` : `button type="button" id="${id}"`} class="verre">${ico(icone, 22)}<span>${t}</span></${href ? "a" : "button"}>`).join("")}</div></section>`;
   }
   /* le gros chiffre et sa courbe (Fuse) */
-  function chiffre({ id, lbl, val, n: total = null, delta = null, periodes, actif, points }) {
-    const max = Math.max(1, ...points), min = Math.min(...points), n = points.length;
-    const xy = points.map((v, i) => `${(i / Math.max(1, n - 1) * 100).toFixed(2)},${(52 - (v - min) / Math.max(1, max - min) * 46).toFixed(2)}`).join(" ");
-    return `<section class="chiffre" id="${id}"><p class="c-lbl">${lbl}${delta == null ? "" : ` <span class="delta ${delta < 0 ? "bas" : delta === 0 ? "zero" : ""}">${delta < 0 ? "↘" : "↗"} ${Math.abs(delta)} %</span>`}</p><p class="c-val num" ${total != null ? `data-n="${total}"` : ""}>${val}</p>
-      <svg class="courbe" viewBox="0 0 100 56" preserveAspectRatio="none" role="img" aria-label="${esc(lbl)}"><polyline class="trace" pathLength="1" points="${xy}" fill="none" stroke="var(--encre)" stroke-width="1.6" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round"/></svg>
+  /* le gros chiffre et sa courbe (Fuse) : la courbe est dessinée à la taille de l'écran, on la parcourt au doigt */
+  function chiffre({ id, lbl, val, n: total = null, delta = null, periodes, actif, points, dates = [] }) {
+    return `<section class="chiffre" id="${id}"><p class="c-lbl"><span id="cLbl">${lbl}</span>${delta == null ? "" : ` <span class="delta ${delta < 0 ? "bas" : delta === 0 ? "zero" : ""}">${delta < 0 ? "↘" : "↗"} ${Math.abs(delta)} %</span>`}</p><p class="c-val num" ${total != null ? `data-n="${total}"` : ""}>${val}</p>
+      <div class="courbe" data-pts="${points.map(v => Math.round(v * 100) / 100).join(",")}" data-dates="${dates.map(d => T.iso(d)).join(",")}" data-lbl="${esc(lbl)}" role="img" aria-label="${esc(lbl)}"></div>
       <div class="periodes" role="group">${periodes.map(([k, t]) => `<button type="button" data-per="${k}" aria-pressed="${k === actif}">${t}</button>`).join("")}</div></section>`;
+  }
+  /* une courbe douce qui passe par tous les points, sans dépasser au-dessus ni au-dessous (Fritsch-Carlson) */
+  function douce(P) {
+    const n = P.length; if (n < 2) return "";
+    const d = [], m = [];
+    for (let i = 0; i < n - 1; i++) d.push((P[i + 1][1] - P[i][1]) / (P[i + 1][0] - P[i][0]));
+    m[0] = d[0]; m[n - 1] = d[n - 2];
+    for (let i = 1; i < n - 1; i++) m[i] = d[i - 1] * d[i] <= 0 ? 0 : (d[i - 1] + d[i]) / 2;
+    for (let i = 0; i < n - 1; i++) { if (!d[i]) { m[i] = m[i + 1] = 0; continue; } const a = m[i] / d[i], b = m[i + 1] / d[i], h = a * a + b * b; if (h > 9) { const t = 3 / Math.sqrt(h); m[i] = t * a * d[i]; m[i + 1] = t * b * d[i]; } }
+    let c = `M${P[0][0].toFixed(1)},${P[0][1].toFixed(1)}`;
+    for (let i = 0; i < n - 1; i++) { const dx = (P[i + 1][0] - P[i][0]) / 3; c += ` C${(P[i][0] + dx).toFixed(1)},${(P[i][1] + m[i] * dx).toFixed(1)} ${(P[i + 1][0] - dx).toFixed(1)},${(P[i + 1][1] - m[i + 1] * dx).toFixed(1)} ${P[i + 1][0].toFixed(1)},${P[i + 1][1].toFixed(1)}`; }
+    return c;
+  }
+  function dessineCourbe() {
+    const el = document.querySelector(".courbe[data-pts]"); if (!el) return;
+    const pts = el.dataset.pts.split(",").map(Number), dates = el.dataset.dates ? el.dataset.dates.split(",") : [];
+    const W = el.clientWidth, H = 150, haut = 14, bas = 10, n = pts.length;
+    const max = Math.max(...pts), min = Math.min(...pts), plat = max === min;
+    const P = pts.map((v, i) => [6 + i / Math.max(1, n - 1) * (W - 14), plat ? H / 2 : haut + (1 - (v - min) / (max - min)) * (H - haut - bas)]);
+    const ligne = douce(P), aire = `${ligne} L${W},${H} L0,${H} Z`, [xf, yf] = P[n - 1];
+    el.innerHTML = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" aria-hidden="true">
+      <defs><linearGradient id="fondu" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--encre)" stop-opacity=".09"/><stop offset="1" stop-color="var(--encre)" stop-opacity="0"/></linearGradient></defs>
+      <path class="c-aire" d="${aire}" fill="url(#fondu)"/>
+      <path class="c-ligne" d="${ligne}" fill="none" stroke="var(--encre)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      <line class="c-repere" x1="0" x2="0" y1="0" y2="${H}" stroke="var(--gris-3)" stroke-width="1" opacity="0"/>
+      <circle class="c-bout" cx="${xf}" cy="${yf}" r="4.5" fill="var(--encre)"/><circle class="c-onde" cx="${xf}" cy="${yf}" r="4.5" fill="none" stroke="var(--encre)" stroke-width="1.5"/>
+      <circle class="c-doigt" r="6" fill="var(--blanc)" stroke="var(--encre)" stroke-width="2.5" opacity="0"/></svg>`;
+    /* le trait se dessine, en pixels réels (fiable sur Safari) */
+    const chemin = el.querySelector(".c-ligne");
+    if (!matchMedia("(prefers-reduced-motion: reduce)").matches && chemin.getTotalLength) {
+      const L = chemin.getTotalLength(); chemin.style.strokeDasharray = L; chemin.style.strokeDashoffset = L;
+      chemin.getBoundingClientRect(); chemin.style.transition = "stroke-dashoffset 1.1s cubic-bezier(.32,.72,0,1)"; chemin.style.strokeDashoffset = 0;
+      el.classList.add("anime");
+    }
+    /* le doigt sur la courbe : le montant et la date suivent */
+    const val = document.querySelector(".c-val"), lbl = document.querySelector("#cLbl"), delta = document.querySelector(".chiffre .delta"), lbl0 = lbl.textContent, fin = +val.dataset.n;
+    const rep = el.querySelector(".c-repere"), doigt = el.querySelector(".c-doigt"), bout = el.querySelectorAll(".c-bout,.c-onde");
+    let dernier = -1;
+    const montre = x => {
+      const i = Math.max(0, Math.min(n - 1, Math.round((x - 6) / (W - 14) * (n - 1)))); if (i === dernier) return; dernier = i;
+      rep.setAttribute("x1", P[i][0]); rep.setAttribute("x2", P[i][0]); rep.setAttribute("opacity", 1);
+      doigt.setAttribute("cx", P[i][0]); doigt.setAttribute("cy", P[i][1]); doigt.setAttribute("opacity", 1); bout.forEach(b => b.setAttribute("opacity", 0));
+      val.innerHTML = eurG(pts[i]); lbl.textContent = dates[i] ? (T.iso(T.auj()) === dates[i] ? "Jusqu'à aujourd'hui" : `Jusqu'au ${dL(dates[i]).toLowerCase()}`) : lbl0; if (delta) delta.hidden = true;
+      if (navigator.vibrate) navigator.vibrate(3);
+    };
+    const lache = () => { dernier = -1; rep.setAttribute("opacity", 0); doigt.setAttribute("opacity", 0); bout.forEach(b => b.setAttribute("opacity", 1)); val.innerHTML = eurG(fin); lbl.textContent = lbl0; if (delta) delta.hidden = false; };
+    const x = e => (e.touches ? e.touches[0].clientX : e.clientX) - el.getBoundingClientRect().left;
+    el.addEventListener("touchstart", e => montre(x(e)), { passive: true });
+    el.addEventListener("touchmove", e => { e.preventDefault(); montre(x(e)); }, { passive: false });
+    el.addEventListener("touchend", lache);
+    el.addEventListener("mousemove", e => montre(x(e)));
+    el.addEventListener("mouseleave", lache);
   }
   const teinte = nom => { let h = 0; for (const c of nom) h = (h * 31 + c.charCodeAt(0)) % 360; return h; };
   const avatar = nom => { const h = teinte(nom); return `<span class="icone-carre av" style="--h:${h}">${esc(initiales(nom))}</span>`; };
@@ -517,10 +568,11 @@
     let c = 0; const pts = [...Array(n)].map((_, i) => { const v = parJour(T.iso(T.plus(debut, i))); c += v; return cumul ? c : v; });
     const tot = pts.length ? (cumul ? pts[n - 1] : pts.reduce((a, b) => a + b, 0)) : 0;
     let av = 0; for (let i = 1; i <= n; i++) av += parJour(T.iso(T.plus(debut, -i)));
-    return { pts, tot, delta: av ? Math.round((tot - av) / av * 100) : null };
+    return { pts, tot, dates: [...Array(n)].map((_, i) => T.plus(debut, i)), delta: av ? Math.round((tot - av) / av * 100) : null };
   }
   function brancheChiffre(refaire) {
     document.querySelectorAll("[data-per]").forEach(b => b.onclick = () => { per = b.dataset.per; const el = document.querySelector(".chiffre"); el.outerHTML = refaire(); brancheChiffre(refaire); });
+    dessineCourbe();
     /* le montant défile jusqu'à sa valeur */
     const el = document.querySelector(".c-val[data-n]");
     if (!el || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -535,7 +587,7 @@
     const nouv = ouvertes.filter(o => o.statut === "nouvelle").length, bas = D.produits.filter(p => !p.surCommande && p.stock <= p.seuil);
     const atelier = ouvertes.flatMap(o => o.lignes.map(l => ({ o, l }))).sort((a, b) => new Date(a.o.date) - new Date(b.o.date));
     const parJour = d => cmd.filter(o => o.date.slice(0, 10) === d).reduce((s, o) => s + total(o), 0);
-    const leChiffre = () => { const n = NJ[per], r = serie(T.plus(t, -n + 1), n, parJour, true); return chiffre({ id: "leChiffre", lbl: `Ventes sur ${n} jours`, val: eurG(r.tot), n: r.tot, delta: r.delta, periodes: PERIODES, actif: per, points: r.pts }); };
+    const leChiffre = () => { const n = NJ[per], r = serie(T.plus(t, -n + 1), n, parJour, true); return chiffre({ id: "leChiffre", lbl: `Ventes sur ${n} jours`, val: eurG(r.tot), n: r.tot, delta: r.delta, periodes: PERIODES, actif: per, points: r.pts, dates: r.dates }); };
     ecran({ titre: "Aujourd'hui",
       hero: hero({ phrase: ouvertes.length ? `${pl(ouvertes.length, "commande")} à préparer<span>${nouv ? `, dont ${pl(nouv, "nouvelle")}` : ""}.</span>` : `Tout est prêt.<span> Aucune commande en attente.</span>`,
         verres: [["Nouveau produit", "boite", "", "vNouv"], ["Voir mon site", "site", S.site]] }),
@@ -557,7 +609,7 @@
     const jourL = rdvDuJour(ti), restants = jourL.filter(r => r.debut + presta(r.presta).duree > mn && r.statut !== "absent"), proch = restants.find(r => r.debut >= mn) || restants[0];
     const dem = D.rdv.filter(r => r.statut === "demande").sort((a, b) => (a.date + String(a.debut).padStart(4, "0")).localeCompare(b.date + String(b.debut).padStart(4, "0")));
     const parJour = d => D.rdv.filter(r => r.date === d && ["venu", "confirme"].includes(r.statut) && d <= ti).reduce((s, r) => s + presta(r.presta).prix, 0);
-    const leChiffre = () => { const n = NJ[per], r = serie(T.plus(t, -n + 1), n, parJour, true); return chiffre({ id: "leChiffre", lbl: `Chiffre sur ${n} jours`, val: eurG(r.tot), n: r.tot, delta: r.delta, periodes: PERIODES, actif: per, points: r.pts }); };
+    const leChiffre = () => { const n = NJ[per], r = serie(T.plus(t, -n + 1), n, parJour, true); return chiffre({ id: "leChiffre", lbl: `Chiffre sur ${n} jours`, val: eurG(r.tot), n: r.tot, delta: r.delta, periodes: PERIODES, actif: per, points: r.pts, dates: r.dates }); };
     ecran({ titre: "Aujourd'hui",
       hero: hero({ phrase: jourL.length ? `${pl(jourL.length, "rendez-vous", "rendez-vous")} aujourd'hui<span>${proch ? `, prochain à ${hm(proch.debut)} avec ${esc(client(proch.client).nom.split(" ")[0])}` : ", la journée est finie"}.</span>` : `Journée libre.<span> Aucun rendez-vous aujourd'hui.</span>`,
         verres: [["Nouveau rendez-vous", "agenda", "", "vRdv"], ["Voir l'agenda", "gens", "#/agenda"]] }),
@@ -583,7 +635,7 @@
     const semaine = L.filter(s => s.statut === "confirme" && new Date(s.arrivee) > t && new Date(s.arrivee) < T.plus(t, 8)).sort((a, b) => a.arrivee.localeCompare(b.arrivee));
     /* ce que rapportent les nuits réservées, jour par jour, sur les jours à venir */
     const parJour = d => L.filter(s => s.statut === "confirme" && s.arrivee <= d && s.depart > d).reduce((x, s) => x + chambre(s.chambre).prix, 0);
-    const leChiffre = () => { const n = NJ[per], r = serie(t, n, parJour, true); return chiffre({ id: "leChiffre", lbl: `Réservé, ${n} prochains jours`, val: eurG(r.tot), n: r.tot, periodes: PERIODES, actif: per, points: r.pts }); };
+    const leChiffre = () => { const n = NJ[per], r = serie(t, n, parJour, true); return chiffre({ id: "leChiffre", lbl: `Réservé, ${n} prochains jours`, val: eurG(r.tot), n: r.tot, periodes: PERIODES, actif: per, points: r.pts, dates: r.dates }); };
     ecran({ titre: "Aujourd'hui",
       hero: hero({ phrase: arr.length ? `${pl(arr.length, "arrivée")} aujourd'hui<span>, ${Math.round(nuits / cap * 100)} % de remplissage sur 30 jours.</span>` : `Pas d'arrivée aujourd'hui.<span> ${Math.round(nuits / cap * 100)} % de remplissage sur 30 jours.</span>`,
         verres: [["Ajouter un séjour", "lit", "", "vSej"], ["Fermer des dates", "agenda", "", "vFerme"]] }),
@@ -725,6 +777,8 @@
     sauver(quoi === "cmd" ? `${x.client} : ${nomEtape(statut).toLowerCase()}` : { confirme: "Confirmé", annule: quoi === "rdv" ? "Annulé" : "Refusé", venu: "Noté : venu", absent: "Noté : absent" }[statut]);
     route();
   });
+
+  let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(dessineCourbe, 150); });
 
   /* la toute première version de l'appli posait un service worker : on le retire pour toujours servir la dernière version */
   if ("serviceWorker" in navigator) navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => r.unregister())).catch(() => {});

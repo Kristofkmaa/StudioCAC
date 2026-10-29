@@ -42,6 +42,10 @@
   let current = null;
 
   function arrive() {
+    // arrivée depuis l'écran d'entrée par la plongée dans la sphère : pas de volets, la page gère le dézoom
+    let viaSphere = false;
+    try { viaSphere = sessionStorage.getItem("abysse-arrivee") === "sphere"; sessionStorage.removeItem("abysse-arrivee"); } catch (_) {}
+    if (viaSphere) { root.dataset.arrivee = "sphere"; root.classList.remove("sc-pending"); return; }
     // la page s'ouvre fermée, exactement comme la page précédente s'est terminée
     const [c, g, d, seam] = cover();
     seam.style.opacity = 1;

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
-<title>Saitora, sites vitrines en Corse (version abysse)</title>
+<title>Saitora, sites vitrines (version abysse)</title>
 <meta name="theme-color" content="#012624">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="abysse.css">
@@ -224,10 +224,10 @@ section[id]{scroll-margin-top:20px}
   <section class="hero" id="hero" data-arrive-off>
     <div class="pin">
       <canvas id="orb" aria-hidden="true"></canvas>
-      <p class="eyebrow big">Saitora · sites vitrines sur mesure · Ajaccio</p>
+      <p class="eyebrow big">Saitora · sites vitrines sur mesure</p>
       <h1 class="giant"><span class="ln l1"><span class="in">Votre vitrine,</span></span> <span class="ln l2"><span class="in">ouverte jour</span></span> <span class="ln l3"><span class="in">et nuit.</span></span></h1>
       <div class="base">
-        <p>Des sites pour les restaurants, les artisans et les commerces de Corse. Faits à votre image, en ligne en trois semaines.</p>
+        <p>Des sites pour les restaurants, les artisans et les commerces. Faits à votre image, en ligne en trois semaines.</p>
         <div class="acts"><a class="aurora lg" href="abysse-devis.html">Demander un devis</a><a class="ghost" href="#vitrines">Voir les réalisations <span class="arrow"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a></div>
       </div>
     </div>
@@ -307,7 +307,7 @@ section[id]{scroll-margin-top:20px}
 
 <footer>
   <div class="page">
-    <span>© 2026 Saitora, Ajaccio</span>
+    <span>© 2026 Saitora</span>
     <nav aria-label="Pied de page"><a href="abysse-mentions-legales.html">Mentions légales</a><a href="abysse-cgv.html">Conditions de vente</a><a href="abysse-photos.html">Le guide photo</a><a href="#">Haut de page ↑</a></nav>
   </div>
 </footer>
@@ -317,12 +317,15 @@ const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[m]);
 const calme = matchMedia("(prefers-reduced-motion: reduce)").matches;
 let heroP = 0;   // 0 en haut de page, 1 quand les lignes du titre sont reparties
+// arrivée depuis l'écran d'entrée : on est au centre de la sphère et on recule (dézoom) ; posé par abysse-transition.js
+const dezoom = document.documentElement.dataset.arrivee === "sphere";
 const fleche = '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg>';
 
 // ——— la sphère de particules : des points répartis sur une sphère, qui tourne et penche vers le doigt
 (() => {
   const cv = $("orb"), ctx = cv.getContext("2d");
   let W, H, R, pts = [], t = 0, run = false, raf = 0, tx = 0, ty = 0, px = 0, py = 0;
+  let z0 = null;
   const build = () => {
     const dpr = Math.min(devicePixelRatio || 1, 2);
     W = cv.clientWidth; H = cv.clientHeight; cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -335,7 +338,9 @@ const fleche = '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strok
     ctx.clearRect(0, 0, W, H);
     px += (tx - px) * .05; py += (ty - py) * .05;
     const ay = t * .12 + px * .6, ax = -.35 + py * .4, cy = Math.cos(ay), sy = Math.sin(ay), cx = Math.cos(ax), sx = Math.sin(ax);
-    const ox = W / 2, oy = H / 2, fade = 1 - heroP * .55, RR = R * (1 + heroP * .9);
+    if (dezoom && z0 === null) z0 = performance.now();
+    const zp = dezoom ? Math.min(1, (performance.now() - z0) / 1500) : 1, Z = 1 + 11 * Math.pow(1 - zp, 3);   // 12 → 1, de plus en plus doux
+    const ox = W / 2, oy = H / 2, fade = 1 - heroP * .55, RR = R * Z * (1 + heroP * .9);
     const glow = ctx.createRadialGradient(ox, oy, 0, ox, oy, RR * 1.25);           // halo d'eau éclairée derrière la sphère
     glow.addColorStop(0, `rgba(0,130,124,${.28 * fade})`); glow.addColorStop(1, "rgba(0,130,124,0)");
     ctx.fillStyle = glow; ctx.fillRect(0, 0, W, H);
@@ -382,6 +387,12 @@ $("works").innerHTML = DEMOS.map(([nom, metier, , txt, slug]) => `
     <p>${esc(txt)}</p>
     <div class="shot"><img src="media/apercus/${slug}.webp" alt="La page d'accueil de la démo ${esc(nom)}" width="720" height="450" loading="lazy" decoding="async"></div>
   </a>`).join("");
+
+// ——— arrivée par la sphère : l'en-tête et l'étiquette apparaissent pendant le recul
+if (dezoom && !calme) {
+  document.querySelector(".bar").animate([{ opacity: 0 }, { opacity: 1 }], { delay: 700, duration: 700, easing: "ease-out", fill: "backwards" });
+  document.querySelector(".hero .eyebrow").animate([{ opacity: 0, transform: "translateY(-10px)" }, { opacity: 1, transform: "none" }], { delay: 600, duration: 800, easing: "cubic-bezier(.16,1,.3,1)", fill: "backwards" });
+}
 
 // ——— le titre géant : en descendant, chaque ligne repart de son côté (gauche, droite, gauche)
 (() => {

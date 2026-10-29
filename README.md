@@ -8,7 +8,9 @@ Site 100 % statique : pas de build, pas de dépendance, chaque page est un fichi
 | Fichier | Rôle |
 | --- | --- |
 | `index.html` | Écran d'entrée : le logo en grand, la phrase d'accroche et le bouton pour entrer sur le site. |
-| `accueil.html` | Page d'accueil du portfolio (démos, méthode, contact). L'espace pro `accueil.html#admin` sert à suivre ses clients ; ses données restent dans le navigateur. |
+| `accueil.html` | Page d'accueil du portfolio (démos, méthode, compris, charte, contact), style « abysse » avec la sphère de particules. |
+| `espace-pro.html` | Espace pro (l'ancien accueil) : suivi des sites clients ; ses données restent dans le navigateur. Non indexé. |
+| `abysse.css`, `abysse-fin.css`, `abysse-sphere.js`, `abysse-fond.js`, `abysse-transition.js` | Le style « abysse » commun à toutes les pages : couleurs, retouches, la sphère de particules, la sphère en fond, les transitions entre les pages. |
 | `tarifs.html` | Tarifs : formules, calcul du coût sur la durée, ce que paie l'abonnement, questions fréquentes. |
 | `mentions-legales.html` | Mentions légales et politique de confidentialité (SIRET à ajouter dès l'immatriculation). |
 | `cgv.html` | Conditions générales de vente (devis, paiement, rétractation, abonnement, domaine, cession des droits, données des clients, responsabilités). |

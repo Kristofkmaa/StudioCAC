@@ -1,6 +1,6 @@
 # Où on en est (à lire au début de chaque session)
 
-Mis à jour le 29 octobre 2026 (labo 09). Ce fichier remplace l'historique des discussions : il dit ce qui existe, ce qui a été décidé et ce qui reste à faire.
+Mis à jour le 29 octobre 2026 (site passé en style « abysse »). Ce fichier remplace l'historique des discussions : il dit ce qui existe, ce qui a été décidé et ce qui reste à faire.
 Les règles de travail sont dans `CLAUDE.md`, le détail des fichiers dans `README.md`, les tâches administratives dans `A-FAIRE.md`.
 
 ## Saitora en deux lignes
@@ -31,18 +31,18 @@ Le site : écran d'entrée (`index.html`), accueil (`accueil.html`), tarifs, dev
   - 09 : l'accueil de Saitora en « parchemin et sphère », d'après la fiche Refero OFF+BRAND (papier `#E5E4E0`, encre `#1D1D1D`, police Uncut Sans, une sphère dégradée). En attente de l'avis de l'utilisateur avant de remplacer `accueil.html`.
   - 10 : l'accueil de Saitora en « abysse », d'après la fiche Auros (vert d'eau profonde, Inter Tight, sphère de particules en canvas, titre géant « Votre vitrine, ouverte jour et nuit. » dont les lignes arrivent de la gauche et de la droite puis repartent au défilement, chiffres qui comptent, carte des villes). Même attente que le 09.
   - Les essais 09 et 10 sont aussi publiés en page privée claude.ai pour être vus sans la branche publiée.
-- **Version test « abysse » de tout le site** (demandée par l'utilisateur, d'après la fiche Auros) : pages `abysse-*.html` à la racine (noindex, exclues de `robots.txt`).
-  - `abysse-index.html` (écran d'entrée : sphère, « Saitora » en géant) et `abysse-accueil.html` (l'essai 10 sans la carte des villes, sans les filtres de métiers, sans « À propos », à la demande de l'utilisateur) sont écrits à la main.
-  - Tarifs, devis, charte, guide photo, CGV et mentions légales sont **fabriqués** depuis les pages en ligne par `python3 outils/site_abysse.py` : relancer après chaque changement d'une de ces pages.
-  - **Une seule sphère pour tout le site** : `abysse-sphere.js` (même taille, mêmes particules, rotation réglée sur l'horloge pour qu'elle reprenne sa position d'une page à l'autre), utilisée par l'entrée, l'accueil, les transitions et le fond des autres pages (`abysse-fond.js`, intensité 0,42 ; panneaux légèrement transparents pour la laisser deviner).
-  - Lettres en contour seul (« et nuit. », « tora ») : police `Inter Tight Contour` = Inter Tight 500 sans chevauchement de contours (`polices/inter-tight-500-contour-latin.woff2`, fabriquée par `outils/police_contour.py`), sinon des traits parasites apparaissent dans le « e » et les « t ».
-  - Couleurs : `abysse.css` (mêmes noms de variables que `theme.css`) ; retouches : `abysse-fin.css` ; transition « mini-plongée » entre les pages (petite sphère dans laquelle on plonge, puis dont on ressort) : `abysse-transition.js`.
-  - L'espace pro (`accueil.html#admin`) n'existe pas dans la version abysse : à reprendre si on l'adopte.
-  - Écran d'entrée → accueil : transition à part, on plonge au centre de la sphère puis l'accueil recule depuis l'intérieur de la sienne (`abysse-index.html` pose `abysse-arrivee` dans sessionStorage, `abysse-transition.js` laisse alors la page faire le dézoom). Entre les autres pages : la mini-plongée (les deux volets ont été essayés puis écartés : « ne va pas avec l'ADN du site »).
-  - À la demande de l'utilisateur : plus de liens tarifs / charte / devis sur l'écran d'entrée, grand logo centré, plus de mention « Ajaccio » ni « Corse » sur l'entrée et l'accueil (elles restent dans les CGV et les mentions légales, où l'adresse est obligatoire).
-  - Sources des essais en framework : `labo/sources/` (sans `node_modules`) ; on reconstruit avec `npm install && npm run build` dans chaque projet.
+- **Le site Saitora est en style « abysse » depuis le 29 octobre 2026** (voir plus bas). L'ancien style clair / sombre reste dans l'historique git (commit `17f11b9` et avant).
 
 ## Décisions prises
+
+- **Style du site Saitora : « abysse »**, inspiré de la fiche Refero d'Auros, avec une palette à nous (décalée à la demande de l'utilisateur pour ne pas copier) : eau de nuit `#06222D`, surfaces `#0B3644`, texte `#EEF8FB` / `#B8C5CB`, corail `#FFE6DA` pour les chiffres, dégradé eau → corail pour le bouton principal. Police Inter Tight (poids 500 pour les titres).
+  - Fichiers communs : `abysse.css` (couleurs, mêmes noms de variables que `theme.css`), `abysse-fin.css` (retouches), `abysse-sphere.js` (**une seule sphère de particules pour tout le site** : même taille, mêmes points, rotation réglée sur l'horloge pour qu'elle reprenne sa position d'une page à l'autre), `abysse-fond.js` (la sphère en fond des pages, à 42 %), `abysse-transition.js` (transitions).
+  - `index.html` (entrée : grand logo, « Saitora » dont les moitiés arrivent des deux côtés) et `accueil.html` (titre géant qui arrive des deux côtés, chiffres, démos, méthode, compris, charte, contact) sont écrits à la main ; plus de carte des villes, de filtres de métiers ni de bloc « À propos », plus de mention « Ajaccio » ni « Corse » visible (elles restent dans les CGV, les mentions légales et la fiche invisible pour Google).
+  - Transitions : entrée → accueil, on plonge au centre de la sphère et l'accueil recule depuis l'intérieur de la sienne ; entre les autres pages, la « mini-plongée ». Le changement de page se fait sur un écran uni (l'arrêt du navigateur ne se voit pas), la page suivante est préchargée dès qu'on touche le lien, elle arrive **toujours tout en haut**, et **on ne peut pas défiler pendant la transition**. Essayés puis écartés : le disque qui s'ouvre au doigt, les deux volets (« pas l'ADN du site »).
+  - Lettres en contour : police `Inter Tight Contour` (`polices/inter-tight-500-contour-latin.woff2`, sans chevauchement de contours, fabriquée par `outils/police_contour.py`).
+  - Plus de bouton clair / sombre : le site est toujours sombre.
+  - **Espace pro** : l'ancien accueil est gardé tel quel dans `espace-pro.html` (non indexé, exclu de `robots.txt`), il s'ouvre directement sur « Mes sites clients ».
+  - `404.html` garde l'ancien style (à reprendre).
 
 - **Les vitrines restent en HTML** : c'est le plus rapide sur téléphone (comparatif labo 06 : HTML ≈ 4 Ko de script, Astro 117 Ko, Next.js 236 Ko ; page utilisable en 2,5 s, 3,3 s et 3,9 s).
 - **Astro** pour un site qui a besoin de beaucoup de pièces vivantes de la communauté. **Next.js** seulement pour de vraies applications (espace client, boutique sur mesure).

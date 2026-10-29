@@ -2,16 +2,14 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<script>(()=>{const d=document.documentElement;let t;try{t=localStorage.getItem("saitora-theme")}catch(e){}d.dataset.theme=t||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")})()</script>
-<style>html,body{background:#FAFAF9}html[data-theme=dark],html[data-theme=dark] body{background:#0C0C0D}</style>
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
-<title>Saitora, sites vitrines pour les commerces de Corse</title>
-<meta name="description" content="Sites vitrines sur mesure pour les restaurants, artisans et commerces de Corse, depuis Ajaccio. Découvrez les démos et demandez un devis gratuit.">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Saitora, sites vitrines sur mesure pour les commerces</title>
+<meta name="description" content="Sites vitrines sur mesure pour les restaurants, les artisans et les commerces. Découvrez les démos et demandez un devis gratuit.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fr_FR">
 <meta property="og:site_name" content="Saitora">
-<meta property="og:title" content="Saitora, sites vitrines pour les commerces de Corse">
-<meta property="og:description" content="Votre vitrine, ouverte jour et nuit. Sites vitrines sur mesure pour les restaurants, artisans et commerces de Corse.">
+<meta property="og:title" content="Saitora, sites vitrines sur mesure pour les commerces">
+<meta property="og:description" content="Votre vitrine, ouverte jour et nuit. Sites vitrines sur mesure pour les restaurants, les artisans et les commerces.">
 <meta property="og:url" content="https://saitora.fr/">
 <meta property="og:image" content="https://saitora.fr/images/partage.jpg?v=2">
 <meta property="og:image:width" content="1200">
@@ -19,115 +17,90 @@
 <meta property="og:image:alt" content="Logo Saitora et la phrase « Votre vitrine, ouverte jour et nuit », devant des sites de commerces">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://saitora.fr/images/partage.jpg?v=2">
-<meta name="theme-color" content="#FAFAF9">
+<meta name="theme-color" content="#06222D">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="polices/jost-a2e892.css">
-<link rel="stylesheet" href="theme.css?v=2">
-<link rel="prefetch" href="accueil.html">
+<link rel="preload" href="polices/inter-tight-500-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="abysse.css">
 <style>
-/* Écran d'entrée Saitora : avant le site, le logo en grand et la phrase d'accroche, comme une porte qu'on pousse.
-   Un seul moment animé : le symbole se construit (les deux traits montent, le point tombe), puis le texte arrive. */
-:root{--font:"Jost","Futura","Helvetica Neue",Arial,sans-serif;--ease-out:cubic-bezier(.23,1,.32,1)}
-*,*::before,*::after{box-sizing:border-box}
-html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%}
-body{margin:0;min-height:100svh;background:var(--bg);color:var(--ink);font-family:var(--font);display:flex;flex-direction:column;
-  padding:max(20px,env(safe-area-inset-top)) max(20px,env(safe-area-inset-right)) max(20px,env(safe-area-inset-bottom)) max(20px,env(safe-area-inset-left))}
-h1,p{margin:0}
-:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:2px}
-:where(a,button){touch-action:manipulation;-webkit-user-select:none;user-select:none}
-
-.top{display:flex;justify-content:flex-end}
-.door{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-block:24px}
-.mark{height:clamp(130px,28vh,280px);width:auto;display:block;overflow:visible}
-.mark .l,.mark .r{fill:currentColor}
-.mark .dot{fill:var(--accent)}
-.word{height:clamp(30px,5.6vw,70px);width:auto;display:block;margin-top:clamp(20px,3.4vh,36px);filter:var(--logo-filter)}
-h1{margin-top:clamp(32px,6vh,60px);font-weight:400;font-size:clamp(1.8rem,1.1rem + 2.6vw,3.3rem);line-height:1.1;letter-spacing:-.02em;max-width:20ch;text-wrap:balance}
-h1 .d{display:inline-block;width:.2em;height:.2em;border-radius:50%;background:var(--accent);margin-left:.04em}
-.enter{margin-top:clamp(32px,5vh,52px);display:inline-flex;align-items:center;justify-content:center;min-width:200px;min-height:52px;padding:0 34px;border:0;border-radius:4px;
-  background:var(--accent);color:var(--on-accent);font:500 18px var(--font);text-decoration:none;cursor:pointer;transition:background-color 160ms ease,transform 160ms var(--ease-out)}
+/* Écran d'entrée, version test « abysse » : la sphère de particules, le grand logo, le nom en géant dont les deux
+   moitiés se rejoignent (« Sai » de la gauche, « tora » de la droite), puis la porte « Entrer ». Tient dans un écran. */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--abyss);color:var(--silver);font:400 16px/1.4 "Inter Tight",ui-sans-serif,system-ui,sans-serif;overflow:hidden;-webkit-tap-highlight-color:transparent}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--mist);outline-offset:3px}
+.door{position:relative;height:100%;display:grid;grid-template-rows:1fr auto;padding:max(24px,env(safe-area-inset-top)) max(16px,clamp(16px,4vw,48px)) max(24px,env(safe-area-inset-bottom));isolation:isolate;overflow:clip}
+#orb{position:absolute;inset:0;z-index:-1;width:100%;height:100%}
+.mark{width:clamp(96px,min(26vw,17svh),168px);height:auto;aspect-ratio:740/590;color:var(--white);animation:pose 1.1s cubic-bezier(.16,1,.3,1) both}
+.mark circle{fill:#FFD3BF}
+@keyframes pose{from{opacity:0;transform:translateY(-14px) scale(.92)}}
+.eyebrow{font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase}
+.mid{align-self:center;display:grid;justify-items:center;text-align:center;gap:clamp(18px,3vh,32px)}
+h1{margin:0;color:var(--white);font-weight:500;font-size:clamp(4rem,min(26vw,30svh),18.4rem);line-height:.9;letter-spacing:-.05em;white-space:nowrap}
+h1 span{display:inline-block;animation:de-gauche 1.4s cubic-bezier(.16,1,.3,1) both}
+h1 span+span{animation-name:de-droite;font-family:"Inter Tight Contour","Inter Tight",sans-serif;letter-spacing:-.02em;color:transparent;-webkit-text-stroke:max(1.5px,.01em) var(--mist)}
+@keyframes de-gauche{from{transform:translateX(-80vw);opacity:0}}
+@keyframes de-droite{from{transform:translateX(80vw);opacity:0}}
+.mid p{margin:0;max-width:34ch;font-size:clamp(1.1rem,1rem + .5vw,1.5rem);line-height:1.3;color:var(--mist);letter-spacing:-.01em}
+.later{animation:monte 1s .8s cubic-bezier(.16,1,.3,1) both}
+@keyframes monte{from{opacity:0;transform:translateY(16px)}}
+.enter{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:64px;min-width:220px;padding:20px 32px;border-radius:6px;background:var(--aurora);background-size:200% 100%;color:#1A1A1A;font:500 15px/1 "Inter Tight",sans-serif;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;transition:background-position .6s ease,transform .15s}
+.enter::after{content:"→"}
+@media (hover:hover) and (pointer:fine){.enter:hover{background-position:100% 0}}
 .enter:active{transform:scale(.97)}
-.sub{margin-top:18px;font-size:15px;color:var(--muted)}
-.sub a{color:inherit;text-underline-offset:4px;text-decoration-color:var(--accent)}
-.foot{text-align:center;font-size:14px;color:var(--faint)}
-@media (hover:hover) and (pointer:fine){.enter:hover{background:var(--accent-hover)}.sub a:hover{color:var(--ink)}}
-@media (pointer:coarse){.sub a{display:inline-block;padding-block:10px;margin-block:-10px}}
-
-/* le seul moment animé : le symbole se construit, puis le reste apparaît */
-@media (prefers-reduced-motion:no-preference){
-  .mark .l{animation:rise 700ms var(--ease-out) both}
-  .mark .r{animation:rise 700ms var(--ease-out) 120ms both}
-  .mark .dot{animation:drop 520ms cubic-bezier(.34,1.4,.64,1) 620ms both}
-  .word,h1,.enter,.sub{animation:show 600ms var(--ease-out) both}
-  .word{animation-delay:760ms}h1{animation-delay:900ms}.enter{animation-delay:1060ms}.sub{animation-delay:1140ms}
-  body.leaving .door,body.leaving .top,body.leaving .foot{opacity:0;transform:scale(.985);transition:opacity 220ms ease,transform 220ms ease}
-}
-/* en fond : nos sites qui défilent sur un mur incliné, sous un voile pour garder le logo lisible */
-/* en fond : nos sites qui défilent sur un mur incliné, très estompés pour garder le logo lisible.
-   Léger à afficher : un seul calque animé, construit à 1300 px puis agrandi (--s, calculé selon l'écran),
-   pas d'ombres, et l'estompage vient de la transparence du mur plutôt que d'un voile posé par-dessus. */
-.wall{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;contain:strict}
-.wall .tilt{position:absolute;left:50%;top:50%;width:1300px;transform:translate(-50%,-45%) perspective(1600px) rotateX(38deg) rotateZ(-14deg) scale(var(--s,1))}
-.wall .track{opacity:var(--wall-opacity,.15);display:grid;grid-template-columns:repeat(var(--cols,4),1fr);gap:12px;will-change:transform}
-.wall .col{display:flex;flex-direction:column;gap:12px}
-.wall img{width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;object-position:top;border-radius:8px;display:block}
-[data-theme="dark"] .wall{--wall-opacity:.17}
-.top,.door,.foot{position:relative;z-index:1}
-@media (prefers-reduced-motion:no-preference){
-  .wall .track{animation:scroll 80s linear infinite}
-  .wall{animation:show 1200ms ease both}
-  body.leaving .wall{opacity:0;transition:opacity 220ms ease}
-}
-@keyframes scroll{from{transform:translateY(0)}to{transform:translateY(-50%)}}
-@keyframes rise{from{transform:translateY(60px);opacity:0}to{transform:none;opacity:1}}
-@keyframes drop{from{transform:translateY(-160px);opacity:0}to{transform:none;opacity:1}}
-@keyframes show{from{transform:translateY(10px);opacity:0}to{transform:none;opacity:1}}
+.foot{display:flex;justify-content:space-between;gap:8px 24px;flex-wrap:wrap;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+@media (prefers-reduced-motion:reduce){h1 span,.later,.mark{animation:none}}
+@media (max-height:520px){.mid{gap:12px}.enter{min-height:52px}}
 </style>
 </head>
 <body>
-<script src="theme.js?v=1" defer></script>
-
-<div class="wall" aria-hidden="true"><div class="tilt"><div class="track" id="track"></div></div></div>
-
-<div class="top">
-  <button class="theme-toggle" type="button" data-theme-toggle aria-label="Changer de thème"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.6A8.2 8.2 0 0 1 9.4 4a8.2 8.2 0 1 0 10.6 10.6z"/></svg></button>
-</div>
-
-<main class="door">
-  <svg class="mark" viewBox="246 330 740 590" aria-hidden="true"><path class="l" d="M262 901L624 341L695 456L407 901Z"/><path class="r" d="M725 504L970 901L828 901L653 613Z"/><circle class="dot" cx="620" cy="818" r="55"/></svg>
-  <img class="word" src="images/marque/saitora-noir.png" alt="Saitora" width="1165" height="162">
-  <h1>Votre vitrine, ouverte jour et nuit<span class="d" aria-hidden="true"></span></h1>
-  <a class="enter" id="enter" href="accueil.html">Entrer</a>
-  <p class="sub"><a href="tarifs.html">Voir les tarifs</a>, <a href="charte.html">créer votre charte graphique</a> ou <a href="devis.html">demander un devis</a></p>
+<script src="abysse-sphere.js"></script>
+<script src="abysse-transition.js"></script>
+<main class="door" data-arrive-off>
+  <canvas id="orb" aria-hidden="true"></canvas>
+  <div class="mid">
+    <svg class="mark" viewBox="246 330 740 590" aria-hidden="true"><path d="M262 901L624 341L695 456L407 901Z M725 504L970 901L828 901L653 613Z" fill="currentColor"/><circle cx="620" cy="818" r="55"/></svg>
+    <h1 aria-label="Saitora"><span>Sai</span><span>tora</span></h1>
+    <p class="later">Des sites sur mesure pour les restaurants, les artisans et les commerces.</p>
+    <a class="enter later" href="accueil.html">Entrer</a>
+  </div>
+  <div class="foot later"><span>Sites vitrines sur mesure</span><span>Votre vitrine, ouverte jour et nuit</span></div>
 </main>
 
-<p class="foot">Sites vitrines pour les restaurants, les artisans et les commerces de Corse</p>
-
 <script>
-// le mur de fond : nos neuf sites, deux fois par colonne pour que le défilement boucle sans couture
-const SITES = ["table-du-port","durand-plomberie","a-funtana","pain-dore","villa-oliviers","bois-massif","libecciu","zia-rosa","castagnetu","garage-santoni","fiori","forza","piazza"];
-const cols = matchMedia("(orientation: portrait)").matches ? 3 : 4;   // écran en hauteur : 3 colonnes plus longues
-const track = document.getElementById("track");
-// le mur est construit à 1300 px de large puis agrandi pour couvrir l'écran
-const fit = () => document.querySelector(".wall .tilt").style.setProperty("--s", (Math.max(1100, innerWidth * 1.65) / 1300).toFixed(3));
-fit(); addEventListener("resize", fit);
-track.style.setProperty("--cols", cols);
-// chaque colonne porte ses images deux fois : la piste remonte de la moitié de sa hauteur et boucle sans couture
-track.innerHTML = Array.from({ length: cols }, (_, c) => {
-  const imgs = Array.from({ length: cols === 3 ? 6 : 5 }, (_, i) => i).map(i => `<img src="media/apercus/${SITES[(c * 2 + i) % SITES.length]}.webp" alt="" width="720" height="450" decoding="async">`).join("");
-  return `<div class="col">${imgs}${imgs}</div>`;
-}).join("");
-
-// on entre : la porte s'efface, puis la page d'accueil se construit (transition.js, côté accueil)
-const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-document.querySelectorAll('a[href="accueil.html"], a[href="devis.html"], a[href="tarifs.html"], a[href="charte.html"]').forEach(a => a.addEventListener("click", e => {
-  if (reduce || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-  e.preventDefault();
-  document.body.classList.add("leaving");
-  setTimeout(() => { location.href = a.href; }, 230);
-}));
-// retour arrière : la page sort du cache, on la remet visible
-addEventListener("pageshow", e => { if (e.persisted) document.body.classList.remove("leaving"); });
+// la sphère du site (abysse-sphere.js) : tourne, penche vers le doigt, s'arrête si l'onglet est caché
+(() => {
+  const cv = document.getElementById("orb"), calme = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const sphere = AbysseSphere.create(cv);
+  let raf = 0, Z = 1, A = 1;                                        // Z : zoom de la plongée vers le centre
+  const loop = () => { sphere.draw({ Z, A }); raf = requestAnimationFrame(loop); };
+  sphere.draw();
+  addEventListener("resize", () => { sphere.size(); sphere.draw({ Z }); });
+  if (calme) return;
+  AbysseSphere.suivre(true);
+  document.addEventListener("visibilitychange", () => { cancelAnimationFrame(raf); if (!document.hidden) loop(); });
+  loop();
+  // « Entrer » : on plonge au centre de la sphère (le zoom accélère, les points passent de chaque côté de l'écran),
+  // le texte s'efface en grandissant ; l'accueil reprend ensuite en reculant (dézoom) depuis l'intérieur de la même sphère
+  const enter = document.querySelector(".enter"), mid = document.querySelector(".mid"), foot = document.querySelector(".foot");
+  enter.addEventListener("click", e => {
+    if (e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault();                                       // la mini-plongée ne se déclenche pas : ici, c'est la grande
+    AbysseSphere.suivre(false);                               // la sphère se recentre doucement
+    try { sessionStorage.setItem("abysse-arrivee", "sphere"); } catch (_) {}
+    let parti = false;
+    const part = () => { if (!parti) { parti = true; location.href = enter.href; } };
+    mid.animate([{ opacity: 1, transform: "none" }, { opacity: 0, transform: "scale(1.5)" }], { duration: 520, easing: "cubic-bezier(.5,0,.75,0)", fill: "forwards" });
+    foot.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 300, fill: "forwards" });
+    const t0 = performance.now();
+    // 0–1 s : on plonge ; 1–1,22 s : les points s'éteignent, l'écran devient uni et immobile pour le changement de page
+    const step = now => { const ms = Math.max(0, now - t0), p = Math.min(1, ms / 1000);   // l'heure de l'image peut précéder le clic
+      Z = 1 + Math.pow(p, 2.6) * 11; A = 1 - Math.min(1, Math.max(0, (ms - 1000) / 220));
+      if (ms < 1240) requestAnimationFrame(step); else part(); };
+    requestAnimationFrame(step);
+    setTimeout(part, 1700);                                   // si le navigateur met l'animation en pause
+  });
+})();
 </script>
 </body>
 </html>

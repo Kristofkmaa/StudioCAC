@@ -1,4 +1,4 @@
-// Transition « mini-plongée » entre les pages de la version test abysse (remplace transition.js sur abysse-*.html).
+// Transition « mini-plongée » entre les pages de la version test abysse (sur les pages principales du site).
 // Le même geste que l'entrée → accueil, en plus court :
 // Départ : la page s'assombrit dans l'eau profonde, une petite sphère de particules apparaît au centre, on plonge dedans.
 // Arrivée : on ressort de la sphère (elle recule, puis s'efface), l'eau s'éclaircit et dévoile la page ;
@@ -12,9 +12,17 @@
   const KEY = "abysse-arrivee";
   const css = document.createElement("style");
   css.textContent = `.ab-cover{position:fixed;inset:0;z-index:9999;pointer-events:none;overflow:hidden}
-.ab-eau{position:absolute;inset:0;background:#012624}
+.ab-eau{position:absolute;inset:0;background:#06222D}
 .ab-cover canvas{position:absolute;inset:0;width:100%;height:100%}`;
   document.head.appendChild(css);
+  // ——— pendant une transition, on ne défile pas (molette, doigt, clavier) ; la page d'arrivée s'ouvre toujours tout en haut
+  let verrou = false;
+  const bloque = e => { if (verrou) e.preventDefault(); };
+  addEventListener("wheel", bloque, { passive: false });
+  addEventListener("touchmove", bloque, { passive: false });
+  addEventListener("keydown", e => { if (verrou && [" ", "PageDown", "PageUp", "ArrowDown", "ArrowUp", "Home", "End"].includes(e.key)) e.preventDefault(); });
+  const verrouiller = on => { verrou = on; root.style.overscrollBehavior = on ? "none" : ""; };
+  const enHaut = () => { if ("scrollRestoration" in history) history.scrollRestoration = "manual"; scrollTo(0, 0); };
   const easeIn = p => p * p * p, easeInOut = p => p < .5 ? 4 * p ** 3 : 1 - (-2 * p + 2) ** 3 / 2;
   const clamp = p => Math.min(1, Math.max(0, p));
 
@@ -37,18 +45,19 @@
   // ——— la page suivante est demandée dès que le doigt se pose sur le lien (ou que la souris s'y arrête) :
   // elle est déjà là à la fin de la plongée, l'image ne reste pas figée pendant le téléchargement
   const dejaDemandees = new Set();
-  const interne = a => { if (!a || a.target === "_blank") return null; const u = new URL(a.href, location.href); return u.origin === location.origin && /\/abysse-[\w-]+\.html$/.test(u.pathname) && u.pathname !== location.pathname ? u : null; };
+  const interne = a => { if (!a || a.target === "_blank") return null; const u = new URL(a.href, location.href); return u.origin === location.origin && /\/(index|accueil|tarifs|devis|charte|photos|cgv|mentions-legales)\.html$/.test(u.pathname) && u.pathname !== location.pathname ? u : null; };
   const precharge = href => { if (dejaDemandees.has(href)) return; dejaDemandees.add(href); const l = document.createElement("link"); l.rel = "prefetch"; l.href = href; document.head.appendChild(l); };
   addEventListener("pointerdown", e => { const a = e.target.closest?.("a[href]"); if (interne(a)) precharge(a.href); }, { passive: true, capture: true });
   addEventListener("pointerover", e => { const a = e.target.closest?.("a[href]"); if (e.pointerType === "mouse" && interne(a)) precharge(a.href); }, { passive: true });
 
-  // ——— départ : vers une autre page de la version abysse
+  // ——— départ : vers une autre page du site
   document.addEventListener("click", e => {
     const a = e.target.closest("a[href]");
     if (!a || reduce || e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || a.target === "_blank") return;
     const url = new URL(a.href, location.href);
-    if (url.origin !== location.origin || !/\/abysse-[\w-]+\.html$/.test(url.pathname) || url.pathname === location.pathname) return;
+    if (url.origin !== location.origin || !/\/(index|accueil|tarifs|devis|charte|photos|cgv|mentions-legales)\.html$/.test(url.pathname) || url.pathname === location.pathname) return;
     e.preventDefault();
+    verrouiller(true);
     precharge(a.href);                                        // la page suivante se télécharge pendant la plongée
     AbysseSphere.suivre(false);                               // la sphère revient au centre pendant qu'on plonge
     try { sessionStorage.setItem(KEY, "mini"); } catch (_) {}
@@ -70,10 +79,14 @@
   let current = null;
 
   function arrive() {
+    // toujours tout en haut, même si l'adresse vise une section (#…) ou si le navigateur voulait reprendre l'ancienne position
+    enHaut();
+    addEventListener("load", enHaut, { once: true });
+    verrouiller(true);
     let via = "";
     try { via = sessionStorage.getItem(KEY) || ""; sessionStorage.removeItem(KEY); } catch (_) {}
     // arrivée depuis l'écran d'entrée : la page d'accueil fait elle-même le recul dans sa grande sphère
-    if (via === "sphere") { root.dataset.arrivee = "sphere"; root.classList.remove("sc-pending"); return; }
+    if (via === "sphere") { root.dataset.arrivee = "sphere"; root.classList.remove("sc-pending"); setTimeout(() => verrouiller(false), 2400); return; }
     const mini = via === "mini";
     // on ressort de la sphère : elle recule (12 → 1) en 1 s, puis s'efface ; l'eau s'éclaircit à partir de 0,85 s
     if (mini) AbysseSphere.cache(true);                       // les autres sphères de la page attendent sous le rideau
@@ -82,7 +95,7 @@
     const { c, eau, stop: stopOrb, start } = cover(mini, ms => [1 + 11 * (1 - easeInOut(clamp(ms / 1000))), Math.min(clamp(ms / 300), 1 - clamp((ms - 900) / 400))]);
     // sécurité : si l'animation ne démarre pas (page chargée en arrière-plan, navigateur qui la met en pause),
     // le rideau disparaît quand même au bout de 3,2 s : la page n'est jamais cachée
-    const secours = setTimeout(() => { AbysseSphere.cache(false); if (current) current.done(); else { stopOrb(); c.remove(); root.classList.remove("sc-pending"); } }, 3200);
+    const secours = setTimeout(() => { AbysseSphere.cache(false); verrouiller(false); if (current) current.done(); else { stopOrb(); c.remove(); root.classList.remove("sc-pending"); } }, 3200);
     const go = () => requestAnimationFrame(() => requestAnimationFrame(() => {
       root.classList.remove("sc-pending");
       const h = innerHeight, anims = [], seen = new Set();
@@ -90,6 +103,7 @@
       const under = n => { for (let p = n.parentElement; p; p = p.parentElement) if (seen.has(p)) return true; return false; };
       const prevX = [root.style.overflowX, document.body.style.overflowX];         // les titres viennent de hors de l'écran :
       root.style.overflowX = document.body.style.overflowX = "clip";            // la page ne s'élargit pas pendant ce temps
+      enHaut();
       start();                                                  // la page est prête : le recul commence maintenant, sans à-coup
       const late = mini ? 850 : 0;                              // la page apparaît quand l'eau s'éclaircit
       setTimeout(() => AbysseSphere.cache(false), late);
@@ -116,7 +130,7 @@
       const stop = () => anims.forEach(a => a.finish());
       addEventListener("pointerdown", stop, { once: true });
       addEventListener("keydown", stop, { once: true });
-      const done = () => { clearTimeout(secours); removeEventListener("pointerdown", stop); removeEventListener("keydown", stop); anims.forEach(a => a.cancel()); stopOrb(); c.remove(); AbysseSphere.cache(false); [root.style.overflowX, document.body.style.overflowX] = prevX; current = null; };
+      const done = () => { clearTimeout(secours); removeEventListener("pointerdown", stop); removeEventListener("keydown", stop); anims.forEach(a => a.cancel()); stopOrb(); c.remove(); AbysseSphere.cache(false); verrouiller(false); [root.style.overflowX, document.body.style.overflowX] = prevX; current = null; };
       Promise.all(anims.map(a => a.finished.catch(() => {}))).then(done);
       current = { done };
     }));

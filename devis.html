@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <!-- construction de la page : le fond nuit est peint dès la toute première image, avant transition.js -->
 <script>(()=>{const d=document.documentElement;let t;try{t=localStorage.getItem("saitora-theme")}catch(e){}d.dataset.theme=t||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");if(!matchMedia("(prefers-reduced-motion: reduce)").matches)d.classList.add("sc-pending")})()</script>
-<style>html.sc-pending,html.sc-pending body{background:#FAFAF9}html[data-theme=dark].sc-pending,html[data-theme=dark].sc-pending body{background:#0C0C0D}</style>
+<style>html.sc-pending,html.sc-pending body{background:#06222D}</style>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <title>Demande de devis · Saitora</title>
 <meta name="description" content="Décrivez votre projet de site vitrine en 5 étapes et recevez un devis gratuit sous 24 h.">
@@ -19,10 +19,10 @@
 <meta property="og:image:alt" content="Logo Saitora et la phrase « Votre vitrine, ouverte jour et nuit », devant des sites de commerces">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://saitora.fr/images/partage.jpg?v=2">
-<meta name="theme-color" content="#FAFAF9">
+<meta name="theme-color" content="#06222D">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="polices/jost-a2e892.css">
-<link rel="stylesheet" href="theme.css?v=2">
+<link rel="stylesheet" href="abysse.css">
 <style>
 /* Téléphone : pas de flash gris au toucher, pas de texte grossi en paysage, réponse dès que le doigt se pose,
    libellés des boutons non sélectionnables, contenu tenu hors de l'encoche en paysage. */
@@ -199,10 +199,12 @@ a{color:inherit}
   .theme-toggle{width:44px;height:44px}
 }
 </style>
+<link rel="stylesheet" href="abysse-fin.css">
 </head>
 <body>
-<script src="transition.js?v=13"></script>
-<script src="theme.js?v=1" defer></script>
+<script src="abysse-sphere.js"></script>
+<script src="abysse-transition.js"></script>
+<script src="abysse-fond.js"></script>
 
 <header class="bar">
   <div class="page">
@@ -210,7 +212,7 @@ a{color:inherit}
     <div class="right">
       <a class="back" href="tarifs.html" data-transition="Les tarifs">Tarifs</a>
       <a class="back long" href="accueil.html#vitrines" data-transition="Retour aux réalisations">Réalisations</a>
-      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Changer de thème"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.6A8.2 8.2 0 0 1 9.4 4a8.2 8.2 0 1 0 10.6 10.6z"/></svg></button>
+      
     </div>
   </div>
 </header>

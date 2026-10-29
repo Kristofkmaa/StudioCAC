@@ -1,0 +1,41 @@
+[
+  {
+    "id": "mademoiselle-charlotte",
+    "nom": "Mademoiselle Charlotte",
+    "court": "Mlle Charlotte",
+    "metier": "boutique",
+    "accent": "#C2579B",
+    "logo": "clients/mademoiselle-charlotte/images/logo.webp",
+    "site": "../../clients/mademoiselle-charlotte/",
+    "racine": "../../clients/mademoiselle-charlotte/",
+    "scripts": ["../../clients/mademoiselle-charlotte/pieces.js"],
+    "demo": true,
+    "contenu": { "annonce": "Commandes de Noël jusqu'au 10 décembre", "annonceVisible": true, "accueil": "Bavoirs en gaze de coton, coffrets de naissance, doudous et cadres pour les tout-petits, cousus à la main et brodés à leur prénom.", "horaires": "10 à 15 jours de confection", "contact": "Par le formulaire du panier" }
+  },
+  {
+    "id": "a-funtana",
+    "nom": "A Funtana",
+    "court": "A Funtana",
+    "metier": "institut",
+    "accent": "#1F6F78",
+    "logo": "",
+    "site": "../../demo-a-funtana.html",
+    "racine": "",
+    "scripts": [],
+    "demo": true,
+    "contenu": { "annonce": "Carte cadeau, valable un an", "annonceVisible": true, "accueil": "Hammam, soins et coiffure, cours Grandval à Ajaccio.", "horaires": "Du lundi au samedi, 9 h - 19 h", "contact": "04 00 00 00 00" }
+  },
+  {
+    "id": "u-fucone",
+    "nom": "U Fucone",
+    "court": "U Fucone",
+    "metier": "hebergement",
+    "accent": "#2F86B5",
+    "logo": "",
+    "site": "../../demo-u-fucone.html",
+    "racine": "",
+    "scripts": [],
+    "demo": true,
+    "contenu": { "annonce": "Fermé en janvier, réouverture le 1er février", "annonceVisible": false, "accueil": "Quatre chambres dans une maison de pierre, la table du soir au coin du feu.", "horaires": "Arrivée à partir de 16 h, départ avant 11 h", "contact": "Par le calendrier du site" }
+  }
+]

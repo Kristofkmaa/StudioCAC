@@ -94,7 +94,9 @@ button,input{font:inherit;color:inherit;letter-spacing:inherit}
 
 /* ---- ouverture : le nom en très grand au milieu, les bulles qui montent autour ; dessous, ce que c'est et l'action ---- */
 .hero{position:relative;min-height:calc(100svh - 120px);display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:1fr auto;padding-block:20px clamp(28px,6vh,56px)}
-.hero h1{align-self:center;text-align:center;font-size:min(18.2vw,42vh);line-height:.8;letter-spacing:-.01em;white-space:nowrap}
+/* la taille du nom se règle sur la largeur de la page (unités cqw) : il la remplit pile, centré, sans déborder */
+.hero,footer .page{container-type:inline-size}
+.hero h1{align-self:center;text-align:center;font-size:min(calc(100cqw / 5.3),42vh);line-height:.8;letter-spacing:-.01em;white-space:nowrap}
 .hero h1 span{display:inline-block}
 .hero .pied{display:flex;justify-content:space-between;align-items:flex-end;gap:20px 40px;flex-wrap:wrap}
 .hero .pied p{max-width:30ch}
@@ -191,7 +193,7 @@ figcaption{margin-top:10px;font-size:var(--t-petit);color:var(--muted)}
 
 /* ---- pied de page : un champ d'encre, le nom en grand en premier ---- */
 footer{margin-top:var(--entre);background:var(--ink);color:var(--parchment);padding-block:clamp(56px,8vw,112px) calc(28px + env(safe-area-inset-bottom));overflow:hidden}
-footer .nom{font-size:min(18.2vw,40vh);line-height:.8;text-transform:uppercase;letter-spacing:-.01em;white-space:nowrap;text-align:center}
+footer .nom{font-size:min(calc(100cqw / 5.3),40vh);line-height:.8;text-transform:uppercase;letter-spacing:-.01em;white-space:nowrap;text-align:center}
 footer .bas{margin-top:clamp(56px,7vw,96px);align-items:start;row-gap:32px}
 footer .joindre{grid-column:1/6;display:grid;gap:6px}
 footer .joindre a{font-size:var(--t-grand);line-height:1.2;text-decoration:none;overflow-wrap:anywhere}
@@ -239,7 +241,7 @@ footer .legal a{color:inherit}
   .confirm .btn{grid-column:1/-1;justify-self:start}
 }
 @media (max-width:620px){
-  .hero h1{font-size:20.4vw;line-height:.86}
+  .hero h1{font-size:calc(100cqw / 4.45);line-height:.86}
   .hero h1 span{display:block}
   .hero .pied{flex-direction:column;align-items:flex-start}
   .intro .fondu{grid-column:3/13}
@@ -255,7 +257,7 @@ footer .legal a{color:inherit}
   .carte .gauche .photo{width:62%;justify-self:end}
   .venir .rue{grid-column:1/6}
   .venir .infos{grid-column:1/-1}
-  footer .nom{font-size:20.4vw}
+  footer .nom{font-size:calc(100cqw / 5.3)}
   footer .liens{grid-template-columns:repeat(2,minmax(0,1fr))}
   .confirm{grid-template-columns:minmax(0,1fr);padding:22px}
 }

@@ -19,7 +19,7 @@
    papier chaud #E5E4E0, encre #1D1D1D, blanc pour les photos, filets cendre, une seule police (Uncut Sans, à la place
    d'Ataero Retina, réservée à l'agence), titres en capitales serrés (interligne 0,8), étiquettes à 11 px très espacées,
    liens fantômes à 10 px d'arrondi, aucune ombre, aucun aplat de couleur. Peu de sections, beaucoup d'air.
-   La seule couleur : la bulle irisée de l'ouverture, une vraie bulle de savon dessinée en WebGL qui respire. */
+   La seule couleur : les bulles de savon irisées, dessinées en WebGL, qui montent derrière tout le site et éclatent au hasard. */
 @font-face{font-family:"Uncut Sans";font-weight:400;font-display:swap;src:url(../../polices/uncut-sans-latin-400-normal.woff2) format("woff2")}
 @font-face{font-family:"Uncut Sans";font-weight:700;font-display:swap;src:url(../../polices/uncut-sans-latin-700-normal.woff2) format("woff2")}
 :root{
@@ -85,14 +85,15 @@ button,input{font:inherit;color:inherit;letter-spacing:inherit}
 .hero .metiers{font-size:clamp(1.05rem,.8rem + .9vw,1.6rem);line-height:1}
 .hero .pied p.label{max-width:30ch;text-align:center}
 .hero .pied .go{justify-self:end}
-/* les bulles de savon : elles montent, se balancent et éclatent (WebGL pour les bulles, un calque 2D pour les gouttelettes) */
-.bulle{position:absolute;inset:0;z-index:-1;pointer-events:none}
+/* les bulles de savon, en fond de tout le site : elles montent, se balancent et éclatent au hasard (WebGL pour les bulles, un calque 2D pour les gouttelettes).
+   Hauteur fixée sur le grand écran (lvh) : la barre du navigateur qui apparaît ou disparaît ne les fait pas sauter. */
+.bulle{position:fixed;left:0;top:0;width:100%;height:100vh;height:100lvh;z-index:-1;pointer-events:none}
 .bulle canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 /* repli sans WebGL : trois bulles en CSS qui montent et s'effacent */
 .bulle .css{position:absolute;bottom:-20%;border-radius:50%;background:radial-gradient(circle at 32% 28%,rgba(255,255,255,.9) 0 7%,transparent 14%),conic-gradient(from 200deg,rgba(236,120,214,.45),rgba(110,214,196,.4),rgba(246,206,110,.45),rgba(140,170,250,.4),rgba(236,120,214,.45));-webkit-mask:radial-gradient(circle,rgba(0,0,0,.35) 55%,#000 70%);mask:radial-gradient(circle,rgba(0,0,0,.35) 55%,#000 70%);animation:monte 11s linear infinite}
-.bulle .css:nth-child(1){left:58%;width:min(26vw,190px);aspect-ratio:1}
-.bulle .css:nth-child(2){left:76%;width:min(16vw,120px);aspect-ratio:1;animation-delay:-4s;animation-duration:9s}
-.bulle .css:nth-child(3){left:66%;width:min(10vw,76px);aspect-ratio:1;animation-delay:-7s;animation-duration:8s}
+.bulle .css:nth-child(1){left:10%;width:min(26vw,190px);aspect-ratio:1}
+.bulle .css:nth-child(2){left:78%;width:min(16vw,120px);aspect-ratio:1;animation-delay:-4s;animation-duration:9s}
+.bulle .css:nth-child(3){left:46%;width:min(10vw,76px);aspect-ratio:1;animation-delay:-7s;animation-duration:8s}
 @keyframes monte{0%{translate:0 0;opacity:0}10%{opacity:.75}80%{opacity:.75}100%{translate:0 -95vh;opacity:0}}
 @media (prefers-reduced-motion:reduce){.bulle .css{animation:none;bottom:30%}}
 
@@ -189,6 +190,7 @@ footer .page{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px 
 </style>
 </head>
 <body>
+<div class="bulle" id="bulle" aria-hidden="true"></div>
 <p class="demo label">Site de démonstration réalisé par Saitora, institut fictif</p>
 
 <div class="page">
@@ -207,7 +209,6 @@ footer .page{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px 
 
 <main>
   <section class="page hero" id="hero">
-    <div class="bulle" id="bulle" aria-hidden="true"></div>
     <h1 class="caps"><span>A</span> <span>Funtana</span></h1>
     <div class="pied">
       <p class="metiers caps">Hammam, soins et coiffure</p>
@@ -268,11 +269,12 @@ footer .page{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px 
 
 <script>
 // ——— les bulles de savon : deux ou trois bulles montent en se balançant, puis éclatent en fines gouttelettes irisées ;
-// une nouvelle remonte du bas. On peut aussi les faire éclater du doigt. Les bulles sont dessinées en WebGL
+// au bout d'un temps tiré au hasard ; une nouvelle remonte du bas. Elles sont en fond de tout le site (calque fixe).
+// On peut aussi les faire éclater du doigt. Les bulles sont dessinées en WebGL
 // (film transparent aux vraies couleurs d’interférence qui coulent et tourbillonnent, reflet de fenêtre), les gouttelettes sur un calque 2D.
-// Arrêtées hors de l'écran ; immobiles (sans éclatement) si l'on demande moins d'animations.
+// Arrêtées quand l'onglet est caché ; immobiles (sans éclatement) si l'on demande moins d'animations.
 (() => {
-  const box = document.getElementById("bulle"), hero = document.getElementById("hero"), calme = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const box = document.getElementById("bulle"), calme = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const cv = document.createElement("canvas"), cv2 = document.createElement("canvas"); box.append(cv, cv2);
   const gl = cv.getContext("webgl", { premultipliedAlpha: true, antialias: false, alpha: true });
   const repli = () => { box.innerHTML = '<div class="css"></div><div class="css"></div><div class="css"></div>'; };
@@ -373,13 +375,12 @@ void main(){
     const base = Math.min(W, H), tailles = mobile() ? [.2, .13, .085] : [.17, .11, .07];
     o.r = base * tailles[o.i] * hasard(.85, 1.15);
     // chacune son couloir : elles ne s'empilent pas les unes sur les autres
-    const couloir = (mobile() ? [[.12, .32], [.68, .88], [.4, .6]] : [[.1, .26], [.74, .9], [.42, .58]])[o.i];
+    const couloir = (mobile() ? [[.1, .32], [.68, .9], [.38, .62]] : [[.06, .28], [.72, .94], [.38, .62]])[o.i];
     o.x0 = hasard(...couloir) * W;
-    // sur téléphone, le titre occupe le bas : les bulles vivent dans la moitié haute
-    o.y = debut ? (mobile() ? hasard(.16, .46) : hasard(.28, .85)) * H : H + o.r + hasard(10, 80);
+    o.y = debut ? hasard(.15, .9) * H : H + o.r + hasard(10, 80);
     o.vy = hasard(34, 52) * (1.25 - o.i * .12) * (mobile() ? 1.1 : 1);   // les petites montent un peu plus vite
     o.amp = hasard(10, 26); o.freq = hasard(.5, .9); o.age = hasard(0, 6);
-    o.eclate = (mobile() ? hasard(.06, .22) : hasard(.1, .38)) * H;   // hauteur où elle éclate
+    o.vie = debut ? hasard(1.5, 11) : hasard(3, 15); o.temps = 0;   // elle éclate au bout de ce temps, tiré au hasard
     o.pop = -1; o.attente = 0; o.vis = 1;
   };
   bulles.forEach(o => nouvelle(o, true));
@@ -403,8 +404,8 @@ void main(){
         s: gros ? hasard(2.8, 3.8) : hasard(1.4, 2.4), c: COUL[Math.random() * COUL.length | 0] });
     }
   };
-  hero.addEventListener("pointerdown", e => {
-    if (calme || e.target.closest("a,button")) return;
+  document.addEventListener("pointerdown", e => {
+    if (calme || e.target.closest("a,button,input,label,select,textarea,img,.slot,.sheet,.dock")) return;
     const r = box.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
     for (const o of bulles) if (o.pop < 0 && o.attente <= 0 && Math.hypot(x - o.x, y - o.y) < o.r * 1.05) { eclater(o, { x, y }); break; }
   });
@@ -418,7 +419,8 @@ void main(){
       o.age += dt;
       if (o.pop >= 0) { const p0 = o.pop; o.pop = Math.min(1, o.pop + dt / .26); projette(o, p0, o.pop); if (o.pop >= 1) { o.vis = 0; o.attente = hasard(.5, 1.6); } continue; }
       o.y -= o.vy * dt; o.x = o.x0 + o.amp * Math.sin(o.age * o.freq + o.ph);
-      if (o.y < o.eclate) eclater(o);
+      o.temps += dt;
+      if (o.temps > o.vie || o.y < o.r * .7) eclater(o);   // son temps est fini, ou elle touche le haut de l'écran
     }
     const frein = Math.exp(-4 * dt);                       // l'air freine les gouttelettes, puis elles retombent
     for (const g of gouttes) { g.t += dt; g.vx *= frein; g.vy = g.vy * frein + 300 * dt; g.x += g.vx * dt; g.y += g.vy * dt; }
@@ -443,11 +445,11 @@ void main(){
   dessine();
   addEventListener("resize", () => { const w = W, h = H; taille(); bulles.forEach(o => { o.x0 *= W / (w || W); o.x *= W / (w || W); o.y *= H / (h || H); }); dessine(); });
   if (calme) return;
-  let raf = 0, vu = true;
+  let raf = 0;
   const boucle = now => { pas(now); dessine(); raf = requestAnimationFrame(boucle); };
-  const relance = () => { cancelAnimationFrame(raf); if (vu && !document.hidden) { last = performance.now(); raf = requestAnimationFrame(boucle); } };
-  new IntersectionObserver(([e]) => { vu = e.isIntersecting; relance(); }).observe(box);
+  const relance = () => { cancelAnimationFrame(raf); if (!document.hidden) { last = performance.now(); raf = requestAnimationFrame(boucle); } };
   document.addEventListener("visibilitychange", relance);
+  relance();
 })();
 
 const $ = id => document.getElementById(id);

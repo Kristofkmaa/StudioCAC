@@ -333,28 +333,6 @@
   const rdvDuJour = iso => D.rdv.filter(r => r.date === iso && r.statut !== "annule").sort((a, b) => a.debut - b.debut);
 
 
-  let jourVu = null, filtreEq = "tous";
-  function agenda() {
-    const t = T.auj(); jourVu = jourVu || T.iso(t);
-    const j = new Date(jourVu), lundi = T.plus(j, -((j.getDay() + 6) % 7));
-    const semaine = [...Array(7)].map((_, i) => T.plus(lundi, i));
-    const l = rdvDuJour(jourVu).filter(r => filtreEq === "tous" || r.equipe === filtreEq);
-    const dem = D.rdv.filter(r => r.statut === "demande");
-    const ferme = D.horaires.ferme.includes(j.getDay());
-    ecran({ titre: "Agenda", sous: `<span>${dL(jourVu)}</span>`, plus: () => feuilleNouveauRdv({ date: jourVu }), plusLabel: "Nouveau rendez-vous", corps: `
-      <div class="semaine-nav"><button class="rond" id="semAv" aria-label="Semaine précédente">${retourIco}</button><p>${(t => t[0].toUpperCase() + t.slice(1))(lundi.toLocaleDateString("fr-FR", { month: "long", year: "numeric" }))}</p><button class="rond" id="semAp" aria-label="Semaine suivante" style="transform:scaleX(-1)">${retourIco}</button></div>
-      <div class="jours" id="jours">${semaine.map(d => { const iso = T.iso(d), n = rdvDuJour(iso).length; return `<button type="button" data-j="${iso}" aria-pressed="${iso === jourVu}" class="${iso === T.iso(t) ? "aujourdhui" : ""}" aria-label="${dL(d)}, ${pl(n, "rendez-vous", "rendez-vous")}"><span>${d.toLocaleDateString("fr-FR", { weekday: "short" }).replace(".", "")}</span><b class="num">${d.getDate()}</b><i class="${n ? "" : "vide"}"></i></button>`; }).join("")}</div>
-      ${D.equipe.length > 1 ? segments("segEq", [["tous", "Tous"], ...D.equipe.map(e => [e.id, e.nom])], filtreEq) : ""}
-      ${dem.length ? `<p class="pied-groupe" style="padding-top:10px"><button class="lien-texte" id="voirDem">${pl(dem.length, "demande")} à confirmer</button></p>` : ""}
-      <div style="margin-top:12px">${ferme ? `<div class="vide-doux">Fermé ce jour-là.</div>` : l.length ? `<div class="groupe">${l.map(ligneRdv).join("")}</div><p class="pied-groupe">Glissez un rendez-vous vers la gauche pour le confirmer ou noter la venue.</p>` : `<div class="vide-doux">Aucun rendez-vous.<br><button class="lien-texte" id="ajoutVide" style="margin-top:8px">Ajouter un rendez-vous</button></div>`}</div>` });
-    $("jours").onclick = e => { const b = e.target.closest("button"); if (b) { jourVu = b.dataset.j; agenda(); } };
-    $("semAv").onclick = () => { jourVu = T.iso(T.plus(jourVu, -7)); agenda(); };
-    $("semAp").onclick = () => { jourVu = T.iso(T.plus(jourVu, 7)); agenda(); };
-    if ($("segEq")) surSegments("segEq", s => { filtreEq = s; agenda(); });
-    if ($("ajoutVide")) $("ajoutVide").onclick = () => feuilleNouveauRdv({ date: jourVu });
-    if ($("voirDem")) $("voirDem").onclick = () => { const r = [...dem].sort((a, b) => a.date.localeCompare(b.date))[0]; jourVu = r.date; agenda(); feuilleRdv(r.id); };
-    brancheRdv();
-  }
   function feuilleRdv(id) {
     const r = D.rdv.find(x => x.id === id); if (!r) return;
     const p = presta(r.presta), c = client(r.client), m = membre(r.equipe), tel = (c.tel || "").replace(/[^0-9+]/g, "");
@@ -491,23 +469,6 @@
   const brancheSej = () => document.querySelectorAll("[data-sej]").forEach(b => b.onclick = () => feuilleSejour(b.dataset.sej));
   const ligneSejour = s => { const n = nbj(s.arrivee, s.depart); return glisse(`<button type="button" class="ligne av-icone" data-sej="${s.id}">${avatar(s.nom)}<span><b class="${s.statut === "demande" ? "gras" : ""}">${esc(s.nom)}</b><small>${esc(chambre(s.chambre).nom)} · ${dC(s.arrivee)} → ${dC(s.depart)} · ${pl(n, "nuit")}</small></span>${s.statut === "confirme" ? `<span class="valeur num">${eur(chambre(s.chambre).prix * n)}</span>` : pastille(s.statut, STATUT_SEJ[s.statut])}${chev}</button>`, s.statut === "demande" ? [["Refuser", "rouge", `sej|${s.id}|annule`], ["Accepter", "vert", `sej|${s.id}|confirme`]] : []); };
 
-  let filtreSej = "avenir", decal = 0;
-  function sejours() {
-    const t = T.auj(), ti = T.iso(t);
-    const F = { avenir: s => s.depart >= ti && s.statut !== "annule", demande: s => s.statut === "demande", passes: s => s.depart < ti && s.statut !== "annule" };
-    if (!F[filtreSej]) filtreSej = "avenir";
-    const l = D.sejours.filter(F[filtreSej]).sort((a, b) => filtreSej === "passes" ? b.arrivee.localeCompare(a.arrivee) : a.arrivee.localeCompare(b.arrivee));
-    const deb = T.plus(t, decal * 14);
-    ecran({ titre: "Séjours", sous: pl(D.chambres.length, "chambre"), plus: () => feuilleNouveauSejour(), plusLabel: "Ajouter un séjour", corps: `
-      <div class="semaine-nav"><button class="rond" id="plAv" aria-label="Deux semaines plus tôt">${retourIco}</button><p class="num">${dC(deb)} – ${dC(T.plus(deb, 13))}</p><button class="rond" id="plAp" aria-label="Deux semaines plus tard" style="transform:scaleX(-1)">${retourIco}</button></div>
-      <div style="margin-top:6px">${planning(deb, 14)}</div>
-      <div style="margin-top:18px">${segments("segSej", [["avenir", "À venir"], ["demande", "À confirmer", D.sejours.filter(F.demande).length], ["passes", "Passés"]], filtreSej)}</div>
-      <div style="margin-top:12px">${l.length ? `<div class="groupe">${l.slice(0, 40).map(ligneSejour).join("")}</div>` : `<div class="vide-doux">Rien ici.</div>`}</div>` });
-    $("plAv").onclick = () => { decal--; sejours(); };
-    $("plAp").onclick = () => { decal++; sejours(); };
-    surSegments("segSej", s => { filtreSej = s; sejours(); });
-    brancheSej();
-  }
   function feuilleSejour(id) {
     const s = D.sejours.find(x => x.id === id); if (!s) return;
     const c = chambre(s.chambre), n = nbj(s.arrivee, s.depart);
@@ -525,9 +486,9 @@
     f.querySelector("#sOui")?.addEventListener("click", () => { s.statut = "confirme"; sauver("Séjour confirmé"); fermeFeuille(); route(); });
     f.querySelector("#sNon")?.addEventListener("click", () => { const etait = s.statut; if (etait === "ferme") D.sejours.splice(D.sejours.indexOf(s), 1); else s.statut = "annule"; sauver(etait === "ferme" ? "Dates rouvertes" : etait === "demande" ? "Demande refusée" : "Séjour annulé"); fermeFeuille(); route(); });
   }
-  function feuilleNouveauSejour(mode = "sejour") {
-    let ch = D.chambres[0]?.id;
-    const t = T.iso(T.auj());
+  function feuilleNouveauSejour(mode = "sejour", { ch: ch0 = "", date = "" } = {}) {
+    let ch = ch0 || D.chambres[0]?.id;
+    const t = date || T.iso(T.auj());
     const f = feuille({ titre: "Ajouter", droite: "Ajouter", corps: `
       ${segments("sMode", [["sejour", "Un séjour"], ["ferme", "Fermer des dates"]], mode)}
       <p class="entete-groupe">Chambre</p><div class="groupe"><div class="puces" id="sCh">${D.chambres.map(c => `<button type="button" data-c="${c.id}" aria-pressed="${c.id === ch}">${esc(c.nom)}</button>`).join("")}</div></div>
@@ -558,6 +519,160 @@
       feuille({ titre: c.nom, droite: "OK", corps: `<div class="groupe"><div class="champ-ligne"><label for="kPrix">Prix par nuit</label><input id="kPrix" type="number" inputmode="decimal" value="${c.prix}"></div><div class="champ-ligne"><label for="kPl">Personnes</label><input id="kPl" type="number" inputmode="numeric" value="${c.places}"></div><div class="champ-ligne"><label for="kTx">Phrase</label><input id="kTx" value="${esc(c.texte || "")}"></div></div>`,
         ok: () => { c.prix = +$("kPrix").value || c.prix; c.places = +$("kPl").value || c.places; c.texte = $("kTx").value.trim(); sauver("Enregistré"); fermeFeuille(); chambres(); } });
     });
+  }
+
+  /* =====================================================================
+     L'AGENDA, le même pour tous les métiers : des blocs de couleur, vus jour par jour ou en mois entier.
+     Chaque métier dit seulement ce qu'il y met (AGENDA ci-dessous) ; le choix Jour / Mois est retenu.
+     ===================================================================== */
+  let vueAg = "jour"; try { vueAg = localStorage.getItem(`saitorapp-vue-${S.id}`) === "mois" ? "mois" : "jour"; } catch (e) {}
+  let jourVu = null, filtreEq = "tous", filtreSej = "";
+  const maj = t => t[0].toUpperCase() + t.slice(1);
+  const nomMois = d => maj(new Date(d).toLocaleDateString("fr-FR", { month: "long", year: "numeric" }));
+  const COULEURS = ["#5A6FB0", "#2E7D6B", "#B5674D", "#8B5CF6", "#C2410C", "#0E7490"];
+  const couleurCh = id => COULEURS[Math.max(0, D.chambres.findIndex(c => c.id === id)) % COULEURS.length];
+  /* un bloc : la couleur de la personne ou de la chambre ; en pointillé s'il attend une réponse */
+  const bloc = ({ c, statut = "", data = "", titre, sous = "", style = "" }) => `<button type="button" class="bloc ${statut}" ${data} style="--c:${c};${style}"><b>${titre}</b>${sous ? `<small>${sous}</small>` : ""}</button>`;
+
+  const AGENDA = {
+    institut: {
+      titre: "Agenda", plus: d => feuilleNouveauRdv({ date: d }), plusLabel: "Nouveau rendez-vous",
+      compte: iso => rdvDuJour(iso).length,
+      ferme: iso => (D.horaires?.ferme || []).includes(new Date(iso).getDay()),
+      demandes: () => D.rdv.filter(r => r.statut === "demande").map(r => ({ id: r.id, date: r.date })),
+      ouvre: id => feuilleRdv(id),
+      blocs: (de, a) => D.rdv.filter(r => r.statut !== "annule" && r.date >= de && r.date <= a && (filtreEq === "tous" || r.equipe === filtreEq)).sort((x, y) => x.date.localeCompare(y.date) || x.debut - y.debut)
+        .map(r => ({ de: r.date, a: r.date, txt: `${hm(r.debut)} ${client(r.client).nom.split(" ")[0]}`, c: membre(r.equipe).couleur, statut: r.statut })),
+      jour: iso => frise(iso),
+      /* en mois, un salon a trop de rendez-vous pour les écrire : le nombre et le remplissage de la journée, aux couleurs de l'équipe */
+      cellule: iso => {
+        const H = D.horaires || { ouverture: 540, fermeture: 1140, ferme: [0] }; if (H.ferme.includes(new Date(iso).getDay())) return "";
+        const l = rdvDuJour(iso).filter(r => r.statut !== "absent" && (filtreEq === "tous" || r.equipe === filtreEq)); if (!l.length) return "";
+        const cap = (H.fermeture - H.ouverture) * (filtreEq === "tous" ? Math.max(1, D.equipe.length) : 1), qui = {};
+        l.forEach(r => { qui[r.equipe] = (qui[r.equipe] || 0) + presta(r.presta).duree; });
+        return `<span class="m-info"><small class="num">${l.length}</small><span class="m-occ">${Object.entries(qui).map(([e, m]) => `<i style="background:${membre(e).couleur};width:${Math.min(100, m / cap * 100)}%"></i>`).join("")}</span></span>`;
+      },
+      liste: iso => { const l = rdvDuJour(iso).filter(r => filtreEq === "tous" || r.equipe === filtreEq); return l.length ? `<div class="groupe">${l.map(ligneRdv).join("")}</div>` : `<div class="vide-doux">Aucun rendez-vous ce jour-là.</div>`; },
+      filtres: () => D.equipe.length > 1 ? `<div style="margin:2px 0 8px">${segments("segEq", [["tous", "Tous"], ...D.equipe.map(e => [e.id, e.nom])], filtreEq)}</div>` : "",
+      branche: () => { if ($("segEq")) surSegments("segEq", s => { filtreEq = s; garde(agenda); }); brancheRdv(); }
+    },
+    hebergement: {
+      titre: "Séjours", plus: d => feuilleNouveauSejour("sejour", { date: d }), plusLabel: "Ajouter un séjour",
+      compte: iso => D.sejours.filter(s => !["annule", "ferme"].includes(s.statut) && s.arrivee <= iso && s.depart > iso).length,
+      ferme: () => false,
+      demandes: () => D.sejours.filter(s => s.statut === "demande").map(s => ({ id: s.id, date: s.arrivee })),
+      ouvre: id => feuilleSejour(id),
+      /* un séjour couvre ses nuits : de l'arrivée à la veille du départ */
+      blocs: (de, a) => D.sejours.filter(s => s.statut !== "annule" && s.arrivee <= a && s.depart > de).sort((x, y) => x.arrivee.localeCompare(y.arrivee) || nbj(y.arrivee, y.depart) - nbj(x.arrivee, x.depart))
+        .map(s => ({ de: s.arrivee, a: T.iso(T.plus(s.depart, -1)), txt: s.nom, c: couleurCh(s.chambre), statut: s.statut, rang: Math.max(0, D.chambres.findIndex(c => c.id === s.chambre)) })),
+      /* en mois, une ligne par chambre : la semaine se lit comme le planning de la maison */
+      rangs: () => Math.min(6, Math.max(1, D.chambres.length)),
+      jour: iso => chambresDuJour(iso),
+      liste: iso => { const l = D.sejours.filter(s => s.statut !== "annule" && s.arrivee <= iso && s.depart >= iso).sort((a, b) => a.arrivee.localeCompare(b.arrivee)); return l.length ? `<div class="groupe">${l.map(ligneSejour).join("")}</div>` : `<div class="vide-doux">Toute la maison est libre ce soir-là.</div>`; },
+      filtres: () => "",
+      branche: () => brancheSej()
+    }
+  };
+  /* refaire l'écran sans remonter en haut */
+  const garde = f => { const y = scrollY; f(); scrollTo(0, y); };
+
+  function agenda() {
+    const A = AGENDA[S.metier] || AGENDA.institut, t = T.auj(), ti = T.iso(t);
+    jourVu = jourVu || ti;
+    const j = new Date(jourVu), dem = A.demandes().sort((a, b) => a.date.localeCompare(b.date));
+    const fleches = (txt, av, ap) => `<div class="semaine-nav"><button class="rond" id="agAv" aria-label="${av}">${retourIco}</button><p>${txt}</p><button class="rond" id="agAp" aria-label="${ap}" style="transform:scaleX(-1)">${retourIco}</button></div>`;
+    const lienDem = dem.length ? `<p class="pied-groupe" style="padding:0 0 8px"><button class="lien-texte" id="voirDem">${pl(dem.length, "demande")} à confirmer</button></p>` : "";
+    let corps = `<div class="bascule" id="agVue" role="group" aria-label="Affichage de l'agenda">${[["jour", "Jour"], ["mois", "Mois"]].map(([k, x]) => `<button type="button" data-vue="${k}" aria-pressed="${k === vueAg}">${x}</button>`).join("")}</div>`;
+    if (vueAg === "jour") {
+      const lundi = T.plus(j, -((j.getDay() + 6) % 7));
+      corps += `${fleches(nomMois(lundi), "Semaine précédente", "Semaine suivante")}
+        <div class="jours" id="jours">${[...Array(7)].map((_, i) => { const d = T.plus(lundi, i), iso = T.iso(d), n = A.compte(iso); return `<button type="button" data-j="${iso}" aria-pressed="${iso === jourVu}" class="${iso === ti ? "aujourdhui" : ""}" aria-label="${dL(d)}, ${n}"><span>${d.toLocaleDateString("fr-FR", { weekday: "short" }).replace(".", "")}</span><b class="num">${d.getDate()}</b><i class="${n ? "" : "vide"}"></i></button>`; }).join("")}</div>
+        ${A.filtres()}${lienDem}<div id="agJour">${A.jour(jourVu)}</div>`;
+    } else {
+      corps += `${fleches(nomMois(j), "Mois précédent", "Mois suivant")}${A.filtres()}${lienDem}${grilleMois(jourVu, A)}
+        <p class="entete-groupe fort">${dL(jourVu)}</p>${A.liste(jourVu)}`;
+    }
+    ecran({ titre: A.titre, sous: dL(jourVu), plus: () => A.plus(jourVu), plusLabel: A.plusLabel, corps });
+    $("agVue").onclick = e => { const b = e.target.closest("[data-vue]"); if (!b || b.dataset.vue === vueAg) return; vueAg = b.dataset.vue; try { localStorage.setItem(`saitorapp-vue-${S.id}`, vueAg); } catch (x) {} agenda(); entree(); };
+    /* les flèches : une semaine en vue Jour, un mois en vue Mois (le mois en cours s'ouvre sur aujourd'hui) */
+    const moisDe = k => { const d = new Date(j.getFullYear(), j.getMonth() + k, 1); return T.iso(d.getMonth() === t.getMonth() && d.getFullYear() === t.getFullYear() ? t : d); };
+    $("agAv").onclick = () => { jourVu = vueAg === "jour" ? T.iso(T.plus(jourVu, -7)) : moisDe(-1); garde(agenda); };
+    $("agAp").onclick = () => { jourVu = vueAg === "jour" ? T.iso(T.plus(jourVu, 7)) : moisDe(1); garde(agenda); };
+    document.querySelectorAll("#jours [data-j], .m-jour").forEach(b => b.onclick = () => { jourVu = b.dataset.j; garde(agenda); });
+    if ($("voirDem")) $("voirDem").onclick = () => { jourVu = dem[0].date; agenda(); A.ouvre(dem[0].id); };
+    if ($("fZone")) $("fZone").onclick = e => { if (!e.target.closest(".bloc")) A.plus(jourVu); };
+    document.querySelectorAll("[data-libre]").forEach(b => b.onclick = () => feuilleNouveauSejour("sejour", { ch: b.dataset.libre, date: jourVu }));
+    A.branche();
+    /* en vue Jour, glisser la journée vers la gauche ou la droite change de jour */
+    const zone = $("agJour");
+    if (zone) {
+      let x0 = 0, y0 = 0;
+      zone.addEventListener("touchstart", e => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
+      zone.addEventListener("touchend", e => {
+        const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
+        if (Math.abs(dx) < 60 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+        jourVu = T.iso(T.plus(jourVu, dx < 0 ? 1 : -1)); garde(agenda);
+        if (!calme.matches) $("agJour")?.animate([{ opacity: 0, transform: `translateX(${dx < 0 ? 40 : -40}px)` }, { opacity: 1, transform: "none" }], { duration: 320, easing: DOUX });
+      });
+    }
+  }
+  const sejours = () => agenda();
+
+  /* la journée d'un institut : les heures, et un bloc par rendez-vous, de la hauteur de sa durée */
+  function frise(iso) {
+    const H = D.horaires || { ouverture: 540, fermeture: 1140, ferme: [0] };
+    if (H.ferme.includes(new Date(iso).getDay())) return `<div class="vide-doux">Fermé ce jour-là.</div>`;
+    const h0 = Math.floor(H.ouverture / 60) * 60, h1 = Math.ceil(H.fermeture / 60) * 60, px = 1.35;
+    const ev = rdvDuJour(iso).filter(r => filtreEq === "tous" || r.equipe === filtreEq).map(r => ({ r, a: r.debut, b: r.debut + presta(r.presta).duree }));
+    /* deux rendez-vous en même temps se partagent la largeur */
+    const paquets = []; let p = [], fin = -1;
+    ev.forEach(e => { if (p.length && e.a >= fin) { paquets.push(p); p = []; fin = -1; } p.push(e); fin = Math.max(fin, e.b); });
+    if (p.length) paquets.push(p);
+    paquets.forEach(q => { const fins = []; q.forEach(e => { let l = fins.findIndex(f => f <= e.a); if (l < 0) { l = fins.length; fins.push(0); } fins[l] = e.b; e.l = l; }); q.forEach(e => e.n = fins.length); });
+    let heures = ""; for (let h = h0; h <= h1; h += 60) heures += `<span class="f-h" style="top:${(h - h0) * px}px"><i class="num">${h / 60}:00</i></span>`;
+    const now = new Date(), mn = now.getHours() * 60 + now.getMinutes();
+    const ici = iso === T.iso(now) && mn > h0 && mn < h1 ? `<span class="f-now" style="top:${(mn - h0) * px}px"></span>` : "";
+    return `<div class="frise" style="height:${(h1 - h0) * px}px">${heures}<div class="f-zone" id="fZone" aria-label="Toucher un moment libre pour ajouter un rendez-vous">${ev.map(e => {
+      const court = e.b - e.a < 30;
+      return bloc({ c: membre(e.r.equipe).couleur, statut: `${e.r.statut}${court ? " court" : ""}`, data: `data-rdv="${e.r.id}"`, titre: `${court ? `<span class="num">${hm(e.a)}</span> ` : ""}${esc(client(e.r.client).nom)}`, sous: court ? "" : `<span class="num">${hm(e.a)}</span> · ${esc(presta(e.r.presta).nom)}${D.equipe.length > 1 && filtreEq === "tous" ? ` · ${esc(membre(e.r.equipe).nom)}` : ""}`,
+        style: `top:${(e.a - h0) * px + 1}px;height:${(e.b - e.a) * px - 2}px;left:calc(${e.l / e.n * 100}% + 1px);width:calc(${100 / e.n}% - 3px)` });
+    }).join("")}${ici}</div></div>${ev.length ? "" : `<p class="pied-groupe">Aucun rendez-vous. Touchez la journée pour en ajouter un.</p>`}`;
+  }
+
+  /* la journée d'un hébergement : chaque chambre et qui y dort ce soir */
+  function chambresDuJour(iso) {
+    return `<div class="ch-jour">${D.chambres.map(c => {
+      const l = D.sejours.filter(s => s.chambre === c.id && s.statut !== "annule" && s.arrivee <= iso && s.depart >= iso).sort((a, b) => a.arrivee.localeCompare(b.arrivee));
+      const occupee = l.some(s => s.depart > iso);
+      const blocs = l.map(s => {
+        const n = nbj(s.arrivee, s.depart), k = nbj(s.arrivee, iso) + 1;
+        const sous = s.statut === "ferme" ? `Fermé jusqu'au ${dC(s.depart)}` : s.depart === iso ? "Part aujourd'hui" : s.arrivee === iso ? `Arrive ce jour-là · ${pl(n, "nuit")}` : `Nuit ${k} sur ${n} · part le ${dC(s.depart)}`;
+        return bloc({ c: couleurCh(c.id), statut: `${s.statut}${s.depart === iso ? " part" : ""}`, data: `data-sej="${s.id}"`, titre: esc(s.nom), sous: `${sous}${s.statut === "demande" ? " · à confirmer" : ""}` });
+      }).join("");
+      return `<div class="ch-rang"><p class="ch-nom"><span><i style="background:${couleurCh(c.id)}"></i>${esc(c.nom)}</span><small class="num">${eur(c.prix)} la nuit</small></p><div class="ch-blocs">${blocs}${occupee ? "" : `<button type="button" class="bloc libre" data-libre="${c.id}"><b>Libre ce soir</b><small>Ajouter un séjour</small></button>`}</div></div>`;
+    }).join("")}</div>`;
+  }
+
+  /* le mois en un seul bloc : une ligne par semaine, les blocs posés en barres (un séjour s'étire sur ses nuits) */
+  function grilleMois(sel, A) {
+    const s = new Date(sel), prem = new Date(s.getFullYear(), s.getMonth(), 1), dern = new Date(s.getFullYear(), s.getMonth() + 1, 0);
+    const deb = T.plus(prem, -((prem.getDay() + 6) % 7)), n = Math.ceil((nbj(T.iso(deb), T.iso(dern)) + 1) / 7), ti = T.iso(T.auj());
+    const tous = A.cellule ? [] : A.blocs(T.iso(deb), T.iso(T.plus(deb, n * 7 - 1))), MAX = A.rangs ? A.rangs() : 3;
+    let h = `<div class="mois"><div class="m-noms" aria-hidden="true">${["L", "M", "M", "J", "V", "S", "D"].map(x => `<span>${x}</span>`).join("")}</div>`;
+    for (let w = 0; w < n; w++) {
+      const d0 = T.plus(deb, w * 7), j0 = T.iso(d0), j6 = T.iso(T.plus(d0, 6)), fins = [], trop = [0, 0, 0, 0, 0, 0, 0];
+      let barres = "";
+      tous.filter(b => b.de <= j6 && b.a >= j0).forEach(b => {
+        const a = Math.max(0, nbj(j0, b.de)), z = Math.min(6, nbj(j0, b.a));
+        let l = b.rang ?? fins.findIndex(f => f < a); if (l < 0) { l = fins.length; fins.push(-1); }
+        if (l >= MAX) { for (let k = a; k <= z; k++) trop[k]++; return; }
+        fins[l] = z;
+        barres += `<span class="m-barre ${b.statut} ${b.de < j0 ? "suite" : ""} ${b.a > j6 ? "continue" : ""}" style="--c:${b.c};grid-column:${a + 1}/${z + 2};grid-row:${l + 2}">${esc(b.txt)}</span>`;
+      });
+      const jours = [...Array(7)].map((_, i) => { const d = T.plus(d0, i), iso = T.iso(d); return `<button type="button" class="m-jour${d.getMonth() !== s.getMonth() ? " hors" : ""}${iso === ti ? " auj" : ""}${A.ferme(iso) ? " ferme" : ""}" data-j="${iso}" aria-pressed="${iso === sel}" style="grid-column:${i + 1}" aria-label="${dL(d)}"><b class="num">${d.getDate()}</b>${A.cellule ? A.cellule(iso) : trop[i] ? `<small class="num">+${trop[i]}</small>` : ""}</button>`; }).join("");
+      h += `<div class="m-sem" style="grid-template-rows:32px repeat(${MAX},17px) 15px">${jours}${barres}</div>`;
+    }
+    return h + "</div>";
   }
 
   /* =====================================================================

@@ -678,5 +678,7 @@
   ["gesturestart", "gesturechange", "gestureend"].forEach(t => document.addEventListener(t, e => e.preventDefault(), { passive: false }));
   document.addEventListener("touchmove", e => { if (e.touches.length > 1) e.preventDefault(); }, { passive: false });
   /* le double toucher est coupé par touch-action: manipulation (app.css), sans gêner le pavé numérique */
+  /* la toute première version de l'appli posait un service worker : on le retire pour toujours servir la dernière version */
+  if ("serviceWorker" in navigator) navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => r.unregister())).catch(() => {});
   route();
 })();

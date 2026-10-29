@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Panier · Mademoiselle Charlotte</title>
+<meta name="description" content="Le panier de commande de Mademoiselle Charlotte.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#F8F1FA">
+<link rel="icon" href="images/logo-petit.png">
+<link rel="stylesheet" href="../../polices/fraunces-schibsted-grotesk-6570f1.css">
+<link rel="stylesheet" href="charlotte.css">
+<style>
+.fil{font-size:14px;color:var(--ardoise);padding:8px 0 0}
+.fil a{text-decoration:none}
+.panier{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(28px,5vw,72px);align-items:start;padding:clamp(24px,4vw,48px) 0 clamp(80px,10vw,128px)}
+@media (max-width:900px){.panier{grid-template-columns:1fr}}
+.panier h1{font:300 clamp(44px,6vw,72px)/.98 var(--serif);letter-spacing:-.017em;margin-bottom:clamp(24px,3vw,36px)}
+.lignes{list-style:none;display:grid;gap:22px}
+.ligne{display:grid;grid-template-columns:96px 1fr auto;gap:18px;align-items:start}
+.ligne img{width:96px;height:96px;object-fit:cover;border-radius:16px;background:var(--creme)}
+.ligne h2{font:500 16px/1.3 var(--sans)}
+.ligne .det{font:italic 300 16px/1.35 var(--serif);color:var(--ardoise);margin-top:3px}
+.ligne .ecrit{font-size:24px;min-height:44px;margin-top:6px;max-width:280px}
+.ligne .bas{display:flex;align-items:center;gap:16px;margin-top:10px;flex-wrap:wrap}
+.ligne .prix{font:300 24px/1 var(--serif);white-space:nowrap}
+.qte{display:inline-flex;align-items:center;gap:4px}
+.qte button{width:44px;height:44px;font-size:20px;border-radius:50%;background:var(--papier);transition:transform .2s var(--doux)}
+.qte button:active{transform:scale(.92)}
+.qte output{min-width:32px;text-align:center;font:300 26px/1 var(--serif)}
+.retirer{font-size:14px;color:var(--ardoise);text-decoration:underline;text-underline-offset:4px;min-height:44px}
+@media (max-width:520px){.ligne{grid-template-columns:72px 1fr}.ligne img{width:72px;height:72px}.ligne .prix{grid-column:2}}
+.somme{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-top:32px;padding-top:22px;font-size:16px;color:var(--ardoise)}
+.somme b{font:100 clamp(52px,6vw,72px)/1 var(--serif);color:var(--encre);letter-spacing:-.02em}
+.vide{font:300 26px/1.3 var(--serif)}
+.vide a{display:inline-flex;margin-top:22px}
+.envoi{background:var(--papier);border-radius:var(--r-carte);padding:clamp(22px,3.4vw,40px)}
+.envoi h2{font:300 clamp(30px,3.4vw,40px)/1.05 var(--serif);letter-spacing:-.015em}
+.envoi .chapo{font-size:16px;margin-top:10px}
+.envoi form{display:grid;gap:22px;margin-top:26px}
+.envoi label,.envoi .lbl{display:block;font:300 20px/1.2 var(--serif);margin-bottom:6px}
+.envoi .ecrit{font-size:24px;min-height:48px}
+.envoi textarea.ecrit{min-height:90px;resize:vertical;font:italic 300 20px/1.4 var(--serif)}
+.remise{display:flex;flex-wrap:wrap;gap:6px 22px}
+.remise label{display:inline-flex;align-items:center;gap:10px;font:300 20px/1.2 var(--serif);min-height:44px;margin:0;cursor:pointer}
+.remise input{width:20px;height:20px;accent-color:var(--fuchsia)}
+.envoi .btn{justify-self:start}
+.envoi .note{font-size:14px;color:var(--ardoise)}
+.recu{display:none}
+.envoye .recu{display:block}
+.envoye form{display:none}
+.recu h3{font:300 30px/1.1 var(--serif);margin:20px 0 10px}
+.recu pre{white-space:pre-wrap;font:400 15px/1.5 var(--sans);background:var(--toile);border-radius:16px;padding:18px;margin-top:14px}
+</style>
+</head>
+<body>
+<div class="maquette">Maquette préparée par Saitora pour Mademoiselle Charlotte : textes, prix et photos à valider ensemble</div>
+
+<div class="entete" id="entete">
+  <header class="wrap top">
+    <a class="marque" href="index.html"><img src="images/logo-petit.webp" alt="" width="160" height="160"><span>Mademoiselle <b>Charlotte</b></span></a>
+    <nav aria-label="Menu principal"><a href="index.html#creations">Créations</a><a href="index.html#broder">Broder un prénom</a><a href="index.html#atelier">L'atelier</a><a href="index.html#commander">Commander</a></nav>
+    <a class="btn rose" href="panier.html">Panier<span data-compte></span></a>
+    <a class="panier-tel" href="panier.html">Panier<span data-compte></span></a>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="feuille"><span id="menuTxt">Menu</span><i aria-hidden="true"></i></button>
+  </header>
+  <div class="feuille" id="feuille">
+    <a class="l" href="index.html#creations">Créations</a>
+    <a class="l" href="index.html#broder">Broder un prénom</a>
+    <a class="l" href="index.html#atelier">L'atelier</a>
+    <a class="l" href="index.html#commander">Commander</a>
+    <p>Bavoirs, coffrets, doudous et cadres, personnalisés au prénom de l'enfant.</p>
+    <a class="btn rose" href="panier.html">Voir le panier<span data-compte></span></a>
+  </div>
+</div>
+
+<main>
+  <div class="wrap">
+    <p class="fil"><a href="index.html">Accueil</a> / <span aria-current="page">Panier</span></p>
+    <div class="panier">
+      <div>
+        <h1>Votre panier</h1>
+        <ul class="lignes" id="lignes"></ul>
+        <div class="vide" id="vide" hidden>Le panier est vide pour l'instant.<br><a class="btn rose" href="index.html#creations">Voir les créations</a></div>
+        <p class="somme" id="somme"><span>Total</span><b id="total"></b></p>
+      </div>
+      <div class="envoi" id="envoi">
+        <h2>Envoyer la commande</h2>
+        <p class="chapo">Mademoiselle Charlotte reçoit votre commande, vous répond pour confirmer le délai et vous dit comment régler.</p>
+        <form id="form" novalidate>
+          <div><label for="cNom">Votre nom</label><input class="ecrit" id="cNom" name="nom" autocomplete="name" required></div>
+          <div><label for="cTel">Téléphone</label><input class="ecrit" id="cTel" name="tel" type="tel" autocomplete="tel" inputmode="tel"></div>
+          <div><label for="cMail">E-mail</label><input class="ecrit" id="cMail" name="email" type="email" autocomplete="email" inputmode="email"></div>
+          <div>
+            <p class="lbl" id="lblRemise">La remise</p>
+            <div class="remise" role="radiogroup" aria-labelledby="lblRemise">
+              <label><input type="radio" name="remise" value="En main propre" checked> En main propre</label>
+              <label><input type="radio" name="remise" value="Par la poste"> Par la poste</label>
+            </div>
+          </div>
+          <div><label for="cMot">Un mot pour Charlotte</label><textarea class="ecrit" id="cMot" name="message" placeholder="Une date de naissance, une couleur, une question…"></textarea></div>
+          <p class="note" id="erreur" aria-live="polite"></p>
+          <button class="btn noir" type="submit">Envoyer la commande</button>
+        </form>
+        <div class="recu" id="recu" aria-live="polite">
+          <h3>Merci&nbsp;!</h3>
+          <p>Voici la commande telle qu'elle partira chez Mademoiselle Charlotte. Sur cette maquette, l'envoi n'est pas encore branché&nbsp;: il le sera à la mise en service du site.</p>
+          <pre id="resume"></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap pied">
+    <img class="pied-logo" src="images/logo-petit.webp" alt="Mademoiselle Charlotte" width="160" height="160" loading="lazy">
+    <span>© 2026 Mademoiselle Charlotte · Maquette réalisée par <a href="https://saitora.fr">Saitora</a></span>
+    <nav aria-label="Pied de page"><a href="panier.html">Panier</a><a href="index.html#creations">Créations</a><a href="index.html#commander">Commander</a></nav>
+  </div>
+  <p class="geant" aria-hidden="true">Mademoiselle <em>Charlotte</em></p>
+</footer>
+
+<script src="pieces.js"></script>
+<script src="panier.js"></script>
+<script>
+document.documentElement.classList.add("js");
+const $ = id => document.getElementById(id);
+const esc = t => String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+
+function dessine() {
+  const l = Panier.lire().filter(x => Panier.piece(x.s));
+  $("vide").hidden = l.length > 0;
+  $("somme").hidden = $("envoi").hidden = !l.length;
+  $("lignes").innerHTML = l.map((x, i) => {
+    const p = Panier.piece(x.s);
+    return `<li class="ligne" data-i="${i}">
+      <a href="produit.html?p=${p.s}"><img src="images/${p.s}.webp" alt="" width="96" height="96"></a>
+      <div>
+        <h2>${esc(x.n || p.n)}</h2>
+        ${x.detail ? `<p class="det">${esc(x.detail)}</p>` : ""}
+        ${p.perso ? `<input class="ecrit" data-prenom aria-label="Prénom à broder pour ${esc(x.n || p.n)}" placeholder="Son prénom" maxlength="20" value="${esc(x.prenom || "")}">` : ""}
+        <div class="bas">
+          <span class="qte" role="group" aria-label="Quantité"><button type="button" data-moins aria-label="Une de moins">−</button><output>${x.q}</output><button type="button" data-plus aria-label="Une de plus">+</button></span>
+          <button type="button" class="retirer" data-retirer>Retirer</button>
+        </div>
+      </div>
+      <p class="prix">${p.p * x.q}&nbsp;€</p>
+    </li>`;
+  }).join("");
+  $("total").innerHTML = `${Panier.total()}&nbsp;€`;
+}
+$("lignes").addEventListener("click", e => {
+  const li = e.target.closest(".ligne"); if (!li) return;
+  const l = Panier.lire(), x = l[+li.dataset.i];
+  if (e.target.closest("[data-plus]")) x.q = Math.min(20, x.q + 1);
+  else if (e.target.closest("[data-moins]")) x.q = Math.max(1, x.q - 1);
+  else if (e.target.closest("[data-retirer]")) l.splice(+li.dataset.i, 1);
+  else return;
+  Panier.ecrire(l); dessine();
+});
+$("lignes").addEventListener("change", e => {
+  if (!e.target.matches("[data-prenom]")) return;
+  const l = Panier.lire(); l[+e.target.closest(".ligne").dataset.i].prenom = e.target.value.trim(); Panier.ecrire(l);
+});
+
+$("form").addEventListener("submit", e => {
+  e.preventDefault();
+  const f = new FormData(e.target);
+  if (!f.get("nom").trim() || (!f.get("tel").trim() && !f.get("email").trim())) {
+    $("erreur").textContent = "Indiquez votre nom et un téléphone ou un e-mail pour que Charlotte puisse vous répondre.";
+    return;
+  }
+  const l = Panier.lire().filter(x => Panier.piece(x.s));
+  const manque = l.find(x => Panier.piece(x.s).perso && !x.prenom);
+  if (manque) { $("erreur").textContent = `Il manque le prénom à broder pour « ${manque.n || Panier.piece(manque.s).n} ».`; return; }
+  $("erreur").textContent = "";
+  /* le résumé reste dans la page : rien n'est envoyé ni gardé tant que l'envoi n'est pas branché */
+  $("resume").textContent = l.map(x => `${x.q} × ${x.n || Panier.piece(x.s).n}${x.prenom ? ` : « ${x.prenom} »` : ""}${x.detail ? ` (${x.detail})` : ""} : ${Panier.piece(x.s).p * x.q} €`).join("\n")
+    + `\nTotal : ${Panier.total()} €\nRemise : ${f.get("remise")}` + (f.get("message").trim() ? `\nMot : ${f.get("message").trim()}` : "");
+  $("envoi").classList.add("envoye");
+});
+
+dessine();
+
+/* menu du téléphone */
+const ent = $("entete");
+const ferme = () => { ent.classList.remove("ouvert"); $("menuBtn").setAttribute("aria-expanded", false); $("menuTxt").textContent = "Menu"; document.body.style.overflow = ""; };
+$("menuBtn").addEventListener("click", () => {
+  if (ent.classList.contains("ouvert")) return ferme();
+  ent.classList.add("ouvert"); $("menuBtn").setAttribute("aria-expanded", true); $("menuTxt").textContent = "Fermer"; document.body.style.overflow = "hidden";
+});
+$("feuille").addEventListener("click", e => { if (e.target.closest("a")) ferme(); });
+addEventListener("keydown", e => { if (e.key === "Escape") ferme(); });
+</script>
+</body>
+</html>

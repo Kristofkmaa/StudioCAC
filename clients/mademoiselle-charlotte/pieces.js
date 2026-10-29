@@ -1,6 +1,5 @@
 /* Les créations de Mademoiselle Charlotte (prix relevés sur sa boutique SumUp ; textes à valider avec elle).
    s : nom du fichier image et adresse de la fiche (produit.html?p=…), f : famille, perso : personnalisable */
-window.BOUTIQUE = "https://mademoiselle-charlotte-1.sumupstore.com/";
 window.FAMILLES = { bavoirs: "Bavoirs", naissance: "Naissance", doudous: "Doudous", deco: "Déco", quotidien: "Au quotidien" };
 window.PIECES = [
   { s: "bavoir-prenom-fille", n: "Bavoir prénom, gaze fille", f: "bavoirs", p: 6, perso: 1, t: "Un bavoir bandana en gaze de coton, brodé au prénom de votre fille en lettres dorées pailletées, avec un petit cœur. Doux contre le cou, il se ferme par un bouton pression." },

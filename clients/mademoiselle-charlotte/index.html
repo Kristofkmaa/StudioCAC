@@ -18,7 +18,8 @@
   <header class="wrap top">
     <a class="marque" href="#"><img src="images/logo-petit.webp" alt="" width="160" height="160"><span>Mademoiselle <b>Charlotte</b></span></a>
     <nav aria-label="Menu principal"><a href="#creations">Créations</a><a href="#broder">Broder un prénom</a><a href="#atelier">L'atelier</a><a href="#commander">Commander</a></nav>
-    <a class="btn rose" href="https://mademoiselle-charlotte-1.sumupstore.com/" target="_blank" rel="noopener">La boutique</a>
+    <a class="btn rose" href="panier.html">Panier<span data-compte></span></a>
+    <a class="panier-tel" href="panier.html">Panier<span data-compte></span></a>
     <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="feuille"><span id="menuTxt">Menu</span><i aria-hidden="true"></i></button>
   </header>
   <div class="feuille" id="feuille">
@@ -27,7 +28,7 @@
     <a class="l" href="#atelier">L'atelier</a>
     <a class="l" href="#commander">Commander</a>
     <p>Bavoirs, coffrets, doudous et cadres, personnalisés au prénom de l'enfant.</p>
-    <a class="btn rose" href="https://mademoiselle-charlotte-1.sumupstore.com/" target="_blank" rel="noopener">Ouvrir la boutique</a>
+    <a class="btn rose" href="panier.html">Voir le panier<span data-compte></span></a>
   </div>
 </div>
 
@@ -56,7 +57,7 @@
         <div class="filtres" role="group" aria-label="Filtrer les créations" id="filtres"></div>
       </div>
       <div class="grille" id="grille"></div>
-      <p class="note">Touchez une création pour voir sa fiche. On commande ensuite sur la boutique en ligne : le paiement se fait là-bas, en toute sécurité.</p>
+      <p class="note">Touchez une création pour voir sa fiche et l'ajouter au panier.</p>
     </div>
   </section>
 
@@ -118,8 +119,8 @@
             <div class="choix-l" role="group" aria-labelledby="lblSigne" id="signes"></div>
           </div>
           <div class="total">
-            <p><span class="prix-b">6&nbsp;€</span>le bavoir en gaze de coton, brodé à la main</p>
-            <a class="btn noir" href="https://mademoiselle-charlotte-1.sumupstore.com/" target="_blank" rel="noopener">Commander ce bavoir</a>
+            <p><span class="prix-b">6&nbsp;€</span><span id="bavoirMsg" aria-live="polite">le bavoir en gaze de coton, brodé à la main</span></p>
+            <button type="button" class="btn noir" id="ajoutBavoir">Ajouter au panier</button>
           </div>
         </form>
       </div>
@@ -148,12 +149,12 @@
         <h2 class="titre">Trois pas, <em>et c'est brodé</em></h2>
       </div>
       <ol class="etapes">
-        <li><h3>Choisir</h3><p>Repérez la création sur ce site, puis ouvrez-la sur la boutique en ligne.</p></li>
-        <li><h3>Préciser</h3><p>Indiquez le prénom, la couleur et le petit signe dans la note de commande.</p></li>
+        <li><h3>Choisir</h3><p>Ajoutez au panier les créations qui vous plaisent, avec leur prénom.</p></li>
+        <li><h3>Commander</h3><p>Envoyez la commande : Mademoiselle Charlotte vous répond pour confirmer et régler.</p></li>
         <li><h3>Recevoir</h3><p>La pièce est cousue pour vous, puis envoyée ou remise en main propre.</p></li>
       </ol>
       <div class="fin">
-        <a class="btn rose" href="https://mademoiselle-charlotte-1.sumupstore.com/" target="_blank" rel="noopener">Ouvrir la boutique</a>
+        <a class="btn rose" href="panier.html">Voir le panier<span data-compte></span></a>
         <a class="btn trait" href="#broder">Essayer un prénom</a>
       </div>
     </div>
@@ -164,14 +165,15 @@
   <div class="wrap pied">
     <img class="pied-logo" src="images/logo-petit.webp" alt="Mademoiselle Charlotte" width="160" height="160" loading="lazy">
     <span>© 2026 Mademoiselle Charlotte · Maquette réalisée par <a href="https://saitora.fr">Saitora</a></span>
-    <nav aria-label="Pied de page"><a href="https://mademoiselle-charlotte-1.sumupstore.com/" target="_blank" rel="noopener">Boutique</a><a href="#creations">Créations</a><a href="#commander">Commander</a></nav>
+    <nav aria-label="Pied de page"><a href="panier.html">Panier</a><a href="#creations">Créations</a><a href="#commander">Commander</a></nav>
   </div>
   <p class="geant" aria-hidden="true">Mademoiselle <em>Charlotte</em></p>
 </footer>
 
-<div class="barre" id="barre"><a class="btn noir" href="#broder">Broder un prénom</a><a class="btn rose" href="https://mademoiselle-charlotte-1.sumupstore.com/" target="_blank" rel="noopener">Boutique</a></div>
+<div class="barre" id="barre"><a class="btn noir" href="#broder">Broder un prénom</a><a class="btn rose" href="panier.html">Panier<span data-compte></span></a></div>
 
 <script src="pieces.js"></script>
+<script src="panier.js"></script>
 <script>
 document.documentElement.classList.add("js");
 const $ = id => document.getElementById(id);
@@ -243,6 +245,14 @@ function dessine() {
   $("mots").querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.m === $("nom").value.trim()));
 }
 $("nom").addEventListener("input", dessine);
+$("ajoutBavoir").addEventListener("click", () => {
+  const t = TISSUS[choix.tissu], f = FILS[choix.fil], sg = SIGNES[choix.signe];
+  const mot = $("nom").value.trim();
+  if (!mot) { $("nom").focus(); $("bavoirMsg").textContent = "Écrivez d'abord le prénom à broder."; return; }
+  Panier.ajoute("bavoir-prenom-fille", 1, mot,
+    `gaze ${t[0].toLowerCase()}, fil ${f[0].toLowerCase()}${sg[1] ? ", " + sg[0].toLowerCase() : ""}`, "Bavoir brodé en gaze de coton");
+  $("bavoirMsg").innerHTML = `Ajouté au panier. <a href="panier.html">Voir le panier</a>`;
+});
 $("mots").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; $("nom").value = b.dataset.m; dessine(); });
 dessine();
 

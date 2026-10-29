@@ -77,10 +77,14 @@ button,input{font:inherit;color:inherit;letter-spacing:inherit}
 .sheet .bas{margin-top:28px;display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center}
 
 /* ---- ouverture : le titre, une phrase, un lien ; la bulle vivante à droite ---- */
-.hero{position:relative;isolation:isolate;overflow-x:clip;min-height:calc(100svh - 110px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:end;gap:0 30px;padding-block:30px clamp(30px,7vh,76px)}
-.hero h1{font-size:var(--display);max-width:9ch}
-.hero .say{margin-top:30px;display:flex;align-items:flex-end;justify-content:space-between;gap:12px 30px;flex-wrap:wrap}
-.hero .say p{max-width:30ch}
+/* le nom en très grand au milieu, les bulles qui montent autour ; en bas, ce qu'on y fait, plus petit, sur un filet */
+.hero{position:relative;isolation:isolate;overflow-x:clip;min-height:calc(100svh - 110px);display:grid;grid-template-rows:1fr auto;padding-block:30px clamp(24px,5vh,48px)}
+.hero h1{align-self:center;text-align:center;font-size:min(18.2vw,42vh);font-weight:400;letter-spacing:-.01em;white-space:nowrap}
+.hero h1 span{display:inline-block}
+.hero .pied{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:end;gap:16px 30px;border-top:1px solid var(--ink);padding-top:16px}
+.hero .metiers{font-size:clamp(1.05rem,.8rem + .9vw,1.6rem);line-height:1}
+.hero .pied p.label{max-width:30ch;text-align:center}
+.hero .pied .go{justify-self:end}
 /* les bulles de savon : elles montent, se balancent et éclatent (WebGL pour les bulles, un calque 2D pour les gouttelettes) */
 .bulle{position:absolute;inset:0;z-index:-1;pointer-events:none}
 .bulle canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
@@ -155,7 +159,9 @@ footer .page{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px 
 @media (max-width:980px){
   .top{grid-template-columns:1fr auto}
   .top .mid{display:none}
-  .hero{grid-template-columns:minmax(0,1fr);align-items:end;min-height:calc(100svh - 120px)}
+  .hero{min-height:calc(100svh - 120px)}
+  .hero .pied{grid-template-columns:minmax(0,1fr) auto}
+  .hero .pied p.label{display:none}
   .intro{grid-template-columns:minmax(0,1fr)}
   .trois,.venir{grid-template-columns:minmax(0,1fr)}
   .trois figure{grid-template-columns:minmax(0,2fr) minmax(0,3fr);column-gap:19px;align-items:start}
@@ -166,6 +172,10 @@ footer .page{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px 
   body{padding-bottom:72px}
 }
 @media (max-width:620px){
+  .hero h1{font-size:21.4vw;line-height:.86}
+  .hero h1 span{display:block}
+  .hero .pied{grid-template-columns:minmax(0,1fr);gap:14px}
+  .hero .pied .go{justify-self:start}
   body{font-size:17px}
   .slot{grid-template-columns:minmax(0,1fr) auto;padding:14px 4px;gap:4px 16px}
   .slot .w{grid-column:1/-1;grid-row:2}
@@ -198,9 +208,11 @@ footer .page{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px 
 <main>
   <section class="page hero" id="hero">
     <div class="bulle" id="bulle" aria-hidden="true"></div>
-    <div>
-      <h1 class="caps">Hammam, soins et coiffure</h1>
-      <div class="say"><p>La chaleur du hammam, un massage, puis vous repartez coiffée.</p><a class="go" href="#places">Réserver une place</a></div>
+    <h1 class="caps"><span>A</span> <span>Funtana</span></h1>
+    <div class="pied">
+      <p class="metiers caps">Hammam, soins et coiffure</p>
+      <p class="label">La chaleur du hammam, un massage, puis vous repartez coiffée.</p>
+      <a class="go" href="#places">Réserver une place</a>
     </div>
   </section>
 
@@ -361,7 +373,7 @@ void main(){
     const base = Math.min(W, H), tailles = mobile() ? [.2, .13, .085] : [.17, .11, .07];
     o.r = base * tailles[o.i] * hasard(.85, 1.15);
     // chacune son couloir : elles ne s'empilent pas les unes sur les autres
-    const couloir = (mobile() ? [[.2, .4], [.6, .8], [.4, .6]] : [[.56, .7], [.76, .9], [.64, .82]])[o.i];
+    const couloir = (mobile() ? [[.12, .32], [.68, .88], [.4, .6]] : [[.1, .26], [.74, .9], [.42, .58]])[o.i];
     o.x0 = hasard(...couloir) * W;
     // sur téléphone, le titre occupe le bas : les bulles vivent dans la moitié haute
     o.y = debut ? (mobile() ? hasard(.16, .46) : hasard(.28, .85)) * H : H + o.r + hasard(10, 80);

@@ -8,10 +8,18 @@
   const root = document.documentElement;
   const OUT = "cubic-bezier(.16,1,.3,1)", INOUT = "cubic-bezier(.65,0,.35,1)";
   const css = document.createElement("style");
-  css.textContent = `.ab-cover{position:fixed;inset:0;z-index:9999;pointer-events:none;background:#011D1C}
-.ab-cover::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at var(--x,50%) var(--y,50%),rgba(0,130,124,.38),transparent 62%)}`;
+  // le halo est un vrai calque, placé en pixels au point touché : identique au départ et à l'arrivée,
+  // il ne saute pas d'une page à l'autre (avant, il était centré au doigt au départ et au milieu à l'arrivée)
+  css.textContent = `.ab-cover{position:fixed;inset:0;z-index:9999;pointer-events:none;background:#011D1C;overflow:hidden}
+.ab-glow{position:absolute;width:140vmax;height:140vmax;margin:-70vmax 0 0 -70vmax;border-radius:50%;background:radial-gradient(closest-side,rgba(0,130,124,.38),rgba(0,130,124,0))}`;
   document.head.appendChild(css);
-  const cover = () => { const c = document.createElement("div"); c.className = "ab-cover"; c.setAttribute("aria-hidden", "true"); document.body.appendChild(c); return c; };
+  const KEY = "abysse-point";
+  const cover = (x, y) => {
+    const c = document.createElement("div"); c.className = "ab-cover"; c.setAttribute("aria-hidden", "true");
+    const g = document.createElement("div"); g.className = "ab-glow"; g.style.left = x + "px"; g.style.top = y + "px"; c.appendChild(g);
+    document.body.appendChild(c); return [c, g];
+  };
+  const rayon = (x, y) => Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y)) + 2;
 
   // ——— départ : vers une autre page de la version abysse
   document.addEventListener("click", e => {
@@ -20,9 +28,8 @@
     const url = new URL(a.href, location.href);
     if (url.origin !== location.origin || !/\/abysse-[\w-]+\.html$/.test(url.pathname) || url.pathname === location.pathname) return;
     e.preventDefault();
-    const c = cover(), x = e.clientX || innerWidth / 2, y = e.clientY || innerHeight / 2;
-    const r = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
-    c.style.setProperty("--x", x + "px"); c.style.setProperty("--y", y + "px");
+    const x = e.clientX || innerWidth / 2, y = e.clientY || innerHeight / 2, r = rayon(x, y), [c] = cover(x, y);
+    try { sessionStorage.setItem(KEY, JSON.stringify([x / innerWidth, y / innerHeight])); } catch (_) {}   // la page suivante repart de ce point
     c.animate([{ clipPath: `circle(0px at ${x}px ${y}px)` }, { clipPath: `circle(${r}px at ${x}px ${y}px)` }], { duration: 520, easing: INOUT, fill: "both" })
       .finished.then(() => { location.href = a.href; });
   });
@@ -31,7 +38,10 @@
   let current = null;
 
   function arrive() {
-    const c = cover();
+    // le point touché sur la page précédente (sinon le milieu de l'écran)
+    let fx = .5, fy = .5;
+    try { const v = JSON.parse(sessionStorage.getItem(KEY)); if (Array.isArray(v)) [fx, fy] = v; sessionStorage.removeItem(KEY); } catch (_) {}
+    const x = fx * innerWidth, y = fy * innerHeight, [c, glow] = cover(x, y);
     const go = () => requestAnimationFrame(() => requestAnimationFrame(() => {
       root.classList.remove("sc-pending");
       const h = innerHeight, anims = [], seen = new Set();
@@ -39,7 +49,9 @@
       const under = n => { for (let p = n.parentElement; p; p = p.parentElement) if (seen.has(p)) return true; return false; };
       const prevX = [root.style.overflowX, document.body.style.overflowX];         // les titres viennent de hors de l'écran :
       root.style.overflowX = document.body.style.overflowX = "clip";            // la page ne s'élargit pas pendant ce temps
-      anims.push(c.animate([{ clipPath: "circle(150% at 50% 50%)" }, { clipPath: "circle(0% at 50% 50%)" }], { duration: 760, easing: INOUT, fill: "forwards" }));
+      // exactement l'inverse du départ : le disque se referme vers le même point, le halo s'éteint en même temps
+      anims.push(c.animate([{ clipPath: `circle(${rayon(x, y)}px at ${x}px ${y}px)` }, { clipPath: `circle(0px at ${x}px ${y}px)` }], { duration: 760, easing: INOUT, fill: "forwards" }));
+      anims.push(glow.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 760, easing: "ease-in", fill: "forwards" }));
       // les grands titres : de la gauche, puis de la droite, puis de la gauche…
       let side = 1;
       for (const n of document.querySelectorAll("main h1, main h2")) {

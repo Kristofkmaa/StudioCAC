@@ -11,3 +11,10 @@ sans toucher aux sites clients ni aux démos. Rien ici n'est montré aux clients
 - Deux règles gardées même ici : rien ne défile sur le côté, et l'essai reste lisible sur téléphone et avec « réduire les animations ».
 - Pages en `noindex` ; le dossier est exclu de `robots.txt`.
 - Un essai réussi qui servirait à un client : on le reprend dans un site, ou on note ce qu'il demanderait (Astro, React…) dans `A-FAIRE.md`.
+
+## Les versions framework (essais 04 et 05)
+
+- Les sources sont dans `labo/sources/` : `commun/` (les composants React partagés, dont ceux de shadcn/ui et Magic UI pris sur GitHub, et la feuille de styles), `libecciu-astro/` et `libecciu-next/`.
+- Pour reconstruire : `cd labo/sources/libecciu-astro && npm install && npm run build` (écrit `labo/04-astro/`), idem dans `libecciu-next` (écrit `labo/05-next/`). Le dossier `commun/` est recopié dans chaque projet avant la construction.
+- `node_modules/` n'est pas enregistré dans le dépôt. Le fichier `.nojekyll` à la racine garde les dossiers `_astro/` et `_next/` visibles sur GitHub Pages.
+- Le comparatif mesuré est dans `labo/06-comparatif/`.

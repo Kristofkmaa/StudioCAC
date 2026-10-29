@@ -1,0 +1,240 @@
+@import "tailwindcss";
+/* Libecciu en version framework : la feuille de la démo d'origine (demo-libecciu.html), plus ce que
+   demandent les composants de la communauté (shadcn/ui, Magic UI) : leurs couleurs et leurs animations. */
+@theme {
+  --color-popover: #fff; --color-popover-foreground: #0E1A26;
+  --color-accent: #F5C518; --color-accent-foreground: #0E1A26;
+  --color-input: #0E1A26; --color-ring: #F5C518; --color-muted-foreground: #4A5663; --color-border: rgba(14,26,38,.16);
+  --animate-accordion-down: accordion-down .32s cubic-bezier(.23,1,.32,1);
+  --animate-accordion-up: accordion-up .25s cubic-bezier(.23,1,.32,1);
+  --animate-shimmer-slide: shimmer-slide var(--speed) ease-in-out infinite alternate;
+  --animate-spin-around: spin-around calc(var(--speed) * 2) infinite linear;
+  @keyframes accordion-down { from { height: 0 } to { height: var(--radix-accordion-content-height) } }
+  @keyframes accordion-up { from { height: var(--radix-accordion-content-height) } to { height: 0 } }
+  @keyframes shimmer-slide { to { transform: translate(calc(100cqw - 100%), 0) } }
+  @keyframes spin-around { 0% { transform: translateZ(0) rotate(0) } 15%, 35% { transform: translateZ(0) rotate(90deg) } 65%, 85% { transform: translateZ(0) rotate(270deg) } 100% { transform: translateZ(0) rotate(360deg) } }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important } }
+
+/* la feuille d'origine, dans une couche : les classes Tailwind des composants passent par-dessus */
+@layer components {
+:root{
+  --paper:#F3F2EE; --ink:#0E1A26; --navy:#0F2A4A; --navy2:#0B2240;
+  --yellow:#F5C518; --red:#D52B2B; --blue:#1F4FA8; --white:#fff;
+  --line:rgba(14,26,38,.16); --line-d:rgba(255,255,255,.18);
+  --m:clamp(16px,4vw,56px); --sans:"Archivo",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+button{background:none;border:0}
+html{-webkit-text-size-adjust:100%}
+html:focus-within{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font:400 17px/1.5 var(--sans);-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--yellow);outline-offset:3px}
+.wrap{max-width:1360px;margin-inline:auto;padding-inline:var(--m)}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:clamp(12px,2vw,28px)}
+.num{font-variant-numeric:tabular-nums}
+.demo{background:var(--ink);color:#C9D0D8;font-size:13px;text-align:center;padding:6px 16px}
+
+/* ---- en-tête flottant, angles droits ---- */
+.bar{position:sticky;top:12px;z-index:40;margin:12px var(--m) 0;display:flex;align-items:center;gap:28px;background:var(--white);border:1px solid var(--ink);padding:0 0 0 18px;height:56px;max-width:1248px}
+@media (min-width:1360px){.bar{margin-inline:auto}}
+.bar .mark{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:.02em;text-decoration:none;font-size:18px}
+.bar .mark svg{width:22px;height:22px}
+.bar nav{display:flex;gap:24px;margin-left:auto;font-weight:500;font-size:15px}
+.bar nav a{text-decoration:none;min-height:44px;display:inline-flex;align-items:center}
+.bar .go{display:inline-flex;align-items:center;height:100%;padding:0 22px;background:var(--yellow);font-weight:800;text-decoration:none;border-left:1px solid var(--ink)}
+@media (hover:hover) and (pointer:fine){.bar nav a:hover{text-decoration:underline;text-underline-offset:.3em}.bar .go:hover{background:#FFD43B}}
+
+/* ---- ouverture : la photo du golfe, une carte blanche posée dessus ---- */
+.hero{position:relative;margin-top:-68px;min-height:100svh;display:flex;align-items:flex-end;padding:120px 0 var(--m)}
+.hero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero .wrap{position:relative;width:100%}
+.card{grid-column:1 / span 7;background:var(--white);padding:clamp(22px,3vw,40px)}
+.flags{display:flex;gap:6px;margin-bottom:22px}
+.flags svg{width:clamp(30px,3.4vw,46px);height:auto;flex:none;box-shadow:0 0 0 1px var(--line)}
+.card h1{font:900 clamp(2.6rem,1.6rem + 4.2vw,5.6rem)/.92 var(--sans);letter-spacing:-.035em}
+.card p.say{margin-top:22px;max-width:44ch;font-size:clamp(1.05rem,1rem + .3vw,1.25rem)}
+.acts{display:flex;flex-wrap:wrap;gap:8px 28px;margin-top:26px}
+.arrow{display:inline-flex;align-items:center;gap:10px;min-height:44px;font-weight:700;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:.35em}
+.arrow::after{content:"→";text-decoration:none;transition:transform .2s cubic-bezier(.23,1,.32,1)}
+@media (hover:hover) and (pointer:fine){.arrow:hover::after{transform:translateX(5px)}}
+.card .where{margin-top:24px;padding-top:14px;border-top:1px solid var(--line);font-size:14px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+/* ---- sections numérotées ---- */
+section{padding-block:clamp(72px,9vw,128px)}
+.dark{background:var(--navy);color:var(--white)}
+.head{align-items:end;margin-bottom:clamp(36px,5vw,64px)}
+.head .n{grid-column:1 / span 2;font:900 clamp(3rem,2rem + 4vw,6.5rem)/.8 var(--sans);letter-spacing:-.05em;color:var(--yellow)}
+.paper .head .n{color:var(--blue)}
+.head h2{grid-column:3 / span 7;font:900 clamp(2.2rem,1.4rem + 3.2vw,4.6rem)/.92 var(--sans);letter-spacing:-.035em}
+.head p{grid-column:3 / span 7;margin-top:18px;max-width:52ch;font-size:clamp(1.02rem,1rem + .2vw,1.15rem)}
+.dark .head p{color:#D6DEE8}
+
+/* ---- 01 prochains départs : un tableau de quai ---- */
+.board{border-top:2px solid var(--white)}
+.board .top{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;padding:16px 0;border-bottom:1px solid var(--line-d);font-size:15px;color:#D6DEE8}
+.board .top b{color:var(--white);font-weight:700}
+.sea{display:inline-flex;align-items:center;gap:10px}
+.sea i{width:14px;height:14px;display:inline-block}
+.row{display:grid;grid-template-columns:140px 1fr 150px 150px 150px;align-items:center;gap:16px;min-height:76px;border-bottom:1px solid var(--line-d)}
+.row .t{white-space:nowrap;font:800 clamp(1.8rem,1.4rem + 1vw,2.4rem)/1 var(--sans);color:var(--yellow);letter-spacing:-.02em}
+.row .e{font-weight:700;font-size:1.15rem}
+.row .e small{display:block;font-weight:400;font-size:14px;color:#AFC0D4}
+.row .left{font-weight:500}
+.row.full{opacity:.45}
+.row .pick{justify-self:end;display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;border:1px solid var(--white);background:none;cursor:pointer;font-weight:700;transition:background-color .15s,color .15s}
+.row .pick:disabled{border-color:transparent;cursor:default}
+@media (hover:hover) and (pointer:fine){.row .pick:not(:disabled):hover{background:var(--white);color:var(--navy)}}
+.row .pick:not(:disabled):active{transform:scale(.97)}
+.board .note{margin-top:16px;font-size:14px;color:#AFC0D4}
+
+/* ---- 02 la flotte : une grande liste qui s'ouvre ---- */
+.fleet{border-top:2px solid var(--ink)}
+
+.fleet-sum{cursor:pointer;display:grid!important;width:100%;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:clamp(12px,2vw,28px);align-items:baseline;padding:22px 0}
+.fleet-sum .i{grid-column:1 / span 2;font-weight:700;color:var(--blue)}
+.fleet-sum .nm{grid-column:3 / span 6;font:800 clamp(1.8rem,1.2rem + 2.4vw,3.6rem)/1 var(--sans);letter-spacing:-.03em}
+.fleet-sum .from{grid-column:9 / span 3;font-weight:500}
+.fleet-sum .pm{grid-column:12;justify-self:end;width:36px;height:36px;border:1px solid var(--ink);position:relative}
+.fleet-sum .pm::before,.fleet-sum .pm::after{content:"";position:absolute;left:50%;top:50%;width:14px;height:2px;background:var(--ink);transform:translate(-50%,-50%)}
+.fleet-sum .pm::after{transform:translate(-50%,-50%) rotate(90deg);transition:transform .25s cubic-bezier(.23,1,.32,1)}
+.fleet-sum[data-state=open] .pm::after{transform:translate(-50%,-50%)}
+@media (hover:hover) and (pointer:fine){.fleet-sum:hover h3{color:var(--blue)}}
+.fleet .in{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:clamp(12px,2vw,28px);padding-bottom:32px}
+.fleet .in img{grid-column:3 / span 3;aspect-ratio:4/5;object-fit:cover;width:100%}
+.fleet .in .txt{grid-column:7 / span 6}
+.fleet .in p{max-width:46ch}
+.fleet .in ul{list-style:none;margin-top:18px;border-top:1px solid var(--line)}
+.fleet .in li{display:flex;justify-content:space-between;gap:16px;padding:10px 0;border-bottom:1px solid var(--line)}
+.fleet .in li b{font-weight:700}
+
+/* ---- 03 en chiffres ---- */
+.figs{border-top:2px solid var(--white)}
+.figs .f{grid-column:span 3;padding-top:20px}
+.figs .f b{display:block;font:900 clamp(3.4rem,2rem + 5vw,7.5rem)/.85 var(--sans);letter-spacing:-.05em;color:var(--yellow)}
+.figs .f span{display:block;margin-top:14px;max-width:24ch;color:#D6DEE8}
+.wide{margin-top:clamp(48px,6vw,80px);aspect-ratio:21/8;width:100%;object-fit:cover;object-position:50% 28%}
+
+/* ---- 04 les prix ---- */
+.tw{border-top:2px solid var(--ink)}
+table.prices{width:100%;border-collapse:collapse}
+.prices th,.prices td{text-align:left;padding:14px 12px 14px 0;border-bottom:1px solid var(--line);vertical-align:baseline}
+.prices thead th{font-size:14px;font-weight:700;padding-top:16px}
+.prices td.p{font-weight:700;font-variant-numeric:tabular-nums}
+.prices td small{display:block;font-size:14px;color:#4A5663}
+.prices td.no{color:#9AA3AD}
+.formulas{margin-top:clamp(40px,5vw,64px)}
+.formulas .fo{grid-column:span 4;border-top:8px solid var(--c);padding-top:18px}
+.formulas .fo h3{font:800 1.5rem/1.1 var(--sans);letter-spacing:-.02em}
+.formulas .fo .pr{display:block;margin-top:10px;font:900 2.6rem/1 var(--sans);letter-spacing:-.03em}
+.formulas .fo p{margin-top:10px;max-width:34ch}
+.fineprint{margin-top:22px;font-size:14px;color:#4A5663}
+
+/* ---- 05 la journée au ponton : une ligne de temps ---- */
+.day{position:relative;display:grid;grid-template-columns:repeat(6,1fr);gap:clamp(12px,2vw,28px);padding-top:34px}
+.day::before{content:"";position:absolute;left:0;right:0;top:9px;height:2px;background:var(--white)}
+.day li{list-style:none;position:relative}
+.day li::before{content:"";position:absolute;top:-34px;left:0;width:20px;height:20px;background:var(--c,var(--yellow))}
+.day b{display:block;font:800 1.9rem/1 var(--sans);letter-spacing:-.02em}
+.day span{display:block;margin-top:10px;color:#D6DEE8;max-width:22ch}
+
+/* ---- 06 les criques ---- */
+.coves .c{grid-column:span 4;border-top:2px solid var(--ink);padding-top:18px}
+.coves .c .min{font:900 clamp(3rem,2rem + 3vw,5rem)/.85 var(--sans);letter-spacing:-.05em;color:var(--blue)}
+.coves .c .min small{font-size:.32em;letter-spacing:0;font-weight:700;margin-left:4px}
+.coves .c h3{margin-top:18px;font:800 1.5rem/1.1 var(--sans);letter-spacing:-.02em}
+.coves .c p{margin-top:8px;max-width:36ch}
+.coves .c .how{margin-top:12px;font-size:14px;font-weight:700}
+
+/* ---- 07 questions ---- */
+.qa{border-top:2px solid var(--ink)}
+.qa .q{grid-column:span 6;padding:22px 0;border-bottom:1px solid var(--line)}
+.qa h3{font:800 1.2rem/1.2 var(--sans)}
+.qa p{margin-top:8px;max-width:52ch}
+
+/* ---- 08 réserver ---- */
+.book{border-top:2px solid var(--ink);padding-top:28px}
+.book .fields{grid-column:1 / span 8;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 24px}
+.field label{display:block;font-size:14px;font-weight:700;margin-bottom:6px}
+.field select,.field input{width:100%;min-height:52px;padding:0 14px;border:1px solid var(--ink);background:var(--white);border-radius:0;font-size:16px;-webkit-appearance:none;appearance:none}
+.field select{background:var(--white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%230E1A26' stroke-width='2'/%3E%3C/svg%3E") right 16px center no-repeat}
+.book .sum{grid-column:10 / span 3;align-self:start;background:var(--yellow);padding:24px}
+.book .sum small{display:block;font-weight:700;font-size:14px}
+.book .sum b{display:block;margin-top:8px;font:900 clamp(2.6rem,2rem + 2vw,4rem)/1 var(--sans);letter-spacing:-.04em}
+.book .sum p{margin-top:10px;font-size:15px}
+.book .send{margin-top:20px;width:100%;min-height:54px;border:0;background:var(--ink);color:var(--white);font-weight:800;cursor:pointer}
+.book .send:active{transform:scale(.98)}
+.book .ok{margin-top:12px;font-size:15px;font-weight:700;min-height:1.5em}
+
+/* ---- pied de page : bloc jaune ---- */
+footer{background:var(--yellow);padding-block:clamp(72px,9vw,128px) 24px}
+footer .last{grid-column:1 / span 8;font:900 clamp(2.4rem,1.4rem + 4vw,5.6rem)/.92 var(--sans);letter-spacing:-.04em}
+footer .cta{grid-column:1 / span 8;margin-top:28px}
+footer .infos{margin-top:clamp(56px,7vw,96px);border-top:2px solid var(--ink);padding-top:20px}
+footer .infos div{grid-column:span 4}
+footer .infos h3{font-size:14px;font-weight:800;margin-bottom:6px}
+footer .legal{margin-top:56px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:13px}
+
+/* ---- bandeau collant (téléphone) ---- */
+.dock{display:none}
+
+@media (max-width:960px){
+  .bar nav{display:none}
+  .bar .mark{margin-right:auto}
+  .card{grid-column:1 / -1}
+  .head .n{grid-column:1 / -1;margin-bottom:14px}
+  .head h2,.head p{grid-column:1 / -1}
+  .row{grid-template-columns:86px 1fr auto;gap:4px 14px;padding:14px 0}
+  .row .t{font-size:1.45rem}
+  .row .d,.row .left{grid-column:2;font-size:14px;color:#AFC0D4}
+  .row .t{grid-row:span 3;align-self:start}
+  .row .pick{grid-column:3;grid-row:1 / span 3}
+  .fleet-sum .i{grid-column:1 / span 12;font-size:14px;margin-bottom:4px}
+  .fleet-sum .nm{grid-column:1 / span 10}
+  .fleet-sum .from{grid-column:1 / span 10;margin-top:6px;font-size:15px}
+  .fleet-sum .pm{grid-column:12;grid-row:2}
+  .fleet .in img{grid-column:1 / span 5}
+  .fleet .in .txt{grid-column:6 / span 7}
+  .figs .f{grid-column:span 6;margin-bottom:28px}
+  .formulas .fo,.coves .c{grid-column:1 / -1;margin-bottom:32px}
+  .qa .q{grid-column:1 / -1}
+  .day{grid-template-columns:1fr;padding-top:0;padding-left:40px;gap:26px}
+  .day::before{left:9px;right:auto;top:0;bottom:0;width:2px;height:auto}
+  .day li::before{top:6px;left:-40px}
+  .book .fields{grid-column:1 / -1}
+  .book .sum{grid-column:1 / -1;margin-top:28px}
+  footer .last,footer .cta{grid-column:1 / -1}
+  footer .infos div{grid-column:1 / -1;margin-bottom:22px}
+  footer{padding-bottom:96px}
+  .dock{display:grid;grid-template-columns:1fr 1fr;position:fixed;left:0;right:0;bottom:0;z-index:40;border-top:1px solid var(--ink);padding-bottom:env(safe-area-inset-bottom);background:var(--white)}
+  .dock a{display:flex;align-items:center;justify-content:center;min-height:56px;font-weight:800;text-decoration:none}
+  .dock a+a{background:var(--yellow);border-left:1px solid var(--ink)}
+  /* le bandeau n'apparaît qu'une fois l'ouverture passée, pour ne pas cacher la carte */
+  .dock{transform:translateY(100%);transition:transform .25s cubic-bezier(.23,1,.32,1)}
+  .dock.on{transform:none}
+}
+/* sur téléphone, le tableau devient une fiche par embarcation : rien ne défile sur le côté */
+@media (max-width:760px){
+  .prices thead{display:none}
+  .prices tr{display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;padding:16px 0;border-bottom:1px solid var(--line)}
+  .prices td{padding:0;border:0}
+  .prices td:first-child{grid-column:1 / -1;margin-bottom:4px}
+  .prices td.no{display:none}
+  .prices td.p{display:flex;justify-content:space-between;gap:8px;padding:6px 0;border-bottom:1px dashed var(--line)}
+  .prices td.p::before{font-weight:400;color:#4A5663}
+  .prices td:nth-child(2)::before{content:"30 min"}.prices td:nth-child(3)::before{content:"1 heure"}.prices td:nth-child(4)::before{content:"2 heures"}.prices td:nth-child(5)::before{content:"Demi-journée"}.prices td:nth-child(6)::before{content:"Journée"}
+}
+@media (max-width:560px){
+  .fleet .in img{grid-column:1 / -1;aspect-ratio:16/10;margin-bottom:18px}
+  .fleet .in .txt{grid-column:1 / -1}
+  .book .fields{grid-template-columns:1fr}
+  .flags{gap:4px}
+}
+
+.book .sum .send{display:flex}
+.row .pick{color:inherit}
+
+}

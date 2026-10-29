@@ -1,0 +1,1 @@
+"use client";import{t as e}from"./jsx-runtime.w3IqEsyr.js";import{t}from"./blur-fade.BQ0p3GHy.js";var n=e();function r({n:e,titre:r,texte:i}){return(0,n.jsxs)(t,{inView:!0,inViewMargin:`-80px`,offset:14,direction:`up`,className:`grid head`,children:[(0,n.jsx)(`span`,{className:`n`,children:e}),(0,n.jsx)(`h2`,{children:r}),i&&(0,n.jsx)(`p`,{children:i})]})}export{r as default};

@@ -1,0 +1,6 @@
+node_modules/
+.astro/
+.next/
+*/out/
+*/src/commun/
+next-env.d.ts

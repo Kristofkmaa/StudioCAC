@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex"><link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<title>HTML, Astro ou Next.js, labo Saitora</title>
+<link rel="stylesheet" href="../../polices/jost-a2e892.css">
+<style>
+:root{--bg:#0C0C0D;--ink:#EDEBE7;--muted:#9A9893;--line:#2A2A2D;--accent:#B57BB8;--html:#E9C46A;--astro:#B57BB8;--next:#7FB3D5}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "Jost",sans-serif}
+main{width:min(1000px,100% - 32px);margin:0 auto;padding:clamp(40px,7vw,90px) 0 80px}
+.haut{display:flex;justify-content:space-between;font-size:14px;color:var(--muted)}
+.haut a{color:var(--muted);text-decoration:none}
+h1{font-weight:400;font-size:clamp(2.4rem,1.6rem + 4vw,4.6rem);line-height:.98;letter-spacing:-.03em;margin:28px 0 0}
+h1 span{color:var(--accent)}
+.lead{color:var(--muted);max-width:620px;margin:16px 0 0;font-size:1.08rem}
+h2{font-weight:400;font-size:clamp(1.6rem,1.2rem + 1.4vw,2.3rem);letter-spacing:-.02em;margin:64px 0 0;padding-top:22px;border-top:1px solid var(--line)}
+.versions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:22px}
+.versions a{display:block;padding:18px;border:1px solid var(--line);border-radius:10px;color:inherit;text-decoration:none;border-top:4px solid var(--c)}
+.versions b{display:block;font-weight:500;font-size:1.2rem}
+.versions small{display:block;margin-top:6px;color:var(--muted);font-size:14px;line-height:1.4}
+.mesure{margin-top:28px}
+.mesure h3{margin:0;font-weight:500;font-size:1.1rem}
+.mesure p{margin:2px 0 12px;color:var(--muted);font-size:14px}
+.barre{display:grid;grid-template-columns:130px 1fr 92px;gap:12px;align-items:center;margin:6px 0}
+.barre span{font-size:14px}
+.barre i{display:block;height:14px;border-radius:3px;background:var(--c);width:var(--w);min-width:3px}
+.barre b{font-weight:500;text-align:right;font-variant-numeric:tabular-nums}
+.verdict{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:22px}
+.verdict div{padding:18px;border-radius:10px;background:#151517}
+.verdict h3{margin:0;font-weight:500}
+.verdict p{margin:8px 0 0;color:#CFCCC6;font-size:15px}
+ul.notes{margin:18px 0 0;padding-left:20px;color:#CFCCC6;max-width:720px}
+ul.notes li+li{margin-top:8px}
+.conclusion{margin-top:22px;padding:22px 24px;border-left:4px solid var(--accent);background:#151517;max-width:760px}
+.conclusion p{margin:0}.conclusion p+p{margin-top:10px}
+@media (max-width:720px){.versions,.verdict{grid-template-columns:1fr}.barre{grid-template-columns:96px 1fr 76px}}
+</style></head><body><main>
+<div class="haut"><a href="../">← Le labo</a><span>06 · Comparatif</span></div>
+<h1>HTML, Astro<br>ou <span>Next.js</span> ?</h1>
+<p class="lead">La même démo, Libecciu, construite trois fois. Les deux versions framework ajoutent des composants pris tels quels à la communauté : l'accordéon et les listes de shadcn/ui, les compteurs, fondus, bouton et cadre animés de Magic UI, les animations de Motion et les notifications de Sonner.</p>
+
+<div class="versions">
+  <a href="../../demo-libecciu.html" style="--c:var(--html)"><b>HTML (actuel)</b><small>Une page écrite à la main, sans outil de construction.</small></a>
+  <a href="../04-astro/" style="--c:var(--astro)"><b>Astro + React</b><small>Page en HTML fixe, React seulement pour les morceaux vivants.</small></a>
+  <a href="../05-next/" style="--c:var(--next)"><b>Next.js + React</b><small>Toute la page est une application React.</small></a>
+</div>
+
+<h2>Les mesures</h2>
+<p class="lead">Téléphone moyen simulé : processeur ralenti quatre fois, 4G lente (150 ms, 1,6 Mb/s), sans cache. Médiane de cinq chargements.</p>
+
+<div class="mesure"><h3>JavaScript à télécharger</h3><p>Ce que le téléphone doit charger puis exécuter. Taille compressée, comme elle voyage sur le réseau ; la version HTML a environ 4 Ko de script écrits dans la page.</p>
+  <div class="barre" style="--c:var(--html)"><span>HTML</span><i style="--w:1.5%"></i><b>≈ 4 Ko</b></div>
+  <div class="barre" style="--c:var(--astro)"><span>Astro</span><i style="--w:49.7%"></i><b>117 Ko</b></div>
+  <div class="barre" style="--c:var(--next)"><span>Next.js</span><i style="--w:100%"></i><b>236 Ko</b></div>
+</div>
+<div class="mesure"><h3>Poids total de la page</h3><p>Photos et polices comprises (les mêmes pour les trois).</p>
+  <div class="barre" style="--c:var(--html)"><span>HTML</span><i style="--w:63.3%"></i><b>423 Ko</b></div>
+  <div class="barre" style="--c:var(--astro)"><span>Astro</span><i style="--w:82%"></i><b>548 Ko</b></div>
+  <div class="barre" style="--c:var(--next)"><span>Next.js</span><i style="--w:100%"></i><b>668 Ko</b></div>
+</div>
+<div class="mesure"><h3>Premier affichage</h3><p>Le moment où le visiteur voit quelque chose.</p>
+  <div class="barre" style="--c:var(--html)"><span>HTML</span><i style="--w:67.2%"></i><b>0,53 s</b></div>
+  <div class="barre" style="--c:var(--astro)"><span>Astro</span><i style="--w:69.7%"></i><b>0,55 s</b></div>
+  <div class="barre" style="--c:var(--next)"><span>Next.js</span><i style="--w:100%"></i><b>0,79 s</b></div>
+</div>
+<div class="mesure"><h3>Page utilisable</h3><p>Le moment où l'on peut toucher « Réserver » sur le tableau des départs.</p>
+  <div class="barre" style="--c:var(--html)"><span>HTML</span><i style="--w:65.4%"></i><b>2,5 s</b></div>
+  <div class="barre" style="--c:var(--astro)"><span>Astro</span><i style="--w:85.5%"></i><b>3,3 s</b></div>
+  <div class="barre" style="--c:var(--next)"><span>Next.js</span><i style="--w:100%"></i><b>3,9 s</b></div>
+</div>
+<div class="mesure"><h3>Téléphone bloqué</h3><p>Le temps pendant lequel le téléphone ne répond pas au doigt, le temps d'exécuter le script.</p>
+  <div class="barre" style="--c:var(--html)"><span>HTML</span><i style="--w:34.2%"></i><b>190 ms</b></div>
+  <div class="barre" style="--c:var(--astro)"><span>Astro</span><i style="--w:29.3%"></i><b>163 ms</b></div>
+  <div class="barre" style="--c:var(--next)"><span>Next.js</span><i style="--w:100%"></i><b>556 ms</b></div>
+</div>
+
+<h2>Le verdict</h2>
+<div class="verdict">
+  <div><h3>La beauté</h3><p>Égale. Le design est le même ; les composants ajoutent des finitions (chiffres qui montent, fondus, bouton qui brille, cadre animé, notification), mais rien qu'on ne puisse faire en HTML.</p></div>
+  <div><h3>La vitesse</h3><p>Le HTML gagne. Astro reste proche (0,8 s de plus avant de pouvoir réserver). Next.js est nettement plus lourd : deux fois le script d'Astro, trois fois plus de blocage.</p></div>
+  <div><h3>L'effort</h3><p>Brancher un composant de la communauté prend quelques minutes en Astro ou Next.js : on copie son fichier. En HTML, il faut le réécrire à la main.</p></div>
+</div>
+<ul class="notes">
+  <li>Sur téléphone, les listes déroulantes de shadcn/ui sont moins pratiques que celles du téléphone lui-même (la roue native d'iPhone ou d'Android) : un composant à la mode n'est pas toujours un progrès.</li>
+  <li>Les deux versions framework demandent une étape de construction (<code>npm run build</code>) avant chaque mise en ligne ; le résultat est déposé dans le dépôt et GitHub Pages le sert comme aujourd'hui.</li>
+  <li>Le temps d'affichage de la grande photo n'est pas comparé : la même photo arrive au même moment dans les trois versions, mais l'outil de mesure ne la retient pas dans les deux versions framework.</li>
+</ul>
+
+<h2>Pour Saitora</h2>
+<div class="conclusion">
+  <p><b>Les sites vitrines restent en HTML</b> : ils sont les plus rapides, et la vitesse sur téléphone compte pour Google et pour les clients pressés.</p>
+  <p><b>Astro quand un site a besoin de beaucoup de pièces vivantes</b> prises à la communauté (un configurateur, une réservation riche, des animations) : le surcoût est faible et le gain de temps réel.</p>
+  <p><b>Next.js seulement pour de vraies applications</b> : espace client, boutique sur mesure, comptes.</p>
+</div>
+</main></body></html>

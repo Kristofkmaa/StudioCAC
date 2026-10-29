@@ -29,6 +29,8 @@ Le site : écran d'entrée (`index.html`), accueil (`accueil.html`), tarifs, dev
   - 07 : douze composants de la communauté (Magic UI, Motion Primitives, React Bits) essayés dans Astro, avec un verdict pour chacun.
   - 08 (en pause, pas encore construit) : les pièces « à brancher » dans de vraies démos en Astro (avant / après sur Durand Plomberie, fiche qui s'ouvre sur la carte de La Table du Port, tampon qui tourne sur Au Pain Doré). Sources commencées dans `labo/sources/demos-astro/`.
   - 09 : l'accueil de Saitora en « parchemin et sphère », d'après la fiche Refero OFF+BRAND (papier `#E5E4E0`, encre `#1D1D1D`, police Uncut Sans, une sphère dégradée). En attente de l'avis de l'utilisateur avant de remplacer `accueil.html`.
+  - 10 : l'accueil de Saitora en « abysse », d'après la fiche Auros (vert d'eau profonde, Inter Tight, sphère de particules en canvas, chiffres qui comptent, texte géant qui glisse, carte des villes). Même attente que le 09.
+  - Les essais 09 et 10 sont aussi publiés en page privée claude.ai pour être vus sans la branche publiée.
   - Sources des essais en framework : `labo/sources/` (sans `node_modules`) ; on reconstruit avec `npm install && npm run build` dans chaque projet.
 
 ## Décisions prises

@@ -1,5 +1,7 @@
 # StudioCAC
 
+**Au début de chaque session, lire `ETAT.md`** : où en est le projet, les décisions prises, ce qui est en attente et les pièges de l'environnement. Le mettre à jour quand quelque chose d'important change.
+
 Site statique : `index.html` (écran d'entrée) → `accueil.html` (launcher) + pages `demo-*.html` (vitrines de démo).
 
 ## Règle de travail

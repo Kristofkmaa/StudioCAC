@@ -1,7 +1,7 @@
 # Saitora (dépôt StudioCAC)
 
 Portfolio de sites vitrines pour commerces de proximité, artisans et indépendants.
-Site 100 % statique : pas de build, pas de dépendance, chaque page est un fichier HTML autonome (CSS et JS inclus).
+Site 100 % statique : pas de build, pas de dépendance, chaque page est un fichier HTML autonome (CSS et JS inclus). Seuls les essais du labo en Astro ou Next.js ont une étape de construction, et leur résultat est enregistré dans le dépôt.
 
 ## Contenu
 
@@ -25,6 +25,15 @@ Site 100 % statique : pas de build, pas de dépendance, chaque page est un fichi
 | `images/<démo>/` | Photos des démos (Pixabay, licence libre, usage commercial autorisé), en WebP, téléchargées par `outils/photos.py` (sources dans `SOURCES.txt`). |
 | `outils/video/` | Film de présentation (demande, plan, design, construction, mise en ligne) et script qui en fabrique la vidéo. |
 | `favicon.svg` | Icône de la page d'accueil (les démos ont chacune la leur, intégrée). |
+| `photos.html` | Guide pour les clients : photographier son commerce au téléphone (règles illustrées, liste des photos selon le métier, envoi). |
+| `clients/<nom>/` | Sites des clients (non indexés), chacun avec sa fiche de style `style.md`. |
+| `themes.json`, `themes.js` | La base des 14 genres (couleurs, polices, recette) et leur aperçu dessiné, montrés dans le devis. |
+| `outils/tirage.py`, `outils/styles/` | Le tirage de la composition de chaque site, son catalogue, ses recettes et le registre des sites. |
+| `outils/verifier.js` | Vérifie une page : rien ne dépasse, rien ne défile sur le côté, aucune erreur ; captures ordinateur et téléphone. |
+| `outils/archives.py` | Images d'archives libres (Wikimedia Commons, Europeana) pour illustrer le monde d'un client. |
+| `outils/polices-independantes.html` | Aperçu des polices de fonderies indépendantes (`python3 outils/polices.py libre <code>`). |
+| `labo/` | Essais de design (shader, 3D, configurateur, comparatif HTML / Astro / Next.js, pièces de la communauté) ; sources dans `labo/sources/`. |
+| `ETAT.md`, `A-FAIRE.md` | Où en est le projet (à lire au début de chaque session) et la liste des choses à faire. |
 
 ## Ajouter une démo
 

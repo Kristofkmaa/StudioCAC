@@ -267,7 +267,7 @@ footer .page{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px 
   if (!gl) return repli();
   const VS = "attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}";
   const FS = `precision highp float;
-uniform vec2 res;uniform float t;uniform vec4 b[3];uniform float ph[3];
+uniform vec2 res;uniform float t;uniform vec4 b[3];uniform float ph[3];uniform vec3 pp[3];
 vec3 mod289(vec3 x){return x-floor(x*(1./289.))*289.;}vec4 mod289(vec4 x){return x-floor(x*(1./289.))*289.;}
 vec4 perm(vec4 x){return mod289(((x*34.)+1.)*x);}vec4 tis(vec4 r){return 1.79284291400159-.85373472095314*r;}
 float sn(vec3 v){const vec2 C=vec2(1./6.,1./3.);const vec4 D=vec4(0.,.5,1.,2.);
@@ -322,6 +322,18 @@ void main(){
     float f2=1.-smoothstep(.0,.06,abs(length(q-vec2(.05,-.05))-.84));f2*=smoothstep(.1,.6,dot(normalize(q),normalize(vec2(.7,-.7))));
     float hi=clamp(win*.55+sp*.9+f2*.25,0.,1.);
     C=C*(1.-hi)+vec3(hi);A=A*(1.-hi)+hi;
+    // l'éclatement : le film se perce en un point du bord, le trou s'ouvre et balaie la bulle ;
+    // son bord déchiqueté est le film qui s'enroule (plus épais, donc plus vif) avant de partir en gouttelettes
+    vec3 P=pp[i];
+    if(P.x>=0.){
+      vec2 v=q-P.yz*.92;float an=atan(v.y,v.x);
+      float dist=length(v)+sn(vec3(cos(an)*2.5,sin(an)*2.5,ph[i]*3.+P.x*3.))*.07*P.x+sn(vec3(cos(an)*9.,sin(an)*9.,ph[i]))*.025;
+      float fr2=P.x*2.1;
+      if(dist<fr2)continue;
+      float roule=1.-smoothstep(0.,.05+.07*P.x,dist-fr2);
+      vec3 vif=mix(c,vec3(1.),.35);
+      C=C*(1.-roule*.75)+vif*roule*.75;A=A*(1.-roule*.75)+roule*.75;
+    }
     A*=bord*B.w;C*=bord*B.w;                              // couleurs déjà multipliées par la transparence
     col=C+col*(1.-A);al=A+al*(1.-A);
   }
@@ -333,7 +345,7 @@ void main(){
   gl.useProgram(pr);
   gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer()); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
   const loc = gl.getAttribLocation(pr, "p"); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-  const uRes = gl.getUniformLocation(pr, "res"), uT = gl.getUniformLocation(pr, "t"), uB = gl.getUniformLocation(pr, "b"), uPh = gl.getUniformLocation(pr, "ph");
+  const uRes = gl.getUniformLocation(pr, "res"), uT = gl.getUniformLocation(pr, "t"), uB = gl.getUniformLocation(pr, "b"), uPh = gl.getUniformLocation(pr, "ph"), uPp = gl.getUniformLocation(pr, "pp");
   const ctx = cv2.getContext("2d");
   let W = 0, H = 0, dpr = 1;
   const taille = () => { dpr = Math.min(devicePixelRatio || 1, 1.5); W = box.clientWidth; H = box.clientHeight;
@@ -359,53 +371,62 @@ void main(){
     o.pop = -1; o.attente = 0; o.vis = 1;
   };
   bulles.forEach(o => nouvelle(o, true));
-  const gouttes = [], cercles = [];
-  const COUL = ["236,120,214", "110,214,196", "246,206,110", "140,170,250", "255,255,255"];
-  const eclater = o => {
+  const gouttes = [];
+  const COUL = ["214,84,190", "60,178,170", "222,170,40", "100,128,236", "170,110,220", "255,255,255"];
+  // éclater : on choisit le point où le film cède (là où le doigt touche, sinon vers le haut de la bulle)
+  const eclater = (o, vers) => {
     if (o.pop >= 0 || o.attente > 0) return;
-    o.pop = 0;
-    const n = Math.round(10 + o.r / 8);
+    const a = vers ? Math.atan2(vers.y - o.y, vers.x - o.x) : -Math.PI / 2 + hasard(-1.2, 1.2);
+    o.pop = 0; o.dx = Math.cos(a); o.dy = Math.sin(a);
+  };
+  // pendant que le trou s'ouvre, son bord lâche des gouttelettes : elles partent droit devant lui, très vite, puis ralentissent
+  const projette = (o, p0, p1) => {
+    const n = Math.round((p1 - p0) * (60 + o.r * 1.4)), px = o.x + o.dx * o.r * .92, py = o.y + o.dy * o.r * .92;
     for (let k = 0; k < n; k++) {
-      const a = Math.random() * Math.PI * 2, v = hasard(70, 190) * (.6 + o.r / 220);
-      gouttes.push({ x: o.x + Math.cos(a) * o.r, y: o.y + Math.sin(a) * o.r, vx: Math.cos(a) * v, vy: Math.sin(a) * v - hasard(20, 70), t: 0, vie: hasard(.5, .9), s: hasard(1.2, 3.2), c: COUL[k % 5] });
+      const f = hasard(p0, p1) * 2.1 * o.r, a = Math.random() * Math.PI * 2;
+      const x = px + Math.cos(a) * f, y = py + Math.sin(a) * f;
+      if (Math.hypot(x - o.x, y - o.y) > o.r * .99) continue;   // seulement là où il y avait du film
+      const v = hasard(140, 380) * (.7 + o.r / 300), gros = Math.random() < .12;
+      gouttes.push({ x, y, vx: Math.cos(a) * v + hasard(-25, 25), vy: Math.sin(a) * v + hasard(-25, 25), t: 0, vie: hasard(.45, .9) * (gros ? 1.3 : 1),
+        s: gros ? hasard(2.8, 3.8) : hasard(1.4, 2.4), c: COUL[Math.random() * COUL.length | 0] });
     }
-    cercles.push({ x: o.x, y: o.y, r: o.r, t: 0 });
   };
   hero.addEventListener("pointerdown", e => {
     if (calme || e.target.closest("a,button")) return;
     const r = box.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
-    for (const o of bulles) if (o.pop < 0 && o.attente <= 0 && Math.hypot(x - o.x, y - o.y) < o.r * 1.05) { eclater(o); break; }
+    for (const o of bulles) if (o.pop < 0 && o.attente <= 0 && Math.hypot(x - o.x, y - o.y) < o.r * 1.05) { eclater(o, { x, y }); break; }
   });
 
-  const B = new Float32Array(12), PH = new Float32Array(3);
+  const B = new Float32Array(12), PH = new Float32Array(3), PP = new Float32Array(9);
   let last = performance.now(), t = Math.random() * 100;
   const pas = now => {
     const dt = Math.min(.05, (now - last) / 1000); last = now; t += dt;
     for (const o of bulles) {
       if (o.attente > 0) { o.attente -= dt; if (o.attente <= 0) nouvelle(o, false); continue; }
       o.age += dt;
-      if (o.pop >= 0) { o.pop += dt / .12; if (o.pop >= 1) { o.vis = 0; o.attente = hasard(.5, 1.6); } continue; }
+      if (o.pop >= 0) { const p0 = o.pop; o.pop = Math.min(1, o.pop + dt / .26); projette(o, p0, o.pop); if (o.pop >= 1) { o.vis = 0; o.attente = hasard(.5, 1.6); } continue; }
       o.y -= o.vy * dt; o.x = o.x0 + o.amp * Math.sin(o.age * o.freq + o.ph);
       if (o.y < o.eclate) eclater(o);
     }
-    for (const g of gouttes) { g.t += dt; g.vy += 420 * dt; g.x += g.vx * dt; g.y += g.vy * dt; }
+    const frein = Math.exp(-4 * dt);                       // l'air freine les gouttelettes, puis elles retombent
+    for (const g of gouttes) { g.t += dt; g.vx *= frein; g.vy = g.vy * frein + 300 * dt; g.x += g.vx * dt; g.y += g.vy * dt; }
     for (let k = gouttes.length - 1; k >= 0; k--) if (gouttes[k].t > gouttes[k].vie) gouttes.splice(k, 1);
-    for (const c of cercles) c.t += dt / .35;
-    for (let k = cercles.length - 1; k >= 0; k--) if (cercles[k].t >= 1) cercles.splice(k, 1);
   };
   const dessine = () => {
     bulles.forEach((o, k) => {
-      const p = o.pop >= 0 ? Math.min(1, o.pop) : 0, montre = o.attente > 0 ? 0 : o.vis * (1 - p);
+      const montre = o.attente > 0 ? 0 : o.vis;
       const apparait = Math.min(1, Math.max(0, (H + o.r - o.y) / (o.r * 1.2)));          // entre doucement par le bas
-      B.set([o.x * dpr, (H - o.y) * dpr, o.r * (1 + .07 * p) * dpr, montre * apparait], k * 4); PH[k] = o.ph;
+      B.set([o.x * dpr, (H - o.y) * dpr, o.r * dpr, montre * apparait], k * 4); PH[k] = o.ph;
+      PP.set(o.pop >= 0 ? [o.pop, o.dx, -o.dy] : [-1, 0, 0], k * 3);                     // le WebGL compte les y vers le haut
     });
-    gl.uniform1f(uT, t); gl.uniform4fv(uB, B); gl.uniform1fv(uPh, PH);
+    gl.uniform1f(uT, t); gl.uniform4fv(uB, B); gl.uniform1fv(uPh, PH); gl.uniform3fv(uPp, PP);
     gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT); gl.drawArrays(gl.TRIANGLES, 0, 3);
     ctx.clearRect(0, 0, W, H);
-    for (const c of cercles) { const e = 1 - (1 - c.t) ** 3;                                  // le film qui se déchire : un anneau qui s'ouvre
-      ctx.strokeStyle = `rgba(190,150,220,${(1 - c.t) * .4})`; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.arc(c.x, c.y, c.r * (1 + .35 * e), 0, Math.PI * 2); ctx.stroke(); }
-    for (const g of gouttes) { const a = 1 - g.t / g.vie; ctx.fillStyle = `rgba(${g.c},${(a * .9).toFixed(3)})`;
-      ctx.beginPath(); ctx.arc(g.x, g.y, g.s * (.6 + .4 * a), 0, Math.PI * 2); ctx.fill(); }
+    // chaque gouttelette est tracée comme un petit trait dans le sens de sa course (elle va trop vite pour être un point)
+    ctx.lineCap = "round";
+    for (const g of gouttes) { const a = 1 - g.t / g.vie, l = .014;
+      ctx.strokeStyle = `rgba(${g.c},${Math.min(1, a * 1.3).toFixed(3)})`; ctx.lineWidth = g.s * (.6 + .4 * a);
+      ctx.beginPath(); ctx.moveTo(g.x - g.vx * l, g.y - g.vy * l); ctx.lineTo(g.x, g.y); ctx.stroke(); }
   };
   dessine();
   addEventListener("resize", () => { const w = W, h = H; taille(); bulles.forEach(o => { o.x0 *= W / (w || W); o.x *= W / (w || W); o.y *= H / (h || H); }); dessine(); });

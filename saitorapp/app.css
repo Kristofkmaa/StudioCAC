@@ -257,3 +257,7 @@ button.champ-ligne{text-align:left}
 .tuile small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .hero:not(.clair) h1,.hero:not(.clair) .h-date,.hero:not(.clair) .h-marque{text-shadow:0 1px 16px rgba(0,0,0,.28)}
 .tuiles{grid-template-columns:repeat(2,minmax(0,1fr))}.tuile{min-width:0}
+/* le + n'apparaît que sur les écrans où il sert ; pas de zoom au double toucher */
+.plus[hidden]{display:none}
+html,body{touch-action:pan-x pan-y}
+a,button{touch-action:manipulation}

@@ -124,18 +124,25 @@
   /* la grande photo du haut, avec la phrase du jour et deux cartes translucides */
   function hero({ phrase, verres = [] }) {
     const photo = S.photo ? `background-image:url('${S.photo}')` : `background:${S.fond || "var(--accent)"}`;
+    const choix = ["bavoir-prenom-fille", "doudou-grenouille", "coffret-matteu"];
+    const vitrine = !S.photo && (D.produits || []).filter(p => p.photo).sort((a, b) => (choix.indexOf(b.id) > -1) - (choix.indexOf(a.id) > -1)).slice(0, 3);
     return `<section class="hero ${S.photo ? "" : "clair"}" style="${photo}"><div class="h-marque">${S.marque ? `<img src="${esc(S.marque)}" alt="">` : ""}${esc(S.nom)}</div>
+      ${vitrine && vitrine.length === 3 ? `<div class="collage" aria-hidden="true">${vitrine.map(p => `<img src="${esc(p.photo)}" alt="">`).join("")}</div>` : ""}
       <p class="h-date">${dL(T.auj())}</p><h1 id="grandTitre">${phrase}</h1>
       <div class="verres">${verres.map(([t, icone, href, id]) => `<${href ? `a href="${href}"${href.startsWith("#") ? "" : ' target="_blank" rel="noopener"'}` : `button type="button" id="${id}"`} class="verre">${ico(icone, 22)}<span>${t}</span></${href ? "a" : "button"}>`).join("")}</div></section>`;
   }
   /* le gros chiffre et sa courbe (Fuse) */
-  function chiffre({ id, lbl, val, delta = null, periodes, actif, points }) {
+  function chiffre({ id, lbl, val, n: total = null, delta = null, periodes, actif, points }) {
     const max = Math.max(1, ...points), min = Math.min(...points), n = points.length;
     const xy = points.map((v, i) => `${(i / Math.max(1, n - 1) * 100).toFixed(2)},${(52 - (v - min) / Math.max(1, max - min) * 46).toFixed(2)}`).join(" ");
-    return `<section class="chiffre" id="${id}"><p class="c-lbl">${lbl}${delta == null ? "" : ` <span class="delta ${delta < 0 ? "bas" : delta === 0 ? "zero" : ""}">${delta < 0 ? "↘" : "↗"} ${Math.abs(delta)} %</span>`}</p><p class="c-val num">${val}</p>
-      <svg class="courbe" viewBox="0 0 100 56" preserveAspectRatio="none" role="img" aria-label="${esc(lbl)}"><polyline points="${xy}" fill="none" stroke="var(--encre)" stroke-width="1.6" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round"/></svg>
+    return `<section class="chiffre" id="${id}"><p class="c-lbl">${lbl}${delta == null ? "" : ` <span class="delta ${delta < 0 ? "bas" : delta === 0 ? "zero" : ""}">${delta < 0 ? "↘" : "↗"} ${Math.abs(delta)} %</span>`}</p><p class="c-val num" ${total != null ? `data-n="${total}"` : ""}>${val}</p>
+      <svg class="courbe" viewBox="0 0 100 56" preserveAspectRatio="none" role="img" aria-label="${esc(lbl)}"><polyline class="trace" pathLength="1" points="${xy}" fill="none" stroke="var(--encre)" stroke-width="1.6" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round"/></svg>
       <div class="periodes" role="group">${periodes.map(([k, t]) => `<button type="button" data-per="${k}" aria-pressed="${k === actif}">${t}</button>`).join("")}</div></section>`;
   }
+  const teinte = nom => { let h = 0; for (const c of nom) h = (h * 31 + c.charCodeAt(0)) % 360; return h; };
+  const avatar = nom => { const h = teinte(nom); return `<span class="icone-carre av" style="--h:${h}">${esc(initiales(nom))}</span>`; };
+  /* glisser une ligne vers la gauche pour agir, comme dans Mail */
+  const glisse = (ligne, actions) => actions.length ? `<div class="glisse"><div class="actions">${actions.map(([t, cls, act]) => `<button type="button" class="${cls}" data-act="${act}">${t}</button>`).join("")}</div>${ligne}</div>` : ligne;
   const tuile = ({ titre, sous = "", val = "", icone, couleur, href = "", cls = "" }) =>
     `<${href ? `a href="${href}"` : "div"} class="tuile ${cls}"><span class="ic ${couleur}">${ico(icone, 19)}</span><b>${titre}</b>${val !== "" ? `<span class="t-val num">${val}</span>` : ""}${sous ? `<small>${sous}</small>` : ""}</${href ? "a" : "div"}>`;
 
@@ -146,7 +153,8 @@
   const nomEtape = s => (ETAPES.find(x => x[0] === s) || [s, s])[1];
   const total = o => o.lignes.reduce((t, l) => t + l.prix * l.q, 0);
   const photoDe = id => { const p = (D.produits || []).find(x => x.id === id); return p && p.photo ? `<img class="photo" src="${esc(p.photo)}" alt="">` : ""; };
-  const ligneCommande = o => `<a class="ligne" href="#/commandes/${o.id}"><span><b class="${o.statut === "nouvelle" ? "gras" : ""}">${esc(o.client)}</b><small>${o.lignes.map(l => esc(l.prenom ? `« ${l.prenom} »` : l.nom)).join(", ")}</small></span><span class="valeur" style="text-align:right"><span class="num" style="color:var(--texte);display:block">${eur(total(o))}</span>${pastille(o.statut, nomEtape(o.statut))}</span>${chev}</a>`;
+  const SUIVANTE = { nouvelle: ["À coudre", "orange", "a-coudre"], "a-coudre": ["Prête", "vert", "prete"], prete: ["Remise", "noir", "remise"] };
+  const ligneCommande = o => glisse(`<a class="ligne av-icone" href="#/commandes/${o.id}">${avatar(o.client)}<span><b class="${o.statut === "nouvelle" ? "gras" : ""}">${esc(o.client)}</b><small>${o.lignes.map(l => esc(l.prenom ? `« ${l.prenom} »` : l.nom)).join(", ")}</small></span><span class="valeur" style="text-align:right"><span class="num" style="color:var(--texte);display:block">${eur(total(o))}</span>${pastille(o.statut, nomEtape(o.statut))}</span>${chev}</a>`, SUIVANTE[o.statut] ? [[SUIVANTE[o.statut][0], SUIVANTE[o.statut][1], `cmd|${o.id}|${SUIVANTE[o.statut][2]}`]] : []);
 
 
   let filtreCmd = "a-faire";
@@ -157,7 +165,7 @@
     if (!F[filtreCmd]) filtreCmd = "a-faire";
     const l = cmd.filter(F[filtreCmd]);
     ecran({ titre: "Commandes", sous: `${pl(cmd.filter(F["a-faire"]).length, "commande")} à préparer`, corps: `${segments("segCmd", [["a-faire", "À préparer"], ["prete", "Prêtes"], ["remise", "Remises"], ["toutes", "Toutes"]], filtreCmd)}
-      <div style="margin-top:12px">${l.length ? `<div class="groupe">${l.slice(0, 60).map(ligneCommande).join("")}</div>` : `<div class="vide-doux">Aucune commande ici.</div>`}</div>` });
+      <div style="margin-top:12px">${l.length ? `<div class="groupe">${l.slice(0, 60).map(ligneCommande).join("")}</div>${filtreCmd !== "remise" && filtreCmd !== "toutes" ? '<p class="pied-groupe">Glissez une commande vers la gauche pour la passer à l\'étape suivante.</p>' : ""}` : `<div class="vide-doux">Aucune commande ici.</div>`}</div>` });
     surSegments("segCmd", s => { filtreCmd = s; commandes(); });
   }
   function ficheCommande(id) {
@@ -208,7 +216,7 @@
       <p class="entete-groupe">Stock</p>
       <div class="groupe">
         ${interr("pCmd", p.surCommande, "Fait sur commande")}
-        <div class="ligne" id="pStockL" ${p.surCommande ? "hidden" : ""}><span><b>En stock</b></span><button type="button" class="valeur fort num" id="pStock" style="min-width:36px;text-align:right;font-weight:600" aria-label="Changer le stock">${p.stock ?? 0}</button><span style="display:flex;gap:6px;flex:none"><button type="button" class="rond" id="pMoins" aria-label="Un de moins" style="background:#fff">−</button><button type="button" class="rond" id="pPlus" aria-label="Un de plus" style="background:#fff">+</button></span></div>
+        <div class="ligne" id="pStockL" ${p.surCommande ? "hidden" : ""}><span><b>En stock</b></span><button type="button" class="valeur fort num" id="pStock" style="min-width:36px;text-align:right;font-weight:600" aria-label="Changer le stock">${p.stock ?? 0}</button><span style="display:flex;gap:6px;flex:none"><button type="button" class="rond" id="pMoins" aria-label="Un de moins" style="background:var(--blanc)">−</button><button type="button" class="rond" id="pPlus" aria-label="Un de plus" style="background:var(--blanc)">+</button></span></div>
         ${interr("pPerso", p.perso, "Prénom à broder")}
       </div>
       <p class="pied-groupe">L'appli vous prévient quand il en reste ${p.seuil} ou moins.</p>
@@ -264,7 +272,9 @@
   const membre = id => D.equipe.find(e => e.id === id) || { nom: "", couleur: "var(--accent)", familles: [] };
   const client = id => D.clients.find(c => c.id === id) || { nom: "Client", tel: "" };
   const STATUT_RDV = { confirme: "Confirmé", demande: "À confirmer", venu: "Venu", absent: "Absent", annule: "Annulé" };
-  const ligneRdv = r => { const p = presta(r.presta), m = membre(r.equipe); return `<button type="button" class="ligne" data-rdv="${r.id}"><span class="heure num">${hm(r.debut)}<small style="display:block;color:var(--gris)">${hm(r.debut + p.duree)}</small></span><span class="trait" style="background:${m.couleur}"></span><span><b class="${r.statut === "demande" ? "gras" : ""}">${esc(client(r.client).nom)}</b><small>${esc(p.nom)}${D.equipe.length > 1 ? ` · ${esc(m.nom)}` : ""}</small></span>${r.statut !== "confirme" ? pastille(r.statut, STATUT_RDV[r.statut]) : ""}${chev}</button>`; };
+  const ligneRdv = r => { const p = presta(r.presta), m = membre(r.equipe); const l = `<button type="button" class="ligne" data-rdv="${r.id}"><span class="heure num">${hm(r.debut)}<small style="display:block;color:var(--gris)">${hm(r.debut + p.duree)}</small></span><span class="trait" style="background:${m.couleur}"></span><span><b class="${r.statut === "demande" ? "gras" : ""}">${esc(client(r.client).nom)}</b><small>${esc(p.nom)}${D.equipe.length > 1 ? ` · ${esc(m.nom)}` : ""}</small></span>${r.statut !== "confirme" ? pastille(r.statut, STATUT_RDV[r.statut]) : ""}${chev}</button>`;
+    const auj = r.date <= T.iso(T.auj());
+    return glisse(l, r.statut === "demande" ? [["Refuser", "rouge", `rdv|${r.id}|annule`], ["Accepter", "vert", `rdv|${r.id}|confirme`]] : r.statut === "confirme" && auj ? [["Absent", "rouge", `rdv|${r.id}|absent`], ["Venu", "vert", `rdv|${r.id}|venu`]] : []); };
   const brancheRdv = () => document.querySelectorAll("[data-rdv]").forEach(b => b.onclick = () => feuilleRdv(b.dataset.rdv));
   const rdvDuJour = iso => D.rdv.filter(r => r.date === iso && r.statut !== "annule").sort((a, b) => a.debut - b.debut);
 
@@ -282,7 +292,7 @@
       <div class="jours" id="jours">${semaine.map(d => { const iso = T.iso(d), n = rdvDuJour(iso).length; return `<button type="button" data-j="${iso}" aria-pressed="${iso === jourVu}" class="${iso === T.iso(t) ? "aujourdhui" : ""}" aria-label="${dL(d)}, ${pl(n, "rendez-vous", "rendez-vous")}"><span>${d.toLocaleDateString("fr-FR", { weekday: "short" }).replace(".", "")}</span><b class="num">${d.getDate()}</b><i class="${n ? "" : "vide"}"></i></button>`; }).join("")}</div>
       ${D.equipe.length > 1 ? segments("segEq", [["tous", "Tous"], ...D.equipe.map(e => [e.id, e.nom])], filtreEq) : ""}
       ${dem.length ? `<p class="pied-groupe" style="padding-top:10px"><button class="lien-texte" id="voirDem">${pl(dem.length, "demande")} à confirmer</button></p>` : ""}
-      <div style="margin-top:12px">${ferme ? `<div class="vide-doux">Fermé ce jour-là.</div>` : l.length ? `<div class="groupe">${l.map(ligneRdv).join("")}</div>` : `<div class="vide-doux">Aucun rendez-vous.<br><button class="lien-texte" id="ajoutVide" style="margin-top:8px">Ajouter un rendez-vous</button></div>`}</div>` });
+      <div style="margin-top:12px">${ferme ? `<div class="vide-doux">Fermé ce jour-là.</div>` : l.length ? `<div class="groupe">${l.map(ligneRdv).join("")}</div><p class="pied-groupe">Glissez un rendez-vous vers la gauche pour le confirmer ou noter la venue.</p>` : `<div class="vide-doux">Aucun rendez-vous.<br><button class="lien-texte" id="ajoutVide" style="margin-top:8px">Ajouter un rendez-vous</button></div>`}</div>` });
     $("jours").onclick = e => { const b = e.target.closest("button"); if (b) { jourVu = b.dataset.j; agenda(); } };
     $("semAv").onclick = () => { jourVu = T.iso(T.plus(jourVu, -7)); agenda(); };
     $("semAp").onclick = () => { jourVu = T.iso(T.plus(jourVu, 7)); agenda(); };
@@ -425,7 +435,7 @@
         return `<button type="button" class="p-sej ${s.statut}" data-sej="${s.id}" style="left:calc(${a / n * 100}% + 2px);width:calc(${(b - a) / n * 100}% - 4px)" aria-label="${esc(s.nom)}, ${dC(s.arrivee)} au ${dC(s.depart)}">${esc(s.nom)}</button>`; }).join("")}</div>`).join("")}</div></div>`;
   }
   const brancheSej = () => document.querySelectorAll("[data-sej]").forEach(b => b.onclick = () => feuilleSejour(b.dataset.sej));
-  const ligneSejour = s => { const n = nbj(s.arrivee, s.depart); return `<button type="button" class="ligne" data-sej="${s.id}"><span><b class="${s.statut === "demande" ? "gras" : ""}">${esc(s.nom)}</b><small>${esc(chambre(s.chambre).nom)} · ${dC(s.arrivee)} → ${dC(s.depart)} · ${pl(n, "nuit")}</small></span>${s.statut === "confirme" ? `<span class="valeur num">${eur(chambre(s.chambre).prix * n)}</span>` : pastille(s.statut, STATUT_SEJ[s.statut])}${chev}</button>`; };
+  const ligneSejour = s => { const n = nbj(s.arrivee, s.depart); return glisse(`<button type="button" class="ligne av-icone" data-sej="${s.id}">${avatar(s.nom)}<span><b class="${s.statut === "demande" ? "gras" : ""}">${esc(s.nom)}</b><small>${esc(chambre(s.chambre).nom)} · ${dC(s.arrivee)} → ${dC(s.depart)} · ${pl(n, "nuit")}</small></span>${s.statut === "confirme" ? `<span class="valeur num">${eur(chambre(s.chambre).prix * n)}</span>` : pastille(s.statut, STATUT_SEJ[s.statut])}${chev}</button>`, s.statut === "demande" ? [["Refuser", "rouge", `sej|${s.id}|annule`], ["Accepter", "vert", `sej|${s.id}|confirme`]] : []); };
 
   let filtreSej = "avenir", decal = 0;
   function sejours() {
@@ -511,6 +521,12 @@
   }
   function brancheChiffre(refaire) {
     document.querySelectorAll("[data-per]").forEach(b => b.onclick = () => { per = b.dataset.per; const el = document.querySelector(".chiffre"); el.outerHTML = refaire(); brancheChiffre(refaire); });
+    /* le montant défile jusqu'à sa valeur */
+    const el = document.querySelector(".c-val[data-n]");
+    if (!el || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const fin = +el.dataset.n, t0 = performance.now(), d = 900;
+    const pas = t => { const k = Math.min(1, (t - t0) / d), e = 1 - Math.pow(1 - k, 3); el.innerHTML = eurG(fin * e); if (k < 1) requestAnimationFrame(pas); };
+    requestAnimationFrame(pas);
   }
 
   function aujBoutique() {
@@ -519,7 +535,7 @@
     const nouv = ouvertes.filter(o => o.statut === "nouvelle").length, bas = D.produits.filter(p => !p.surCommande && p.stock <= p.seuil);
     const atelier = ouvertes.flatMap(o => o.lignes.map(l => ({ o, l }))).sort((a, b) => new Date(a.o.date) - new Date(b.o.date));
     const parJour = d => cmd.filter(o => o.date.slice(0, 10) === d).reduce((s, o) => s + total(o), 0);
-    const leChiffre = () => { const n = NJ[per], r = serie(T.plus(t, -n + 1), n, parJour, true); return chiffre({ id: "leChiffre", lbl: `Ventes sur ${n} jours`, val: eurG(r.tot), delta: r.delta, periodes: PERIODES, actif: per, points: r.pts }); };
+    const leChiffre = () => { const n = NJ[per], r = serie(T.plus(t, -n + 1), n, parJour, true); return chiffre({ id: "leChiffre", lbl: `Ventes sur ${n} jours`, val: eurG(r.tot), n: r.tot, delta: r.delta, periodes: PERIODES, actif: per, points: r.pts }); };
     ecran({ titre: "Aujourd'hui",
       hero: hero({ phrase: ouvertes.length ? `${pl(ouvertes.length, "commande")} à préparer<span>${nouv ? `, dont ${pl(nouv, "nouvelle")}` : ""}.</span>` : `Tout est prêt.<span> Aucune commande en attente.</span>`,
         verres: [["Nouveau produit", "boite", "", "vNouv"], ["Voir mon site", "site", S.site]] }),
@@ -541,7 +557,7 @@
     const jourL = rdvDuJour(ti), restants = jourL.filter(r => r.debut + presta(r.presta).duree > mn && r.statut !== "absent"), proch = restants.find(r => r.debut >= mn) || restants[0];
     const dem = D.rdv.filter(r => r.statut === "demande").sort((a, b) => (a.date + String(a.debut).padStart(4, "0")).localeCompare(b.date + String(b.debut).padStart(4, "0")));
     const parJour = d => D.rdv.filter(r => r.date === d && ["venu", "confirme"].includes(r.statut) && d <= ti).reduce((s, r) => s + presta(r.presta).prix, 0);
-    const leChiffre = () => { const n = NJ[per], r = serie(T.plus(t, -n + 1), n, parJour, true); return chiffre({ id: "leChiffre", lbl: `Chiffre sur ${n} jours`, val: eurG(r.tot), delta: r.delta, periodes: PERIODES, actif: per, points: r.pts }); };
+    const leChiffre = () => { const n = NJ[per], r = serie(T.plus(t, -n + 1), n, parJour, true); return chiffre({ id: "leChiffre", lbl: `Chiffre sur ${n} jours`, val: eurG(r.tot), n: r.tot, delta: r.delta, periodes: PERIODES, actif: per, points: r.pts }); };
     ecran({ titre: "Aujourd'hui",
       hero: hero({ phrase: jourL.length ? `${pl(jourL.length, "rendez-vous", "rendez-vous")} aujourd'hui<span>${proch ? `, prochain à ${hm(proch.debut)} avec ${esc(client(proch.client).nom.split(" ")[0])}` : ", la journée est finie"}.</span>` : `Journée libre.<span> Aucun rendez-vous aujourd'hui.</span>`,
         verres: [["Nouveau rendez-vous", "agenda", "", "vRdv"], ["Voir l'agenda", "gens", "#/agenda"]] }),
@@ -567,7 +583,7 @@
     const semaine = L.filter(s => s.statut === "confirme" && new Date(s.arrivee) > t && new Date(s.arrivee) < T.plus(t, 8)).sort((a, b) => a.arrivee.localeCompare(b.arrivee));
     /* ce que rapportent les nuits réservées, jour par jour, sur les jours à venir */
     const parJour = d => L.filter(s => s.statut === "confirme" && s.arrivee <= d && s.depart > d).reduce((x, s) => x + chambre(s.chambre).prix, 0);
-    const leChiffre = () => { const n = NJ[per], r = serie(t, n, parJour, true); return chiffre({ id: "leChiffre", lbl: `Réservé, ${n} prochains jours`, val: eurG(r.tot), periodes: PERIODES, actif: per, points: r.pts }); };
+    const leChiffre = () => { const n = NJ[per], r = serie(t, n, parJour, true); return chiffre({ id: "leChiffre", lbl: `Réservé, ${n} prochains jours`, val: eurG(r.tot), n: r.tot, periodes: PERIODES, actif: per, points: r.pts }); };
     ecran({ titre: "Aujourd'hui",
       hero: hero({ phrase: arr.length ? `${pl(arr.length, "arrivée")} aujourd'hui<span>, ${Math.round(nuits / cap * 100)} % de remplissage sur 30 jours.</span>` : `Pas d'arrivée aujourd'hui.<span> ${Math.round(nuits / cap * 100)} % de remplissage sur 30 jours.</span>`,
         verres: [["Ajouter un séjour", "lit", "", "vSej"], ["Fermer des dates", "agenda", "", "vFerme"]] }),
@@ -605,11 +621,11 @@
   const partageIco = '<svg width="20" height="24" viewBox="0 0 20 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2v13M5.5 6.5L10 2l4.5 4.5"/><path d="M6 10H3.5v11.5h13V10H14"/></svg>';
   const ajoutIco = '<svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="2.5" y="2.5" width="17" height="17" rx="4.5"/><path d="M11 7v8M7 11h8"/></svg>';
   const menuIco = '<svg width="6" height="22" viewBox="0 0 6 22" fill="currentColor" aria-hidden="true"><circle cx="3" cy="4" r="2"/><circle cx="3" cy="11" r="2"/><circle cx="3" cy="18" r="2"/></svg>';
-  const etape = (n, texte, icone) => `<div class="ligne"><span class="icone-carre num" style="background:var(--encre);color:#fff">${n}</span><span><b style="white-space:normal">${texte}</b></span>${icone ? `<span class="rond" style="background:#fff;flex:none">${icone}</span>` : ""}</div>`;
+  const etape = (n, texte, icone) => `<div class="ligne"><span class="icone-carre num" style="background:var(--encre);color:var(--sur-encre)">${n}</span><span><b style="white-space:normal">${texte}</b></span>${icone ? `<span class="rond" style="background:#fff;flex:none">${icone}</span>` : ""}</div>`;
   function feuilleInstaller(auto) {
     let qui = surAndroid ? "android" : "iphone";
     const f = feuille({ titre: "Sur l'écran d'accueil", sous: esc(S.court), corps: `
-      <div class="fiche-tete" style="padding-top:2px"><div class="avatar" style="border-radius:18px;background:#fff;box-shadow:var(--ombre)"><img src="icone-180.png" alt=""></div><h2>Gardez ${esc(S.court)} sous la main</h2><p>L'appli s'ouvre en plein écran, comme les autres, sans passer par le navigateur.</p></div>
+      <div class="fiche-tete" style="padding-top:2px"><div class="avatar" style="border-radius:18px;box-shadow:var(--ombre);background:#fff"><img src="icone-180.png" alt=""></div><h2>Gardez ${esc(S.court)} sous la main</h2><p>L'appli s'ouvre en plein écran, comme les autres, sans passer par le navigateur.</p></div>
       <div style="display:flex;justify-content:center;margin:18px 0 6px">${segments("instQui", [["iphone", "iPhone"], ["android", "Android"]], qui)}</div>
       <div id="instEtapes" style="margin-top:12px"></div>
       <div class="boutons" style="flex-direction:column">
@@ -678,6 +694,38 @@
   ["gesturestart", "gesturechange", "gestureend"].forEach(t => document.addEventListener(t, e => e.preventDefault(), { passive: false }));
   document.addEventListener("touchmove", e => { if (e.touches.length > 1) e.preventDefault(); }, { passive: false });
   /* le double toucher est coupé par touch-action: manipulation (app.css), sans gêner le pavé numérique */
+  let ouverte = null, x0 = 0, y0 = 0, dx = 0, sens = null, glisseVient = false;
+  const ferme = () => { if (ouverte) { ouverte.style.transform = ""; ouverte = null; } };
+  document.addEventListener("touchstart", e => {
+    const l = e.target.closest(".glisse>.ligne"); glisseVient = false;
+    if (ouverte && l !== ouverte && !e.target.closest(".glisse .actions")) ferme();
+    if (!l) return; x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; dx = 0; sens = null; l.style.transition = "none";
+  }, { passive: true });
+  document.addEventListener("touchmove", e => {
+    const l = e.target.closest(".glisse>.ligne"); if (!l) return;
+    const mx = e.touches[0].clientX - x0, my = e.touches[0].clientY - y0;
+    if (!sens) sens = Math.abs(mx) > 8 && Math.abs(mx) > Math.abs(my) ? "x" : Math.abs(my) > 8 ? "y" : null;
+    if (sens !== "x") return;
+    const w = l.previousElementSibling.offsetWidth, base = l === ouverte ? -w : 0;
+    dx = Math.min(0, Math.max(-w - 30, base + mx)); l.style.transform = `translateX(${dx}px)`; glisseVient = true;
+  }, { passive: true });
+  document.addEventListener("touchend", e => {
+    const l = e.target.closest(".glisse>.ligne"); if (!l) return; l.style.transition = "";
+    if (sens !== "x") return;
+    const w = l.previousElementSibling.offsetWidth;
+    if (dx < -w / 2) { l.style.transform = `translateX(${-w}px)`; ouverte = l; if (navigator.vibrate) navigator.vibrate(8); } else { l.style.transform = ""; if (ouverte === l) ouverte = null; }
+  });
+  /* une ligne qu'on vient de glisser ne s'ouvre pas */
+  document.addEventListener("click", e => { if (glisseVient && e.target.closest(".glisse>.ligne")) { e.preventDefault(); e.stopPropagation(); glisseVient = false; } else if (ouverte && e.target.closest(".glisse>.ligne") === ouverte) { e.preventDefault(); e.stopPropagation(); ferme(); } }, true);
+  document.addEventListener("click", e => {
+    const b = e.target.closest("[data-act]"); if (!b) return;
+    const [quoi, id, statut] = b.dataset.act.split("|");
+    const liste = { cmd: D.commandes, rdv: D.rdv, sej: D.sejours }[quoi], x = liste && liste.find(y => y.id === id); if (!x) return;
+    x.statut = statut; ouverte = null; if (navigator.vibrate) navigator.vibrate(12);
+    sauver(quoi === "cmd" ? `${x.client} : ${nomEtape(statut).toLowerCase()}` : { confirme: "Confirmé", annule: quoi === "rdv" ? "Annulé" : "Refusé", venu: "Noté : venu", absent: "Noté : absent" }[statut]);
+    route();
+  });
+
   /* la toute première version de l'appli posait un service worker : on le retire pour toujours servir la dernière version */
   if ("serviceWorker" in navigator) navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => r.unregister())).catch(() => {});
   route();

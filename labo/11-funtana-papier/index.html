@@ -83,14 +83,34 @@ button,input{font:inherit;color:inherit;letter-spacing:inherit}
 .top nav a{text-decoration:none;padding:10px 0}
 @media (hover:hover) and (pointer:fine){.top nav a:hover{text-decoration:underline;text-underline-offset:.3em}}
 .top .actions{justify-self:end;display:flex;gap:10px}
-.top .menu{display:none}
-.sheet{position:fixed;inset:0;z-index:30;background:var(--parchment);display:none;flex-direction:column;padding:20px var(--m) max(24px,env(safe-area-inset-bottom));overflow:auto}
+/* le bouton du menu (téléphone) : un rond, deux traits qui deviennent une croix */
+.top .menu,.sheet .fermer{display:none;width:48px;height:48px;padding:0;border-radius:50%;border:1.5px solid var(--ink);background:none;cursor:pointer;place-items:center;transition:background-color .2s,transform .15s}
+.top .menu:active,.sheet .fermer:active{transform:scale(.94)}
+.traits{position:relative;width:18px;height:10px}
+.traits::before,.traits::after{content:"";position:absolute;left:0;width:100%;height:1.5px;background:currentColor;border-radius:2px;transition:transform .35s var(--doux),top .35s var(--doux)}
+.traits::before{top:0}.traits::after{top:8.5px}
+.sheet .fermer .traits::before{top:4.25px;transform:rotate(45deg)}
+.sheet .fermer .traits::after{top:4.25px;transform:rotate(-45deg)}
+/* le menu plein écran : le nom et la croix exactement à la place du nom et du bouton de la page (--haut),
+   une photo en arche et l'état du jour en haut, les quatre liens en grand, les deux actions en bas */
+.sheet{position:fixed;inset:0;z-index:30;background:var(--parchment);display:none;flex-direction:column;padding:var(--haut,20px) var(--m) max(20px,env(safe-area-inset-bottom));overflow:auto;overscroll-behavior:contain}
 .sheet.open{display:flex;animation:ouvre .3s ease both}
 @keyframes ouvre{from{opacity:0}}
-.sheet .row{display:flex;justify-content:space-between;align-items:center}
-.sheet nav{margin-top:auto;display:grid;gap:6px}
-.sheet nav a{text-decoration:none;font-size:var(--t-titre);line-height:1;text-transform:uppercase;padding:8px 0}
-.sheet .bas{margin-top:36px;display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center}
+.sheet .row{display:flex;justify-content:space-between;align-items:center;padding-block:20px}
+.sheet .fermer{display:grid}
+.sheet .lieu{margin-top:18px;display:grid;grid-template-columns:34% minmax(0,1fr);gap:18px;align-items:end}
+.sheet .lieu .photo{aspect-ratio:3/4}
+.sheet .lieu p{font-size:var(--t-petit);color:var(--muted)}
+.sheet .lieu p b{display:block;font-weight:400;color:var(--ink);font-size:var(--t-texte)}
+.sheet nav{margin-top:auto;padding-top:28px;display:grid}
+.sheet nav a{display:flex;justify-content:space-between;align-items:center;gap:16px;text-decoration:none;font-size:clamp(2.1rem,10vw,3.25rem);line-height:1;text-transform:uppercase;padding:10px 0}
+.sheet nav a::after{content:"→";font-size:.5em;transition:transform .25s var(--doux)}
+.sheet nav a:active::after{transform:translateX(6px)}
+.sheet .bas{margin-top:24px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (prefers-reduced-motion:no-preference){
+  .sheet.open .entre{animation:monteMenu .6s var(--doux) both;animation-delay:var(--d,0ms)}
+  @keyframes monteMenu{from{opacity:0;transform:translateY(18px)}}
+}
 
 /* ---- ouverture : le nom en très grand au milieu, les bulles qui montent autour ; dessous, ce que c'est et l'action ---- */
 .hero{position:relative;min-height:calc(100svh - 120px);display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:1fr auto;padding-block:20px clamp(28px,6vh,56px)}
@@ -213,7 +233,7 @@ footer .legal a{color:inherit}
 @media (max-width:980px){
   .top{grid-template-columns:1fr auto}
   .top nav,.top .reserver{display:none}
-  .top .menu{display:inline-flex}
+  .top .menu{display:grid}
   .hero{min-height:calc(100svh - 120px)}
   .intro .dit{grid-column:1/-1}
   .intro .fondu{grid-column:5/13;grid-row:auto}
@@ -271,14 +291,15 @@ footer .legal a{color:inherit}
   <header class="top">
     <a class="brand" href="#">A Funtana</a>
     <nav aria-label="Sections"><a href="#places">Places libres</a><a href="#visite">La visite</a><a href="#carte">La carte</a><a href="#venir">Venir</a></nav>
-    <div class="actions"><a class="btn plein reserver" href="#places">Réserver</a><button class="btn menu" type="button" id="menuBtn" aria-expanded="false" aria-controls="sheet">Menu</button></div>
+    <div class="actions"><a class="btn plein reserver" href="#places">Réserver</a><button class="menu" type="button" id="menuBtn" aria-expanded="false" aria-controls="sheet" aria-label="Ouvrir le menu"><span class="traits" aria-hidden="true"></span></button></div>
   </header>
 </div>
 
 <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="Menu">
-  <div class="row"><span class="brand">A Funtana</span><button class="btn" type="button" id="closeBtn">Fermer</button></div>
-  <nav aria-label="Menu"><a href="#places">Places libres</a><a href="#visite">La visite</a><a href="#carte">La carte</a><a href="#venir">Venir</a></nav>
-  <div class="bas"><a class="btn plein" href="#places">Réserver une place</a><a class="go" href="tel:+33400000000">04 00 00 00 00</a></div>
+  <div class="row"><span class="brand">A Funtana</span><button class="fermer" type="button" id="closeBtn" aria-label="Fermer le menu"><span class="traits" aria-hidden="true"></span></button></div>
+  <div class="lieu entre"><img class="photo arche" src="../../images/funtana/vasque.webp" alt="" width="900" height="1125" loading="lazy" decoding="async"><p><b>12, cours Grandval</b>Ajaccio<br><span id="nowMenu">Ouvert</span></p></div>
+  <nav aria-label="Menu"><a class="entre" style="--d:60ms" href="#places">Places libres</a><a class="entre" style="--d:110ms" href="#visite">La visite</a><a class="entre" style="--d:160ms" href="#carte">La carte</a><a class="entre" style="--d:210ms" href="#venir">Venir</a></nav>
+  <div class="bas entre" style="--d:260ms"><a class="btn" href="tel:+33400000000">Appeler</a><a class="btn plein" href="#places">Réserver</a></div>
 </div>
 
 <main>
@@ -599,6 +620,7 @@ $("hrs").innerHTML = [2, 3, 4, 5, 6].map(i => `<tr><td>${DN[i]}</td><td>9 h – 
 const isOpen = OPEN(now.getDay()) && nowM >= 540 && nowM < CLOSE(now.getDay());
 $("now").textContent = isOpen ? `Ouvert aujourd'hui jusqu'à ${CLOSE(now.getDay()) / 60} h` : "Fermé en ce moment";
 $("now").classList.toggle("ferme", !isOpen);
+$("nowMenu").textContent = $("now").textContent;
 
 // ——— les prochaines places libres (démo : tirées du jour, toujours les mêmes pour une date donnée)
 const SERV = CARTE.flatMap(([g, list]) => list.map(x => [g, ...x]));
@@ -641,7 +663,10 @@ renderSlots();
 
 // ——— menu plein écran
 const sheet = $("sheet"), menuBtn = $("menuBtn");
-const setMenu = open => { sheet.classList.toggle("open", open); menuBtn.setAttribute("aria-expanded", open); document.body.style.overflow = open ? "hidden" : ""; (open ? $("closeBtn") : menuBtn).focus(); };
+const setMenu = open => {
+  // le nom et la croix s'ouvrent exactement là où étaient le nom et le bouton de la page : rien ne saute
+  if (open) sheet.style.setProperty("--haut", Math.max(0, document.querySelector(".top").getBoundingClientRect().top) + "px");
+  sheet.classList.toggle("open", open); menuBtn.setAttribute("aria-expanded", open); document.body.style.overflow = open ? "hidden" : ""; (open ? $("closeBtn") : menuBtn).focus(); };
 menuBtn.addEventListener("click", () => setMenu(true));
 $("closeBtn").addEventListener("click", () => setMenu(false));
 sheet.addEventListener("click", e => { if (e.target.closest("a")) setMenu(false); });

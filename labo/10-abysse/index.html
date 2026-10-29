@@ -112,10 +112,14 @@ h1,h2,h3{color:var(--white);font-weight:500;line-height:1;text-wrap:balance}
 .net text{fill:var(--silver);font:500 10px "Inter Tight",sans-serif;letter-spacing:.12em;text-transform:uppercase}
 @media (prefers-reduced-motion:reduce){.net line{transition:none;stroke-dashoffset:0}.net .pulse{animation:none}}
 
-/* ---- le texte géant qui glisse ---- */
-.kinetic{overflow:clip;margin-top:var(--gap);padding-block:10px}
-.kinetic p{white-space:nowrap;color:var(--white);font-weight:500;font-size:clamp(5.5rem,2rem + 16vw,18.4rem);line-height:1;letter-spacing:-.046em;will-change:transform}
-.kinetic p span{color:transparent;-webkit-text-stroke:1px var(--slate)}
+/* ---- le texte géant : la page se fige, une ligne arrive de la gauche, l'autre de la droite ---- */
+.kinetic{position:relative;height:230vh;margin-top:var(--gap)}
+.kinetic .pin{position:sticky;top:0;height:100vh;height:100svh;display:grid;align-content:center;gap:clamp(4px,1vw,14px);overflow:clip;padding-inline:var(--m)}
+.kinetic p{white-space:nowrap;color:var(--white);font-weight:500;font-size:clamp(2.6rem,.4rem + 9.6vw,12rem);line-height:.95;letter-spacing:-.05em;will-change:transform,opacity}
+.kinetic .l1{justify-self:start}
+.kinetic .l2{justify-self:end;color:transparent;-webkit-text-stroke:1.5px var(--mist)}
+.kinetic .eyebrow{justify-self:center;margin-top:clamp(18px,3vw,36px);transition:opacity .5s}
+@media (prefers-reduced-motion:reduce){.kinetic{height:auto}.kinetic .pin{position:static;height:auto;padding-block:40px}}
 
 /* ---- réalisations ---- */
 .sec{margin-top:var(--gap)}
@@ -253,10 +257,10 @@ section[id]{scroll-margin-top:20px}
     </section>
   </div>
 
-  <div class="kinetic" aria-hidden="true"><p id="kin">Treize commerces <span>treize sites</span> Treize commerces <span>treize sites</span></p></div>
+  <div class="kinetic" id="kin" aria-hidden="true"><div class="pin"><p class="l1">Treize commerces,</p><p class="l2">treize sites.</p><p class="eyebrow big" id="kinSub">Une démo par métier</p></div></div>
 
   <div class="page">
-    <section class="sec" id="realisations" aria-labelledby="t-real" style="margin-top:clamp(36px,5vw,68px)">
+    <section class="sec" id="realisations" aria-labelledby="t-real" style="margin-top:0">
       <div class="head rise"><div><p class="eyebrow">Réalisations</p><h2 id="t-real">Treize commerces, treize sites</h2></div><p>Des démos, une par métier. Le vôtre sera fait avec votre logo, vos couleurs et vos photos.</p></div>
       <div class="filters" id="filters" role="group" aria-label="Filtrer par métier"></div>
       <div class="works" id="works"></div>
@@ -413,14 +417,23 @@ const filtres = () => {
 $("filters").addEventListener("click", e => { const b = e.target.closest("button"); if (b) { famille = b.dataset.k; filtres(); } });
 filtres();
 
-// ——— le texte géant glisse de droite à gauche pendant qu'on défile
+// ——— le texte géant : pendant que la page est figée, les deux lignes se rejoignent (gauche → centre, droite → centre)
 (() => {
   if (calme) return;
-  const k = $("kin"), box = k.parentElement;
+  const box = $("kin"), l1 = box.querySelector(".l1"), l2 = box.querySelector(".l2"), sub = $("kinSub");
+  const ease = x => 1 - Math.pow(1 - x, 3);
   let tick = false;
-  const move = () => { tick = false; const r = box.getBoundingClientRect(), p = (innerHeight - r.top) / (innerHeight + r.height);
-    if (p < -.1 || p > 1.1) return; k.style.transform = `translate3d(${(10 - p * 55).toFixed(2)}%,0,0)`; };
+  const move = () => { tick = false;
+    const r = box.getBoundingClientRect();
+    if (r.bottom < 0 || r.top > innerHeight) return;
+    const p = Math.min(1, Math.max(0, (innerHeight - r.top) / (r.height * .85)));   // 0 : le bloc entre en bas ; 1 : les lignes sont en place
+    const e = ease(p), off = (1 - e) * 110;
+    l1.style.transform = `translate3d(${-off}vw,0,0)`; l2.style.transform = `translate3d(${off}vw,0,0)`;
+    l1.style.opacity = l2.style.opacity = (.15 + e * .85).toFixed(3);
+    sub.style.opacity = p > .92 ? 1 : 0;
+  };
   addEventListener("scroll", () => { if (!tick) { tick = true; requestAnimationFrame(move); } }, { passive: true });
+  addEventListener("resize", move);
   move();
 })();
 

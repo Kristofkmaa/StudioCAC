@@ -77,6 +77,7 @@ def page(site):
 <style>:root{{--accent:{site["accent"]}}}</style>
 </head>
 <body>
+<div class="ouverture" id="ouverture" aria-hidden="true"><div class="o-in"><svg width="76" height="76" viewBox="246 251 740 740"><path d="M262 901L624 341L695 456L407 901Z M725 504L970 901L828 901L653 613Z" fill="currentColor"/><circle cx="620" cy="818" r="55" fill="#B174B2"/></svg><span>{html.escape(site["court"])}</span></div></div>
 <div id="appli"></div>
 <script>window.SITE = {json.dumps(s, ensure_ascii=False)};</script>
 {scripts}<script src="../sites.js?v={version()}"></script>

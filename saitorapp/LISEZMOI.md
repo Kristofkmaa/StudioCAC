@@ -22,6 +22,13 @@ Une appli par site, faite pour son métier, que le commerçant installe sur son 
 
 Démos : `mademoiselle-charlotte` (boutique), `a-funtana` (institut), `u-fucone` (hébergement).
 
+## Les gestes et les animations
+
+- **Écran d'ouverture** : le symbole de Saitora et le nom court, puis l'appli (fabriqué par `outils/saitorapp.py`, retiré par `app.js`).
+- **Passer d'un écran à l'autre** (`route()` dans `app.js`) : une fiche arrive par la droite par-dessus la liste, qui recule et s'assombrit ; le retour fait l'inverse et remet la liste où on l'avait laissée. Changement d'onglet : un léger fondu. La flèche de retour ramène là d'où l'on vient.
+- **Glisser depuis le bord gauche** pour revenir, avec l'écran d'avant visible dessous (une image figée gardée à chaque départ). Coupé dans Safari quand l'appli n'est pas installée : Safari le fait déjà.
+- **Réactions** : coche verte qui se dessine dans le message du haut ; une ligne qui quitte la liste après une action se replie, sinon son étiquette fait un petit saut ; le gros chiffre défile depuis le dernier montant affiché et la courbe ne se redessine que si elle change. Une action ne fait plus remonter la page.
+
 ## Le guide d'accueil
 
 À la première ouverture, un petit guide en 6 pages animées présente l'appli (adapté au métier : pavé des prix pour une boutique, créneaux libres pour un institut, planning pour un hébergement) et finit sur l'installation à l'écran d'accueil. Il ne revient pas tout seul (clé `saitorapp-tuto-<id>`) ; on le revoit dans Mon site → « Revoir le guide de l'appli ». Code : `pagesTuto()` et `tutoriel()` dans `app.js`, styles `.tuto` / `.tu-*` dans `app.css`.

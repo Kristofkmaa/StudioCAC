@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex"><link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<title>La mer en shader, labo Saitora</title>
+<link rel="stylesheet" href="../../polices/jost-a2e892.css">
+<link rel="stylesheet" href="../../polices/independantes-libre.css">
+<style>
+:root{--ink:#FBF7EF}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#0B2A3C;color:var(--ink);font:16px/1.5 "Jost",sans-serif;overflow:hidden;-webkit-tap-highlight-color:transparent}
+canvas{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none}
+.fallback{position:fixed;inset:0;background:linear-gradient(#F4C9A0 0%,#E9A97F 42%,#2C6E8A 46%,#0B2A3C 100%)}
+header{position:fixed;left:0;right:0;top:0;padding:max(20px,env(safe-area-inset-top)) clamp(16px,4vw,40px) 0;display:flex;justify-content:space-between;align-items:baseline;pointer-events:none}
+header a{pointer-events:auto;color:var(--ink);text-decoration:none;font-size:15px;opacity:.85;padding:10px 0}
+h1{position:fixed;left:clamp(16px,4vw,40px);right:clamp(16px,4vw,40px);top:24vh;margin:0;font:700 clamp(4.2rem,2rem + 13vw,13rem)/.86 "Bluu Next",serif;letter-spacing:-.02em;text-shadow:0 2px 40px rgba(0,0,0,.18);pointer-events:none}
+h1 em{font-style:italic}
+.sous{position:fixed;left:clamp(16px,4vw,40px);top:calc(24vh + clamp(4.2rem,2rem + 13vw,13rem) * 1.8);margin:0;max-width:30ch;font-size:clamp(1rem,.9rem + .4vw,1.2rem);pointer-events:none}
+.heures{position:fixed;left:50%;bottom:max(24px,env(safe-area-inset-bottom));transform:translateX(-50%);display:flex;gap:4px;padding:5px;border-radius:999px;background:rgba(8,24,34,.42);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.heures button{font:500 15px "Jost",sans-serif;color:var(--ink);background:none;border:0;border-radius:999px;padding:11px 18px;cursor:pointer;touch-action:manipulation}
+.heures button[aria-pressed=true]{background:var(--ink);color:#0B2A3C}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+</style></head><body>
+<div class="fallback" aria-hidden="true"></div>
+<canvas id="c" aria-hidden="true"></canvas>
+<header><a href="../">← Le labo</a><span style="font-size:15px;opacity:.85">01 · La mer en shader</span></header>
+<h1>U <em>mare</em></h1>
+<p class="sous">Un fond vivant pour un site du bord de mer : la lumière suit votre doigt.</p>
+<div class="heures" role="group" aria-label="Heure du jour">
+  <button type="button" data-h="0" aria-pressed="false">Matin</button>
+  <button type="button" data-h="1" aria-pressed="true">Midi</button>
+  <button type="button" data-h="2" aria-pressed="false">Couchant</button>
+</div>
+<script>
+(() => {
+const cv = document.getElementById("c");
+const gl = cv.getContext("webgl", { antialias: false, premultipliedAlpha: false });
+if (!gl) return;                                   // sans WebGL : le dégradé de secours reste
+const calme = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+const vs = "attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}";
+const fs = `
+precision highp float;
+uniform vec2 R; uniform float T; uniform vec2 S;            // taille, temps, position du soleil (0..1)
+uniform vec3 ciel_haut, ciel_bas, eau_loin, eau_pres, soleil;
+float h(vec2 p){                                             // hauteur des vagues : quelques houles croisées
+  float v=0.; float a=.55; vec2 d=vec2(1.,.3);
+  for(int i=0;i<6;i++){
+    v+=a*sin(dot(p,d)*1.7+T*(1.1+float(i)*.23));
+    d=mat2(.8,-.6,.6,.8)*d*1.45; a*=.52;
+  }
+  return v;
+}
+void main(){
+  vec2 uv=(gl_FragCoord.xy-.5*R)/R.y;
+  float horizon=.12;
+  vec3 sun=normalize(vec3((S.x-.5)*1.6,.05+S.y*.5,1.));
+  vec3 rd=normalize(vec3(uv.x,uv.y-horizon+.02,1.2));
+  vec3 col;
+  if(uv.y>horizon){                                          // le ciel
+    float t=clamp((uv.y-horizon)*2.2,0.,1.);
+    col=mix(ciel_bas,ciel_haut,t);
+    float s=max(dot(rd,sun),0.);
+    col+=soleil*(pow(s,900.)*3.+pow(s,30.)*.35);
+  }else{                                                     // la mer, vue en perspective
+    float z=.28/(horizon-uv.y+.002);
+    vec2 p=vec2(uv.x*z,z)*2.;
+    float e=.02;
+    vec3 n=normalize(vec3(h(p-vec2(e,0.))-h(p+vec2(e,0.)),1.15/(.45+z*.2),h(p-vec2(0.,e))-h(p+vec2(0.,e))));
+    vec3 r=reflect(rd,n);
+    float fres=pow(1.-max(dot(n,-rd),0.),4.);
+    vec3 eau=mix(eau_pres,eau_loin,clamp(z/14.,0.,1.));
+    vec3 reflet=mix(ciel_bas,ciel_haut,clamp(r.y*2.,0.,1.));
+    col=mix(eau,reflet,.1+.75*fres);
+    float g=max(dot(r,sun),0.);
+    col+=soleil*(pow(g,700.)*5.+pow(g,60.)*.12);             // scintillement du soleil
+    col=mix(col,ciel_bas,smoothstep(9.,40.,z));               // brume à l'horizon
+  }
+  col=1.-exp(-col*1.45);                                     // tons doux
+  gl_FragColor=vec4(pow(col,vec3(.92)),1.);
+}`;
+function shader(t, src) { const s = gl.createShader(t); gl.shaderSource(s, src); gl.compileShader(s); if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw gl.getShaderInfoLog(s); return s; }
+const pr = gl.createProgram();
+gl.attachShader(pr, shader(gl.VERTEX_SHADER, vs)); gl.attachShader(pr, shader(gl.FRAGMENT_SHADER, fs)); gl.linkProgram(pr); gl.useProgram(pr);
+gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
+const loc = gl.getAttribLocation(pr, "p"); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+const U = n => gl.getUniformLocation(pr, n);
+
+// trois heures du jour : ciel haut, ciel bas, eau au loin, eau proche, soleil (couleurs en 0..1)
+const hex = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16) / 255);
+const HEURES = [
+  ["#7FA7C9", "#F3D3B8", "#3E7C9A", "#0E4A5E", "#FFE6C4"],
+  ["#2A78BE", "#CFE8F5", "#1A8AAE", "#04506B", "#FFF8EC"],
+  ["#3B3E6E", "#F2A06A", "#5A6F8E", "#1B2C46", "#FFB27A"]
+].map(h => h.map(hex));
+const SOLEIL = [[.78, .16], [.58, .34], [.32, .06]];
+let cible = 1, cur = HEURES[1].map(c => c.slice()), sol = SOLEIL[1].slice(), main = null;
+
+function taille() {
+  const k = Math.min(devicePixelRatio || 1, 1.5);         // limite la charge sur téléphone
+  cv.width = Math.round(innerWidth * k); cv.height = Math.round(innerHeight * k);
+  gl.viewport(0, 0, cv.width, cv.height);
+}
+addEventListener("resize", taille); taille();
+
+cv.addEventListener("pointermove", e => { main = [e.clientX / innerWidth, 1 - e.clientY / innerHeight]; });
+cv.addEventListener("pointerleave", () => { main = null; });
+document.querySelector(".heures").addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  cible = +b.dataset.h;
+  document.querySelectorAll(".heures button").forEach(x => x.setAttribute("aria-pressed", x === b));
+  if (calme) { cur = HEURES[cible].map(c => c.slice()); sol = SOLEIL[cible].slice(); dessine(8); }
+});
+
+const t0 = performance.now();
+function dessine(t) {
+  const but = HEURES[cible], s = main ? [main[0], Math.min(Math.max(main[1] - .4, .02), .9)] : SOLEIL[cible];
+  cur.forEach((c, i) => c.forEach((v, j) => c[j] += (but[i][j] - v) * .04));
+  sol[0] += (s[0] - sol[0]) * .05; sol[1] += (s[1] - sol[1]) * .05;
+  gl.uniform2f(U("R"), cv.width, cv.height); gl.uniform1f(U("T"), t); gl.uniform2f(U("S"), sol[0], sol[1]);
+  ["ciel_haut", "ciel_bas", "eau_loin", "eau_pres", "soleil"].forEach((n, i) => gl.uniform3fv(U(n), cur[i]));
+  gl.drawArrays(gl.TRIANGLES, 0, 3);
+}
+if (calme) dessine(8);                                    // « réduire les animations » : une image fixe
+else (function boucle() { if (!document.hidden) dessine((performance.now() - t0) / 1000); requestAnimationFrame(boucle); })();
+})();
+</script>
+</body></html>

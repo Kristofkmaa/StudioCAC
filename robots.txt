@@ -3,5 +3,6 @@ Allow: /
 Disallow: /outils/
 Disallow: /clients/
 Disallow: /essais/
+Disallow: /labo/
 
 Sitemap: https://saitora.fr/sitemap.xml

@@ -20,6 +20,10 @@ Avant de construire un site, tirer sa composition pour qu'il ne ressemble pas au
 Les thèmes (genres) sont dans `themes.json` à la racine, la seule base : le devis les montre au client avec un aperçu (`themes.js`), `outils/themes.html` les présente, et le tirage y prend le genre. Nouveau thème : une entrée dans `themes.json` et son dessin dans `themes.js`.
 Sites clients : `clients/<nom>/index.html`, non indexés (`noindex`, `robots.txt`).
 
+## Le labo
+
+`labo/` : zone d'essais de design libre (GSAP, Three.js, shaders, React si besoin), hors sites clients. Un essai par dossier numéroté, listé dans `labo/index.html` ; règles dans `labo/LISEZMOI.md`.
+
 ## Rien ne défile sur le côté
 
 Sur tous les sites, tout tient dans la largeur de l'écran : pas de bandeau de cartes qui défile, pas de tableau plus large que l'écran. Sur téléphone, un tableau devient une fiche par ligne, une liste longue devient une grille avec des filtres, un calendrier devient des boutons de mois.

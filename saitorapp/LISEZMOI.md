@@ -1,6 +1,6 @@
 # Saitorapp
 
-Une appli par site, faite pour son métier, que le commerçant installe sur son téléphone. **Toutes les applis ont le même visuel** (demande de l'utilisateur) : le style de l'appli Fitness d'Apple vu sur Mobbin. Fond noir, cartes gris foncé très arrondies, trois anneaux de couleur pour les objectifs (rouge, vert, cyan), chiffres arrondis en couleur avec l'unité en petites capitales, cartes de mesure avec petites barres, carte d'activité en barres à parcourir au doigt, barre d'onglets en pilule arrondie (onglet actif en vert), « + » vert rond, pavé numérique pour les prix et le stock. Seuls les onglets changent selon le métier ; la pastille en haut à droite porte le logo du commerce.
+Une appli par site, faite pour son métier, que le commerçant installe sur son téléphone avec son nom et son logo. Style choisi par l'utilisateur sur Mobbin, d'après les applis Fuse et Ro : fond blanc, grande photo du site en haut avec la phrase du jour et deux cartes translucides, gros chiffre noir dont les centimes passent en gris avec sa courbe et ses périodes (7 J, 1 M, 3 M), tuiles à bord pointillé avec de petites icônes de couleur, boutons pilule noirs, « + » noir rond à côté de la barre d'onglets flottante, pavé numérique pour les prix et le stock. La photo du haut se règle dans sites.json (`photo`, ou `fond` et `marque` sans photo).
 
 ## Comment c'est rangé
 

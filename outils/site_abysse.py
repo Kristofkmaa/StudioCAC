@@ -26,10 +26,10 @@ def fabrique(page):
     html = remplace(html, "</head>", '<link rel="stylesheet" href="abysse-fin.css">\n<meta name="robots" content="noindex">\n</head>', page)
     html = re.sub(r'<meta name="robots" content="[^"]*">\n(?=.*<meta name="robots" content="noindex">)', "", html, flags=re.S)
     html = re.sub(r'<meta name="theme-color" content="[^"]*">', '<meta name="theme-color" content="#012624">', html)
-    # fonds peints avant le chargement : la couleur du rideau de la transition (#011D1C) pendant l'attente,
+    # fonds peints avant le chargement : la couleur de l'eau de la transition (#012624) pendant l'attente,
     # le vert d'eau ensuite, quel que soit le réglage clair / sombre du téléphone
     html = re.sub(r"html\.sc-pending,html\.sc-pending body\{background:#[0-9A-Fa-f]+\}html\[data-theme=dark\]\.sc-pending,html\[data-theme=dark\]\.sc-pending body\{background:#[0-9A-Fa-f]+\}",
-                  "html.sc-pending,html.sc-pending body{background:#011D1C}", html)
+                  "html.sc-pending,html.sc-pending body{background:#012624}", html)
     html = re.sub(r"html,body\{background:#[0-9A-Fa-f]+\}html\[data-theme=dark\],html\[data-theme=dark\] body\{background:#[0-9A-Fa-f]+\}",
                   "html,body{background:#012624}", html)
     html = re.sub(r'<button class="theme-toggle"[\s\S]*?</button>', "", html)

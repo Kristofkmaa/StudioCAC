@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#012624">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="abysse.css">
-<style>html.sc-pending,html.sc-pending body{background:#011D1C}</style>
+<style>html.sc-pending,html.sc-pending body{background:#012624}</style>
 <script>if(!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("sc-pending")</script>
 <link rel="preload" href="polices/inter-tight-500-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
 <style>
@@ -326,11 +326,17 @@ const fleche = '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strok
 (() => {
   const cv = $("orb"), sphere = AbysseSphere.create(cv);
   let run = false, raf = 0, z0 = null;
+  // arrivée par la plongée : écran uni tant que la page n'est pas prête, puis les points se rallument et la sphère recule
+  let pret = !dezoom;
+  const prete = () => requestAnimationFrame(() => requestAnimationFrame(() => { pret = true; }));
+  if (!pret) { if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", prete); else prete(); }
   const etat = () => {
+    if (!pret) return { Z: 12, A: 0 };
     if (dezoom && z0 === null) z0 = performance.now();
     const zp = dezoom ? Math.min(1, (performance.now() - z0) / 2200) : 1, ze = zp < .5 ? 4 * zp ** 3 : 1 - (-2 * zp + 2) ** 3 / 2;
     if (dezoom && zp >= 1 && !calme) AbysseSphere.suivre(true);   // après le recul, la sphère suit de nouveau le doigt
-    return { Z: 1 + 11 * (1 - ze), A: 1 - heroP * .55, grow: 1 + heroP * .9 };   // recul 12 → 1 sur 2,2 s, doux au début et à la fin
+    const allume = dezoom ? Math.min(1, (performance.now() - z0) / 350) : 1;
+    return { Z: 1 + 11 * (1 - ze), A: allume * (1 - heroP * .55), grow: 1 + heroP * .9 };   // recul 12 → 1 sur 2,2 s, doux au début et à la fin
   };
   const loop = () => { if (!AbysseSphere.cachee) sphere.draw(etat()); raf = requestAnimationFrame(loop); };   // pas sous un rideau de transition
   sphere.draw(etat());

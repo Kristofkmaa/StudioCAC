@@ -54,14 +54,16 @@
     try { sessionStorage.setItem(KEY, "mini"); } catch (_) {}
     let parti = false;
     const part = () => { if (!parti) { parti = true; location.href = a.href; } };
-    // 0–350 ms : l'eau monte et la sphère apparaît ; 350–950 ms : on plonge dedans (le zoom accélère)
+    // 0–350 ms : l'eau monte et la sphère apparaît ; 350–950 ms : on plonge dedans (le zoom accélère) ;
+    // 950–1150 ms : les points s'éteignent. Le changement de page se fait sur un écran uni et immobile :
+    // le court arrêt du navigateur entre deux pages ne se voit plus.
     const { eau, start } = cover(true, ms => {
-      if (ms >= 950) part();
-      return [1 + 11 * easeIn(clamp((ms - 350) / 600)), clamp(ms / 300)];
+      if (ms >= 1170) part();
+      return [1 + 11 * easeIn(clamp((ms - 350) / 600)), Math.min(clamp(ms / 300), 1 - clamp((ms - 950) / 200))];
     });
     start();
     eau.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 380, easing: "ease-out", fill: "both" }).finished.then(() => AbysseSphere.cache(true));
-    setTimeout(part, 1300);                                   // si le navigateur met l'animation en pause
+    setTimeout(part, 1500);                                   // si le navigateur met l'animation en pause
   });
 
   if (reduce) { root.classList.remove("sc-pending"); return; }
@@ -75,7 +77,9 @@
     const mini = via === "mini";
     // on ressort de la sphère : elle recule (12 → 1) en 1 s, puis s'efface ; l'eau s'éclaircit à partir de 0,85 s
     if (mini) AbysseSphere.cache(true);                       // les autres sphères de la page attendent sous le rideau
-    const { c, eau, stop: stopOrb, start } = cover(mini, ms => [1 + 11 * (1 - easeInOut(clamp(ms / 1000))), 1 - clamp((ms - 900) / 400)]);
+    // on part d'un écran uni (comme la page précédente s'est terminée) ; une fois la page prête, les points se rallument
+    // et la sphère recule (12 → 1) en 1 s, puis s'efface sur celle de la page
+    const { c, eau, stop: stopOrb, start } = cover(mini, ms => [1 + 11 * (1 - easeInOut(clamp(ms / 1000))), Math.min(clamp(ms / 300), 1 - clamp((ms - 900) / 400))]);
     // sécurité : si l'animation ne démarre pas (page chargée en arrière-plan, navigateur qui la met en pause),
     // le rideau disparaît quand même au bout de 3,2 s : la page n'est jamais cachée
     const secours = setTimeout(() => { AbysseSphere.cache(false); if (current) current.done(); else { stopOrb(); c.remove(); root.classList.remove("sc-pending"); } }, 3200);

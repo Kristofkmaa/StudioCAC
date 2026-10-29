@@ -18,3 +18,9 @@ sans toucher aux sites clients ni aux démos. Rien ici n'est montré aux clients
 - Pour reconstruire : `cd labo/sources/libecciu-astro && npm install && npm run build` (écrit `labo/04-astro/`), idem dans `libecciu-next` (écrit `labo/05-next/`). Le dossier `commun/` est recopié dans chaque projet avant la construction.
 - `node_modules/` n'est pas enregistré dans le dépôt. Le fichier `.nojekyll` à la racine garde les dossiers `_astro/` et `_next/` visibles sur GitHub Pages.
 - Le comparatif mesuré est dans `labo/06-comparatif/`.
+
+## Les pièces de la communauté (essai 07)
+
+- `labo/sources/pieces-astro/` : douze composants pris sur GitHub (Magic UI, Motion Primitives, React Bits), rangés par bibliothèque dans `src/communaute/`, chacun essayé dans `src/demos/` pour un métier ; les verdicts sont dans `src/fiches.ts`.
+- Reconstruire : `cd labo/sources/pieces-astro && npm install && npm run build` (écrit `labo/07-pieces/`).
+- Retouches faites au code récupéré : imports de types TypeScript (`type SpringOptions`…) pour que la construction passe, bouton shadcn remplacé par un simple `<button>` pour Confetti, chemins `@/` remplacés par des chemins relatifs.

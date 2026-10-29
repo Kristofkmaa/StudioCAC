@@ -1,0 +1,57 @@
+---
+// Douze pièces de la communauté (Magic UI, Motion Primitives, React Bits) branchées dans Astro,
+// chacune essayée dans un usage réel d'un de nos métiers, avec son verdict.
+import "../styles.css"
+import Titre from "../demos/Titre"
+import AvantApres from "../demos/AvantApres"
+import Produits from "../demos/Produits"
+import Tampon from "../demos/Tampon"
+import Etincelles from "../demos/Etincelles"
+import Aimant from "../demos/Aimant"
+import Surligne from "../demos/Surligne"
+import Formules from "../demos/Formules"
+import Aurore from "../demos/Aurore"
+import Galerie from "../demos/Galerie"
+import Carte from "../demos/Carte"
+import Fete from "../demos/Fete"
+import { FICHES } from "../fiches"
+const f = (id: string) => FICHES.find(x => x.id === id)!
+---
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Les pièces de la communauté, labo Saitora</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/polices/jost-a2e892.css">
+</head>
+<body>
+<main class="page">
+  <div class="haut"><a href="/labo/">← Le labo</a><span>07 · Les pièces de la communauté</span></div>
+  <h1>Douze pièces de la communauté, <span>essayées pour nos clients</span></h1>
+  <p class="lead">Des composants très utilisés, pris tels quels sur GitHub (Magic UI, Motion Primitives, React Bits) et branchés dans Astro. Chacun est essayé dans un vrai usage d'un de nos métiers, avec son poids, son comportement sur téléphone et notre avis. Toutes partagent un socle commun (React et Motion) d'environ 110 Ko compressés, chargé une seule fois ; le poids indiqué est ce que chaque pièce ajoute.</p>
+  <ul class="resume">
+    <li><b class="oui">À brancher</b> {FICHES.filter(x => x.avis === "oui").map(x => x.nom).join(", ")}</li>
+    <li><b class="peut">Avec précaution</b> {FICHES.filter(x => x.avis === "peut-être").map(x => x.nom).join(", ")}</li>
+    <li><b class="non">À éviter</b> {FICHES.filter(x => x.avis === "non").map(x => x.nom).join(", ")}</li>
+  </ul>
+
+  <section class="fiche"><header set:html={f("titre").entete} /><div class="essai"><Titre client:visible /></div><div class="verdict" set:html={f("titre").verdict} /></section>
+  <section class="fiche"><header set:html={f("avant").entete} /><div class="essai"><AvantApres client:visible /></div><div class="verdict" set:html={f("avant").verdict} /></section>
+  <section class="fiche"><header set:html={f("produits").entete} /><div class="essai"><Produits client:visible /></div><div class="verdict" set:html={f("produits").verdict} /></section>
+  <section class="fiche"><header set:html={f("tampon").entete} /><div class="essai"><Tampon client:visible /></div><div class="verdict" set:html={f("tampon").verdict} /></section>
+  <section class="fiche"><header set:html={f("etincelles").entete} /><div class="essai"><Etincelles client:visible /></div><div class="verdict" set:html={f("etincelles").verdict} /></section>
+  <section class="fiche"><header set:html={f("aimant").entete} /><div class="essai"><Aimant client:visible /></div><div class="verdict" set:html={f("aimant").verdict} /></section>
+  <section class="fiche"><header set:html={f("surligne").entete} /><div class="essai"><Surligne client:visible /></div><div class="verdict" set:html={f("surligne").verdict} /></section>
+  <section class="fiche"><header set:html={f("formules").entete} /><div class="essai"><Formules client:visible /></div><div class="verdict" set:html={f("formules").verdict} /></section>
+  <section class="fiche"><header set:html={f("aurore").entete} /><div class="essai"><Aurore client:visible /></div><div class="verdict" set:html={f("aurore").verdict} /></section>
+  <section class="fiche"><header set:html={f("galerie").entete} /><div class="essai"><Galerie client:visible /></div><div class="verdict" set:html={f("galerie").verdict} /></section>
+  <section class="fiche"><header set:html={f("carte").entete} /><div class="essai"><Carte client:visible /></div><div class="verdict" set:html={f("carte").verdict} /></section>
+  <section class="fiche"><header set:html={f("fete").entete} /><div class="essai"><Fete client:visible /></div><div class="verdict" set:html={f("fete").verdict} /></section>
+
+  <p class="pied">Licences : Magic UI et Motion Primitives sous licence MIT ; React Bits sous licence MIT avec « Commons Clause » (utilisable dans un site, pas revendable comme bibliothèque). Photos : Pixabay, sauf l'avant / après (guide photo de Saitora).</p>
+</main>
+</body>
+</html>

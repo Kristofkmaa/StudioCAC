@@ -695,8 +695,68 @@
     f.querySelector("#instPlusTard").onclick = () => { if (auto) try { localStorage.setItem("saitorapp-installer-plus-tard", Date.now()); } catch (e) {} fermeFeuille(); };
     dessine();
   }
-  /* proposé une fois à l'arrivée, puis pas avant 7 jours si on a répondu « Plus tard » */
+  /* =====================================================================
+     LE TUTORIEL : quelques pages à faire défiler, chacune avec une petite animation
+     ===================================================================== */
+  function pagesTuto() {
+    const m = S.metier;
+    const metier = m === "boutique" ? {
+        titre: "Prix et stock au doigt", texte: "Touchez un prix ou un stock : le pavé s'ouvre, tapez, validez. Le site suit. Un produit épuisé se signale tout seul.",
+        demo: `<div class="tu-pave"><b class="num"><span class="tu-tape"></span><span class="cts"> €</span></b><div>${[1, 2, 3, 4, 5, 6, 7, 8, 9, ",", 0, "⌫"].map(k => `<i>${k}</i>`).join("")}</div></div>` }
+      : m === "institut" ? {
+        titre: "Les créneaux libres, tout seuls", texte: "Choisissez la prestation : l'appli ne propose que les heures où quelqu'un de l'équipe est libre. Les demandes du site s'acceptent d'un geste.",
+        demo: `<div class="tu-creneaux">${["9:00", "9:30", "10:15", "11:00", "14:00", "14:45", "15:30", "16:30", "17:15"].map((h, i) => `<i style="--i:${i}">${h}</i>`).join("")}</div>` }
+      : m === "hebergement" ? {
+        titre: "Toute la maison d'un regard", texte: "Chaque chambre sur deux semaines : qui arrive, qui part, ce qui reste à confirmer. Fermez des dates en deux touches, le site les bloque.",
+        demo: `<div class="tu-planning">${["A Trave", "U Sole", "A Nichja", "A Casetta"].map((c, i) => `<p><span>${c}</span><i><b style="--g:${[8, 30, 55, 18][i]}%;--l:${[40, 28, 30, 50][i]}%;--i:${i}"></b></i></p>`).join("")}</div>` }
+      : null;
+    return [
+      { titre: `Bienvenue dans l'appli de ${esc(S.court)}`, texte: `${{ boutique: "Vos commandes, vos produits, votre stock et votre site", institut: "Votre agenda, vos clients, vos prestations et votre site", hebergement: "Vos séjours, vos chambres et votre site" }[m] || "Votre site"} : tout se gère ici, depuis le téléphone, en quelques secondes.`,
+        demo: `<div class="tu-accueil"><img src="icone-180.png" alt=""><p>${MODS.map(k => `<span>${ico(A.MODULES[k].icone, 20)}${A.MODULES[k].onglet}</span>`).join("")}</p></div>` },
+      { titre: "Tout en un coup d'œil", texte: "« Aujourd'hui » vous dit ce qui attend. Posez le doigt sur la courbe : le montant de chaque jour s'affiche.",
+        demo: `<div class="tu-jour"><p class="tu-lbl">Cette semaine</p><b class="num">1 240<span class="cts">,00 €</span></b><svg viewBox="0 0 200 60" aria-hidden="true"><path d="M2 54 C30 50 40 40 60 42 S95 30 110 26 S150 22 165 12 S190 8 198 6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><circle cx="198" cy="6" r="4" fill="currentColor"/></svg></div>` },
+      { titre: "Glissez pour aller plus vite", texte: m === "boutique" ? "Glissez une commande vers la gauche : elle passe à « À coudre », puis « Prête », puis « Remise »." : m === "institut" ? "Glissez un rendez-vous vers la gauche pour le confirmer, ou noter la venue du client." : "Glissez une demande vers la gauche pour l'accepter ou la refuser.",
+        demo: `<div class="tu-glisse"><div class="tu-act">${m === "boutique" ? "Prête" : "Accepter"}</div><div class="tu-ligne"><span class="tu-av">${m === "boutique" ? "SG" : m === "institut" ? "EL" : "FM"}</span><span><b>${m === "boutique" ? "Sophie G." : m === "institut" ? "Elsa Leca" : "Famille Moretti"}</b><small>${m === "boutique" ? "« Matteu », coffret" : m === "institut" ? "Brushing · 16:45" : "A Trave · 3 nuits"}</small></span></div><i class="tu-doigt"></i></div>` },
+      ...(metier ? [metier] : []),
+      { titre: "Votre site, en direct", texte: "Une fermeture, une promotion, Noël qui arrive ? Écrivez l'annonce dans « Mon site » : elle s'affiche en haut de votre site.",
+        demo: `<div class="tu-site"><div class="tu-bandeau"><span class="tu-ecrit">Fermé le 1er novembre</span></div><div class="tu-page"><i></i><i></i><i></i></div></div>` },
+      { titre: "Sur votre écran d'accueil", texte: "Ajoutez l'appli à l'écran d'accueil : elle s'ouvre en plein écran, comme les autres. Vous pourrez revoir ce guide dans « Mon site ».",
+        demo: `<div class="tu-ecran">${[...Array(7)].map(() => "<i></i>").join("")}<img src="icone-180.png" alt=""></div>`, fin: true }
+    ];
+  }
+  function tutoriel() {
+    document.querySelector(".tuto")?.remove();
+    const P = pagesTuto();
+    const t = document.createElement("div"); t.className = "tuto"; t.setAttribute("role", "dialog"); t.setAttribute("aria-modal", "true"); t.setAttribute("aria-label", "Découvrir l'appli");
+    t.innerHTML = `<button type="button" class="tu-passer">Passer</button>
+      <div class="tu-pistes" id="tuPistes">${P.map((p, i) => `<section class="tu-page" aria-label="${i + 1} sur ${P.length}"><div class="tu-scene">${p.demo}</div><h2>${p.titre}</h2><p>${p.texte}</p></section>`).join("")}</div>
+      <div class="tu-bas"><p class="tu-points">${P.map((_, i) => `<i class="${i ? "" : "on"}"></i>`).join("")}</p><button type="button" class="bouton" id="tuSuivant">Suivant</button></div>`;
+    document.body.appendChild(t); document.body.style.overflow = "hidden";
+    requestAnimationFrame(() => t.classList.add("vu"));
+    const pistes = t.querySelector("#tuPistes"), points = t.querySelectorAll(".tu-points i"), btn = t.querySelector("#tuSuivant");
+    let page = 0;
+    const majPage = () => {
+      page = Math.round(pistes.scrollLeft / pistes.clientWidth);
+      points.forEach((p, i) => p.classList.toggle("on", i === page));
+      t.querySelectorAll(".tu-page").forEach((p, i) => p.classList.toggle("active", i === page));
+      const fin = P[page] && P[page].fin;
+      btn.textContent = fin ? (installee() ? "C'est parti" : "Mettre sur l'écran d'accueil") : "Suivant";
+    };
+    pistes.addEventListener("scroll", () => { clearTimeout(majPage.t); majPage.t = setTimeout(majPage, 60); }, { passive: true });
+    const ferme = (installer) => {
+      try { localStorage.setItem(`saitorapp-tuto-${S.id}`, "vu"); } catch (e) {}
+      t.classList.remove("vu"); setTimeout(() => { t.remove(); document.body.style.overflow = ""; if (installer) feuilleInstaller(false); }, 350);
+    };
+    btn.onclick = () => { if (P[page].fin) ferme(!installee()); else pistes.scrollTo({ left: (page + 1) * pistes.clientWidth, behavior: "smooth" }); };
+    t.querySelector(".tu-passer").onclick = () => ferme(false);
+    majPage();
+  }
+
+  /* à la première ouverture : le tutoriel (il propose l'écran d'accueil à la fin) ;
+     ensuite, l'écran d'accueil est proposé une fois, puis pas avant 7 jours si on a répondu « Plus tard » */
   setTimeout(() => {
+    let vu = ""; try { vu = localStorage.getItem(`saitorapp-tuto-${S.id}`) || ""; } catch (e) {}
+    if (!vu) return tutoriel();
     if (installee() || document.querySelector(".feuille")) return;
     let t = 0; try { t = +localStorage.getItem("saitorapp-installer-plus-tard") || 0; } catch (e) {}
     if (Date.now() - t > 7 * T.jour) feuilleInstaller(true);
@@ -715,13 +775,14 @@
       <div class="boutons"><button class="bouton" id="kOk">Enregistrer</button></div>
       <p class="pied-groupe">Dans cette démo, les changements restent sur ce téléphone ; ils iront sur le site quand il sera relié à l'appli.</p>
       <p class="entete-groupe">L'appli</p>
-      <div class="groupe"><button class="ligne" id="kInstall"><span><b class="lien-texte">Mettre sur l'écran d'accueil</b></span>${chev}</button>${S.demo ? `<button class="ligne" id="kZero"><span><b class="danger">Remettre la démo à zéro</b></span></button>` : ""}</div>
+      <div class="groupe"><button class="ligne" id="kTuto"><span><b class="lien-texte">Revoir le guide de l'appli</b></span>${chev}</button><button class="ligne" id="kInstall"><span><b class="lien-texte">Mettre sur l'écran d'accueil</b></span>${chev}</button>${S.demo ? `<button class="ligne" id="kZero"><span><b class="danger">Remettre la démo à zéro</b></span></button>` : ""}</div>
       <p class="pied-groupe">${esc(S.nom)} · ${esc(A.METIERS[S.metier].nom)} · Saitorapp par <a class="lien-texte" href="https://saitora.fr">Saitora</a></p>` });
     const ap = () => { $("kApercu").textContent = $("kAnn").value; $("kApercu").hidden = !(coche("kVis") && $("kAnn").value.trim()); };
     $("kVis").onclick = () => { $("kVis").setAttribute("aria-checked", !coche("kVis")); ap(); };
     $("kAnn").oninput = ap;
     $("kOk").onclick = () => { Object.assign(k, { annonce: $("kAnn").value.trim(), annonceVisible: coche("kVis"), accueil: $("kAcc").value.trim(), horaires: $("kHor").value.trim(), contact: $("kCon").value.trim() }); sauver("Enregistré"); };
     $("kInstall").onclick = () => feuilleInstaller(false);
+    $("kTuto").onclick = () => tutoriel();
     if ($("kZero")) $("kZero").onclick = () => { if (!confirm("Remettre les données de démonstration à zéro ?")) return; try { localStorage.removeItem(CLE); } catch (e) {} D = A.semer(S); recevoir(); sauver("Démo remise à zéro"); route(); };
   }
 

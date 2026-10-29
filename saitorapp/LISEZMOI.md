@@ -22,6 +22,10 @@ Une appli par site, faite pour son métier, que le commerçant installe sur son 
 
 Démos : `mademoiselle-charlotte` (boutique), `a-funtana` (institut), `u-fucone` (hébergement).
 
+## Le guide d'accueil
+
+À la première ouverture, un petit guide en 6 pages animées présente l'appli (adapté au métier : pavé des prix pour une boutique, créneaux libres pour un institut, planning pour un hébergement) et finit sur l'installation à l'écran d'accueil. Il ne revient pas tout seul (clé `saitorapp-tuto-<id>`) ; on le revoit dans Mon site → « Revoir le guide de l'appli ». Code : `pagesTuto()` et `tutoriel()` dans `app.js`, styles `.tuto` / `.tu-*` dans `app.css`.
+
 ## Ce qui reste démo
 
 Les données sont gardées dans le navigateur (localStorage, une clé par site) : rien n'est partagé entre deux appareils. Seul lien réel : une commande envoyée depuis le panier du site de Mademoiselle Charlotte apparaît dans son appli, sur le même appareil (clé `saitorapp-commandes-recues`).

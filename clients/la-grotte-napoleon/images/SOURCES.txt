@@ -6,3 +6,6 @@ raviolis.webp | https://pixabay.com/photos/ravioli-mouth-pockets-pasta-noodles-9
 salle.webp | https://pixabay.com/photos/vault-basement-cellar-chairs-5579445/ (photo de Tama66, licence Pixabay)
 table.webp | https://pixabay.com/photos/food-lunch-snack-1381817/ (photo de Micas_, licence Pixabay)
 voute.webp | https://pixabay.com/photos/battle-abbey-monastery-vault-369004/ (photo de Sweetaholic, licence Pixabay)
+--- Version d'octobre 2026 (refonte du vrai site) : photos et vidéo du client, reprises de lagrottenapoleon.fr ---
+entree.webp, assiette.webp, salle-ecrans.webp, spuntinu.webp, tables.webp (image de la vidéo), seance.mp4 et seance-affiche.webp (vidéo vidfb.mp4 du site)
+gravure.webp, tableau.webp, signature.webp, carte.webp : images du site actuel (à confirmer : leurs droits, surtout la carte et la gravure)

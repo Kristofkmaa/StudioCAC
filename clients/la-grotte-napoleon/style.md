@@ -8,32 +8,32 @@ Le code de chaque option est dans outils/styles/recettes.md.
 ## Genre (il décide de tout le reste) : Art déco / Empire
 Fond sombre (noir ou couleur principale très foncée) et or ; symétrie, tout centré ; titres en capitales très espacées dans une Didone (Bodoni, Didot) ; cadres dorés à double filet et coins à redans ; éventails et rayons de soleil dessinés ; séparateurs à chevrons ; photos en arches à gradins.
 
-## Ouverture : Affiche
-Pas de photo à l'ouverture : un fond de couleur pleine, un titre énorme, une phrase, le logo en grand comme un objet ; les photos arrivent juste après.
+## Ouverture : Panorama
+Une photo très large (21:9) en haut sous la navigation ; dessous, le titre à gauche et la phrase avec les boutons à droite, alignés sur la même ligne.
 
-## Navigation : Barre basse sur téléphone
-Sur téléphone, une barre fixe en bas (Appeler, Devis, Plan) ; sur ordinateur, une navigation discrète en haut.
+## Navigation : Centrée
+Logo au centre, liens répartis à gauche et à droite.
 
-## Services : Rangées alternées
-Trois ou quatre services, chacun une rangée : photo d'un côté, texte de l'autre, en alternance.
+## Services : Onglets
+Les services en onglets ; chaque onglet montre une grande photo, le texte et les prix.
 
-## Réalisations : Une à la fois
-Une grande photo à la fois avec son histoire (le chantier, le problème, la solution), flèches pour passer à la suivante.
+## Réalisations : Paroles de clients
+Deux ou trois citations en grand, guillemets typographiques ; à remplir seulement avec de vrais avis.
 
-## À propos : Lettre signée
-Un texte écrit à la première personne comme une lettre, sur fond papier, signé à la main (police manuscrite).
+## À propos : Chronologie
+L'histoire en quelques dates sur une ligne de temps horizontale.
 
-## Contact : Comment ça se passe
-Trois étapes (on vous rappelle, on vient mesurer, on pose) puis un formulaire court.
+## Contact : Plein écran couleur
+Toute la section dans la couleur principale ; le téléphone et l'e-mail écrits en très grand.
 
 ## Formes : Cadres
 Photos avec un cadre blanc épais (comme des tirages), angles droits.
 
-## Photos : Douces
-Couleurs légèrement adoucies (saturation 80 %) pour un ensemble calme.
+## Photos : Naturelles
+Photos en couleurs, telles quelles.
 
-## Rythme des couleurs : Sombre
-Fond sombre (couleur principale très foncée) sur toute la page, texte clair.
+## Rythme des couleurs : Alternance
+Les sections alternent fond clair et fond légèrement teinté.
 
 ## Titres : Géants
 Un titre par section en très grand (2 à 3 fois la taille habituelle), qui déborde presque de l'écran.
@@ -41,29 +41,31 @@ Un titre par section en très grand (2 à 3 fois la taille habituelle), qui déb
 ## Police d'appoint : Aucune
 Seulement les deux polices de la charte.
 
-## Texture : Grande forme
-Une grande forme simple (cercle, arche, vague) en aplat de couleur derrière une photo ou un titre.
+## Texture : Motif tiré du logo
+Le symbole du logo répété en motif très pâle sur une ou deux sections.
 
-## Arrivée des éléments : Zoom lent
-Les photos arrivent légèrement agrandies puis reprennent leur taille, très lentement.
+## Arrivée des éléments : Mot par mot
+Les grands titres arrivent mot par mot.
 
-## Passage entre les sections : Chevauchement
-Une photo à cheval entre deux sections, à moitié dans chacune.
+## Passage entre les sections : Droites
+Sections séparées par des bords droits.
 
-## Boutons : Souligné avec flèche
-Pas de fond : un texte souligné suivi d'une flèche qui avance au survol.
+## Boutons : Rectangle plein
+Boutons rectangulaires pleins, angles droits ou légèrement arrondis.
 
-## Pied de page : Nom géant
-Le nom du commerce en très grand sur toute la largeur, coupé par le bas de l'écran.
+## Pied de page : Bloc de couleur
+Un grand pied de page dans la couleur des boutons, avec une dernière phrase et le bouton principal.
 
-## Ornement : Filet précieux
-Un fin filet de couleur dorée ou cuivrée sous les grands titres et autour des cadres.
+## Ornement : Sceau tournant
+Un cercle de texte qui tourne lentement autour du symbole du logo.
 
-## L'idée originale : Estimer un prix
-Le visiteur règle quelques curseurs (taille, matière, option) et lit un ordre de prix tout de suite.
+## L'idée originale : Prochains créneaux
+Les prochains rendez-vous libres affichés directement, un clic pour réserver.
 
-## Polices : Bodoni Moda + Josefin Sans
-Titres en Bodoni Moda, texte en Josefin Sans (style « Élégante » de la charte). Lien Google Fonts dans la page, puis python3 outils/polices.py.
+## Polices : Marcellus + Figtree
+Titres en Marcellus, texte en Figtree (style « Élégante » de la charte). Lien Google Fonts pour Marcellus, Figtree, puis python3 outils/polices.py.
 
 ## Avant de livrer
 Mettre le premier écran à côté de ceux des autres sites (media/apercus et clients/*) : s'il ressemble à l'un d'eux, changer ce qui fait la ressemblance.
+
+Attention : proche de durand-plomberie, pain-dore, villa-oliviers, bois-massif, a-funtana, libecciu, vitrier-prince, fiori, piazza, bobyshop, la-grotte-napoleon (ancienne version), la-grotte-napoleon (ancienne version, bis) sur au moins quatre familles.

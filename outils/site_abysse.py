@@ -6,7 +6,7 @@ Pages fabriquées : abysse-tarifs.html, abysse-devis.html, abysse-charte.html, a
 abysse-cgv.html, abysse-mentions-legales.html (relire après chaque changement d'une page en ligne).
 L'écran d'entrée (abysse-index.html) et l'accueil (abysse-accueil.html) sont écrits à la main.
 Pour chaque page : couleurs abysse.css à la place de theme.css, retouches abysse-fin.css, police Inter Tight,
-plus de bouton clair / sombre, transition « les deux volets » (abysse-transition.js), liens vers les pages abysse-*,
+plus de bouton clair / sombre, transition « mini-plongée » (abysse-transition.js), liens vers les pages abysse-*,
 et noindex (version de test).
 """
 import pathlib, re

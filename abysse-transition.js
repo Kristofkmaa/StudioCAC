@@ -1,28 +1,59 @@
-// Transition « les deux volets » entre les pages de la version test abysse (remplace transition.js sur abysse-*.html).
-// Départ : deux panneaux d'eau profonde arrivent, l'un de la gauche, l'autre de la droite, et se rejoignent au milieu,
-// où s'allume un fin trait au dégradé aurore (le même geste que le grand titre de l'accueil).
-// Arrivée : la page s'ouvre sur ce même écran fermé, le trait s'éteint, les volets s'écartent chacun de son côté
-// pendant que les grands titres entrent (l'un de la gauche, l'autre de la droite) et que le reste remonte (≈ 1 s).
+// Transition « mini-plongée » entre les pages de la version test abysse (remplace transition.js sur abysse-*.html).
+// Le même geste que l'entrée → accueil, en plus court :
+// Départ : la page s'assombrit dans l'eau profonde, une petite sphère de particules apparaît au centre, on plonge dedans.
+// Arrivée : on ressort de la sphère (elle recule, puis s'efface), l'eau s'éclaircit et dévoile la page ;
+// les grands titres entrent l'un de la gauche, l'autre de la droite, le reste remonte (≈ 1,4 s).
+// Arrivée directe (lien extérieur, rechargement) : seulement un fondu court et le texte qui remonte.
 // Un clic ou une touche termine tout. À inclure au tout début du <body>. Un bloc marqué data-arrive-off garde sa propre animation.
 (() => {
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const root = document.documentElement;
-  const OUT = "cubic-bezier(.16,1,.3,1)", DOUX = "cubic-bezier(.65,0,.35,1)";   // DOUX : départ et arrivée en douceur
+  const OUT = "cubic-bezier(.16,1,.3,1)";
+  const KEY = "abysse-arrivee";
   const css = document.createElement("style");
   css.textContent = `.ab-cover{position:fixed;inset:0;z-index:9999;pointer-events:none;overflow:hidden}
-.ab-vol{position:absolute;top:0;bottom:0;width:calc(50% + 1px);background:#011D1C}
-.ab-vol.g{left:0}.ab-vol.d{right:0}
-.ab-vol::after{content:"";position:absolute;top:0;bottom:0;width:18vw}
-.ab-vol.g::after{left:100%;background:linear-gradient(90deg,#011D1C,rgba(1,29,28,0))}
-.ab-vol.d::after{right:100%;background:linear-gradient(270deg,#011D1C,rgba(1,29,28,0))}
-.ab-seam{position:absolute;top:0;bottom:0;left:calc(50% - .5px);width:1px;background:linear-gradient(#CBFFFC,#FFFDFA 50%,#FAD1FF);opacity:0}`;
+.ab-eau{position:absolute;inset:0;background:#012624}
+.ab-cover canvas{position:absolute;inset:0;width:100%;height:100%}`;
   document.head.appendChild(css);
-  // l'écran fermé : deux volets et le trait du milieu
-  const cover = () => {
+  const easeIn = p => p * p * p, easeInOut = p => p < .5 ? 4 * p ** 3 : 1 - (-2 * p + 2) ** 3 / 2;
+  const clamp = p => Math.min(1, Math.max(0, p));
+
+  // le rideau : l'eau (un aplat) et, si besoin, la sphère de particules dessinée par-dessus
+  function cover(withOrb, plan) {
     const c = document.createElement("div"); c.className = "ab-cover"; c.setAttribute("aria-hidden", "true");
-    c.innerHTML = '<div class="ab-vol g"></div><div class="ab-vol d"></div><div class="ab-seam"></div>';
-    document.body.appendChild(c); return [c, c.children[0], c.children[1], c.children[2]];
-  };
+    const eau = document.createElement("div"); eau.className = "ab-eau"; c.appendChild(eau);
+    document.body.appendChild(c);
+    let stop = () => {};
+    if (withOrb) {
+      const cv = document.createElement("canvas"); c.appendChild(cv);
+      const ctx = cv.getContext("2d"), dpr = Math.min(devicePixelRatio || 1, 2), W = innerWidth, H = innerHeight;
+      cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const R = Math.min(W * .3, H * .24, 260), n = W < 700 ? 800 : 1500, g = Math.PI * (3 - Math.sqrt(5));
+      const pts = Array.from({ length: n }, (_, i) => { const y = 1 - (i / (n - 1)) * 2, r = Math.sqrt(1 - y * y), a = g * i; return [Math.cos(a) * r, y, Math.sin(a) * r, .6 + Math.random() * .8]; });
+      const t0 = performance.now(); let raf = 0;
+      const draw = now => {
+        const ms = Math.max(0, now - t0), [Z, A] = plan(ms);   // zoom et opacité de la sphère à cet instant
+        ctx.clearRect(0, 0, W, H);
+        if (A > 0) {
+          const ay = ms / 1000 * .5, ax = -.35, cy = Math.cos(ay), sy = Math.sin(ay), cx = Math.cos(ax), sx = Math.sin(ax), ox = W / 2, oy = H / 2, RR = R * Z;
+          const glow = ctx.createRadialGradient(ox, oy, 0, ox, oy, RR * 1.25);
+          glow.addColorStop(0, `rgba(0,130,124,${.3 * A})`); glow.addColorStop(1, "rgba(0,130,124,0)"); ctx.fillStyle = glow; ctx.fillRect(0, 0, W, H);
+          for (const [x0, y0, z0, s] of pts) {
+            const x1 = x0 * cy + z0 * sy, z1 = -x0 * sy + z0 * cy, y1 = y0 * cx - z1 * sx, z2 = y0 * sx + z1 * cx;
+            const k = 2.6 / (2.6 - z2), X = ox + x1 * RR * k, Y = oy + y1 * RR * k;
+            if (X < -4 || Y < -4 || X > W + 4 || Y > H + 4) continue;
+            const rim = 1 - Math.abs(z2), front = (z2 + 1) / 2, a = (.18 + front * .82) * A;
+            ctx.fillStyle = rim > .8 && x1 > -.2 ? `rgba(250,209,255,${Math.min(1, a * 1.3)})` : front > .55 ? `rgba(237,255,254,${a})` : `rgba(0,170,160,${a * .8})`;
+            const r = s * k * (W < 700 ? 1.5 : 1.9); ctx.fillRect(X - r / 2, Y - r / 2, r, r);
+          }
+        }
+        raf = requestAnimationFrame(draw);
+      };
+      raf = requestAnimationFrame(draw);
+      stop = () => cancelAnimationFrame(raf);
+    }
+    return { c, eau, stop };
+  }
 
   // ——— départ : vers une autre page de la version abysse
   document.addEventListener("click", e => {
@@ -31,32 +62,33 @@
     const url = new URL(a.href, location.href);
     if (url.origin !== location.origin || !/\/abysse-[\w-]+\.html$/.test(url.pathname) || url.pathname === location.pathname) return;
     e.preventDefault();
-    const [, g, d, seam] = cover();
-    // volets au bord flou (dégradé de 18vw devant chaque panneau), la page derrière s'assombrit et recule un peu
-    g.animate([{ transform: "translateX(calc(-100% - 18vw))" }, { transform: "none" }], { duration: 850, easing: DOUX, fill: "both" });
-    d.animate([{ transform: "translateX(calc(100% + 18vw))" }, { transform: "none" }], { duration: 850, easing: DOUX, fill: "both" });
-    document.querySelector("main")?.animate([{ opacity: 1, transform: "none" }, { opacity: .35, transform: "scale(.985)" }], { duration: 850, easing: DOUX, fill: "forwards" });
-    // on change de page à la fin de l'animation, ou au bout de 0,7 s si le navigateur l'a mise en pause
+    try { sessionStorage.setItem(KEY, "mini"); } catch (_) {}
     let parti = false;
     const part = () => { if (!parti) { parti = true; location.href = a.href; } };
-    seam.animate([{ opacity: 0, transform: "scaleY(0)" }, { opacity: 1, transform: "none" }], { delay: 680, duration: 260, easing: OUT, fill: "both" }).finished.then(part);
-    setTimeout(part, 1100);
+    // 0–350 ms : l'eau monte et la sphère apparaît ; 350–950 ms : on plonge dedans (le zoom accélère)
+    const { eau } = cover(true, ms => {
+      if (ms >= 950) part();
+      return [1 + 11 * easeIn(clamp((ms - 350) / 600)), clamp(ms / 300)];
+    });
+    eau.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 380, easing: "ease-out", fill: "both" });
+    setTimeout(part, 1300);                                   // si le navigateur met l'animation en pause
   });
 
   if (reduce) { root.classList.remove("sc-pending"); return; }
   let current = null;
 
   function arrive() {
-    // arrivée depuis l'écran d'entrée par la plongée dans la sphère : pas de volets, la page gère le dézoom
-    let viaSphere = false;
-    try { viaSphere = sessionStorage.getItem("abysse-arrivee") === "sphere"; sessionStorage.removeItem("abysse-arrivee"); } catch (_) {}
-    if (viaSphere) { root.dataset.arrivee = "sphere"; root.classList.remove("sc-pending"); return; }
-    // la page s'ouvre fermée, exactement comme la page précédente s'est terminée
-    const [c, g, d, seam] = cover();
-    seam.style.opacity = 1;
+    let via = "";
+    try { via = sessionStorage.getItem(KEY) || ""; sessionStorage.removeItem(KEY); } catch (_) {}
+    // arrivée depuis l'écran d'entrée : la page d'accueil fait elle-même le recul dans sa grande sphère
+    if (via === "sphere") { root.dataset.arrivee = "sphere"; root.classList.remove("sc-pending"); return; }
+    const mini = via === "mini";
+    // on ressort de la sphère : elle recule (12 → 1) en 1 s, puis s'efface ; l'eau s'éclaircit à partir de 0,85 s
+    const { c, eau, stop: stopOrb } = cover(mini, ms => [1 + 11 * (1 - easeInOut(clamp(ms / 1000))), 1 - clamp((ms - 900) / 400)]);
+    const tCover = performance.now();
     // sécurité : si l'animation ne démarre pas (page chargée en arrière-plan, navigateur qui la met en pause),
-    // les volets disparaissent quand même au bout de 3,2 s : la page n'est jamais cachée
-    const secours = setTimeout(() => { if (current) current.done(); else { c.remove(); root.classList.remove("sc-pending"); } }, 3200);
+    // le rideau disparaît quand même au bout de 3,2 s : la page n'est jamais cachée
+    const secours = setTimeout(() => { if (current) current.done(); else { stopOrb(); c.remove(); root.classList.remove("sc-pending"); } }, 3200);
     const go = () => requestAnimationFrame(() => requestAnimationFrame(() => {
       root.classList.remove("sc-pending");
       const h = innerHeight, anims = [], seen = new Set();
@@ -64,25 +96,22 @@
       const under = n => { for (let p = n.parentElement; p; p = p.parentElement) if (seen.has(p)) return true; return false; };
       const prevX = [root.style.overflowX, document.body.style.overflowX];         // les titres viennent de hors de l'écran :
       root.style.overflowX = document.body.style.overflowX = "clip";            // la page ne s'élargit pas pendant ce temps
-      // le trait s'éteint, puis les volets s'écartent chacun de son côté
-      // les volets s'écartent lentement et s'effacent en fondu sur la fin, au lieu de glisser d'un bloc
-      anims.push(seam.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 280, easing: "ease-out", fill: "forwards" }));
-      anims.push(g.animate([{ transform: "none", opacity: 1 }, { opacity: 1, offset: .45 }, { transform: "translateX(calc(-100% - 18vw))", opacity: 0 }], { delay: 120, duration: 1200, easing: DOUX, fill: "forwards" }));
-      anims.push(d.animate([{ transform: "none", opacity: 1 }, { opacity: 1, offset: .45 }, { transform: "translateX(calc(100% + 18vw))", opacity: 0 }], { delay: 120, duration: 1200, easing: DOUX, fill: "forwards" }));
+      const late = Math.max(0, (mini ? 850 : 0) - (performance.now() - tCover)); // la page apparaît quand l'eau s'éclaircit
+      anims.push(eau.animate([{ opacity: 1 }, { opacity: 0 }], { delay: late, duration: mini ? 500 : 320, easing: "ease-in-out", fill: "forwards" }));
+      if (mini) anims.push(c.animate([{ opacity: 1 }, { opacity: 1 }], { duration: late + 520 }));   // garde la sphère le temps qu'elle s'efface
       // les grands titres : de la gauche, puis de la droite, puis de la gauche…
       let side = 1;
       for (const n of document.querySelectorAll("main h1, main h2")) {
         if (!ok(n) || under(n)) continue;
         seen.add(n); side = -side;
-        const d = 140 + seen.size * 90;
-        anims.push(n.animate([{ transform: `translateX(${side * 45}vw)`, opacity: 0 }, { transform: "none", opacity: 1 }], { delay: d, duration: 1150, easing: OUT, fill: "backwards" }));
+        anims.push(n.animate([{ transform: `translateX(${side * 45}vw)`, opacity: 0 }, { transform: "none", opacity: 1 }], { delay: late + seen.size * 90, duration: 1150, easing: OUT, fill: "backwards" }));
       }
       // le reste remonte, dans l'ordre de lecture
       for (const n of document.querySelectorAll("main p, main li, main label, main dt, main dd, main summary, main .btn, main .surface, main img, main video, main svg, main form > *")) {
         if (seen.size > 90) break;
         if (seen.has(n) || under(n) || !ok(n)) continue;
         seen.add(n);
-        const r = n.getBoundingClientRect(), d = 260 + (r.top / h) * 420 + (r.left / innerWidth) * 80;
+        const r = n.getBoundingClientRect(), d = late + 120 + (r.top / h) * 420 + (r.left / innerWidth) * 80;
         const media = /^(IMG|VIDEO)$/.test(n.tagName);
         anims.push(n.animate(media
           ? [{ opacity: 0, transform: "scale(1.04)", filter: "blur(8px)" }, { opacity: 1, transform: "none", filter: "blur(0)" }]
@@ -91,7 +120,7 @@
       const stop = () => anims.forEach(a => a.finish());
       addEventListener("pointerdown", stop, { once: true });
       addEventListener("keydown", stop, { once: true });
-      const done = () => { clearTimeout(secours); removeEventListener("pointerdown", stop); removeEventListener("keydown", stop); anims.forEach(a => a.cancel()); c.remove(); [root.style.overflowX, document.body.style.overflowX] = prevX; current = null; };
+      const done = () => { clearTimeout(secours); removeEventListener("pointerdown", stop); removeEventListener("keydown", stop); anims.forEach(a => a.cancel()); stopOrb(); c.remove(); [root.style.overflowX, document.body.style.overflowX] = prevX; current = null; };
       Promise.all(anims.map(a => a.finished.catch(() => {}))).then(done);
       current = { done };
     }));

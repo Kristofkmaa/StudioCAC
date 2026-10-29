@@ -34,9 +34,9 @@ Le site : écran d'entrée (`index.html`), accueil (`accueil.html`), tarifs, dev
 - **Version test « abysse » de tout le site** (demandée par l'utilisateur, d'après la fiche Auros) : pages `abysse-*.html` à la racine (noindex, exclues de `robots.txt`).
   - `abysse-index.html` (écran d'entrée : sphère, « Saitora » en géant) et `abysse-accueil.html` (l'essai 10 sans la carte des villes, sans les filtres de métiers, sans « À propos », à la demande de l'utilisateur) sont écrits à la main.
   - Tarifs, devis, charte, guide photo, CGV et mentions légales sont **fabriqués** depuis les pages en ligne par `python3 outils/site_abysse.py` : relancer après chaque changement d'une de ces pages.
-  - Couleurs : `abysse.css` (mêmes noms de variables que `theme.css`) ; retouches : `abysse-fin.css` ; transition « les deux volets » entre les pages : `abysse-transition.js`.
+  - Couleurs : `abysse.css` (mêmes noms de variables que `theme.css`) ; retouches : `abysse-fin.css` ; transition « mini-plongée » entre les pages (petite sphère dans laquelle on plonge, puis dont on ressort) : `abysse-transition.js`.
   - L'espace pro (`accueil.html#admin`) n'existe pas dans la version abysse : à reprendre si on l'adopte.
-  - Écran d'entrée → accueil : transition à part, on plonge au centre de la sphère puis l'accueil recule depuis l'intérieur de la sienne (`abysse-index.html` pose `abysse-arrivee` dans sessionStorage, `abysse-transition.js` laisse alors la page faire le dézoom). Entre les autres pages : les deux volets.
+  - Écran d'entrée → accueil : transition à part, on plonge au centre de la sphère puis l'accueil recule depuis l'intérieur de la sienne (`abysse-index.html` pose `abysse-arrivee` dans sessionStorage, `abysse-transition.js` laisse alors la page faire le dézoom). Entre les autres pages : la mini-plongée (les deux volets ont été essayés puis écartés : « ne va pas avec l'ADN du site »).
   - À la demande de l'utilisateur : plus de liens tarifs / charte / devis sur l'écran d'entrée, grand logo centré, plus de mention « Ajaccio » ni « Corse » sur l'entrée et l'accueil (elles restent dans les CGV et les mentions légales, où l'adresse est obligatoire).
   - Sources des essais en framework : `labo/sources/` (sans `node_modules`) ; on reconstruit avec `npm install && npm run build` dans chaque projet.
 

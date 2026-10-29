@@ -8,7 +8,9 @@
 :root,:root[data-theme="light"],:root[data-theme="dark"]{
   --abyss:#012624; --deep:#011D1C; --kelp:#003734; --kelp-hi:#04443F; --mist:#EDFFFE; --silver:#BBC7C6; --slate:#707777; --phosphor:#FDE9FF;
   --aurora:linear-gradient(90deg,#CBFFFC 0%,#EDFFFE 26%,#FFFDFA 48%,#FAD1FF 89%);
-  --bg:var(--abyss); --bg-alt:var(--deep); --surface:var(--kelp); --surface-2:var(--kelp-hi);
+  --white:#FFFFFF;
+  /* surfaces un peu transparentes : la sphère du fond (abysse-fond.js) se devine derrière les panneaux */
+  --bg:var(--abyss); --bg-alt:rgba(1,29,28,.78); --surface:rgba(0,55,52,.8); --surface-2:rgba(4,68,63,.86);
   --ink:#FFFFFF; --muted:var(--silver); --faint:#8C9A99;
   --line:rgba(255,255,255,.1); --line-hi:rgba(255,255,255,.26);
   --accent:#CBFFFC; --accent-hover:#FAD1FF; --on-accent:#012624; --accent-text:var(--phosphor);

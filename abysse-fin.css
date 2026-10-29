@@ -2,7 +2,9 @@
    La police d'Auros (Matter) est remplacée par Inter Tight ; titres en poids moyen, lettres resserrées ;
    boutons à 6 px d'arrondi, le principal en dégradé « aurore » ; aucune ombre. */
 :root{--font:"Inter Tight","Helvetica Neue",Arial,sans-serif}
-html,body{background:var(--bg)}
+html{background:var(--bg)}
+body{background:transparent!important}   /* laisse voir la sphère du fond (abysse-fond.js), peinte sous le contenu */
+.ab-fond{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
 body{font-family:var(--font)}
 ::selection{background:#CBFFFC;color:#012624}
 main h1,main h2{font-family:var(--font);font-weight:500;letter-spacing:-.04em}

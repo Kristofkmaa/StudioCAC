@@ -26,29 +26,8 @@
     let stop = () => {};
     if (withOrb) {
       const cv = document.createElement("canvas"); c.appendChild(cv);
-      const ctx = cv.getContext("2d"), dpr = Math.min(devicePixelRatio || 1, 2), W = innerWidth, H = innerHeight;
-      cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const R = Math.min(W * .3, H * .24, 260), n = W < 700 ? 800 : 1500, g = Math.PI * (3 - Math.sqrt(5));
-      const pts = Array.from({ length: n }, (_, i) => { const y = 1 - (i / (n - 1)) * 2, r = Math.sqrt(1 - y * y), a = g * i; return [Math.cos(a) * r, y, Math.sin(a) * r, .6 + Math.random() * .8]; });
-      const t0 = performance.now(); let raf = 0;
-      const draw = now => {
-        const ms = Math.max(0, now - t0), [Z, A] = plan(ms);   // zoom et opacité de la sphère à cet instant
-        ctx.clearRect(0, 0, W, H);
-        if (A > 0) {
-          const ay = ms / 1000 * .5, ax = -.35, cy = Math.cos(ay), sy = Math.sin(ay), cx = Math.cos(ax), sx = Math.sin(ax), ox = W / 2, oy = H / 2, RR = R * Z;
-          const glow = ctx.createRadialGradient(ox, oy, 0, ox, oy, RR * 1.25);
-          glow.addColorStop(0, `rgba(0,130,124,${.3 * A})`); glow.addColorStop(1, "rgba(0,130,124,0)"); ctx.fillStyle = glow; ctx.fillRect(0, 0, W, H);
-          for (const [x0, y0, z0, s] of pts) {
-            const x1 = x0 * cy + z0 * sy, z1 = -x0 * sy + z0 * cy, y1 = y0 * cx - z1 * sx, z2 = y0 * sx + z1 * cx;
-            const k = 2.6 / (2.6 - z2), X = ox + x1 * RR * k, Y = oy + y1 * RR * k;
-            if (X < -4 || Y < -4 || X > W + 4 || Y > H + 4) continue;
-            const rim = 1 - Math.abs(z2), front = (z2 + 1) / 2, a = (.18 + front * .82) * A;
-            ctx.fillStyle = rim > .8 && x1 > -.2 ? `rgba(250,209,255,${Math.min(1, a * 1.3)})` : front > .55 ? `rgba(237,255,254,${a})` : `rgba(0,170,160,${a * .8})`;
-            const r = s * k * (W < 700 ? 1.5 : 1.9); ctx.fillRect(X - r / 2, Y - r / 2, r, r);
-          }
-        }
-        raf = requestAnimationFrame(draw);
-      };
+      const sphere = AbysseSphere.create(cv), t0 = performance.now(); let raf = 0;   // la sphère du site, à sa place
+      const draw = now => { const [Z, A] = plan(Math.max(0, now - t0)); sphere.draw({ Z, A }); raf = requestAnimationFrame(draw); };
       raf = requestAnimationFrame(draw);
       stop = () => cancelAnimationFrame(raf);
     }
@@ -62,6 +41,7 @@
     const url = new URL(a.href, location.href);
     if (url.origin !== location.origin || !/\/abysse-[\w-]+\.html$/.test(url.pathname) || url.pathname === location.pathname) return;
     e.preventDefault();
+    AbysseSphere.suivre(false);                               // la sphère revient au centre pendant qu'on plonge
     try { sessionStorage.setItem(KEY, "mini"); } catch (_) {}
     let parti = false;
     const part = () => { if (!parti) { parti = true; location.href = a.href; } };

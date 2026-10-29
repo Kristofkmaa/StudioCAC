@@ -45,7 +45,7 @@
   // ——— la page suivante est demandée dès que le doigt se pose sur le lien (ou que la souris s'y arrête) :
   // elle est déjà là à la fin de la plongée, l'image ne reste pas figée pendant le téléchargement
   const dejaDemandees = new Set();
-  const interne = a => { if (!a || a.target === "_blank") return null; const u = new URL(a.href, location.href); return u.origin === location.origin && /\/(index|accueil|tarifs|devis|charte|photos|cgv|mentions-legales)\.html$/.test(u.pathname) && u.pathname !== location.pathname ? u : null; };
+  const interne = a => { if (!a || a.target === "_blank") return null; const u = new URL(a.href, location.href); return u.origin === location.origin && /\/(index|accueil|tarifs|devis|charte|photos|cgv|mentions-legales|demos)\.html$/.test(u.pathname) && u.pathname !== location.pathname ? u : null; };
   const precharge = href => { if (dejaDemandees.has(href)) return; dejaDemandees.add(href); const l = document.createElement("link"); l.rel = "prefetch"; l.href = href; document.head.appendChild(l); };
   addEventListener("pointerdown", e => { const a = e.target.closest?.("a[href]"); if (interne(a)) precharge(a.href); }, { passive: true, capture: true });
   addEventListener("pointerover", e => { const a = e.target.closest?.("a[href]"); if (e.pointerType === "mouse" && interne(a)) precharge(a.href); }, { passive: true });
@@ -55,7 +55,7 @@
     const a = e.target.closest("a[href]");
     if (!a || reduce || e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || a.target === "_blank") return;
     const url = new URL(a.href, location.href);
-    if (url.origin !== location.origin || !/\/(index|accueil|tarifs|devis|charte|photos|cgv|mentions-legales)\.html$/.test(url.pathname) || url.pathname === location.pathname) return;
+    if (url.origin !== location.origin || !/\/(index|accueil|tarifs|devis|charte|photos|cgv|mentions-legales|demos)\.html$/.test(url.pathname) || url.pathname === location.pathname) return;
     e.preventDefault();
     verrouiller(true);
     precharge(a.href);                                        // la page suivante se télécharge pendant la plongée

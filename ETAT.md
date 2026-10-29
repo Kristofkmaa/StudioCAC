@@ -82,3 +82,6 @@ Le site : écran d'entrée (`index.html`), accueil (`accueil.html`), tarifs, dev
 - Jamais de clé (Pixabay ou autre) dans le dépôt ni dans la conversation.
 - Jamais de faux avis, de faux clients ou de fausses preuves.
 - On parle à l'utilisateur en français simple, sans jargon.
+
+## Accueil : trois démos en avant
+L'accueil ne montre plus que trois démos (A Funtana, U Fucone, Atelier Bois Massif ; liste `UNES` dans `demos.js`), avec un bouton « Voir les treize démos » vers `demos.html` (toutes les démos, les trois à la une d'abord, filtre par famille). La liste des démos est maintenant dans `demos.js`, partagée par les deux pages : une nouvelle démo s'y ajoute. `abysse-transition.js` passe en `?v=4` (demos.html ajoutée aux pages qui ont la transition). Pas encore en ligne. Bois Massif doit être refait façon ORYZO (DESIGN7.md) dans le labo 13.

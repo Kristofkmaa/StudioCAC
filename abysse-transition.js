@@ -12,7 +12,7 @@
   const KEY = "abysse-arrivee";
   const css = document.createElement("style");
   css.textContent = `.ab-cover{position:fixed;inset:0;z-index:9999;pointer-events:none;overflow:hidden}
-.ab-eau{position:absolute;inset:0;background:#06222D}
+.ab-eau{position:absolute;inset:0;background:#012624}
 .ab-cover canvas{position:absolute;inset:0;width:100%;height:100%}`;
   document.head.appendChild(css);
   // ——— pendant une transition, on ne défile pas (molette, doigt, clavier) ; la page d'arrivée s'ouvre toujours tout en haut

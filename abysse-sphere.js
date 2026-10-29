@@ -42,7 +42,7 @@ window.AbysseSphere = (() => {
       const ay = (Date.now() / 1000 * VITESSE) % (Math.PI * 2) + incl.x * .6, ax = -.35 + incl.y * .4;
       const cy = Math.cos(ay), sy = Math.sin(ay), cx = Math.cos(ax), sx = Math.sin(ax), ox = W / 2, oy = H / 2, RR = R * Z * grow, taille = mob ? 1.5 : 1.9;
       const glow = ctx.createRadialGradient(ox, oy, 0, ox, oy, RR * 1.25);
-      glow.addColorStop(0, `rgba(20,120,150,${.28 * A})`); glow.addColorStop(1, "rgba(20,120,150,0)"); ctx.fillStyle = glow;
+      glow.addColorStop(0, `rgba(0,130,124,${.28 * A})`); glow.addColorStop(1, "rgba(0,130,124,0)"); ctx.fillStyle = glow;
       const gr = RR * 1.25, gx = Math.max(0, ox - gr), gy = Math.max(0, oy - gr);   // le halo n'est peint que là où il existe
       ctx.fillRect(gx, gy, Math.min(W, ox + gr) - gx, Math.min(H, oy + gr) - gy);
       compte.fill(0);
@@ -52,7 +52,7 @@ window.AbysseSphere = (() => {
         const x1 = x0 * cy + z0 * sy, z1 = -x0 * sy + z0 * cy, y1 = y0 * cx - z1 * sx, z2 = y0 * sx + z1 * cx;
         const k = 2.6 / (2.6 - z2), X = ox + x1 * RR * k, Y = oy + y1 * RR * k;
         if (X < -4 || Y < -4 || X > W + 4 || Y > H + 4) continue;
-        const rim = 1 - Math.abs(z2), front = (z2 + 1) / 2;   // devant : blanc ; bord : corail ; derrière : sarcelle
+        const rim = 1 - Math.abs(z2), front = (z2 + 1) / 2;   // devant : blanc ; bord : rose ; derrière : sarcelle
         const teinte = rim > .8 && x1 > -.2 ? 0 : front > .55 ? 1 : 2, g = teinte * NIV + Math.min(NIV - 1, front * NIV | 0);
         const r = s * k * taille;
         px[n] = X - r / 2; py[n] = Y - r / 2; pr[n] = r; grp[n] = g; compte[g + 1]++; n++;
@@ -64,7 +64,7 @@ window.AbysseSphere = (() => {
         const de = compte[g], a = compte[g + 1];
         if (de === a) continue;
         const teinte = g / NIV | 0, f = ((g % NIV) + .5) / NIV, base = (.18 + f * .82) * A;
-        ctx.fillStyle = teinte === 0 ? `rgba(255,206,186,${Math.min(1, base * 1.3)})` : teinte === 1 ? `rgba(238,248,251,${base})` : `rgba(40,160,190,${base * .8})`;
+        ctx.fillStyle = teinte === 0 ? `rgba(250,209,255,${Math.min(1, base * 1.3)})` : teinte === 1 ? `rgba(237,255,254,${base})` : `rgba(0,170,160,${base * .8})`;
         for (let j = de; j < a; j++) { const i = ordre[j]; ctx.fillRect(px[i], py[i], pr[i], pr[i]); }
       }
     };

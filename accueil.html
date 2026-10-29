@@ -18,24 +18,24 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://saitora.fr/images/partage.jpg?v=2">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfessionalService","name":"Saitora","url":"https://saitora.fr/","email":"contact@saitora.fr","logo":"https://saitora.fr/favicon.svg","image":"https://saitora.fr/images/partage.jpg","description":"Création de sites vitrines pour les restaurants, artisans et commerces de Corse.","address":{"@type":"PostalAddress","addressLocality":"Ajaccio","addressRegion":"Corse","addressCountry":"FR"},"areaServed":{"@type":"AdministrativeArea","name":"Corse"}}</script>
-<meta name="theme-color" content="#06222D">
+<meta name="theme-color" content="#012624">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="abysse.css">
-<style>html.sc-pending,html.sc-pending body{background:#06222D}</style>
+<style>html.sc-pending,html.sc-pending body{background:#012624}</style>
 <script>if(!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("sc-pending")</script>
 <link rel="preload" href="polices/inter-tight-500-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
 <style>
 /* Version test « abysse » de l'accueil (d'après la fiche Auros). Mêmes couleurs que abysse.css.
    Fond vert d'eau profonde, trois niveaux de surface sans ombre, une seule police en poids moyen,
-   étiquettes en capitales espacées, chiffres en corail, un seul dégradé « aurore » pour l'action principale.
+   étiquettes en capitales espacées, chiffres en rose, un seul dégradé « aurore » pour l'action principale.
    Les animations : la sphère de particules qui tourne (canvas), les chiffres qui comptent, le texte géant
    qui glisse au défilement, la carte des villes qui se dessine. Tout s'arrête avec « réduire les animations ». */
 @font-face{font-family:"Inter Tight";font-weight:400;font-display:swap;src:url(polices/inter-tight-400-normal-latin.woff2) format("woff2")}
 @font-face{font-family:"Inter Tight";font-weight:500;font-display:swap;src:url(polices/inter-tight-500-normal-latin.woff2) format("woff2")}
 :root{
-  --abyss:#06222D; --deep:#041A23; --kelp:#0B3644; --mist:#EEF8FB; --white:#fff; --silver:#B8C5CB; --slate:#6F7A80;
-  --phosphor:#FFE6DA; --line:rgba(255,255,255,.1); --chip:rgba(20,84,102,.5);
-  --aurora:linear-gradient(90deg,#CDEFFA 0%,#EEF8FB 26%,#FFF9F1 48%,#FFD3BF 89%);
+  --abyss:#012624; --deep:#011D1C; --kelp:#003734; --mist:#EDFFFE; --white:#fff; --silver:#BBC7C6; --slate:#707777;
+  --phosphor:#FDE9FF; --line:rgba(255,255,255,.1); --chip:rgba(3,81,75,.5);
+  --aurora:linear-gradient(90deg,#CBFFFC 0%,#EDFFFE 26%,#FFFDFA 48%,#FAD1FF 89%);
   --display:clamp(2.6rem,1.4rem + 5vw,6rem);
   --h1:clamp(2.2rem,1.4rem + 3.2vw,3.8rem);
   --h2:clamp(1.7rem,1.3rem + 1.4vw,2.25rem);
@@ -80,19 +80,44 @@ h1,h2,h3{color:var(--white);font-weight:500;line-height:1;text-wrap:balance}
 .bar nav a{font-size:12px;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;color:var(--silver);padding:8px 0;transition:color .2s}
 @media (hover:hover) and (pointer:fine){.bar nav a:hover{color:var(--white)}}
 .bar .aurora{justify-self:end;min-height:40px;padding:10px 16px;font-size:12px}
-.menu-btn{display:none;justify-self:end}
-.sheet{position:fixed;inset:0;z-index:20;background:var(--deep);padding:max(22px,env(safe-area-inset-top)) var(--m) max(22px,env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:24px;visibility:hidden;opacity:0;transition:opacity .3s,visibility 0s .3s}
-.sheet.open{visibility:visible;opacity:1;transition:opacity .3s}
-.sheet .row{display:flex;justify-content:space-between;align-items:center}
-.sheet nav{margin-top:auto;display:grid;gap:4px}
-.sheet nav a{color:var(--white);font-weight:500;font-size:var(--h1);letter-spacing:-.04em;line-height:1.1;text-decoration:none}
-.sheet .aurora{align-self:start}
+/* le bouton Menu (téléphone) : deux traits qui deviennent une croix dans la feuille */
+.menu-btn{display:none;justify-self:end;align-items:center;gap:12px;min-height:44px;padding:10px 14px;border:1px solid var(--line);border-radius:6px;background:none;color:var(--white);font:500 12px/1 "Inter Tight",sans-serif;letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
+.menu-btn i{position:relative;width:16px;height:8px}
+.menu-btn i::before,.menu-btn i::after{content:"";position:absolute;left:0;right:0;height:1.5px;border-radius:1px;background:currentColor}
+.menu-btn i::before{top:0}.menu-btn i::after{top:6.5px}
+.menu-btn.ferme i::before,.menu-btn.ferme i::after{top:3.25px}
+.menu-btn.ferme i::before{transform:rotate(45deg)}.menu-btn.ferme i::after{transform:rotate(-45deg)}
+.menu-btn:active{transform:scale(.97)}
+/* la feuille du menu : l'en-tête reste exactement celui de la page, les liens en grandes lignes séparées par des filets */
+.sheet{position:fixed;inset:0;z-index:20;background:var(--deep);display:flex;flex-direction:column;overflow:hidden auto;overscroll-behavior:contain;visibility:hidden;opacity:0;transition:opacity .35s,visibility 0s .35s}
+.sheet.open{visibility:visible;opacity:1;transition:opacity .35s}
+.sheet::before{content:"";position:absolute;left:50%;bottom:-35vh;width:130vw;height:75vh;translate:-50% 0;border-radius:50%;background:radial-gradient(closest-side,rgba(0,130,124,.32),rgba(0,130,124,0));pointer-events:none}
+.sheet .tete{display:flex;justify-content:space-between;align-items:center;height:80px;flex:none}
+.sheet .menu-btn{display:inline-flex}
+.sheet .liste{position:relative;padding:clamp(12px,4vh,40px) var(--m) 0}
+.sheet .liste .eyebrow{margin-bottom:14px}
+.sheet nav{display:grid;border-top:1px solid var(--line)}
+.sheet nav a{display:flex;align-items:center;gap:14px;min-height:clamp(58px,8.5vh,76px);border-bottom:1px solid var(--line);color:var(--white);text-decoration:none}
+.sheet nav .n{width:2.2em;font-size:11px;font-weight:500;letter-spacing:.12em;color:var(--slate);font-variant-numeric:tabular-nums}
+.sheet nav .t{flex:1;font-weight:500;font-size:clamp(1.6rem,7vw,2.3rem);line-height:1;letter-spacing:-.035em}
+.sheet nav a:active .t{color:var(--mist)}
+.sheet .bas{position:relative;margin-top:auto;padding:28px var(--m) max(24px,env(safe-area-inset-bottom));display:grid;gap:16px}
+.sheet .bas .aurora{width:100%}
+.sheet .bas p{display:flex;justify-content:space-between;align-items:center;gap:8px 16px;flex-wrap:wrap}
+.sheet .courriel{color:var(--mist);text-decoration:none;letter-spacing:.04em;text-transform:none;font-size:15px}
+/* à l'ouverture, les lignes entrent l'une de la gauche, l'autre de la droite, comme le grand titre */
+.sheet.open nav a{animation:menu-g .6s cubic-bezier(.16,1,.3,1) calc(.06s + var(--i) * .05s) both}
+.sheet.open nav a:nth-child(even){animation-name:menu-d}
+.sheet.open .bas{animation:monte .6s .3s cubic-bezier(.16,1,.3,1) both}
+@keyframes menu-g{from{opacity:0;transform:translateX(-28px)}}
+@keyframes menu-d{from{opacity:0;transform:translateX(28px)}}
+@media (prefers-reduced-motion:reduce){.sheet.open nav a,.sheet.open .bas{animation:none}}
 
 /* ---- ouverture : la sphère de particules derrière le texte ---- */
 /* ---- ouverture : le titre géant arrive de la gauche et de la droite, la sphère derrière ;
    en descendant, la page reste figée le temps que les lignes repartent chacune de leur côté ---- */
 .hero{position:relative;height:175vh}
-.hero .pin{position:sticky;top:0;height:100vh;height:100svh;overflow:clip;isolation:isolate;display:grid;grid-template-rows:auto 1fr auto;gap:clamp(16px,3vh,36px);padding:96px var(--m) clamp(28px,6vh,72px)}
+.hero .pin{position:sticky;top:0;height:100vh;height:100svh;overflow:clip;isolation:isolate;display:grid;grid-template-rows:1fr auto;gap:clamp(16px,3vh,36px);padding:96px var(--m) clamp(28px,6vh,72px)}
 #orb{position:absolute;inset:0;z-index:-1;width:100%;height:100%}
 .hero .pin::after{content:"";position:absolute;inset:auto 0 0;height:30%;z-index:-1;background:linear-gradient(transparent,var(--abyss));pointer-events:none}
 .giant{align-self:end;display:grid;font-weight:500;font-size:clamp(2.6rem,min(17.8vw,15svh),18.4rem);line-height:.9;letter-spacing:-.046em;margin-inline:-.04em}
@@ -109,7 +134,7 @@ h1,h2,h3{color:var(--white);font-weight:500;line-height:1;text-wrap:balance}
 .hero .base p{max-width:40ch;font-size:var(--sub);line-height:1.3;color:var(--mist);letter-spacing:-.01em}
 .hero .acts{display:flex;flex-wrap:wrap;align-items:center;gap:12px 24px}
 @media (min-width:1000px){
-  .hero .pin{grid-template-rows:auto 1fr}
+  .hero .pin{grid-template-rows:1fr}
   .giant{font-size:clamp(2.6rem,min(19.4vw,27svh),18.4rem)}
   .hero .base{position:absolute;right:var(--m);bottom:clamp(28px,6vh,72px);width:min(600px,44%);gap:16px}
   .hero .base p{max-width:none;font-size:clamp(1.05rem,.9rem + .4vw,1.35rem)}
@@ -138,7 +163,7 @@ h1,h2,h3{color:var(--white);font-weight:500;line-height:1;text-wrap:balance}
 .row-card:nth-child(even){background:var(--deep)}
 .row-card h3{font-size:var(--h2);letter-spacing:-.02em}
 .row-card p{grid-column:1;max-width:46ch}
-@media (hover:hover) and (pointer:fine){.row-card:hover{background:#124554}}
+@media (hover:hover) and (pointer:fine){.row-card:hover{background:#04443F}}
 /* ---- réalisations ---- *//* ---- réalisations ---- */
 .sec{margin-top:var(--gap)}
 .sec .head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px 40px;flex-wrap:wrap}
@@ -153,7 +178,7 @@ h1,h2,h3{color:var(--white);font-weight:500;line-height:1;text-wrap:balance}
 .work p{font-size:15px}
 .work .shot{margin-top:auto;border-radius:6px;overflow:hidden;background:var(--deep)}
 .work .shot img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;transition:transform .7s cubic-bezier(.16,1,.3,1)}
-@media (hover:hover) and (pointer:fine){.work:hover{background:#124554}.work:hover .shot img{transform:scale(1.04)}}
+@media (hover:hover) and (pointer:fine){.work:hover{background:#04443F}.work:hover .shot img{transform:scale(1.04)}}
 
 /* ---- méthode ---- */
 .steps{margin-top:36px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
@@ -223,22 +248,32 @@ section[id]{scroll-margin-top:20px}
     <a class="brand" href="#" aria-label="Saitora, haut de page"><svg viewBox="246 330 740 590" aria-hidden="true"><path d="M262 901L624 341L695 456L407 901Z M725 504L970 901L828 901L653 613Z" fill="currentColor"/><circle cx="620" cy="818" r="55" fill="currentColor"/></svg>SAITORA</a>
     <nav aria-label="Sections"><a href="#vitrines">Réalisations</a><a href="#methode">Méthode</a><a href="tarifs.html">Tarifs</a><a href="#contact">Contact</a></nav>
     <a class="aurora" href="devis.html">Devis gratuit</a>
-    <button class="ghost menu-btn" type="button" id="menuBtn" aria-expanded="false" aria-controls="sheet">Menu</button>
+    <button class="menu-btn" type="button" id="menuBtn" aria-expanded="false" aria-controls="sheet">Menu<i aria-hidden="true"></i></button>
   </div>
 </header>
 
 <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="Menu">
-  <div class="row"><span class="brand">SAITORA</span><button class="ghost" type="button" id="closeBtn">Fermer</button></div>
-  <nav aria-label="Menu"><a href="#vitrines">Réalisations</a><a href="#methode">Méthode</a><a href="tarifs.html">Tarifs</a><a href="#charte">Charte</a><a href="#contact">Contact</a></nav>
-  <a class="aurora lg" href="devis.html">Demander un devis</a>
-  <p class="eyebrow">contact@saitora.fr · réponse sous 24 heures</p>
+  <div class="page tete"><span class="brand"><svg viewBox="246 330 740 590" aria-hidden="true"><path d="M262 901L624 341L695 456L407 901Z M725 504L970 901L828 901L653 613Z" fill="currentColor"/><circle cx="620" cy="818" r="55" fill="currentColor"/></svg>SAITORA</span><button class="menu-btn ferme" type="button" id="closeBtn">Fermer<i aria-hidden="true"></i></button></div>
+  <div class="liste">
+    <p class="eyebrow">Menu</p>
+    <nav aria-label="Menu">
+    <a href="#vitrines" style="--i:0"><span class="n">01</span><span class="t">Réalisations</span><span class="arrow"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a>
+    <a href="#methode" style="--i:1"><span class="n">02</span><span class="t">Méthode</span><span class="arrow"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a>
+    <a href="tarifs.html" style="--i:2"><span class="n">03</span><span class="t">Tarifs</span><span class="arrow"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a>
+    <a href="#charte" style="--i:3"><span class="n">04</span><span class="t">Charte graphique</span><span class="arrow"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a>
+    <a href="#contact" style="--i:4"><span class="n">05</span><span class="t">Contact</span><span class="arrow"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a>
+    </nav>
+  </div>
+  <div class="bas">
+    <a class="aurora lg" href="devis.html">Demander un devis gratuit</a>
+    <p class="eyebrow"><a class="courriel" href="mailto:contact@saitora.fr">contact@saitora.fr</a><span>Réponse sous 24 h</span></p>
+  </div>
 </div>
 
 <main>
   <section class="hero" id="hero" data-arrive-off>
     <div class="pin">
       <canvas id="orb" aria-hidden="true"></canvas>
-      <p class="eyebrow big">Saitora · sites vitrines sur mesure</p>
       <h1 class="giant"><span class="ln l1"><span class="in">Votre vitrine,</span></span> <span class="ln l2"><span class="in">ouverte jour</span></span> <span class="ln l3"><span class="in">et nuit.</span></span></h1>
       <div class="base">
         <p>Des sites pour les restaurants, les artisans et les commerces. Faits à votre image, en ligne en trois semaines.</p>
@@ -387,7 +422,6 @@ $("works").innerHTML = DEMOS.map(([nom, metier, , txt, slug]) => `
 // ——— arrivée par la sphère : l'en-tête et l'étiquette apparaissent pendant le recul
 if (dezoom && !calme) {
   document.querySelector(".bar").animate([{ opacity: 0 }, { opacity: 1 }], { delay: 700, duration: 700, easing: "ease-out", fill: "backwards" });
-  document.querySelector(".hero .eyebrow").animate([{ opacity: 0, transform: "translateY(-10px)" }, { opacity: 1, transform: "none" }], { delay: 600, duration: 800, easing: "cubic-bezier(.16,1,.3,1)", fill: "backwards" });
 }
 
 // ——— le titre géant : en descendant, chaque ligne repart de son côté (gauche, droite, gauche)

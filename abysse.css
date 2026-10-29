@@ -1,5 +1,5 @@
 /* Version test « abysse » du site (d'après la fiche Auros) : remplace theme.css sur les pages abysse-*.html.
-   Un seul thème, sombre : vert d'eau profonde, trois niveaux de surface sans ombre, corail pour les chiffres,
+   Un seul thème, sombre : vert d'eau profonde, trois niveaux de surface sans ombre, rose pour les chiffres,
    le dégradé « aurore » pour l'action principale. Les noms des variables sont ceux de theme.css, pour que
    toutes les pages existantes prennent ces couleurs sans être réécrites. */
 @font-face{font-family:"Inter Tight";font-weight:400;font-display:swap;src:url(polices/inter-tight-400-normal-latin.woff2) format("woff2")}
@@ -10,14 +10,14 @@
 @font-face{font-family:"Inter Tight Contour";font-weight:500;font-display:swap;src:url(polices/inter-tight-500-contour-latin.woff2) format("woff2")}
 @font-face{font-family:"Inter Tight";font-weight:600;font-display:swap;src:url(polices/inter-tight-600-normal-latin.woff2) format("woff2")}
 :root,:root[data-theme="light"],:root[data-theme="dark"]{
-  --abyss:#06222D; --deep:#041A23; --kelp:#0B3644; --kelp-hi:#124554; --mist:#EEF8FB; --silver:#B8C5CB; --slate:#6F7A80; --phosphor:#FFE6DA;
-  --aurora:linear-gradient(90deg,#CDEFFA 0%,#EEF8FB 26%,#FFF9F1 48%,#FFD3BF 89%);
+  --abyss:#012624; --deep:#011D1C; --kelp:#003734; --kelp-hi:#04443F; --mist:#EDFFFE; --silver:#BBC7C6; --slate:#707777; --phosphor:#FDE9FF;
+  --aurora:linear-gradient(90deg,#CBFFFC 0%,#EDFFFE 26%,#FFFDFA 48%,#FAD1FF 89%);
   --white:#FFFFFF;
   /* surfaces un peu transparentes : la sphère du fond (abysse-fond.js) se devine derrière les panneaux */
-  --bg:var(--abyss); --bg-alt:rgba(4,26,35,.78); --surface:rgba(11,54,68,.8); --surface-2:rgba(18,69,84,.86);
-  --ink:#FFFFFF; --muted:var(--silver); --faint:#8A99A0;
+  --bg:var(--abyss); --bg-alt:rgba(1,29,28,.78); --surface:rgba(0,55,52,.8); --surface-2:rgba(4,68,63,.86);
+  --ink:#FFFFFF; --muted:var(--silver); --faint:#8C9A99;
   --line:rgba(255,255,255,.1); --line-hi:rgba(255,255,255,.26);
-  --accent:#CDEFFA; --accent-hover:#FFD3BF; --on-accent:#06222D; --accent-text:var(--phosphor);
+  --accent:#CBFFFC; --accent-hover:#FAD1FF; --on-accent:#012624; --accent-text:var(--phosphor);
   --invert-bg:var(--deep); --invert-ink:var(--mist); --invert-muted:var(--silver);
   --ok:#9FE0B1; --warn:#F0CF8A;
   --logo-filter:invert(1);

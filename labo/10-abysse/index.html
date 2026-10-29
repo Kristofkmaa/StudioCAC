@@ -73,14 +73,34 @@ h1,h2,h3{color:var(--white);font-weight:500;line-height:1;text-wrap:balance}
 .sheet .aurora{align-self:start}
 
 /* ---- ouverture : la sphère de particules derrière le texte ---- */
-.hero{position:relative;min-height:100svh;display:grid;place-items:center;overflow:clip;isolation:isolate;padding:120px var(--m) 90px;text-align:center}
+/* ---- ouverture : le titre géant arrive de la gauche et de la droite, la sphère derrière ;
+   en descendant, la page reste figée le temps que les lignes repartent chacune de leur côté ---- */
+.hero{position:relative;height:175vh}
+.hero .pin{position:sticky;top:0;height:100vh;height:100svh;overflow:clip;isolation:isolate;display:grid;grid-template-rows:auto 1fr auto;gap:clamp(16px,3vh,36px);padding:96px var(--m) clamp(28px,6vh,72px)}
 #orb{position:absolute;inset:0;z-index:-1;width:100%;height:100%}
-.hero::after{content:"";position:absolute;inset:auto 0 0;height:30%;z-index:-1;background:linear-gradient(transparent,var(--abyss));pointer-events:none}
-.hero .stack{display:grid;justify-items:center;gap:22px;max-width:900px}
-.hero h1{font-size:var(--display);letter-spacing:-.045em}
-.hero p:not(.eyebrow){max-width:560px;font-size:var(--sub);line-height:1.3;color:var(--mist);letter-spacing:-.01em}
-.hero .acts{display:flex;flex-wrap:wrap;justify-content:center;gap:12px 24px;margin-top:10px}
-.cue{position:absolute;left:50%;bottom:24px;translate:-50% 0;display:grid;justify-items:center;gap:8px;font-size:10px;letter-spacing:.15em;text-transform:uppercase}
+.hero .pin::after{content:"";position:absolute;inset:auto 0 0;height:30%;z-index:-1;background:linear-gradient(transparent,var(--abyss));pointer-events:none}
+.giant{align-self:end;display:grid;font-weight:500;font-size:clamp(2.6rem,min(17.8vw,15svh),18.4rem);line-height:.9;letter-spacing:-.046em;margin-inline:-.04em}
+.giant .ln{display:block;white-space:nowrap;will-change:transform,opacity}
+.giant .l1{justify-self:start}.giant .l2{justify-self:end}.giant .l3{justify-self:start}
+.giant .l3 .in{color:transparent;-webkit-text-stroke:max(1.5px,.012em) var(--mist)}
+.giant .in{display:inline-block;animation:de-gauche 1.4s cubic-bezier(.16,1,.3,1) both}
+.giant .l2 .in{animation-name:de-droite;animation-delay:.14s}
+.giant .l3 .in{animation-delay:.28s}
+@keyframes de-gauche{from{transform:translateX(-110vw);opacity:0}}
+@keyframes de-droite{from{transform:translateX(110vw);opacity:0}}
+.hero .base{display:grid;justify-items:start;gap:20px;animation:monte 1s .7s cubic-bezier(.16,1,.3,1) both}
+@keyframes monte{from{opacity:0;transform:translateY(20px)}}
+.hero .base p{max-width:40ch;font-size:var(--sub);line-height:1.3;color:var(--mist);letter-spacing:-.01em}
+.hero .acts{display:flex;flex-wrap:wrap;align-items:center;gap:12px 24px}
+@media (min-width:1000px){
+  .hero .pin{grid-template-rows:auto 1fr}
+  .giant{font-size:clamp(2.6rem,min(19.4vw,27svh),18.4rem)}
+  .hero .base{position:absolute;right:var(--m);bottom:clamp(28px,6vh,72px);width:min(600px,44%);gap:16px}
+  .hero .base p{max-width:none;font-size:clamp(1.05rem,.9rem + .4vw,1.35rem)}
+  .hero .base .aurora.lg{min-height:54px;padding-block:16px}
+}
+@media (prefers-reduced-motion:reduce){.hero{height:auto}.hero .pin{position:relative;min-height:100svh;height:auto}.giant .in,.hero .base{animation:none}}
+.cue{position:absolute;left:50%;bottom:20px;translate:-50% 0;display:grid;justify-items:center;gap:8px;font-size:10px;letter-spacing:.15em;text-transform:uppercase}
 .cue i{width:1px;height:36px;background:linear-gradient(var(--mist),transparent);animation:cue 2.2s ease-in-out infinite;transform-origin:top}
 @keyframes cue{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
 @media (prefers-reduced-motion:reduce){.cue i{animation:none}}
@@ -111,15 +131,6 @@ h1,h2,h3{color:var(--white);font-weight:500;line-height:1;text-wrap:balance}
 @keyframes pulse{0%{opacity:.7;transform:scale(1)}100%{opacity:0;transform:scale(3.2)}}
 .net text{fill:var(--silver);font:500 10px "Inter Tight",sans-serif;letter-spacing:.12em;text-transform:uppercase}
 @media (prefers-reduced-motion:reduce){.net line{transition:none;stroke-dashoffset:0}.net .pulse{animation:none}}
-
-/* ---- le texte géant : la page se fige, une ligne arrive de la gauche, l'autre de la droite ---- */
-.kinetic{position:relative;height:230vh;margin-top:var(--gap)}
-.kinetic .pin{position:sticky;top:0;height:100vh;height:100svh;display:grid;align-content:center;gap:clamp(4px,1vw,14px);overflow:clip;padding-inline:var(--m)}
-.kinetic p{white-space:nowrap;color:var(--white);font-weight:500;font-size:clamp(2.6rem,.4rem + 9.6vw,12rem);line-height:.95;letter-spacing:-.05em;will-change:transform,opacity}
-.kinetic .l1{justify-self:start}
-.kinetic .l2{justify-self:end;color:transparent;-webkit-text-stroke:1.5px var(--mist)}
-.kinetic .eyebrow{justify-self:center;margin-top:clamp(18px,3vw,36px);transition:opacity .5s}
-@media (prefers-reduced-motion:reduce){.kinetic{height:auto}.kinetic .pin{position:static;height:auto;padding-block:40px}}
 
 /* ---- réalisations ---- */
 .sec{margin-top:var(--gap)}
@@ -204,7 +215,7 @@ section[id]{scroll-margin-top:20px}
   .works{grid-template-columns:minmax(0,1fr)}
   .row-card,.steps li{padding:28px 24px}
   .work{padding:22px}
-  .hero{padding-top:100px}
+  .cue{display:none}
 }
 </style>
 </head>
@@ -227,15 +238,16 @@ section[id]{scroll-margin-top:20px}
 </div>
 
 <main>
-  <section class="hero">
-    <canvas id="orb" aria-hidden="true"></canvas>
-    <div class="stack">
-      <p class="eyebrow big">Saitora · Ajaccio</p>
-      <h1>Votre vitrine, ouverte jour et nuit.</h1>
-      <p>Des sites sur mesure pour les restaurants, les artisans et les commerces de Corse. Faits à votre image, en ligne en trois semaines.</p>
-      <div class="acts"><a class="aurora lg" href="../../devis.html">Demander un devis</a><a class="ghost" href="#realisations">Voir les réalisations <span class="arrow"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a></div>
+  <section class="hero" id="hero">
+    <div class="pin">
+      <canvas id="orb" aria-hidden="true"></canvas>
+      <p class="eyebrow big">Saitora · sites vitrines sur mesure · Ajaccio</p>
+      <h1 class="giant"><span class="ln l1"><span class="in">Votre vitrine,</span></span> <span class="ln l2"><span class="in">ouverte jour</span></span> <span class="ln l3"><span class="in">et nuit.</span></span></h1>
+      <div class="base">
+        <p>Des sites pour les restaurants, les artisans et les commerces de Corse. Faits à votre image, en ligne en trois semaines.</p>
+        <div class="acts"><a class="aurora lg" href="../../devis.html">Demander un devis</a><a class="ghost" href="#realisations">Voir les réalisations <span class="arrow"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a></div>
+      </div>
     </div>
-    <div class="cue" aria-hidden="true">Défiler<i></i></div>
   </section>
 
   <div class="page">
@@ -257,10 +269,9 @@ section[id]{scroll-margin-top:20px}
     </section>
   </div>
 
-  <div class="kinetic" id="kin" aria-hidden="true"><div class="pin"><p class="l1">Treize commerces,</p><p class="l2">treize sites.</p><p class="eyebrow big" id="kinSub">Une démo par métier</p></div></div>
 
   <div class="page">
-    <section class="sec" id="realisations" aria-labelledby="t-real" style="margin-top:0">
+    <section class="sec" id="realisations" aria-labelledby="t-real">
       <div class="head rise"><div><p class="eyebrow">Réalisations</p><h2 id="t-real">Treize commerces, treize sites</h2></div><p>Des démos, une par métier. Le vôtre sera fait avec votre logo, vos couleurs et vos photos.</p></div>
       <div class="filters" id="filters" role="group" aria-label="Filtrer par métier"></div>
       <div class="works" id="works"></div>
@@ -332,6 +343,7 @@ section[id]{scroll-margin-top:20px}
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[m]);
 const calme = matchMedia("(prefers-reduced-motion: reduce)").matches;
+let heroP = 0;   // 0 en haut de page, 1 quand les lignes du titre sont reparties
 const fleche = '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg>';
 
 // ——— la sphère de particules : des points répartis sur une sphère, qui tourne et penche vers le doigt
@@ -350,13 +362,13 @@ const fleche = '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strok
     ctx.clearRect(0, 0, W, H);
     px += (tx - px) * .05; py += (ty - py) * .05;
     const ay = t * .12 + px * .6, ax = -.35 + py * .4, cy = Math.cos(ay), sy = Math.sin(ay), cx = Math.cos(ax), sx = Math.sin(ax);
-    const ox = W / 2, oy = H / 2 - Math.min(scrollY, H) * .25, fade = Math.max(0, 1 - scrollY / (H * .9));
-    const glow = ctx.createRadialGradient(ox, oy, 0, ox, oy, R * 1.25);           // halo d'eau éclairée derrière la sphère
+    const ox = W / 2, oy = H / 2, fade = 1 - heroP * .55, RR = R * (1 + heroP * .9);
+    const glow = ctx.createRadialGradient(ox, oy, 0, ox, oy, RR * 1.25);           // halo d'eau éclairée derrière la sphère
     glow.addColorStop(0, `rgba(0,130,124,${.28 * fade})`); glow.addColorStop(1, "rgba(0,130,124,0)");
     ctx.fillStyle = glow; ctx.fillRect(0, 0, W, H);
     for (const [x0, y0, z0, s] of pts) {
       const x1 = x0 * cy + z0 * sy, z1 = -x0 * sy + z0 * cy, y1 = y0 * cx - z1 * sx, z2 = y0 * sx + z1 * cx;
-      const k = 2.6 / (2.6 - z2), X = ox + x1 * R * k, Y = oy + y1 * R * k;
+      const k = 2.6 / (2.6 - z2), X = ox + x1 * RR * k, Y = oy + y1 * RR * k;
       const rim = 1 - Math.abs(z2);                       // bord de la sphère : rose phosphore
       const front = (z2 + 1) / 2;                          // devant : blanc ; derrière : sarcelle sombre
       const a = (.18 + front * .82) * fade;
@@ -417,20 +429,16 @@ const filtres = () => {
 $("filters").addEventListener("click", e => { const b = e.target.closest("button"); if (b) { famille = b.dataset.k; filtres(); } });
 filtres();
 
-// ——— le texte géant : pendant que la page est figée, les deux lignes se rejoignent (gauche → centre, droite → centre)
+// ——— le titre géant : en descendant, chaque ligne repart de son côté (gauche, droite, gauche)
 (() => {
   if (calme) return;
-  const box = $("kin"), l1 = box.querySelector(".l1"), l2 = box.querySelector(".l2"), sub = $("kinSub");
-  const ease = x => 1 - Math.pow(1 - x, 3);
+  const hero = $("hero"), lns = [...hero.querySelectorAll(".ln")], base = hero.querySelector(".base"), dir = [-1, 1, -1];
   let tick = false;
   const move = () => { tick = false;
-    const r = box.getBoundingClientRect();
-    if (r.bottom < 0 || r.top > innerHeight) return;
-    const p = Math.min(1, Math.max(0, (innerHeight - r.top) / (r.height * .85)));   // 0 : le bloc entre en bas ; 1 : les lignes sont en place
-    const e = ease(p), off = (1 - e) * 110;
-    l1.style.transform = `translate3d(${-off}vw,0,0)`; l2.style.transform = `translate3d(${off}vw,0,0)`;
-    l1.style.opacity = l2.style.opacity = (.15 + e * .85).toFixed(3);
-    sub.style.opacity = p > .92 ? 1 : 0;
+    heroP = Math.min(1, Math.max(0, scrollY / (hero.offsetHeight - innerHeight)));
+    const e = heroP * heroP;
+    lns.forEach((l, i) => { l.style.transform = `translate3d(${(dir[i] * e * 110).toFixed(2)}vw,0,0)`; l.style.opacity = (1 - e * .8).toFixed(3); });
+    base.style.opacity = Math.max(0, 1 - heroP * 2.2).toFixed(3);
   };
   addEventListener("scroll", () => { if (!tick) { tick = true; requestAnimationFrame(move); } }, { passive: true });
   addEventListener("resize", move);

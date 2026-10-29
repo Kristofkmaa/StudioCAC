@@ -122,8 +122,7 @@ figcaption{margin-top:10px;font-size:var(--t-petit);color:var(--cendre);font-fam
 .compris h3{font-size:var(--t-phrase);margin-bottom:8px}
 .compris p{color:var(--charbon);max-width:34ch}
 
-/* ---- les chambres, une à la fois : la photo en grand, les flèches posées dessus ; le nom et le prix en étiquette,
-   et l'histoire de la chambre dans un nuage qui apparaît au survol (il suit la souris) ou au toucher sur téléphone ---- */
+/* ---- les chambres, une à la fois : la photo en grand, les flèches posées dessus, la description dans un encadré blanc ---- */
 .scene{position:relative;aspect-ratio:16/9;border-radius:var(--r-tableau);overflow:hidden;background:var(--brume);touch-action:pan-y;outline-offset:4px}
 .scene>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .7s ease}
 .scene>img.vu{opacity:1}
@@ -131,28 +130,17 @@ figcaption{margin-top:10px;font-size:var(--t-petit);color:var(--cendre);font-fam
 .scene .fl.g{left:16px}.scene .fl.d{right:16px}
 @media (hover:hover) and (pointer:fine){.scene .fl:hover{background:#fff;transform:scale(1.08)}}
 .scene .fl:active{transform:scale(.94)}
-.etiquette{position:absolute;left:16px;bottom:16px;z-index:2;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;max-width:calc(100% - 32px);padding:12px 18px;border-radius:12px;background:var(--papier);transition:opacity .25s}
-.etiquette b{font-family:var(--serif);font-weight:400;font-size:var(--t-phrase);line-height:1}
-.etiquette span{font-size:15px;color:var(--charbon)}
-.etiquette small{font-size:13px;color:var(--cendre)}
-.etiquette .tactile{display:none}
-@media (hover:none){.etiquette .souris{display:none}.etiquette .tactile{display:inline}}
-.scene .points{position:absolute;left:50%;bottom:22px;z-index:2;transform:translateX(-50%);display:flex;gap:10px}
+.scene .points{position:absolute;right:28px;bottom:26px;z-index:2;display:flex;gap:10px}
 .scene .points button{width:10px;height:10px;padding:0;border-radius:50%;border:0;background:rgba(255,255,255,.55);cursor:pointer;position:relative}
 .scene .points button[aria-current="true"]{background:#fff}
 .scene .points button::before{content:"";position:absolute;inset:-17px}
-/* le nuage : une carte blanche aux bords irréguliers, deux petites bulles en guise de queue, comme une pensée */
-.nuage{position:absolute;left:0;top:0;z-index:4;width:min(360px,calc(100% - 32px));padding:22px 26px 20px;background:var(--papier);color:var(--graphite);border-radius:46px 58px 50px 40px / 42px 48px 56px 50px;box-shadow:0 10px 30px rgba(20,22,30,.18);opacity:0;visibility:hidden;transform:translate(var(--x,24px),var(--y,24px)) scale(.94);transform-origin:0 0;transition:opacity .22s ease,visibility 0s .22s,transform .22s var(--doux);pointer-events:none}
-.nuage::before,.nuage::after{content:"";position:absolute;background:var(--papier);border-radius:50%}
-.nuage::before{width:18px;height:16px;left:-6px;top:-10px}
-.nuage::after{width:9px;height:9px;left:-18px;top:-22px}
-.scene.voit .nuage{opacity:1;visibility:visible;transform:translate(var(--x,24px),var(--y,24px));transition:opacity .22s ease,transform .3s var(--doux)}
-.scene.voit .etiquette{opacity:0}
-.nuage h3{font-size:var(--t-phrase);margin-bottom:8px}
-.nuage h3 em{font-size:.62em;color:var(--cendre)}
-.nuage p{font-size:15px;color:var(--charbon)}
-.nuage dl{margin-top:12px;padding-top:10px;border-top:1px solid var(--brume);display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:14px;color:var(--charbon)}
-.nuage dt{color:var(--cendre)}
+/* la description : un encadré blanc posé en bas à gauche de la photo, toujours visible */
+.fiche{position:absolute;left:16px;bottom:16px;z-index:2;width:min(420px,calc(100% - 32px));padding:22px 24px;background:var(--papier);border-radius:var(--r-carte)}
+.fiche h3{font-size:var(--t-phrase);margin-bottom:8px}
+.fiche h3 em{font-size:.62em;color:var(--cendre)}
+.fiche p{font-size:15px;color:var(--charbon)}
+.fiche .infos{margin-top:12px;padding-top:10px;border-top:1px solid var(--brume);display:flex;flex-wrap:wrap;gap:4px 16px;font-size:14px;color:var(--charbon)}
+.fiche .infos b{font-weight:500;color:var(--graphite)}
 .sous-scene{max-width:none;margin-top:14px;display:flex;justify-content:space-between;gap:12px;font-size:var(--t-petit);color:var(--cendre)}
 
 /* ---- la table : deux tableaux et le menu du soir ---- */
@@ -260,14 +248,15 @@ footer .legal span{max-width:80ch}
   body{padding-bottom:72px}
 }
 @media (max-width:620px){
-  .scene{aspect-ratio:4/5}
+  /* sur téléphone, l'encadré se colle sous la photo : il ne la cache pas */
+  .scene{aspect-ratio:auto;overflow:visible;background:none;display:grid}
+  .scene>img{position:relative;grid-area:1/1;aspect-ratio:4/3;height:auto;border-radius:var(--r-tableau) var(--r-tableau) 0 0}
+  .scene .fl,.scene .points{z-index:3}
+  .fiche{position:relative;grid-area:2/1;left:auto;bottom:auto;width:auto;border:1px solid var(--brume);border-top:0;border-radius:0 0 var(--r-tableau) var(--r-tableau)}
   .scene .fl{width:44px;height:44px;margin-top:0;top:14px}
-  .nuage::before{left:26px;top:-12px}.nuage::after{left:14px;top:-24px}
   .sous-scene span+span{display:none}
   .scene .fl.g{left:10px}.scene .fl.d{right:10px}
-  .etiquette{left:10px;bottom:44px;padding:10px 14px}
-  .scene .points{bottom:18px}
-  .nuage{width:calc(100% - 24px)}
+  .scene .points{right:auto;left:50%;transform:translateX(-50%);bottom:auto;top:30px}
   .fenetre-h{grid-template-columns:minmax(0,1fr);margin-block:0}
   .fenetre-h .tableau{grid-column:1!important;grid-row:2;aspect-ratio:4/5;max-height:none;object-position:42% 50%}
   .fenetre-h h1 span{grid-column:1!important;font-size:clamp(3.4rem,17vw,5rem)}
@@ -338,8 +327,7 @@ footer .legal span{max-width:80ch}
       <div id="chImgs" style="display:contents"></div>
       <button class="fl g" type="button" id="chAvant" aria-label="Chambre précédente">←</button>
       <button class="fl d" type="button" id="chApres" aria-label="Chambre suivante">→</button>
-      <p class="etiquette" id="chEtiquette"></p>
-      <div class="nuage" id="chNuage" aria-live="polite"></div>
+      <div class="fiche" id="chFiche" aria-live="polite"></div>
       <div class="points" id="chPoints"></div>
     </div>
     <p class="sous-scene"><span id="chNum"></span><span>Petit-déjeuner compris dans tous les prix</span></p>
@@ -464,38 +452,24 @@ const CH = [
   ["A Casetta", "la maisonnette", "maisonnette", "La petite maison en pierre au fond du jardin, rien que pour vous, avec sa terrasse sous les lauriers-roses.", "2 personnes", "Un lit de 160", 120],
 ];
 let ch = 0;
-const scene = $("chScene"), nuage = $("chNuage");
+const scene = $("chScene");
 $("chImgs").outerHTML = CH.map(([n, , img], i) => `<img class="${i ? "" : "vu"}" src="../../images/fucone/${img}.webp" alt="La chambre ${n}" loading="${i ? "lazy" : "eager"}" decoding="async">`).join("");
 $("chPoints").innerHTML = CH.map(([n], i) => `<button type="button" aria-label="${n}" data-i="${i}"></button>`).join("");
 function montreChambre(i) {
   ch = (i + CH.length) % CH.length; const [n, sens, , txt, pers, lit, prix] = CH[ch];
   scene.querySelectorAll(":scope>img").forEach((im, k) => im.classList.toggle("vu", k === ch));
-  $("chEtiquette").innerHTML = `<b>${esc(n)}</b><span>${prix}&nbsp;€ la nuit</span><small class="souris">Survolez la photo</small><small class="tactile">Touchez la photo</small>`;
-  nuage.innerHTML = `<h3>${esc(n)} <em>${esc(sens)}</em></h3><p>${esc(txt)}</p><dl><dt>Pour</dt><dd>${pers}</dd><dt>Le lit</dt><dd>${lit}</dd><dt>La nuit</dt><dd>${prix}&nbsp;€, petit-déjeuner compris</dd></dl>`;
+  $("chFiche").innerHTML = `<h3>${esc(n)} <em>${esc(sens)}</em></h3><p>${esc(txt)}</p><p class="infos"><span>${pers}</span><span>${lit}</span><span><b>${prix}&nbsp;€</b> la nuit</span></p>`;
   $("chNum").textContent = `Chambre ${ch + 1} sur ${CH.length}`;
   [...$("chPoints").children].forEach((b, k) => b.setAttribute("aria-current", k === ch));
 }
-// le nuage suit la souris, sans jamais sortir de la photo ; au clavier ou au toucher, il se pose en bas à gauche
-const place = (x, y) => { const r = scene.getBoundingClientRect(), w = nuage.offsetWidth, h = nuage.offsetHeight;
-  nuage.style.setProperty("--x", Math.max(12, Math.min(r.width - w - 12, x + 22)) + "px");
-  nuage.style.setProperty("--y", Math.max(12, Math.min(r.height - h - 12, y + 22)) + "px"); };
-const enBas = () => { const r = scene.getBoundingClientRect(); place(0, r.height); };
-const surBouton = e => e.target.closest("button");
-scene.addEventListener("pointermove", e => { if (e.pointerType !== "mouse") return; const r = scene.getBoundingClientRect();
-  const dessus = !surBouton(e); scene.classList.toggle("voit", dessus); if (dessus) place(e.clientX - r.left, e.clientY - r.top); });
-scene.addEventListener("pointerleave", e => { if (e.pointerType === "mouse") scene.classList.remove("voit"); });
-scene.addEventListener("focus", () => { enBas(); scene.classList.add("voit"); });
-scene.addEventListener("blur", () => scene.classList.remove("voit"));
 scene.addEventListener("keydown", e => { if (e.key === "ArrowRight") montreChambre(ch + 1); if (e.key === "ArrowLeft") montreChambre(ch - 1); });
 $("chAvant").addEventListener("click", () => montreChambre(ch - 1));
 $("chApres").addEventListener("click", () => montreChambre(ch + 1));
 $("chPoints").addEventListener("click", e => { const b = e.target.closest("button"); if (b) montreChambre(+b.dataset.i); });
-// au doigt : glisser change de chambre, toucher montre ou cache le nuage
+// au doigt : on glisse sur la photo pour passer à la chambre suivante
 let x0 = null;
-scene.addEventListener("pointerdown", e => { if (e.pointerType !== "mouse" && !surBouton(e)) x0 = e.clientX; });
-scene.addEventListener("pointerup", e => { if (x0 === null) return; const dx = e.clientX - x0; x0 = null;
-  if (Math.abs(dx) > 40) { montreChambre(ch + (dx < 0 ? 1 : -1)); return; }
-  enBas(); scene.classList.toggle("voit"); });
+scene.addEventListener("pointerdown", e => { if (e.pointerType !== "mouse" && !e.target.closest("button")) x0 = e.clientX; });
+scene.addEventListener("pointerup", e => { if (x0 === null) return; const dx = e.clientX - x0; x0 = null; if (Math.abs(dx) > 40) montreChambre(ch + (dx < 0 ? 1 : -1)); });
 montreChambre(0);
 
 // ——— le calendrier : les six prochains mois, la maison est fermée en janvier ; les jours déjà pris sont tirés d'une graine

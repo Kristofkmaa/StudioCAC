@@ -37,6 +37,8 @@ Le site : écran d'entrée (`index.html`), accueil (`accueil.html`), tarifs, dev
   - Essai Garage Santoni en style Caldera : fait puis supprimé à la demande de l'utilisateur (« pas beau »).
 - **Le site Saitora est en style « abysse » depuis le 29 octobre 2026** (voir plus bas). L'ancien style clair / sombre reste dans l'historique git (commit `17f11b9` et avant).
 
+- **Saitorapp** (`saitorapp/`, non indexée, plan et détails dans `saitorapp/LISEZMOI.md`) : l'appli web et téléphone (installable, hors ligne) où chaque client gère son site. Version 1 de démonstration, données dans le navigateur : Mademoiselle Charlotte (commandes, produits et stock, mon site) et U Fucone (réservations chambre par chambre, mon site), modules à ajouter ou retirer par client, vue « tous les clients » pour Saitora. Style tiré par design-taste-frontend (`--app --kind commerce`, « cadre teinté, feuille blanche »), cadre teinté du vert d'eau de Saitora, IBM Plex Sans. Les commandes du panier de Charlotte apparaissent dans l'appli sur le même navigateur. **Pas encore en ligne** ; prochaine étape : Supabase (compte à créer par l'utilisateur), connexion par e-mail, sites qui lisent l'appli, notifications.
+
 ## Décisions prises
 
 - **Style du site Saitora : « abysse »**, inspiré de la fiche Refero d'Auros, avec sa palette d'origine (essayée en bleu et corail, puis remise en vert à la demande de l'utilisateur) : vert d'eau profonde `#012624`, surfaces `#003734`, texte `#EDFFFE` / `#BBC7C6`, rose `#FDE9FF` pour les chiffres, dégradé « aurore » (aqua → rose) pour le bouton principal. Police Inter Tight (poids 500 pour les titres).

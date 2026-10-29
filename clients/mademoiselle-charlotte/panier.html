@@ -179,6 +179,14 @@ $("form").addEventListener("submit", e => {
   $("resume").textContent = l.map(x => `${x.q} × ${x.n || Panier.piece(x.s).n}${x.prenom ? ` : « ${x.prenom} »` : ""}${x.detail ? ` (${x.detail})` : ""} : ${Panier.piece(x.s).p * x.q} €`).join("\n")
     + `\nTotal : ${Panier.total()} €\nRemise : ${f.get("remise")}` + (f.get("message").trim() ? `\nMot : ${f.get("message").trim()}` : "");
   $("envoi").classList.add("envoye");
+  /* démo de Saitorapp : la commande est déposée dans ce navigateur, l'appli la montre dans ses commandes */
+  try {
+    const recues = JSON.parse(localStorage.getItem("saitorapp-commandes-recues") || "[]");
+    recues.push({ id: "MC-" + Date.now().toString(36).toUpperCase().slice(-5), date: new Date().toISOString().slice(0, 16), cliente: f.get("nom").trim(), tel: f.get("tel").trim(), email: f.get("email").trim(),
+      remise: f.get("remise"), mot: f.get("message").trim(), statut: "nouvelle", source: "site",
+      lignes: l.map(x => ({ produit: x.s, nom: x.n || Panier.piece(x.s).n, prix: Panier.piece(x.s).p, q: x.q, prenom: x.prenom || "", detail: x.detail || "" })) });
+    localStorage.setItem("saitorapp-commandes-recues", JSON.stringify(recues));
+  } catch (err) {}
 });
 
 dessine();

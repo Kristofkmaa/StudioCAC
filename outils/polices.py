@@ -72,7 +72,7 @@ DOSSIER.mkdir(exist_ok=True)
 if sys.argv[1:2] == ["libre"]:
     libre(sys.argv[2:]) if sys.argv[2:] else sys.exit("Préciser les polices : python3 outils/polices.py libre bagnard uncut-sans")
     sys.exit()
-for page in sorted(list(RACINE.glob("*.html")) + list(RACINE.glob("outils/**/*.html")) + list(RACINE.glob("clients/**/*.html")) + list(RACINE.glob("essais/**/*.html"))):
+for page in sorted(list(RACINE.glob("*.html")) + list(RACINE.glob("outils/**/*.html")) + list(RACINE.glob("clients/**/*.html")) + list(RACINE.glob("essais/**/*.html")) + list(RACINE.glob("saitorapp/*.html"))):
     texte = page.read_text()
     if "fonts.googleapis.com" not in texte:
         continue

@@ -116,7 +116,12 @@ def main():
         lignes += [f"## {NOMS.get(f, f)} : {nom}", desc, ""]
     if "police" in choix:
         titre, texte = choix["police"].split(" + ")
-        lignes += [f"## Polices : {choix['police']}", f"Titres en {titre}, texte en {texte} (style « {style} » de la charte). Lien Google Fonts dans la page, puis python3 outils/polices.py.", ""]
+        libres = POLICES.get("_libres", {})
+        google = [p for p in dict.fromkeys((titre, texte)) if p not in libres]
+        codes = [libres[p] for p in dict.fromkeys((titre, texte)) if p in libres]
+        comment = ([f"Lien Google Fonts pour {', '.join(google)}, puis python3 outils/polices.py."] if google else []) + \
+                  ([f"Fonderie indépendante : python3 outils/polices.py libre {' '.join(codes)} (lien affiché à mettre dans la page)."] if codes else [])
+        lignes += [f"## Polices : {choix['police']}", f"Titres en {titre}, texte en {texte} (style « {style} » de la charte). " + " ".join(comment), ""]
     lignes += ["## Avant de livrer", "Mettre le premier écran à côté de ceux des autres sites (media/apercus et clients/*) : s'il ressemble à l'un d'eux, changer ce qui fait la ressemblance.", ""]
     deja = [s for s, v in autres.items() if sum(v.get(f) == choix[f] for f in FAMILLES) >= 4]
     if deja and not modele:

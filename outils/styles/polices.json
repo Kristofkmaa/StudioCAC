@@ -1,5 +1,5 @@
 {
-  "_note": "Pour chaque style de titres choisi dans l'outil de charte, plusieurs paires de polices Google (titres, texte). Le tirage choisit la paire la moins utilisée (option --charte <style>). Après avoir mis le lien Google Fonts dans la page : python3 outils/polices.py pour les héberger sur le site.",
+  "_note": "Pour chaque style de titres choisi dans l'outil de charte, plusieurs paires de polices Google (titres, texte). Le tirage choisit la paire la moins utilisée (option --charte <style>). Après avoir mis le lien Google Fonts dans la page : python3 outils/polices.py pour les héberger sur le site. Les polices listées dans « _libres » viennent de fonderies indépendantes (npm Fontsource) : python3 outils/polices.py libre <code>, aperçu dans outils/polices-independantes.html.",
   "Élégante": [
     [
       "Cormorant Garamond",
@@ -24,6 +24,14 @@
     [
       "Marcellus",
       "Figtree"
+    ],
+    [
+      "Redaction",
+      "Uncut Sans"
+    ],
+    [
+      "Redaction 35",
+      "Redaction"
     ]
   ],
   "Moderne": [
@@ -50,6 +58,14 @@
     [
       "DM Sans",
       "DM Sans"
+    ],
+    [
+      "Apfel Grotezk",
+      "Uncut Sans"
+    ],
+    [
+      "Cooper Hewitt",
+      "Cooper Hewitt"
     ]
   ],
   "Chaleureuse": [
@@ -76,6 +92,10 @@
     [
       "DM Serif Display",
       "Plus Jakarta Sans"
+    ],
+    [
+      "Bagnard",
+      "Uncut Sans"
     ]
   ],
   "Manuscrite": [
@@ -124,6 +144,20 @@
     [
       "League Gothic",
       "Rubik"
+    ],
+    [
+      "Bluu Next",
+      "Uncut Sans"
     ]
-  ]
+  ],
+  "_libres": {
+    "Bagnard": "bagnard",
+    "Redaction": "redaction",
+    "Redaction 35": "redaction-35",
+    "Bluu Next": "bluu-next",
+    "Apfel Grotezk": "apfel-grotezk",
+    "Cooper Hewitt": "cooper-hewitt",
+    "Uncut Sans": "uncut-sans",
+    "League Mono": "league-mono"
+  }
 }

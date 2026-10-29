@@ -1,0 +1,385 @@
+/* Polices de fonderies indépendantes hébergées sur le site, générées par outils/polices.py libre */
+/* League Mono : OFL-1.1, Tyler Finck <hi@tylerfinck.com> (https://github.com/theleagueof/league-mono/blob/master/OFL.md) */
+/* Uncut Sans : OFL-1.1, Kasper Nordkvist (https://github.com/kaspernordkvist/uncut_sans/blob/main/LICENSE.txt) */
+/* Cooper Hewitt : OFL-1.1, Cooper Hewitt Smithsonian Design Museum (cooperhewitt.org) (https://github.com/cooperhewitt/cooperhewitt-typeface/blob/master/files/-CooperHewitt-OFL-201406.txt) */
+/* Redaction 35 : OFL-1.1, Jeremy Mickel (https://www.redaction.us/) */
+/* Redaction : OFL-1.1, Jeremy Mickel (https://www.redaction.us/) */
+/* Bluu Next : OFL-1.1, Jean-Baptiste Morizot, (http://cargocollective.com/jbmrz) (https://github.com/jbmorizot/BluuNext/blob/master/OFL_BluuNext.txt) */
+/* Apfel Grotezk : OFL-1.1, Luigi Gorlero (https://www.collletttivo.it/) */
+/* Bagnard : OFL-1.1, Sebastien Sanfilippo (www.love-letters.be) (https://github.com/sebsan/Bagnard/blob/master/OFL.txt) */
+/* Bagnard 400 normal (latin) */
+@font-face {
+  font-family: 'Bagnard';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url(bagnard-latin-400-normal.woff2) format('woff2');
+}
+/* Apfel Grotezk 400 normal (latin) */
+@font-face {
+  font-family: 'Apfel Grotezk';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url(apfel-grotezk-latin-400-normal.woff2) format('woff2');
+}
+/* Apfel Grotezk 700 normal (latin) */
+@font-face {
+  font-family: 'Apfel Grotezk';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url(apfel-grotezk-latin-700-normal.woff2) format('woff2');
+}
+/* Bluu Next 700 normal (latin) */
+@font-face {
+  font-family: 'Bluu Next';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url(bluu-next-latin-700-normal.woff2) format('woff2');
+}
+/* Bluu Next 700 italic (latin) */
+@font-face {
+  font-family: 'Bluu Next';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 700;
+  src: url(bluu-next-latin-700-italic.woff2) format('woff2');
+}
+/* Redaction 400 normal (latin) */
+@font-face {
+  font-family: 'Redaction';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url(redaction-latin-400-normal.woff2) format('woff2');
+}
+/* Redaction 400 italic (latin) */
+@font-face {
+  font-family: 'Redaction';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 400;
+  src: url(redaction-latin-400-italic.woff2) format('woff2');
+}
+/* Redaction 700 normal (latin) */
+@font-face {
+  font-family: 'Redaction';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url(redaction-latin-700-normal.woff2) format('woff2');
+}
+/* Redaction 700 italic (latin) */
+@font-face {
+  font-family: 'Redaction';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 700;
+  src: url(redaction-latin-700-italic.woff2) format('woff2');
+}
+/* Redaction 35 400 normal (latin) */
+@font-face {
+  font-family: 'Redaction 35';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url(redaction-35-latin-400-normal.woff2) format('woff2');
+}
+/* Redaction 35 400 italic (latin) */
+@font-face {
+  font-family: 'Redaction 35';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 400;
+  src: url(redaction-35-latin-400-italic.woff2) format('woff2');
+}
+/* Redaction 35 700 normal (latin) */
+@font-face {
+  font-family: 'Redaction 35';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url(redaction-35-latin-700-normal.woff2) format('woff2');
+}
+/* Redaction 35 700 italic (latin) */
+@font-face {
+  font-family: 'Redaction 35';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 700;
+  src: url(redaction-35-latin-700-italic.woff2) format('woff2');
+}
+/* Cooper Hewitt 100 normal (latin) */
+@font-face {
+  font-family: 'Cooper Hewitt';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100;
+  src: url(cooper-hewitt-latin-100-normal.woff2) format('woff2');
+}
+/* Cooper Hewitt 100 italic (latin) */
+@font-face {
+  font-family: 'Cooper Hewitt';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 100;
+  src: url(cooper-hewitt-latin-100-italic.woff2) format('woff2');
+}
+/* Cooper Hewitt 200 normal (latin) */
+@font-face {
+  font-family: 'Cooper Hewitt';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 200;
+  src: url(cooper-hewitt-latin-200-normal.woff2) format('woff2');
+}
+/* Cooper Hewitt 200 italic (latin) */
+@font-face {
+  font-family: 'Cooper Hewitt';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 200;
+  src: url(cooper-hewitt-latin-200-italic.woff2) format('woff2');
+}
+/* Cooper Hewitt 300 normal (latin) */
+@font-face {
+  font-family: 'Cooper Hewitt';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 300;
+  src: url(cooper-hewitt-latin-300-normal.woff2) format('woff2');
+}
+/* Cooper Hewitt 300 italic (latin) */
+@font-face {
+  font-family: 'Cooper Hewitt';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 300;
+  src: url(cooper-hewitt-latin-300-italic.woff2) format('woff2');
+}
+/* Cooper Hewitt 400 normal (latin) */
+@font-face {
+  font-family: 'Cooper Hewitt';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url(cooper-hewitt-latin-400-normal.woff2) format('woff2');
+}
+/* Cooper Hewitt 400 italic (latin) */
+@font-face {
+  font-family: 'Cooper Hewitt';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 400;
+  src: url(cooper-hewitt-latin-400-italic.woff2) format('woff2');
+}
+/* Cooper Hewitt 500 normal (latin) */
+@font-face {
+  font-family: 'Cooper Hewitt';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 500;
+  src: url(cooper-hewitt-latin-500-normal.woff2) format('woff2');
+}
+/* Cooper Hewitt 500 italic (latin) */
+@font-face {
+  font-family: 'Cooper Hewitt';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 500;
+  src: url(cooper-hewitt-latin-500-italic.woff2) format('woff2');
+}
+/* Cooper Hewitt 600 normal (latin) */
+@font-face {
+  font-family: 'Cooper Hewitt';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 600;
+  src: url(cooper-hewitt-latin-600-normal.woff2) format('woff2');
+}
+/* Cooper Hewitt 600 italic (latin) */
+@font-face {
+  font-family: 'Cooper Hewitt';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 600;
+  src: url(cooper-hewitt-latin-600-italic.woff2) format('woff2');
+}
+/* Cooper Hewitt 700 normal (latin) */
+@font-face {
+  font-family: 'Cooper Hewitt';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url(cooper-hewitt-latin-700-normal.woff2) format('woff2');
+}
+/* Cooper Hewitt 700 italic (latin) */
+@font-face {
+  font-family: 'Cooper Hewitt';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 700;
+  src: url(cooper-hewitt-latin-700-italic.woff2) format('woff2');
+}
+/* Cooper Hewitt 800 normal (latin) */
+@font-face {
+  font-family: 'Cooper Hewitt';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 800;
+  src: url(cooper-hewitt-latin-800-normal.woff2) format('woff2');
+}
+/* Cooper Hewitt 800 italic (latin) */
+@font-face {
+  font-family: 'Cooper Hewitt';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 800;
+  src: url(cooper-hewitt-latin-800-italic.woff2) format('woff2');
+}
+/* Uncut Sans 300 normal (latin) */
+@font-face {
+  font-family: 'Uncut Sans';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 300;
+  src: url(uncut-sans-latin-300-normal.woff2) format('woff2');
+}
+/* Uncut Sans 300 italic (latin) */
+@font-face {
+  font-family: 'Uncut Sans';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 300;
+  src: url(uncut-sans-latin-300-italic.woff2) format('woff2');
+}
+/* Uncut Sans 400 normal (latin) */
+@font-face {
+  font-family: 'Uncut Sans';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url(uncut-sans-latin-400-normal.woff2) format('woff2');
+}
+/* Uncut Sans 400 italic (latin) */
+@font-face {
+  font-family: 'Uncut Sans';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 400;
+  src: url(uncut-sans-latin-400-italic.woff2) format('woff2');
+}
+/* Uncut Sans 500 normal (latin) */
+@font-face {
+  font-family: 'Uncut Sans';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 500;
+  src: url(uncut-sans-latin-500-normal.woff2) format('woff2');
+}
+/* Uncut Sans 500 italic (latin) */
+@font-face {
+  font-family: 'Uncut Sans';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 500;
+  src: url(uncut-sans-latin-500-italic.woff2) format('woff2');
+}
+/* Uncut Sans 600 normal (latin) */
+@font-face {
+  font-family: 'Uncut Sans';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 600;
+  src: url(uncut-sans-latin-600-normal.woff2) format('woff2');
+}
+/* Uncut Sans 600 italic (latin) */
+@font-face {
+  font-family: 'Uncut Sans';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 600;
+  src: url(uncut-sans-latin-600-italic.woff2) format('woff2');
+}
+/* Uncut Sans 700 normal (latin) */
+@font-face {
+  font-family: 'Uncut Sans';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url(uncut-sans-latin-700-normal.woff2) format('woff2');
+}
+/* Uncut Sans 700 italic (latin) */
+@font-face {
+  font-family: 'Uncut Sans';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 700;
+  src: url(uncut-sans-latin-700-italic.woff2) format('woff2');
+}
+/* League Mono 100 normal (latin) */
+@font-face {
+  font-family: 'League Mono';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100;
+  src: url(league-mono-latin-100-normal.woff2) format('woff2');
+}
+/* League Mono 200 normal (latin) */
+@font-face {
+  font-family: 'League Mono';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 200;
+  src: url(league-mono-latin-200-normal.woff2) format('woff2');
+}
+/* League Mono 300 normal (latin) */
+@font-face {
+  font-family: 'League Mono';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 300;
+  src: url(league-mono-latin-300-normal.woff2) format('woff2');
+}
+/* League Mono 400 normal (latin) */
+@font-face {
+  font-family: 'League Mono';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url(league-mono-latin-400-normal.woff2) format('woff2');
+}
+/* League Mono 500 normal (latin) */
+@font-face {
+  font-family: 'League Mono';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 500;
+  src: url(league-mono-latin-500-normal.woff2) format('woff2');
+}
+/* League Mono 600 normal (latin) */
+@font-face {
+  font-family: 'League Mono';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 600;
+  src: url(league-mono-latin-600-normal.woff2) format('woff2');
+}
+/* League Mono 700 normal (latin) */
+@font-face {
+  font-family: 'League Mono';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url(league-mono-latin-700-normal.woff2) format('woff2');
+}
+/* League Mono 800 normal (latin) */
+@font-face {
+  font-family: 'League Mono';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 800;
+  src: url(league-mono-latin-800-normal.woff2) format('woff2');
+}

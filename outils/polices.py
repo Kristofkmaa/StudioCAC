@@ -1,8 +1,13 @@
 """Héberge les polices Google sur le site (dossier polices/) au lieu de les charger chez Google.
 Pour chaque lien fonts.googleapis.com trouvé dans les pages : télécharge les fichiers woff2
 (alphabet latin seulement), écrit une feuille polices/<nom>.css et remplace le lien dans la page.
-À relancer si on ajoute une police : python3 outils/polices.py"""
-import hashlib, pathlib, re, urllib.request
+À relancer si on ajoute une police : python3 outils/polices.py
+
+Polices de fonderies indépendantes (Velvetyne, Collletttivo…, licence libre), récupérées par npm (Fontsource) :
+    python3 outils/polices.py libre bagnard uncut-sans
+écrit polices/<noms>-libre-<code>.css et affiche le lien à mettre dans la page. La liste est dans
+outils/styles/polices.json (« _libres »)."""
+import hashlib, io, json, pathlib, re, sys, tarfile, urllib.request
 
 RACINE = pathlib.Path(__file__).resolve().parent.parent
 DOSSIER = RACINE / "polices"
@@ -36,7 +41,37 @@ def feuille(url):
     css_file.write_text("/* Polices hébergées sur le site (licence SIL Open Font License), générées par outils/polices.py */\n" + "\n".join(sortie) + "\n")
     return css_file.name
 
+def libre(ids):
+    """Télécharge les paquets @fontsource/<id> depuis npm et écrit une feuille de styles hébergée sur le site."""
+    nom = "-".join(ids)[:60] + "-libre-" + hashlib.sha1(" ".join(ids).encode()).hexdigest()[:6]
+    sortie = []
+    for i in ids:
+        info = json.loads(get(f"https://registry.npmjs.org/@fontsource/{i}/latest"))
+        paquet = tarfile.open(fileobj=io.BytesIO(get(info["dist"]["tarball"])))
+        lire = lambda chemin: paquet.extractfile(paquet.getmember("package/" + chemin)).read()
+        meta = json.loads(lire("metadata.json"))
+        for sous in meta["subsets"]:
+            if sous not in GARDER:
+                continue
+            for poids in meta["weights"]:
+                for style in meta["styles"]:
+                    fichier = f"{i}-{sous}-{poids}-{style}.woff2"
+                    try:
+                        donnees = lire("files/" + fichier)
+                    except KeyError:
+                        continue
+                    (DOSSIER / fichier).write_bytes(donnees)
+                    sortie.append(f"/* {meta['family']} {poids} {style} ({sous}) */\n@font-face {{\n  font-family: '{meta['family']}';\n"
+                                  f"  font-style: {style};\n  font-display: swap;\n  font-weight: {poids};\n  src: url({fichier}) format('woff2');\n}}")
+        lic = meta["license"]
+        sortie.insert(0, f"/* {meta['family']} : {lic['type']}, {lic['attribution']} ({lic['url']}) */")
+    (DOSSIER / f"{nom}.css").write_text("/* Polices de fonderies indépendantes hébergées sur le site, générées par outils/polices.py libre */\n" + "\n".join(sortie) + "\n")
+    print(f'<link rel="stylesheet" href="polices/{nom}.css">   (préfixer de ../../ pour un site client)')
+
 DOSSIER.mkdir(exist_ok=True)
+if sys.argv[1:2] == ["libre"]:
+    libre(sys.argv[2:]) if sys.argv[2:] else sys.exit("Préciser les polices : python3 outils/polices.py libre bagnard uncut-sans")
+    sys.exit()
 for page in sorted(list(RACINE.glob("*.html")) + list(RACINE.glob("outils/**/*.html")) + list(RACINE.glob("clients/**/*.html")) + list(RACINE.glob("essais/**/*.html"))):
     texte = page.read_text()
     if "fonts.googleapis.com" not in texte:

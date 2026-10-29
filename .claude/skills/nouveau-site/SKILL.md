@@ -40,7 +40,7 @@ python3 outils/tirage.py <nom> --charte <style des titres de la charte> --exclur
 - **Barre collante du bas** (Appeler / Réserver) : cachée tant que le premier écran est visible, pour ne pas masquer ses boutons.
 - **En-tête** : symétrique ou franchement aligné, jamais des liens collés aux bords loin du logo ; pas deux fois le même symbole (logo et couronne) l'un sous l'autre.
 - **Grands titres en capitales** (Anton, Bodoni…) : vérifier que les accents (É, Ê) ne touchent pas la ligne du dessus ; interligne 1,1 ou plus si besoin. Pas de mot coupé (« jet- / skis ») ni de chiffre séparé de son unité : `&nbsp;`.
-- **Polices** : lien Google Fonts dans la page, puis `python3 outils/polices.py` pour les héberger sur le site.
+- **Polices** : lien Google Fonts dans la page, puis `python3 outils/polices.py` pour les héberger sur le site. Pour une police de fonderie indépendante (Bagnard, Redaction, Bluu Next, Apfel Grotezk, Cooper Hewitt, Uncut Sans, League Mono ; aperçu dans `outils/polices-independantes.html`) : `python3 outils/polices.py libre <code>` et mettre le lien affiché. Elles sont moins vues que Google Fonts : à préférer quand elles vont avec la charte.
 - **Sites clients** : `clients/<nom>/index.html`, `noindex`, bandeau « maquette à valider ». Démos : `demo-<nom>.html`, bandeau « site de démonstration ».
 
 ## 5. Vérifier avant de livrer

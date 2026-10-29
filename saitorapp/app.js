@@ -57,9 +57,9 @@
   }
 
   /* une page : barre du haut (retour en rond, petit titre), titre avec son sourcil, contenu ; le + noir à côté des onglets */
-  function ecran({ titre, sourcil = "", sous = "", retour = "", corps, pousse = false, plus = null, plusLabel = "Ajouter", hero = "", profil = false }) {
+  function ecran({ titre, sourcil = "", sous = "", retour = "", corps, pousse = false, plus = null, plusLabel = "Ajouter", hero = "" }) {
     $("page").innerHTML = `<header class="nav-haut ${hero ? "sur-photo" : ""}" id="navHaut"><div class="g">${retour ? `<a class="rond" href="${retour}" aria-label="Retour">${retourIco}</a>` : ""}</div><div class="titre-petit">${esc(titre)}</div><div class="d"></div></header>
-      <div class="ecran ${pousse ? "pousse" : ""}">${hero || `<div class="grand-titre">${sourcil ? `<p class="sourcil">${esc(sourcil)}</p>` : ""}${profil ? `<a class="profil" href="#/site" aria-label="${esc(S.nom)}">${S.marque ? `<img src="${esc(S.marque)}" alt="">` : esc(initiales(S.nom))}</a>` : ""}<h1 id="grandTitre">${esc(titre)}</h1>${sous ? `<p>${sous}</p>` : ""}</div>`}${corps}</div>`;
+      <div class="ecran ${pousse ? "pousse" : ""}">${hero || `<div class="grand-titre">${sourcil ? `<p class="sourcil">${esc(sourcil)}</p>` : ""}<h1 id="grandTitre">${esc(titre)}</h1>${sous ? `<p>${sous}</p>` : ""}</div>`}${corps}</div>`;
     if (hero) { const n = $("navHaut"); n.style.position = "fixed"; n.style.left = n.style.right = "0"; n.style.margin = "0"; }
     /* un seul observateur à la fois : l'ancien titre retiré ne doit pas remplir la nouvelle barre */
     if (ecran.io) ecran.io.disconnect();
@@ -133,11 +133,10 @@
   }
   /* le gros chiffre et sa courbe (Fuse) */
   /* le gros chiffre et sa courbe (Fuse) : la courbe est dessinée à la taille de l'écran, on la parcourt au doigt */
-  /* la carte d'activité : le total en couleur et une barre par jour, qu'on parcourt au doigt */
-  function chiffre({ id, lbl, val, n: total = null, delta = null, periodes, actif, points, dates = [], c = COUL.vert }) {
-    return `<section class="carte-f chiffre" id="${id}" style="--c:${c}"><div class="cf-tete"><p class="cf-titre" id="cLbl">${lbl}</p><div class="periodes" role="group">${periodes.map(([k, t]) => `<button type="button" data-per="${k}" aria-pressed="${k === actif}">${t}</button>`).join("")}</div></div>
-      <p class="c-val num" ${total != null ? `data-n="${total}"` : ""} style="color:${c}">${val}</p>${delta == null ? "" : `<p class="delta ${delta < 0 ? "bas" : delta === 0 ? "zero" : ""}">${delta < 0 ? "↘" : "↗"} ${Math.abs(delta)} % sur la période d'avant</p>`}
-      <div class="courbe" data-pts="${points.map(v => Math.round(v * 100) / 100).join(",")}" data-dates="${dates.map(d => T.iso(d)).join(",")}" role="img" aria-label="${esc(lbl)}"></div></section>`;
+  function chiffre({ id, lbl, val, n: total = null, delta = null, periodes, actif, points, dates = [] }) {
+    return `<section class="chiffre" id="${id}"><p class="c-lbl"><span id="cLbl">${lbl}</span>${delta == null ? "" : ` <span class="delta ${delta < 0 ? "bas" : delta === 0 ? "zero" : ""}">${delta < 0 ? "↘" : "↗"} ${Math.abs(delta)} %</span>`}</p><p class="c-val num" ${total != null ? `data-n="${total}"` : ""}>${val}</p>
+      <div class="courbe" data-pts="${points.map(v => Math.round(v * 100) / 100).join(",")}" data-dates="${dates.map(d => T.iso(d)).join(",")}" data-lbl="${esc(lbl)}" role="img" aria-label="${esc(lbl)}"></div>
+      <div class="periodes" role="group">${periodes.map(([k, t]) => `<button type="button" data-per="${k}" aria-pressed="${k === actif}">${t}</button>`).join("")}</div></section>`;
   }
   /* une courbe douce qui passe par tous les points, sans dépasser au-dessus ni au-dessous (Fritsch-Carlson) */
   function douce(P) {
@@ -154,31 +153,41 @@
   function dessineCourbe() {
     const el = document.querySelector(".courbe[data-pts]"); if (!el) return;
     const pts = el.dataset.pts.split(",").map(Number), dates = el.dataset.dates ? el.dataset.dates.split(",") : [];
-    const W = el.clientWidth, H = 120, n = pts.length, max = Math.max(1, ...pts);
-    const pas = W / n, bw = Math.max(2, Math.min(10, pas * .5));
-    const x = i => pas * i + pas / 2, h = v => v ? Math.max(4, v / max * (H - 24)) : 2;
-    const etiquettes = [0, Math.floor(n / 2), n - 1].filter((v, i, a) => a.indexOf(v) === i);
-    el.innerHTML = `<svg width="${W}" height="${H + 18}" viewBox="0 0 ${W} ${H + 18}" aria-hidden="true">
-      ${[0, .5, 1].map(f => `<line x1="0" x2="${W}" y1="${(H - (H - 24) * f).toFixed(1)}" y2="${(H - (H - 24) * f).toFixed(1)}" stroke="var(--gris-3)" stroke-dasharray="1.5 3"/>`).join("")}
-      <text x="${W}" y="16" text-anchor="end" font-size="11" fill="var(--gris)">${eur(max)}</text>
-      ${pts.map((v, i) => `<rect class="b" x="${(x(i) - bw / 2).toFixed(1)}" y="${(H - h(v)).toFixed(1)}" width="${bw.toFixed(1)}" height="${h(v).toFixed(1)}" rx="${(bw / 2).toFixed(1)}" fill="${v ? "var(--c)" : "var(--gris-3)"}" style="--i:${i}"/>`).join("")}
-      ${etiquettes.map(i => `<text x="${x(i).toFixed(1)}" y="${H + 15}" text-anchor="${i === 0 ? "start" : i === n - 1 ? "end" : "middle"}" font-size="11" fill="var(--gris)">${dates[i] ? dC(dates[i]) : ""}</text>`).join("")}</svg>`;
-    if (!matchMedia("(prefers-reduced-motion: reduce)").matches) el.classList.add("anime");
-    /* le doigt sur les barres : le jour et son montant */
-    const val = document.querySelector(".c-val"), lbl = document.querySelector("#cLbl"), lbl0 = lbl.textContent, fin = +val.dataset.n, barres = el.querySelectorAll(".b");
+    const W = el.clientWidth, H = 150, haut = 14, bas = 10, n = pts.length;
+    const max = Math.max(...pts), min = Math.min(...pts), plat = max === min;
+    const P = pts.map((v, i) => [6 + i / Math.max(1, n - 1) * (W - 14), plat ? H / 2 : haut + (1 - (v - min) / (max - min)) * (H - haut - bas)]);
+    const ligne = douce(P), aire = `${ligne} L${W},${H} L0,${H} Z`, [xf, yf] = P[n - 1];
+    el.innerHTML = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" aria-hidden="true">
+      <defs><linearGradient id="fondu" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--encre)" stop-opacity=".09"/><stop offset="1" stop-color="var(--encre)" stop-opacity="0"/></linearGradient></defs>
+      <path class="c-aire" d="${aire}" fill="url(#fondu)"/>
+      <path class="c-ligne" d="${ligne}" fill="none" stroke="var(--encre)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      <line class="c-repere" x1="0" x2="0" y1="0" y2="${H}" stroke="var(--gris-3)" stroke-width="1" opacity="0"/>
+      <circle class="c-bout" cx="${xf}" cy="${yf}" r="4.5" fill="var(--encre)"/><circle class="c-onde" cx="${xf}" cy="${yf}" r="4.5" fill="none" stroke="var(--encre)" stroke-width="1.5"/>
+      <circle class="c-doigt" r="6" fill="var(--blanc)" stroke="var(--encre)" stroke-width="2.5" opacity="0"/></svg>`;
+    /* le trait se dessine, en pixels réels (fiable sur Safari) */
+    const chemin = el.querySelector(".c-ligne");
+    if (!matchMedia("(prefers-reduced-motion: reduce)").matches && chemin.getTotalLength) {
+      const L = chemin.getTotalLength(); chemin.style.strokeDasharray = L; chemin.style.strokeDashoffset = L;
+      chemin.getBoundingClientRect(); chemin.style.transition = "stroke-dashoffset 1.1s cubic-bezier(.32,.72,0,1)"; chemin.style.strokeDashoffset = 0;
+      el.classList.add("anime");
+    }
+    /* le doigt sur la courbe : le montant et la date suivent */
+    const val = document.querySelector(".c-val"), lbl = document.querySelector("#cLbl"), delta = document.querySelector(".chiffre .delta"), lbl0 = lbl.textContent, fin = +val.dataset.n;
+    const rep = el.querySelector(".c-repere"), doigt = el.querySelector(".c-doigt"), bout = el.querySelectorAll(".c-bout,.c-onde");
     let dernier = -1;
-    const montre = px => {
-      const i = Math.max(0, Math.min(n - 1, Math.floor(px / pas))); if (i === dernier) return; dernier = i;
-      barres.forEach((b, k) => b.style.opacity = k === i ? 1 : .3);
-      val.innerHTML = eurG(pts[i]); lbl.textContent = dates[i] ? (T.iso(T.auj()) === dates[i] ? "Aujourd'hui" : dL(dates[i])) : lbl0;
+    const montre = x => {
+      const i = Math.max(0, Math.min(n - 1, Math.round((x - 6) / (W - 14) * (n - 1)))); if (i === dernier) return; dernier = i;
+      rep.setAttribute("x1", P[i][0]); rep.setAttribute("x2", P[i][0]); rep.setAttribute("opacity", 1);
+      doigt.setAttribute("cx", P[i][0]); doigt.setAttribute("cy", P[i][1]); doigt.setAttribute("opacity", 1); bout.forEach(b => b.setAttribute("opacity", 0));
+      val.innerHTML = eurG(pts[i]); lbl.textContent = dates[i] ? (T.iso(T.auj()) === dates[i] ? "Jusqu'à aujourd'hui" : `Jusqu'au ${dL(dates[i]).toLowerCase()}`) : lbl0; if (delta) delta.hidden = true;
       if (navigator.vibrate) navigator.vibrate(3);
     };
-    const lache = () => { dernier = -1; barres.forEach(b => b.style.opacity = ""); val.innerHTML = eurG(fin); lbl.textContent = lbl0; };
-    const px = e => (e.touches ? e.touches[0].clientX : e.clientX) - el.getBoundingClientRect().left;
-    el.addEventListener("touchstart", e => montre(px(e)), { passive: true });
-    el.addEventListener("touchmove", e => { e.preventDefault(); montre(px(e)); }, { passive: false });
+    const lache = () => { dernier = -1; rep.setAttribute("opacity", 0); doigt.setAttribute("opacity", 0); bout.forEach(b => b.setAttribute("opacity", 1)); val.innerHTML = eurG(fin); lbl.textContent = lbl0; if (delta) delta.hidden = false; };
+    const x = e => (e.touches ? e.touches[0].clientX : e.clientX) - el.getBoundingClientRect().left;
+    el.addEventListener("touchstart", e => montre(x(e)), { passive: true });
+    el.addEventListener("touchmove", e => { e.preventDefault(); montre(x(e)); }, { passive: false });
     el.addEventListener("touchend", lache);
-    el.addEventListener("mousemove", e => montre(px(e)));
+    el.addEventListener("mousemove", e => montre(x(e)));
     el.addEventListener("mouseleave", lache);
   }
   const teinte = nom => { let h = 0; for (const c of nom) h = (h * 31 + c.charCodeAt(0)) % 360; return h; };
@@ -187,29 +196,6 @@
   const glisse = (ligne, actions) => actions.length ? `<div class="glisse"><div class="actions">${actions.map(([t, cls, act]) => `<button type="button" class="${cls}" data-act="${act}">${t}</button>`).join("")}</div>${ligne}</div>` : ligne;
   const tuile = ({ titre, sous = "", val = "", icone, couleur, href = "", cls = "" }) =>
     `<${href ? `a href="${href}"` : "div"} class="tuile ${cls}"><span class="ic ${couleur}">${ico(icone, 19)}</span><b>${titre}</b>${val !== "" ? `<span class="t-val num">${val}</span>` : ""}${sous ? `<small>${sous}</small>` : ""}</${href ? "a" : "div"}>`;
-
-  /* =====================================================================
-     STYLE « FITNESS » : anneaux, mesures en couleur, barres d'activité
-     ===================================================================== */
-  const COUL = { rouge: "#FA114F", vert: "#A6FF00", cyan: "#1EEAEF", violet: "#B48CFF", bleu: "#4BA3FF", orange: "#FF9F0A" };
-  /* trois anneaux concentriques, comme les anneaux d'activité ; p de 0 à 1 */
-  function anneaux(titre, items, lien = "") {
-    const R = [54, 39, 24], ep = 13;
-    const svg = `<svg class="an-svg" viewBox="0 0 130 130" aria-hidden="true">${items.map((it, k) => { const r = R[k], C = 2 * Math.PI * r, p = Math.max(0, Math.min(1, it.p || 0));
-      return `<circle cx="65" cy="65" r="${r}" fill="none" stroke="${it.c}" stroke-opacity=".22" stroke-width="${ep}"/><circle class="an-arc" cx="65" cy="65" r="${r}" fill="none" stroke="${it.c}" stroke-width="${ep}" stroke-linecap="round" stroke-dasharray="${C.toFixed(1)}" stroke-dashoffset="${(C * (1 - p)).toFixed(1)}" data-c="${C.toFixed(1)}" transform="rotate(-90 65 65)"/>`; }).join("")}</svg>`;
-    return `<${lien ? `a href="${lien}"` : "section"} class="carte-f anneaux"><p class="cf-titre">${titre}${lien ? chev : ""}</p><div class="an-corps">${svg}<div class="an-leg">${items.map(it => `<p><b>${it.lbl}</b><span class="num" style="color:${it.c}">${it.val}<small>${it.unite || ""}</small></span></p>`).join("")}</div></div></${lien ? "a" : "section"}>`;
-  }
-  /* les anneaux se remplissent à l'ouverture */
-  function animeAnneaux() {
-    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    document.querySelectorAll(".an-arc").forEach((a, k) => { const fin = a.getAttribute("stroke-dashoffset"); a.style.strokeDashoffset = a.dataset.c; a.getBoundingClientRect(); a.style.transition = `stroke-dashoffset 1.2s cubic-bezier(.32,.72,0,1) ${k * .12}s`; a.style.strokeDashoffset = fin; });
-  }
-  /* une mesure : titre, sous-titre, gros chiffre en couleur et petites barres */
-  function mesure({ titre, sous = "Aujourd'hui", val, unite = "", c, barres = null, href = "", note = "" }) {
-    const max = barres ? Math.max(1, ...barres) : 1;
-    const b = barres ? `<svg class="me-barres" viewBox="0 0 ${barres.length * 6} 40" preserveAspectRatio="none" aria-hidden="true"><line x1="0" x2="${barres.length * 6}" y1="39.5" y2="39.5" stroke="currentColor" stroke-opacity=".25" stroke-dasharray="1 2"/>${barres.map((v, i) => `<rect x="${i * 6 + 2}" y="${40 - Math.max(v ? 3 : 1, v / max * 38)}" width="2" height="${Math.max(v ? 3 : 1, v / max * 38)}" rx="1" fill="${v ? c : "currentColor"}" ${v ? "" : 'fill-opacity=".25"'}/>`).join("")}</svg>` : note ? `<p class="me-note">${note}</p>` : "";
-    return `<${href ? `a href="${href}"` : "div"} class="carte-f mesure"><p class="cf-titre">${titre}${href ? chev : ""}</p><p class="me-sous">${sous}</p><p class="me-val num" style="color:${c}">${val}<small>${unite}</small></p>${b}</${href ? "a" : "div"}>`;
-  }
 
   /* =====================================================================
      BOUTIQUE : commandes et produits
@@ -595,98 +581,78 @@
     requestAnimationFrame(pas);
   }
 
-  const parJourDe = (debut, n, f) => [...Array(n)].map((_, i) => f(T.iso(T.plus(debut, i))));
-  const pct = (a, b) => b ? Math.round(a / b * 100) : 0;
-
   function aujBoutique() {
     const t = T.auj(), cmd = [...D.commandes].sort((a, b) => new Date(b.date) - new Date(a.date));
     const ouvertes = cmd.filter(o => o.statut === "nouvelle" || o.statut === "a-coudre"), pretes = cmd.filter(o => o.statut === "prete");
     const nouv = ouvertes.filter(o => o.statut === "nouvelle").length, bas = D.produits.filter(p => !p.surCommande && p.stock <= p.seuil);
     const atelier = ouvertes.flatMap(o => o.lignes.map(l => ({ o, l }))).sort((a, b) => new Date(a.o.date) - new Date(b.o.date));
     const parJour = d => cmd.filter(o => o.date.slice(0, 10) === d).reduce((s, o) => s + total(o), 0);
-    const nbJour = d => cmd.filter(o => o.date.slice(0, 10) === d).length;
-    /* les anneaux : les ventes du mois face à la moyenne des deux mois d'avant, les commandes du mois déjà prêtes, le stock */
-    const m = (dec) => { const d = new Date(t.getFullYear(), t.getMonth() + dec, 1); return cmd.filter(o => { const x = new Date(o.date); return x.getMonth() === d.getMonth() && x.getFullYear() === d.getFullYear(); }); };
-    const mois = m(0), venteMois = mois.reduce((s, o) => s + total(o), 0), objectif = Math.max(100, Math.round(([m(-1), m(-2)].reduce((s, l) => s + l.reduce((x, o) => x + total(o), 0), 0) / 2) / 10) * 10);
-    const faites = mois.filter(o => ["prete", "remise"].includes(o.statut)).length, suivis = D.produits.filter(p => !p.surCommande), enStock = suivis.filter(p => p.stock > p.seuil).length;
-    const leChiffre = () => { const n = NJ[per], r = serie(T.plus(t, -n + 1), n, parJour, false); return chiffre({ id: "leChiffre", lbl: `Ventes, ${n} jours`, val: eurG(r.tot), n: r.tot, delta: r.delta, periodes: PERIODES, actif: per, points: r.pts, dates: r.dates, c: COUL.vert }); };
-    ecran({ titre: "Aujourd'hui", sous: dL(t), profil: true, corps: `
-      ${anneaux("Objectifs du mois", [
-        { lbl: "Ventes", val: `${Math.round(venteMois)}/${objectif}`, unite: "€", p: venteMois / objectif, c: COUL.rouge },
-        { lbl: "Préparées", val: `${faites}/${mois.length}`, unite: "CMD", p: mois.length ? faites / mois.length : 0, c: COUL.vert },
-        { lbl: "En stock", val: `${enStock}/${suivis.length}`, unite: "PROD", p: suivis.length ? enStock / suivis.length : 0, c: COUL.cyan }], "#/commandes")}
-      <div class="mesures">
-        ${mesure({ titre: "À préparer", sous: nouv ? pl(nouv, "nouvelle") : "rien de nouveau", val: ouvertes.length, unite: "CMD", c: COUL.orange, barres: parJourDe(T.plus(t, -13), 14, nbJour), href: "#/commandes" })}
-        ${mesure({ titre: "Prêtes", sous: "à remettre", val: pretes.length, unite: "CMD", c: COUL.vert, href: "#/commandes?prete", note: pretes.slice(0, 2).map(o => esc(o.client)).join(", ") || "aucune" })}
-        ${mesure({ titre: "Stock bas", sous: "à recoudre", val: bas.length, unite: "PROD", c: bas.length ? COUL.rouge : COUL.cyan, href: "#/produits?bas", note: bas.slice(0, 2).map(p => esc(p.nom)).join(", ") || "tout va bien" })}
-        ${mesure({ titre: "En ligne", sous: "sur le site", val: D.produits.filter(p => p.enLigne).length, unite: "PROD", c: COUL.cyan, href: "#/produits", note: `${D.produits.length} au total` })}
+    const leChiffre = () => { const n = NJ[per], r = serie(T.plus(t, -n + 1), n, parJour, true); return chiffre({ id: "leChiffre", lbl: `Ventes sur ${n} jours`, val: eurG(r.tot), n: r.tot, delta: r.delta, periodes: PERIODES, actif: per, points: r.pts, dates: r.dates }); };
+    ecran({ titre: "Aujourd'hui",
+      hero: hero({ phrase: ouvertes.length ? `${pl(ouvertes.length, "commande")} à préparer<span>${nouv ? `, dont ${pl(nouv, "nouvelle")}` : ""}.</span>` : `Tout est prêt.<span> Aucune commande en attente.</span>`,
+        verres: [["Nouveau produit", "boite", "", "vNouv"], ["Voir mon site", "site", S.site]] }),
+      corps: `${leChiffre()}
+      <div class="tuiles">
+        ${tuile({ titre: "À préparer", val: ouvertes.length, sous: nouv ? pl(nouv, "nouvelle") : "rien de nouveau", icone: "sac", couleur: "bleu", href: "#/commandes" })}
+        ${tuile({ titre: "Prêtes", val: pretes.length, sous: "à remettre", icone: "sac", couleur: "vert", href: "#/commandes?prete" })}
+        ${tuile({ titre: "Stock bas", val: bas.length, sous: bas.length ? "à recoudre" : "tout va bien", icone: "boite", couleur: "orange", href: "#/produits?bas", cls: bas.length ? "alerte" : "" })}
+        ${tuile({ titre: "En ligne", val: D.produits.filter(p => p.enLigne).length, sous: "produits sur le site", icone: "site", couleur: "noir", href: "#/produits" })}
       </div>
-      ${leChiffre()}
       <p class="entete-groupe fort">À l'atelier <a href="#/commandes">Tout voir</a></p>
       ${atelier.length ? `<div class="groupe">${atelier.slice(0, 6).map(({ o, l }) => `<a class="ligne av-image" href="#/commandes/${o.id}">${photoDe(l.produit)}<span><b class="gras">${l.prenom ? esc(l.prenom) : esc(l.nom)}</b><small>${l.prenom ? esc(l.nom) + " · " : ""}${esc(o.client)}, ${dC(o.date)}</small></span>${l.q > 1 ? `<span class="valeur num">× ${l.q}</span>` : ""}${chev}</a>`).join("")}</div>` : `<div class="vide-doux">Rien à coudre pour l'instant.</div>`}` });
+    $("vNouv").onclick = () => feuilleProduit();
     brancheChiffre(leChiffre);
   }
 
   function aujInstitut() {
     const t = T.auj(), ti = T.iso(t), now = new Date(), mn = now.getHours() * 60 + now.getMinutes();
-    const jourL = rdvDuJour(ti), restants = jourL.filter(r => r.debut + presta(r.presta).duree > mn && r.statut !== "absent");
-    const faits = jourL.filter(r => r.statut === "venu" || (r.statut === "confirme" && r.debut + presta(r.presta).duree <= mn));
+    const jourL = rdvDuJour(ti), restants = jourL.filter(r => r.debut + presta(r.presta).duree > mn && r.statut !== "absent"), proch = restants.find(r => r.debut >= mn) || restants[0];
     const dem = D.rdv.filter(r => r.statut === "demande").sort((a, b) => (a.date + String(a.debut).padStart(4, "0")).localeCompare(b.date + String(b.debut).padStart(4, "0")));
-    const ca = d => D.rdv.filter(r => r.date === d && ["venu", "confirme"].includes(r.statut)).reduce((s, r) => s + presta(r.presta).prix, 0);
-    const parJour = d => d <= ti ? ca(d) : 0;
-    /* objectif du jour : la moyenne des quatre mêmes jours de semaine passés */
-    const objectif = Math.max(50, Math.round([7, 14, 21, 28].reduce((s, k) => s + ca(T.iso(T.plus(t, -k))), 0) / 4 / 10) * 10);
-    const H = D.horaires || { ouverture: 540, fermeture: 1140 }, ouvert = (H.fermeture - H.ouverture) * Math.max(1, D.equipe.length);
-    const pris = jourL.filter(r => r.statut !== "absent").reduce((s, r) => s + presta(r.presta).duree, 0);
-    const parHeure = [...Array(10)].map((_, k) => jourL.filter(r => Math.floor(r.debut / 60) === 9 + k).length);
-    const leChiffre = () => { const n = NJ[per], r = serie(T.plus(t, -n + 1), n, parJour, false); return chiffre({ id: "leChiffre", lbl: `Chiffre, ${n} jours`, val: eurG(r.tot), n: r.tot, delta: r.delta, periodes: PERIODES, actif: per, points: r.pts, dates: r.dates, c: COUL.vert }); };
-    ecran({ titre: "Aujourd'hui", sous: dL(t), profil: true, corps: `
-      ${anneaux("Objectifs du jour", [
-        { lbl: "Rendez-vous", val: `${faits.length}/${jourL.length}`, unite: "RDV", p: jourL.length ? faits.length / jourL.length : 0, c: COUL.rouge },
-        { lbl: "Chiffre", val: `${Math.round(ca(ti))}/${objectif}`, unite: "€", p: ca(ti) / objectif, c: COUL.vert },
-        { lbl: "Agenda rempli", val: pct(pris, ouvert), unite: "%", p: pris / ouvert, c: COUL.cyan }], "#/agenda")}
-      <div class="mesures">
-        ${mesure({ titre: "Restants", sous: "aujourd'hui", val: restants.length, unite: "RDV", c: COUL.rouge, barres: parHeure, href: "#/agenda" })}
-        ${mesure({ titre: "À confirmer", sous: "demandes du site", val: dem.length, unite: "", c: COUL.bleu, href: "#/agenda", note: dem.slice(0, 2).map(r => esc(client(r.client).nom.split(" ")[0])).join(", ") || "aucune" })}
-        ${mesure({ titre: "Clients", sous: "dans le fichier", val: D.clients.length, unite: "", c: COUL.violet, href: "#/clients", note: `${new Set(D.rdv.filter(r => r.date >= T.iso(T.plus(t, -30)) && r.statut === "venu").map(r => r.client)).size} venus ce mois` })}
-        ${mesure({ titre: "Carte", sous: "prestations", val: D.prestations.length, unite: "", c: COUL.orange, href: "#/prestations", note: `de ${eur(Math.min(...D.prestations.map(p => p.prix)))} à ${eur(Math.max(...D.prestations.map(p => p.prix)))}` })}
+    const parJour = d => D.rdv.filter(r => r.date === d && ["venu", "confirme"].includes(r.statut) && d <= ti).reduce((s, r) => s + presta(r.presta).prix, 0);
+    const leChiffre = () => { const n = NJ[per], r = serie(T.plus(t, -n + 1), n, parJour, true); return chiffre({ id: "leChiffre", lbl: `Chiffre sur ${n} jours`, val: eurG(r.tot), n: r.tot, delta: r.delta, periodes: PERIODES, actif: per, points: r.pts, dates: r.dates }); };
+    ecran({ titre: "Aujourd'hui",
+      hero: hero({ phrase: jourL.length ? `${pl(jourL.length, "rendez-vous", "rendez-vous")} aujourd'hui<span>${proch ? `, prochain à ${hm(proch.debut)} avec ${esc(client(proch.client).nom.split(" ")[0])}` : ", la journée est finie"}.</span>` : `Journée libre.<span> Aucun rendez-vous aujourd'hui.</span>`,
+        verres: [["Nouveau rendez-vous", "agenda", "", "vRdv"], ["Voir l'agenda", "gens", "#/agenda"]] }),
+      corps: `${leChiffre()}
+      <div class="tuiles">
+        ${tuile({ titre: "À confirmer", val: dem.length, sous: "demandes du site", icone: "agenda", couleur: "bleu", href: "#/agenda" })}
+        ${tuile({ titre: "Restants", val: restants.length, sous: "aujourd'hui", icone: "agenda", couleur: "vert", href: "#/agenda" })}
+        ${tuile({ titre: "Clients", val: D.clients.length, sous: "dans le fichier", icone: "gens", couleur: "violet", href: "#/clients" })}
+        ${tuile({ titre: "Carte", val: D.prestations.length, sous: "prestations", icone: "ciseaux", couleur: "noir", href: "#/prestations" })}
       </div>
-      ${dem.length ? `<p class="entete-groupe fort">À confirmer</p><div class="groupe">${dem.slice(0, 4).map(r => `<div class="ligne av-icone">${avatar(client(r.client).nom)}<span><b class="gras">${esc(client(r.client).nom)}</b><small>${esc(presta(r.presta).nom)} · ${dC(r.date)} à ${hm(r.debut)}</small></span><button class="bouton petit" data-oui="${r.id}">Accepter</button></div>`).join("")}</div>` : ""}
+      ${dem.length ? `<p class="entete-groupe fort">À confirmer</p><div class="groupe">${dem.slice(0, 4).map(r => `<div class="ligne"><span><b class="gras">${esc(client(r.client).nom)}</b><small>${esc(presta(r.presta).nom)} · ${dC(r.date)} à ${hm(r.debut)}</small></span><button class="bouton petit" data-oui="${r.id}">Accepter</button></div>`).join("")}</div>` : ""}
       <p class="entete-groupe fort">Rendez-vous du jour <a href="#/agenda">Agenda</a></p>
-      ${restants.length ? `<div class="groupe">${restants.map(ligneRdv).join("")}</div>` : `<div class="vide-doux">${jourL.length ? "La journée est terminée." : "Pas de rendez-vous aujourd'hui."}</div>`}
-      ${leChiffre()}` });
+      ${restants.length ? `<div class="groupe">${restants.map(ligneRdv).join("")}</div>` : `<div class="vide-doux">${jourL.length ? "La journée est terminée." : "Pas de rendez-vous aujourd'hui."}</div>`}` });
+    $("vRdv").onclick = () => feuilleNouveauRdv({ date: ti });
     brancheChiffre(leChiffre);
   }
 
   function aujHebergement() {
     const t = T.auj(), ti = T.iso(t), L = D.sejours.filter(s => !["annule", "ferme"].includes(s.statut));
-    const arr = L.filter(s => s.arrivee === ti), dep = L.filter(s => s.depart === ti), dem = L.filter(s => s.statut === "demande"), conf = L.filter(s => s.statut === "confirme");
-    const occupe = d => conf.filter(s => s.arrivee <= d && s.depart > d).length;
+    const arr = L.filter(s => s.arrivee === ti), dep = L.filter(s => s.depart === ti), dem = L.filter(s => s.statut === "demande");
     let nuits = 0; const cap = D.chambres.length * 30 || 1;
-    for (let k = 0; k < 30; k++) nuits += occupe(T.iso(T.plus(t, k)));
-    const avenir = L.filter(s => s.depart >= ti), confAvenir = avenir.filter(s => s.statut === "confirme").length;
-    const ceMois = (dec) => { const d0 = new Date(t.getFullYear(), t.getMonth() + dec, 1), d1 = new Date(t.getFullYear(), t.getMonth() + dec + 1, 1); let n = 0; for (let d = d0; d < d1; d = T.plus(d, 1)) n += occupe(T.iso(d)); return n; };
-    const nm = ceMois(0), np = Math.max(1, ceMois(-1));
-    const semaine = conf.filter(s => new Date(s.arrivee) > t && new Date(s.arrivee) < T.plus(t, 8)).sort((a, b) => a.arrivee.localeCompare(b.arrivee));
-    const parJour = d => conf.filter(s => s.arrivee <= d && s.depart > d).reduce((x, s) => x + chambre(s.chambre).prix, 0);
-    const leChiffre = () => { const n = NJ[per], r = serie(t, n, parJour, false); return chiffre({ id: "leChiffre", lbl: `Réservé, ${n} prochains jours`, val: eurG(r.tot), n: r.tot, periodes: PERIODES, actif: per, points: r.pts, dates: r.dates, c: COUL.cyan }); };
-    ecran({ titre: "Aujourd'hui", sous: dL(t), profil: true, corps: `
-      ${anneaux("La maison", [
-        { lbl: "Remplissage", val: pct(nuits, cap), unite: "% 30 J", p: nuits / cap, c: COUL.rouge },
-        { lbl: "Confirmés", val: `${confAvenir}/${avenir.length}`, unite: "SÉJ", p: avenir.length ? confAvenir / avenir.length : 0, c: COUL.vert },
-        { lbl: "Nuits du mois", val: `${nm}/${np}`, unite: "NUITS", p: nm / np, c: COUL.cyan }], "#/sejours")}
-      <div class="mesures">
-        ${mesure({ titre: "Arrivées", sous: "aujourd'hui", val: arr.length, c: COUL.vert, note: arr.map(s => esc(s.nom)).join(", ") || "personne" })}
-        ${mesure({ titre: "Départs", sous: "aujourd'hui", val: dep.length, c: COUL.orange, note: dep.map(s => esc(s.nom)).join(", ") || "personne" })}
-        ${mesure({ titre: "Occupation", sous: "14 prochains jours", val: occupe(ti), unite: `/${D.chambres.length}`, c: COUL.cyan, barres: parJourDe(t, 14, occupe), href: "#/sejours" })}
-        ${mesure({ titre: "À confirmer", sous: "demandes du site", val: dem.length, c: COUL.bleu, href: "#/sejours?demande", note: dem.slice(0, 2).map(s => esc(s.nom)).join(", ") || "aucune" })}
+    L.filter(s => s.statut === "confirme").forEach(s => { for (let d = new Date(s.arrivee); d < new Date(s.depart); d = T.plus(d, 1)) if (d >= t && d < T.plus(t, 30)) nuits++; });
+    const semaine = L.filter(s => s.statut === "confirme" && new Date(s.arrivee) > t && new Date(s.arrivee) < T.plus(t, 8)).sort((a, b) => a.arrivee.localeCompare(b.arrivee));
+    /* ce que rapportent les nuits réservées, jour par jour, sur les jours à venir */
+    const parJour = d => L.filter(s => s.statut === "confirme" && s.arrivee <= d && s.depart > d).reduce((x, s) => x + chambre(s.chambre).prix, 0);
+    const leChiffre = () => { const n = NJ[per], r = serie(t, n, parJour, true); return chiffre({ id: "leChiffre", lbl: `Réservé, ${n} prochains jours`, val: eurG(r.tot), n: r.tot, periodes: PERIODES, actif: per, points: r.pts, dates: r.dates }); };
+    ecran({ titre: "Aujourd'hui",
+      hero: hero({ phrase: arr.length ? `${pl(arr.length, "arrivée")} aujourd'hui<span>, ${Math.round(nuits / cap * 100)} % de remplissage sur 30 jours.</span>` : `Pas d'arrivée aujourd'hui.<span> ${Math.round(nuits / cap * 100)} % de remplissage sur 30 jours.</span>`,
+        verres: [["Ajouter un séjour", "lit", "", "vSej"], ["Fermer des dates", "agenda", "", "vFerme"]] }),
+      corps: `${leChiffre()}
+      <div class="tuiles">
+        ${tuile({ titre: "Arrivées", val: arr.length, sous: arr.map(s => esc(s.nom)).join(", ") || "aujourd'hui", icone: "lit", couleur: "bleu" })}
+        ${tuile({ titre: "Départs", val: dep.length, sous: dep.map(s => esc(s.nom)).join(", ") || "aujourd'hui", icone: "lit", couleur: "orange" })}
+        ${tuile({ titre: "Remplissage", val: `${Math.round(nuits / cap * 100)} %`, sous: `${nuits} nuits sur ${cap}`, icone: "agenda", couleur: "vert" })}
+        ${tuile({ titre: "À confirmer", val: dem.length, sous: "demandes du site", icone: "agenda", couleur: "noir", href: "#/sejours?demande" })}
       </div>
       <p class="entete-groupe fort">La maison, 14 jours <a href="#/sejours">Séjours</a></p>
       ${planning(t, 14)}
       ${arr.length ? `<p class="entete-groupe fort">Arrivent aujourd'hui</p><div class="groupe">${arr.map(ligneSejour).join("")}</div>` : ""}
       <p class="entete-groupe fort">Cette semaine</p>
-      ${semaine.length ? `<div class="groupe">${semaine.map(ligneSejour).join("")}</div>` : `<div class="vide-doux">Pas d'autre arrivée cette semaine.</div>`}
-      ${leChiffre()}` });
+      ${semaine.length ? `<div class="groupe">${semaine.map(ligneSejour).join("")}</div>` : `<div class="vide-doux">Pas d'autre arrivée cette semaine.</div>`}` });
+    $("vSej").onclick = () => feuilleNouveauSejour();
+    $("vFerme").onclick = () => feuilleNouveauSejour("ferme");
     brancheChiffre(leChiffre);
   }
 
@@ -694,8 +660,7 @@
     if (S.metier === "boutique") aujBoutique();
     else if (S.metier === "institut") aujInstitut();
     else if (S.metier === "hebergement") aujHebergement();
-    else ecran({ titre: "Aujourd'hui", sous: dL(T.auj()), profil: true, corps: `<div class="vide-doux">Votre site est en ligne. Ses textes se changent dans « Mon site ».</div>` });
-    animeAnneaux();
+    else ecran({ titre: "Aujourd'hui", hero: hero({ phrase: `Votre site est en ligne.<span> Ses textes se changent dans « Mon site ».</span>`, verres: [["Mon site", "site", "#/site"], ["Voir le site", "site", S.site]] }), corps: "" });
     brancheRdv(); brancheOui(); brancheSej();
   }
 

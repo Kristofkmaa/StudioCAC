@@ -161,11 +161,13 @@ main>section:not(.chapeau),main>div,.pied{position:relative;z-index:1}
 @media (min-width:981px){
   /* sur ordinateur aussi, Napoléon prend toute la page : immense, au centre, coupé par le bas de l'écran (on voit du bicorne aux médailles) */
   .scene{--ph:min(100svh,calc(70vw * 1374 / 1145))}
-  .portrait{left:57%;right:auto;bottom:auto;top:calc(var(--ph) * .19 + 24px);width:auto;height:var(--ph)}
+  .portrait{left:61%;right:auto;bottom:auto;top:calc(var(--ph) * .19 + 24px);width:auto;height:var(--ph)}
   /* le portrait du sacre est cadré plus large : sa tête est 1,707 fois plus petite dans l'image. On l'agrandit d'autant et on aligne
      les yeux, pour que les deux Napoléon (accueil et boutique) soient exactement au même endroit, à la même taille */
   .portrait.sacre{height:calc(var(--ph) * 1.707);top:calc(var(--ph) * .011 + 24px)}
-  .geant{z-index:3;align-self:center;margin:-2svh 0 0;font-size:clamp(3rem,min(12vw,20svh),14rem);text-shadow:0 4px 40px rgba(22,20,17,.55)}
+  /* une affiche « en coin » : le titre en bas à gauche, à côté de l'épaule, jamais sur le visage ; un voile monte du coin */
+  .geant{z-index:3;align-self:end;justify-self:start;width:min(48vw,820px);margin:0 0 8svh;font-size:clamp(3rem,min(7.4vw,15svh),9.5rem);text-shadow:0 4px 40px rgba(22,20,17,.7)}
+  .scene::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(to top right,rgba(22,20,17,.9) 0,rgba(22,20,17,.55) 30%,transparent 55%)}
 }
 /* sur téléphone, une composition d'affiche : Napoléon en haut (le visage vers le tiers de l'écran, la place du bicorne au-dessus),
    le titre en bas, posé sur son buste, sur un voile sombre qui monte du bas */

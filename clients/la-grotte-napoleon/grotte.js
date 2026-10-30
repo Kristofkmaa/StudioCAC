@@ -142,7 +142,7 @@
   const haut = () => { barre.classList.toggle("vue", scrollY > 120 && !boutonsVus); tete.classList.toggle("pleine", scrollY > 10); };
 
   /* ---------- le bicorne tombe sur sa tête, le titre repart de chaque côté ---------- */
-  const chapeau = $("chapeau"), bicorne = $("bicorne"), enfant = $("enfant"), portrait = chapeau && chapeau.querySelector(".portrait"), scene = chapeau && chapeau.querySelector(".scene"), chapeaux = chapeau ? [...chapeau.querySelectorAll(".bicorne")] : [], couronne = !!document.querySelector(".portrait.sacre"), lueur = chapeau && chapeau.querySelector(".eclat"), lignes = chapeau ? [...chapeau.querySelectorAll("#t-titre .ln")] : [], lignes2 = chapeau ? [...chapeau.querySelectorAll("#titreEmpereur .ln")] : [], titreEmpereur = $("titreEmpereur"), sensTel = [-1, 1, -1], ordi = matchMedia("(min-width: 981px)");
+  const chapeau = $("chapeau"), bicorne = $("bicorne"), enfant = $("enfant"), portrait = chapeau && chapeau.querySelector(".portrait"), scene = chapeau && chapeau.querySelector(".scene"), chapeaux = chapeau ? [...chapeau.querySelectorAll(".bicorne")] : [], couronne = !!document.querySelector(".portrait.sacre"), lignes = chapeau ? [...chapeau.querySelectorAll("#t-titre .ln")] : [], lignes2 = chapeau ? [...chapeau.querySelectorAll("#titreEmpereur .ln")] : [], titreEmpereur = $("titreEmpereur"), sensTel = [-1, 1, -1], ordi = matchMedia("(min-width: 981px)");
   const borne = x => Math.min(1, Math.max(0, x));
   /* la transformation (le chapeau tombe, l'enfant devient l'Empereur, les titres changent) se joue d'elle-même, à sa vitesse : à l'accueil
      quand on touche « Découvrir » (ou qu'on essaie de descendre), à la boutique dès qu'on commence à défiler. Elle ne se joue qu'une fois :
@@ -164,13 +164,12 @@
     const tasse = couronne ? 0 : rebond;
     /* l'enfant devient l'Empereur sous le bicorne : une ligne au bord doux descend de la tête (quand le chapeau la touche) jusqu'au bas du portrait ;
        au-dessus l'adulte, en dessous l'enfant, jamais les deux visages l'un sur l'autre */
-    /* l'enfant devient l'Empereur d'un coup, sous un éclat de lumière dorée, au moment où le bicorne se pose (plus de rideau qui descend :
-       sa ligne floue faisait une vague) ; l'éclat monte, l'échange se fait au plus fort, puis il retombe */
+    /* l'enfant devient l'Empereur dans un fondu doux qui descend de la tête aux pieds, à partir du moment où le bicorne la touche :
+       une large bande (30 % de la hauteur) où les deux se mêlent, sans ligne marquée ; l'enfant disparaît tout à fait à la fin */
     if (enfant) {
-      const passe = p >= .84, eclat = Math.max(0, 1 - Math.abs(p - .84) / .09);
-      portrait.style.setProperty("--l", passe ? "1.2" : "-.15"); portrait.style.setProperty("--le", passe ? "1" : "-.1");
-      enfant.style.visibility = passe ? "hidden" : "";
-      if (lueur) lueur.style.opacity = Math.pow(eclat, 1.4).toFixed(3);
+      const x = borne((p - .6) / .36), d = x * x * (3 - 2 * x), l = -.2 + 1.45 * d;
+      portrait.style.setProperty("--l", l.toFixed(4)); portrait.style.setProperty("--le", ((l + .1) / 1.62).toFixed(4));
+      enfant.style.visibility = x >= 1 ? "hidden" : "";
     }
     if (accroche) { const f = borne(p / .14); accroche.style.opacity = (1 - f).toFixed(3); accroche.style.transform = `translate3d(0,${(f * -10).toFixed(1)}px,0)`; accroche.style.visibility = f >= 1 ? "hidden" : ""; }
     /* puis, l'Empereur en place, ce qu'on vit à la Grotte et les boutons pour réserver */

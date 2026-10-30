@@ -87,7 +87,7 @@
   const haut = () => { barre.classList.toggle("vue", scrollY > 120 && !boutonsVus); tete.classList.toggle("pleine", scrollY > 10); };
 
   /* ---------- le bicorne tombe sur sa tête, le titre repart de chaque côté ---------- */
-  const chapeau = $("chapeau"), bicorne = $("bicorne"), enfant = $("enfant"), portrait = chapeau && chapeau.querySelector(".portrait"), scene = chapeau && chapeau.querySelector(".scene"), chapeaux = chapeau ? [...chapeau.querySelectorAll(".bicorne")] : [], couronne = !!document.querySelector(".portrait.sacre"), cue = chapeau && chapeau.querySelector(".cue"), lignes = chapeau ? [...chapeau.querySelectorAll(".ln")] : [], sens = [-1, 1, -1];
+  const chapeau = $("chapeau"), bicorne = $("bicorne"), enfant = $("enfant"), portrait = chapeau && chapeau.querySelector(".portrait"), scene = chapeau && chapeau.querySelector(".scene"), chapeaux = chapeau ? [...chapeau.querySelectorAll(".bicorne")] : [], couronne = !!document.querySelector(".portrait.sacre"), cue = chapeau && chapeau.querySelector(".cue"), lignes = chapeau ? [...chapeau.querySelectorAll("#t-titre .ln")] : [], lignes2 = chapeau ? [...chapeau.querySelectorAll("#titreEmpereur .ln")] : [], sens = [-1, 1, -1];
   const borne = x => Math.min(1, Math.max(0, x));
   let tic = false;
   function anime() {
@@ -114,6 +114,9 @@
     chapeaux.forEach(c => c.style.transform = pose);
     const e = Math.pow(borne((p - .04) / .7), 2);
     lignes.forEach((l, i) => { l.style.transform = `translate3d(${(sens[i] * e * 110).toFixed(2)}vw,0,0)`; l.style.opacity = (1 - e * .85).toFixed(3); });
+    /* quand l'Empereur apparaît, « Napoléon, empereur des Français » revient des côtés ; il s'efface dès que le site remonte */
+    const e2 = 1 - Math.pow(1 - borne((p - .74) / .2), 3), o2 = e2 * (1 - borne(v * 1.6));
+    lignes2.forEach((l, i) => { l.style.transform = `translate3d(${(-sens[i] * (1 - e2) * 110).toFixed(2)}vw,0,0)`; l.style.opacity = o2.toFixed(3); });
   }
   addEventListener("scroll", () => { if (!tic) { tic = true; requestAnimationFrame(anime); } }, { passive: true });
   addEventListener("resize", anime);

@@ -218,12 +218,15 @@ main>section:not(.chapeau),main>div,.pied{position:relative;z-index:1}
 .choix-formule{display:inline-flex;gap:4px;margin-top:36px;padding:4px;border-radius:10px;background:var(--surface);max-width:100%}
 .choix-formule button{min-height:44px;padding:0 20px;border-radius:7px;font-size:15px;font-weight:500;color:var(--muted);transition:background-color .2s,color .2s}
 .choix-formule button[aria-selected="true"]{background:var(--surface-2);color:var(--ink)}
-.formule{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);margin-top:12px;padding:clamp(20px,3vw,36px);border-radius:16px;background:var(--surface);animation:monte .6s var(--doux)}
+/* chaque formule est un chapitre : un filet, la photo qui reste à côté pendant qu'on lit, le texte en face */
+.formule{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(28px,6vw,110px);align-items:start;padding-top:clamp(36px,5vw,64px);border-top:1px solid var(--line-hi)}
 @keyframes monte{from{opacity:0;transform:translateY(12px)}}
-.formule .img{border-radius:10px;overflow:hidden;background:var(--deep);aspect-ratio:4/5}
+.formule .img{position:sticky;top:110px;border-radius:4px;overflow:hidden;background:var(--deep);aspect-ratio:4/5}
+.formule:nth-child(even){grid-template-columns:minmax(0,6fr) minmax(0,5fr)}
+.formule:nth-child(even) .img{order:2}
 .formule .img img{width:100%;height:100%;object-fit:cover}
 .formule .txt{display:grid;gap:18px;align-content:start}
-.formule h3{font-size:var(--h2);letter-spacing:-.03em}
+.formule h3{font-size:var(--h1)}
 .formule .sous{color:var(--mist);font-size:var(--sub);letter-spacing:-.01em;line-height:1.3}
 .formule p{font-size:16px}
 .prix{display:flex;flex-wrap:wrap;gap:18px 40px;padding:20px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
@@ -237,7 +240,7 @@ main>section:not(.chapeau),main>div,.pied{position:relative;z-index:1}
 .formule .btn{justify-self:start;margin-top:6px}
 .tel-groupe{display:grid;gap:6px}
 .tel-groupe a{font-family:var(--serif);font-weight:400;font-size:var(--h2);letter-spacing:0;color:var(--ink);text-decoration:none}
-@media (max-width:860px){.formule{grid-template-columns:1fr}.formule .img{aspect-ratio:4/3}.menu-liste{grid-template-columns:1fr}.menu-liste li:nth-child(even){padding-left:0;border-left:0}}
+@media (max-width:860px){.formule,.formule:nth-child(even){grid-template-columns:1fr}.formule .img{position:static;aspect-ratio:4/3}.formule:nth-child(even) .img{order:0}.menu-liste{grid-template-columns:1fr}.menu-liste li:nth-child(even){padding-left:0;border-left:0}}
 
 /* l'enfance d'Ajaccio : une ligne de dates, comme les chiffres de Saitora */
 .frise{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:20px;margin-top:40px}
@@ -378,18 +381,34 @@ main>section:not(.chapeau),main>div,.pied{position:relative;z-index:1}
 
 /* ---------- les pages intérieures ---------- */
 .entete-page{padding-top:clamp(40px,7vw,96px)}
-.entete-page h1{font-size:clamp(2.6rem,1.4rem + 5vw,6rem);letter-spacing:-.05em;line-height:.95}
-.entete-page .intro{margin-top:20px;font-size:var(--sub);color:var(--mist);max-width:44ch;line-height:1.3;letter-spacing:-.01em}
-.sommaire{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
-.sommaire a{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border-radius:999px;background:var(--surface);color:var(--mist);text-decoration:none;font-size:15px;font-weight:500;transition:background-color .2s}
-@media (hover:hover) and (pointer:fine){.sommaire a:hover{background:var(--surface-2)}}
-.formule+.formule{margin-top:20px}
-.formule{scroll-margin-top:96px}
+.entete-page h1{margin-top:16px;font-size:clamp(2.8rem,1.6rem + 5vw,6.2rem);line-height:.98}
+.entete-page .intro{margin-top:22px;font-size:var(--sub);color:var(--mist);max-width:40ch;line-height:1.35;letter-spacing:-.01em}
+/* le sommaire des formules : trois entrées, le nom et le prix, comme une table des matières */
+.sommaire{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 clamp(20px,3vw,48px);margin-top:clamp(40px,6vw,72px)}
+.sommaire a{display:flex;justify-content:space-between;align-items:baseline;gap:16px;min-height:44px;padding:18px 0;border-top:1px solid var(--line-hi);color:var(--ink);text-decoration:none;font-family:var(--serif);font-size:clamp(1.25rem,1.1rem + .5vw,1.6rem);line-height:1.15;transition:color .2s}
+.sommaire b{font-weight:400;color:var(--accent);white-space:nowrap}
+@media (hover:hover) and (pointer:fine){.sommaire a:hover{color:var(--accent)}}
+@media (max-width:860px){.sommaire{grid-template-columns:1fr}.sommaire a{padding:14px 0}}
+.formules-page{margin-top:clamp(64px,8vw,110px)}
+.formule+.formule{margin-top:clamp(80px,10vw,150px)}
+.formule{scroll-margin-top:90px}
 /* la réservation en pleine page : le même panneau, posé dans la page */
-.panneau.en-page{position:relative;top:auto;right:auto;bottom:auto;z-index:1;width:min(760px,100%);margin:36px 0 0;transform:none;background:var(--surface);border-radius:16px;max-height:none;transition:none}
+/* la page « Réserver » : à gauche le titre, la salle et ce qu'il faut savoir (reste en place), à droite le formulaire sur un voile sombre */
+.resa{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(32px,6vw,100px);align-items:start;padding-top:clamp(40px,7vw,96px)}
+.resa .entete-page{padding-top:0;position:sticky;top:100px}
+.resa .entete-page h1{font-size:clamp(2.6rem,1.6rem + 3.2vw,4.4rem)}
+.resa-photo{margin-top:clamp(24px,3vw,36px);border-radius:4px;overflow:hidden;aspect-ratio:2/1;background:var(--deep)}
+.resa-photo img{width:100%;height:100%;object-fit:cover}
+.resa-infos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 24px;margin:28px 0 0}
+.resa-infos div{padding:14px 0;border-top:1px solid var(--line)}
+.resa-infos dt{font-family:var(--serif);font-size:17px;color:var(--accent)}
+.resa-infos dd{margin:4px 0 0;color:var(--mist);font-size:15px}
+.resa-infos a{color:var(--ink);text-decoration:none}
+@media (max-width:980px){.resa{grid-template-columns:1fr}.resa .entete-page{position:static}.resa-photo{display:none}}
+.panneau.en-page{position:relative;top:auto;right:auto;bottom:auto;z-index:1;width:100%;margin:0;transform:none;background:rgba(10,9,7,.55);border-radius:16px;max-height:none;transition:none}
 .panneau.en-page .entete{display:none}
 .panneau.en-page .corps{overflow:visible;padding:8px clamp(20px,4vw,40px) 24px}
-.panneau.en-page .pied-panneau{position:sticky;bottom:0;border-radius:0 0 16px 16px;background:var(--surface-2);padding:14px clamp(20px,4vw,40px) calc(14px + env(safe-area-inset-bottom))}
+.panneau.en-page .pied-panneau{position:sticky;bottom:0;border-radius:0 0 16px 16px;background:#1d1b17;padding:14px clamp(20px,4vw,40px) calc(14px + env(safe-area-inset-bottom))}
 .panneau.en-page .champ input,.panneau.en-page .champ select,.panneau.en-page .champ textarea,.panneau.en-page .choix2 button,.panneau.en-page .heures-choix button,.panneau.en-page .paiement button,.panneau.en-page .compteur .pas button{background:var(--deep)}
 .panneau.en-page .billet{background:var(--deep)}
 @media (max-width:640px){.panneau.en-page{border-radius:16px}}

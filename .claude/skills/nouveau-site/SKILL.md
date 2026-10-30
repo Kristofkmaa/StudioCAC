@@ -33,6 +33,7 @@ python3 outils/tirage.py <nom> --charte <style des titres de la charte> --exclur
 ## 4. Construire : les règles apprises
 
 - **Sobre et classe, jamais fouillis** : peu d'éléments, de l'air, une idée forte. Original oui, chargé non. Il faut donner envie.
+- **Pas d'habillage « IA »** (l'utilisateur le trouve écœurant, retour sur La Grotte Napoléon) : pas de losanges ni de séparateurs ornés, pas de cadres dorés à double filet, pas de sceau tournant, pas de titres en capitales espacées partout, pas de boutons rectangles en capitales dorées ni de petites pastilles d'étiquette. S'inspirer de l'habillage de Saitora (`accueil.html`) : une police, de grands titres en minuscules serrés (lettres rapprochées), un seul bouton plein en dégradé pour l'action principale, les autres en texte avec une petite flèche dans un carré, des panneaux arrondis (16 px) sur des fonds qui alternent, des filets fins, des chiffres en grand avec un filet au-dessus. Le caractère du client passe par ses couleurs, ses photos et son idée, pas par des ornements.
 - **Une identité par site** : ses couleurs, ses polices, sa composition. Mettre son premier écran à côté des autres (`media/apercus/`) : s'il ressemble à un autre, changer ce qui fait la ressemblance.
 - **Une seule idée vivante** par site (ce que le visiteur peut faire), faite avec le vrai contenu du métier.
 - **Rien ne défile sur le côté** : un tableau devient une fiche par ligne sur téléphone, une liste de cartes une grille avec filtres, un calendrier des boutons de mois.

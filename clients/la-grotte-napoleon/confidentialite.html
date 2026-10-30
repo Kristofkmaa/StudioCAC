@@ -7,32 +7,34 @@
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#161411">
 <link rel="icon" href="images/couronne.png">
-<link rel="stylesheet" href="../../polices/marcellus-figtree-0dad29.css">
 <style>
-:root{--nuit:#161411;--nuit-2:#1D1B17;--or:#C9A55A;--or-clair:#E6CD94;--creme:#F3E8D8;--gris:#BBAC9C;--filet:rgba(201,165,90,.32)}
+@font-face{font-family:"Inter Tight";font-weight:400;font-display:swap;src:url(../../polices/inter-tight-400-normal-latin.woff2) format("woff2")}
+@font-face{font-family:"Inter Tight";font-weight:500;font-display:swap;src:url(../../polices/inter-tight-500-normal-latin.woff2) format("woff2")}
+@font-face{font-family:"Inter Tight";font-weight:600;font-display:swap;src:url(../../polices/inter-tight-600-normal-latin.woff2) format("woff2")}
+:root{--nuit:#161411;--nuit-2:#1F1D18;--or:#F1D9A6;--or-clair:#F1D9A6;--creme:#FFFFFF;--gris:#B8AFA2;--filet:rgba(255,255,255,.1)}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;background:var(--nuit)}
-body{margin:0;background:var(--nuit);color:var(--creme);font:400 17px/1.65 "Figtree",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+body{margin:0;background:var(--nuit);color:var(--creme);font:400 17px/1.6 "Inter Tight",system-ui,sans-serif;color:#B8AFA2;-webkit-font-smoothing:antialiased}
 a{color:var(--or-clair)}
-.maquette{background:#000;color:var(--gris);font-size:13px;text-align:center;padding:8px 16px;line-height:1.4}
+.maquette{background:#0F0E0B;color:var(--gris);font-size:13px;text-align:center;padding:8px 16px;line-height:1.4}
 header{display:flex;justify-content:space-between;align-items:center;gap:16px;max-width:820px;margin:0 auto;padding:18px 24px;border-bottom:1px solid var(--filet)}
 header img{height:42px;width:auto;display:block}
-header a.retour{font:600 13px/1 "Figtree",sans-serif;text-transform:uppercase;letter-spacing:.14em;text-decoration:none;padding:12px 0}
+header a.retour{font:500 12px/1 "Inter Tight",sans-serif;text-transform:uppercase;letter-spacing:.12em;text-decoration:none;padding:12px 0;color:#fff}
 main{max-width:820px;margin:0 auto;padding:56px 24px 90px}
-h1{font:400 clamp(38px,7vw,64px)/1.08 "Marcellus",Georgia,serif;text-transform:uppercase;letter-spacing:.03em;margin:0 0 12px;overflow-wrap:anywhere}
+h1{font:500 clamp(2.2rem,1.4rem + 3.2vw,3.8rem)/1 "Inter Tight",sans-serif;letter-spacing:-.04em;color:#fff;margin:0 0 14px;overflow-wrap:anywhere}
 .date{color:var(--gris);font-size:15px;margin:0 0 40px}
-h2{font:400 24px/1.25 "Marcellus",Georgia,serif;text-transform:uppercase;letter-spacing:.04em;color:var(--or);margin:46px 0 12px}
-h3{font:600 16px/1.4 "Figtree",sans-serif;margin:26px 0 6px}
-p,li{color:#E4D8C6}
+h2{font:500 clamp(1.4rem,1.2rem + .8vw,1.8rem)/1.15 "Inter Tight",sans-serif;letter-spacing:-.03em;color:#fff;margin:46px 0 12px;padding-top:24px;border-top:1px solid var(--filet)}
+h3{font:500 17px/1.4 "Inter Tight",sans-serif;color:#fff;margin:26px 0 6px}
+p,li{color:#D9D1C4}
 ul{padding-left:22px}
 li{margin:6px 0}
 dl{display:grid;grid-template-columns:minmax(0,200px) minmax(0,1fr);gap:8px 22px;margin:0}
 dt{color:var(--gris);font-size:15px}
 dd{margin:0;overflow-wrap:anywhere}
-.a-valider{border:1px dashed var(--or);padding:14px 18px;margin:0 0 40px;font-size:15px;color:var(--or-clair)}
+.a-valider{background:var(--nuit-2);border-radius:12px;padding:16px 20px;margin:0 0 40px;font-size:15px;color:#F4EEE3}
 .a-valider b{color:var(--or)}
 mark{background:rgba(201,165,90,.18);color:var(--or-clair);padding:0 4px}
-footer{max-width:820px;margin:0 auto;padding:24px 24px 50px;border-top:1px solid var(--filet);font-size:14px;color:var(--gris);display:flex;flex-wrap:wrap;gap:8px 22px}
+footer{max-width:820px;margin:0 auto;padding:24px 24px 50px;border-top:1px solid var(--filet);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--gris);display:flex;flex-wrap:wrap;gap:8px 22px}
 footer a{color:var(--gris);text-decoration:none;padding:6px 0}
 @media (max-width:600px){dl{grid-template-columns:1fr;gap:2px}dd{margin-bottom:12px}}
 </style>

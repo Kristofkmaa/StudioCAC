@@ -493,11 +493,13 @@ section.teinte{background:var(--nuit-2)}
         <div>
           <h3 data-t="f-complete">Formule complète</h3>
           <p class="sous" data-t="fo-c-sous">La séance et le repas corse</p>
+          <p class="petit" data-t="fo-c-texte" style="font-size:16px;margin:0 0 24px"></p>
           <div class="prix"><div><b>48&nbsp;€</b><span data-t="fo-c-adulte">par adulte</span></div><div><b>30&nbsp;€</b><span data-t="fo-c-enfant">enfant de 7 à 12 ans</span></div></div>
           <p class="gratuit" data-t="fo-gratuit">Gratuit pour les moins de 7 ans.</p>
           <h4 data-t="fo-heures">Séances</h4>
           <p class="heures" data-heures="complete"></p>
           <h4 data-t="fo-menu">Le spuntinu</h4>
+          <p class="petit" data-t="fo-menu-intro" style="margin:0 0 10px"></p>
           <ul class="menu-liste"><li data-t="m1"></li><li data-t="m2"></li><li data-t="m3"></li><li data-t="m4"></li><li data-t="m5"></li><li data-t="m6"></li><li data-t="m7"></li><li data-t="m8"></li></ul>
           <p class="petit" data-t="fo-c-enfants"></p>
           <p class="petit" data-t="fo-adapte"></p>
@@ -595,7 +597,7 @@ section.teinte{background:var(--nuit-2)}
     <button type="button" class="btn sombre" data-reserver data-t="ouv-reserver">Réserver une séance</button>
     <div class="pied-bas">
       <span>La Grotte Napoléon · dipoi 1769 · 4 rue Saint-Charles, Ajaccio</span>
-      <nav aria-label="Informations"><a href="https://lagrottenapoleon.fr/conditions-generales-de-vente/" data-t="p-cgv">Conditions de vente</a><a href="https://lagrottenapoleon.fr/mentions-legales/" data-t="p-mentions">Mentions légales</a><a href="https://lagrottenapoleon.fr/politique-de-confidentialite-cookies/" data-t="p-confid">Confidentialité</a><a href="https://saitora.fr" data-t="p-saitora">Site réalisé par Saitora</a></nav>
+      <nav aria-label="Informations"><a href="cgv.html" data-t="p-cgv">Conditions de vente</a><a href="mentions-legales.html" data-t="p-mentions">Mentions légales</a><a href="confidentialite.html" data-t="p-confid">Confidentialité</a><a href="https://saitora.fr" data-t="p-saitora">Site réalisé par Saitora</a></nav>
     </div>
   </div>
 </footer>
@@ -807,6 +809,7 @@ section.teinte{background:var(--nuit-2)}
       <label class="champ"><span>${t("r-tel")}</span><input id="rTel" type="tel" inputmode="tel" autocomplete="tel" value="${esc(etat.tel)}"></label>
       <label class="champ"><span>${t("r-email")}</span><input id="rEmail" type="email" inputmode="email" autocomplete="email" value="${esc(etat.email)}"></label>
       <label class="champ"><span>${t("r-note")}</span><textarea id="rNote">${esc(etat.note)}</textarea></label>
+      <p class="paiement-note">${t("r-cgv")} <a href="cgv.html" target="_blank" style="color:var(--or-clair)">${t("r-cgv-lien")}</a>.</p>
       <p class="erreur" id="rErreur" role="alert"></p>`;
     $("rPied").innerHTML = `<div class="total"><small>${t("r-total")}</small><b id="rTotal">${euros(total())}</b></div><button type="button" class="btn" id="rValider">${t(etat.paiement === "enligne" ? "r-payer" : "r-valider")}</button>`;
     $("rValider").onclick = valider;

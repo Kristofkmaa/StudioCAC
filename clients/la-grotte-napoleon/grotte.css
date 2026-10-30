@@ -833,3 +833,35 @@ a.disque:hover{box-shadow:none;transform:translateY(-4px);filter:drop-shadow(0 3
 .disque .mini{font-size:.68em}
 .disque .contact,.disque .tel{font-size:.92em}
 .disque .tel small{font-size:.68em}
+
+/* ---------- la boutique sur l'accueil : trois souvenirs en éventail sur fond crème, le texte et le bouton à côté ---------- */
+.vitrine-btq{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,6vw,100px);align-items:center;margin-top:var(--gap);padding-top:clamp(40px,5vw,64px);border-top:1px solid var(--line-hi);color:var(--ink);text-decoration:none}
+.trio{position:relative;display:block;height:clamp(260px,24vw,350px);margin:0 4%}
+.trio>span{position:absolute;bottom:4%;width:37%;aspect-ratio:4/5;border-radius:10px;background:#EDE6DA;display:grid;place-items:center;box-shadow:0 24px 50px -24px rgba(0,0,0,.9);transition:transform .7s var(--doux)}
+.trio>span img{max-width:76%;max-height:80%;object-fit:contain}
+.trio>span:nth-child(1){left:0;transform:rotate(-7deg) translateY(-4%);z-index:1}
+.trio>span:nth-child(2){left:31.5%;z-index:3;transform:translateY(-10%)}
+.trio>span:nth-child(3){left:63%;transform:rotate(7deg) translateY(-4%);z-index:2}
+@media (hover:hover) and (pointer:fine){.vitrine-btq:hover .trio>span:nth-child(1){transform:rotate(-11deg) translate(-6%,-6%)}.vitrine-btq:hover .trio>span:nth-child(3){transform:rotate(11deg) translate(6%,-6%)}.vitrine-btq:hover .trio>span:nth-child(2){transform:translateY(-14%)}}
+.vitrine-btq .txt{display:grid;gap:16px;justify-items:start}
+.vitrine-btq .h{font-family:var(--serif);font-size:clamp(2.4rem,1.6rem + 2.8vw,4.4rem);line-height:1;letter-spacing:-.015em}
+.vitrine-btq .p{font-size:17px;color:var(--mist);max-width:46ch}
+.vitrine-btq .pass{font-size:14px;color:var(--muted)}
+.vitrine-btq .btn{margin-top:8px}
+@media (max-width:860px){.vitrine-btq{grid-template-columns:1fr}.trio{height:clamp(220px,62vw,320px);max-width:460px;width:100%}}
+
+/* ---------- venir : la photo de l'entrée, les informations rangées en lignes ---------- */
+.venir{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(32px,6vw,100px);align-items:center}
+.venir-photo{margin:0;border-radius:14px;overflow:hidden;aspect-ratio:4/3;box-shadow:0 30px 60px -30px rgba(0,0,0,.9)}
+.venir-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.venir-txt{display:grid;gap:14px;justify-items:start}
+.venir-txt h2{font-size:clamp(2.8rem,1.8rem + 3.4vw,5.2rem);line-height:.95}
+.venir-quartier{margin:0;font-family:var(--serif);font-style:italic;font-size:clamp(1.1rem,.95rem + .4vw,1.35rem);color:var(--mist)}
+.venir-infos{margin:14px 0 6px;width:100%;border-top:1px solid var(--line-hi)}
+.venir-infos>div{display:grid;grid-template-columns:120px minmax(0,1fr);gap:16px;padding:14px 0;border-bottom:1px solid var(--line)}
+.venir-infos dt{font-size:13px;letter-spacing:.04em;color:var(--accent);padding-top:3px}
+.venir-infos dd{margin:0;font-size:17px;color:var(--ink);overflow-wrap:anywhere}
+.venir-infos a{color:var(--ink);text-decoration:none}
+@media (hover:hover) and (pointer:fine){.venir-infos a:hover{color:var(--accent)}}
+.venir .actions{display:flex;flex-wrap:wrap;align-items:center;gap:14px 26px;margin-top:8px}
+@media (max-width:860px){.venir{grid-template-columns:1fr}.venir-infos>div{grid-template-columns:96px minmax(0,1fr)}}

@@ -8,7 +8,7 @@
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#161411">
 <link rel="icon" href="images/couronne.png">
-<link rel="stylesheet" href="grotte.css?v=20261031m">
+<link rel="stylesheet" href="grotte.css?v=20261031o">
 </head>
 <body data-titre="meta-titre">
 <div class="maquette" data-t="bandeau">Maquette préparée par Saitora pour La Grotte Napoléon : à valider ensemble avant la mise en ligne.</div>
@@ -151,21 +151,27 @@
       <blockquote class="rise" lang="fr" style="transition-delay:.12s"><p>Le repas était excellent, le film passionnant. Nous avons énormément apprécié discuter avec le gérant, un véritable passionné.</p><cite>Kevin F. · septembre 2023</cite></blockquote>
     </div>
     <p class="note avis-source" data-t="a-source"></p>
-    <div class="boutique rise">
-      <div><h3 data-t="b-titre">La boutique</h3><p data-t="b-texte"></p><p data-t="b-pass"></p></div>
-      <a class="ghost" href="boutique.html"><span data-t="btq-voir">Voir les souvenirs</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a>
-    </div>
+    <!-- la boutique : trois souvenirs en éventail, le texte et le bouton à côté -->
+    <a class="vitrine-btq rise" href="boutique.html">
+      <span class="trio" aria-hidden="true"><span><img src="images/cabinet/1367.webp" alt="" loading="lazy"></span><span><img src="images/cabinet/1306.webp" alt="" loading="lazy"></span><span><img src="images/cabinet/1427.webp" alt="" loading="lazy"></span></span>
+      <span class="txt"><span class="eyebrow" data-t="b-titre">La boutique</span><span class="h" data-t="b-h">Souvenirs de l’Empire</span><span class="p" data-t="b-texte"></span><span class="pass" data-t="b-pass"></span><span class="btn" data-t="btq-voir">Voir les souvenirs</span></span>
+    </a>
   </section>
 
-  <!-- venir : le puits profond -->
-  <section class="page" id="venir" aria-labelledby="t-venir">
-    <div class="well rise">
+  <!-- venir : la photo de l'entrée, et à côté tout ce qu'il faut pour arriver -->
+  <section class="sec page venir" id="venir" aria-labelledby="t-venir">
+    <figure class="venir-photo rise"><img src="images/entree.webp" alt="L’entrée de la Grotte Napoléon, 4 rue Saint-Charles" width="1800" height="1084" loading="lazy" decoding="async"></figure>
+    <div class="venir-txt rise">
       <p class="eyebrow" data-t="e-venir">Nous trouver</p>
       <h2 id="t-venir" data-t="v-titre">Venir</h2>
-      <a class="gros-tel" href="tel:+33495280461">04 95 28 04 61</a>
-      <a class="gros-mail" href="mailto:grotte@lagrottenapoleon.fr">grotte@lagrottenapoleon.fr</a>
-      <p class="adresse"><span data-t="v-adresse">4 rue Saint-Charles, 20000 Ajaccio</span><span data-t="v-quartier"></span><span data-t="v-saison"></span></p>
-      <div class="actions"><a class="btn" href="https://www.google.com/maps/search/?api=1&amp;query=La+Grotte+Napol%C3%A9on+4+rue+Saint-Charles+Ajaccio" target="_blank" rel="noopener" data-t="v-itineraire">Itinéraire</a><a class="ghost" href="mailto:grotte@lagrottenapoleon.fr"><span data-t="v-ecrire">Écrire</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a></div>
+      <p class="venir-quartier" data-t="v-quartier"></p>
+      <dl class="venir-infos">
+        <div><dt data-t="r-i-adresse">Adresse</dt><dd data-t="v-adresse">4 rue Saint-Charles, 20000 Ajaccio</dd></div>
+        <div><dt data-t="r-i-tel">Téléphone</dt><dd><a href="tel:+33495280461">04 95 28 04 61</a></dd></div>
+        <div><dt data-t="pa-email">E-mail</dt><dd><a href="mailto:grotte@lagrottenapoleon.fr">grotte@lagrottenapoleon.fr</a></dd></div>
+        <div><dt data-t="fo-heures">Séances</dt><dd data-t="v-saison"></dd></div>
+      </dl>
+      <div class="actions"><a class="btn lg" href="https://www.google.com/maps/search/?api=1&amp;query=La+Grotte+Napol%C3%A9on+4+rue+Saint-Charles+Ajaccio" target="_blank" rel="noopener" data-t="v-itineraire">Itinéraire</a><a class="ghost" href="tel:+33495280461"><span data-t="v-appeler">Appeler</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a></div>
     </div>
   </section>
 </main>
@@ -188,7 +194,7 @@
 </div>
 
 
-<script src="textes.js?v=20261031m"></script>
-<script src="grotte.js?v=20261031m"></script>
+<script src="textes.js?v=20261031o"></script>
+<script src="grotte.js?v=20261031o"></script>
 </body>
 </html>

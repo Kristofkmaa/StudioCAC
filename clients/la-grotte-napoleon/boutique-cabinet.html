@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>La boutique · La Grotte Napoléon, Ajaccio</title>
+<meta name="description" content="La boutique de la Grotte Napoléon à Ajaccio : la collection Napô de Laurent Silvani, bustes et statuettes, plume et sceau, vêtements brodés.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#161411">
+<link rel="icon" href="images/couronne.png">
+<link rel="stylesheet" href="grotte.css?v=20261030f">
+</head>
+<body class="btq cab" data-titre="meta-boutique">
+<div class="maquette" data-t="bandeau">Maquette préparée par Saitora pour La Grotte Napoléon : à valider ensemble avant la mise en ligne.</div>
+
+<header class="bar" id="tete">
+  <div class="page">
+    <nav class="g" aria-label="Sections">
+      <a href="./#seance" data-t="nav-seance">La séance</a><a href="formules.html" data-t="nav-formules">Formules</a><a href="./#histoire" data-t="nav-histoire">L’histoire</a><a href="boutique.html" data-t="nav-boutique">Boutique</a>
+    </nav>
+    <div class="langue tel-seul" data-langue></div>
+    <a class="logo" href="./" aria-label="La Grotte Napoléon"><img src="images/logo-blanc.png" alt="La Grotte Napoléon, dipoi 1769" width="898" height="383"></a>
+    <nav class="d" aria-label="Réservation">
+      <a href="./#venir" data-t="nav-acces">Venir</a>
+      <div class="langue" data-langue></div>
+      <a class="btn" href="reserver.html" data-reserver data-t="nav-reserver">Réserver</a>
+    </nav>
+    <button type="button" class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="menuTel"><span data-t="nav-menu">Menu</span><i aria-hidden="true"></i></button>
+  </div>
+</header>
+
+<div class="sheet" id="menuTel" role="dialog" aria-modal="true" aria-label="Menu" hidden>
+  <div class="page haut"><img src="images/logo-blanc.png" alt="" width="898" height="383"><button type="button" class="menu-btn ferme" id="menuFerme"><span data-t="nav-fermer">Fermer</span><i aria-hidden="true"></i></button></div>
+  <div class="liste">
+    <span class="eyebrow">La Grotte Napoléon</span>
+    <nav aria-label="Menu">
+      <a href="./#seance" style="--i:0"><span class="n">01</span><span class="t" data-t="nav-seance">La séance</span></a>
+      <a href="formules.html" style="--i:1"><span class="n">02</span><span class="t" data-t="nav-formules">Formules</span></a>
+      <a href="./#histoire" style="--i:2"><span class="n">03</span><span class="t" data-t="nav-histoire">L’histoire</span></a>
+      <a href="boutique.html" style="--i:3"><span class="n">04</span><span class="t" data-t="nav-boutique">Boutique</span></a>
+      <a href="./#venir" style="--i:4"><span class="n">05</span><span class="t" data-t="nav-acces">Venir</span></a>
+    </nav>
+  </div>
+  <div class="bas">
+    <div class="choix-langue" id="langueMenu" role="group" aria-label="Langue"></div>
+    <a class="btn lg" href="reserver.html" data-reserver data-t="ouv-reserver">Réserver une séance</a>
+    <a class="btn creux" href="tel:+33495280461">04 95 28 04 61</a>
+  </div>
+</div>
+
+<main id="haut">
+  <!-- l'ouverture : la couronne de laurier se pose d'elle-même sur l'Empereur en habit du sacre, le titre reste, puis la phrase et les boutons arrivent -->
+  <section class="chapeau" id="chapeau" aria-labelledby="t-titre">
+    <div class="scene">
+      <div class="ouverture-texte">
+        <h1 class="geant" id="t-titre"><span class="ln l1"><span class="in" data-t="btq-l1">Souvenirs</span></span> <span class="ln l2"><span class="in" data-t="btq-l2">de l’Empire,</span></span> <span class="ln l3"><span class="in" data-t="btq-l3">d’Ajaccio</span></span></h1>
+        <!-- une fois la couronne posée : ce qu'on trouve à la boutique, et où aller -->
+        <div class="accroche concept" id="concept">
+          <p data-t="btq-phrase" style="--i:0"></p>
+          <div class="actions" id="boutonsOuv" style="--i:1"><a class="btn lg" href="#cabinet" data-t="btq-voir">Voir les souvenirs</a><a class="ghost" href="reserver.html" data-reserver><span data-t="ouv-reserver">Réserver une séance</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a></div>
+        </div>
+      </div>
+      <div class="portrait sacre"><img src="images/sacre.webp" alt="Napoléon en habit du sacre, le sceptre à la main" width="1145" height="1374" fetchpriority="high"><img class="bicorne arriere" src="images/laurier-arriere.webp" alt="" width="1257" height="820"><span class="ombre-chapeau" id="ombreChapeau"></span><img class="bicorne" id="bicorne" src="images/laurier-avant.webp" alt="" width="1257" height="820"></div>
+    </div>
+  </section>
+
+  <div class="corps-btq">
+  <!-- démo « cabinet de curiosités » : chaque souvenir détouré dans sa vitrine, éclairé d'en haut, sur un socle, avec son cartel de musée ;
+       un toucher ouvre la vitrine en grand -->
+  <section class="sec page" id="cabinet" aria-labelledby="t-cabinet">
+    <div class="head rise"><div><p class="eyebrow" data-t="cab-e">Les collections de l’Empereur</p><h2 id="t-cabinet" data-t="cab-titre">Le cabinet</h2><p data-t="cab-intro"></p></div><p class="compte" aria-live="polite"><b id="compte">20</b> <span data-t="btq-nb">souvenirs</span></p></div>
+    <div class="filtres salles" role="group" aria-label="Salles"><button type="button" data-filtre="tout" aria-pressed="true"><span data-t="cab-tout">Toutes les salles</span><small>20</small></button><button type="button" data-filtre="napo" aria-pressed="false"><span class="num">I</span><span data-t="btq-f-napo">Collection Napô</span><small>4</small></button><button type="button" data-filtre="bustes" aria-pressed="false"><span class="num">II</span><span data-t="btq-f-bustes">Bustes et statuettes</span><small>3</small></button><button type="button" data-filtre="objets" aria-pressed="false"><span class="num">III</span><span data-t="btq-f-objets">Écriture et maison</span><small>4</small></button><button type="button" data-filtre="vetements" aria-pressed="false"><span class="num">IV</span><span data-t="btq-f-vetements">Vêtements</span><small>9</small></button></div>
+    <div class="cabinet">
+      <article class="produit vitrine rise" data-cat="napo" style="transition-delay:0.06s">
+        <button type="button" class="ouvre" data-id="1339" data-no="01" data-dos="1" data-href="mailto:grotte@lagrottenapoleon.fr?subject=Boutique%20:%20Bustô,%20le%20petit%20Napô" aria-haspopup="dialog">
+          <span class="niche"><span class="ombre"></span><img src="images/cabinet/1339.webp" alt="" loading="lazy" decoding="async"><span class="socle"></span></span>
+          <span class="cartel"><span class="no">N° 01 · <span data-t="cab-salle">Salle</span> I</span><span class="nom">Bustô, le petit Napô</span><span class="prix-p">20&nbsp;€</span></span>
+        </button>
+        <p class="details"><span class="coloris" aria-label="Doré, Noir"><i style="--c:#C9A227" title="Doré"></i><i style="--c:#151515" title="Noir"></i></span></p>
+      </article>
+      <article class="produit vitrine rise" data-cat="napo" style="transition-delay:0.12s">
+        <button type="button" class="ouvre" data-id="1306" data-no="02" data-dos="1" data-href="mailto:grotte@lagrottenapoleon.fr?subject=Boutique%20:%20Napô,%20statuette%20de%20collection" aria-haspopup="dialog">
+          <span class="niche"><span class="ombre"></span><img src="images/cabinet/1306.webp" alt="" loading="lazy" decoding="async"><span class="socle"></span></span>
+          <span class="cartel"><span class="no">N° 02 · <span data-t="cab-salle">Salle</span> I</span><span class="nom">Napô, statuette de collection</span><span class="prix-p">50&nbsp;€</span></span>
+        </button>
+        <p class="details"><span class="coloris" aria-label="Blanc, Noir, Rouge, Vert"><i style="--c:#F2EEE6" title="Blanc"></i><i style="--c:#151515" title="Noir"></i><i style="--c:#B3261E" title="Rouge"></i><i style="--c:#2F5D3A" title="Vert"></i></span></p>
+      </article>
+      <article class="produit vitrine rise" data-cat="napo" style="transition-delay:0.00s">
+        <button type="button" class="ouvre" data-id="1414" data-no="03" data-dos="1" data-href="mailto:grotte@lagrottenapoleon.fr?subject=Boutique%20:%20Napô%20au%20livre" aria-haspopup="dialog">
+          <span class="niche"><span class="ombre"></span><img src="images/cabinet/1414.webp" alt="" loading="lazy" decoding="async"><span class="socle"></span></span>
+          <span class="cartel"><span class="no">N° 03 · <span data-t="cab-salle">Salle</span> I</span><span class="nom">Napô au livre</span><span class="prix-p">24&nbsp;€</span></span>
+        </button>
+        <p class="details"></p>
+      </article>
+      <article class="produit vitrine rise" data-cat="napo" style="transition-delay:0.06s">
+        <button type="button" class="ouvre" data-id="1357" data-no="04" data-dos="1" data-href="mailto:grotte@lagrottenapoleon.fr?subject=Boutique%20:%20Napô%20XL" aria-haspopup="dialog">
+          <span class="niche"><span class="ombre"></span><img src="images/cabinet/1357.webp" alt="" loading="lazy" decoding="async"><span class="socle"></span></span>
+          <span class="cartel"><span class="no">N° 04 · <span data-t="cab-salle">Salle</span> I</span><span class="nom">Napô XL</span><span class="prix-p">1&nbsp;000&nbsp;€</span></span>
+        </button>
+        <p class="details"></p>
+      </article>
+      <article class="produit vitrine rise" data-cat="bustes" style="transition-delay:0.12s">
+        <button type="button" class="ouvre" data-id="1367" data-no="05" data-dos="1" data-href="mailto:grotte@lagrottenapoleon.fr?subject=Boutique%20:%20Buste%20de%20Napoléon" aria-haspopup="dialog">
+          <span class="niche"><span class="ombre"></span><img src="images/cabinet/1367.webp" alt="" loading="lazy" decoding="async"><span class="socle"></span></span>
+          <span class="cartel"><span class="no">N° 05 · <span data-t="cab-salle">Salle</span> II</span><span class="nom">Buste de Napoléon</span><span class="prix-p">35&nbsp;€</span></span>
+        </button>
+        <p class="details"><span class="coloris" aria-label="Blanc, Noir"><i style="--c:#F2EEE6" title="Blanc"></i><i style="--c:#151515" title="Noir"></i></span></p>
+      </article>
+      <article class="produit vitrine rise" data-cat="bustes" style="transition-delay:0.00s">
+        <button type="button" class="ouvre" data-id="1386" data-no="06" data-dos="1" data-href="mailto:grotte@lagrottenapoleon.fr?subject=Boutique%20:%20Buste%20de%20Bonaparte" aria-haspopup="dialog">
+          <span class="niche"><span class="ombre"></span><img src="images/cabinet/1386.webp" alt="" loading="lazy" decoding="async"><span class="socle"></span></span>
+          <span class="cartel"><span class="no">N° 06 · <span data-t="cab-salle">Salle</span> II</span><span class="nom">Buste de Bonaparte</span><span class="prix-p">40&nbsp;€</span></span>
+        </button>
+        <p class="details"></p>
+      </article>
+      <article class="produit vitrine rise" data-cat="bustes" style="transition-delay:0.06s">
+        <button type="button" class="ouvre" data-id="1446" data-no="07" data-dos="1" data-href="mailto:grotte@lagrottenapoleon.fr?subject=Boutique%20:%20Statuette%20numérotée%20de%20Napoléon" aria-haspopup="dialog">
+          <span class="niche"><span class="ombre"></span><img src="images/cabinet/1446.webp" alt="" loading="lazy" decoding="async"><span class="socle"></span></span>
+          <span class="cartel"><span class="no">N° 07 · <span data-t="cab-salle">Salle</span> II</span><span class="nom">Statuette numérotée de Napoléon</span><span class="prix-p">90&nbsp;€</span></span>
+        </button>
+        <p class="details"></p>
+      </article>
+      <article class="produit vitrine rise" data-cat="objets" style="transition-delay:0.12s">
+        <button type="button" class="ouvre" data-id="1427" data-no="08" data-dos="1" data-href="mailto:grotte@lagrottenapoleon.fr?subject=Boutique%20:%20Plume%20et%20encrier" aria-haspopup="dialog">
+          <span class="niche"><span class="ombre"></span><img src="images/cabinet/1427.webp" alt="" loading="lazy" decoding="async"><span class="socle"></span></span>
+          <span class="cartel"><span class="no">N° 08 · <span data-t="cab-salle">Salle</span> III</span><span class="nom">Plume et encrier</span><span class="prix-p">20&nbsp;€</span></span>
+        </button>
+        <p class="details"></p>
+      </article>
+      <article class="produit vitrine rise" data-cat="objets" style="transition-delay:0.00s">
+        <button type="button" class="ouvre" data-id="1435" data-no="09" data-dos="1" data-href="mailto:grotte@lagrottenapoleon.fr?subject=Boutique%20:%20Sceau%20à%20cacheter" aria-haspopup="dialog">
+          <span class="niche"><span class="ombre"></span><img src="images/cabinet/1435.webp" alt="" loading="lazy" decoding="async"><span class="socle"></span></span>
+          <span class="cartel"><span class="no">N° 09 · <span data-t="cab-salle">Salle</span> III</span><span class="nom">Sceau à cacheter</span><span class="prix-p">20&nbsp;€</span></span>
+        </button>
+        <p class="details"></p>
+      </article>
+      <article class="produit vitrine rise" data-cat="objets" style="transition-delay:0.06s">
+        <button type="button" class="ouvre" data-id="1424" data-no="10" data-dos="1" data-href="mailto:grotte@lagrottenapoleon.fr?subject=Boutique%20:%20Lampe%20livre" aria-haspopup="dialog">
+          <span class="niche"><span class="ombre"></span><img src="images/cabinet/1424.webp" alt="" loading="lazy" decoding="async"><span class="socle"></span></span>
+          <span class="cartel"><span class="no">N° 10 · <span data-t="cab-salle">Salle</span> III</span><span class="nom">Lampe livre</span><span class="prix-p">20&nbsp;€</span></span>
+        </button>
+        <p class="details"></p>
+      </article>
+      <article class="produit vitrine rise" data-cat="objets" style="transition-delay:0.12s">
+        <button type="button" class="ouvre" data-id="1442" data-no="11" data-dos="1" data-href="mailto:grotte@lagrottenapoleon.fr?subject=Boutique%20:%20Tasse%20et%20vide-poche" aria-haspopup="dialog">
+          <span class="niche"><span class="ombre"></span><img src="images/cabinet/1442.webp" alt="" loading="lazy" decoding="async"><span class="socle"></span></span>
+          <span class="cartel"><span class="no">N° 11 · <span data-t="cab-salle">Salle</span> III</span><span class="nom">Tasse et vide-poche</span><span class="prix-p">25&nbsp;€</span></span>
+        </button>
+        <p class="details"></p>
+      </article>
+      <article class="produit vitrine rise" data-cat="vetements" style="transition-delay:0.00s">
+        <button type="button" class="ouvre" data-id="210" data-no="12" data-dos="1" data-href="mailto:grotte@lagrottenapoleon.fr?subject=Boutique%20:%20Polo%20brodé,%20manches%20courtes" aria-haspopup="dialog">
+          <span class="niche"><span class="ombre"></span><img src="images/cabinet/210.webp" alt="" loading="lazy" decoding="async"><span class="socle"></span></span>
+          <span class="cartel"><span class="no">N° 12 · <span data-t="cab-salle">Salle</span> IV</span><span class="nom">Polo brodé, manches courtes</span><span class="prix-p">39&nbsp;€</span></span>
+        </button>
+        <p class="details"><span class="coloris" aria-label="Noir, Kaki, Blanc, Bordeaux"><i style="--c:#151515" title="Noir"></i><i style="--c:#6B6A45" title="Kaki"></i><i style="--c:#F2EEE6" title="Blanc"></i><i style="--c:#6E1F2B" title="Bordeaux"></i></span><span class="tailles"><span data-t="btq-tailles">Tailles</span> S – 3XL</span></p>
+      </article>
+      <article class="produit vitrine rise" data-cat="vetements" style="transition-delay:0.06s">
+        <button type="button" class="ouvre" data-id="874" data-no="13" data-dos="0" data-href="mailto:grotte@lagrottenapoleon.fr?subject=Boutique%20:%20Polo%20brodé,%20manches%20longues" aria-haspopup="dialog">
+          <span class="niche"><span class="ombre"></span><img src="images/cabinet/874.webp" alt="" loading="lazy" decoding="async"><span class="socle"></span></span>
+          <span class="cartel"><span class="no">N° 13 · <span data-t="cab-salle">Salle</span> IV</span><span class="nom">Polo brodé, manches longues</span><span class="prix-p">44&nbsp;€</span></span>
+        </button>
+        <p class="details"><span class="coloris" aria-label="Noir"><i style="--c:#151515" title="Noir"></i></span><span class="tailles"><span data-t="btq-tailles">Tailles</span> S – 3XL</span></p>
+      </article>
+      <article class="produit vitrine rise" data-cat="vetements" style="transition-delay:0.12s">
+        <button type="button" class="ouvre" data-id="687" data-no="14" data-dos="1" data-href="mailto:grotte@lagrottenapoleon.fr?subject=Boutique%20:%20T-shirt%20femme%20Abeille%20dorée" aria-haspopup="dialog">
+          <span class="niche"><span class="ombre"></span><img src="images/cabinet/687.webp" alt="" loading="lazy" decoding="async"><span class="socle"></span></span>
+          <span class="cartel"><span class="no">N° 14 · <span data-t="cab-salle">Salle</span> IV</span><span class="nom">T-shirt femme Abeille dorée</span><span class="prix-p">28&nbsp;€</span></span>
+        </button>
+        <p class="details"><span class="coloris" aria-label="Noir, Gris, Blanc"><i style="--c:#151515" title="Noir"></i><i style="--c:#8C8C8C" title="Gris"></i><i style="--c:#F2EEE6" title="Blanc"></i></span><span class="tailles"><span data-t="btq-tailles">Tailles</span> S – XXL</span></p>
+      </article>
+      <article class="produit vitrine rise" data-cat="vetements" style="transition-delay:0.00s">
+        <button type="button" class="ouvre" data-id="712" data-no="15" data-dos="1" data-href="mailto:grotte@lagrottenapoleon.fr?subject=Boutique%20:%20T-shirt%20femme%20fluide" aria-haspopup="dialog">
+          <span class="niche"><span class="ombre"></span><img src="images/cabinet/712.webp" alt="" loading="lazy" decoding="async"><span class="socle"></span></span>
+          <span class="cartel"><span class="no">N° 15 · <span data-t="cab-salle">Salle</span> IV</span><span class="nom">T-shirt femme fluide</span><span class="prix-p">28&nbsp;€</span></span>
+        </button>
+        <p class="details"><span class="coloris" aria-label="Blanc, Noir"><i style="--c:#F2EEE6" title="Blanc"></i><i style="--c:#151515" title="Noir"></i></span><span class="tailles"><span data-t="btq-tailles">Tailles</span> S – XXL</span><span class="epuise" data-t="btq-epuise">Épuisé</span></p>
+      </article>
+      <article class="produit vitrine rise" data-cat="vetements" style="transition-delay:0.06s">
+        <button type="button" class="ouvre" data-id="769" data-no="16" data-dos="1" data-href="mailto:grotte@lagrottenapoleon.fr?subject=Boutique%20:%20Débardeur%20femme%20Tête%20de%20Maure" aria-haspopup="dialog">
+          <span class="niche"><span class="ombre"></span><img src="images/cabinet/769.webp" alt="" loading="lazy" decoding="async"><span class="socle"></span></span>
+          <span class="cartel"><span class="no">N° 16 · <span data-t="cab-salle">Salle</span> IV</span><span class="nom">Débardeur femme Tête de Maure</span><span class="prix-p">28&nbsp;€</span></span>
+        </button>
+        <p class="details"><span class="coloris" aria-label="Noir, Blanc, Kaki"><i style="--c:#151515" title="Noir"></i><i style="--c:#F2EEE6" title="Blanc"></i><i style="--c:#6B6A45" title="Kaki"></i></span><span class="tailles"><span data-t="btq-tailles">Tailles</span> XS – XXL</span></p>
+      </article>
+      <article class="produit vitrine rise" data-cat="vetements" style="transition-delay:0.12s">
+        <button type="button" class="ouvre" data-id="816" data-no="17" data-dos="1" data-href="mailto:grotte@lagrottenapoleon.fr?subject=Boutique%20:%20T-shirt%20homme%20Tête%20de%20Maure" aria-haspopup="dialog">
+          <span class="niche"><span class="ombre"></span><img src="images/cabinet/816.webp" alt="" loading="lazy" decoding="async"><span class="socle"></span></span>
+          <span class="cartel"><span class="no">N° 17 · <span data-t="cab-salle">Salle</span> IV</span><span class="nom">T-shirt homme Tête de Maure</span><span class="prix-p">28&nbsp;€</span></span>
+        </button>
+        <p class="details"><span class="coloris" aria-label="Bordeaux, Vert, Bleu"><i style="--c:#6E1F2B" title="Bordeaux"></i><i style="--c:#2F5D3A" title="Vert"></i><i style="--c:#2B4A7A" title="Bleu"></i></span><span class="tailles"><span data-t="btq-tailles">Tailles</span> XS – XXL</span></p>
+      </article>
+      <article class="produit vitrine rise" data-cat="vetements" style="transition-delay:0.00s">
+        <button type="button" class="ouvre" data-id="917" data-no="18" data-dos="1" data-href="mailto:grotte@lagrottenapoleon.fr?subject=Boutique%20:%20Casquette%20brodée" aria-haspopup="dialog">
+          <span class="niche"><span class="ombre"></span><img src="images/cabinet/917.webp" alt="" loading="lazy" decoding="async"><span class="socle"></span></span>
+          <span class="cartel"><span class="no">N° 18 · <span data-t="cab-salle">Salle</span> IV</span><span class="nom">Casquette brodée</span><span class="prix-p">25&nbsp;€</span></span>
+        </button>
+        <p class="details"><span class="coloris" aria-label="Noir, Vert, Bordeaux, Blanc"><i style="--c:#151515" title="Noir"></i><i style="--c:#2F5D3A" title="Vert"></i><i style="--c:#6E1F2B" title="Bordeaux"></i><i style="--c:#F2EEE6" title="Blanc"></i></span></p>
+      </article>
+      <article class="produit vitrine tableau rise" data-cat="vetements" style="transition-delay:0.06s">
+        <button type="button" class="ouvre" data-id="1293" data-no="19" data-dos="1" data-href="mailto:grotte@lagrottenapoleon.fr?subject=Boutique%20:%20T-shirt%20Napoléon,%20bleu" aria-haspopup="dialog">
+          <span class="niche"><span class="ombre"></span><img src="images/cabinet/1293.webp" alt="" loading="lazy" decoding="async"><span class="socle"></span></span>
+          <span class="cartel"><span class="no">N° 19 · <span data-t="cab-salle">Salle</span> IV</span><span class="nom">T-shirt Napoléon, bleu</span><span class="prix-p sans" data-t="btq-prix-boutique">Prix en boutique</span></span>
+        </button>
+        <p class="details"></p>
+      </article>
+      <article class="produit vitrine tableau rise" data-cat="vetements" style="transition-delay:0.12s">
+        <button type="button" class="ouvre" data-id="1300" data-no="20" data-dos="1" data-href="mailto:grotte@lagrottenapoleon.fr?subject=Boutique%20:%20T-shirt%20Napoleon%20Aiacciu,%20blanc" aria-haspopup="dialog">
+          <span class="niche"><span class="ombre"></span><img src="images/cabinet/1300.webp" alt="" loading="lazy" decoding="async"><span class="socle"></span></span>
+          <span class="cartel"><span class="no">N° 20 · <span data-t="cab-salle">Salle</span> IV</span><span class="nom">T-shirt Napoleon Aiacciu, blanc</span><span class="prix-p sans" data-t="btq-prix-boutique">Prix en boutique</span></span>
+        </button>
+        <p class="details"></p>
+      </article>
+    </div>
+    <p class="note btq-ligne" data-t="btq-ligne"></p>
+  </section>
+
+  <section class="page" id="venir" aria-labelledby="t-venir">
+    <div class="well rise">
+      <p class="eyebrow" data-t="btq-venir-e">Sur place</p>
+      <h2 id="t-venir" data-t="btq-venir-titre">Passer à la boutique</h2>
+      <p class="adresse"><span data-t="btq-venir-texte"></span></p>
+      <a class="gros-tel" href="tel:+33495280461">04 95 28 04 61</a>
+      <div class="actions"><a class="btn" href="https://www.google.com/maps/search/?api=1&amp;query=La+Grotte+Napol%C3%A9on+4+rue+Saint-Charles+Ajaccio" target="_blank" rel="noopener" data-t="v-itineraire">Itinéraire</a><a class="ghost" href="mailto:grotte@lagrottenapoleon.fr?subject=Boutique"><span data-t="v-ecrire">Écrire</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a></div>
+    </div>
+  </section>
+  </div>
+</main>
+
+<footer class="pied">
+  <div class="page">
+    <p class="phrase-fin" data-t="p-phrase">Une heure, un repas, toute une vie.</p>
+    <a class="btn lg" href="reserver.html" data-reserver data-t="ouv-reserver">Réserver une séance</a>
+    <div class="pied-bas">
+      <span>La Grotte Napoléon · dipoi 1769</span>
+      <nav aria-label="Informations"><a href="cgv.html" data-t="p-cgv">Conditions de vente</a><a href="mentions-legales.html" data-t="p-mentions">Mentions légales</a><a href="confidentialite.html" data-t="p-confid">Confidentialité</a><a href="https://saitora.fr" data-t="p-saitora">Site réalisé par Saitora</a></nav>
+    </div>
+  </div>
+</footer>
+
+<div class="barre" id="barre">
+  <a href="tel:+33495280461" data-t="barre-appeler">Appeler</a>
+  <a class="btn" href="reserver.html" data-reserver data-t="barre-reserver">Réserver</a>
+  <a href="./#venir" data-t="barre-plan">Plan</a>
+</div>
+
+
+
+<!-- la vitrine ouverte -->
+<dialog class="vitrine-grande" id="vitrine" aria-labelledby="vNom">
+  <button type="button" class="rond fermer" id="vFerme" data-t-aria="cab-fermer" aria-label="Fermer"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M1 1l12 12M13 1L1 13"/></svg></button>
+  <div class="niche"><span class="ombre"></span><img id="vImg" src="" alt=""><span class="socle"></span></div>
+  <div class="v-texte">
+    <p class="no" id="vNo"></p>
+    <h2 id="vNom"></h2>
+    <div class="v-prix" id="vPrix"></div>
+    <p class="details" id="vDetails"></p>
+    <figure class="v-photo" id="vPhoto"><img id="vDos" src="" alt=""><figcaption data-t="cab-photo">Vu à la boutique</figcaption></figure>
+    <a class="btn lg" id="vDemander" href="#"><span data-t="btq-demander">Le demander</span></a>
+    <p class="note" data-t="btq-ligne"></p>
+  </div>
+</dialog>
+<script>
+/* démo cabinet : ouvrir une vitrine en grand */
+(() => {
+  const d = document.getElementById("vitrine"), $ = id => document.getElementById(id);
+  document.querySelectorAll(".vitrine .ouvre").forEach(b => b.addEventListener("click", () => {
+    const art = b.closest(".vitrine"), id = b.dataset.id;
+    $("vImg").src = "images/cabinet/" + id + ".webp";
+    $("vNo").textContent = b.querySelector(".no").textContent;
+    $("vNom").textContent = b.querySelector(".nom").textContent;
+    $("vPrix").innerHTML = b.querySelector(".prix-p").outerHTML;
+    $("vDetails").innerHTML = art.querySelector(".details").innerHTML;
+    $("vPhoto").hidden = b.dataset.dos !== "1"; $("vDos").src = b.dataset.dos === "1" ? "images/boutique/" + id + "-1.webp" : "";
+    $("vDemander").href = b.dataset.href;
+    d.classList.toggle("tableau", art.classList.contains("tableau"));
+    d.showModal(); document.documentElement.classList.add("vitrine-ouverte");
+  }));
+  $("vFerme").onclick = () => d.close();
+  d.addEventListener("click", e => { if (e.target === d) d.close(); });
+  d.addEventListener("close", () => document.documentElement.classList.remove("vitrine-ouverte"));
+})();
+</script>
+<script src="textes.js?v=20261030f"></script>
+<script src="grotte.js?v=20261030f"></script>
+</body>
+</html>

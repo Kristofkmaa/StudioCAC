@@ -59,7 +59,7 @@
   }
 
   let enCours = false;
-  function boucle() { dessine(); if (!calme) requestAnimationFrame(boucle); else enCours = false; }
+  function boucle() { if (!c.isConnected) return; dessine(); if (!calme) requestAnimationFrame(boucle); else enCours = false; }
   seme(); boucle();
   let largeur = innerWidth;  /* sur téléphone, la barre d'adresse change la hauteur en défilant : on ne ressème que si la largeur change */
   addEventListener("resize", () => { seme(innerWidth === largeur); largeur = innerWidth; if (calme) dessine(); });

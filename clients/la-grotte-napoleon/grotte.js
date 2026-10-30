@@ -102,7 +102,7 @@
      quand on touche « Découvrir » (ou qu'on essaie de descendre), à la boutique dès qu'on commence à défiler. Elle ne se joue qu'une fois :
      en remontant on garde l'Empereur, l'enfant ne revient qu'en rechargeant la page. Le défilement ne règle que l'arrivée du site et
      l'effacement de Napoléon en fond. */
-  const DUREE = 2500, intro = $("decouvrir"), accroche = $("accroche"), concept = $("concept"), bloc = chapeau && chapeau.querySelector(".ouverture-texte"), racine = document.documentElement;
+  const DUREE = couronne ? 1600 : 2500, intro = $("decouvrir"), accroche = $("accroche"), concept = $("concept"), bloc = chapeau && chapeau.querySelector(".ouverture-texte"), racine = document.documentElement;
   let a = 0, cible = 0, joue = false, avant = 0, tic = false, vu = false;
   const lance = () => { if (vu) return; vu = true; cible = 1; if (!joue) { joue = true; requestAnimationFrame(boucle); } };
   /* arrivé par un lien (#seance…) ou déjà plus bas : on saute l'ouverture */
@@ -136,7 +136,7 @@
     const dt = avant ? t - avant : 16; avant = t;
     a = cible > a ? Math.min(cible, a + dt / DUREE) : Math.max(cible, a - dt / DUREE * 1.6);
     dessine();
-    if (a !== cible) requestAnimationFrame(boucle); else { joue = false; avant = 0; setTimeout(() => racine.classList.remove("verrou"), couronne ? 500 : 0); }  /* la boutique : on attend que la phrase soit là */
+    if (a !== cible) requestAnimationFrame(boucle); else { joue = false; avant = 0; setTimeout(() => racine.classList.remove("verrou"), couronne ? 200 : 0); }  /* la boutique : on attend que la phrase soit là */
   }
   /* une fois l'animation jouée, le site remonte par-dessus Napoléon, resté en fond : il s'efface doucement dans la roche pour les textes */
   const fin = () => chapeau.offsetTop + chapeau.offsetHeight - innerHeight;
@@ -158,7 +158,7 @@
        la couronne posée et la phrase arrivée (au plus tard après 6 s, au cas où l'animation ne pourrait pas se jouer) */
     if (couronne) {
       if (location.hash || scrollY > 0) saute();
-      else { racine.classList.add("verrou"); setTimeout(lance, 700); setTimeout(() => racine.classList.remove("verrou"), 6000); }
+      else { racine.classList.add("verrou"); setTimeout(lance, 150); setTimeout(() => racine.classList.remove("verrou"), 3500); }
     }
     if (intro) {
       /* l'accueil repart toujours d'en haut, sur l'enfant ; on ne peut pas descendre avant la transformation, mais toute tentative la lance */

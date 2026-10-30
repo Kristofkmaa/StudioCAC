@@ -91,7 +91,7 @@
   const haut = () => { barre.classList.toggle("vue", scrollY > 120 && !boutonsVus); tete.classList.toggle("pleine", scrollY > 10); };
 
   /* ---------- le bicorne tombe sur sa tête, le titre repart de chaque côté ---------- */
-  const chapeau = $("chapeau"), bicorne = $("bicorne"), enfant = $("enfant"), portrait = chapeau && chapeau.querySelector(".portrait"), scene = chapeau && chapeau.querySelector(".scene"), chapeaux = chapeau ? [...chapeau.querySelectorAll(".bicorne")] : [], couronne = !!document.querySelector(".portrait.sacre"), cue = chapeau && chapeau.querySelector(".cue"), lignes = chapeau ? [...chapeau.querySelectorAll("#t-titre .ln")] : [], lignes2 = chapeau ? [...chapeau.querySelectorAll("#titreEmpereur .ln")] : [], titreEmpereur = $("titreEmpereur"), sensTel = [-1, 1, -1], ordi = matchMedia("(min-width: 981px)");
+  const chapeau = $("chapeau"), bicorne = $("bicorne"), enfant = $("enfant"), portrait = chapeau && chapeau.querySelector(".portrait"), scene = chapeau && chapeau.querySelector(".scene"), chapeaux = chapeau ? [...chapeau.querySelectorAll(".bicorne")] : [], couronne = !!document.querySelector(".portrait.sacre"), lignes = chapeau ? [...chapeau.querySelectorAll("#t-titre .ln")] : [], lignes2 = chapeau ? [...chapeau.querySelectorAll("#titreEmpereur .ln")] : [], titreEmpereur = $("titreEmpereur"), sensTel = [-1, 1, -1], ordi = matchMedia("(min-width: 981px)");
   const borne = x => Math.min(1, Math.max(0, x));
   /* la transformation (le chapeau tombe, l'enfant devient l'Empereur, les titres changent) se joue d'elle-même, à sa vitesse : à l'accueil
      quand on touche « Découvrir » (ou qu'on essaie de descendre), à la boutique dès qu'on commence à défiler. Elle ne se joue qu'une fois :
@@ -114,7 +114,6 @@
     /* l'enfant devient l'Empereur sous le bicorne : une ligne au bord doux descend de la tête (quand le chapeau la touche) jusqu'au bas du portrait ;
        au-dessus l'adulte, en dessous l'enfant, jamais les deux visages l'un sur l'autre */
     if (enfant) { const l = -.1 + 1.25 * Math.pow(borne((p - .64) / .3), 1.3); portrait.style.setProperty("--l", l.toFixed(4)); portrait.style.setProperty("--le", ((l + .1) / 1.62).toFixed(4)); }
-    if (cue) { const o = intro ? borne((p - .9) / .1) : 1 - borne(p / .15); cue.style.opacity = o.toFixed(3); cue.style.visibility = o > 0 ? "" : "hidden"; }
     if (accroche) { const f = borne(p / .14); accroche.style.opacity = (1 - f).toFixed(3); accroche.style.transform = `translate3d(0,${(f * -10).toFixed(1)}px,0)`; accroche.style.visibility = f >= 1 ? "hidden" : ""; }
     /* puis, l'Empereur en place, ce qu'on vit à la Grotte et les boutons pour réserver */
     if (concept) concept.classList.toggle("vu", p > .82);

@@ -5,8 +5,9 @@
   const calme = matchMedia("(prefers-reduced-motion: reduce)").matches;
   /* on arrive toujours tout en haut de la page, même en revenant en arrière ou en rechargeant (sauf un lien vers une section, #…) */
   history.scrollRestoration = "manual";
-  if (!location.hash) scrollTo(0, 0);
-  addEventListener("pageshow", e => { if (e.persisted && !location.hash) scrollTo(0, 0); });
+  const enHaut = () => scrollTo({ top: 0, left: 0, behavior: "instant" });  /* sans glisser : le défilement doux du site ne doit pas jouer ici */
+  if (!location.hash) enHaut();
+  addEventListener("pageshow", e => { if (e.persisted && !location.hash) enHaut(); });
 
   /* ---------- la langue : l'adresse (?lang=), le dernier choix, puis celle du téléphone ---------- */
   let L = new URLSearchParams(location.search).get("lang");
@@ -97,7 +98,7 @@
      quand on touche « Découvrir » (ou qu'on essaie de descendre), à la boutique dès qu'on commence à défiler. Elle ne se joue qu'une fois :
      en remontant on garde l'Empereur, l'enfant ne revient qu'en rechargeant la page. Le défilement ne règle que l'arrivée du site et
      l'effacement de Napoléon en fond. */
-  const DUREE = 2500, intro = $("decouvrir"), accroche = $("accroche"), concept = $("concept"), bloc = titreEmpereur && titreEmpereur.parentElement, racine = document.documentElement;
+  const DUREE = 2500, intro = $("decouvrir"), accroche = $("accroche"), concept = $("concept"), bloc = chapeau && chapeau.querySelector(".ouverture-texte"), racine = document.documentElement;
   let a = 0, cible = 0, joue = false, avant = 0, tic = false, vu = false;
   const lance = () => { if (vu) return; vu = true; cible = 1; if (!joue) { joue = true; requestAnimationFrame(boucle); } };
   /* arrivé par un lien (#seance…) ou déjà plus bas : on saute l'ouverture */
@@ -122,7 +123,7 @@
     chapeaux.forEach(c => c.style.transform = pose);
     const sens = ordi.matches ? [-1, -1, -1] : sensTel;  /* sur ordinateur le titre est dans le coin gauche : tout part et revient par la gauche */
     const e = Math.pow(borne((p - .04) / .7), 2);
-    lignes.forEach((l, i) => { l.style.transform = `translate3d(${(sens[i] * e * 110).toFixed(2)}vw,0,0)`; l.style.opacity = (1 - e * .85).toFixed(3); });
+    if (titreEmpereur) lignes.forEach((l, i) => { l.style.transform = `translate3d(${(sens[i] * e * 110).toFixed(2)}vw,0,0)`; l.style.opacity = (1 - e * .85).toFixed(3); });
     /* quand l'Empereur apparaît, « Napoléon, empereur des Français » revient des côtés et reste en entier */
     const e2 = 1 - Math.pow(1 - borne((p - .74) / .2), 3);
     lignes2.forEach((l, i) => { l.style.transform = `translate3d(${((ordi.matches ? -1 : -sens[i]) * (1 - e2) * 110).toFixed(2)}vw,0,0)`; l.style.opacity = e2.toFixed(3); });
@@ -149,11 +150,13 @@
   addEventListener("scroll", () => { if (!tic) { tic = true; requestAnimationFrame(anime); } }, { passive: true });
   addEventListener("resize", anime);
   if (chapeau && !calme) {
+    /* la boutique : la couronne se pose d'elle-même peu après l'arrivée, le titre reste en place */
+    if (couronne) setTimeout(lance, 700);
     if (intro) {
       /* l'accueil repart toujours d'en haut, sur l'enfant ; on ne peut pas descendre avant la transformation, mais toute tentative la lance */
       if (location.hash || scrollY > 0) saute();
       else {
-        racine.classList.add("verrou"); scrollTo(0, 0);
+        racine.classList.add("verrou"); enHaut();
         intro.onclick = lance;
         /* « Entrer dans la Grotte » : on descend vers la suite du site sans laisser de #… dans l'adresse (le rechargement repart de l'enfant) */
         const entrer = $("entrer"); if (entrer) entrer.onclick = e => { e.preventDefault(); $("seance").scrollIntoView({ block: "start" }); };

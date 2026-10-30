@@ -10,7 +10,7 @@
 <link rel="icon" href="images/couronne.png">
 <link rel="stylesheet" href="grotte.css">
 </head>
-<body data-titre="meta-boutique">
+<body class="btq" data-titre="meta-boutique">
 <div class="maquette" data-t="bandeau">Maquette préparée par Saitora pour La Grotte Napoléon : à valider ensemble avant la mise en ligne.</div>
 
 <header class="bar" id="tete">
@@ -49,20 +49,30 @@
 </div>
 
 <main id="haut">
-  <!-- l'ouverture : en descendant, la couronne de laurier se pose sur l'Empereur en habit du sacre -->
+  <!-- l'ouverture : la couronne de laurier se pose d'elle-même sur l'Empereur en habit du sacre, le titre reste, puis la phrase et les boutons arrivent -->
   <section class="chapeau" id="chapeau" aria-labelledby="t-titre">
     <div class="scene">
       <div class="ouverture-texte">
         <h1 class="geant" id="t-titre"><span class="ln l1"><span class="in" data-t="btq-l1">Souvenirs</span></span> <span class="ln l2"><span class="in" data-t="btq-l2">de l’Empire,</span></span> <span class="ln l3"><span class="in" data-t="btq-l3">d’Ajaccio</span></span></h1>
+        <!-- une fois la couronne posée : ce qu'on trouve à la boutique, et où aller -->
+        <div class="accroche concept" id="concept">
+          <p data-t="btq-phrase" style="--i:0"></p>
+          <div class="actions" id="boutonsOuv" style="--i:1"><a class="btn lg" href="#souvenirs" data-t="btq-voir">Voir les souvenirs</a><a class="ghost" href="reserver.html" data-reserver><span data-t="ouv-reserver">Réserver une séance</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a></div>
+        </div>
       </div>
       <div class="portrait sacre"><img src="images/sacre.webp" alt="Napoléon en habit du sacre, le sceptre à la main" width="1145" height="1374" fetchpriority="high"><img class="bicorne arriere" src="images/laurier-arriere.webp" alt="" width="1257" height="820"><span class="ombre-chapeau" id="ombreChapeau"></span><img class="bicorne" id="bicorne" src="images/laurier-avant.webp" alt="" width="1257" height="820"></div>
     </div>
   </section>
-  <section class="ouv-suite" id="suite">
-    <div class="page">
-      <p class="eyebrow" data-t="btq-lieu">La boutique de la Grotte · 4 rue Saint-Charles</p>
-      <p data-t="btq-phrase"></p>
-      <div class="actions" id="boutonsOuv"><a class="btn lg" href="#souvenirs" data-t="btq-voir">Voir les souvenirs</a><a class="ghost" href="reserver.html" data-reserver><span data-t="ouv-reserver">Réserver une séance</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a></div>
+
+  <div class="corps-btq">
+  <!-- les rayons : un toucher filtre les souvenirs et y descend -->
+  <section class="sec page" aria-labelledby="t-rayons">
+    <div class="head rise"><div><p class="eyebrow" data-t="btq-e">La boutique</p><h2 id="t-rayons" data-t="btq-rayons">Les rayons</h2><p data-t="btq-intro"></p></div></div>
+    <div class="rayons">
+      <button type="button" class="rayon rise" data-filtre-va="napo" style="transition-delay:0.00s"><span class="img"><img src="images/boutique/1357-0.webp" alt="" loading="lazy" decoding="async"></span><span class="nom" data-t="btq-f-napo">Collection Napô</span><span class="nb">4 <span data-t="btq-pieces">pièces</span></span></button>
+      <button type="button" class="rayon rise" data-filtre-va="bustes" style="transition-delay:0.06s"><span class="img"><img src="images/boutique/1367-0.webp" alt="" loading="lazy" decoding="async"></span><span class="nom" data-t="btq-f-bustes">Bustes et statuettes</span><span class="nb">3 <span data-t="btq-pieces">pièces</span></span></button>
+      <button type="button" class="rayon rise" data-filtre-va="objets" style="transition-delay:0.12s"><span class="img"><img src="images/boutique/1427-0.webp" alt="" loading="lazy" decoding="async"></span><span class="nom" data-t="btq-f-objets">Écriture et maison</span><span class="nb">4 <span data-t="btq-pieces">pièces</span></span></button>
+      <button type="button" class="rayon rise" data-filtre-va="vetements" style="transition-delay:0.18s"><span class="img"><img src="images/boutique/210-0.webp" alt="" loading="lazy" decoding="async"></span><span class="nom" data-t="btq-f-vetements">Vêtements</span><span class="nb">9 <span data-t="btq-pieces">pièces</span></span></button>
     </div>
   </section>
 
@@ -78,7 +88,7 @@
   </section>
 
   <section class="sec page" id="souvenirs" aria-labelledby="t-souvenirs">
-    <div class="head rise"><div><p class="eyebrow" data-t="btq-e">La boutique</p><h2 id="t-souvenirs" data-t="btq-titre">Les souvenirs</h2><p data-t="btq-intro"></p></div></div>
+    <div class="head rise"><div><p class="eyebrow" data-t="btq-e2">Tout le catalogue</p><h2 id="t-souvenirs" data-t="btq-titre">Les souvenirs</h2></div></div>
     <div class="filtres" role="group" aria-label="Catégories">
       <button type="button" data-filtre="tout" aria-pressed="true" data-t="btq-f-tout">Tout</button><button type="button" data-filtre="napo" aria-pressed="false" data-t="btq-f-napo">Collection Napô</button><button type="button" data-filtre="bustes" aria-pressed="false" data-t="btq-f-bustes">Bustes et statuettes</button><button type="button" data-filtre="objets" aria-pressed="false" data-t="btq-f-objets">Écriture et maison</button><button type="button" data-filtre="vetements" aria-pressed="false" data-t="btq-f-vetements">Vêtements</button>
     </div>
@@ -217,6 +227,7 @@
       <div class="actions"><a class="btn" href="https://www.google.com/maps/search/?api=1&amp;query=La+Grotte+Napol%C3%A9on+4+rue+Saint-Charles+Ajaccio" target="_blank" rel="noopener" data-t="v-itineraire">Itinéraire</a><a class="ghost" href="mailto:grotte@lagrottenapoleon.fr?subject=Boutique"><span data-t="v-ecrire">Écrire</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a></div>
     </div>
   </section>
+  </div>
 </main>
 
 <footer class="pied">

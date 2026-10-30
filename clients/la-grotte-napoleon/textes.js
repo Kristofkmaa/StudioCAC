@@ -2,7 +2,7 @@
    Une clé par texte (data-t dans la page). Le corse est à faire relire par un locuteur. */
 window.TEXTES = {
   fr: {
-    "fo-c-texte": "Le spuntinu, dégustation typiquement corse, accompagne cette découverte visuelle et auditive : des mets traditionnels ajacciens comme les chaussons aux oignons et aux blettes, la charcuterie nustrale et le fromage corse avec sa confiture de figues, le tout dans une ambiance du XVIIIe siècle.", "fo-menu-intro": "Le spuntinu, c'est depuis des siècles le repas des Corses : un moment convivial de partage.", "r-cgv": "En réservant, vous acceptez nos", "r-cgv-lien": "conditions de vente", "nom-langue": "Français",
+    "fo-c-texte": "Le spuntinu, dégustation typiquement corse, accompagne cette découverte visuelle et auditive : des mets traditionnels ajacciens comme les chaussons aux oignons et aux blettes, la charcuterie nustrale et le fromage corse avec sa confiture de figues, le tout dans une ambiance du XVIIIe siècle.", "fo-menu-intro": "Le spuntinu, c'est depuis des siècles le repas des Corses : un moment convivial de partage.", "r-cgv": "En réservant, vous acceptez nos", "r-cgv-lien": "conditions de vente", "vid-titre": "En vidéo", "vid-texte": "Le film de présentation de la Grotte Napoléon : la salle, les écrans, et un avant-goût de la séance.", "vid-lire": "Lire la vidéo", "vid-note": "La vidéo est hébergée sur YouTube : elle ne se charge que si vous appuyez sur lecture.", "vid-son": "Avec le son", "nom-langue": "Français",
     "meta-titre": "La Grotte Napoléon · Séance et repas corse à Ajaccio",
     "meta-desc": "Une heure sur l'enfance de Napoléon à Ajaccio, projetée sur plusieurs écrans dans une salle plongée dans le noir, autour d'un spuntinu corse. 4 rue Saint-Charles.",
     "bandeau": "Maquette préparée par Saitora pour La Grotte Napoléon : à valider ensemble avant la mise en ligne.",
@@ -82,7 +82,7 @@ window.TEXTES = {
   },
 
   en: {
-    "fo-c-texte": "The spuntinu, a typical Corsican tasting, goes along with this visual and multilingual discovery: traditional Ajaccio dishes such as onion and chard turnovers, local charcuterie and Corsican cheese with fig jam, all in an 18th-century atmosphere.", "fo-menu-intro": "For centuries, the spuntinu has been the Corsican meal: a friendly moment of sharing.", "r-cgv": "By booking, you accept our", "r-cgv-lien": "terms of sale", "nom-langue": "English",
+    "fo-c-texte": "The spuntinu, a typical Corsican tasting, goes along with this visual and multilingual discovery: traditional Ajaccio dishes such as onion and chard turnovers, local charcuterie and Corsican cheese with fig jam, all in an 18th-century atmosphere.", "fo-menu-intro": "For centuries, the spuntinu has been the Corsican meal: a friendly moment of sharing.", "r-cgv": "By booking, you accept our", "r-cgv-lien": "terms of sale", "vid-titre": "On video", "vid-texte": "The Grotte Napoléon presentation film: the room, the screens and a foretaste of the show.", "vid-lire": "Play the video", "vid-note": "The video is hosted on YouTube: it only loads if you press play.", "vid-son": "With sound", "nom-langue": "English",
     "meta-titre": "La Grotte Napoléon · Film and Corsican meal in Ajaccio",
     "meta-desc": "One hour on Napoleon's childhood in Ajaccio, shown on several screens in a darkened room, over a Corsican spuntinu. 4 rue Saint-Charles.",
     "bandeau": "Mock-up prepared by Saitora for La Grotte Napoléon: to be approved together before going live.",
@@ -162,7 +162,7 @@ window.TEXTES = {
   },
 
   it: {
-    "fo-c-texte": "Lo spuntinu, una degustazione tipicamente corsa, accompagna questa scoperta visiva e uditiva multilingue, con piatti tradizionali di Ajaccio come i calzoni ripieni di cipolle e bietole, salumi tradizionali e formaggi corsi con confettura di fichi, il tutto in un'atmosfera del Settecento.", "fo-menu-intro": "Da secoli lo spuntinu è il pasto dei corsi: un momento conviviale di condivisione.", "r-cgv": "Prenotando, accettate le nostre", "r-cgv-lien": "condizioni di vendita", "nom-langue": "Italiano",
+    "fo-c-texte": "Lo spuntinu, una degustazione tipicamente corsa, accompagna questa scoperta visiva e uditiva multilingue, con piatti tradizionali di Ajaccio come i calzoni ripieni di cipolle e bietole, salumi tradizionali e formaggi corsi con confettura di fichi, il tutto in un'atmosfera del Settecento.", "fo-menu-intro": "Da secoli lo spuntinu è il pasto dei corsi: un momento conviviale di condivisione.", "r-cgv": "Prenotando, accettate le nostre", "r-cgv-lien": "condizioni di vendita", "vid-titre": "In video", "vid-texte": "Il film di presentazione della Grotte Napoléon: la sala, gli schermi e un assaggio della proiezione.", "vid-lire": "Guarda il video", "vid-note": "Il video è ospitato su YouTube: si carica solo se premete play.", "vid-son": "Con l'audio", "nom-langue": "Italiano",
     "meta-titre": "La Grotte Napoléon · Proiezione e pasto corso ad Ajaccio",
     "meta-desc": "Un'ora sull'infanzia di Napoleone ad Ajaccio, proiettata su più schermi in una sala immersa nel buio, con uno spuntinu corso. 4 rue Saint-Charles.",
     "bandeau": "Bozza preparata da Saitora per La Grotte Napoléon: da approvare insieme prima della pubblicazione.",
@@ -242,7 +242,7 @@ window.TEXTES = {
   },
 
   de: {
-    "fo-c-texte": "Der Spuntinu, eine typisch korsische Kostprobe, begleitet diese mehrsprachige Seh- und Hörentdeckung mit traditionellen Gerichten aus Ajaccio wie Zwiebel- und Mangoldtaschen, einheimischen Wurstwaren und korsischem Käse mit Feigenkonfitüre, alles in einer Atmosphäre des 18. Jahrhunderts.", "fo-menu-intro": "Seit Jahrhunderten ist der Spuntinu die Mahlzeit der Korsen: ein geselliger Moment des Teilens.", "r-cgv": "Mit Ihrer Buchung akzeptieren Sie unsere", "r-cgv-lien": "Verkaufsbedingungen", "nom-langue": "Deutsch",
+    "fo-c-texte": "Der Spuntinu, eine typisch korsische Kostprobe, begleitet diese mehrsprachige Seh- und Hörentdeckung mit traditionellen Gerichten aus Ajaccio wie Zwiebel- und Mangoldtaschen, einheimischen Wurstwaren und korsischem Käse mit Feigenkonfitüre, alles in einer Atmosphäre des 18. Jahrhunderts.", "fo-menu-intro": "Seit Jahrhunderten ist der Spuntinu die Mahlzeit der Korsen: ein geselliger Moment des Teilens.", "r-cgv": "Mit Ihrer Buchung akzeptieren Sie unsere", "r-cgv-lien": "Verkaufsbedingungen", "vid-titre": "Im Video", "vid-texte": "Der Vorstellungsfilm der Grotte Napoléon: der Saal, die Bildschirme und ein Vorgeschmack auf die Vorstellung.", "vid-lire": "Video abspielen", "vid-note": "Das Video liegt auf YouTube: Es wird erst geladen, wenn Sie auf Abspielen tippen.", "vid-son": "Mit Ton", "nom-langue": "Deutsch",
     "meta-titre": "La Grotte Napoléon · Film und korsisches Essen in Ajaccio",
     "meta-desc": "Eine Stunde über Napoleons Kindheit in Ajaccio, auf mehreren Bildschirmen in einem abgedunkelten Saal, bei einem korsischen Spuntinu. 4 rue Saint-Charles.",
     "bandeau": "Entwurf von Saitora für La Grotte Napoléon: vor der Veröffentlichung gemeinsam abzustimmen.",
@@ -322,7 +322,7 @@ window.TEXTES = {
   },
 
   es: {
-    "fo-c-texte": "El spuntinu, una degustación típica de Córcega, acompaña este descubrimiento visual y auditivo con platos tradicionales de Ajaccio, como las empanadillas de cebolla y de acelgas, los embutidos y el queso corso con mermelada de higos, todo en un ambiente del siglo XVIII.", "fo-menu-intro": "Desde hace siglos, el spuntinu es la comida de los corsos: un momento de convivencia.", "r-cgv": "Al reservar, acepta nuestras", "r-cgv-lien": "condiciones de venta", "nom-langue": "Español",
+    "fo-c-texte": "El spuntinu, una degustación típica de Córcega, acompaña este descubrimiento visual y auditivo con platos tradicionales de Ajaccio, como las empanadillas de cebolla y de acelgas, los embutidos y el queso corso con mermelada de higos, todo en un ambiente del siglo XVIII.", "fo-menu-intro": "Desde hace siglos, el spuntinu es la comida de los corsos: un momento de convivencia.", "r-cgv": "Al reservar, acepta nuestras", "r-cgv-lien": "condiciones de venta", "vid-titre": "En vídeo", "vid-texte": "La película de presentación de la Grotte Napoléon: la sala, las pantallas y un anticipo de la sesión.", "vid-lire": "Ver el vídeo", "vid-note": "El vídeo está alojado en YouTube: solo se carga si pulsa reproducir.", "vid-son": "Con sonido", "nom-langue": "Español",
     "meta-titre": "La Grotte Napoléon · Proyección y comida corsa en Ajaccio",
     "meta-desc": "Una hora sobre la infancia de Napoleón en Ajaccio, proyectada en varias pantallas en una sala a oscuras, con un spuntinu corso. 4 rue Saint-Charles.",
     "bandeau": "Maqueta preparada por Saitora para La Grotte Napoléon: a validar juntos antes de publicarla.",
@@ -402,7 +402,7 @@ window.TEXTES = {
   },
 
   co: {
-    "fo-c-texte": "U spuntinu, sputicamenti corsu, vi accumpagnarà in sta scuparta visuali è auditiva multilingua, cù a robba aiaccina tradiziunali tali l'inciullati, l'inarbittati, a robba purcina è u furmaghju cù a cunfittura di fichi… L'ambienti à l'usu XVIIIesimu seculu in più !", "fo-menu-intro": "U spuntinu hè dapoi seculi u pastu di i Corsi : una stonda di spartera.", "r-cgv": "Risirvendu, accittate e nostre", "r-cgv-lien": "cundizioni di vendita", "nom-langue": "Corsu",
+    "fo-c-texte": "U spuntinu, sputicamenti corsu, vi accumpagnarà in sta scuparta visuali è auditiva multilingua, cù a robba aiaccina tradiziunali tali l'inciullati, l'inarbittati, a robba purcina è u furmaghju cù a cunfittura di fichi… L'ambienti à l'usu XVIIIesimu seculu in più !", "fo-menu-intro": "U spuntinu hè dapoi seculi u pastu di i Corsi : una stonda di spartera.", "r-cgv": "Risirvendu, accittate e nostre", "r-cgv-lien": "cundizioni di vendita", "vid-titre": "In video", "vid-texte": "U filmu di prisintazioni di La Grotte Napoléon : a sala, i schermi è un assaghju di a stonda.", "vid-lire": "Fighjà u video", "vid-note": "U video hè nant'à YouTube : si carica solu s'è vo appughjate nant'à leghje.", "vid-son": "Cù u sonu", "nom-langue": "Corsu",
     "meta-titre": "La Grotte Napoléon · Proiezzione è spuntinu corsu in Aiacciu",
     "meta-desc": "Un'ora nant'à a zitellina di Napuliò in Aiacciu, nant'à parechji schermi in una sala bughja, intornu à un spuntinu corsu. 4 rue Saint-Charles.",
     "bandeau": "Bozza appruntata da Saitora per La Grotte Napoléon : da cunvalidà inseme nanzu à a publicazione.",

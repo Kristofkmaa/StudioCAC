@@ -176,7 +176,7 @@
     if (titreEmpereur) lignes.forEach((l, i) => { l.style.transform = `translate3d(${(sens[i] * e * 110).toFixed(2)}vw,0,0)`; l.style.opacity = (1 - e * .85).toFixed(3); });
     /* quand l'Empereur apparaît, « Napoléon, empereur des Français » revient des côtés et reste en entier */
     const e2 = 1 - Math.pow(1 - borne((p - .74) / .2), 3);
-    lignes2.forEach((l, i) => { l.style.transform = `translate3d(${((ordi.matches ? -1 : -sens[i]) * (1 - e2) * 110).toFixed(2)}vw,0,0)`; l.style.opacity = e2.toFixed(3); });
+    lignes2.forEach((l, i) => { l.style.transform = `translate3d(${((ordi.matches ? 1 : -sens[i]) * (1 - e2) * 110).toFixed(2)}vw,0,0)`;  /* sur ordinateur il arrive par la droite, où il se pose */ l.style.opacity = e2.toFixed(3); });
   }
   function boucle(t) {
     const dt = avant ? t - avant : 16; avant = t;

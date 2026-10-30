@@ -710,8 +710,7 @@ body[data-titre="meta-reserver"]{--barre:0px}
 }
 
 /* ---------- sur ordinateur, plus d'en-tête : le logo en grand au milieu en haut, qui part avec la page ;
-   l'ouverture ne montre que le logo et Napoléon, en bas à gauche ; les textes arrivent au début du site (.intro-ordi) ---------- */
-.intro-ordi{display:none}
+   à l'ouverture, le logo, Napoléon centré en bas, les grands titres à gauche et le texte de chaque phase en bas à droite ---------- */
 @media (min-width:981px){
   :root{--tete:0px}
   body{padding-top:180px}
@@ -720,25 +719,22 @@ body[data-titre="meta-reserver"]{--barre:0px}
   .bar nav,.bar .menu-btn{display:none}
   .bar .logo img{height:clamp(84px,8vw,116px);filter:drop-shadow(0 4px 24px rgba(0,0,0,.6))}
   .scene{height:100vh;--ph:min(86vh,44vw,calc((100vh - 170px) / 1.13))}  /* le haut du bicorne toujours sous le logo */
-  /* Napoléon au centre, en bas ; les deux grands titres (l'enfant, puis l'Empereur) à sa gauche ; les phrases et boutons sont plus bas */
-  .scene .accroche{display:none}
-  .scene .ouverture-texte{align-self:center;justify-self:start;width:min(30vw,560px);margin:0;padding-top:60px}
+  /* Napoléon au centre, en bas ; les deux grands titres (l'enfant, puis l'Empereur) à sa gauche ; le texte de chaque phase en bas à droite
+     (l'histoire de l'enfant et « Découvrir », puis le concept et ses boutons) */
+  .scene .ouverture-texte{position:absolute;inset:0;z-index:3;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:auto minmax(0,1fr);row-gap:24px;margin:0;padding:clamp(120px,15vh,170px) 4vw max(10vh,100px);width:auto;pointer-events:none}
+  /* l'enfant : le titre en haut à gauche, son histoire en bas à droite ; l'Empereur à l'inverse : le titre en haut à droite, le concept en bas à gauche */
+  .scene .ouverture-texte>#t-titre{grid-area:1/1;align-self:start;justify-self:start;width:min(30vw,560px)}
+  .scene .ouverture-texte>#titreEmpereur{grid-area:1/2;align-self:start;justify-self:end;width:min(30vw,560px)}
+  .scene .ouverture-texte>#accroche{grid-area:2/2;align-self:end;justify-self:end}
+  .scene .ouverture-texte>#concept{grid-area:2/1;align-self:end;justify-self:start}
+  .scene .ouverture-texte>.accroche{width:min(25vw,430px);max-width:none;pointer-events:auto}
+  .btq .scene .ouverture-texte>#concept{grid-area:2/2;justify-self:end}  /* la boutique n'a qu'un titre : la phrase en face, en bas à droite */
+  .scene .accroche p{font-size:clamp(15px,.6rem + .55vw,18px)}
+  .scene .concept>p:not(.eyebrow){font-size:clamp(18px,.7rem + .75vw,24px)}
   .scene .geant{font-size:clamp(2.6rem,min(4.6vw,9.5vh),6.6rem)}
-  .scene::after{background:linear-gradient(to right,rgba(22,20,17,.75) 0,rgba(22,20,17,.35) 26%,transparent 42%)}
+  .scene::after{background:linear-gradient(to right,rgba(22,20,17,.7) 0,rgba(22,20,17,.3) 26%,transparent 40%,transparent 60%,rgba(22,20,17,.3) 74%,rgba(22,20,17,.7) 100%)}
   .portrait{left:50%;top:calc(100vh - var(--ph));height:var(--ph)}
   .portrait.sacre{height:calc(var(--ph) * 1.707);top:calc(100vh - var(--ph) * 1.179)}
-  .intro-ordi{display:block;position:relative;z-index:1;padding-top:clamp(64px,8vw,120px)}
-  .intro-titre{font-size:clamp(3rem,1.6rem + 4.2vw,6.8rem);line-height:.98;letter-spacing:-.02em;max-width:16ch}
-  .intro-titre em{font-style:italic;color:var(--accent)}
-  .intro-cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(40px,6vw,110px);padding-top:clamp(28px,3vw,40px);border-top:1px solid var(--line-hi)}
-  .intro-ordi .lettrine{margin:0;font-size:clamp(17px,.8rem + .5vw,21px);line-height:1.6;color:var(--mist)}
-  .intro-ordi .lettrine::first-letter{float:left;font-family:var(--serif);font-size:3.6em;line-height:.8;margin:.06em .1em 0 0;color:var(--accent)}
-  .intro-concept{display:grid;gap:28px;align-content:start;justify-items:start}
-  .intro-ordi .grand{margin:0;font-family:var(--serif);font-size:clamp(1.5rem,1rem + 1.1vw,2.2rem);line-height:1.3;color:var(--ink)}
-  .intro-ordi .grand.seul{padding-top:clamp(28px,3vw,40px);border-top:1px solid var(--line-hi);max-width:none}
-  .intro-ordi .actions{display:flex;flex-wrap:wrap;align-items:center;gap:14px 26px}
-  .corps-btq>.intro-ordi{padding-top:clamp(56px,8vw,110px)}
-  .corps-btq>.intro-ordi+.sec{margin-top:clamp(56px,7vw,96px)}
 }
 @media (prefers-reduced-motion:reduce){.flotte-panneau{transition:none}}
 

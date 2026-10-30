@@ -18,3 +18,4 @@ napoleon.webp : détouré le 30/10/2026 (rembg isnet pour le contour des cheveux
 sacre.webp : portrait de Napoléon en habit du sacre envoyé par l utilisateur le 30/10/2026, détouré (rembg + repérage du fond par la couleur), la couronne posée à droite retirée, sceptre gardé.
 laurier.webp : couronne de laurier dorée envoyée par l utilisateur le 30/10/2026, détourée (le damier de fausse transparence retiré).
 boutique/<id>-0.webp et -1.webp : photos des produits de la boutique actuelle (lagrottenapoleon.fr/btq, WooCommerce), réduites à 900 px.
+sacre-devant.webp : la tête du portrait du sacre sous la ligne des tempes (fondu en haut), posée par-dessus la couronne pour que ses pointes passent derrière la tête.

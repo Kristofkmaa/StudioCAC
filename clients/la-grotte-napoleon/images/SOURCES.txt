@@ -20,3 +20,4 @@ laurier-avant.webp et laurier-arriere.webp : couronne de laurier dorée envoyée
 boutique/<id>-0.webp et -1.webp : photos des produits de la boutique actuelle (lagrottenapoleon.fr/btq, WooCommerce), réduites à 900 px.
 enfant.webp : portrait de Napoléon enfant envoyé par l utilisateur le 30/10/2026, détouré (rembg).
 cabinet/*.webp | photos des produits de la boutique (images/boutique/<id>-0.webp) détourées avec rembg (isnet-general-use) pour la démo « cabinet de curiosités » ; 1293 et 1300 (gros plans du tissu) gardées telles quelles, exposées encadrées
+medaillon.webp | médaillon vide à couronne de laurier généré par l'utilisateur avec ChatGPT (31 octobre 2026), détouré en cercle

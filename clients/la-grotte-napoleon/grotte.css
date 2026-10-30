@@ -108,8 +108,13 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 @keyframes menu-d{from{opacity:0;transform:translateX(28px)}}
 
 /* ---------- ouverture : le portrait, le bicorne qui tombe, le titre géant qui repart de chaque côté ---------- */
-.chapeau{position:relative;height:300vh;height:300svh}
-.scene{position:sticky;top:0;height:100vh;height:100svh;overflow:clip;isolation:isolate;display:grid;padding:96px var(--m) 0}
+/* Napoléon reste en fond de tout le site : la scène est fixe ; la section ne sert qu'à laisser le temps au bicorne de tomber,
+   puis le reste du site remonte par-dessus, et un voile assombrit doucement le portrait pour que les textes restent lisibles */
+.chapeau{position:relative;height:175vh;height:175svh}
+.scene{position:fixed;top:0;left:0;right:0;height:100vh;height:100lvh;overflow:clip;isolation:isolate;display:grid;padding:96px var(--m) 0;background:var(--roche),var(--bg)}
+.scene::after{content:"";position:absolute;inset:0;z-index:4;pointer-events:none;background:var(--bg);opacity:var(--voile,0)}
+main>section:not(.chapeau),main>div,.pied{position:relative;z-index:1}
+.final{display:none!important}
 .geant{position:relative;z-index:1;align-self:start;display:grid;margin:clamp(8px,4svh,48px) 0 0;font-weight:500;font-size:clamp(3rem,min(15.5vw,17svh),15rem);line-height:.9;letter-spacing:-.046em;color:var(--ink)}
 .geant .ln{display:block;white-space:nowrap;will-change:transform,opacity}
 .geant .l1{justify-self:start}.geant .l2{justify-self:end}.geant .l3{justify-self:start}
@@ -137,14 +142,10 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
   .scene{--ph:min(112svh,calc(74vw * 1374 / 1145))}
   .portrait{left:57%;right:auto;bottom:auto;top:calc(var(--ph) * .19 + 40px);width:auto;height:var(--ph)}
   .geant{z-index:3;align-self:center;margin:-2svh 0 0;font-size:clamp(3rem,min(12vw,20svh),14rem);text-shadow:0 4px 40px rgba(22,20,17,.55)}
-  /* la phrase et les boutons arrivent par-dessus, à gauche, sur un voile sombre */
-  .scene::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(to right,rgba(22,20,17,.9) 0,rgba(22,20,17,.6) 28%,transparent 48%);opacity:var(--f,0)}
-  .final{display:grid;gap:22px;justify-items:start;position:absolute;left:var(--m);top:50%;width:min(32vw,460px);transform:translateY(calc(-50% + var(--monte,24px)));z-index:3;opacity:0;visibility:hidden}
-  .ouv-suite{display:none}
 }
 }
 @media (max-width:980px){.geant{z-index:3;text-shadow:0 2px 18px rgba(22,20,17,.6)}.portrait{width:min(100vw,56svh * 1145 / 1374)}.scene{padding-top:84px}.cue{display:none}}
-@media (prefers-reduced-motion:reduce){.chapeau{height:auto}.scene{position:relative;height:100svh}.geant .in{animation:none}}
+@media (prefers-reduced-motion:reduce){.chapeau{height:auto}.scene{position:relative;height:100svh;background:none}.geant .in{animation:none}}
 
 /* ---------- les sections : un en-tête à gauche, des panneaux arrondis ---------- */
 .sec{margin-top:var(--gap)}
@@ -382,4 +383,3 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 body[data-titre="meta-reserver"] .barre{display:none!important}
 body[data-titre="meta-reserver"]{--barre:0px}
 /* sans animation : la phrase et les boutons sont là tout de suite */
-@media (prefers-reduced-motion:reduce) and (min-width:981px){.final{opacity:1!important;visibility:visible!important}.scene::after{opacity:1}}

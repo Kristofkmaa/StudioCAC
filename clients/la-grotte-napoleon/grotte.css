@@ -133,12 +133,15 @@ main>section:not(.chapeau),main>div,.pied{position:relative;z-index:1}
 @keyframes de-droite{from{transform:translateX(110vw);opacity:0}}
 .portrait{position:absolute;left:50%;bottom:0;z-index:2;width:min(100vw,60svh * 1145 / 1374);aspect-ratio:1145/1374;transform:translateX(-50%);animation:monte-portrait 1.2s .2s var(--doux) both}
 /* le portrait est détouré (fond transparent) : seules les manches, coupées par le bord de l'image, se fondent dans la paroi */
-.portrait>img:first-child{width:100%;height:100%;-webkit-mask-image:linear-gradient(to right,transparent 0,#000 7%,#000 93%,transparent 100%);mask-image:linear-gradient(to right,transparent 0,#000 7%,#000 93%,transparent 100%);filter:drop-shadow(0 0 36px rgba(0,0,0,.55))}
+/* le haut du portrait est visible jusqu'à la ligne --l (fraction de sa hauteur, posée par grotte.js pendant que l'enfant devient l'Empereur ;
+   1.2 par défaut : tout visible) */
+.portrait>img:first-child{width:100%;height:100%;-webkit-mask-image:linear-gradient(to bottom,#000 calc(var(--l,1.2) * 100% - 5%),transparent calc(var(--l,1.2) * 100% + 5%)),linear-gradient(to right,transparent 0,#000 7%,#000 93%,transparent 100%);-webkit-mask-composite:source-in;mask-image:linear-gradient(to bottom,#000 calc(var(--l,1.2) * 100% - 5%),transparent calc(var(--l,1.2) * 100% + 5%)),linear-gradient(to right,transparent 0,#000 7%,#000 93%,transparent 100%);mask-composite:intersect;filter:drop-shadow(0 0 36px rgba(0,0,0,.55))}
 @keyframes monte-portrait{from{opacity:0;transform:translate(-50%,30px)}}
 .ombre-chapeau{position:absolute;left:24%;width:52%;top:15%;height:12%;border-radius:50%;background:radial-gradient(closest-side,rgba(10,8,6,.55),transparent);opacity:0;pointer-events:none}
 /* au départ, Napoléon enfant, cadré pour que son visage tombe exactement sur celui de l'adulte (même taille de tête, yeux alignés) ;
-   quand le bicorne se pose, fondu vers l'Empereur (grotte.js) */
-.portrait .enfant{position:absolute;left:-32.5%;top:-10%;width:162%;max-width:none;height:auto;-webkit-mask-image:linear-gradient(to right,transparent 0,#000 12%,#000 88%,transparent 100%);mask-image:linear-gradient(to right,transparent 0,#000 12%,#000 88%,transparent 100%)}
+   quand le bicorne se pose, il devient l'Empereur de la tête aux pieds, comme un rideau qui descend (grotte.js) */
+/* l'enfant, lui, reste visible sous la même ligne (--le, la ligne ramenée à son cadre) : la transformation descend de la tête vers le corps */
+.portrait .enfant{position:absolute;left:-32.5%;top:-10%;width:162%;max-width:none;height:auto;-webkit-mask-image:linear-gradient(to bottom,transparent calc(var(--le,-1) * 100% - 3.1%),#000 calc(var(--le,-1) * 100% + 3.1%)),linear-gradient(to right,transparent 0,#000 12%,#000 88%,transparent 100%);-webkit-mask-composite:source-in;mask-image:linear-gradient(to bottom,transparent calc(var(--le,-1) * 100% - 3.1%),#000 calc(var(--le,-1) * 100% + 3.1%)),linear-gradient(to right,transparent 0,#000 12%,#000 88%,transparent 100%);mask-composite:intersect}
 @media (prefers-reduced-motion:reduce){.portrait .enfant{display:none}}
 /* le bicorne enfoncé sur la tête comme sur les tableaux : le bord juste au-dessus des sourcils */
 .bicorne{position:absolute;left:5%;top:-13%;width:90%;height:auto;transform-origin:50% 85%;will-change:transform;filter:drop-shadow(0 18px 22px rgba(0,0,0,.45))}

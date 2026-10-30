@@ -101,28 +101,44 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .feuille-menu .choix-langue button{min-width:52px;min-height:44px;border:1px solid var(--filet);font:600 13px/1 var(--texte);letter-spacing:.12em}
 .feuille-menu .choix-langue button[aria-current="true"]{background:var(--or);color:#1A1210;border-color:var(--or)}
 
-/* ---------- ouverture : la salle en panorama, le titre dessous ---------- */
-.ouverture{padding:28px 0 96px;position:relative}
-.panorama{aspect-ratio:21/9;position:relative}
-.sceau{position:absolute;right:clamp(18px,4vw,56px);bottom:-66px;width:150px;height:150px;z-index:3;display:grid;place-items:center;background:var(--nuit);border-radius:50%;box-shadow:0 0 0 1px var(--filet)}
+/* ---------- ouverture : le portrait sous le projecteur ; en descendant, le bicorne tombe sur sa tête
+   et les lignes du titre repartent chacune de son côté (comme l'accueil de Saitora) ---------- */
+.chapeau{position:relative;height:240vh;height:240svh}
+.scene{position:sticky;top:0;height:100vh;height:100svh;overflow:clip;isolation:isolate;display:grid;padding:96px 24px 0}
+.lumiere{position:absolute;left:50%;bottom:-6svh;width:min(86svh,96vw);aspect-ratio:1;transform:translateX(-50%);border-radius:50%;background:radial-gradient(closest-side,#F3E8D8 0,#F3E8D8 62%,rgba(243,232,216,.55) 80%,rgba(243,232,216,0) 100%);z-index:-2}
+.lumiere::after{content:"";position:absolute;inset:-40%;border-radius:50%;background:radial-gradient(closest-side,rgba(201,165,90,.14),transparent 70%);z-index:-1}
+.geant{position:relative;z-index:1;align-self:start;display:grid;margin:clamp(8px,4svh,48px) auto 0;width:min(1240px,100%);font:400 clamp(52px,min(13.5vw,17svh),210px)/.92 var(--titres);text-transform:uppercase;letter-spacing:.01em;color:var(--or)}
+.geant .ln{display:block;white-space:nowrap;will-change:transform,opacity}
+@media (min-width:861px){.geant{z-index:3;text-shadow:0 2px 24px rgba(17,12,13,.55)}}
+.geant .l1{justify-self:start}.geant .l2{justify-self:end}.geant .l3{justify-self:start}
+.geant .in{display:inline-block;animation:de-gauche 1.4s cubic-bezier(.16,1,.3,1) both}
+.geant .l2 .in{animation-name:de-droite;animation-delay:.14s}
+.geant .l3 .in{animation-delay:.28s}
+@keyframes de-gauche{from{transform:translateX(-110vw);opacity:0}}
+@keyframes de-droite{from{transform:translateX(110vw);opacity:0}}
+.portrait{position:absolute;left:50%;bottom:0;z-index:2;height:min(80svh,calc(96vw * 683 / 620));aspect-ratio:620/683;transform:translateX(-50%);animation:monte-portrait 1.2s .2s cubic-bezier(.16,1,.3,1) both}
+.portrait>img:first-child{width:100%;height:100%;-webkit-mask-image:linear-gradient(#000 72%,transparent);mask-image:linear-gradient(#000 72%,transparent)}
+@keyframes monte-portrait{from{opacity:0;transform:translate(-50%,30px)}}
+.bicorne{position:absolute;left:5.5%;top:-5.6%;width:69%;height:auto;transform-origin:50% 80%;will-change:transform;filter:drop-shadow(0 14px 18px rgba(0,0,0,.35))}
+.indice{position:absolute;left:50%;bottom:22px;z-index:3;transform:translateX(-50%);width:44px;height:44px;display:grid;place-items:center;border:1px solid rgba(26,18,16,.25);border-radius:50%;color:#1A1210;animation:indice 2.4s ease-in-out infinite}
+@keyframes indice{50%{transform:translate(-50%,6px)}}
+.scene .sceau{position:absolute;right:clamp(18px,4vw,56px);bottom:clamp(24px,6svh,64px);width:140px;height:140px;z-index:3;display:grid;place-items:center;background:var(--nuit);border-radius:50%;box-shadow:0 0 0 1px var(--filet)}
 .sceau svg{position:absolute;inset:0;width:100%;height:100%;animation:tourne 40s linear infinite}
 .sceau text{font:400 10.4px var(--titres);letter-spacing:.24em;fill:var(--or);text-transform:uppercase}
-.sceau img{width:58px;height:auto}
+.sceau img{width:54px;height:auto}
 @keyframes tourne{to{transform:rotate(360deg)}}
-.ouv-bas{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:56px;align-items:end;margin-top:54px}
-.ouv-bas .titre{font-size:clamp(46px,7.4vw,104px)}
-.ouv-droite .phrase{font-size:19px;color:var(--creme);margin:0 0 28px;max-width:46ch}
+.ouv-suite{padding:clamp(70px,9vw,120px) 0 clamp(70px,9vw,110px);text-align:center}
+.ouv-suite .phrase{font:400 clamp(22px,2.6vw,32px)/1.4 var(--titres);color:var(--creme);margin:0 auto 34px;max-width:34ch}
 .boutons{display:flex;flex-wrap:wrap;gap:12px}
+.ouv-suite .boutons{justify-content:center}
 @media (max-width:860px){
-  .ouverture{padding:16px 0 64px}
-  .panorama{aspect-ratio:4/3}
-  .sceau{width:112px;height:112px;bottom:-50px;right:16px}
-  .sceau img{width:42px}
-  .sceau text{font-size:13.5px}
-  .ouv-bas{grid-template-columns:1fr;gap:22px;margin-top:40px}
-  .ouv-droite .phrase{font-size:17px}
+  .chapeau{height:210svh}
+  .scene{padding:76px 16px 0}
+  .scene .sceau{display:none}
+  .portrait{height:auto;width:min(96vw,62svh * 620 / 683)}
   .boutons .btn{flex:1 1 220px}
 }
+@media (prefers-reduced-motion:reduce){.chapeau{height:auto}.scene{position:relative;height:100svh}}
 
 /* sections */
 section.bloc{padding:clamp(80px,11vw,150px) 0;position:relative}
@@ -386,23 +402,25 @@ section.teinte{background:var(--nuit-2)}
 </div>
 
 <main id="haut">
-  <!-- l'ouverture : la vraie salle en panorama -->
-  <section class="ouverture" aria-labelledby="t-titre">
+  <!-- l'ouverture : Napoléon sous le projecteur ; en descendant, son bicorne lui tombe sur la tête -->
+  <section class="chapeau" id="chapeau" aria-labelledby="t-titre">
+    <div class="scene">
+      <div class="lumiere" aria-hidden="true"></div>
+      <h1 class="geant" id="t-titre"><span class="ln l1"><span class="in" data-t="ouv-l1">Napoléon,</span></span> <span class="ln l2"><span class="in" data-t="ouv-l2">l'enfant</span></span> <span class="ln l3"><span class="in" data-t="ouv-l3">d'Ajaccio</span></span></h1>
+      <div class="portrait"><img src="images/gravure.webp" alt="Napoléon Bonaparte, gravure" data-t-alt="ouv-gravure" width="620" height="683" fetchpriority="high"><img class="bicorne" id="bicorne" src="images/bicorne.svg" alt="" width="400" height="150"></div>
+      <div class="sceau" aria-hidden="true">
+        <svg viewBox="0 0 150 150"><defs><path id="cercle" d="M75,75 m-58,0 a58,58 0 1,1 116,0 a58,58 0 1,1 -116,0"/></defs><text><textPath href="#cercle" id="sceauTexte">La Grotte Napoléon · dipoi 1769 · Aiacciu · La Grotte Napoléon · dipoi 1769 · Aiacciu ·</textPath></text></svg>
+        <img src="images/couronne.png" alt="" width="312" height="276">
+      </div>
+      <a class="indice" href="#suite" aria-label="Défiler" data-t-aria="ouv-defiler"><svg width="14" height="18" viewBox="0 0 14 18" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M7 0v16M1 10l6 6 6-6"/></svg></a>
+    </div>
+  </section>
+  <section class="ouv-suite" id="suite">
     <div class="enveloppe">
-      <div class="panorama cadre"><img class="photo ph" src="images/entree.webp" alt="L'entrée de la Grotte Napoléon, ses portraits de l'Empereur peints sur les murs" data-t-alt="photo-entree" width="1800" height="1084" fetchpriority="high" decoding="async">
-        <div class="sceau" aria-hidden="true">
-          <svg viewBox="0 0 150 150"><defs><path id="cercle" d="M75,75 m-58,0 a58,58 0 1,1 116,0 a58,58 0 1,1 -116,0"/></defs><text><textPath href="#cercle" id="sceauTexte">La Grotte Napoléon · dipoi 1769 · Aiacciu · La Grotte Napoléon · dipoi 1769 · Aiacciu ·</textPath></text></svg>
-          <img src="images/couronne.png" alt="" width="312" height="276">
-        </div>
-      </div>
-      <div class="ouv-bas">
-        <h1 class="titre mots words" id="t-titre" data-t="ouv-titre">Napoléon, l'enfant d'Ajaccio</h1>
-        <div class="ouv-droite">
-          <p class="sur-titre" data-t="ouv-lieu">Ajaccio · 4 rue Saint-Charles</p>
-          <p class="phrase" data-t="ouv-phrase">Une heure de film sur plusieurs écrans, dans une salle plongée dans le noir, autour d'un spuntinu corse. Dans la rue même de sa maison natale.</p>
-          <div class="boutons"><button type="button" class="btn" data-reserver data-t="ouv-reserver">Réserver une séance</button><a class="btn creux" href="#formules" data-t="ouv-formules">Voir les formules</a></div>
-        </div>
-      </div>
+      <div class="orne" aria-hidden="true"><i></i><i></i></div>
+      <p class="sur-titre" data-t="ouv-lieu">Ajaccio · 4 rue Saint-Charles</p>
+      <p class="phrase" data-t="ouv-phrase">Une heure de film sur plusieurs écrans, dans une salle plongée dans le noir, autour d'un spuntinu corse. Dans la rue même de sa maison natale.</p>
+      <div class="boutons" id="boutonsOuv"><button type="button" class="btn" data-reserver data-t="ouv-reserver">Réserver une séance</button><a class="btn creux" href="#formules" data-t="ouv-formules">Voir les formules</a></div>
     </div>
   </section>
 
@@ -674,8 +692,30 @@ section.teinte{background:var(--nuit-2)}
   document.querySelectorAll(".photo").forEach(el => calme ? el.classList.add("vue") : ioP.observe(el));
 
   /* ---------- en-tête, menu du téléphone, barre du bas ---------- */
-  const tete = $("tete"), barre = $("barre"), ouv = document.querySelector(".ouverture");
-  new IntersectionObserver(([e]) => { barre.classList.toggle("vue", !e.isIntersecting); tete.classList.toggle("pleine", !e.isIntersecting || e.boundingClientRect.top < 0); }, { threshold: .25 }).observe(ouv);
+  const tete = $("tete"), barre = $("barre");
+  /* la barre du bas : dès qu'on descend, sauf quand les boutons de l'ouverture sont à l'écran */
+  let boutonsVus = false;
+  new IntersectionObserver(([e]) => { boutonsVus = e.isIntersecting; haut(); }).observe($("boutonsOuv"));
+  const haut = () => { barre.classList.toggle("vue", scrollY > 120 && !boutonsVus); tete.classList.toggle("pleine", scrollY > 10); };
+
+  /* ---------- le bicorne tombe sur sa tête, le titre repart de chaque côté ---------- */
+  const chapeau = $("chapeau"), bicorne = $("bicorne"), lignes = [...chapeau.querySelectorAll(".ln")], sens = [-1, 1, -1];
+  const borne = x => Math.min(1, Math.max(0, x));
+  let tic = false;
+  function anime() {
+    tic = false; haut();
+    if (calme) return;
+    const p = borne((scrollY - chapeau.offsetTop) / (chapeau.offsetHeight - innerHeight));
+    /* la chute : de tout en haut jusqu'à la tête, en se balançant un peu, puis un petit rebond en se posant */
+    const q = borne(p / .72), r = 1 - q, b = borne((p - .72) / .12), rebond = Math.sin(b * Math.PI);
+    const y = -innerHeight * 1.05 * Math.pow(r, 1.5) + 5 * rebond, x = 34 * Math.sin(q * Math.PI * 2.2) * r, rot = -26 * r + 9 * Math.sin(q * Math.PI * 1.6) * r;
+    bicorne.style.transform = `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) rotate(${rot.toFixed(2)}deg) scale(${(1 + .02 * rebond).toFixed(3)},${(1 - .06 * rebond).toFixed(3)})`;
+    const e = Math.pow(borne((p - .08) / .8), 2);
+    lignes.forEach((l, i) => { l.style.transform = `translate3d(${(sens[i] * e * 110).toFixed(2)}vw,0,0)`; l.style.opacity = (1 - e * .85).toFixed(3); });
+  }
+  addEventListener("scroll", () => { if (!tic) { tic = true; requestAnimationFrame(anime); } }, { passive: true });
+  addEventListener("resize", anime);
+  anime();
   const menu = $("menuTel");
   const ouvreMenu = o => { if (o) { menu.hidden = false; requestAnimationFrame(() => menu.classList.add("ouverte")); } else { menu.classList.remove("ouverte"); setTimeout(() => menu.hidden = true, 300); } $("menuBtn").setAttribute("aria-expanded", o); document.body.style.overflow = o ? "hidden" : ""; };
   $("menuBtn").onclick = () => ouvreMenu(true);

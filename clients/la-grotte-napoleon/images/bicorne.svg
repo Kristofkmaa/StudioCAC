@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 150">
+  <!-- le bicorne porté « en bataille », vu de face : large, deux pointes sur les côtés, le bas creusé au-dessus du front ;
+       feutre noir à hachures comme la gravure, bord relevé, ganse d'or et cocarde tricolore -->
+  <defs>
+    <linearGradient id="feutre" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2E2828"/>
+      <stop offset=".6" stop-color="#121010"/>
+      <stop offset="1" stop-color="#060505"/>
+    </linearGradient>
+    <radialGradient id="reflet" cx=".34" cy=".3" r=".42">
+      <stop offset="0" stop-color="#fff" stop-opacity=".17"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="hachures" width="4.5" height="4.5" patternUnits="userSpaceOnUse" patternTransform="rotate(-28)">
+      <line x1="0" y1="0" x2="0" y2="4.5" stroke="#fff" stroke-opacity=".075" stroke-width="1"/>
+    </pattern>
+    <clipPath id="forme"><path d="M2 120C28 88 66 6 200 3 334 6 372 88 398 120 352 108 282 98 200 100 118 98 48 108 2 120Z"/></clipPath>
+  </defs>
+  <g clip-path="url(#forme)">
+    <rect width="400" height="150" fill="url(#feutre)"/>
+    <rect width="400" height="150" fill="url(#hachures)"/>
+    <rect width="400" height="150" fill="url(#reflet)"/>
+    <!-- le bord relevé : une seconde courbe sous le haut, et son ombre -->
+    <path d="M22 112C52 84 88 24 200 20 312 24 348 84 378 112" fill="none" stroke="#000" stroke-opacity=".6" stroke-width="3.5"/>
+    <path d="M24 108C54 80 90 21 200 17 310 21 346 80 376 108" fill="none" stroke="#fff" stroke-opacity=".1" stroke-width="1.2"/>
+    <!-- le bas, un peu plus sombre -->
+    <path d="M2 120C48 108 118 98 200 100s152 8 198 20" fill="none" stroke="#000" stroke-opacity=".7" stroke-width="10"/>
+  </g>
+  <!-- le liseré du haut -->
+  <path d="M2 120C28 88 66 6 200 3 334 6 372 88 398 120" fill="none" stroke="#fff" stroke-opacity=".24" stroke-width="1.6"/>
+  <!-- la ganse d'or et la cocarde -->
+  <path d="M296 22c-6 16-10 32-12 48" fill="none" stroke="#C9A55A" stroke-width="5" stroke-linecap="round"/>
+  <path d="M296 22c-6 16-10 32-12 48" fill="none" stroke="#F1DCA6" stroke-width="1.3" stroke-linecap="round" stroke-dasharray="3 4"/>
+  <circle cx="282" cy="78" r="17" fill="#1F3A7A"/>
+  <circle cx="282" cy="78" r="17" fill="none" stroke="#000" stroke-opacity=".35"/>
+  <circle cx="282" cy="78" r="11" fill="#F4EFE6"/>
+  <circle cx="282" cy="78" r="5.5" fill="#B3262E"/>
+  <circle cx="282" cy="78" r="2.2" fill="#C9A55A"/>
+</svg>

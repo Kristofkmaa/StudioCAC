@@ -16,6 +16,5 @@ film.mp4 + film-affiche.webp : film de présentation envoyé par l'utilisateur l
 roche.webp + roche-profond.webp : texture « papier rocher » fabriquée par outils/papier_rocher.py (bruit calculé, aucune source extérieure), le 30/10/2026.
 napoleon.webp : détouré le 30/10/2026 (rembg isnet pour le contour des cheveux et du visage, plus repérage du fond brun par la couleur pour l habit et les épaulettes), fond transparent.
 sacre.webp : portrait de Napoléon en habit du sacre envoyé par l utilisateur le 30/10/2026, détouré (rembg + repérage du fond par la couleur), la couronne posée à droite retirée, sceptre gardé.
-laurier.webp : couronne de laurier dorée envoyée par l utilisateur le 30/10/2026, détourée (le damier de fausse transparence retiré).
+laurier-avant.webp et laurier-arriere.webp : couronne de laurier dorée envoyée par l utilisateur le 30/10/2026, détourée (le damier de fausse transparence retiré), coupée en deux : le bandeau avant et les côtés qui passent derrière la tête.
 boutique/<id>-0.webp et -1.webp : photos des produits de la boutique actuelle (lagrottenapoleon.fr/btq, WooCommerce), réduites à 900 px.
-sacre-devant.webp : la tête du portrait du sacre sous la ligne des tempes (fondu en haut), posée par-dessus la couronne pour que ses pointes passent derrière la tête.

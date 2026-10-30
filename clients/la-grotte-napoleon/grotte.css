@@ -418,10 +418,12 @@ body[data-titre="meta-reserver"]{--barre:0px}
 
 /* ---------- la boutique ---------- */
 /* l'ouverture : la couronne de laurier se pose sur l'Empereur en habit du sacre (même animation que le bicorne) */
-/* la couronne fait le tour de la tête : son ouverture est à peine plus étroite que les tempes, et la tête (sacre-devant.webp, tout ce qui est
-   sous le bandeau avant) repasse par-dessus : seul le bandeau reste devant, les côtés passent derrière les cheveux */
-.portrait.sacre .bicorne{left:31.88%;top:8%;width:36.5%;transform-origin:50% 66%;filter:drop-shadow(0 10px 14px rgba(0,0,0,.45))}
-.portrait.sacre .devant{position:absolute;left:29.694%;top:14.993%;width:41.921%;height:auto;pointer-events:none}
+/* la couronne fait le tour de la tête : elle est en deux couches qui bougent ensemble, le bandeau avant devant le portrait
+   (laurier-avant.webp), les côtés et les pointes derrière (laurier-arriere.webp) : la tête les cache toujours, même pendant la chute */
+.portrait.sacre>img:first-child{position:relative;z-index:1}
+.portrait.sacre .bicorne{left:31.88%;top:8%;width:36.5%;z-index:3;transform-origin:50% 66%;filter:drop-shadow(0 10px 14px rgba(0,0,0,.45))}
+.portrait.sacre .bicorne.arriere{z-index:0}
+.portrait.sacre .ombre-chapeau{z-index:2}
 .portrait.sacre .ombre-chapeau{left:37%;width:26%;top:13.5%;height:5.5%}
 /* la collection Napô en avant */
 .napo-une{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:clamp(28px,6vw,110px);align-items:center}

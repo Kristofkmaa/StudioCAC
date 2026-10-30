@@ -190,7 +190,7 @@
   function anime() {
     tic = false; haut();
     if (calme || !chapeau) return;
-    scene.style.setProperty("--voile", (voile() * (ordi.matches ? 1 : .5)).toFixed(3));  /* sur ordinateur les textes passent sur lui : il s'efface tout à fait */
+    scene.style.setProperty("--voile", (voile() * (ordi.matches || couronne ? 1 : .5)).toFixed(3));  /* sur ordinateur, et à la boutique (les produits passent sur lui), il s'efface tout à fait */
     /* le titre de l'Empereur et le bloc du concept remontent ensuite avec la page, comme s'ils en faisaient partie */
     if (bloc) bloc.style.transform = `translate3d(0,${(-Math.max(0, scrollY - fin())).toFixed(1)}px,0)`;
     if (!vu && scrollY > 24) intro ? saute() : lance();

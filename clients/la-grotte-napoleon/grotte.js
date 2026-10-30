@@ -118,7 +118,7 @@
     const tasse = couronne ? 0 : rebond;
     /* l'enfant devient l'Empereur sous le bicorne : une ligne au bord doux descend de la tête (quand le chapeau la touche) jusqu'au bas du portrait ;
        au-dessus l'adulte, en dessous l'enfant, jamais les deux visages l'un sur l'autre */
-    if (enfant) { const l = -.1 + 1.25 * Math.pow(borne((p - .64) / .3), 1.3); portrait.style.setProperty("--l", l.toFixed(4)); portrait.style.setProperty("--le", ((l + .1) / 1.62).toFixed(4)); }
+    if (enfant) { const l = -.1 + 1.25 * Math.pow(borne((p - .64) / .3), 1.3); portrait.style.setProperty("--l", l.toFixed(4)); portrait.style.setProperty("--le", ((l + .1) / 1.62).toFixed(4)); enfant.style.visibility = l >= 1.149 ? "hidden" : ""; }  /* l'enfant, plus grand que le portrait, ne doit pas rester en fantôme sous le buste */
     if (accroche) { const f = borne(p / .14); accroche.style.opacity = (1 - f).toFixed(3); accroche.style.transform = `translate3d(0,${(f * -10).toFixed(1)}px,0)`; accroche.style.visibility = f >= 1 ? "hidden" : ""; }
     /* puis, l'Empereur en place, ce qu'on vit à la Grotte et les boutons pour réserver */
     if (concept) concept.classList.toggle("vu", p > .82);

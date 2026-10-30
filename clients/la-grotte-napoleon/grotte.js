@@ -118,7 +118,7 @@
       </div>
       <div class="flotte-langue-liste" id="flotteLangues" ${langueOuverte ? "" : "hidden"} role="group" aria-label="${t("nav-langue")}">${LANGUES.map(x => `<button type="button" data-l="${x}" aria-current="${x === L}">${drapeau(x)}<span>${T[x]["nom-langue"]}</span></button>`).join("")}</div>
       <button type="button" class="flotte-drapeau" aria-expanded="${langueOuverte}" aria-controls="flotteLangues" aria-label="${t("nav-langue")} : ${t("nom-langue")}">${drapeau(L)}</button>
-      <button type="button" class="flotte-btn" aria-expanded="${flotteOuverte}" aria-controls="flottePanneau" aria-label="${t("nav-menu")}"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 11.5l5-5 5 5"/></svg></button>`;
+      <button type="button" class="flotte-btn" aria-expanded="${flotteOuverte}" aria-controls="flottePanneau" aria-label="${t("nav-menu")}"><span class="flotte-mot">${t("nav-menu")}</span><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 11.5l5-5 5 5"/></svg></button>`;
     if (typeof compteurPanier === "function") compteurPanier();
   }
   const ouvreFlotte = o => { flotteOuverte = o; const p = $("flottePanneau"); flotte.querySelector(".flotte-btn").setAttribute("aria-expanded", o); flotte.classList.toggle("ouverte", o); if (o) { p.hidden = false; } else setTimeout(() => { if (!flotteOuverte) p.hidden = true; }, 250); };

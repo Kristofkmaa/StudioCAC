@@ -743,3 +743,25 @@ body[data-titre="meta-reserver"]{--barre:0px}
 /* les noms font une ou plusieurs lignes : on leur garde la même hauteur pour que les photos restent alignées d'une carte à l'autre */
 .carte-p .nom-prix{min-height:2.8em;align-items:flex-end}
 @media (max-width:700px){.carte-p .nom-prix{min-height:4.7em;justify-content:flex-end;align-items:flex-start}}
+
+/* ---------- sur ordinateur, le menu devient un petit cadre « Menu » en haut à droite (le drapeau à côté), le panneau descend dessous ---------- */
+.flotte-mot{display:none}
+@media (min-width:981px){
+  .flotte{top:24px;bottom:auto;right:28px;align-items:flex-start}
+  .flotte-btn{width:auto;height:44px;padding:0 18px 0 20px;gap:10px;display:flex;align-items:center;border-radius:10px;color:var(--ink);font:500 15px/1 "Inter Tight",sans-serif}
+  .flotte-mot{display:inline}
+  .flotte-btn svg{color:var(--accent);transform:rotate(180deg)}
+  .flotte.ouverte .flotte-btn svg{transform:none}
+  .flotte-drapeau{width:44px;height:44px;margin:0;border-radius:10px}
+  .flotte-panneau{top:56px;bottom:auto;transform-origin:100% 0;transform:translateY(-8px) scale(.96)}
+  .flotte-langue-liste:not([hidden]){top:56px;bottom:auto;right:auto;left:0;transform:translateX(-60%)}
+}
+
+/* ---------- sur téléphone, plus d'en-tête : le logo en haut, qui part avec la page, et un petit « + » fixe en haut à droite
+   qui ouvre le menu ---------- */
+@media (max-width:980px){
+  .bar{position:absolute;background:none;border:0}
+  .bar .menu-btn{position:fixed;top:calc(10px + env(safe-area-inset-top));right:12px;z-index:41;width:44px;height:44px;padding:0;justify-content:center;border-radius:50%;background:rgba(22,20,17,.85);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-color:rgba(241,217,166,.45);box-shadow:0 8px 24px rgba(0,0,0,.4)}
+  .bar .menu-btn span,.bar .menu-btn i{display:none}
+  .bar .menu-btn::before{content:"";width:16px;height:16px;background:linear-gradient(var(--accent),var(--accent)) center/100% 1.6px no-repeat,linear-gradient(var(--accent),var(--accent)) center/1.6px 100% no-repeat}
+}

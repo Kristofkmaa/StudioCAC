@@ -177,6 +177,7 @@ main>section:not(.chapeau),main>div,.pied{position:relative;z-index:1}
 .portrait .enfant{position:absolute;left:-32.5%;top:-10%;width:162%;max-width:none;height:auto;-webkit-mask-image:linear-gradient(to bottom,transparent calc(var(--le,-1) * 100% - 3.1%),#000 calc(var(--le,-1) * 100% + 3.1%)),linear-gradient(to right,transparent 0,#000 12%,#000 88%,transparent 100%);-webkit-mask-composite:source-in;mask-image:linear-gradient(to bottom,transparent calc(var(--le,-1) * 100% - 3.1%),#000 calc(var(--le,-1) * 100% + 3.1%)),linear-gradient(to right,transparent 0,#000 12%,#000 88%,transparent 100%);mask-composite:intersect}
 @media (prefers-reduced-motion:reduce){.portrait .enfant{display:none}}
 /* le bicorne enfoncé sur la tête comme sur les tableaux : le bord juste au-dessus des sourcils */
+.eclat{position:absolute;left:-40%;right:-40%;top:-25%;bottom:-10%;z-index:4;pointer-events:none;opacity:0;mix-blend-mode:screen;background:radial-gradient(42% 34% at 50% 26%,rgba(255,246,226,.95) 0,rgba(241,217,166,.55) 38%,rgba(241,217,166,.12) 70%,transparent 100%)}
 .bicorne{position:absolute;left:5%;top:-13%;width:90%;height:auto;transform-origin:50% 85%;will-change:transform;filter:drop-shadow(0 18px 22px rgba(0,0,0,.45))}
 .ouv-suite{padding:clamp(56px,8vw,110px) 0 0}
 .ouv-suite .page{display:grid;gap:28px;justify-items:start}
@@ -673,7 +674,9 @@ body[data-titre="meta-reserver"]{--barre:0px}
 .flotte-panneau{position:absolute;right:0;bottom:64px;width:min(300px,calc(100vw - 32px));display:grid;gap:10px;padding:14px;border-radius:18px;background:var(--surface-2);box-shadow:0 30px 70px rgba(0,0,0,.6),inset 0 0 0 1px var(--line);transform-origin:100% 100%;opacity:0;transform:translateY(8px) scale(.96);transition:opacity .22s,transform .3s var(--doux)}
 .flotte.ouverte .flotte-panneau{opacity:1;transform:none}
 .flotte-panneau .btn{width:100%}
-.flotte-nav{display:none}
+.flotte-nav{display:grid;padding-bottom:6px;margin-bottom:2px;border-bottom:1px solid var(--line)}
+.flotte-nav a{padding:9px 6px;border-radius:8px;font-family:var(--serif);font-size:1.25rem;color:var(--ink);text-decoration:none}
+@media (hover:hover) and (pointer:fine){.flotte-nav a:hover{background:rgba(255,255,255,.05)}}
 .flotte-deux{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .flotte-deux .btn{min-height:46px;padding:12px;font-size:15px}
 .flotte-panier{position:relative;display:flex;align-items:center;gap:10px;min-height:46px;padding:0 14px;border-radius:999px;box-shadow:inset 0 0 0 1px var(--line-hi);color:var(--ink);text-decoration:none;font-size:15px}
@@ -685,9 +688,6 @@ body[data-titre="meta-reserver"]{--barre:0px}
 .flotte-drapeau,.flotte-langue-liste{display:none}
 @media (min-width:981px){
   /* le panneau commence par la navigation du site, et les langues passent par le drapeau */
-  .flotte-nav{display:grid;padding-bottom:6px;margin-bottom:2px;border-bottom:1px solid var(--line)}
-  .flotte-nav a{padding:9px 6px;border-radius:8px;font-family:var(--serif);font-size:1.25rem;color:var(--ink);text-decoration:none}
-  .flotte-nav a:hover{background:rgba(255,255,255,.05)}
   .flotte-langues{display:none}
   .flotte-drapeau{display:grid;place-items:center;width:40px;height:40px;margin-bottom:6px;border-radius:50%;background:rgba(22,20,17,.88);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:inset 0 0 0 1px var(--line-hi),0 10px 24px rgba(0,0,0,.45)}
   .flotte-drapeau .drapeau{width:22px;height:15px}
@@ -703,9 +703,6 @@ body[data-titre="meta-reserver"]{--barre:0px}
   .bar .logo{grid-column:2}
   .bar .menu-btn{grid-column:3}
   .flotte-btn .nb-panier{top:-2px;right:-2px}
-  /* les boutons du bas de l'ouverture laissent la place de la flèche */
-  .concept .actions,#accroche{padding-right:62px}
-  .ajoute{bottom:calc(84px + env(safe-area-inset-bottom))}
 }
 
 /* ---------- sur ordinateur, plus d'en-tête : le logo en grand au milieu en haut, qui part avec la page ;
@@ -763,4 +760,16 @@ body[data-titre="meta-reserver"]{--barre:0px}
   .bar .menu-btn{position:fixed;top:calc(10px + env(safe-area-inset-top));right:12px;z-index:41;width:44px;height:44px;padding:0;justify-content:center;border-radius:50%;background:rgba(22,20,17,.85);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-color:rgba(241,217,166,.45);box-shadow:0 8px 24px rgba(0,0,0,.4)}
   .bar .menu-btn span,.bar .menu-btn i{display:none}
   .bar .menu-btn::before{content:"";width:16px;height:16px;background:linear-gradient(var(--accent),var(--accent)) center/100% 1.6px no-repeat,linear-gradient(var(--accent),var(--accent)) center/1.6px 100% no-repeat}
+}
+
+/* ---------- le même menu sur téléphone que sur ordinateur : le « + » rond en haut à droite ouvre le panneau qui descend dessous
+   (les pages, réserver, appeler, plan, panier, puis les drapeaux) ; plus de flèche en bas ni de menu plein écran ---------- */
+@media (max-width:980px){
+  .bar .menu-btn{display:none!important}
+  .flotte{top:calc(10px + env(safe-area-inset-top));bottom:auto;right:12px;align-items:flex-start}
+  .flotte-btn{width:44px;height:44px}
+  .flotte-btn svg{display:none}
+  .flotte-btn::before{content:"";width:16px;height:16px;background:linear-gradient(var(--accent),var(--accent)) center/100% 1.6px no-repeat,linear-gradient(var(--accent),var(--accent)) center/1.6px 100% no-repeat;transition:transform .35s var(--doux)}
+  .flotte.ouverte .flotte-btn::before{transform:rotate(45deg)}
+  .flotte-panneau{top:54px;bottom:auto;max-height:calc(100dvh - 80px);overflow:auto;overscroll-behavior:contain;transform-origin:100% 0;transform:translateY(-8px) scale(.96)}
 }

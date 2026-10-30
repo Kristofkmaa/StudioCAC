@@ -503,8 +503,7 @@ body[data-titre="meta-reserver"]{--barre:0px}
 .portrait.sacre .bicorne.arriere{z-index:0}
 .portrait.sacre .ombre-chapeau{z-index:2}
 .portrait.sacre .ombre-chapeau{left:37%;width:26%;top:13.5%;height:5.5%}
-/* sous l'ouverture, la boutique repose sur la roche pleine : les souvenirs ne se lisent jamais par-dessus le portrait */
-.corps-btq{background:var(--roche),var(--bg);padding-bottom:var(--gap);box-shadow:0 -40px 80px 20px var(--bg)}
+.corps-btq{padding-bottom:var(--gap)}  /* pas de second fond : c'est la même roche que l'ouverture, et l'Empereur s'efface derrière les produits (grotte.js) */
 .corps-btq>.sec:first-child{margin-top:0;padding-top:clamp(56px,8vw,110px)}
 /* ---------- la boutique : simple et rangée ---------- */
 /* le nombre de souvenirs affichés, à droite du titre */

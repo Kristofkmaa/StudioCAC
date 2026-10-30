@@ -117,18 +117,21 @@ body{padding-top:var(--tete)}
 /* ---------- ouverture : le portrait, le bicorne qui tombe, le titre géant qui repart de chaque côté ---------- */
 /* Napoléon reste en fond de tout le site : la scène est fixe ; la section ne sert qu'à laisser le temps au bicorne de tomber,
    puis le reste du site remonte par-dessus, et le portrait s'efface doucement dans la roche pour que les textes restent lisibles */
-/* l'animation se joue sur 2,25 écrans de défilement (le reste du site arrive ensuite) */
-.chapeau{position:relative;height:325vh;height:325svh}
+/* l'accueil s'ouvre sur l'enfant : en haut à gauche le titre, le concept en une phrase et « Découvrir ». Le bouton lance la transformation
+   (grotte.js), le défilement reste bloqué le temps qu'elle se joue, puis le site arrive par-dessus. On garde ensuite l'Empereur. */
+.chapeau{position:relative;height:100vh;height:100svh}
+html.verrou{overflow:hidden}
 .scene{position:fixed;top:0;left:0;right:0;height:100vh;height:100lvh;overflow:clip;isolation:isolate;display:grid;padding:96px var(--m) 0;background:var(--roche),var(--bg)}
 /* quand le site remonte, seul Napoléon (et son bicorne) s'efface dans la paroi ; le papier rocher reste le même partout */
 /* d'un seul bloc (filtre sur le portrait, pas une opacité par image) : sinon le chapeau à demi effacé laisserait voir les cheveux dessous */
 .portrait{filter:opacity(calc(1 - var(--voile,0)))}
 main>section:not(.chapeau),main>div,.pied{position:relative;z-index:1}
-.final{display:none!important}
-.geant{position:relative;z-index:1;align-self:start;display:grid;margin:clamp(8px,4svh,48px) 0 0;font-weight:400;font-size:clamp(3rem,min(15vw,17svh),15rem);line-height:.92;letter-spacing:-.02em;color:var(--ink)}
+.ouverture-texte{position:relative;z-index:3;align-self:start;display:grid;justify-items:start;row-gap:clamp(20px,3.4svh,36px);margin-top:clamp(8px,4svh,48px)}
+.ouverture-texte>.geant{grid-area:1/1}
+.geant{position:relative;z-index:1;display:grid;margin:0;font-weight:400;font-size:clamp(3rem,min(15vw,17svh),15rem);line-height:.92;letter-spacing:-.02em;color:var(--ink)}
 .geant .ln{display:block;white-space:nowrap;will-change:transform,opacity}
 /* le second titre (accueil) : « Napoléon, empereur des Français », au même endroit que le premier, revient des côtés quand l'Empereur apparaît */
-.scene>.geant{grid-area:1/1;font-family:var(--serif)}
+.geant2{font-family:var(--serif)}
 .geant2 .in{animation:none}
 .geant2 .ln{opacity:0}
 .geant .l1{justify-self:start}.geant .l2{justify-self:end}.geant .l3{justify-self:start}
@@ -138,6 +141,14 @@ main>section:not(.chapeau),main>div,.pied{position:relative;z-index:1}
 .geant .l3 .in{animation-delay:.28s}
 @keyframes de-gauche{from{transform:translateX(-110vw);opacity:0}}
 @keyframes de-droite{from{transform:translateX(110vw);opacity:0}}
+/* sous le titre : le lieu en une phrase, puis « Découvrir », un bouton creux au filet doré, la flèche qui pique vers le bas au survol */
+.accroche{display:grid;justify-items:start;gap:clamp(18px,3svh,28px);max-width:38ch;animation:monte .9s .55s var(--doux) both}
+.accroche p{margin:0;color:var(--ink);opacity:.86;font-size:clamp(16px,.9rem + .3vw,18px);line-height:1.55;text-wrap:pretty;text-shadow:0 2px 18px rgba(22,20,17,.9)}
+.decouvrir{gap:14px;background:rgba(22,20,17,.35);color:var(--ink);box-shadow:inset 0 0 0 1px var(--accent);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);transition:box-shadow .3s var(--doux),background-color .3s var(--doux),transform .15s}
+.decouvrir svg{color:var(--accent);transition:transform .45s var(--doux)}
+@media (hover:hover) and (pointer:fine){.decouvrir:hover{background:rgba(22,20,17,.6);box-shadow:inset 0 0 0 1px var(--ink)}.decouvrir:hover svg{transform:translateY(3px)}}
+.decouvrir:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+@keyframes monte{from{opacity:0;transform:translateY(14px)}}
 .portrait{position:absolute;left:50%;bottom:0;z-index:2;width:min(100vw,60svh * 1145 / 1374);aspect-ratio:1145/1374;transform:translateX(-50%);animation:monte-portrait 1.2s .2s var(--doux) both}
 /* le portrait est détouré (fond transparent) : seules les manches, coupées par le bord de l'image, se fondent dans la paroi */
 /* le haut du portrait est visible jusqu'à la ligne --l (fraction de sa hauteur, posée par grotte.js pendant que l'enfant devient l'Empereur ;
@@ -155,7 +166,6 @@ main>section:not(.chapeau),main>div,.pied{position:relative;z-index:1}
 .cue{position:absolute;left:50%;bottom:20px;z-index:3;translate:-50% 0;display:grid;justify-items:center;gap:8px;font-family:var(--serif);font-style:italic;font-size:16px;color:var(--mist);text-decoration:none}
 .cue i{width:1px;height:36px;background:linear-gradient(var(--mist),transparent);animation:cue 2.2s ease-in-out infinite;transform-origin:top}
 @keyframes cue{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
-.final{display:none}
 .ouv-suite{padding:clamp(56px,8vw,110px) 0 0}
 .ouv-suite .page{display:grid;gap:28px;justify-items:start}
 .ouv-suite p:not(.eyebrow){font-family:var(--serif);font-size:clamp(1.7rem,1.2rem + 2.1vw,3.1rem);line-height:1.12;color:var(--ink);letter-spacing:-.015em;max-width:24ch;text-wrap:balance}
@@ -166,21 +176,25 @@ main>section:not(.chapeau),main>div,.pied{position:relative;z-index:1}
   /* le portrait du sacre est cadré plus large : sa tête est 1,707 fois plus petite dans l'image. On l'agrandit d'autant et on aligne
      les yeux, pour que les deux Napoléon (accueil et boutique) soient exactement au même endroit, à la même taille */
   .portrait.sacre{height:calc(var(--ph) * 1.707);top:calc(var(--ph) * .011 + 7svh)}
-  /* une affiche « en coin » : le titre en bas à gauche, à côté de l'épaule, jamais sur le visage ; un voile monte du coin */
-  .geant{z-index:3;align-self:end;justify-self:start;width:min(48vw,820px);margin:0 0 8svh;font-size:clamp(3rem,min(7.4vw,15svh),9.5rem);text-shadow:0 4px 40px rgba(22,20,17,.7)}
-  .scene::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(to top right,rgba(22,20,17,.9) 0,rgba(22,20,17,.55) 30%,transparent 55%)}
+  /* le titre et le texte en haut à gauche, à côté de l'épaule, jamais sur le visage ; un voile descend du coin */
+  .ouverture-texte{width:min(46vw,780px)}
+  .cue{left:var(--m);bottom:28px;translate:none;justify-items:start}
+  .geant{z-index:3;justify-self:start;width:100%;font-size:clamp(3rem,min(6.6vw,12.5svh),8.5rem);text-shadow:0 4px 40px rgba(22,20,17,.7)}
+  .scene::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(to bottom right,rgba(22,20,17,.88) 0,rgba(22,20,17,.5) 32%,transparent 58%)}
 }
-/* sur téléphone, une composition d'affiche : Napoléon en haut (le visage vers le tiers de l'écran, la place du bicorne au-dessus),
-   le titre en bas, posé sur son buste, sur un voile sombre qui monte du bas */
+/* sur téléphone : le titre, la phrase et « Découvrir » en haut ; Napoléon dessous, posé sur le bas de l'écran (le bicorne tombe
+   par-dessus le texte avant de se poser) ; un voile sombre descend du haut pour que le texte se lise sur la roche */
 @media (max-width:980px){
-  .scene{--pw:min(112vw,62svh * 1145 / 1374);--ph:calc(var(--pw) * 1374 / 1145);padding:0 var(--m) calc(4svh + 72px + env(safe-area-inset-bottom))}
-  .portrait{bottom:auto;top:calc(var(--tete) + 26px + var(--ph) * .13);width:var(--pw)}
-  .portrait.sacre{width:calc(var(--pw) * 1.707);top:calc(var(--tete) + 26px + var(--ph) * (.13 - .179))}
-  .scene::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(to bottom,transparent 42%,rgba(22,20,17,.7) 58%,rgba(22,20,17,.95) 76%)}
-  .geant{z-index:3;align-self:end;margin:0;font-size:clamp(2.6rem,12.6vw,4.4rem);text-shadow:0 2px 24px rgba(22,20,17,.8)}
+  .scene{--pw:min(104vw,44svh * 1145 / 1374);--ph:calc(var(--pw) * 1374 / 1145);padding:calc(var(--tete) + 3svh) var(--m) 0}
+  .portrait{bottom:0;width:var(--pw)}
+  .portrait.sacre{width:calc(var(--pw) * 1.707);bottom:calc(var(--ph) * -.528)}
+  .scene::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(to bottom,rgba(22,20,17,.85) 0,rgba(22,20,17,.55) 38%,transparent 56%)}
+  .ouverture-texte{margin-top:0}
+  .geant{z-index:3;font-size:clamp(2.4rem,11.4vw,4.2rem);text-shadow:0 2px 24px rgba(22,20,17,.8)}
+  .accroche{max-width:34ch}
   .cue{display:none}
 }
-@media (prefers-reduced-motion:reduce){.chapeau{height:auto}.scene{position:relative;height:100svh;background:none}.geant .in{animation:none}.geant2{display:none}}
+@media (prefers-reduced-motion:reduce){.chapeau{height:auto}.scene{position:relative;height:100svh;background:none}.geant .in,.accroche{animation:none}.geant2,.decouvrir{display:none}}
 
 /* ---------- les sections : un en-tête à gauche, des panneaux arrondis ---------- */
 .sec{margin-top:var(--gap)}

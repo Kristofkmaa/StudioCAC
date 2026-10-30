@@ -89,11 +89,17 @@
   /* ---------- le bicorne tombe sur sa tête, le titre repart de chaque côté ---------- */
   const chapeau = $("chapeau"), bicorne = $("bicorne"), enfant = $("enfant"), portrait = chapeau && chapeau.querySelector(".portrait"), scene = chapeau && chapeau.querySelector(".scene"), chapeaux = chapeau ? [...chapeau.querySelectorAll(".bicorne")] : [], couronne = !!document.querySelector(".portrait.sacre"), cue = chapeau && chapeau.querySelector(".cue"), lignes = chapeau ? [...chapeau.querySelectorAll("#t-titre .ln")] : [], lignes2 = chapeau ? [...chapeau.querySelectorAll("#titreEmpereur .ln")] : [], titreEmpereur = $("titreEmpereur"), sensTel = [-1, 1, -1], ordi = matchMedia("(min-width: 981px)");
   const borne = x => Math.min(1, Math.max(0, x));
-  let tic = false;
-  function anime() {
-    tic = false; haut();
-    if (calme || !chapeau) return;
-    const p = borne((scrollY - chapeau.offsetTop) / (chapeau.offsetHeight - innerHeight));
+  /* la transformation (le chapeau tombe, l'enfant devient l'Empereur, les titres changent) se joue d'elle-même, à sa vitesse : à l'accueil
+     quand on touche « Découvrir » (ou qu'on essaie de descendre), à la boutique dès qu'on commence à défiler. Elle ne se joue qu'une fois :
+     en remontant on garde l'Empereur, l'enfant ne revient qu'en rechargeant la page. Le défilement ne règle que l'arrivée du site et
+     l'effacement de Napoléon en fond. */
+  const DUREE = 3400, intro = $("decouvrir"), accroche = $("accroche"), racine = document.documentElement;
+  let a = 0, cible = 0, joue = false, avant = 0, tic = false, vu = false;
+  const lance = () => { if (vu) return; vu = true; cible = 1; if (!joue) { joue = true; requestAnimationFrame(boucle); } };
+  /* arrivé par un lien (#seance…) ou déjà plus bas : on saute l'ouverture */
+  const saute = () => { vu = true; a = cible = 1; racine.classList.remove("verrou"); dessine(); };
+  function dessine() {
+    const p = a;
     /* la chute : de tout en haut jusqu'à la tête, en se balançant un peu, puis un petit rebond en se posant */
     const q = borne(p / .82), r = 1 - q, b = borne((p - .82) / .16), rebond = Math.sin(b * Math.PI);
     /* le bicorne se tasse un peu en se posant ; la couronne (boutique), elle, s'enfile : jamais plus bas que sa place, et droite à l'arrivée,
@@ -101,28 +107,58 @@
     const y = -innerHeight * 1.05 * Math.pow(r, 1.5) + (couronne ? -6 : 5) * rebond, x = 34 * Math.sin(q * Math.PI * 2.2) * r;
     const rot = couronne ? -26 * r * r + 9 * Math.sin(q * Math.PI * 1.6) * r * r : -26 * r + 9 * Math.sin(q * Math.PI * 1.6) * r;
     const tasse = couronne ? 0 : rebond;
-    /* une fois le chapeau posé, le site remonte par-dessus Napoléon, resté en fond : il s'efface doucement dans la roche pour les textes */
-    const v = borne((scrollY - chapeau.offsetTop - chapeau.offsetHeight + innerHeight) / (innerHeight * .5));
-    scene.style.setProperty("--voile", (v * .5).toFixed(3));
-    /* l'enfant devient l'Empereur : fondu pendant que le bicorne arrive et se pose */
     /* l'enfant devient l'Empereur sous le bicorne : une ligne au bord doux descend de la tête (quand le chapeau la touche) jusqu'au bas du portrait ;
        au-dessus l'adulte, en dessous l'enfant, jamais les deux visages l'un sur l'autre */
     if (enfant) { const l = -.1 + 1.25 * Math.pow(borne((p - .64) / .3), 1.3); portrait.style.setProperty("--l", l.toFixed(4)); portrait.style.setProperty("--le", ((l + .1) / 1.62).toFixed(4)); }
-    if (cue) cue.style.opacity = (1 - borne(p / .15)).toFixed(3);
-    $("ombreChapeau").style.opacity = (Math.pow(q, 6) * (1 - v * .5)).toFixed(3);
+    if (cue) cue.style.opacity = (intro ? borne((p - .9) / .1) : 1 - borne(p / .15)).toFixed(3);
+    if (accroche) { const f = borne(p / .14); accroche.style.opacity = (1 - f).toFixed(3); accroche.style.transform = `translate3d(0,${(f * -10).toFixed(1)}px,0)`; accroche.style.visibility = f >= 1 ? "hidden" : ""; }
+    $("ombreChapeau").style.opacity = (Math.pow(q, 6) * (1 - voile() * .5)).toFixed(3);
     const pose = `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) rotate(${rot.toFixed(2)}deg) scale(${(1 + .02 * tasse).toFixed(3)},${(1 - .06 * tasse).toFixed(3)})`;
     chapeaux.forEach(c => c.style.transform = pose);
     const sens = ordi.matches ? [-1, -1, -1] : sensTel;  /* sur ordinateur le titre est dans le coin gauche : tout part et revient par la gauche */
     const e = Math.pow(borne((p - .04) / .7), 2);
     lignes.forEach((l, i) => { l.style.transform = `translate3d(${(sens[i] * e * 110).toFixed(2)}vw,0,0)`; l.style.opacity = (1 - e * .85).toFixed(3); });
-    /* quand l'Empereur apparaît, « Napoléon, empereur des Français » revient des côtés et reste en entier ; puis il remonte avec la page,
-       comme s'il en faisait partie, pour laisser la place au site (resté en fond, il gênerait la lecture des textes) */
-    const e2 = 1 - Math.pow(1 - borne((p - .74) / .2), 3), o2 = e2;
-    if (titreEmpereur) titreEmpereur.style.transform = `translate3d(0,${(-Math.max(0, scrollY - chapeau.offsetTop - chapeau.offsetHeight + innerHeight)).toFixed(1)}px,0)`;
-    lignes2.forEach((l, i) => { l.style.transform = `translate3d(${((ordi.matches ? -1 : -sens[i]) * (1 - e2) * 110).toFixed(2)}vw,0,0)`; l.style.opacity = o2.toFixed(3); });
+    /* quand l'Empereur apparaît, « Napoléon, empereur des Français » revient des côtés et reste en entier */
+    const e2 = 1 - Math.pow(1 - borne((p - .74) / .2), 3);
+    lignes2.forEach((l, i) => { l.style.transform = `translate3d(${((ordi.matches ? -1 : -sens[i]) * (1 - e2) * 110).toFixed(2)}vw,0,0)`; l.style.opacity = e2.toFixed(3); });
+  }
+  function boucle(t) {
+    const dt = avant ? t - avant : 16; avant = t;
+    a = cible > a ? Math.min(cible, a + dt / DUREE) : Math.max(cible, a - dt / DUREE * 1.6);
+    dessine();
+    if (a !== cible) requestAnimationFrame(boucle); else { joue = false; avant = 0; racine.classList.remove("verrou"); }
+  }
+  /* une fois l'animation jouée, le site remonte par-dessus Napoléon, resté en fond : il s'efface doucement dans la roche pour les textes */
+  const fin = () => chapeau.offsetTop + chapeau.offsetHeight - innerHeight;
+  const voile = () => borne((scrollY - fin()) / (innerHeight * .5));
+  function anime() {
+    tic = false; haut();
+    if (calme || !chapeau) return;
+    scene.style.setProperty("--voile", (voile() * .5).toFixed(3));
+    /* « Napoléon, empereur des Français » remonte ensuite avec la page, comme s'il en faisait partie */
+    if (titreEmpereur) titreEmpereur.style.transform = `translate3d(0,${(-Math.max(0, scrollY - fin())).toFixed(1)}px,0)`;
+    if (!vu && scrollY > 24) intro ? saute() : lance();
+    if (a !== cible && !joue) { joue = true; requestAnimationFrame(boucle); }
+    if (!joue) dessine();
   }
   addEventListener("scroll", () => { if (!tic) { tic = true; requestAnimationFrame(anime); } }, { passive: true });
   addEventListener("resize", anime);
+  if (chapeau && !calme) {
+    if (intro) {
+      /* l'accueil repart toujours d'en haut, sur l'enfant ; on ne peut pas descendre avant la transformation, mais toute tentative la lance */
+      history.scrollRestoration = "manual";
+      if (location.hash || scrollY > 0) saute();
+      else {
+        racine.classList.add("verrou"); scrollTo(0, 0);
+        intro.onclick = lance;
+        const essai = () => { if (racine.classList.contains("verrou")) lance(); };
+        addEventListener("wheel", e => { if (e.deltaY > 0) essai(); }, { passive: true });
+        addEventListener("touchmove", essai, { passive: true });
+        addEventListener("keydown", e => { if (["ArrowDown", "PageDown", "End", " "].includes(e.key) && e.target === document.body) essai(); });
+        addEventListener("hashchange", () => { if (!vu) saute(); });
+      }
+    }
+  }
   anime();
   const menu = $("menuTel");
   const ouvreMenu = o => { if (o) { menu.hidden = false; requestAnimationFrame(() => menu.classList.add("ouverte")); } else { menu.classList.remove("ouverte"); setTimeout(() => menu.hidden = true, 300); } $("menuBtn").setAttribute("aria-expanded", o); document.body.style.overflow = o ? "hidden" : ""; };

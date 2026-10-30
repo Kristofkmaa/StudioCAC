@@ -98,9 +98,9 @@
     const y = -innerHeight * 1.05 * Math.pow(r, 1.5) + 5 * rebond, x = 34 * Math.sin(q * Math.PI * 2.2) * r, rot = -26 * r + 9 * Math.sin(q * Math.PI * 1.6) * r;
     /* une fois le chapeau posé, le site remonte par-dessus Napoléon, resté en fond : il s'efface doucement dans la roche pour les textes */
     const v = borne((scrollY - chapeau.offsetTop - chapeau.offsetHeight + innerHeight) / (innerHeight * .5));
-    scene.style.setProperty("--voile", (v * .84).toFixed(3));
+    scene.style.setProperty("--voile", (v * .5).toFixed(3));
     if (cue) cue.style.opacity = (1 - borne(p / .15)).toFixed(3);
-    $("ombreChapeau").style.opacity = (Math.pow(q, 6) * (1 - v * .84)).toFixed(3);
+    $("ombreChapeau").style.opacity = (Math.pow(q, 6) * (1 - v * .5)).toFixed(3);
     bicorne.style.transform = `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) rotate(${rot.toFixed(2)}deg) scale(${(1 + .02 * rebond).toFixed(3)},${(1 - .06 * rebond).toFixed(3)})`;
     const e = Math.pow(borne((p - .04) / .7), 2);
     lignes.forEach((l, i) => { l.style.transform = `translate3d(${(sens[i] * e * 110).toFixed(2)}vw,0,0)`; l.style.opacity = (1 - e * .85).toFixed(3); });

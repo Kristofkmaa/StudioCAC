@@ -204,7 +204,9 @@ main>section:not(.chapeau),main>div,.pied{position:relative;z-index:1}
 @media (max-width:980px){
   /* le haut du bicorne juste sous le titre, le visage haut dans l'écran, le texte en bas au niveau du buste ; la tête (du haut du bicorne
      au menton, 35 % de la hauteur du portrait) doit finir au-dessus du texte : plus l'écran est court, plus Napoléon est petit */
-  .scene{--ph:min(138vw,84svh,calc((100svh - var(--tete) - 480px) / .35));--pw:calc(var(--ph) * 1145 / 1374);--haut:calc(var(--tete) + 150px + var(--ph) * .13);padding:calc(var(--tete) + 14px) var(--m) calc(22px + env(safe-area-inset-bottom))}
+  /* la scène fait la hauteur visible (svh) : sur iPhone, la barre de Safari ne cache plus le texte du bas.
+     Le portrait descend jusqu'en bas de l'écran (sinon le buste s'arrête net au milieu), sans que la tête dépasse sur le texte */
+  .scene{height:100vh;height:100svh;--ph:min(calc((100svh - var(--tete) - 480px) / .35),calc((100svh - var(--tete) - 140px) / 1.13));--pw:calc(var(--ph) * 1145 / 1374);--haut:calc(var(--tete) + 150px + var(--ph) * .13);padding:calc(var(--tete) + 14px) var(--m) calc(22px + env(safe-area-inset-bottom))}
   .portrait{bottom:auto;top:var(--haut);width:var(--pw)}
   .portrait.sacre{width:calc(var(--pw) * 1.707);top:calc(var(--haut) - var(--ph) * .179)}
   .scene::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(to bottom,rgba(22,20,17,.9) 0,rgba(22,20,17,.55) 20%,transparent 32%,transparent 58%,rgba(22,20,17,.75) 70%,rgba(22,20,17,.96) 84%)}

@@ -167,7 +167,16 @@ main>section:not(.chapeau),main>div,.pied{position:relative;z-index:1}
   .portrait.sacre{height:calc(var(--ph) * 1.707);top:calc(var(--ph) * .011 + 24px)}
   .geant{z-index:3;align-self:center;margin:-2svh 0 0;font-size:clamp(3rem,min(12vw,20svh),14rem);text-shadow:0 4px 40px rgba(22,20,17,.55)}
 }
-@media (max-width:980px){.geant{z-index:3;text-shadow:0 2px 18px rgba(22,20,17,.6)}.scene{--pw:min(100vw,56svh * 1145 / 1374);padding-top:84px}.portrait{width:var(--pw)}.portrait.sacre{width:calc(var(--pw) * 1.707);bottom:calc(var(--pw) * 1374 / 1145 * -.528)}.cue{display:none}}
+/* sur téléphone, une composition d'affiche : Napoléon en haut (le visage vers le tiers de l'écran, la place du bicorne au-dessus),
+   le titre en bas, posé sur son buste, sur un voile sombre qui monte du bas */
+@media (max-width:980px){
+  .scene{--pw:min(112vw,62svh * 1145 / 1374);--ph:calc(var(--pw) * 1374 / 1145);padding:0 var(--m) calc(4svh + 72px + env(safe-area-inset-bottom))}
+  .portrait{bottom:auto;top:calc(var(--tete) + 26px + var(--ph) * .13);width:var(--pw)}
+  .portrait.sacre{width:calc(var(--pw) * 1.707);top:calc(var(--tete) + 26px + var(--ph) * (.13 - .179))}
+  .scene::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(to bottom,transparent 42%,rgba(22,20,17,.7) 58%,rgba(22,20,17,.95) 76%)}
+  .geant{z-index:3;align-self:end;margin:0;font-size:clamp(2.6rem,12.6vw,4.4rem);text-shadow:0 2px 24px rgba(22,20,17,.8)}
+  .cue{display:none}
+}
 @media (prefers-reduced-motion:reduce){.chapeau{height:auto}.scene{position:relative;height:100svh;background:none}.geant .in{animation:none}.geant2{display:none}}
 
 /* ---------- les sections : un en-tête à gauche, des panneaux arrondis ---------- */

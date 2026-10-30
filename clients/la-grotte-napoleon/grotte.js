@@ -87,7 +87,7 @@
   const haut = () => { barre.classList.toggle("vue", scrollY > 120 && !boutonsVus); tete.classList.toggle("pleine", scrollY > 10); };
 
   /* ---------- le bicorne tombe sur sa tête, le titre repart de chaque côté ---------- */
-  const chapeau = $("chapeau"), bicorne = $("bicorne"), scene = chapeau && chapeau.querySelector(".scene"), couronne = !!document.querySelector(".portrait.sacre"), cue = chapeau && chapeau.querySelector(".cue"), lignes = chapeau ? [...chapeau.querySelectorAll(".ln")] : [], sens = [-1, 1, -1];
+  const chapeau = $("chapeau"), bicorne = $("bicorne"), scene = chapeau && chapeau.querySelector(".scene"), chapeaux = chapeau ? [...chapeau.querySelectorAll(".bicorne")] : [], couronne = !!document.querySelector(".portrait.sacre"), cue = chapeau && chapeau.querySelector(".cue"), lignes = chapeau ? [...chapeau.querySelectorAll(".ln")] : [], sens = [-1, 1, -1];
   const borne = x => Math.min(1, Math.max(0, x));
   let tic = false;
   function anime() {
@@ -106,7 +106,8 @@
     scene.style.setProperty("--voile", (v * .5).toFixed(3));
     if (cue) cue.style.opacity = (1 - borne(p / .15)).toFixed(3);
     $("ombreChapeau").style.opacity = (Math.pow(q, 6) * (1 - v * .5)).toFixed(3);
-    bicorne.style.transform = `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) rotate(${rot.toFixed(2)}deg) scale(${(1 + .02 * tasse).toFixed(3)},${(1 - .06 * tasse).toFixed(3)})`;
+    const pose = `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) rotate(${rot.toFixed(2)}deg) scale(${(1 + .02 * tasse).toFixed(3)},${(1 - .06 * tasse).toFixed(3)})`;
+    chapeaux.forEach(c => c.style.transform = pose);
     const e = Math.pow(borne((p - .04) / .7), 2);
     lignes.forEach((l, i) => { l.style.transform = `translate3d(${(sens[i] * e * 110).toFixed(2)}vw,0,0)`; l.style.opacity = (1 - e * .85).toFixed(3); });
   }

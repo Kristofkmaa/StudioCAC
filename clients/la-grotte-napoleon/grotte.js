@@ -5,8 +5,12 @@
   const calme = matchMedia("(prefers-reduced-motion: reduce)").matches;
   /* on arrive toujours tout en haut de la page, même en revenant en arrière ou en rechargeant (sauf un lien vers une section, #…) */
   history.scrollRestoration = "manual";
-  const enHaut = () => scrollTo({ top: 0, left: 0, behavior: "instant" });  /* sans glisser : le défilement doux du site ne doit pas jouer ici */
-  if (!location.hash) enHaut();
+  /* sans glisser (le défilement doux du site ne doit pas jouer ici) ; et quand le site est affiché dans un cadre (l'aperçu dans Claude),
+     scrollIntoView remonte aussi la page qui l'entoure, sinon on arriverait à la hauteur où l'on était sur la page d'avant */
+  const enHaut = () => { scrollTo({ top: 0, left: 0, behavior: "instant" }); if (window.top !== window) document.documentElement.scrollIntoView({ block: "start", behavior: "instant" }); };
+  let bouge = false;
+  ["wheel", "touchstart", "keydown"].forEach(t => addEventListener(t, () => bouge = true, { once: true, passive: true }));
+  if (!location.hash) { enHaut(); requestAnimationFrame(enHaut); addEventListener("load", () => { if (!bouge) enHaut(); }); }
   addEventListener("pageshow", e => { if (e.persisted && !location.hash) enHaut(); });
 
   /* ---------- la langue : l'adresse (?lang=), le dernier choix, puis celle du téléphone ---------- */

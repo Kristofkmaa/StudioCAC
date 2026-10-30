@@ -9,21 +9,6 @@
 <meta name="theme-color" content="#161411">
 <link rel="icon" href="images/couronne.png">
 <link rel="stylesheet" href="grotte.css">
-<script>/* essais de style (phase de test) : Actuel, Vide, Studio, Empire. Choisi par ?style=…, par le sélecteur sous le bandeau « Maquette »,
-   et retenu dans le navigateur (et dans window.name, qui survit au changement de page même quand le stockage est bloqué). */
-(function(){var E=["or","vide","studio","empire"],d=document,h=d.documentElement,m=/[?&]style=(vide|studio|empire|or)\b/.exec(location.search),v=m&&m[1];
-if(!v){try{v=localStorage.getItem("grotte-style")}catch(e){}}if(!v){var w=/grotte-style=(\w+)/.exec(window.name||"");v=w&&w[1]}if(E.indexOf(v)<0)v="or";
-function garde(s){try{localStorage.setItem("grotte-style",s)}catch(e){}try{window.name="grotte-style="+s}catch(e){}}
-function applique(s){E.forEach(function(x){h.classList.remove(x)});var l=d.getElementById("essai-css");if(l)l.remove();
-if(s!=="vide")d.querySelectorAll(".champ-ciel").forEach(function(c){c.remove()});
-if(s!=="or"){h.classList.add(s);l=d.createElement("link");l.id="essai-css";l.rel="stylesheet";l.href=s+".css";d.head.appendChild(l);
-if(s==="vide"&&!d.querySelector(".champ-ciel")){var j=d.createElement("script");j.src="vide.js?"+Date.now();d.head.appendChild(j)}}v=s;garde(s)}
-applique(v);
-d.addEventListener("DOMContentLoaded",function(){var b=d.querySelector(".maquette");if(!b)return;var n=d.createElement("nav");n.className="essais";n.setAttribute("aria-label","Essais de style");
-n.innerHTML="Essais : "+[["or","Actuel"],["vide","Vide"],["studio","Studio"],["empire","Empire"]].map(function(s){return'<a href="?style='+s[0]+'" data-style="'+s[0]+'">'+s[1]+"</a>"}).join(" · ");
-function marque(){n.querySelectorAll("a").forEach(function(a){a.toggleAttribute("aria-current",a.dataset.style===v)})}marque();
-n.addEventListener("click",function(e){var a=e.target.closest("a");if(!a)return;e.preventDefault();applique(a.dataset.style);marque()});b.after(n)})})()</script>
-<style>.essais{font:13px/1.4 system-ui,sans-serif;text-align:center;padding:6px 16px 8px;color:#9a9a9a;background:inherit}.essais a{color:inherit;padding:6px 2px;display:inline-block}.essais a[aria-current]{color:#fff;font-weight:600;text-decoration:none}</style>
 </head>
 <body data-titre="meta-titre">
 <div class="maquette" data-t="bandeau">Maquette préparée par Saitora pour La Grotte Napoléon : à valider ensemble avant la mise en ligne.</div>

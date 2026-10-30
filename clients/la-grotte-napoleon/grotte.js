@@ -63,6 +63,17 @@
   /* toucher une heure : la page « Réserver » s'ouvre avec cette séance déjà choisie */
   $("joursSeances")?.addEventListener("click", e => { const b = e.target.closest(".creneau"); if (b && !b.disabled) location.href = versReserver({ jour: b.dataset.j, heure: b.dataset.h }); });
 
+  /* ---------- les drapeaux des langues (dessinés ici : les drapeaux emoji ne s'affichent pas partout) ---------- */
+  const DRAPEAUX = {
+    fr: '<rect width="10" height="20" fill="#0055A4"/><rect x="10" width="10" height="20" fill="#fff"/><rect x="20" width="10" height="20" fill="#EF4135"/>',
+    en: '<rect width="30" height="20" fill="#012169"/><path d="M0 0l30 20M30 0L0 20" stroke="#fff" stroke-width="4"/><path d="M0 0l30 20M30 0L0 20" stroke="#C8102E" stroke-width="1.5"/><path d="M15 0v20M0 10h30" stroke="#fff" stroke-width="6"/><path d="M15 0v20M0 10h30" stroke="#C8102E" stroke-width="3.4"/>',
+    it: '<rect width="10" height="20" fill="#009246"/><rect x="10" width="10" height="20" fill="#fff"/><rect x="20" width="10" height="20" fill="#CE2B37"/>',
+    de: '<rect width="30" height="7" fill="#000"/><rect y="6.67" width="30" height="7" fill="#DD0000"/><rect y="13.33" width="30" height="6.67" fill="#FFCE00"/>',
+    es: '<rect width="30" height="20" fill="#AA151B"/><rect y="5" width="30" height="10" fill="#F1BF00"/>',
+    co: '<rect width="30" height="20" fill="#fff"/><path d="M10.5 18.5c0-3.2 1.2-4.9 2.6-5.7-1.7-1.1-2.6-2.9-2.3-4.9.4-2.7 2.7-4.5 5.3-4.3 2.8.3 4.8 2.8 4.4 5.6-.2 1.3-.8 2.4-1.7 3.2 1.8.9 2.9 3 2.9 6.1z" fill="#111"/><path d="M10.6 8.6l10.6-2.2" stroke="#fff" stroke-width="1.4"/>'
+  };
+  const drapeau = l => `<svg class="drapeau" viewBox="0 0 30 20" aria-hidden="true">${DRAPEAUX[l]}</svg>`;
+
   /* ---------- appliquer la langue ---------- */
   function langue(l, garder) {
     L = l; if (garder) { try { localStorage.setItem("grotte-langue", l); } catch (e) {} }
@@ -72,8 +83,9 @@
     document.querySelectorAll("[data-t-aria]").forEach(el => el.setAttribute("aria-label", t(el.dataset.tAria)));
     document.querySelectorAll("[data-t-alt]").forEach(el => el.alt = t(el.dataset.tAlt));
     document.querySelectorAll("[data-heures]").forEach(el => el.innerHTML = HEURES[el.dataset.heures].map(heure).join(" · "));
-    document.querySelectorAll("[data-langue]").forEach(el => el.innerHTML = `<button type="button" aria-expanded="false" aria-haspopup="true" aria-label="${t("nav-langue")} : ${t("nom-langue")}">${l.toUpperCase()}<svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M1 1l4 4 4-4"/></svg></button><div class="langues">${LANGUES.map(x => `<button type="button" data-l="${x}" aria-current="${x === l}"><span>${T[x]["nom-langue"]}</span><b>${x.toUpperCase()}</b></button>`).join("")}</div>`);
-    $("langueMenu").innerHTML = LANGUES.map(x => `<button type="button" data-l="${x}" aria-current="${x === l}" aria-label="${T[x]["nom-langue"]}">${x.toUpperCase()}</button>`).join("");
+    document.querySelectorAll("[data-langue]").forEach(el => el.innerHTML = `<button type="button" aria-expanded="false" aria-haspopup="true" aria-label="${t("nav-langue")} : ${t("nom-langue")}">${drapeau(l)}<svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M1 1l4 4 4-4"/></svg></button><div class="langues">${LANGUES.map(x => `<button type="button" data-l="${x}" aria-current="${x === l}"><span>${T[x]["nom-langue"]}</span>${drapeau(x)}</button>`).join("")}</div>`);
+    $("langueMenu").innerHTML = LANGUES.map(x => `<button type="button" data-l="${x}" aria-current="${x === l}" aria-label="${T[x]["nom-langue"]}">${drapeau(x)}</button>`).join("");
+    dessineFlotte();
     dessineSeances(); if (etat.ouvert) dessinePanneau(); dessineFiche(); dessinePanier();
   }
   document.addEventListener("click", e => {
@@ -88,6 +100,27 @@
   document.querySelectorAll(".rise").forEach(el => calme ? el.classList.add("on") : ioR.observe(el));
   const vid = $("video");
   if (vid) new IntersectionObserver(([e]) => { if (calme) return; if (e.isIntersecting) vid.play().catch(() => {}); else vid.pause(); }, { threshold: .3 }).observe(vid);
+
+  /* ---------- sur téléphone : une petite flèche en bas à droite qui s'ouvre sur l'essentiel (réserver, appeler, plan, panier, langue),
+     à la place de la barre du bas et du coin gauche de l'en-tête ---------- */
+  const flotte = document.createElement("div");
+  flotte.className = "flotte"; flotte.id = "flotte";
+  document.body.append(flotte);
+  let flotteOuverte = false;
+  function dessineFlotte() {
+    flotte.innerHTML = `<div class="flotte-panneau" id="flottePanneau" ${flotteOuverte ? "" : "hidden"}>
+        <a class="btn lg" href="reserver.html" data-reserver>${t("ouv-reserver")}</a>
+        <div class="flotte-deux"><a class="btn creux" href="tel:+33495280461">${t("barre-appeler")}</a><a class="btn creux" href="./#venir">${t("barre-plan")}</a></div>
+        <a class="flotte-panier" href="panier.html"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M3.5 6.5h11l-.9 9.5H4.4z"/><path d="M6.5 6.5V5a2.5 2.5 0 0 1 5 0v1.5"/></svg><span>${t("nav-panier")}</span><span class="nb-panier" hidden></span></a>
+        <div class="flotte-langues" role="group" aria-label="${t("nav-langue")}">${LANGUES.map(x => `<button type="button" data-l="${x}" aria-current="${x === L}" aria-label="${T[x]["nom-langue"]}">${drapeau(x)}</button>`).join("")}</div>
+      </div>
+      <button type="button" class="flotte-btn" aria-expanded="${flotteOuverte}" aria-controls="flottePanneau" aria-label="${t("nav-menu")}"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 11.5l5-5 5 5"/></svg></button>`;
+    if (typeof compteurPanier === "function") compteurPanier();
+  }
+  const ouvreFlotte = o => { flotteOuverte = o; const p = $("flottePanneau"); flotte.querySelector(".flotte-btn").setAttribute("aria-expanded", o); flotte.classList.toggle("ouverte", o); if (o) { p.hidden = false; } else setTimeout(() => { if (!flotteOuverte) p.hidden = true; }, 250); };
+  flotte.addEventListener("click", e => { if (e.target.closest(".flotte-btn")) ouvreFlotte(!flotteOuverte); });
+  document.addEventListener("click", e => { if (flotteOuverte && !e.composedPath().includes(flotte)) ouvreFlotte(false); });  /* composedPath : le panneau est redessiné quand on change de langue */
+  addEventListener("keydown", e => { if (e.key === "Escape" && flotteOuverte) ouvreFlotte(false); });
 
   /* ---------- en-tête, menu du téléphone, barre du bas ---------- */
   const tete = $("tete"), barre = $("barre");

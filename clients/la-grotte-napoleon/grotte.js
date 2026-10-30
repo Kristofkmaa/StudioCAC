@@ -157,7 +157,7 @@
         racine.classList.add("verrou"); scrollTo(0, 0);
         intro.onclick = lance;
         /* « Entrer dans la Grotte » : on descend vers la suite du site sans laisser de #… dans l'adresse (le rechargement repart de l'enfant) */
-        const entrer = $("entrer"); if (entrer) entrer.onclick = e => { e.preventDefault(); $("seances").scrollIntoView({ block: "start" }); };
+        const entrer = $("entrer"); if (entrer) entrer.onclick = e => { e.preventDefault(); $("seance").scrollIntoView({ block: "start" }); };
         const essai = () => { if (racine.classList.contains("verrou")) lance(); };
         addEventListener("wheel", e => { if (e.deltaY > 0) essai(); }, { passive: true });
         addEventListener("touchmove", essai, { passive: true });

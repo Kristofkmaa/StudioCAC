@@ -272,6 +272,14 @@ main>section:not(.chapeau),main>div,.pied{position:relative;z-index:1}
 .stat b{display:block;font-family:var(--serif);font-weight:400;font-size:clamp(3rem,1.8rem + 3.6vw,5.4rem);line-height:1;letter-spacing:-.02em;color:var(--accent);font-variant-numeric:tabular-nums}
 .stat span{display:block;margin-top:10px;font-size:15px;color:var(--mist)}
 @media (max-width:860px){.seance{grid-template-columns:1fr}.video{max-width:none;aspect-ratio:4/5}}
+/* à table : la photo du spuntinu à droite, le menu à gauche (l'inverse de la séance, pour que les deux blocs se répondent) */
+.table{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.75fr);gap:clamp(28px,6vw,96px);align-items:center}
+.table .img{order:2;border-radius:16px;overflow:hidden;aspect-ratio:4/5;max-width:440px;justify-self:end;width:100%}
+.table .img img{width:100%;height:100%;object-fit:cover;display:block}
+.table .texte{display:grid;gap:18px}
+.table h2{font-size:var(--h1);letter-spacing:-.04em}
+.table .texte>p:not(.eyebrow):not(.note){font-size:17px;max-width:52ch}
+@media (max-width:860px){.table{grid-template-columns:1fr}.table .img{order:0;aspect-ratio:4/3;max-width:none}}
 
 /* le film */
 .film{position:relative;margin-top:36px;border-radius:16px;overflow:hidden;background:#000;aspect-ratio:16/9}

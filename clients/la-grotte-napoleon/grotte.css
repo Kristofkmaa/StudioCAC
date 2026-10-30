@@ -273,7 +273,7 @@ main>section:not(.chapeau),main>div,.pied{position:relative;z-index:1}
 .well .actions{justify-content:center}
 
 /* pied */
-.pied{margin-top:var(--gap);background:var(--roche-profond),var(--deep);padding:clamp(56px,8vw,96px) 0 calc(40px + var(--barre) + env(safe-area-inset-bottom))}
+.pied{margin-top:var(--gap);background:none;border-top:1px solid var(--line);padding:clamp(56px,8vw,96px) 0 calc(40px + var(--barre) + env(safe-area-inset-bottom))}
 .pied .phrase-fin{font-family:var(--serif);font-style:italic;font-weight:400;font-size:clamp(2.6rem,1.6rem + 3.6vw,5rem);letter-spacing:-.015em;line-height:1.02;color:var(--ink);max-width:16ch;margin-bottom:28px}
 .pied-bas{display:flex;justify-content:space-between;gap:16px 32px;flex-wrap:wrap;margin-top:64px;padding-top:24px;border-top:1px solid var(--line);font-size:14px}
 .pied-bas nav{display:flex;flex-wrap:wrap;gap:8px 24px}

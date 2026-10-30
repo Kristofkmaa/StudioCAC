@@ -124,6 +124,10 @@ main>section:not(.chapeau),main>div,.pied{position:relative;z-index:1}
 .final{display:none!important}
 .geant{position:relative;z-index:1;align-self:start;display:grid;margin:clamp(8px,4svh,48px) 0 0;font-weight:400;font-size:clamp(3rem,min(15vw,17svh),15rem);line-height:.92;letter-spacing:-.02em;color:var(--ink)}
 .geant .ln{display:block;white-space:nowrap;will-change:transform,opacity}
+/* le second titre (accueil) : « Napoléon, empereur des Français », au même endroit que le premier, revient des côtés quand l'Empereur apparaît */
+.scene>.geant{grid-area:1/1;font-family:var(--serif)}
+.geant2 .in{animation:none}
+.geant2 .ln{opacity:0}
 .geant .l1{justify-self:start}.geant .l2{justify-self:end}.geant .l3{justify-self:start}
 .geant .l3 .in{font-style:italic;letter-spacing:-.025em;color:var(--accent)}
 .geant .in{display:inline-block;animation:de-gauche 1.4s var(--doux) both}
@@ -162,7 +166,7 @@ main>section:not(.chapeau),main>div,.pied{position:relative;z-index:1}
   .geant{z-index:3;align-self:center;margin:-2svh 0 0;font-size:clamp(3rem,min(12vw,20svh),14rem);text-shadow:0 4px 40px rgba(22,20,17,.55)}
 }
 @media (max-width:980px){.geant{z-index:3;text-shadow:0 2px 18px rgba(22,20,17,.6)}.scene{--pw:min(100vw,56svh * 1145 / 1374);padding-top:84px}.portrait{width:var(--pw)}.portrait.sacre{width:calc(var(--pw) * 1.707);bottom:calc(var(--pw) * 1374 / 1145 * -.528)}.cue{display:none}}
-@media (prefers-reduced-motion:reduce){.chapeau{height:auto}.scene{position:relative;height:100svh;background:none}.geant .in{animation:none}}
+@media (prefers-reduced-motion:reduce){.chapeau{height:auto}.scene{position:relative;height:100svh;background:none}.geant .in{animation:none}.geant2{display:none}}
 
 /* ---------- les sections : un en-tête à gauche, des panneaux arrondis ---------- */
 .sec{margin-top:var(--gap)}

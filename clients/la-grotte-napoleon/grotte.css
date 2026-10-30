@@ -415,3 +415,41 @@ main>section:not(.chapeau),main>div,.pied{position:relative;z-index:1}
 body[data-titre="meta-reserver"] .barre{display:none!important}
 body[data-titre="meta-reserver"]{--barre:0px}
 /* sans animation : la phrase et les boutons sont là tout de suite */
+
+/* ---------- la boutique ---------- */
+/* l'ouverture : la couronne de laurier se pose sur l'Empereur en habit du sacre (même animation que le bicorne) */
+.portrait.sacre .bicorne{left:27.5%;top:6.5%;width:46%;transform-origin:50% 85%;filter:drop-shadow(0 12px 18px rgba(0,0,0,.5))}
+.portrait.sacre .ombre-chapeau{left:31%;width:38%;top:15%;height:8%}
+/* la collection Napô en avant */
+.napo-une{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:clamp(28px,6vw,110px);align-items:center}
+.napo-img{border-radius:4px;overflow:hidden;aspect-ratio:4/3;background:var(--deep)}
+.napo-img img{width:100%;height:100%;object-fit:cover}
+.napo-txt{display:grid;gap:18px;justify-items:start}
+.napo-txt h2{font-size:var(--h1)}
+.napo-txt p:not(.eyebrow){font-size:17px;color:var(--mist);max-width:44ch}
+@media (max-width:860px){.napo-une{grid-template-columns:1fr}}
+/* les filtres : des mots, celui choisi souligné */
+.filtres{display:flex;flex-wrap:wrap;gap:6px 26px;margin-top:40px}
+.filtres button{min-height:44px;padding:6px 0;font-size:16px;color:var(--muted);border-bottom:1px solid transparent;transition:color .2s,border-color .2s}
+.filtres button[aria-pressed="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+@media (hover:hover) and (pointer:fine){.filtres button:hover{color:var(--ink)}}
+/* les produits : une grille, la seconde photo au survol */
+.produits{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));gap:48px clamp(20px,2.4vw,32px);margin-top:36px}
+.produit{display:flex;flex-direction:column;gap:12px}
+.produit .img{position:relative;flex:none;border-radius:4px;overflow:hidden;aspect-ratio:4/5;background:var(--deep);margin-bottom:6px}
+.produit .img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .5s var(--doux),transform .8s var(--doux)}
+.produit .img .dos{opacity:0}
+@media (hover:hover) and (pointer:fine){.produit:hover .img .dos{opacity:1}.produit:hover .img img{transform:scale(1.03)}}
+.produit.blanc .img{background:#F3F1EC}
+.produit.blanc .img img{object-fit:contain;padding:8%}
+.produit h3{font-size:clamp(1.25rem,1.1rem + .4vw,1.5rem);line-height:1.15}
+.produit .ligne{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px}
+.prix-p{font-family:var(--serif);font-size:1.45rem;line-height:1;color:var(--accent)}
+.prix-p.sans{font-family:inherit;font-size:14px;color:var(--muted)}
+.coloris{display:inline-flex;gap:6px}
+.coloris i{width:12px;height:12px;border-radius:50%;background:var(--c);box-shadow:inset 0 0 0 1px rgba(255,255,255,.28)}
+.tailles,.epuise{font-size:14px;color:var(--muted)}
+.epuise{color:#F2B8A8}
+.produit .ghost{margin-top:auto;min-height:44px}
+.btq-ligne{margin-top:40px}
+@media (max-width:600px){.produits{grid-template-columns:repeat(2,minmax(0,1fr));gap:36px 14px}.produit h3{font-size:1.08rem}.prix-p{font-size:1.2rem}.produit .ghost{font-size:14px}.filtres{gap:2px 20px}}

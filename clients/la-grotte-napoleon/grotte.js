@@ -126,6 +126,15 @@
   const choisit = b => { onglets.forEach(o => { const v = o === b; o.setAttribute("aria-selected", v); o.tabIndex = v ? 0 : -1; $(o.getAttribute("aria-controls")).hidden = !v; }); };
   onglets.forEach((o, i) => { o.onclick = () => choisit(o); o.onkeydown = e => { const k = { ArrowRight: 1, ArrowLeft: -1 }[e.key]; if (k) { const n = onglets[(i + k + onglets.length) % onglets.length]; choisit(n); n.focus(); } }; });
 
+  /* ---------- la boutique : filtrer les souvenirs par catégorie ---------- */
+  const filtres = [...document.querySelectorAll("[data-filtre]")], produits = [...document.querySelectorAll(".produit")];
+  function filtre(cat) {
+    filtres.forEach(f => f.setAttribute("aria-pressed", f.dataset.filtre === cat));
+    produits.forEach(p => { p.hidden = cat !== "tout" && p.dataset.cat !== cat; if (!p.hidden) p.classList.add("on"); });
+  }
+  filtres.forEach(f => f.onclick = () => filtre(f.dataset.filtre));
+  document.querySelectorAll("[data-filtre-va]").forEach(b => b.onclick = () => { filtre(b.dataset.filtreVa); $("souvenirs").scrollIntoView({ behavior: calme ? "auto" : "smooth" }); });
+
   /* ---------- la réservation ---------- */
   const etat = { ouvert: false, formule: "complete", jour: null, heure: null, adultes: 2, enfants: 0, petits: 0, paiement: "enligne", mois: null, fait: null, nom: "", tel: "", email: "", note: "", langueFilm: null };
   /* la réservation se fait sur sa propre page (reserver.html) ; ailleurs, les boutons « Réserver » et les heures y mènent, avec la langue */

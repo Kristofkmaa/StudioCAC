@@ -18,6 +18,14 @@
   if (LANGUES.includes(L)) { try { localStorage.setItem("grotte-langue", L); } catch (e) {} }  /* ?lang= vaut pour les pages suivantes */
   else { try { L = localStorage.getItem("grotte-langue"); } catch (e) {} }
   if (!LANGUES.includes(L)) L = (navigator.languages || [navigator.language || "fr"]).map(x => x.slice(0, 2).toLowerCase()).find(x => LANGUES.includes(x)) || "fr";
+  /* la langue suit aussi dans l'adresse de chaque lien du site : elle reste la même d'une page à l'autre même quand l'appareil
+     ne garde rien (navigation privée, aperçu dans Claude) */
+  document.addEventListener("click", e => {
+    const a = e.target.closest("a[href]"); if (!a || /^(https?:|mailto:|tel:|#)/.test(a.getAttribute("href"))) return;
+    const u = new URL(a.getAttribute("href"), location.href);
+    if (u.origin !== location.origin || u.pathname === location.pathname) return;  /* une ancre de la même page : rien à changer */
+    u.searchParams.set("lang", L); a.href = u.href;
+  }, true);
   const t = (k, n) => { const s = (T[L] && T[L][k]) ?? T.fr[k] ?? ""; return n == null ? s : s.replace("{n}", n); };
   const locale = () => L === "co" ? "fr" : L;
 
@@ -416,7 +424,7 @@
     if (b.dataset.reserver) { etat.formule = b.dataset.reserver; etat.heure = null; redessine(); }
     ouvreMenu(false); panneau.scrollIntoView({ behavior: calme ? "auto" : "smooth", block: "start" });
   });
-  if (enPage) $("rFerme").onclick = () => { location.href = "./"; };
+  if (enPage) $("rFerme").onclick = () => { location.href = "./?lang=" + L; };
   addEventListener("keydown", e => { if (e.key === "Escape" && !menu.hidden) ouvreMenu(false); });
 
   const total = () => etat.formule === "complete" ? etat.adultes * PRIX.complete.adulte + etat.enfants * PRIX.complete.enfant : (etat.adultes + etat.enfants) * PRIX.decouverte.adulte;

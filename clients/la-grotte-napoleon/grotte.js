@@ -106,21 +106,33 @@
   const flotte = document.createElement("div");
   flotte.className = "flotte"; flotte.id = "flotte";
   document.body.append(flotte);
-  let flotteOuverte = false;
+  let flotteOuverte = false, langueOuverte = false;  /* sur ordinateur, un petit drapeau accroché à la flèche ouvre les langues */
   function dessineFlotte() {
+    const liens = [["./#seance", "nav-seance"], ["formules.html", "nav-formules"], ["./#histoire", "nav-histoire"], ["boutique.html", "nav-boutique"], ["./#venir", "nav-acces"]];
     flotte.innerHTML = `<div class="flotte-panneau" id="flottePanneau" ${flotteOuverte ? "" : "hidden"}>
+        <nav class="flotte-nav" aria-label="Menu">${liens.map(([h, k]) => `<a href="${h}">${t(k)}</a>`).join("")}</nav>
         <a class="btn lg" href="reserver.html" data-reserver>${t("ouv-reserver")}</a>
         <div class="flotte-deux"><a class="btn creux" href="tel:+33495280461">${t("barre-appeler")}</a><a class="btn creux" href="./#venir">${t("barre-plan")}</a></div>
         <a class="flotte-panier" href="panier.html"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M3.5 6.5h11l-.9 9.5H4.4z"/><path d="M6.5 6.5V5a2.5 2.5 0 0 1 5 0v1.5"/></svg><span>${t("nav-panier")}</span><span class="nb-panier" hidden></span></a>
         <div class="flotte-langues" role="group" aria-label="${t("nav-langue")}">${LANGUES.map(x => `<button type="button" data-l="${x}" aria-current="${x === L}" aria-label="${T[x]["nom-langue"]}">${drapeau(x)}</button>`).join("")}</div>
       </div>
+      <div class="flotte-langue-liste" id="flotteLangues" ${langueOuverte ? "" : "hidden"} role="group" aria-label="${t("nav-langue")}">${LANGUES.map(x => `<button type="button" data-l="${x}" aria-current="${x === L}">${drapeau(x)}<span>${T[x]["nom-langue"]}</span></button>`).join("")}</div>
+      <button type="button" class="flotte-drapeau" aria-expanded="${langueOuverte}" aria-controls="flotteLangues" aria-label="${t("nav-langue")} : ${t("nom-langue")}">${drapeau(L)}</button>
       <button type="button" class="flotte-btn" aria-expanded="${flotteOuverte}" aria-controls="flottePanneau" aria-label="${t("nav-menu")}"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 11.5l5-5 5 5"/></svg></button>`;
     if (typeof compteurPanier === "function") compteurPanier();
   }
   const ouvreFlotte = o => { flotteOuverte = o; const p = $("flottePanneau"); flotte.querySelector(".flotte-btn").setAttribute("aria-expanded", o); flotte.classList.toggle("ouverte", o); if (o) { p.hidden = false; } else setTimeout(() => { if (!flotteOuverte) p.hidden = true; }, 250); };
-  flotte.addEventListener("click", e => { if (e.target.closest(".flotte-btn")) ouvreFlotte(!flotteOuverte); });
-  document.addEventListener("click", e => { if (flotteOuverte && !e.composedPath().includes(flotte)) ouvreFlotte(false); });  /* composedPath : le panneau est redessiné quand on change de langue */
-  addEventListener("keydown", e => { if (e.key === "Escape" && flotteOuverte) ouvreFlotte(false); });
+  const ouvreLangues = o => { langueOuverte = o; $("flotteLangues").hidden = !o; flotte.querySelector(".flotte-drapeau").setAttribute("aria-expanded", o); };
+  flotte.addEventListener("click", e => {
+    if (e.target.closest(".flotte-btn")) { ouvreLangues(false); ouvreFlotte(!flotteOuverte); }
+    else if (e.target.closest(".flotte-drapeau")) { if (flotteOuverte) ouvreFlotte(false); ouvreLangues(!langueOuverte); }
+    else if (e.target.closest(".flotte-langue-liste [data-l]")) langueOuverte = false;
+  });
+  document.addEventListener("click", e => { if (!e.composedPath().includes(flotte)) { if (flotteOuverte) ouvreFlotte(false); if (langueOuverte) ouvreLangues(false); } });  /* composedPath : le panneau est redessiné quand on change de langue */
+  addEventListener("keydown", e => { if (e.key === "Escape") { if (flotteOuverte) ouvreFlotte(false); if (langueOuverte) ouvreLangues(false); } });
+
+  /* « Entrer dans la Grotte » : on descend vers la suite du site sans laisser de #… dans l'adresse (le rechargement repart de l'enfant) */
+  document.querySelectorAll("[data-entrer]").forEach(b => b.onclick = e => { e.preventDefault(); $("seance").scrollIntoView({ block: "start" }); });
 
   /* ---------- en-tête, menu du téléphone, barre du bas ---------- */
   const tete = $("tete"), barre = $("barre");
@@ -178,7 +190,7 @@
   function anime() {
     tic = false; haut();
     if (calme || !chapeau) return;
-    scene.style.setProperty("--voile", (voile() * .5).toFixed(3));
+    scene.style.setProperty("--voile", (voile() * (ordi.matches ? 1 : .5)).toFixed(3));  /* sur ordinateur les textes passent sur lui : il s'efface tout à fait */
     /* le titre de l'Empereur et le bloc du concept remontent ensuite avec la page, comme s'ils en faisaient partie */
     if (bloc) bloc.style.transform = `translate3d(0,${(-Math.max(0, scrollY - fin())).toFixed(1)}px,0)`;
     if (!vu && scrollY > 24) intro ? saute() : lance();
@@ -201,7 +213,6 @@
         racine.classList.add("verrou"); enHaut();
         intro.onclick = lance;
         /* « Entrer dans la Grotte » : on descend vers la suite du site sans laisser de #… dans l'adresse (le rechargement repart de l'enfant) */
-        const entrer = $("entrer"); if (entrer) entrer.onclick = e => { e.preventDefault(); $("seance").scrollIntoView({ block: "start" }); };
         const essai = () => { if (racine.classList.contains("verrou")) lance(); };
         addEventListener("wheel", e => { if (e.deltaY > 0) essai(); }, { passive: true });
         addEventListener("touchmove", essai, { passive: true });

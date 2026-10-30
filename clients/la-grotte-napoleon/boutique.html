@@ -8,7 +8,7 @@
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#161411">
 <link rel="icon" href="images/couronne.png">
-<link rel="stylesheet" href="grotte.css?v=20261030p">
+<link rel="stylesheet" href="grotte.css?v=20261030r">
 </head>
 <body class="btq" data-titre="meta-boutique">
 <div class="maquette" data-t="bandeau">Maquette préparée par Saitora pour La Grotte Napoléon : à valider ensemble avant la mise en ligne.</div>
@@ -67,6 +67,11 @@
 
   <div class="corps-btq">
   <!-- la boutique, simple : les catégories (vignette, nom, nombre), puis tous les souvenirs détourés sur le même fond crème -->
+  <!-- sur ordinateur, l'ouverture ne montre que le logo et l'Empereur du sacre : le titre et la phrase arrivent ici -->
+  <section class="intro-ordi page" aria-labelledby="t-intro">
+    <h2 id="t-intro" class="intro-titre"><span data-t="btq-l1">Souvenirs</span> <span data-t="btq-l2">de l’Empire,</span> <em data-t="btq-l3">d’Ajaccio</em></h2>
+    <p class="grand seul" data-t="btq-phrase"></p>
+  </section>
   <section class="sec page" id="souvenirs" aria-labelledby="t-souvenirs">
     <div class="head rise"><div><p class="eyebrow" data-t="btq-e">La boutique</p><h2 id="t-souvenirs" data-t="btq-titre">Les souvenirs</h2><p data-t="btq-intro"></p></div><p class="compte" aria-live="polite"><b id="compte">20</b> <span data-t="btq-nb">souvenirs</span></p></div>
     <div class="cats" role="group" aria-label="Catégories"><button type="button" class="cat" data-filtre="tout" aria-pressed="true"><span class="vi tous"><img src="images/cabinet/1306.webp" alt="" loading="lazy" decoding="async"><img src="images/cabinet/1386.webp" alt="" loading="lazy" decoding="async"><img src="images/cabinet/917.webp" alt="" loading="lazy" decoding="async"></span><span class="ct"><span data-t="btq-f-tout">Tout</span><small>20 <span data-t="btq-pieces">pièces</span></small></span></button><button type="button" class="cat" data-filtre="napo" aria-pressed="false"><span class="vi"><img src="images/cabinet/1357.webp" alt="" loading="lazy" decoding="async"></span><span class="ct"><span data-t="btq-f-napo">Collection Napô</span><small>4 <span data-t="btq-pieces">pièces</span></small></span></button><button type="button" class="cat" data-filtre="bustes" aria-pressed="false"><span class="vi"><img src="images/cabinet/1367.webp" alt="" loading="lazy" decoding="async"></span><span class="ct"><span data-t="btq-f-bustes">Bustes et statuettes</span><small>3 <span data-t="btq-pieces">pièces</span></small></span></button><button type="button" class="cat" data-filtre="objets" aria-pressed="false"><span class="vi"><img src="images/cabinet/1427.webp" alt="" loading="lazy" decoding="async"></span><span class="ct"><span data-t="btq-f-objets">Écriture et maison</span><small>4 <span data-t="btq-pieces">pièces</span></small></span></button><button type="button" class="cat" data-filtre="vetements" aria-pressed="false"><span class="vi"><img src="images/cabinet/210.webp" alt="" loading="lazy" decoding="async"></span><span class="ct"><span data-t="btq-f-vetements">Vêtements</span><small>9 <span data-t="btq-pieces">pièces</span></small></span></button></div>
@@ -264,8 +269,8 @@
 </div>
 
 
-<script src="produits.js?v=20261030p"></script>
-<script src="textes.js?v=20261030p"></script>
-<script src="grotte.js?v=20261030p"></script>
+<script src="produits.js?v=20261030r"></script>
+<script src="textes.js?v=20261030r"></script>
+<script src="grotte.js?v=20261030r"></script>
 </body>
 </html>

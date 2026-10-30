@@ -148,6 +148,8 @@ main>section:not(.chapeau),main>div,.pied{position:relative;z-index:1}
 .geant .l3 .in{animation-delay:.28s}
 @keyframes de-gauche{from{transform:translateX(-110vw);opacity:0}}
 @keyframes de-droite{from{transform:translateX(110vw);opacity:0}}
+/* à la boutique, le titre ne traverse pas l'écran : il monte doucement, ligne après ligne, et reste */
+.btq .geant .in,.btq .geant .l2 .in{animation-name:monte;animation-duration:1s}
 /* sous le titre : le lieu en une phrase, puis « Découvrir », un bouton creux au filet doré, la flèche qui pique vers le bas au survol */
 .accroche{display:grid;justify-items:start;align-content:start;gap:clamp(18px,3svh,30px);max-width:38ch}
 /* les éléments arrivent l'un après l'autre (--i), comme le titre */
@@ -493,6 +495,20 @@ body[data-titre="meta-reserver"]{--barre:0px}
 .portrait.sacre .ombre-chapeau{z-index:2}
 .portrait.sacre .ombre-chapeau{left:37%;width:26%;top:13.5%;height:5.5%}
 /* la collection Napô en avant */
+/* sous l'ouverture, la boutique repose sur la roche pleine : les souvenirs ne se lisent jamais par-dessus le portrait */
+.corps-btq{background:var(--roche),var(--bg);padding-bottom:var(--gap);box-shadow:0 -40px 80px 20px var(--bg)}
+.corps-btq>.sec:first-child{margin-top:0;padding-top:clamp(56px,8vw,110px)}
+/* les rayons : quatre grandes tuiles photo, le nom en Bagnard sur un voile, le nombre de pièces */
+.rayons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(12px,1.6vw,22px);margin-top:36px}
+.rayon{position:relative;display:grid;align-content:end;gap:4px;padding:clamp(16px,1.8vw,24px);aspect-ratio:3/4;border:0;border-radius:6px;overflow:hidden;background:var(--deep);color:var(--ink);text-align:left;cursor:pointer;isolation:isolate}
+.rayon .img{position:absolute;inset:0;z-index:-1}
+.rayon .img img{width:100%;height:100%;object-fit:cover;transition:transform 1s var(--doux)}
+.rayon::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(to top,rgba(22,20,17,.92) 0,rgba(22,20,17,.35) 45%,transparent 70%)}
+.rayon .nom{font-family:var(--serif);font-size:clamp(1.35rem,1rem + 1vw,2.1rem);line-height:1.05;letter-spacing:-.01em}
+.rayon .nb{font-size:14px;color:var(--accent)}
+@media (hover:hover) and (pointer:fine){.rayon:hover .img img{transform:scale(1.05)}}
+.rayon:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+@media (max-width:860px){.rayons{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .napo-une{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:clamp(28px,6vw,110px);align-items:center}
 .napo-img{border-radius:4px;overflow:hidden;aspect-ratio:4/3;background:var(--deep)}
 .napo-img img{width:100%;height:100%;object-fit:cover}

@@ -86,7 +86,7 @@
   const haut = () => { barre.classList.toggle("vue", scrollY > 120 && !boutonsVus); tete.classList.toggle("pleine", scrollY > 10); };
 
   /* ---------- le bicorne tombe sur sa tête, le titre repart de chaque côté ---------- */
-  const chapeau = $("chapeau"), bicorne = $("bicorne"), lignes = chapeau ? [...chapeau.querySelectorAll(".ln")] : [], sens = [-1, 1, -1];
+  const chapeau = $("chapeau"), bicorne = $("bicorne"), scene = chapeau && chapeau.querySelector(".scene"), cue = chapeau && chapeau.querySelector(".cue"), lignes = chapeau ? [...chapeau.querySelectorAll(".ln")] : [], sens = [-1, 1, -1];
   const borne = x => Math.min(1, Math.max(0, x));
   let tic = false;
   function anime() {
@@ -94,13 +94,17 @@
     if (calme || !chapeau) return;
     const p = borne((scrollY - chapeau.offsetTop) / (chapeau.offsetHeight - innerHeight));
     /* la chute : de tout en haut jusqu'à la tête, en se balançant un peu, puis un petit rebond en se posant */
-    const q = borne(p / .72), r = 1 - q, b = borne((p - .72) / .12), rebond = Math.sin(b * Math.PI);
+    const q = borne(p / .6), r = 1 - q, b = borne((p - .6) / .12), rebond = Math.sin(b * Math.PI);
     const y = -innerHeight * 1.05 * Math.pow(r, 1.5) + 5 * rebond, x = 34 * Math.sin(q * Math.PI * 2.2) * r, rot = -26 * r + 9 * Math.sin(q * Math.PI * 1.6) * r;
-    const f = borne((p - .74) / .2), fin = $("final");
-    fin.style.opacity = f.toFixed(3); fin.style.visibility = f > .02 ? "visible" : "hidden"; fin.style.transform = `translateY(calc(-50% + ${((1 - f) * 24).toFixed(1)}px))`;
+    /* puis la phrase et les boutons arrivent par-dessus ; et en continuant, toute l'ouverture s'efface d'un coup net au lieu de rester figée */
+    const f = borne((p - .62) / .14), fin = $("final"), sortie = borne((p - .86) / .1);
+    fin.style.opacity = f.toFixed(3); fin.style.visibility = f > .02 && sortie < .98 ? "visible" : "hidden"; fin.style.setProperty("--monte", `${((1 - f) * 24).toFixed(1)}px`);
+    scene.style.setProperty("--f", f.toFixed(3));
+    scene.style.opacity = (1 - sortie).toFixed(3); scene.style.transform = sortie ? `scale(${(1 + .03 * sortie).toFixed(4)})` : "";
+    if (cue) cue.style.opacity = (1 - borne(p / .12)).toFixed(3);
     $("ombreChapeau").style.opacity = Math.pow(q, 6).toFixed(3);
     bicorne.style.transform = `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) rotate(${rot.toFixed(2)}deg) scale(${(1 + .02 * rebond).toFixed(3)},${(1 - .06 * rebond).toFixed(3)})`;
-    const e = Math.pow(borne((p - .08) / .8), 2);
+    const e = Math.pow(borne((p - .06) / .62), 2);
     lignes.forEach((l, i) => { l.style.transform = `translate3d(${(sens[i] * e * 110).toFixed(2)}vw,0,0)`; l.style.opacity = (1 - e * .85).toFixed(3); });
   }
   addEventListener("scroll", () => { if (!tic) { tic = true; requestAnimationFrame(anime); } }, { passive: true });

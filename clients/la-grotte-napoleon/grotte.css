@@ -108,7 +108,7 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 @keyframes menu-d{from{opacity:0;transform:translateX(28px)}}
 
 /* ---------- ouverture : le portrait, le bicorne qui tombe, le titre géant qui repart de chaque côté ---------- */
-.chapeau{position:relative;height:240vh;height:240svh}
+.chapeau{position:relative;height:300vh;height:300svh}
 .scene{position:sticky;top:0;height:100vh;height:100svh;overflow:clip;isolation:isolate;display:grid;padding:96px var(--m) 0}
 .geant{position:relative;z-index:1;align-self:start;display:grid;margin:clamp(8px,4svh,48px) 0 0;font-weight:500;font-size:clamp(3rem,min(15.5vw,17svh),15rem);line-height:.9;letter-spacing:-.046em;color:var(--ink)}
 .geant .ln{display:block;white-space:nowrap;will-change:transform,opacity}
@@ -133,12 +133,15 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .ouv-suite .page{display:grid;gap:22px;justify-items:start}
 .ouv-suite p:not(.eyebrow),.final p:not(.eyebrow){font-size:var(--sub);line-height:1.3;color:var(--mist);letter-spacing:-.01em;max-width:40ch}
 @media (min-width:981px){
-  .geant{align-self:center;margin:-4svh 0 0;font-size:clamp(3rem,min(10.4vw,17svh),11rem)}
-  .geant .l2{justify-self:start;padding-left:.7em}
-  .portrait{left:auto;right:var(--m);transform:none;width:auto;height:min(74svh,calc(46vw * 1374 / 1145));animation-name:monte-portrait-d}
-  @keyframes monte-portrait-d{from{opacity:0;transform:translateY(30px)}}
-  .final{display:grid;gap:22px;justify-items:start;position:absolute;left:var(--m);top:50%;width:min(44vw,600px);transform:translateY(-50%);z-index:3;opacity:0;visibility:hidden}
+  /* sur ordinateur aussi, Napoléon prend toute la page : immense, au centre, coupé par le bas de l'écran (on voit du bicorne aux médailles) */
+  .scene{--ph:min(112svh,calc(74vw * 1374 / 1145))}
+  .portrait{left:57%;right:auto;bottom:auto;top:calc(var(--ph) * .19 + 40px);width:auto;height:var(--ph)}
+  .geant{z-index:3;align-self:center;margin:-2svh 0 0;font-size:clamp(3rem,min(12vw,20svh),14rem);text-shadow:0 4px 40px rgba(22,20,17,.55)}
+  /* la phrase et les boutons arrivent par-dessus, à gauche, sur un voile sombre */
+  .scene::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(to right,rgba(22,20,17,.9) 0,rgba(22,20,17,.6) 28%,transparent 48%);opacity:var(--f,0)}
+  .final{display:grid;gap:22px;justify-items:start;position:absolute;left:var(--m);top:50%;width:min(32vw,460px);transform:translateY(calc(-50% + var(--monte,24px)));z-index:3;opacity:0;visibility:hidden}
   .ouv-suite{display:none}
+}
 }
 @media (max-width:980px){.geant{z-index:3;text-shadow:0 2px 18px rgba(22,20,17,.6)}.portrait{width:min(100vw,56svh * 1145 / 1374)}.scene{padding-top:84px}.cue{display:none}}
 @media (prefers-reduced-motion:reduce){.chapeau{height:auto}.scene{position:relative;height:100svh}.geant .in{animation:none}}
@@ -378,3 +381,5 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 /* sur la page « Réserver », pas de barre du bas : le bouton de validation reste collé en bas du formulaire */
 body[data-titre="meta-reserver"] .barre{display:none!important}
 body[data-titre="meta-reserver"]{--barre:0px}
+/* sans animation : la phrase et les boutons sont là tout de suite */
+@media (prefers-reduced-motion:reduce) and (min-width:981px){.final{opacity:1!important;visibility:visible!important}.scene::after{opacity:1}}

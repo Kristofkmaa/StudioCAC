@@ -134,8 +134,9 @@ main>section:not(.chapeau),main>div,.pied{position:relative;z-index:1}
 /* le portrait est détouré (fond transparent) : seules les manches, coupées par le bord de l'image, se fondent dans la paroi */
 .portrait>img:first-child{width:100%;height:100%;-webkit-mask-image:linear-gradient(to right,transparent 0,#000 7%,#000 93%,transparent 100%);mask-image:linear-gradient(to right,transparent 0,#000 7%,#000 93%,transparent 100%);filter:drop-shadow(0 0 36px rgba(0,0,0,.55))}
 @keyframes monte-portrait{from{opacity:0;transform:translate(-50%,30px)}}
-.ombre-chapeau{position:absolute;left:22%;width:56%;top:9%;height:14%;border-radius:50%;background:radial-gradient(closest-side,rgba(10,8,6,.55),transparent);opacity:0;pointer-events:none}
-.bicorne{position:absolute;left:4%;top:-19%;width:92%;height:auto;transform-origin:50% 85%;will-change:transform;filter:drop-shadow(0 18px 22px rgba(0,0,0,.45))}
+.ombre-chapeau{position:absolute;left:24%;width:52%;top:15%;height:12%;border-radius:50%;background:radial-gradient(closest-side,rgba(10,8,6,.55),transparent);opacity:0;pointer-events:none}
+/* le bicorne enfoncé sur la tête comme sur les tableaux : le bord juste au-dessus des sourcils */
+.bicorne{position:absolute;left:5%;top:-13%;width:90%;height:auto;transform-origin:50% 85%;will-change:transform;filter:drop-shadow(0 18px 22px rgba(0,0,0,.45))}
 .cue{position:absolute;left:50%;bottom:20px;z-index:3;translate:-50% 0;display:grid;justify-items:center;gap:8px;font-family:var(--serif);font-style:italic;font-size:16px;color:var(--mist);text-decoration:none}
 .cue i{width:1px;height:36px;background:linear-gradient(var(--mist),transparent);animation:cue 2.2s ease-in-out infinite;transform-origin:top}
 @keyframes cue{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
@@ -145,12 +146,14 @@ main>section:not(.chapeau),main>div,.pied{position:relative;z-index:1}
 .ouv-suite p:not(.eyebrow){font-family:var(--serif);font-size:clamp(1.7rem,1.2rem + 2.1vw,3.1rem);line-height:1.12;color:var(--ink);letter-spacing:-.015em;max-width:24ch;text-wrap:balance}
 @media (min-width:981px){
   /* sur ordinateur aussi, Napoléon prend toute la page : immense, au centre, coupé par le bas de l'écran (on voit du bicorne aux médailles) */
-  .scene{--ph:min(112svh,calc(74vw * 1374 / 1145))}
-  .portrait{left:57%;right:auto;bottom:auto;top:calc(var(--ph) * .19 + 40px);width:auto;height:var(--ph)}
+  .scene{--ph:min(100svh,calc(70vw * 1374 / 1145))}
+  .portrait{left:57%;right:auto;bottom:auto;top:calc(var(--ph) * .19 + 24px);width:auto;height:var(--ph)}
+  /* le portrait du sacre est cadré plus large : sa tête est 1,707 fois plus petite dans l'image. On l'agrandit d'autant et on aligne
+     les yeux, pour que les deux Napoléon (accueil et boutique) soient exactement au même endroit, à la même taille */
+  .portrait.sacre{height:calc(var(--ph) * 1.707);top:calc(var(--ph) * .011 + 24px)}
   .geant{z-index:3;align-self:center;margin:-2svh 0 0;font-size:clamp(3rem,min(12vw,20svh),14rem);text-shadow:0 4px 40px rgba(22,20,17,.55)}
 }
-}
-@media (max-width:980px){.geant{z-index:3;text-shadow:0 2px 18px rgba(22,20,17,.6)}.portrait{width:min(100vw,56svh * 1145 / 1374)}.scene{padding-top:84px}.cue{display:none}}
+@media (max-width:980px){.geant{z-index:3;text-shadow:0 2px 18px rgba(22,20,17,.6)}.scene{--pw:min(100vw,56svh * 1145 / 1374);padding-top:84px}.portrait{width:var(--pw)}.portrait.sacre{width:calc(var(--pw) * 1.707);bottom:calc(var(--pw) * 1374 / 1145 * -.528)}.cue{display:none}}
 @media (prefers-reduced-motion:reduce){.chapeau{height:auto}.scene{position:relative;height:100svh;background:none}.geant .in{animation:none}}
 
 /* ---------- les sections : un en-tête à gauche, des panneaux arrondis ---------- */

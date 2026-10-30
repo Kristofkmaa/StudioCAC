@@ -15,7 +15,8 @@
 
   /* ---------- la langue : l'adresse (?lang=), le dernier choix, puis celle du téléphone ---------- */
   let L = new URLSearchParams(location.search).get("lang");
-  if (!LANGUES.includes(L)) { try { L = localStorage.getItem("grotte-langue"); } catch (e) {} }
+  if (LANGUES.includes(L)) { try { localStorage.setItem("grotte-langue", L); } catch (e) {} }  /* ?lang= vaut pour les pages suivantes */
+  else { try { L = localStorage.getItem("grotte-langue"); } catch (e) {} }
   if (!LANGUES.includes(L)) L = (navigator.languages || [navigator.language || "fr"]).map(x => x.slice(0, 2).toLowerCase()).find(x => LANGUES.includes(x)) || "fr";
   const t = (k, n) => { const s = (T[L] && T[L][k]) ?? T.fr[k] ?? ""; return n == null ? s : s.replace("{n}", n); };
   const locale = () => L === "co" ? "fr" : L;
@@ -26,7 +27,7 @@
   const moisAn = d => L === "co" ? `${D.mois[d.getMonth()]} ${d.getFullYear()}` : d.toLocaleDateString(locale(), { month: "long", year: "numeric" });
   const jourCourt = i => { const d = new Date(2024, 0, 1 + i); return L === "co" ? D.jours[d.getDay()].slice(0, 2) : d.toLocaleDateString(locale(), { weekday: "short" }).replace(".", "").slice(0, 3); };
   const heure = m => { const h = Math.floor(m / 60), mn = m % 60; return L === "fr" ? `${h}&nbsp;h${mn ? `&nbsp;${String(mn).padStart(2, "0")}` : ""}` : `${h}:${String(mn).padStart(2, "0")}`; };
-  const euros = n => `${n}&nbsp;€`;
+  const euros = n => `${n.toLocaleString("fr-FR").replace(/\s/g, "&nbsp;")}&nbsp;€`;  /* 1&nbsp;000&nbsp;€ */
   const iso = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
   const plus = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
   const auj = () => { const d = new Date(); d.setHours(0, 0, 0, 0); return d; };
@@ -73,7 +74,7 @@
     document.querySelectorAll("[data-heures]").forEach(el => el.innerHTML = HEURES[el.dataset.heures].map(heure).join(" · "));
     document.querySelectorAll("[data-langue]").forEach(el => el.innerHTML = `<button type="button" aria-expanded="false" aria-haspopup="true" aria-label="${t("nav-langue")} : ${t("nom-langue")}">${l.toUpperCase()}<svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M1 1l4 4 4-4"/></svg></button><div class="langues">${LANGUES.map(x => `<button type="button" data-l="${x}" aria-current="${x === l}"><span>${T[x]["nom-langue"]}</span><b>${x.toUpperCase()}</b></button>`).join("")}</div>`);
     $("langueMenu").innerHTML = LANGUES.map(x => `<button type="button" data-l="${x}" aria-current="${x === l}" aria-label="${T[x]["nom-langue"]}">${x.toUpperCase()}</button>`).join("");
-    dessineSeances(); if (etat.ouvert) dessinePanneau();
+    dessineSeances(); if (etat.ouvert) dessinePanneau(); dessineFiche(); dessinePanier();
   }
   document.addEventListener("click", e => {
     const ouvre = e.target.closest("[data-langue]>button");
@@ -203,6 +204,145 @@
   }
   filtres.forEach(f => f.onclick = () => filtre(f.dataset.filtre));
   document.querySelectorAll("[data-filtre-va]").forEach(b => b.onclick = () => { filtre(b.dataset.filtreVa); $("souvenirs").scrollIntoView({ behavior: calme ? "auto" : "smooth" }); });
+
+  /* ---------- la boutique en ligne : fiche produit, panier, commande ----------
+     Le panier reste sur l'appareil (localStorage) : [{ id, c: couleur, t: taille, q: quantité }]. Le paiement (Stripe) sera branché
+     plus tard : pour l'instant « Payer » affiche la commande comme confirmée, avec une mention de démonstration, sans rien envoyer. */
+  const PRODUITS = window.PRODUITS || [], produit = id => PRODUITS.find(p => p.id === id);
+  const lirePanier = () => { try { return JSON.parse(localStorage.getItem("grotte-panier")) || []; } catch (e) { return []; } };
+  const ecrirePanier = p => { try { localStorage.setItem("grotte-panier", JSON.stringify(p)); } catch (e) {} compteurPanier(); };
+  function compteurPanier() {
+    const n = lirePanier().reduce((s, l) => s + l.q, 0);
+    document.querySelectorAll(".nb-panier").forEach(b => { b.hidden = !n; b.textContent = n; });
+  }
+  compteurPanier();
+  addEventListener("storage", e => { if (e.key === "grotte-panier") { compteurPanier(); dessinePanier(); } });
+
+  /* la fiche : grande photo et vignettes, couleur, taille, quantité, « Ajouter au panier » */
+  const choix = { id: new URLSearchParams(location.search).get("id"), vue: 0, c: "", t: "", q: 1, erreur: false };
+  function dessineFiche() {
+    const f = $("fiche"); if (!f) return;
+    const p = produit(choix.id) || PRODUITS[0]; if (!p) return;
+    choix.id = p.id;
+    if (!choix.c && p.coloris.length) choix.c = p.coloris[0].nom;
+    document.title = p.nom + " · La Grotte Napoléon";
+    const vues = [{ src: p.photo, fond: !p.plein }, ...p.photos.slice(p.plein ? 1 : 0).map(src => ({ src, fond: false }))];
+    const v = vues[choix.vue] || vues[0];
+    const commandable = p.prix != null && !p.epuise;
+    f.innerHTML = `
+      <div class="galerie">
+        <div class="vue-p${v.fond ? " fond" : ""}"><img src="${v.src}" alt="${esc(p.nom)}"></div>
+        ${vues.length > 1 ? `<div class="vignettes" role="group" aria-label="Photos">${vues.map((x, i) => `<button type="button" data-vue="${i}" aria-pressed="${i === choix.vue}" class="${x.fond ? "fond" : ""}"><img src="${x.src}" alt=""></button>`).join("")}</div>` : ""}
+      </div>
+      <div class="infos">
+        <p class="eyebrow">${t("btq-f-" + p.cat)}</p>
+        <h1>${esc(p.nom)}</h1>
+        <p class="prix-fiche">${p.prix != null ? euros(p.prix) : `<span class="sans">${t("p-prix-boutique")}</span>`}</p>
+        <p class="desc">${esc(p.desc)}</p>
+        ${p.coloris.length ? `<div class="option"><p class="libelle">${t("p-coloris")} <b>${esc(choix.c)}</b></p><div class="pastilles" role="radiogroup" aria-label="${t("p-coloris")}">${p.coloris.map(c => `<button type="button" role="radio" data-c="${esc(c.nom)}" aria-checked="${c.nom === choix.c}" aria-label="${esc(c.nom)}" style="--c:${c.hex}"></button>`).join("")}</div></div>` : ""}
+        ${p.tailles.length ? `<div class="option"><p class="libelle">${t("p-taille")}${choix.erreur ? ` <em class="erreur">${t("p-choisir-taille")}</em>` : ""}</p><div class="tailles-choix" role="radiogroup" aria-label="${t("p-taille")}">${p.tailles.map(x => `<button type="button" role="radio" data-t-choix="${x}" aria-checked="${x === choix.t}">${x}</button>`).join("")}</div></div>` : ""}
+        ${commandable ? `<div class="option"><p class="libelle">${t("p-quantite")}</p><div class="pas quantite"><button type="button" data-q="-1" aria-label="−" ${choix.q <= 1 ? "disabled" : ""}>−</button><output>${choix.q}</output><button type="button" data-q="1" aria-label="+" ${choix.q >= 20 ? "disabled" : ""}>+</button></div></div>
+          <button type="button" class="btn lg ajouter" id="ajouter">${t("p-ajouter")} · ${euros(p.prix * choix.q)}</button>`
+        : p.epuise ? `<button type="button" class="btn lg ajouter" disabled>${t("p-epuise")}</button>`
+        : `<p class="note">${t("p-prix-boutique-t")}</p><a class="btn lg ajouter" href="mailto:grotte@lagrottenapoleon.fr?subject=${encodeURIComponent("Boutique : " + p.nom)}">${t("btq-demander")}</a>`}
+        <ul class="assurances"><li>${t("p-retrait")}</li><li>${t("p-paiement")}</li></ul>
+      </div>`;
+    const aussi = $("aussi");
+    if (aussi) {
+      const memes = PRODUITS.filter(x => x.cat === p.cat && x.id !== p.id).slice(0, 4);
+      $("aussiSec").hidden = !memes.length;
+      aussi.innerHTML = memes.map(x => `<article class="produit on"><a class="carte-p" href="produit.html?id=${x.id}"><span class="img${x.plein ? " plein" : ""}"><img src="${x.photo}" alt="" loading="lazy"></span><span class="nom-prix"><span class="nom">${esc(x.nom)}</span>${x.prix != null ? `<span class="prix-p">${euros(x.prix)}</span>` : `<span class="prix-p sans">${t("p-prix-boutique")}</span>`}</span></a></article>`).join("");
+    }
+  }
+  if ($("fiche")) {
+    $("fiche").addEventListener("click", e => {
+      const b = e.target.closest("button"); if (!b || b.disabled) return;
+      const p = produit(choix.id);
+      if (b.dataset.vue) choix.vue = +b.dataset.vue;
+      else if (b.dataset.c) choix.c = b.dataset.c;
+      else if (b.dataset.tChoix) { choix.t = b.dataset.tChoix; choix.erreur = false; }
+      else if (b.dataset.q) choix.q = Math.min(20, Math.max(1, choix.q + +b.dataset.q));
+      else if (b.id === "ajouter") {
+        if (p.tailles.length && !choix.t) { choix.erreur = true; dessineFiche(); return; }
+        const panier = lirePanier(), c = choix.c, ta = choix.t, l = panier.find(x => x.id === p.id && x.c === c && x.t === ta);
+        if (l) l.q = Math.min(20, l.q + choix.q); else panier.push({ id: p.id, c, t: ta, q: choix.q });
+        ecrirePanier(panier);
+        $("ajouteImg").innerHTML = `<img src="${p.photo}" alt="">`; $("ajouteNom").textContent = [p.nom, c, ta].filter(Boolean).join(" · ") + " × " + choix.q;
+        $("ajoute").hidden = false; requestAnimationFrame(() => $("ajoute").classList.add("vu"));
+        choix.q = 1;
+      }
+      dessineFiche();
+    });
+    $("ajouteFerme").onclick = () => { $("ajoute").classList.remove("vu"); setTimeout(() => $("ajoute").hidden = true, 300); };
+  }
+
+  /* le panier : les lignes, retrait ou livraison, les coordonnées, le total ; puis la commande confirmée */
+  const commande = { mode: "retrait", nom: "", email: "", tel: "", adresse: "", cp: "", ville: "", erreurs: [], faite: null };
+  function dessinePanier() {
+    const z = $("panier"); if (!z) return;
+    if (commande.faite) {
+      const c = commande.faite;
+      z.innerHTML = `<div class="commande-ok"><p class="ok-titre">${t("pa-ok")}</p><p>${t("pa-ok-t")}</p>
+        <div class="billet"><div class="tete-billet"><span>${t("pa-numero")} ${c.numero}</span><span>${euros(c.total)}${c.mode === "envoi" ? " + " + t("pa-livraison").toLowerCase() : ""}</span></div>
+        <ul class="recap-lignes">${c.lignes.map(l => `<li><span>${esc(l.nom)}${l.opt ? ` <small>${esc(l.opt)}</small>` : ""} × ${l.q}</span><b>${euros(l.prix * l.q)}</b></li>`).join("")}</ul>
+        <p class="note">${c.mode === "retrait" ? t("pa-retrait") + " · " + t("pa-retrait-t") : t("pa-envoi") + " · " + esc(c.adresse)}</p></div>
+        <p class="note-maquette">${t("pa-ok-maquette")}</p>
+        <a class="btn lg" href="boutique.html#souvenirs">${t("p-retour")}</a></div>`;
+      return;
+    }
+    const lignes = lirePanier().map(l => ({ ...l, p: produit(l.id) })).filter(l => l.p && l.p.prix != null);
+    if (!lignes.length) { z.innerHTML = `<div class="panier-vide"><p>${t("pa-vide")}</p><a class="btn lg" href="boutique.html#souvenirs">${t("pa-vide-lien")}</a></div>`; return; }
+    const sous = lignes.reduce((s, l) => s + l.p.prix * l.q, 0), n = lignes.reduce((s, l) => s + l.q, 0), err = k => commande.erreurs.includes(k);
+    const champ = (k, type, auto, large) => `<label class="champ${large ? " large" : ""}${err(k) ? " faux" : ""}"><span>${t("pa-" + k)}</span><input type="${type}" data-champ="${k}" autocomplete="${auto}" value="${esc(commande[k])}"></label>`;
+    z.innerHTML = `<div class="panier-grille">
+      <div class="panier-gauche">
+        <ul class="lignes">${lignes.map((l, i) => `<li class="ligne-p">
+          <a class="vi${l.p.plein ? " plein" : ""}" href="produit.html?id=${l.p.id}"><img src="${l.p.photo}" alt=""></a>
+          <div class="quoi"><a href="produit.html?id=${l.p.id}">${esc(l.p.nom)}</a><small>${[l.c, l.t].filter(Boolean).map(esc).join(" · ")}</small>
+            <div class="pas quantite"><button type="button" data-l="${i}" data-dq="-1" aria-label="−" ${l.q <= 1 ? "disabled" : ""}>−</button><output>${l.q}</output><button type="button" data-l="${i}" data-dq="1" aria-label="+" ${l.q >= 20 ? "disabled" : ""}>+</button></div></div>
+          <div class="combien"><b>${euros(l.p.prix * l.q)}</b><button type="button" class="retirer" data-l="${i}" data-retirer>${t("pa-retirer")}</button></div></li>`).join("")}</ul>
+        <fieldset class="bloc-commande"><legend>${t("pa-mode")}</legend>
+          <div class="modes">${["retrait", "envoi"].map(m => `<button type="button" class="mode" data-mode="${m}" aria-pressed="${commande.mode === m}"><b>${t("pa-" + m)}</b><small>${t("pa-" + m + "-t")}</small><span class="cout">${m === "retrait" ? t("pa-gratuit") : t("pa-a-confirmer")}</span></button>`).join("")}</div>
+        </fieldset>
+        <fieldset class="bloc-commande"><legend>${t("pa-coord")}</legend>
+          <div class="champs">${champ("nom", "text", "name", true)}${champ("email", "email", "email")}${champ("tel", "tel", "tel")}
+          ${commande.mode === "envoi" ? champ("adresse", "text", "street-address", true) + champ("cp", "text", "postal-code") + champ("ville", "text", "address-level2") : ""}</div>
+          ${commande.erreurs.length ? `<p class="erreur" role="alert">${commande.erreurs.map(k => t({ nom: "pa-err-nom", email: "pa-err-email", adresse: "pa-err-adresse" }[k])).join(" ")}</p>` : ""}
+        </fieldset>
+      </div>
+      <aside class="recap"><h2>${t("pa-recap")}</h2>
+        <dl><div><dt>${t("pa-sous-total")} <small>(${n} ${t("pa-articles")})</small></dt><dd>${euros(sous)}</dd></div>
+        <div><dt>${t("pa-livraison")}</dt><dd>${commande.mode === "retrait" ? t("pa-gratuit") : t("pa-a-confirmer")}</dd></div>
+        <div class="total"><dt>${t("pa-total")}</dt><dd>${euros(sous)}</dd></div></dl>
+        <button type="button" class="btn lg" id="payer">${t("pa-payer")} · ${euros(sous)}</button>
+        <p class="note">${t("pa-cgv")} <a href="cgv.html">${t("r-cgv-lien")}</a>.</p>
+        <p class="securise"><svg width="13" height="15" viewBox="0 0 13 15" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><rect x="1" y="6.5" width="11" height="7.5" rx="1.5"/><path d="M3.5 6.5V4.5a3 3 0 0 1 6 0v2"/></svg>${t("pa-securise")}</p>
+      </aside></div>`;
+  }
+  if ($("panier")) {
+    $("panier").addEventListener("input", e => { const k = e.target.dataset.champ; if (k) commande[k] = e.target.value; });
+    $("panier").addEventListener("click", e => {
+      const b = e.target.closest("button"); if (!b || b.disabled) return;
+      const panier = lirePanier().filter(l => produit(l.id) && produit(l.id).prix != null);
+      if (b.dataset.dq) { const l = panier[+b.dataset.l]; l.q = Math.min(20, Math.max(1, l.q + +b.dataset.dq)); ecrirePanier(panier); }
+      else if (b.hasAttribute("data-retirer")) { panier.splice(+b.dataset.l, 1); ecrirePanier(panier); }
+      else if (b.dataset.mode) { commande.mode = b.dataset.mode; commande.erreurs = []; }
+      else if (b.id === "payer") {
+        commande.erreurs = [];
+        if (!commande.nom.trim()) commande.erreurs.push("nom");
+        if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(commande.email.trim())) commande.erreurs.push("email");
+        if (commande.mode === "envoi" && !(commande.adresse.trim() && commande.cp.trim() && commande.ville.trim())) commande.erreurs.push("adresse");
+        if (!commande.erreurs.length) {
+          const lignes = panier.map(l => { const p = produit(l.id); return { nom: p.nom, opt: [l.c, l.t].filter(Boolean).join(" · "), q: l.q, prix: p.prix }; });
+          commande.faite = { numero: "GN-" + Date.now().toString(36).slice(-6).toUpperCase(), lignes, total: lignes.reduce((s, l) => s + l.prix * l.q, 0), mode: commande.mode, adresse: [commande.adresse, commande.cp, commande.ville].join(", ") };
+          ecrirePanier([]);
+          scrollTo({ top: 0, behavior: calme ? "auto" : "smooth" });
+        }
+      }
+      dessinePanier();
+      if (commande.erreurs.length && b.id === "payer") { const x = $("panier").querySelector(".faux input"); if (x) x.focus(); }
+    });
+  }
 
   /* ---------- la réservation ---------- */
   const etat = { ouvert: false, formule: "complete", jour: null, heure: null, adultes: 2, enfants: 0, petits: 0, paiement: "enligne", mois: null, fait: null, nom: "", tel: "", email: "", note: "", langueFilm: null };

@@ -64,24 +64,11 @@
         <div class="accroche concept" id="concept">
           <p class="eyebrow" data-t="ouv-lieu" style="--i:0">Ajaccio · 4 rue Saint-Charles</p>
           <p data-t="ouv-phrase" style="--i:1"></p>
-          <div class="actions" id="boutonsOuv" style="--i:2"><a class="btn lg entrer" id="entrer" href="#seances"><span data-t="ouv-entrer">Entrer dans la Grotte</span><svg width="12" height="14" viewBox="0 0 12 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 1v12M1 8l5 5 5-5"/></svg></a><a class="ghost" href="#formules"><span data-t="ouv-formules">Voir les formules</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a></div>
+          <div class="actions" id="boutonsOuv" style="--i:2"><a class="btn lg entrer" id="entrer" href="#seance"><span data-t="ouv-entrer">Entrer dans la Grotte</span><svg width="12" height="14" viewBox="0 0 12 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 1v12M1 8l5 5 5-5"/></svg></a><a class="ghost" href="#formules"><span data-t="ouv-formules">Voir les formules</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a></div>
         </div>
       </div>
       <div class="portrait"><img src="images/napoleon.webp" alt="Portrait de Napoléon Bonaparte" data-t-alt="ouv-gravure" width="1145" height="1374" fetchpriority="high"><img class="enfant" id="enfant" src="images/enfant.webp" alt="" width="1145" height="1374" fetchpriority="high"><span class="ombre-chapeau" id="ombreChapeau"></span><img class="bicorne" id="bicorne" src="images/bicorne.webp" alt="" width="1115" height="553"></div>
       <a class="cue" href="#seances"><span data-t="ouv-defiler">Faire défiler</span><i></i></a>
-    </div>
-  </section>
-
-  <!-- l'idée : les prochaines séances, leurs places, un toucher pour réserver -->
-  <section class="sec page" id="seances" aria-labelledby="t-seances">
-    <div class="head rise">
-      <div><p class="eyebrow" data-t="e-seances">Réservation</p><h2 id="t-seances" data-t="sea-titre">Prochaines séances</h2><p data-t="sea-intro"></p></div>
-      <p class="legende"><span class="losange"></span><span data-t="sea-legende"></span></p>
-    </div>
-    <div class="jours-seances" id="joursSeances"></div>
-    <div class="sous-seances">
-      <a class="ghost" href="reserver.html" data-reserver><span data-t="sea-autre">Choisir un autre jour</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a>
-      <p class="note" data-t="sea-note"></p>
     </div>
   </section>
 
@@ -104,19 +91,15 @@
     </div>
   </section>
 
-  <!-- le film de présentation (vidéo du client, chargée seulement au toucher) -->
-  <section class="sec page" id="film" aria-labelledby="t-film">
-    <div class="head rise"><div><p class="eyebrow" data-t="e-film">Le film</p><h2 id="t-film" data-t="vid-titre">En vidéo</h2><p data-t="vid-texte"></p></div></div>
-    <div class="film rise" id="filmEcran"><img src="images/film-affiche.webp" alt="" width="1600" height="900" loading="lazy" decoding="async"><button type="button" class="lire" id="filmLire"><span><svg width="14" height="16" viewBox="0 0 14 16" fill="currentColor" aria-hidden="true"><path d="M1 1v14l12-7z"/></svg><b style="font-weight:500" data-t="vid-lire">Lire la vidéo</b></span></button></div>
-  </section>
-
-  <!-- les formules en résumé : le détail est sur formules.html -->
-  <section class="sec page" id="formules" aria-labelledby="t-formules">
-    <div class="head rise"><div><p class="eyebrow" data-t="e-formules">Tarifs</p><h2 id="t-formules" data-t="fo-titre">Les formules</h2></div></div>
-    <div class="cartes-formules">
-      <a class="carte-formule rise" href="formules.html#complete"><div class="img"><img src="images/assiette.webp" alt="" width="1400" height="933" loading="lazy" decoding="async"></div><h3 data-t="f-complete">Formule complète</h3><p class="sous" data-t="fo-c-sous"></p><span class="p">48&nbsp;€<small data-t="fo-c-adulte">par adulte</small></span><p class="heures" data-heures="complete"></p><span class="ghost"><span data-t="fo-detail">Voir le détail</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></span></a>
-      <a class="carte-formule rise" href="formules.html#decouverte" style="transition-delay:.06s"><div class="img"><img src="images/salle-ecrans.webp" alt="" width="1100" height="1471" loading="lazy" decoding="async"></div><h3 data-t="f-decouverte">Formule découverte</h3><p class="sous" data-t="fo-d-sous"></p><span class="p">15&nbsp;€<small data-t="fo-d-prix">tarif unique, boisson comprise</small></span><p class="heures" data-heures="decouverte"></p><span class="ghost"><span data-t="fo-detail">Voir le détail</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></span></a>
-      <a class="carte-formule rise" href="formules.html#groupes" style="transition-delay:.12s"><div class="img"><img src="images/tables.webp" alt="" width="720" height="1280" loading="lazy" decoding="async"></div><h3 data-t="fo-o3">Groupes</h3><p class="sous" data-t="fo-g-sous"></p><span class="p" style="font-size:var(--h2)">04 95 28 04 61</span><p class="heures" data-t="fo-g-anglais"></p><span class="ghost"><span data-t="fo-detail">Voir le détail</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></span></a>
+  <!-- à table : ce qu'on mange pendant le film (photo du client) -->
+  <section class="sec page table" id="table" aria-labelledby="t-table">
+    <div class="img rise"><img src="images/spuntinu.webp" alt="" width="620" height="720" loading="lazy" decoding="async"></div>
+    <div class="texte rise">
+      <p class="eyebrow" data-t="e-table">À table</p>
+      <h2 id="t-table" data-t="fo-menu">Le spuntinu</h2>
+      <p data-t="t-texte"></p>
+      <ul class="menu-liste"><li data-t="m1"></li><li data-t="m2"></li><li data-t="m3"></li><li data-t="m4"></li><li data-t="m5"></li><li data-t="m6"></li><li data-t="m7"></li><li data-t="m8"></li></ul>
+      <p class="note" data-t="t-note"></p>
     </div>
   </section>
 
@@ -132,6 +115,23 @@
     </ol>
     <div class="grotte rise"><p data-t="h-grotte"></p></div>
   </section>
+
+  <!-- le film de présentation (vidéo du client, chargée seulement au toucher) -->
+  <section class="sec page" id="film" aria-labelledby="t-film">
+    <div class="head rise"><div><p class="eyebrow" data-t="e-film">Le film</p><h2 id="t-film" data-t="vid-titre">En vidéo</h2><p data-t="vid-texte"></p></div></div>
+    <div class="film rise" id="filmEcran"><img src="images/film-affiche.webp" alt="" width="1600" height="900" loading="lazy" decoding="async"><button type="button" class="lire" id="filmLire"><span><svg width="14" height="16" viewBox="0 0 14 16" fill="currentColor" aria-hidden="true"><path d="M1 1v14l12-7z"/></svg><b style="font-weight:500" data-t="vid-lire">Lire la vidéo</b></span></button></div>
+  </section>
+
+  <!-- les formules en résumé : le détail est sur formules.html -->
+  <section class="sec page" id="formules" aria-labelledby="t-formules">
+    <div class="head rise"><div><p class="eyebrow" data-t="e-formules">Tarifs</p><h2 id="t-formules" data-t="fo-titre">Les formules</h2></div></div>
+    <div class="cartes-formules">
+      <a class="carte-formule rise" href="formules.html#complete"><div class="img"><img src="images/assiette.webp" alt="" width="1400" height="933" loading="lazy" decoding="async"></div><h3 data-t="f-complete">Formule complète</h3><p class="sous" data-t="fo-c-sous"></p><span class="p">48&nbsp;€<small data-t="fo-c-adulte">par adulte</small></span><span class="ghost"><span data-t="fo-detail">Voir le détail</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></span></a>
+      <a class="carte-formule rise" href="formules.html#decouverte" style="transition-delay:.06s"><div class="img"><img src="images/salle-ecrans.webp" alt="" width="1100" height="1471" loading="lazy" decoding="async"></div><h3 data-t="f-decouverte">Formule découverte</h3><p class="sous" data-t="fo-d-sous"></p><span class="p">15&nbsp;€<small data-t="fo-d-prix">tarif unique, boisson comprise</small></span><span class="ghost"><span data-t="fo-detail">Voir le détail</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></span></a>
+      <a class="carte-formule rise" href="formules.html#groupes" style="transition-delay:.12s"><div class="img"><img src="images/tables.webp" alt="" width="720" height="1280" loading="lazy" decoding="async"></div><h3 data-t="fo-o3">Groupes</h3><p class="sous" data-t="fo-g-sous"></p><span class="p" style="font-size:var(--h2)">04 95 28 04 61</span><p class="heures" data-t="fo-g-anglais"></p><span class="ghost"><span data-t="fo-detail">Voir le détail</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></span></a>
+    </div>
+  </section>
+
 
   <!-- les avis, vrais, repris de l'ancien site -->
   <section class="sec page" aria-labelledby="t-avis">

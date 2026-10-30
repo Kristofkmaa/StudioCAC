@@ -664,33 +664,78 @@ body[data-titre="meta-reserver"]{--barre:0px}
 .choix-langue button .drapeau{width:26px;height:18px}
 .choix-langue button[aria-current="true"]{box-shadow:0 0 0 1.5px var(--accent)}
 
-/* ---------- sur téléphone : la flèche en bas à droite et son panneau (remplace la barre du bas et le coin gauche de l'en-tête) ---------- */
-.flotte{display:none}
+/* ---------- la flèche flottante en bas à droite : le menu (téléphone et ordinateur) ; sur ordinateur, un petit drapeau accroché
+   à côté pour la langue. Elle remplace l'en-tête sur ordinateur, la barre du bas et le coin gauche de l'en-tête sur téléphone ---------- */
+.flotte{position:fixed;right:clamp(16px,2vw,28px);bottom:calc(clamp(16px,2vw,28px) + env(safe-area-inset-bottom));z-index:48;display:flex;align-items:flex-end;gap:10px}
+.flotte-btn{position:relative;display:grid;place-items:center;width:52px;height:52px;border-radius:50%;background:rgba(22,20,17,.88);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);color:var(--accent);box-shadow:inset 0 0 0 1px rgba(241,217,166,.45),0 12px 30px rgba(0,0,0,.5);transition:background-color .2s}
+@media (hover:hover) and (pointer:fine){.flotte-btn:hover,.flotte-drapeau:hover{background:rgba(42,39,32,.95)}}
+.flotte-btn svg{transition:transform .4s var(--doux)}
+.flotte.ouverte .flotte-btn svg{transform:rotate(180deg)}
+.flotte-panneau{position:absolute;right:0;bottom:64px;width:min(300px,calc(100vw - 32px));display:grid;gap:10px;padding:14px;border-radius:18px;background:var(--surface-2);box-shadow:0 30px 70px rgba(0,0,0,.6),inset 0 0 0 1px var(--line);transform-origin:100% 100%;opacity:0;transform:translateY(8px) scale(.96);transition:opacity .22s,transform .3s var(--doux)}
+.flotte.ouverte .flotte-panneau{opacity:1;transform:none}
+.flotte-panneau .btn{width:100%}
+.flotte-nav{display:none}
+.flotte-deux{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.flotte-deux .btn{min-height:46px;padding:12px;font-size:15px}
+.flotte-panier{position:relative;display:flex;align-items:center;gap:10px;min-height:46px;padding:0 14px;border-radius:999px;box-shadow:inset 0 0 0 1px var(--line-hi);color:var(--ink);text-decoration:none;font-size:15px}
+.flotte-panier .nb-panier{position:static;margin-left:auto}
+.flotte-langues{display:flex;justify-content:space-between;gap:4px;padding-top:10px;border-top:1px solid var(--line)}
+.flotte-langues button{display:grid;place-items:center;width:40px;height:40px;border-radius:50%}
+.flotte-langues button .drapeau{width:24px;height:16px}
+.flotte-langues button[aria-current="true"],.flotte-langue-liste button[aria-current="true"]{box-shadow:0 0 0 1.5px var(--accent)}
+.flotte-drapeau,.flotte-langue-liste{display:none}
+@media (min-width:981px){
+  /* le panneau commence par la navigation du site, et les langues passent par le drapeau */
+  .flotte-nav{display:grid;padding-bottom:6px;margin-bottom:2px;border-bottom:1px solid var(--line)}
+  .flotte-nav a{padding:9px 6px;border-radius:8px;font-family:var(--serif);font-size:1.25rem;color:var(--ink);text-decoration:none}
+  .flotte-nav a:hover{background:rgba(255,255,255,.05)}
+  .flotte-langues{display:none}
+  .flotte-drapeau{display:grid;place-items:center;width:40px;height:40px;margin-bottom:6px;border-radius:50%;background:rgba(22,20,17,.88);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:inset 0 0 0 1px var(--line-hi),0 10px 24px rgba(0,0,0,.45)}
+  .flotte-drapeau .drapeau{width:22px;height:15px}
+  .flotte-langue-liste:not([hidden]){display:grid;position:absolute;right:62px;bottom:56px;min-width:190px;padding:6px;border-radius:14px;background:var(--surface-2);box-shadow:0 24px 60px rgba(0,0,0,.55),inset 0 0 0 1px var(--line)}
+  .flotte-langue-liste button{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:8px;font-size:15px;color:var(--mist)}
+  .flotte-langue-liste button:hover{background:rgba(255,255,255,.06)}
+  .flotte-langue-liste button[aria-current="true"]{box-shadow:none;background:rgba(241,217,166,.1);color:var(--ink)}
+}
 @media (max-width:980px){
   .barre{display:none!important}
   :root{--barre:0px}
   .gauche-tel{display:none!important}
   .bar .logo{grid-column:2}
   .bar .menu-btn{grid-column:3}
+  .flotte-btn .nb-panier{top:-2px;right:-2px}
   /* les boutons du bas de l'ouverture laissent la place de la flèche */
   .concept .actions,#accroche{padding-right:62px}
-  .flotte{display:block;position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:48}
-  .flotte-btn{position:relative;display:grid;place-items:center;width:52px;height:52px;margin-left:auto;border-radius:50%;background:rgba(22,20,17,.88);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);color:var(--accent);box-shadow:inset 0 0 0 1px rgba(241,217,166,.45),0 12px 30px rgba(0,0,0,.5)}
-  .flotte-btn svg{transition:transform .4s var(--doux)}
-  .flotte.ouverte .flotte-btn svg{transform:rotate(180deg)}
-  .flotte-btn .nb-panier{top:-2px;right:-2px}
-  .flotte-panneau{position:absolute;right:0;bottom:64px;width:min(300px,calc(100vw - 32px));display:grid;gap:10px;padding:14px;border-radius:18px;background:var(--surface-2);box-shadow:0 30px 70px rgba(0,0,0,.6),inset 0 0 0 1px var(--line);transform-origin:100% 100%;opacity:0;transform:translateY(8px) scale(.96);transition:opacity .22s,transform .3s var(--doux)}
-  .flotte.ouverte .flotte-panneau{opacity:1;transform:none}
-  .flotte-panneau .btn{width:100%}
-  .flotte-deux{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-  .flotte-deux .btn{min-height:46px;padding:12px;font-size:15px}
-  .flotte-panier{position:relative;display:flex;align-items:center;gap:10px;min-height:46px;padding:0 14px;border-radius:999px;box-shadow:inset 0 0 0 1px var(--line-hi);color:var(--ink);text-decoration:none;font-size:15px}
-  .flotte-panier .nb-panier{position:static;margin-left:auto}
-  .flotte-langues{display:flex;justify-content:space-between;gap:4px;padding-top:10px;border-top:1px solid var(--line)}
-  .flotte-langues button{display:grid;place-items:center;width:40px;height:40px;border-radius:50%}
-  .flotte-langues button .drapeau{width:24px;height:16px}
-  .flotte-langues button[aria-current="true"]{box-shadow:0 0 0 1.5px var(--accent)}
   .ajoute{bottom:calc(84px + env(safe-area-inset-bottom))}
+}
+
+/* ---------- sur ordinateur, plus d'en-tête : le logo en grand au milieu en haut, qui part avec la page ;
+   l'ouverture ne montre que le logo et Napoléon, en bas à gauche ; les textes arrivent au début du site (.intro-ordi) ---------- */
+.intro-ordi{display:none}
+@media (min-width:981px){
+  :root{--tete:0px}
+  body{padding-top:180px}
+  .bar{position:absolute;background:none;border:0}
+  .bar .page{grid-template-columns:1fr;justify-items:center;height:180px}
+  .bar nav,.bar .menu-btn{display:none}
+  .bar .logo img{height:clamp(84px,8vw,116px);filter:drop-shadow(0 4px 24px rgba(0,0,0,.6))}
+  .scene{height:100vh;--ph:min(86vh,44vw)}
+  .scene .ouverture-texte{display:none}
+  .scene::after{background:linear-gradient(to top right,rgba(22,20,17,.5) 0,transparent 45%)}
+  .portrait{left:calc(4vw + var(--ph) * .4167);top:calc(100vh - var(--ph));height:var(--ph)}
+  .portrait.sacre{height:calc(var(--ph) * 1.707);top:calc(100vh - var(--ph) * 1.179)}
+  .intro-ordi{display:block;position:relative;z-index:1;padding-top:clamp(64px,8vw,120px)}
+  .intro-titre{font-size:clamp(3rem,1.6rem + 4.2vw,6.8rem);line-height:.98;letter-spacing:-.02em;max-width:16ch}
+  .intro-titre em{font-style:italic;color:var(--accent)}
+  .intro-cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(40px,6vw,110px);margin-top:clamp(36px,4vw,56px);padding-top:clamp(28px,3vw,40px);border-top:1px solid var(--line-hi)}
+  .intro-ordi .lettrine{margin:0;font-size:clamp(17px,.8rem + .5vw,21px);line-height:1.6;color:var(--mist)}
+  .intro-ordi .lettrine::first-letter{float:left;font-family:var(--serif);font-size:3.6em;line-height:.8;margin:.06em .1em 0 0;color:var(--accent)}
+  .intro-concept{display:grid;gap:28px;align-content:start;justify-items:start}
+  .intro-ordi .grand{margin:0;font-family:var(--serif);font-size:clamp(1.5rem,1rem + 1.1vw,2.2rem);line-height:1.3;color:var(--ink)}
+  .intro-ordi .grand.seul{margin-top:clamp(28px,3vw,40px);max-width:36ch}
+  .intro-ordi .actions{display:flex;flex-wrap:wrap;align-items:center;gap:14px 26px}
+  .corps-btq>.intro-ordi{padding-top:clamp(56px,8vw,110px)}
+  .corps-btq>.intro-ordi+.sec{margin-top:clamp(56px,7vw,96px)}
 }
 @media (prefers-reduced-motion:reduce){.flotte-panneau{transition:none}}
 

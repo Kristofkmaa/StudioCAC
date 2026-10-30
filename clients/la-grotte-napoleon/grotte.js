@@ -87,7 +87,7 @@
   const haut = () => { barre.classList.toggle("vue", scrollY > 120 && !boutonsVus); tete.classList.toggle("pleine", scrollY > 10); };
 
   /* ---------- le bicorne tombe sur sa tête, le titre repart de chaque côté ---------- */
-  const chapeau = $("chapeau"), bicorne = $("bicorne"), scene = chapeau && chapeau.querySelector(".scene"), cue = chapeau && chapeau.querySelector(".cue"), lignes = chapeau ? [...chapeau.querySelectorAll(".ln")] : [], sens = [-1, 1, -1];
+  const chapeau = $("chapeau"), bicorne = $("bicorne"), scene = chapeau && chapeau.querySelector(".scene"), couronne = !!document.querySelector(".portrait.sacre"), cue = chapeau && chapeau.querySelector(".cue"), lignes = chapeau ? [...chapeau.querySelectorAll(".ln")] : [], sens = [-1, 1, -1];
   const borne = x => Math.min(1, Math.max(0, x));
   let tic = false;
   function anime() {
@@ -96,13 +96,17 @@
     const p = borne((scrollY - chapeau.offsetTop) / (chapeau.offsetHeight - innerHeight));
     /* la chute : de tout en haut jusqu'à la tête, en se balançant un peu, puis un petit rebond en se posant */
     const q = borne(p / .82), r = 1 - q, b = borne((p - .82) / .16), rebond = Math.sin(b * Math.PI);
-    const y = -innerHeight * 1.05 * Math.pow(r, 1.5) + 5 * rebond, x = 34 * Math.sin(q * Math.PI * 2.2) * r, rot = -26 * r + 9 * Math.sin(q * Math.PI * 1.6) * r;
+    /* le bicorne se tasse un peu en se posant ; la couronne (boutique), elle, s'enfile : jamais plus bas que sa place, et droite à l'arrivée,
+       sinon le bandeau passerait sous la ligne du front et semblerait entrer dans le crâne */
+    const y = -innerHeight * 1.05 * Math.pow(r, 1.5) + (couronne ? -6 : 5) * rebond, x = 34 * Math.sin(q * Math.PI * 2.2) * r;
+    const rot = couronne ? -26 * r * r + 9 * Math.sin(q * Math.PI * 1.6) * r * r : -26 * r + 9 * Math.sin(q * Math.PI * 1.6) * r;
+    const tasse = couronne ? 0 : rebond;
     /* une fois le chapeau posé, le site remonte par-dessus Napoléon, resté en fond : il s'efface doucement dans la roche pour les textes */
     const v = borne((scrollY - chapeau.offsetTop - chapeau.offsetHeight + innerHeight) / (innerHeight * .5));
     scene.style.setProperty("--voile", (v * .5).toFixed(3));
     if (cue) cue.style.opacity = (1 - borne(p / .15)).toFixed(3);
     $("ombreChapeau").style.opacity = (Math.pow(q, 6) * (1 - v * .5)).toFixed(3);
-    bicorne.style.transform = `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) rotate(${rot.toFixed(2)}deg) scale(${(1 + .02 * rebond).toFixed(3)},${(1 - .06 * rebond).toFixed(3)})`;
+    bicorne.style.transform = `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) rotate(${rot.toFixed(2)}deg) scale(${(1 + .02 * tasse).toFixed(3)},${(1 - .06 * tasse).toFixed(3)})`;
     const e = Math.pow(borne((p - .04) / .7), 2);
     lignes.forEach((l, i) => { l.style.transform = `translate3d(${(sens[i] * e * 110).toFixed(2)}vw,0,0)`; l.style.opacity = (1 - e * .85).toFixed(3); });
   }

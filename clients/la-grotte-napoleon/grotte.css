@@ -199,18 +199,19 @@ main>section:not(.chapeau),main>div,.pied{position:relative;z-index:1}
   .geant{z-index:3;justify-self:start;width:100%;font-size:clamp(3rem,min(6.6vw,12.5svh),8.5rem);text-shadow:0 4px 40px rgba(22,20,17,.7)}
   .scene::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(to bottom right,rgba(22,20,17,.88) 0,rgba(22,20,17,.5) 32%,transparent 58%)}
 }
-/* sur téléphone, une affiche de film : le titre en haut, Napoléon en grand au milieu (la place du bicorne au-dessus de la tête), la phrase et le bouton en bas, posés sur son buste ; un voile sombre en haut et un en bas pour les textes.
+/* sur téléphone, une affiche de film : le titre droit en haut, Napoléon en grand dessous (la place du bicorne au-dessus de la tête), la phrase et le bouton en bas, posés sur son buste ; un voile sombre en haut et un en bas pour les textes.
    Les deux portraits (accueil et boutique) au même endroit, à la même taille de tête */
 @media (max-width:980px){
-  /* la tête (du haut du bicorne au menton, 35 % de la hauteur du portrait) tient entre le titre et la phrase, centrée dans cet espace :
-     plus l'écran est court, plus Napoléon est petit, pour que le texte ne lui passe jamais sur le visage */
-  .scene{--ph:min(138vw,84svh,calc((100svh - var(--tete) - 480px) / .35));--pw:calc(var(--ph) * 1145 / 1374);--haut:calc((100svh + var(--tete) - 160px) / 2 - var(--ph) * .045);padding:calc(var(--tete) + 14px) var(--m) calc(22px + env(safe-area-inset-bottom))}
+  /* le haut du bicorne juste sous le titre, le visage haut dans l'écran, le texte en bas au niveau du buste ; la tête (du haut du bicorne
+     au menton, 35 % de la hauteur du portrait) doit finir au-dessus du texte : plus l'écran est court, plus Napoléon est petit */
+  .scene{--ph:min(138vw,84svh,calc((100svh - var(--tete) - 480px) / .35));--pw:calc(var(--ph) * 1145 / 1374);--haut:calc(var(--tete) + 150px + var(--ph) * .13);padding:calc(var(--tete) + 14px) var(--m) calc(22px + env(safe-area-inset-bottom))}
   .portrait{bottom:auto;top:var(--haut);width:var(--pw)}
   .portrait.sacre{width:calc(var(--pw) * 1.707);top:calc(var(--haut) - var(--ph) * .179)}
   .scene::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(to bottom,rgba(22,20,17,.9) 0,rgba(22,20,17,.55) 20%,transparent 32%,transparent 58%,rgba(22,20,17,.75) 70%,rgba(22,20,17,.96) 84%)}
   .ouverture-texte{margin-top:0;align-self:stretch;grid-template-rows:auto minmax(0,1fr)}
   .ouverture-texte>.accroche{align-self:end}
   .geant{z-index:3;font-size:clamp(2.4rem,11.4vw,4.2rem);text-shadow:0 2px 24px rgba(22,20,17,.8)}
+  .geant .ln{justify-self:start}  /* le titre droit, aligné à gauche */
   .accroche{max-width:none;gap:16px}
   .accroche p{font-size:15px;line-height:1.5}
   #accroche p::first-letter{font-size:3.1em}

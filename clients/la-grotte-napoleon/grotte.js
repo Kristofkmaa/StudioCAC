@@ -199,6 +199,7 @@
   function filtre(cat) {
     filtres.forEach(f => f.setAttribute("aria-pressed", f.dataset.filtre === cat));
     produits.forEach(p => { p.hidden = cat !== "tout" && p.dataset.cat !== cat; if (!p.hidden) p.classList.add("on"); });
+    if ($("compte")) $("compte").textContent = produits.filter(p => !p.hidden).length;
   }
   filtres.forEach(f => f.onclick = () => filtre(f.dataset.filtre));
   document.querySelectorAll("[data-filtre-va]").forEach(b => b.onclick = () => { filtre(b.dataset.filtreVa); $("souvenirs").scrollIntoView({ behavior: calme ? "auto" : "smooth" }); });

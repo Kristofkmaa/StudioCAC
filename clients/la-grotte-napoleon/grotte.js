@@ -115,8 +115,8 @@
   /* la vidéo de la séance : muette au départ, le son au toucher */
   if ($("son")) $("son").onclick = () => { const v = $("video"), on = v.muted; v.muted = !on; if (on) { v.currentTime = 0; v.play().catch(() => {}); } $("son").setAttribute("aria-pressed", on); };
 
-  /* ---------- le film : YouTube n'est chargé qu'au toucher (rien n'est envoyé avant) ---------- */
-  if ($("filmLire")) $("filmLire").onclick = () => { const f = document.createElement("iframe"); f.src = "https://www.youtube-nocookie.com/embed/wdu-ExZno-w?autoplay=1&rel=0&modestbranding=1&playsinline=1"; f.title = t("vid-titre"); f.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen"; f.allowFullscreen = true; $("filmEcran").replaceChildren(f); };
+  /* ---------- le film : la vidéo n'est chargée qu'au toucher ---------- */
+  if ($("filmLire")) $("filmLire").onclick = () => { const v = document.createElement("video"); v.src = "images/film.mp4"; v.poster = "images/film-affiche.webp"; v.controls = true; v.playsInline = true; v.title = t("vid-titre"); $("filmEcran").replaceChildren(v); v.play().catch(() => {}); };
 
   /* ---------- les formules en onglets ---------- */
   const onglets = [...document.querySelectorAll('[role="tab"]')];

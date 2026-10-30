@@ -14,3 +14,4 @@ film-affiche.webp : image de couverture de la vidéo YouTube du site (wdu-ExZno-
 
 film.mp4 + film-affiche.webp : film de présentation envoyé par l'utilisateur le 30/10/2026 (remplace le YouTube wdu-ExZno-w), réencodé 960 px.
 roche.webp + roche-profond.webp : texture « papier rocher » fabriquée par outils/papier_rocher.py (bruit calculé, aucune source extérieure), le 30/10/2026.
+napoleon.webp : détouré le 30/10/2026 (rembg isnet pour le contour des cheveux et du visage, plus repérage du fond brun par la couleur pour l habit et les épaulettes), fond transparent.

@@ -87,7 +87,7 @@
   const haut = () => { barre.classList.toggle("vue", scrollY > 120 && !boutonsVus); tete.classList.toggle("pleine", scrollY > 10); };
 
   /* ---------- le bicorne tombe sur sa tête, le titre repart de chaque côté ---------- */
-  const chapeau = $("chapeau"), bicorne = $("bicorne"), enfant = $("enfant"), adulte = chapeau && chapeau.querySelector(".portrait > img"), scene = chapeau && chapeau.querySelector(".scene"), chapeaux = chapeau ? [...chapeau.querySelectorAll(".bicorne")] : [], couronne = !!document.querySelector(".portrait.sacre"), cue = chapeau && chapeau.querySelector(".cue"), lignes = chapeau ? [...chapeau.querySelectorAll(".ln")] : [], sens = [-1, 1, -1];
+  const chapeau = $("chapeau"), bicorne = $("bicorne"), enfant = $("enfant"), portrait = chapeau && chapeau.querySelector(".portrait"), scene = chapeau && chapeau.querySelector(".scene"), chapeaux = chapeau ? [...chapeau.querySelectorAll(".bicorne")] : [], couronne = !!document.querySelector(".portrait.sacre"), cue = chapeau && chapeau.querySelector(".cue"), lignes = chapeau ? [...chapeau.querySelectorAll(".ln")] : [], sens = [-1, 1, -1];
   const borne = x => Math.min(1, Math.max(0, x));
   let tic = false;
   function anime() {
@@ -105,8 +105,9 @@
     const v = borne((scrollY - chapeau.offsetTop - chapeau.offsetHeight + innerHeight) / (innerHeight * .5));
     scene.style.setProperty("--voile", (v * .5).toFixed(3));
     /* l'enfant devient l'Empereur : fondu pendant que le bicorne arrive et se pose */
-    /* l'adulte n'apparaît qu'au moment du fondu : avant, ses épaulettes dépasseraient derrière les épaules plus étroites de l'enfant */
-    if (enfant) { enfant.style.opacity = (1 - borne((p - .62) / .24)).toFixed(3); adulte.style.opacity = borne((p - .56) / .22).toFixed(3); }
+    /* l'enfant devient l'Empereur sous le bicorne : une ligne au bord doux descend de la tête (quand le chapeau la touche) jusqu'au bas du portrait ;
+       au-dessus l'adulte, en dessous l'enfant, jamais les deux visages l'un sur l'autre */
+    if (enfant) { const l = -.1 + 1.25 * Math.pow(borne((p - .64) / .3), 1.3); portrait.style.setProperty("--l", l.toFixed(4)); portrait.style.setProperty("--le", ((l + .1) / 1.62).toFixed(4)); }
     if (cue) cue.style.opacity = (1 - borne(p / .15)).toFixed(3);
     $("ombreChapeau").style.opacity = (Math.pow(q, 6) * (1 - v * .5)).toFixed(3);
     const pose = `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) rotate(${rot.toFixed(2)}deg) scale(${(1 + .02 * tasse).toFixed(3)},${(1 - .06 * tasse).toFixed(3)})`;

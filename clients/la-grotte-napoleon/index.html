@@ -6,12 +6,12 @@
 <title>La Grotte Napoléon · Séance et repas corse à Ajaccio</title>
 <meta name="description" content="Une heure sur l'enfance de Napoléon à Ajaccio, projetée sur plusieurs écrans dans une salle plongée dans le noir, autour d'un spuntinu corse. 4 rue Saint-Charles.">
 <meta name="robots" content="noindex">
-<meta name="theme-color" content="#110C0D">
+<meta name="theme-color" content="#161411">
 <link rel="icon" href="images/couronne.png">
 <link rel="stylesheet" href="../../polices/marcellus-figtree-0dad29.css">
 <style>
 :root{
-  --nuit:#110C0D; --nuit-2:#1A1315; --nuit-3:#241A1C;
+  --nuit:#161411; --nuit-2:#1D1B17; --nuit-3:#27241F;
   --or:#C9A55A; --or-clair:#E6CD94; --or-sombre:#8E7136;
   --rouge:#7A1E25; --rouge-2:#5E161C;
   --creme:#F3E8D8; --gris:#BBAC9C; --filet:rgba(201,165,90,.32);
@@ -61,7 +61,7 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .photo.vue,.ph.on{opacity:1;transform:none}
 
 /* ---------- en-tête : logo au centre, liens de part et d'autre ---------- */
-.tete{position:sticky;top:0;z-index:40;background:rgba(17,12,13,.86);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid transparent;transition:border-color .3s}
+.tete{position:sticky;top:0;z-index:40;background:rgba(22,20,17,.86);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid transparent;transition:border-color .3s}
 .tete.pleine{border-bottom-color:var(--filet)}
 .tete .enveloppe{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:76px;gap:20px}
 .tete nav{display:flex;gap:30px;align-items:center}
@@ -105,21 +105,20 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
    et les lignes du titre repartent chacune de son côté (comme l'accueil de Saitora) ---------- */
 .chapeau{position:relative;height:240vh;height:240svh}
 .scene{position:sticky;top:0;height:100vh;height:100svh;overflow:clip;isolation:isolate;display:grid;padding:96px 24px 0}
-.lumiere{position:absolute;left:50%;bottom:-6svh;width:min(86svh,96vw);aspect-ratio:1;transform:translateX(-50%);border-radius:50%;background:radial-gradient(closest-side,#F3E8D8 0,#F3E8D8 62%,rgba(243,232,216,.55) 80%,rgba(243,232,216,0) 100%);z-index:-2}
-.lumiere::after{content:"";position:absolute;inset:-40%;border-radius:50%;background:radial-gradient(closest-side,rgba(201,165,90,.14),transparent 70%);z-index:-1}
 .geant{position:relative;z-index:1;align-self:start;display:grid;margin:clamp(8px,4svh,48px) auto 0;width:min(1240px,100%);font:400 clamp(52px,min(13.5vw,17svh),210px)/.92 var(--titres);text-transform:uppercase;letter-spacing:.01em;color:var(--or)}
 .geant .ln{display:block;white-space:nowrap;will-change:transform,opacity}
-@media (min-width:861px){.geant{z-index:3;text-shadow:0 2px 24px rgba(17,12,13,.55)}}
+
 .geant .l1{justify-self:start}.geant .l2{justify-self:end}.geant .l3{justify-self:start}
 .geant .in{display:inline-block;animation:de-gauche 1.4s cubic-bezier(.16,1,.3,1) both}
 .geant .l2 .in{animation-name:de-droite;animation-delay:.14s}
 .geant .l3 .in{animation-delay:.28s}
 @keyframes de-gauche{from{transform:translateX(-110vw);opacity:0}}
 @keyframes de-droite{from{transform:translateX(110vw);opacity:0}}
-.portrait{position:absolute;left:50%;bottom:0;z-index:2;height:min(80svh,calc(96vw * 683 / 620));aspect-ratio:620/683;transform:translateX(-50%);animation:monte-portrait 1.2s .2s cubic-bezier(.16,1,.3,1) both}
-.portrait>img:first-child{width:100%;height:100%;-webkit-mask-image:linear-gradient(#000 72%,transparent);mask-image:linear-gradient(#000 72%,transparent)}
+.portrait{position:absolute;left:50%;bottom:0;z-index:2;height:min(86svh,calc(100vw * 1374 / 1145));aspect-ratio:1145/1374;transform:translateX(-50%);animation:monte-portrait 1.2s .2s cubic-bezier(.16,1,.3,1) both}
+.portrait>img:first-child{width:100%;height:100%;-webkit-mask-image:radial-gradient(ellipse 62% 70% at 50% 40%,#000 62%,transparent 100%);mask-image:radial-gradient(ellipse 62% 70% at 50% 40%,#000 62%,transparent 100%)}
+.ombre-chapeau{position:absolute;left:22%;width:56%;top:9%;height:14%;border-radius:50%;background:radial-gradient(closest-side,rgba(10,8,6,.55),transparent);opacity:0;pointer-events:none}
 @keyframes monte-portrait{from{opacity:0;transform:translate(-50%,30px)}}
-.bicorne{position:absolute;left:5.5%;top:-5.6%;width:69%;height:auto;transform-origin:50% 80%;will-change:transform;filter:drop-shadow(0 14px 18px rgba(0,0,0,.35))}
+.bicorne{position:absolute;left:4%;top:-19%;width:92%;height:auto;transform-origin:50% 85%;will-change:transform;filter:drop-shadow(0 18px 22px rgba(0,0,0,.45))}
 .indice{position:absolute;left:50%;bottom:22px;z-index:3;transform:translateX(-50%);width:44px;height:44px;display:grid;place-items:center;border:1px solid rgba(26,18,16,.25);border-radius:50%;color:#1A1210;animation:indice 2.4s ease-in-out infinite}
 @keyframes indice{50%{transform:translate(-50%,6px)}}
 .scene .sceau{position:absolute;right:clamp(18px,4vw,56px);bottom:clamp(24px,6svh,64px);width:140px;height:140px;z-index:3;display:grid;place-items:center;background:var(--nuit);border-radius:50%;box-shadow:0 0 0 1px var(--filet)}
@@ -127,6 +126,21 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .sceau text{font:400 10.4px var(--titres);letter-spacing:.24em;fill:var(--or);text-transform:uppercase}
 .sceau img{width:54px;height:auto}
 @keyframes tourne{to{transform:rotate(360deg)}}
+/* sur ordinateur : le portrait à droite, le titre à gauche (jamais sur le visage) ; la ligne qui repart à droite passe derrière lui */
+@media (min-width:861px){
+  .geant{margin:clamp(20px,7svh,90px) 0 0 clamp(0px,3vw,60px);width:auto;font-size:clamp(64px,min(8.6vw,15svh),150px);align-self:center;margin-top:-4svh}
+  .geant .l2{justify-self:start;padding-left:.9em}
+  .portrait{left:auto;right:clamp(0px,4vw,80px);transform:none;height:min(74svh,calc(46vw * 1374 / 1145));animation-name:monte-portrait-d}
+  .scene .sceau{right:auto;left:clamp(24px,4vw,64px)}
+}
+@keyframes monte-portrait-d{from{opacity:0;transform:translateY(30px)}}
+/* sur ordinateur, une fois le chapeau posé, la phrase et le bouton apparaissent à gauche ; la suite sous la scène ne sert qu'au téléphone */
+.final{display:none}
+@media (min-width:861px){
+  .final{display:block;position:absolute;left:clamp(24px,5vw,90px);top:50%;width:min(44vw,560px);transform:translateY(-50%);z-index:3;opacity:0;visibility:hidden}
+  .final .phrase{font:400 clamp(26px,2.5vw,36px)/1.35 var(--titres);color:var(--creme);margin:0 0 30px}
+  .ouv-suite{display:none}
+}
 .ouv-suite{padding:clamp(70px,9vw,120px) 0 clamp(70px,9vw,110px);text-align:center}
 .ouv-suite .phrase{font:400 clamp(22px,2.6vw,32px)/1.4 var(--titres);color:var(--creme);margin:0 auto 34px;max-width:34ch}
 .boutons{display:flex;flex-wrap:wrap;gap:12px}
@@ -135,7 +149,7 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
   .chapeau{height:210svh}
   .scene{padding:76px 16px 0}
   .scene .sceau{display:none}
-  .portrait{height:auto;width:min(96vw,62svh * 620 / 683)}
+  .portrait{height:auto;width:min(100vw,60svh * 1145 / 1374)}
   .boutons .btn{flex:1 1 220px}
 }
 @media (prefers-reduced-motion:reduce){.chapeau{height:auto}.scene{position:relative;height:100svh}}
@@ -286,7 +300,7 @@ section.teinte{background:var(--nuit-2)}
 .pied-bas a:hover{text-decoration:underline}
 
 /* ---------- barre du bas sur téléphone ---------- */
-.barre{position:fixed;left:0;right:0;bottom:0;z-index:45;display:none;grid-template-columns:1fr 1.3fr 1fr;gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:rgba(17,12,13,.94);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-top:1px solid var(--filet);transform:translateY(105%);transition:transform .4s var(--doux)}
+.barre{position:fixed;left:0;right:0;bottom:0;z-index:45;display:none;grid-template-columns:1fr 1.3fr 1fr;gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:rgba(22,20,17,.94);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-top:1px solid var(--filet);transform:translateY(105%);transition:transform .4s var(--doux)}
 .barre.vue{transform:none}
 .barre a,.barre button{display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;font:600 13px/1 var(--texte);text-transform:uppercase;letter-spacing:.1em;text-decoration:none;border:1px solid var(--filet)}
 .barre .btn{border:0}
@@ -405,13 +419,13 @@ section.teinte{background:var(--nuit-2)}
   <!-- l'ouverture : Napoléon sous le projecteur ; en descendant, son bicorne lui tombe sur la tête -->
   <section class="chapeau" id="chapeau" aria-labelledby="t-titre">
     <div class="scene">
-      <div class="lumiere" aria-hidden="true"></div>
       <h1 class="geant" id="t-titre"><span class="ln l1"><span class="in" data-t="ouv-l1">Napoléon,</span></span> <span class="ln l2"><span class="in" data-t="ouv-l2">l'enfant</span></span> <span class="ln l3"><span class="in" data-t="ouv-l3">d'Ajaccio</span></span></h1>
-      <div class="portrait"><img src="images/gravure.webp" alt="Napoléon Bonaparte, gravure" data-t-alt="ouv-gravure" width="620" height="683" fetchpriority="high"><img class="bicorne" id="bicorne" src="images/bicorne.svg" alt="" width="400" height="150"></div>
+      <div class="portrait"><img src="images/napoleon.webp" alt="Portrait de Napoléon Bonaparte" data-t-alt="ouv-gravure" width="1145" height="1374" fetchpriority="high"><span class="ombre-chapeau" id="ombreChapeau"></span><img class="bicorne" id="bicorne" src="images/bicorne.webp" alt="" width="1115" height="553"></div>
       <div class="sceau" aria-hidden="true">
         <svg viewBox="0 0 150 150"><defs><path id="cercle" d="M75,75 m-58,0 a58,58 0 1,1 116,0 a58,58 0 1,1 -116,0"/></defs><text><textPath href="#cercle" id="sceauTexte">La Grotte Napoléon · dipoi 1769 · Aiacciu · La Grotte Napoléon · dipoi 1769 · Aiacciu ·</textPath></text></svg>
         <img src="images/couronne.png" alt="" width="312" height="276">
       </div>
+      <div class="final" id="final"><p class="sur-titre" data-t="ouv-lieu">Ajaccio · 4 rue Saint-Charles</p><p class="phrase" data-t="ouv-phrase"></p><div class="boutons"><button type="button" class="btn" data-reserver data-t="ouv-reserver">Réserver une séance</button><a class="btn creux" href="#formules" data-t="ouv-formules">Voir les formules</a></div></div>
       <a class="indice" href="#suite" aria-label="Défiler" data-t-aria="ouv-defiler"><svg width="14" height="18" viewBox="0 0 14 18" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M7 0v16M1 10l6 6 6-6"/></svg></a>
     </div>
   </section>
@@ -709,6 +723,9 @@ section.teinte{background:var(--nuit-2)}
     /* la chute : de tout en haut jusqu'à la tête, en se balançant un peu, puis un petit rebond en se posant */
     const q = borne(p / .72), r = 1 - q, b = borne((p - .72) / .12), rebond = Math.sin(b * Math.PI);
     const y = -innerHeight * 1.05 * Math.pow(r, 1.5) + 5 * rebond, x = 34 * Math.sin(q * Math.PI * 2.2) * r, rot = -26 * r + 9 * Math.sin(q * Math.PI * 1.6) * r;
+    const f = borne((p - .74) / .2), fin = $("final");
+    fin.style.opacity = f.toFixed(3); fin.style.visibility = f > .02 ? "visible" : "hidden"; fin.style.transform = `translateY(calc(-50% + ${((1 - f) * 24).toFixed(1)}px))`;
+    $("ombreChapeau").style.opacity = Math.pow(q, 6).toFixed(3);
     bicorne.style.transform = `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) rotate(${rot.toFixed(2)}deg) scale(${(1 + .02 * rebond).toFixed(3)},${(1 - .06 * rebond).toFixed(3)})`;
     const e = Math.pow(borne((p - .08) / .8), 2);
     lignes.forEach((l, i) => { l.style.transform = `translate3d(${(sens[i] * e * 110).toFixed(2)}vw,0,0)`; l.style.opacity = (1 - e * .85).toFixed(3); });

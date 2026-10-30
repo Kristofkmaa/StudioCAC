@@ -9,3 +9,4 @@ voute.webp | https://pixabay.com/photos/battle-abbey-monastery-vault-369004/ (ph
 --- Version d'octobre 2026 (refonte du vrai site) : photos et vidéo du client, reprises de lagrottenapoleon.fr ---
 entree.webp, assiette.webp, salle-ecrans.webp, spuntinu.webp, tables.webp (image de la vidéo), seance.mp4 et seance-affiche.webp (vidéo vidfb.mp4 du site)
 gravure.webp, tableau.webp, signature.webp, carte.webp : images du site actuel (à confirmer : leurs droits, surtout la carte et la gravure)
+napoleon.webp, bicorne.webp : portrait et bicorne envoyés par l'utilisateur le 30 octobre 2026 (le bicorne détouré avec rembg, isnet-general-use)

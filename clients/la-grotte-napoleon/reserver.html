@@ -48,18 +48,26 @@
 </div>
 
 <main id="haut">
-  <section class="page entete-page">
-    <p class="eyebrow" data-t="e-seances">Réservation</p>
-    <h1 id="t-reserver" data-t="r-page-titre" style="margin-top:18px">Réserver une séance</h1>
-    <p class="intro" data-t="r-intro"></p>
+  <!-- à gauche ce qu'il faut savoir (reste en place pendant qu'on remplit), à droite la réservation -->
+  <div class="page resa">
+    <div class="resa-cote entete-page">
+      <p class="eyebrow" data-t="e-seances">Réservation</p>
+      <h1 id="t-reserver" data-t="r-page-titre">Réserver une séance</h1>
+      <p class="intro" data-t="r-intro"></p>
+      <div class="resa-photo"><img src="images/salle-ecrans.webp" alt="" width="1100" height="1471" decoding="async"></div>
+      <dl class="resa-infos">
+        <div><dt data-t="r-i-adresse">Adresse</dt><dd data-t="v-adresse">4 rue Saint-Charles, 20000 Ajaccio</dd></div>
+        <div><dt data-t="r-i-tel">Téléphone</dt><dd><a href="tel:+33495280461">04 95 28 04 61</a></dd></div>
+        <div><dt data-t="r-i-places">Places</dt><dd>30 <span data-t="s-c3">places par séance</span></dd></div>
+        <div><dt data-t="r-i-paiement">Paiement</dt><dd data-t="r-i-paiement-t">En ligne par carte, ou sur place</dd></div>
+      </dl>
+    </div>
     <section class="panneau en-page" id="panneau" aria-labelledby="t-reserver">
-  <div class="entete"><h2 id="r-titre" data-t="r-titre">Réserver</h2><button type="button" class="rond" id="rFerme" data-t-aria="r-fermer" aria-label="Fermer"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M1 1l12 12M13 1L1 13"/></svg></button></div>
-  <div class="corps" id="rCorps"></div>
-  <div class="pied-panneau" id="rPied"><div class="total"><small data-t="r-total">Total</small><b id="rTotal">0 €</b></div><button type="button" class="btn" id="rValider" data-t="r-valider">Réserver</button></div>
+      <div class="entete"><h2 id="r-titre" data-t="r-titre">Réserver</h2><button type="button" class="rond" id="rFerme" data-t-aria="r-fermer" aria-label="Fermer"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M1 1l12 12M13 1L1 13"/></svg></button></div>
+      <div class="corps" id="rCorps"></div>
+      <div class="pied-panneau" id="rPied"><div class="total"><small data-t="r-total">Total</small><b id="rTotal">0 €</b></div><button type="button" class="btn" id="rValider" data-t="r-valider">Réserver</button></div>
 </section>
-
-
-  </section>
+  </div>
 </main>
 <footer class="pied">
   <div class="page">

@@ -50,7 +50,8 @@
       }).join("")}</div></div>`;
     }).join("");
   }
-  $("joursSeances")?.addEventListener("click", e => { const b = e.target.closest(".creneau"); if (b && !b.disabled) ouvrir({ jour: b.dataset.j, heure: +b.dataset.h }); });
+  /* toucher une heure : la page « Réserver » s'ouvre avec cette séance déjà choisie */
+  $("joursSeances")?.addEventListener("click", e => { const b = e.target.closest(".creneau"); if (b && !b.disabled) location.href = versReserver({ jour: b.dataset.j, heure: b.dataset.h }); });
 
   /* ---------- appliquer la langue ---------- */
   function langue(l, garder) {
@@ -127,35 +128,27 @@
 
   /* ---------- la réservation ---------- */
   const etat = { ouvert: false, formule: "complete", jour: null, heure: null, adultes: 2, enfants: 0, petits: 0, paiement: "enligne", mois: null, fait: null, nom: "", tel: "", email: "", note: "", langueFilm: null };
-  const voile = $("voile"), panneau = $("panneau"), enPage = panneau.classList.contains("en-page");
-  let dernierFocus = null;
+  /* la réservation se fait sur sa propre page (reserver.html) ; ailleurs, les boutons « Réserver » et les heures y mènent, avec la langue */
+  const panneau = $("panneau"), enPage = !!panneau;
+  function versReserver(o = {}) { const q = new URLSearchParams(o); q.set("lang", L); return "reserver.html?" + q; }
   function ouvrir(o = {}) {
     Object.assign(etat, { fait: null }, o);
     if (!etat.jour) { const a = auj(); etat.jour = toutes.some(h => !passee(iso(a), h)) ? iso(a) : iso(plus(a, 1)); }
     if (etat.heure != null && !HEURES[etat.formule].includes(etat.heure)) etat.formule = HEURES.complete.includes(etat.heure) ? "complete" : "decouverte";
     etat.mois = etat.jour.slice(0, 7); etat.langueFilm = etat.langueFilm || L;
-    dernierFocus = document.activeElement; ouvreMenu(false);
+    ouvreMenu(false);
     panneau.hidden = false; etat.ouvert = true; dessinePanneau();
-    if (enPage) return;
-    requestAnimationFrame(() => { voile.classList.add("vu"); panneau.classList.add("vu"); });
-    document.body.style.overflow = "hidden";
-    setTimeout(() => $("rFerme").focus(), 60);
-  }
-  function fermer() {
-    if (enPage) { location.href = "./"; return; }
-    etat.ouvert = false; voile.classList.remove("vu"); panneau.classList.remove("vu");
-    setTimeout(() => { if (!etat.ouvert) panneau.hidden = true; }, 450);
-    document.body.style.overflow = ""; dernierFocus?.focus?.();
   }
   document.addEventListener("click", e => {
     const b = e.target.closest("[data-reserver]"); if (!b) return;
     e.preventDefault();
-    if (enPage) { if (b.dataset.reserver) { etat.formule = b.dataset.reserver; etat.heure = null; redessine(); } ouvreMenu(false); panneau.scrollIntoView({ behavior: calme ? "auto" : "smooth", block: "start" }); return; }
-    ouvrir(b.dataset.reserver ? { formule: b.dataset.reserver, heure: null } : {});
+    if (!enPage) { location.href = versReserver(b.dataset.reserver ? { formule: b.dataset.reserver } : {}); return; }
+    /* déjà sur la page : on remonte au formulaire, avec la formule demandée */
+    if (b.dataset.reserver) { etat.formule = b.dataset.reserver; etat.heure = null; redessine(); }
+    ouvreMenu(false); panneau.scrollIntoView({ behavior: calme ? "auto" : "smooth", block: "start" });
   });
-  if (voile) voile.onclick = fermer;
-  $("rFerme").onclick = fermer;
-  addEventListener("keydown", e => { if (e.key === "Escape") { if (etat.ouvert && !enPage) fermer(); else if (!menu.hidden) ouvreMenu(false); } });
+  if (enPage) $("rFerme").onclick = () => { location.href = "./"; };
+  addEventListener("keydown", e => { if (e.key === "Escape" && !menu.hidden) ouvreMenu(false); });
 
   const total = () => etat.formule === "complete" ? etat.adultes * PRIX.complete.adulte + etat.enfants * PRIX.complete.enfant : (etat.adultes + etat.enfants) * PRIX.decouverte.adulte;
   const nbPers = () => etat.adultes + etat.enfants + etat.petits;
@@ -168,7 +161,7 @@
         <dl><dt>${t("r-formule")}</dt><dd>${t(r.formule === "complete" ? "f-complete" : "f-decouverte")}</dd><dt>${t("r-jour")}</dt><dd>${jourLong(new Date(r.jour + "T00:00"))}</dd><dt>${t("r-heure")}</dt><dd>${heure(r.heure)}</dd><dt>${t("r-personnes")}</dt><dd>${r.n}</dd><dt>${t("r-langue")}</dt><dd>${T[r.langue]["nom-langue"]}</dd><dt>${t("r-total")}</dt><dd>${euros(r.total)} · ${t(r.paiement === "enligne" ? "r-billet-place" : "r-billet-sur")}</dd><dt>${t("r-nom")}</dt><dd>${esc(r.nom)}</dd></dl></div>
         <p class="note-maquette">${t("r-ok-maquette")}</p>`;
       $("rPied").innerHTML = `<button type="button" class="btn creux" style="flex:1" id="rFin">${t("r-fermer")}</button>`;
-      $("rFin").onclick = fermer; return;
+      $("rFin").onclick = () => { location.href = "./"; }; return;
     }
     const [an, mo] = etat.mois.split("-").map(Number), prem = new Date(an, mo - 1, 1), nbJ = new Date(an, mo, 0).getDate(), decal = (prem.getDay() + 6) % 7, a = auj();
     const moisMin = iso(a).slice(0, 7), hs = HEURES[etat.formule];
@@ -207,7 +200,7 @@
   const compteur = (k, nom, prix) => `<div class="compteur"><span>${nom}<small>${prix}</small></span><div class="pas"><button type="button" data-moins="${k}" aria-label="−" ${etat[k] ? "" : "disabled"}>−</button><output aria-live="polite">${etat[k]}</output><button type="button" data-plus="${k}" aria-label="+" ${nbPers() >= PLACES ? "disabled" : ""}>+</button></div></div>`;
   /* garder la place dans le panneau quand on le redessine */
   const redessine = () => { if (!etat.ouvert) return; const c = $("rCorps"), y = c.scrollTop, w = scrollY; dessinePanneau(); c.scrollTop = y; if (enPage) scrollTo(0, w); };
-  $("rCorps").addEventListener("click", e => {
+  if (enPage) $("rCorps").addEventListener("click", e => {
     const b = e.target.closest("button"); if (!b || b.disabled) return;
     if (b.dataset.f) { etat.formule = b.dataset.f; if (etat.heure != null && !HEURES[etat.formule].includes(etat.heure)) etat.heure = null; if (etat.formule === "decouverte") { etat.adultes += etat.enfants; etat.enfants = 0; } }
     else if (b.dataset.j) { etat.jour = b.dataset.j; if (etat.heure != null && (passee(etat.jour, etat.heure) || !libres(etat.jour, etat.heure))) etat.heure = null; }

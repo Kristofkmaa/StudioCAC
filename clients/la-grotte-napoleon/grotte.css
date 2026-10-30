@@ -288,8 +288,6 @@ main>section:not(.chapeau),main>div,.pied{position:relative;z-index:1}
 @media (max-width:860px){.barre{display:grid}:root{--barre:70px}}
 
 /* ---------- la réservation : un panneau, puis le billet ---------- */
-.voile{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.6);opacity:0;visibility:hidden;transition:opacity .3s,visibility 0s .3s}
-.voile.vu{opacity:1;visibility:visible;transition:opacity .3s}
 .panneau{position:fixed;z-index:71;top:0;right:0;bottom:0;width:min(500px,100%);background:var(--deep);display:flex;flex-direction:column;transform:translateX(102%);transition:transform .45s var(--doux);overscroll-behavior:contain}
 .panneau.vu{transform:none}
 .panneau .entete{display:flex;justify-content:space-between;align-items:center;padding:16px 24px;border-bottom:1px solid var(--line);flex:none}

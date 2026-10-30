@@ -3,6 +3,10 @@
   const $ = id => document.getElementById(id);
   const T = window.TEXTES, LANGUES = ["fr", "en", "it", "de", "es", "co"];
   const calme = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  /* on arrive toujours tout en haut de la page, même en revenant en arrière ou en rechargeant (sauf un lien vers une section, #…) */
+  history.scrollRestoration = "manual";
+  if (!location.hash) scrollTo(0, 0);
+  addEventListener("pageshow", e => { if (e.persisted && !location.hash) scrollTo(0, 0); });
 
   /* ---------- la langue : l'adresse (?lang=), le dernier choix, puis celle du téléphone ---------- */
   let L = new URLSearchParams(location.search).get("lang");
@@ -93,7 +97,7 @@
      quand on touche « Découvrir » (ou qu'on essaie de descendre), à la boutique dès qu'on commence à défiler. Elle ne se joue qu'une fois :
      en remontant on garde l'Empereur, l'enfant ne revient qu'en rechargeant la page. Le défilement ne règle que l'arrivée du site et
      l'effacement de Napoléon en fond. */
-  const DUREE = 3400, intro = $("decouvrir"), accroche = $("accroche"), racine = document.documentElement;
+  const DUREE = 2500, intro = $("decouvrir"), accroche = $("accroche"), concept = $("concept"), bloc = titreEmpereur && titreEmpereur.parentElement, racine = document.documentElement;
   let a = 0, cible = 0, joue = false, avant = 0, tic = false, vu = false;
   const lance = () => { if (vu) return; vu = true; cible = 1; if (!joue) { joue = true; requestAnimationFrame(boucle); } };
   /* arrivé par un lien (#seance…) ou déjà plus bas : on saute l'ouverture */
@@ -110,8 +114,10 @@
     /* l'enfant devient l'Empereur sous le bicorne : une ligne au bord doux descend de la tête (quand le chapeau la touche) jusqu'au bas du portrait ;
        au-dessus l'adulte, en dessous l'enfant, jamais les deux visages l'un sur l'autre */
     if (enfant) { const l = -.1 + 1.25 * Math.pow(borne((p - .64) / .3), 1.3); portrait.style.setProperty("--l", l.toFixed(4)); portrait.style.setProperty("--le", ((l + .1) / 1.62).toFixed(4)); }
-    if (cue) cue.style.opacity = (intro ? borne((p - .9) / .1) : 1 - borne(p / .15)).toFixed(3);
+    if (cue) { const o = intro ? borne((p - .9) / .1) : 1 - borne(p / .15); cue.style.opacity = o.toFixed(3); cue.style.visibility = o > 0 ? "" : "hidden"; }
     if (accroche) { const f = borne(p / .14); accroche.style.opacity = (1 - f).toFixed(3); accroche.style.transform = `translate3d(0,${(f * -10).toFixed(1)}px,0)`; accroche.style.visibility = f >= 1 ? "hidden" : ""; }
+    /* puis, l'Empereur en place, ce qu'on vit à la Grotte et les boutons pour réserver */
+    if (concept) { const g = borne((p - .8) / .2); concept.style.opacity = g.toFixed(3); concept.style.transform = `translate3d(0,${((1 - g) * 14).toFixed(1)}px,0)`; concept.style.visibility = g > 0 ? "visible" : ""; }
     $("ombreChapeau").style.opacity = (Math.pow(q, 6) * (1 - voile() * .5)).toFixed(3);
     const pose = `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) rotate(${rot.toFixed(2)}deg) scale(${(1 + .02 * tasse).toFixed(3)},${(1 - .06 * tasse).toFixed(3)})`;
     chapeaux.forEach(c => c.style.transform = pose);
@@ -135,8 +141,8 @@
     tic = false; haut();
     if (calme || !chapeau) return;
     scene.style.setProperty("--voile", (voile() * .5).toFixed(3));
-    /* « Napoléon, empereur des Français » remonte ensuite avec la page, comme s'il en faisait partie */
-    if (titreEmpereur) titreEmpereur.style.transform = `translate3d(0,${(-Math.max(0, scrollY - fin())).toFixed(1)}px,0)`;
+    /* le titre de l'Empereur et le bloc du concept remontent ensuite avec la page, comme s'ils en faisaient partie */
+    if (bloc) bloc.style.transform = `translate3d(0,${(-Math.max(0, scrollY - fin())).toFixed(1)}px,0)`;
     if (!vu && scrollY > 24) intro ? saute() : lance();
     if (a !== cible && !joue) { joue = true; requestAnimationFrame(boucle); }
     if (!joue) dessine();
@@ -146,7 +152,6 @@
   if (chapeau && !calme) {
     if (intro) {
       /* l'accueil repart toujours d'en haut, sur l'enfant ; on ne peut pas descendre avant la transformation, mais toute tentative la lance */
-      history.scrollRestoration = "manual";
       if (location.hash || scrollY > 0) saute();
       else {
         racine.classList.add("verrou"); scrollTo(0, 0);

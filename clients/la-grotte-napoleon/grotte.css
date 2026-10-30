@@ -382,17 +382,29 @@ main>section:not(.chapeau),main>div,.pied{position:relative;z-index:1}
 .choix2 button b{display:block;font-weight:500;font-size:17px;letter-spacing:-.01em;color:var(--ink)}
 .choix2 button span{font-size:14px;color:var(--muted)}
 .choix2 button[aria-pressed="true"]{background:var(--surface-2);box-shadow:inset 0 0 0 1px var(--accent)}
-.mois-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
-.mois-nav p{font-weight:500;font-size:17px;color:var(--ink);text-transform:capitalize}
-.mois-nav button{width:44px;height:44px;display:grid;place-items:center;border-radius:6px;color:var(--ink)}
-.mois-nav button[disabled]{opacity:.25}
+/* le calendrier, encadré comme sur l'ancien site : bandeau du mois, ligne des jours, une case par jour */
+.cal-horaires{margin:-4px 0 14px;font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+.calendrier{border:1px solid var(--line-hi);border-radius:12px;overflow:hidden;background:var(--deep)}
+.mois-nav{display:grid;grid-template-columns:52px minmax(0,1fr) 52px;align-items:stretch;background:linear-gradient(90deg,rgba(232,207,152,.16),rgba(255,253,248,.08) 50%,rgba(241,217,166,.16));border-bottom:1px solid var(--line-hi)}
+.mois-nav p{align-self:center;text-align:center;font-family:var(--serif);font-size:21px;color:var(--ink);text-transform:capitalize}
+.mois-nav button{height:54px;display:grid;place-items:center;color:var(--accent);transition:background-color .2s}
+.mois-nav button:first-child{border-right:1px solid var(--line)}
+.mois-nav button:last-child{border-left:1px solid var(--line)}
+.mois-nav button:hover:not([disabled]){background:rgba(241,217,166,.1)}
+.mois-nav button[disabled]{opacity:.25;cursor:default}
 .jours-noms,.jours-grille{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));text-align:center}
-.jours-noms span{font-size:11px;color:var(--faint);text-transform:uppercase;letter-spacing:.08em;padding:4px 0}
-.jours-grille button{height:44px;font-size:15px;border-radius:8px;color:var(--mist);font-variant-numeric:tabular-nums;transition:background-color .2s}
-.jours-grille button:hover:not([disabled]){background:var(--surface)}
-.jours-grille button[disabled]{color:rgba(184,175,162,.28);cursor:default}
-.jours-grille button.auj{color:var(--accent);font-weight:600}
-.jours-grille button[aria-pressed="true"]{background:var(--champagne);color:var(--on-accent);font-weight:600}
+.jours-noms{background:var(--surface);border-bottom:1px solid var(--line)}
+.jours-noms span{font-size:12px;color:var(--muted);text-transform:capitalize;padding:9px 0}
+.jours-grille{gap:1px;background:rgba(241,217,166,.16)}
+.jours-grille>*{height:52px;display:grid;place-items:center;font-size:15px;font-variant-numeric:tabular-nums;background:var(--deep)}
+.jours-grille>span{color:rgba(184,175,162,.18)}
+.jours-grille button{background:#2A241B;color:var(--ink);transition:background-color .2s,color .2s}
+.jours-grille button:hover:not([disabled]):not([aria-pressed="true"]){background:#3A3123}
+.jours-grille button[disabled]{background:var(--deep);color:rgba(184,175,162,.3);cursor:default}
+.jours-grille button.auj{box-shadow:inset 0 0 0 1px var(--accent);color:var(--accent);font-weight:600}
+.jours-grille button[aria-pressed="true"]{background:var(--champagne);color:var(--on-accent);font-weight:600;box-shadow:none}
+.cal-invite{margin:16px 0 0;font-size:15px;color:var(--muted)}
+@media (max-width:600px){.jours-grille>*{height:46px}.mois-nav p{font-size:19px}}
 .heures-choix{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}
 .heures-choix button{border-radius:10px;background:var(--surface);padding:10px 8px;min-height:62px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
 .heures-choix button b{font-weight:500;font-size:18px;letter-spacing:-.02em;color:var(--ink);font-variant-numeric:tabular-nums}

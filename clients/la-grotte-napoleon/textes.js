@@ -81,7 +81,7 @@ window.TEXTES = {
     "r-ok": "C’est noté", "r-ok-texte": "Voici votre billet. Une confirmation vous sera envoyée.",
     "r-ok-maquette": "Maquette : aucune réservation n’est encore envoyée.",
     "r-billet": "Billet", "r-billet-place": "Payé en ligne", "r-billet-sur": "À régler sur place",
-    "r-fermer": "Fermer", "r-mois-prec": "Mois précédent", "r-mois-suiv": "Mois suivant"
+    "r-fermer": "Fermer", "r-mois-prec": "Mois précédent", "r-mois-suiv": "Mois suivant", "r-horaires": "Horaires :", "r-choisir-date": "Choisissez une date ci-dessus pour voir les heures disponibles.", "r-err-jour": "Choisissez un jour dans le calendrier."
   },
 
   en: {
@@ -164,7 +164,7 @@ window.TEXTES = {
     "r-ok": "Booked", "r-ok-texte": "Here is your ticket. A confirmation will be sent to you.",
     "r-ok-maquette": "Mock-up: no booking is sent yet.",
     "r-billet": "Ticket", "r-billet-place": "Paid online", "r-billet-sur": "To pay on site",
-    "r-fermer": "Close", "r-mois-prec": "Previous month", "r-mois-suiv": "Next month"
+    "r-fermer": "Close", "r-mois-prec": "Previous month", "r-mois-suiv": "Next month", "r-horaires": "Times:", "r-choisir-date": "Choose a date above to see the available times.", "r-err-jour": "Choose a day in the calendar."
   },
 
   it: {
@@ -247,7 +247,7 @@ window.TEXTES = {
     "r-ok": "Prenotato", "r-ok-texte": "Ecco il vostro biglietto. Vi sarà inviata una conferma.",
     "r-ok-maquette": "Bozza: nessuna prenotazione viene ancora inviata.",
     "r-billet": "Biglietto", "r-billet-place": "Pagato online", "r-billet-sur": "Da pagare sul posto",
-    "r-fermer": "Chiudi", "r-mois-prec": "Mese precedente", "r-mois-suiv": "Mese successivo"
+    "r-fermer": "Chiudi", "r-mois-prec": "Mese precedente", "r-mois-suiv": "Mese successivo", "r-horaires": "Orari:", "r-choisir-date": "Scegliete una data qui sopra per vedere gli orari disponibili.", "r-err-jour": "Scegliete un giorno nel calendario."
   },
 
   de: {
@@ -330,7 +330,7 @@ window.TEXTES = {
     "r-ok": "Gebucht", "r-ok-texte": "Hier ist Ihr Ticket. Sie erhalten eine Bestätigung.",
     "r-ok-maquette": "Entwurf: Es wird noch keine Buchung versendet.",
     "r-billet": "Ticket", "r-billet-place": "Online bezahlt", "r-billet-sur": "Vor Ort zu bezahlen",
-    "r-fermer": "Schließen", "r-mois-prec": "Vorheriger Monat", "r-mois-suiv": "Nächster Monat"
+    "r-fermer": "Schließen", "r-mois-prec": "Vorheriger Monat", "r-mois-suiv": "Nächster Monat", "r-horaires": "Uhrzeiten:", "r-choisir-date": "Wählen Sie oben ein Datum, um die freien Uhrzeiten zu sehen.", "r-err-jour": "Wählen Sie einen Tag im Kalender."
   },
 
   es: {
@@ -413,7 +413,7 @@ window.TEXTES = {
     "r-ok": "Reservado", "r-ok-texte": "Aquí tiene su entrada. Le enviaremos una confirmación.",
     "r-ok-maquette": "Maqueta: todavía no se envía ninguna reserva.",
     "r-billet": "Entrada", "r-billet-place": "Pagado en línea", "r-billet-sur": "A pagar en el local",
-    "r-fermer": "Cerrar", "r-mois-prec": "Mes anterior", "r-mois-suiv": "Mes siguiente"
+    "r-fermer": "Cerrar", "r-mois-prec": "Mes anterior", "r-mois-suiv": "Mes siguiente", "r-horaires": "Horarios:", "r-choisir-date": "Elija una fecha arriba para ver los horarios disponibles.", "r-err-jour": "Elija un día en el calendario."
   },
 
   co: {
@@ -496,7 +496,7 @@ window.TEXTES = {
     "r-ok": "Hè riservatu", "r-ok-texte": "Eccu u vostru bigliettu. Una cunferma vi serà mandata.",
     "r-ok-maquette": "Bozza : nisuna riservazione hè ancu mandata.",
     "r-billet": "Bigliettu", "r-billet-place": "Pagatu in linea", "r-billet-sur": "Da pagà in locu",
-    "r-fermer": "Chjode", "r-mois-prec": "Mese passatu", "r-mois-suiv": "Mese chì vene"
+    "r-fermer": "Chjode", "r-mois-prec": "Mese passatu", "r-mois-suiv": "Mese chì vene", "r-horaires": "Orarii :", "r-choisir-date": "Sciglite una data quì sopra per vede l’ore dispunibule.", "r-err-jour": "Sciglite un ghjornu in u calendariu."
   }
 };
 /* le corse n'est pas connu de tous les navigateurs pour les dates : ses jours et ses mois */

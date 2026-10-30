@@ -410,9 +410,10 @@
   function versReserver(o = {}) { const q = new URLSearchParams(o); q.set("lang", L); return "reserver.html?" + q; }
   function ouvrir(o = {}) {
     Object.assign(etat, { fait: null }, o);
-    if (!etat.jour) { const a = auj(); etat.jour = toutes.some(h => !passee(iso(a), h)) ? iso(a) : iso(plus(a, 1)); }
+    /* comme sur l'ancien site : aucun jour choisi d'avance, les heures apparaissent une fois la date touchée */
+    if (!etat.jour) etat.heure = null;
     if (etat.heure != null && !HEURES[etat.formule].includes(etat.heure)) etat.formule = HEURES.complete.includes(etat.heure) ? "complete" : "decouverte";
-    etat.mois = etat.jour.slice(0, 7); etat.langueFilm = etat.langueFilm || L;
+    etat.mois = (etat.jour || iso(auj())).slice(0, 7); etat.langueFilm = etat.langueFilm || L;
     ouvreMenu(false);
     panneau.hidden = false; etat.ouvert = true; dessinePanneau();
   }
@@ -447,11 +448,14 @@
       <p class="champ-titre">${t("r-formule")}</p>
       <div class="choix2" id="rFormule">${["complete", "decouverte"].map(f => `<button type="button" data-f="${f}" aria-pressed="${f === etat.formule}"><b>${t(f === "complete" ? "fo-o1" : "fo-o2")}</b><span>${f === "complete" ? `${euros(48)} · ${euros(30)}` : euros(15)}</span></button>`).join("")}</div>
       <p class="champ-titre">${t("r-jour")}</p>
-      <div class="mois-nav"><button type="button" id="rMoisAv" aria-label="${t("r-mois-prec")}" ${etat.mois <= moisMin ? "disabled" : ""}><svg width="9" height="16" viewBox="0 0 9 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 1L1 8l7 7"/></svg></button><p>${moisAn(prem)}</p><button type="button" id="rMoisAp" aria-label="${t("r-mois-suiv")}"><svg width="9" height="16" viewBox="0 0 9 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M1 1l7 7-7 7"/></svg></button></div>
-      <div class="jours-noms" aria-hidden="true">${[0, 1, 2, 3, 4, 5, 6].map(i => `<span>${jourCourt(i)}</span>`).join("")}</div>
-      <div class="jours-grille" id="rJours">${"<span></span>".repeat(decal)}${[...Array(nbJ)].map((_, i) => { const d = new Date(an, mo - 1, i + 1), j = iso(d), fini = hs.every(h => passee(j, h)); return `<button type="button" data-j="${j}" aria-pressed="${j === etat.jour}" class="${j === iso(a) ? "auj" : ""}" ${fini ? "disabled" : ""} aria-label="${jourLong(d)}">${i + 1}</button>`; }).join("")}</div>
-      <p class="champ-titre">${t("r-heure")} · <span style="color:var(--gris);letter-spacing:.04em;text-transform:none">${jourLong(new Date(etat.jour + "T00:00"))}</span></p>
-      <div class="heures-choix" id="rHeures">${hs.map(h => { const n = libres(etat.jour, h), p = passee(etat.jour, h); return `<button type="button" data-h="${h}" aria-pressed="${h === etat.heure}" ${n && !p ? "" : "disabled"}><b>${heure(h)}</b><span>${p ? "–" : n ? (n === 1 ? t("sea-place") : t("sea-places", n)) : t("sea-complet")}</span></button>`; }).join("")}</div>
+      <p class="cal-horaires">${t("r-horaires")} ${hs.map(heure).join(" · ")}</p>
+      <div class="calendrier">
+        <div class="mois-nav"><button type="button" id="rMoisAv" aria-label="${t("r-mois-prec")}" ${etat.mois <= moisMin ? "disabled" : ""}><svg width="9" height="16" viewBox="0 0 9 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 1L1 8l7 7"/></svg></button><p>${moisAn(prem)}</p><button type="button" id="rMoisAp" aria-label="${t("r-mois-suiv")}"><svg width="9" height="16" viewBox="0 0 9 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M1 1l7 7-7 7"/></svg></button></div>
+        <div class="jours-noms" aria-hidden="true">${[0, 1, 2, 3, 4, 5, 6].map(i => `<span>${jourCourt(i)}</span>`).join("")}</div>
+        <div class="jours-grille" id="rJours">${[...Array(decal)].map((_, i) => `<span>${new Date(an, mo - 1, i - decal + 1).getDate()}</span>`).join("")}${[...Array(nbJ)].map((_, i) => { const d = new Date(an, mo - 1, i + 1), j = iso(d), fini = hs.every(h => passee(j, h)); return `<button type="button" data-j="${j}" aria-pressed="${j === etat.jour}" class="${j === iso(a) ? "auj" : ""}" ${fini ? "disabled" : ""} aria-label="${jourLong(d)}">${i + 1}</button>`; }).join("")}${[...Array((7 - (decal + nbJ) % 7) % 7)].map((_, i) => `<span>${i + 1}</span>`).join("")}</div>
+      </div>
+      ${etat.jour ? `<p class="champ-titre">${t("r-heure")} · <span style="color:var(--gris);letter-spacing:.04em;text-transform:none">${jourLong(new Date(etat.jour + "T00:00"))}</span></p>
+      <div class="heures-choix" id="rHeures">${hs.map(h => { const n = libres(etat.jour, h), p = passee(etat.jour, h); return `<button type="button" data-h="${h}" aria-pressed="${h === etat.heure}" ${n && !p ? "" : "disabled"}><b>${heure(h)}</b><span>${p ? "–" : n ? (n === 1 ? t("sea-place") : t("sea-places", n)) : t("sea-complet")}</span></button>`; }).join("")}</div>` : `<p class="cal-invite">${t("r-choisir-date")}</p>`}
       <p class="champ-titre">${t("r-personnes")}</p>
       ${compteur("adultes", etat.formule === "complete" ? t("r-adultes") : t("r-personnes"), euros(etat.formule === "complete" ? 48 : 15))}
       ${etat.formule === "complete" ? compteur("enfants", t("r-enfants"), euros(30)) : ""}
@@ -491,6 +495,7 @@
   });
   function valider() {
     const err = $("rErreur"), dire = k => { err.textContent = t(k); err.scrollIntoView({ block: "center", behavior: calme ? "auto" : "smooth" }); };
+    if (!etat.jour) return dire("r-err-jour");
     if (etat.heure == null) return dire("r-err-heure");
     if (!nbPers()) return dire("r-err-pers");
     const reste = libres(etat.jour, etat.heure); if (nbPers() > reste) { err.textContent = t("r-trop", reste); return; }

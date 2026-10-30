@@ -418,8 +418,8 @@ body[data-titre="meta-reserver"]{--barre:0px}
 
 /* ---------- la boutique ---------- */
 /* l'ouverture : la couronne de laurier se pose sur l'Empereur en habit du sacre (même animation que le bicorne) */
-.portrait.sacre .bicorne{left:27.5%;top:6.5%;width:46%;transform-origin:50% 85%;filter:drop-shadow(0 12px 18px rgba(0,0,0,.5))}
-.portrait.sacre .ombre-chapeau{left:31%;width:38%;top:15%;height:8%}
+.portrait.sacre .bicorne{left:32.4%;top:5.5%;width:36%;transform-origin:50% 85%;filter:drop-shadow(0 12px 18px rgba(0,0,0,.5))}
+.portrait.sacre .ombre-chapeau{left:35%;width:31%;top:13%;height:7%}
 /* la collection Napô en avant */
 .napo-une{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:clamp(28px,6vw,110px);align-items:center}
 .napo-img{border-radius:4px;overflow:hidden;aspect-ratio:4/3;background:var(--deep)}

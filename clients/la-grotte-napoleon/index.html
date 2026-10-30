@@ -9,7 +9,7 @@
 <meta name="theme-color" content="#161411">
 <link rel="icon" href="images/couronne.png">
 <link rel="stylesheet" href="grotte.css">
-<script>/* essai « vide » : ?style=vide pour l'essayer (retenu), ?style=or pour revenir */ (function(){var q=location.search,v=/[?&]style=vide/.test(q);try{if(v)localStorage.setItem("grotte-style","vide");else if(/[?&]style=or/.test(q))localStorage.removeItem("grotte-style");else v=localStorage.getItem("grotte-style")==="vide"}catch(e){}if(v){document.documentElement.className+=" vide";document.write('<link rel="stylesheet" href="vide.css"><script src="vide.js" defer><\/script>')}})()</script>
+<script>/* essais de style : ?style=vide ou ?style=studio pour les essayer (retenu), ?style=or pour revenir */ (function(){var m=/[?&]style=(vide|studio|or)\b/.exec(location.search),v=m&&m[1];try{if(v==="or")localStorage.removeItem("grotte-style");else if(v)localStorage.setItem("grotte-style",v);else v=localStorage.getItem("grotte-style")}catch(e){}if(v==="vide"||v==="studio"){document.documentElement.className+=" "+v;document.write('<link rel="stylesheet" href="'+v+'.css">'+(v==="vide"?'<script src="vide.js" defer><\/script>':''))}})()</script>
 </head>
 <body data-titre="meta-titre">
 <div class="maquette" data-t="bandeau">Maquette préparée par Saitora pour La Grotte Napoléon : à valider ensemble avant la mise en ligne.</div>

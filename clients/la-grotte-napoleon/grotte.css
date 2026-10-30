@@ -118,7 +118,8 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .chapeau{position:relative;height:175vh;height:175svh}
 .scene{position:fixed;top:0;left:0;right:0;height:100vh;height:100lvh;overflow:clip;isolation:isolate;display:grid;padding:96px var(--m) 0;background:var(--roche),var(--bg)}
 /* quand le site remonte, seul Napoléon (et son bicorne) s'efface dans la paroi ; le papier rocher reste le même partout */
-.portrait>img{opacity:calc(1 - var(--voile,0))}
+/* d'un seul bloc (filtre sur le portrait, pas une opacité par image) : sinon le chapeau à demi effacé laisserait voir les cheveux dessous */
+.portrait{filter:opacity(calc(1 - var(--voile,0)))}
 main>section:not(.chapeau),main>div,.pied{position:relative;z-index:1}
 .final{display:none!important}
 .geant{position:relative;z-index:1;align-self:start;display:grid;margin:clamp(8px,4svh,48px) 0 0;font-weight:400;font-size:clamp(3rem,min(15vw,17svh),15rem);line-height:.92;letter-spacing:-.02em;color:var(--ink)}

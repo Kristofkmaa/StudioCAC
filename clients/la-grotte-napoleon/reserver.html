@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Réserver une séance · La Grotte Napoléon, Ajaccio</title>
+<meta name="description" content="Réservez votre séance à La Grotte Napoléon, à Ajaccio : formule, jour, heure, et paiement en ligne ou sur place.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#161411">
+<link rel="icon" href="images/couronne.png">
+<link rel="stylesheet" href="grotte.css">
+</head>
+<body data-titre="meta-reserver">
+<div class="maquette" data-t="bandeau">Maquette préparée par Saitora pour La Grotte Napoléon : à valider ensemble avant la mise en ligne.</div>
+
+<header class="bar" id="tete">
+  <div class="page">
+    <nav class="g" aria-label="Sections">
+      <a href="./#seance" data-t="nav-seance">La séance</a><a href="formules.html" data-t="nav-formules">Formules</a><a href="./#histoire" data-t="nav-histoire">L'histoire</a>
+    </nav>
+    <div class="langue tel-seul" data-langue></div>
+    <a class="logo" href="./" aria-label="La Grotte Napoléon"><img src="images/logo-blanc.png" alt="La Grotte Napoléon, dipoi 1769" width="898" height="383"></a>
+    <nav class="d" aria-label="Réservation">
+      <a href="./#venir" data-t="nav-acces">Venir</a>
+      <div class="langue" data-langue></div>
+      <a class="btn" href="reserver.html" data-reserver data-t="nav-reserver">Réserver</a>
+    </nav>
+    <button type="button" class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="menuTel"><span data-t="nav-menu">Menu</span><i aria-hidden="true"></i></button>
+  </div>
+</header>
+
+<div class="sheet" id="menuTel" role="dialog" aria-modal="true" aria-label="Menu" hidden>
+  <div class="page haut"><img src="images/logo-blanc.png" alt="" width="898" height="383"><button type="button" class="menu-btn ferme" id="menuFerme"><span data-t="nav-fermer">Fermer</span><i aria-hidden="true"></i></button></div>
+  <div class="liste">
+    <span class="eyebrow">La Grotte Napoléon</span>
+    <nav aria-label="Menu">
+      <a href="./#seance" style="--i:0"><span class="n">01</span><span class="t" data-t="nav-seance">La séance</span></a>
+      <a href="formules.html" style="--i:1"><span class="n">02</span><span class="t" data-t="nav-formules">Formules</span></a>
+      <a href="./#histoire" style="--i:2"><span class="n">03</span><span class="t" data-t="nav-histoire">L'histoire</span></a>
+      <a href="./#venir" style="--i:3"><span class="n">04</span><span class="t" data-t="nav-acces">Venir</span></a>
+    </nav>
+  </div>
+  <div class="bas">
+    <div class="choix-langue" id="langueMenu" role="group" aria-label="Langue"></div>
+    <a class="btn lg" href="reserver.html" data-reserver data-t="ouv-reserver">Réserver une séance</a>
+    <a class="btn creux" href="tel:+33495280461">04 95 28 04 61</a>
+  </div>
+</div>
+
+<main id="haut">
+  <section class="page entete-page">
+    <p class="eyebrow" data-t="e-seances">Réservation</p>
+    <h1 id="t-reserver" data-t="r-page-titre" style="margin-top:18px">Réserver une séance</h1>
+    <p class="intro" data-t="r-intro"></p>
+    <section class="panneau en-page" id="panneau" aria-labelledby="t-reserver">
+  <div class="entete"><h2 id="r-titre" data-t="r-titre">Réserver</h2><button type="button" class="rond" id="rFerme" data-t-aria="r-fermer" aria-label="Fermer"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M1 1l12 12M13 1L1 13"/></svg></button></div>
+  <div class="corps" id="rCorps"></div>
+  <div class="pied-panneau" id="rPied"><div class="total"><small data-t="r-total">Total</small><b id="rTotal">0 €</b></div><button type="button" class="btn" id="rValider" data-t="r-valider">Réserver</button></div>
+</section>
+
+
+  </section>
+</main>
+<footer class="pied">
+  <div class="page">
+    <p class="phrase-fin" data-t="p-phrase">Une heure, un repas, toute une vie.</p>
+    <a class="btn lg" href="reserver.html" data-reserver data-t="ouv-reserver">Réserver une séance</a>
+    <div class="pied-bas">
+      <span>La Grotte Napoléon · dipoi 1769</span>
+      <nav aria-label="Informations"><a href="cgv.html" data-t="p-cgv">Conditions de vente</a><a href="mentions-legales.html" data-t="p-mentions">Mentions légales</a><a href="confidentialite.html" data-t="p-confid">Confidentialité</a><a href="https://saitora.fr" data-t="p-saitora">Site réalisé par Saitora</a></nav>
+    </div>
+  </div>
+</footer>
+
+<div class="barre" id="barre">
+  <a href="tel:+33495280461" data-t="barre-appeler">Appeler</a>
+  <a class="btn" href="reserver.html" data-reserver data-t="barre-reserver">Réserver</a>
+  <a href="./#venir" data-t="barre-plan">Plan</a>
+</div>
+
+<script src="textes.js"></script>
+<script src="grotte.js"></script>
+</body>
+</html>

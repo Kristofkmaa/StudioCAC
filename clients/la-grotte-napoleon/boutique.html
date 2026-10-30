@@ -8,7 +8,7 @@
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#161411">
 <link rel="icon" href="images/couronne.png">
-<link rel="stylesheet" href="grotte.css?v=20261030d">
+<link rel="stylesheet" href="grotte.css?v=20261030e">
 </head>
 <body class="btq" data-titre="meta-boutique">
 <div class="maquette" data-t="bandeau">Maquette préparée par Saitora pour La Grotte Napoléon : à valider ensemble avant la mise en ligne.</div>
@@ -65,152 +65,140 @@
   </section>
 
   <div class="corps-btq">
-  <!-- les rayons : un toucher filtre les souvenirs et y descend -->
+  <!-- les rayons : une table des matières impériale (I à IV), un toucher filtre les souvenirs et y descend -->
   <section class="sec page" aria-labelledby="t-rayons">
     <div class="head rise"><div><p class="eyebrow" data-t="btq-e">La boutique</p><h2 id="t-rayons" data-t="btq-rayons">Les rayons</h2><p data-t="btq-intro"></p></div></div>
-    <div class="rayons">
-      <button type="button" class="rayon rise" data-filtre-va="napo" style="transition-delay:0.00s"><span class="img"><img src="images/boutique/1357-0.webp" alt="" loading="lazy" decoding="async"></span><span class="nom" data-t="btq-f-napo">Collection Napô</span><span class="nb">4 <span data-t="btq-pieces">pièces</span></span></button>
-      <button type="button" class="rayon rise" data-filtre-va="bustes" style="transition-delay:0.06s"><span class="img"><img src="images/boutique/1367-0.webp" alt="" loading="lazy" decoding="async"></span><span class="nom" data-t="btq-f-bustes">Bustes et statuettes</span><span class="nb">3 <span data-t="btq-pieces">pièces</span></span></button>
-      <button type="button" class="rayon rise" data-filtre-va="objets" style="transition-delay:0.12s"><span class="img"><img src="images/boutique/1427-0.webp" alt="" loading="lazy" decoding="async"></span><span class="nom" data-t="btq-f-objets">Écriture et maison</span><span class="nb">4 <span data-t="btq-pieces">pièces</span></span></button>
-      <button type="button" class="rayon rise" data-filtre-va="vetements" style="transition-delay:0.18s"><span class="img"><img src="images/boutique/210-0.webp" alt="" loading="lazy" decoding="async"></span><span class="nom" data-t="btq-f-vetements">Vêtements</span><span class="nb">9 <span data-t="btq-pieces">pièces</span></span></button>
-    </div>
+    <ol class="rayons">
+      <li class="rise" style="transition-delay:0.00s"><button type="button" class="rayon" data-filtre-va="napo"><span class="num">I</span><span class="nom" data-t="btq-f-napo">Collection Napô</span><span class="nb">4 <span data-t="btq-pieces">pièces</span></span><span class="vignettes" aria-hidden="true"><img src="images/boutique/1339-0.webp" alt="" loading="lazy" decoding="async"><img src="images/boutique/1306-0.webp" alt="" loading="lazy" decoding="async"><img src="images/boutique/1414-0.webp" alt="" loading="lazy" decoding="async"></span><span class="va"><svg width="18" height="18" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M7 1v12M2 8l5 5 5-5"/></svg></span></button></li>
+      <li class="rise" style="transition-delay:0.07s"><button type="button" class="rayon" data-filtre-va="bustes"><span class="num">II</span><span class="nom" data-t="btq-f-bustes">Bustes et statuettes</span><span class="nb">3 <span data-t="btq-pieces">pièces</span></span><span class="vignettes" aria-hidden="true"><img src="images/boutique/1367-0.webp" alt="" loading="lazy" decoding="async"><img src="images/boutique/1386-0.webp" alt="" loading="lazy" decoding="async"><img src="images/boutique/1446-0.webp" alt="" loading="lazy" decoding="async"></span><span class="va"><svg width="18" height="18" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M7 1v12M2 8l5 5 5-5"/></svg></span></button></li>
+      <li class="rise" style="transition-delay:0.14s"><button type="button" class="rayon" data-filtre-va="objets"><span class="num">III</span><span class="nom" data-t="btq-f-objets">Écriture et maison</span><span class="nb">4 <span data-t="btq-pieces">pièces</span></span><span class="vignettes" aria-hidden="true"><img src="images/boutique/1427-0.webp" alt="" loading="lazy" decoding="async"><img src="images/boutique/1435-0.webp" alt="" loading="lazy" decoding="async"><img src="images/boutique/1424-0.webp" alt="" loading="lazy" decoding="async"></span><span class="va"><svg width="18" height="18" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M7 1v12M2 8l5 5 5-5"/></svg></span></button></li>
+      <li class="rise" style="transition-delay:0.21s"><button type="button" class="rayon" data-filtre-va="vetements"><span class="num">IV</span><span class="nom" data-t="btq-f-vetements">Vêtements</span><span class="nb">9 <span data-t="btq-pieces">pièces</span></span><span class="vignettes" aria-hidden="true"><img src="images/boutique/210-0.webp" alt="" loading="lazy" decoding="async"><img src="images/boutique/874-0.webp" alt="" loading="lazy" decoding="async"><img src="images/boutique/687-0.webp" alt="" loading="lazy" decoding="async"></span><span class="va"><svg width="18" height="18" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M7 1v12M2 8l5 5 5-5"/></svg></span></button></li>
+    </ol>
   </section>
-
-  <!-- la collection Napô en avant, puis tous les souvenirs avec des filtres -->
-  <section class="sec page napo-une" aria-labelledby="t-napo">
-    <div class="napo-img rise"><img src="images/boutique/1306-0.webp" alt="Statuettes Napô de couleur" loading="lazy" decoding="async"></div>
-    <div class="napo-txt rise">
-      <p class="eyebrow" data-t="btq-napo-e">La collection</p>
-      <h2 id="t-napo" data-t="btq-napo-titre">Napô, par Laurent Silvani</h2>
-      <p data-t="btq-napo-texte"></p>
-      <button type="button" class="ghost" data-filtre-va="napo"><span data-t="btq-f-napo">Collection Napô</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></button>
-    </div>
-  </section>
-
   <section class="sec page" id="souvenirs" aria-labelledby="t-souvenirs">
-    <div class="head rise"><div><p class="eyebrow" data-t="btq-e2">Tout le catalogue</p><h2 id="t-souvenirs" data-t="btq-titre">Les souvenirs</h2></div></div>
+    <div class="head rise"><div><p class="eyebrow" data-t="btq-e2">Tout le catalogue</p><h2 id="t-souvenirs" data-t="btq-titre">Les souvenirs</h2></div><p class="compte" aria-live="polite"><b id="compte">20</b> <span data-t="btq-nb">souvenirs</span></p></div>
     <div class="filtres" role="group" aria-label="Catégories">
-      <button type="button" data-filtre="tout" aria-pressed="true" data-t="btq-f-tout">Tout</button><button type="button" data-filtre="napo" aria-pressed="false" data-t="btq-f-napo">Collection Napô</button><button type="button" data-filtre="bustes" aria-pressed="false" data-t="btq-f-bustes">Bustes et statuettes</button><button type="button" data-filtre="objets" aria-pressed="false" data-t="btq-f-objets">Écriture et maison</button><button type="button" data-filtre="vetements" aria-pressed="false" data-t="btq-f-vetements">Vêtements</button>
+      <button type="button" data-filtre="tout" aria-pressed="true"><span data-t="btq-f-tout">Tout</span><small>20</small></button><button type="button" data-filtre="napo" aria-pressed="false"><span data-t="btq-f-napo">Collection Napô</span><small>4</small></button><button type="button" data-filtre="bustes" aria-pressed="false"><span data-t="btq-f-bustes">Bustes et statuettes</span><small>3</small></button><button type="button" data-filtre="objets" aria-pressed="false"><span data-t="btq-f-objets">Écriture et maison</span><small>4</small></button><button type="button" data-filtre="vetements" aria-pressed="false"><span data-t="btq-f-vetements">Vêtements</span><small>9</small></button>
     </div>
     <div class="produits">
       <article class="produit rise" data-cat="napo">
         <div class="img"><img src="images/boutique/1339-0.webp" alt="" loading="lazy" decoding="async"><img class="dos" src="images/boutique/1339-1.webp" alt="" loading="lazy" decoding="async"></div>
-        <h3>Bustô, le petit Napô</h3>
-        <p class="ligne"><span class="prix-p">20&nbsp;€</span><span class="coloris" aria-label="Doré, Noir"><i style="--c:#C9A227" title="Doré"></i><i style="--c:#151515" title="Noir"></i></span></p>
+        <div class="nom-prix"><h3>Bustô, le petit Napô</h3><span class="prix-p">20&nbsp;€</span></div>
+        <p class="ligne"><span class="coloris" aria-label="Doré, Noir"><i style="--c:#C9A227" title="Doré"></i><i style="--c:#151515" title="Noir"></i></span></p>
         <a class="ghost" href="mailto:grotte@lagrottenapoleon.fr?subject=Boutique%20:%20Bustô,%20le%20petit%20Napô"><span data-t="btq-demander">Le demander</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a>
       </article>
       <article class="produit rise" data-cat="napo">
         <div class="img"><img src="images/boutique/1306-0.webp" alt="" loading="lazy" decoding="async"><img class="dos" src="images/boutique/1306-1.webp" alt="" loading="lazy" decoding="async"></div>
-        <h3>Napô, statuette de collection</h3>
-        <p class="ligne"><span class="prix-p">50&nbsp;€</span><span class="coloris" aria-label="Blanc, Noir, Rouge, Vert"><i style="--c:#F2EEE6" title="Blanc"></i><i style="--c:#151515" title="Noir"></i><i style="--c:#B3261E" title="Rouge"></i><i style="--c:#2F5D3A" title="Vert"></i></span></p>
+        <div class="nom-prix"><h3>Napô, statuette de collection</h3><span class="prix-p">50&nbsp;€</span></div>
+        <p class="ligne"><span class="coloris" aria-label="Blanc, Noir, Rouge, Vert"><i style="--c:#F2EEE6" title="Blanc"></i><i style="--c:#151515" title="Noir"></i><i style="--c:#B3261E" title="Rouge"></i><i style="--c:#2F5D3A" title="Vert"></i></span></p>
         <a class="ghost" href="mailto:grotte@lagrottenapoleon.fr?subject=Boutique%20:%20Napô,%20statuette%20de%20collection"><span data-t="btq-demander">Le demander</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a>
       </article>
       <article class="produit rise" data-cat="napo">
         <div class="img"><img src="images/boutique/1414-0.webp" alt="" loading="lazy" decoding="async"><img class="dos" src="images/boutique/1414-1.webp" alt="" loading="lazy" decoding="async"></div>
-        <h3>Napô au livre</h3>
-        <p class="ligne"><span class="prix-p">24&nbsp;€</span></p>
+        <div class="nom-prix"><h3>Napô au livre</h3><span class="prix-p">24&nbsp;€</span></div>
+        <p class="ligne"></p>
         <a class="ghost" href="mailto:grotte@lagrottenapoleon.fr?subject=Boutique%20:%20Napô%20au%20livre"><span data-t="btq-demander">Le demander</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a>
       </article>
       <article class="produit rise" data-cat="napo">
         <div class="img"><img src="images/boutique/1357-0.webp" alt="" loading="lazy" decoding="async"><img class="dos" src="images/boutique/1357-1.webp" alt="" loading="lazy" decoding="async"></div>
-        <h3>Napô XL</h3>
-        <p class="ligne"><span class="prix-p">1&nbsp;000&nbsp;€</span></p>
+        <div class="nom-prix"><h3>Napô XL</h3><span class="prix-p">1&nbsp;000&nbsp;€</span></div>
+        <p class="ligne"></p>
         <a class="ghost" href="mailto:grotte@lagrottenapoleon.fr?subject=Boutique%20:%20Napô%20XL"><span data-t="btq-demander">Le demander</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a>
       </article>
       <article class="produit rise" data-cat="bustes">
         <div class="img"><img src="images/boutique/1367-0.webp" alt="" loading="lazy" decoding="async"><img class="dos" src="images/boutique/1367-1.webp" alt="" loading="lazy" decoding="async"></div>
-        <h3>Buste de Napoléon</h3>
-        <p class="ligne"><span class="prix-p">35&nbsp;€</span><span class="coloris" aria-label="Blanc, Noir"><i style="--c:#F2EEE6" title="Blanc"></i><i style="--c:#151515" title="Noir"></i></span></p>
+        <div class="nom-prix"><h3>Buste de Napoléon</h3><span class="prix-p">35&nbsp;€</span></div>
+        <p class="ligne"><span class="coloris" aria-label="Blanc, Noir"><i style="--c:#F2EEE6" title="Blanc"></i><i style="--c:#151515" title="Noir"></i></span></p>
         <a class="ghost" href="mailto:grotte@lagrottenapoleon.fr?subject=Boutique%20:%20Buste%20de%20Napoléon"><span data-t="btq-demander">Le demander</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a>
       </article>
       <article class="produit rise" data-cat="bustes">
         <div class="img"><img src="images/boutique/1386-0.webp" alt="" loading="lazy" decoding="async"><img class="dos" src="images/boutique/1386-1.webp" alt="" loading="lazy" decoding="async"></div>
-        <h3>Buste de Bonaparte</h3>
-        <p class="ligne"><span class="prix-p">40&nbsp;€</span></p>
+        <div class="nom-prix"><h3>Buste de Bonaparte</h3><span class="prix-p">40&nbsp;€</span></div>
+        <p class="ligne"></p>
         <a class="ghost" href="mailto:grotte@lagrottenapoleon.fr?subject=Boutique%20:%20Buste%20de%20Bonaparte"><span data-t="btq-demander">Le demander</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a>
       </article>
       <article class="produit rise" data-cat="bustes">
         <div class="img"><img src="images/boutique/1446-0.webp" alt="" loading="lazy" decoding="async"><img class="dos" src="images/boutique/1446-1.webp" alt="" loading="lazy" decoding="async"></div>
-        <h3>Statuette numérotée de Napoléon</h3>
-        <p class="ligne"><span class="prix-p">90&nbsp;€</span></p>
+        <div class="nom-prix"><h3>Statuette numérotée de Napoléon</h3><span class="prix-p">90&nbsp;€</span></div>
+        <p class="ligne"></p>
         <a class="ghost" href="mailto:grotte@lagrottenapoleon.fr?subject=Boutique%20:%20Statuette%20numérotée%20de%20Napoléon"><span data-t="btq-demander">Le demander</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a>
       </article>
       <article class="produit rise" data-cat="objets">
         <div class="img"><img src="images/boutique/1427-0.webp" alt="" loading="lazy" decoding="async"><img class="dos" src="images/boutique/1427-1.webp" alt="" loading="lazy" decoding="async"></div>
-        <h3>Plume et encrier</h3>
-        <p class="ligne"><span class="prix-p">20&nbsp;€</span></p>
+        <div class="nom-prix"><h3>Plume et encrier</h3><span class="prix-p">20&nbsp;€</span></div>
+        <p class="ligne"></p>
         <a class="ghost" href="mailto:grotte@lagrottenapoleon.fr?subject=Boutique%20:%20Plume%20et%20encrier"><span data-t="btq-demander">Le demander</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a>
       </article>
       <article class="produit rise" data-cat="objets">
         <div class="img"><img src="images/boutique/1435-0.webp" alt="" loading="lazy" decoding="async"><img class="dos" src="images/boutique/1435-1.webp" alt="" loading="lazy" decoding="async"></div>
-        <h3>Sceau à cacheter</h3>
-        <p class="ligne"><span class="prix-p">20&nbsp;€</span></p>
+        <div class="nom-prix"><h3>Sceau à cacheter</h3><span class="prix-p">20&nbsp;€</span></div>
+        <p class="ligne"></p>
         <a class="ghost" href="mailto:grotte@lagrottenapoleon.fr?subject=Boutique%20:%20Sceau%20à%20cacheter"><span data-t="btq-demander">Le demander</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a>
       </article>
       <article class="produit rise" data-cat="objets">
         <div class="img"><img src="images/boutique/1424-0.webp" alt="" loading="lazy" decoding="async"><img class="dos" src="images/boutique/1424-1.webp" alt="" loading="lazy" decoding="async"></div>
-        <h3>Lampe livre</h3>
-        <p class="ligne"><span class="prix-p">20&nbsp;€</span></p>
+        <div class="nom-prix"><h3>Lampe livre</h3><span class="prix-p">20&nbsp;€</span></div>
+        <p class="ligne"></p>
         <a class="ghost" href="mailto:grotte@lagrottenapoleon.fr?subject=Boutique%20:%20Lampe%20livre"><span data-t="btq-demander">Le demander</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a>
       </article>
       <article class="produit rise" data-cat="objets">
         <div class="img"><img src="images/boutique/1442-0.webp" alt="" loading="lazy" decoding="async"><img class="dos" src="images/boutique/1442-1.webp" alt="" loading="lazy" decoding="async"></div>
-        <h3>Tasse et vide-poche</h3>
-        <p class="ligne"><span class="prix-p">25&nbsp;€</span></p>
+        <div class="nom-prix"><h3>Tasse et vide-poche</h3><span class="prix-p">25&nbsp;€</span></div>
+        <p class="ligne"></p>
         <a class="ghost" href="mailto:grotte@lagrottenapoleon.fr?subject=Boutique%20:%20Tasse%20et%20vide-poche"><span data-t="btq-demander">Le demander</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a>
       </article>
       <article class="produit rise blanc" data-cat="vetements">
         <div class="img"><img src="images/boutique/210-0.webp" alt="" loading="lazy" decoding="async"><img class="dos" src="images/boutique/210-1.webp" alt="" loading="lazy" decoding="async"></div>
-        <h3>Polo brodé, manches courtes</h3>
-        <p class="ligne"><span class="prix-p">39&nbsp;€</span><span class="coloris" aria-label="Noir, Kaki, Blanc, Bordeaux"><i style="--c:#151515" title="Noir"></i><i style="--c:#6B6A45" title="Kaki"></i><i style="--c:#F2EEE6" title="Blanc"></i><i style="--c:#6E1F2B" title="Bordeaux"></i></span><span class="tailles"><span data-t="btq-tailles">Tailles</span> S – 3XL</span></p>
+        <div class="nom-prix"><h3>Polo brodé, manches courtes</h3><span class="prix-p">39&nbsp;€</span></div>
+        <p class="ligne"><span class="coloris" aria-label="Noir, Kaki, Blanc, Bordeaux"><i style="--c:#151515" title="Noir"></i><i style="--c:#6B6A45" title="Kaki"></i><i style="--c:#F2EEE6" title="Blanc"></i><i style="--c:#6E1F2B" title="Bordeaux"></i></span><span class="tailles"><span data-t="btq-tailles">Tailles</span> S – 3XL</span></p>
         <a class="ghost" href="mailto:grotte@lagrottenapoleon.fr?subject=Boutique%20:%20Polo%20brodé,%20manches%20courtes"><span data-t="btq-demander">Le demander</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a>
       </article>
       <article class="produit rise blanc" data-cat="vetements">
         <div class="img"><img src="images/boutique/874-0.webp" alt="" loading="lazy" decoding="async"></div>
-        <h3>Polo brodé, manches longues</h3>
-        <p class="ligne"><span class="prix-p">44&nbsp;€</span><span class="coloris" aria-label="Noir"><i style="--c:#151515" title="Noir"></i></span><span class="tailles"><span data-t="btq-tailles">Tailles</span> S – 3XL</span></p>
+        <div class="nom-prix"><h3>Polo brodé, manches longues</h3><span class="prix-p">44&nbsp;€</span></div>
+        <p class="ligne"><span class="coloris" aria-label="Noir"><i style="--c:#151515" title="Noir"></i></span><span class="tailles"><span data-t="btq-tailles">Tailles</span> S – 3XL</span></p>
         <a class="ghost" href="mailto:grotte@lagrottenapoleon.fr?subject=Boutique%20:%20Polo%20brodé,%20manches%20longues"><span data-t="btq-demander">Le demander</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a>
       </article>
       <article class="produit rise blanc" data-cat="vetements">
         <div class="img"><img src="images/boutique/687-0.webp" alt="" loading="lazy" decoding="async"><img class="dos" src="images/boutique/687-1.webp" alt="" loading="lazy" decoding="async"></div>
-        <h3>T-shirt femme Abeille dorée</h3>
-        <p class="ligne"><span class="prix-p">28&nbsp;€</span><span class="coloris" aria-label="Noir, Gris, Blanc"><i style="--c:#151515" title="Noir"></i><i style="--c:#8C8C8C" title="Gris"></i><i style="--c:#F2EEE6" title="Blanc"></i></span><span class="tailles"><span data-t="btq-tailles">Tailles</span> S – XXL</span></p>
+        <div class="nom-prix"><h3>T-shirt femme Abeille dorée</h3><span class="prix-p">28&nbsp;€</span></div>
+        <p class="ligne"><span class="coloris" aria-label="Noir, Gris, Blanc"><i style="--c:#151515" title="Noir"></i><i style="--c:#8C8C8C" title="Gris"></i><i style="--c:#F2EEE6" title="Blanc"></i></span><span class="tailles"><span data-t="btq-tailles">Tailles</span> S – XXL</span></p>
         <a class="ghost" href="mailto:grotte@lagrottenapoleon.fr?subject=Boutique%20:%20T-shirt%20femme%20Abeille%20dorée"><span data-t="btq-demander">Le demander</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a>
       </article>
       <article class="produit rise blanc" data-cat="vetements">
         <div class="img"><img src="images/boutique/712-0.webp" alt="" loading="lazy" decoding="async"><img class="dos" src="images/boutique/712-1.webp" alt="" loading="lazy" decoding="async"></div>
-        <h3>T-shirt femme fluide</h3>
-        <p class="ligne"><span class="prix-p">28&nbsp;€</span><span class="coloris" aria-label="Blanc, Noir"><i style="--c:#F2EEE6" title="Blanc"></i><i style="--c:#151515" title="Noir"></i></span><span class="tailles"><span data-t="btq-tailles">Tailles</span> S – XXL</span><span class="epuise" data-t="btq-epuise">Épuisé</span></p>
+        <div class="nom-prix"><h3>T-shirt femme fluide</h3><span class="prix-p">28&nbsp;€</span></div>
+        <p class="ligne"><span class="coloris" aria-label="Blanc, Noir"><i style="--c:#F2EEE6" title="Blanc"></i><i style="--c:#151515" title="Noir"></i></span><span class="tailles"><span data-t="btq-tailles">Tailles</span> S – XXL</span><span class="epuise" data-t="btq-epuise">Épuisé</span></p>
         <a class="ghost" href="mailto:grotte@lagrottenapoleon.fr?subject=Boutique%20:%20T-shirt%20femme%20fluide"><span data-t="btq-demander">Le demander</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a>
       </article>
       <article class="produit rise blanc" data-cat="vetements">
         <div class="img"><img src="images/boutique/769-0.webp" alt="" loading="lazy" decoding="async"><img class="dos" src="images/boutique/769-1.webp" alt="" loading="lazy" decoding="async"></div>
-        <h3>Débardeur femme Tête de Maure</h3>
-        <p class="ligne"><span class="prix-p">28&nbsp;€</span><span class="coloris" aria-label="Noir, Blanc, Kaki"><i style="--c:#151515" title="Noir"></i><i style="--c:#F2EEE6" title="Blanc"></i><i style="--c:#6B6A45" title="Kaki"></i></span><span class="tailles"><span data-t="btq-tailles">Tailles</span> XS – XXL</span></p>
+        <div class="nom-prix"><h3>Débardeur femme Tête de Maure</h3><span class="prix-p">28&nbsp;€</span></div>
+        <p class="ligne"><span class="coloris" aria-label="Noir, Blanc, Kaki"><i style="--c:#151515" title="Noir"></i><i style="--c:#F2EEE6" title="Blanc"></i><i style="--c:#6B6A45" title="Kaki"></i></span><span class="tailles"><span data-t="btq-tailles">Tailles</span> XS – XXL</span></p>
         <a class="ghost" href="mailto:grotte@lagrottenapoleon.fr?subject=Boutique%20:%20Débardeur%20femme%20Tête%20de%20Maure"><span data-t="btq-demander">Le demander</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a>
       </article>
       <article class="produit rise blanc" data-cat="vetements">
         <div class="img"><img src="images/boutique/816-0.webp" alt="" loading="lazy" decoding="async"><img class="dos" src="images/boutique/816-1.webp" alt="" loading="lazy" decoding="async"></div>
-        <h3>T-shirt homme Tête de Maure</h3>
-        <p class="ligne"><span class="prix-p">28&nbsp;€</span><span class="coloris" aria-label="Bordeaux, Vert, Bleu"><i style="--c:#6E1F2B" title="Bordeaux"></i><i style="--c:#2F5D3A" title="Vert"></i><i style="--c:#2B4A7A" title="Bleu"></i></span><span class="tailles"><span data-t="btq-tailles">Tailles</span> XS – XXL</span></p>
+        <div class="nom-prix"><h3>T-shirt homme Tête de Maure</h3><span class="prix-p">28&nbsp;€</span></div>
+        <p class="ligne"><span class="coloris" aria-label="Bordeaux, Vert, Bleu"><i style="--c:#6E1F2B" title="Bordeaux"></i><i style="--c:#2F5D3A" title="Vert"></i><i style="--c:#2B4A7A" title="Bleu"></i></span><span class="tailles"><span data-t="btq-tailles">Tailles</span> XS – XXL</span></p>
         <a class="ghost" href="mailto:grotte@lagrottenapoleon.fr?subject=Boutique%20:%20T-shirt%20homme%20Tête%20de%20Maure"><span data-t="btq-demander">Le demander</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a>
       </article>
       <article class="produit rise blanc" data-cat="vetements">
         <div class="img"><img src="images/boutique/917-0.webp" alt="" loading="lazy" decoding="async"><img class="dos" src="images/boutique/917-1.webp" alt="" loading="lazy" decoding="async"></div>
-        <h3>Casquette brodée</h3>
-        <p class="ligne"><span class="prix-p">25&nbsp;€</span><span class="coloris" aria-label="Noir, Vert, Bordeaux, Blanc"><i style="--c:#151515" title="Noir"></i><i style="--c:#2F5D3A" title="Vert"></i><i style="--c:#6E1F2B" title="Bordeaux"></i><i style="--c:#F2EEE6" title="Blanc"></i></span></p>
+        <div class="nom-prix"><h3>Casquette brodée</h3><span class="prix-p">25&nbsp;€</span></div>
+        <p class="ligne"><span class="coloris" aria-label="Noir, Vert, Bordeaux, Blanc"><i style="--c:#151515" title="Noir"></i><i style="--c:#2F5D3A" title="Vert"></i><i style="--c:#6E1F2B" title="Bordeaux"></i><i style="--c:#F2EEE6" title="Blanc"></i></span></p>
         <a class="ghost" href="mailto:grotte@lagrottenapoleon.fr?subject=Boutique%20:%20Casquette%20brodée"><span data-t="btq-demander">Le demander</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a>
       </article>
       <article class="produit rise" data-cat="vetements">
         <div class="img"><img src="images/boutique/1293-0.webp" alt="" loading="lazy" decoding="async"><img class="dos" src="images/boutique/1293-1.webp" alt="" loading="lazy" decoding="async"></div>
-        <h3>T-shirt Napoléon, bleu</h3>
-        <p class="ligne"><span class="prix-p sans" data-t="btq-prix-boutique">Prix en boutique</span></p>
+        <div class="nom-prix"><h3>T-shirt Napoléon, bleu</h3><span class="prix-p sans" data-t="btq-prix-boutique">Prix en boutique</span></div>
+        <p class="ligne"></p>
         <a class="ghost" href="mailto:grotte@lagrottenapoleon.fr?subject=Boutique%20:%20T-shirt%20Napoléon,%20bleu"><span data-t="btq-demander">Le demander</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a>
       </article>
       <article class="produit rise" data-cat="vetements">
         <div class="img"><img src="images/boutique/1300-0.webp" alt="" loading="lazy" decoding="async"><img class="dos" src="images/boutique/1300-1.webp" alt="" loading="lazy" decoding="async"></div>
-        <h3>T-shirt Napoleon Aiacciu, blanc</h3>
-        <p class="ligne"><span class="prix-p sans" data-t="btq-prix-boutique">Prix en boutique</span></p>
+        <div class="nom-prix"><h3>T-shirt Napoleon Aiacciu, blanc</h3><span class="prix-p sans" data-t="btq-prix-boutique">Prix en boutique</span></div>
+        <p class="ligne"></p>
         <a class="ghost" href="mailto:grotte@lagrottenapoleon.fr?subject=Boutique%20:%20T-shirt%20Napoleon%20Aiacciu,%20blanc"><span data-t="btq-demander">Le demander</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a>
       </article>
     </div>
@@ -248,7 +236,7 @@
 </div>
 
 
-<script src="textes.js?v=20261030d"></script>
-<script src="grotte.js?v=20261030d"></script>
+<script src="textes.js?v=20261030e"></script>
+<script src="grotte.js?v=20261030e"></script>
 </body>
 </html>

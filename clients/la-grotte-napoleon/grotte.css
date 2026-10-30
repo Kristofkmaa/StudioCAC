@@ -498,29 +498,44 @@ body[data-titre="meta-reserver"]{--barre:0px}
 /* sous l'ouverture, la boutique repose sur la roche pleine : les souvenirs ne se lisent jamais par-dessus le portrait */
 .corps-btq{background:var(--roche),var(--bg);padding-bottom:var(--gap);box-shadow:0 -40px 80px 20px var(--bg)}
 .corps-btq>.sec:first-child{margin-top:0;padding-top:clamp(56px,8vw,110px)}
-/* les rayons : quatre grandes tuiles photo, le nom en Bagnard sur un voile, le nombre de pièces */
-.rayons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(12px,1.6vw,22px);margin-top:36px}
-.rayon{position:relative;display:grid;align-content:end;gap:4px;padding:clamp(16px,1.8vw,24px);aspect-ratio:3/4;border:0;border-radius:6px;overflow:hidden;background:var(--deep);color:var(--ink);text-align:left;cursor:pointer;isolation:isolate}
-.rayon .img{position:absolute;inset:0;z-index:-1}
-.rayon .img img{width:100%;height:100%;object-fit:cover;transition:transform 1s var(--doux)}
-.rayon::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(to top,rgba(22,20,17,.92) 0,rgba(22,20,17,.35) 45%,transparent 70%)}
-.rayon .nom{font-family:var(--serif);font-size:clamp(1.35rem,1rem + 1vw,2.1rem);line-height:1.05;letter-spacing:-.01em}
-.rayon .nb{font-size:14px;color:var(--accent)}
-@media (hover:hover) and (pointer:fine){.rayon:hover .img img{transform:scale(1.05)}}
-.rayon:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
-@media (max-width:860px){.rayons{grid-template-columns:repeat(2,minmax(0,1fr))}}
-.napo-une{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:clamp(28px,6vw,110px);align-items:center}
-.napo-img{border-radius:4px;overflow:hidden;aspect-ratio:4/3;background:var(--deep)}
-.napo-img img{width:100%;height:100%;object-fit:cover}
-.napo-txt{display:grid;gap:18px;justify-items:start}
-.napo-txt h2{font-size:var(--h1)}
-.napo-txt p:not(.eyebrow){font-size:17px;color:var(--mist);max-width:44ch}
-@media (max-width:860px){.napo-une{grid-template-columns:1fr}}
-/* les filtres : des mots, celui choisi souligné */
-.filtres{display:flex;flex-wrap:wrap;gap:6px 26px;margin-top:40px}
-.filtres button{min-height:44px;padding:6px 0;font-size:16px;color:var(--muted);border-bottom:1px solid transparent;transition:color .2s,border-color .2s}
-.filtres button[aria-pressed="true"]{color:var(--ink);border-bottom-color:var(--accent)}
-@media (hover:hover) and (pointer:fine){.filtres button:hover{color:var(--ink)}}
+/* les rayons : une table des matières impériale. Le chiffre romain, le nom en grand, le nombre de pièces et trois vignettes
+   en éventail qui s'ouvrent au survol ; une ligne fine entre chaque rayon */
+.rayons{list-style:none;margin:40px 0 0;padding:0;border-bottom:1px solid var(--line)}
+.rayon{display:grid;grid-template-columns:clamp(56px,7vw,110px) minmax(0,1fr) auto clamp(150px,16vw,230px) 44px;grid-template-areas:"num nom nb vig va";align-items:center;gap:clamp(12px,2vw,32px);width:100%;padding:clamp(18px,2.4vw,30px) 0;border:0;border-top:1px solid var(--line);background:none;color:var(--ink);text-align:left;cursor:pointer;transition:background-color .4s var(--doux)}
+.rayon .num{grid-area:num;font-family:var(--serif);font-style:italic;font-size:clamp(1.3rem,1rem + 1vw,2.2rem);color:var(--accent);line-height:1}
+.rayon .nom{grid-area:nom;font-family:var(--serif);font-size:clamp(1.9rem,1.1rem + 3vw,4.6rem);line-height:1;letter-spacing:-.02em;transition:transform .6s var(--doux)}
+.rayon .nb{grid-area:nb;font-size:14px;color:var(--mist);white-space:nowrap}
+.rayon .vignettes{grid-area:vig;position:relative;height:clamp(84px,8.5vw,120px)}
+.rayon .vignettes img{position:absolute;top:0;width:58%;height:100%;object-fit:cover;border-radius:4px;box-shadow:0 10px 26px rgba(0,0,0,.45);transition:transform .6s var(--doux)}
+.rayon .vignettes img:nth-child(1){left:0;transform:rotate(-5deg);z-index:1}
+.rayon .vignettes img:nth-child(2){left:21%;transform:rotate(1deg);z-index:2}
+.rayon .vignettes img:nth-child(3){left:42%;transform:rotate(6deg);z-index:3}
+.rayon .va{grid-area:va;display:grid;place-items:center;width:44px;height:44px;border-radius:50%;box-shadow:inset 0 0 0 1px var(--line-hi);color:var(--accent);transition:background-color .3s,color .3s,transform .4s var(--doux)}
+@media (hover:hover) and (pointer:fine){
+  .rayon:hover{background:linear-gradient(90deg,transparent,rgba(241,217,166,.05) 30%,transparent)}
+  .rayon:hover .nom{transform:translateX(10px)}
+  .rayon:hover .vignettes img:nth-child(1){transform:rotate(-9deg) translate(-14px,-4px)}
+  .rayon:hover .vignettes img:nth-child(3){transform:rotate(10deg) translate(14px,-4px)}
+  .rayon:hover .va{background:var(--accent);color:var(--on-accent);transform:translateY(3px)}
+}
+.rayon:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+@media (max-width:860px){
+  .rayon{grid-template-columns:34px minmax(0,1fr) 92px;grid-template-areas:"num nom vig" "num nb vig";row-gap:6px;column-gap:14px}
+  .rayon .num{align-self:start;padding-top:.3em}
+  .rayon .nom{font-size:clamp(1.6rem,7vw,2.4rem)}
+  .rayon .vignettes{height:76px}
+  .rayon .va{display:none}
+}
+/* le catalogue : le nombre de souvenirs à droite du titre, les filtres en pastilles avec leur nombre, collés sous l'en-tête sur ordinateur */
+.compte{margin:0;font-size:15px;color:var(--mist)}
+.compte b{font-family:var(--serif);font-weight:400;font-size:clamp(2rem,1.4rem + 1.6vw,3rem);color:var(--accent);margin-right:4px}
+.filtres{display:flex;flex-wrap:wrap;gap:8px;margin-top:32px;padding:12px 0}
+.filtres button{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:8px 16px 8px 18px;border-radius:999px;font-size:15px;color:var(--mist);background:rgba(10,9,7,.4);box-shadow:inset 0 0 0 1px var(--line);transition:color .2s,background-color .25s,box-shadow .25s}
+.filtres button small{font-size:12px;min-width:22px;padding:2px 6px;border-radius:999px;background:rgba(255,255,255,.07);text-align:center}
+.filtres button[aria-pressed="true"]{color:var(--on-accent);background:var(--accent);box-shadow:none}
+.filtres button[aria-pressed="true"] small{background:rgba(22,20,17,.15)}
+@media (hover:hover) and (pointer:fine){.filtres button:hover{color:var(--ink);box-shadow:inset 0 0 0 1px var(--line-hi)}.filtres button[aria-pressed="true"]:hover{color:var(--on-accent)}}
+@media (min-width:861px){.filtres{position:sticky;top:var(--tete);z-index:5;background:var(--roche),var(--bg);box-shadow:0 12px 20px -14px rgba(0,0,0,.6)}}
 /* les produits : une grille, la seconde photo au survol */
 .produits{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));gap:48px clamp(20px,2.4vw,32px);margin-top:36px}
 .produit{display:flex;flex-direction:column;gap:12px}
@@ -530,7 +545,12 @@ body[data-titre="meta-reserver"]{--barre:0px}
 @media (hover:hover) and (pointer:fine){.produit:hover .img .dos{opacity:1}.produit:hover .img img{transform:scale(1.03)}}
 .produit.blanc .img{background:#F3F1EC}
 .produit.blanc .img img{object-fit:contain;padding:8%}
-.produit h3{font-size:clamp(1.25rem,1.1rem + .4vw,1.5rem);line-height:1.15}
+.produit h3{font-size:clamp(1.2rem,1.05rem + .4vw,1.45rem);line-height:1.15}
+/* le nom et le prix sur une ligne, comme sur une étiquette ; les détails (coloris, tailles) dessous */
+.nom-prix{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-top:4px;border-top:1px solid var(--line)}
+.nom-prix .prix-p{flex:none}
+.ligne:empty{display:none}
+.produit .img{box-shadow:0 18px 40px -22px rgba(0,0,0,.8)}
 .produit .ligne{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px}
 .prix-p{font-family:var(--serif);font-size:1.45rem;line-height:1;color:var(--accent)}
 .prix-p.sans{font-family:inherit;font-size:14px;color:var(--muted)}
@@ -540,4 +560,4 @@ body[data-titre="meta-reserver"]{--barre:0px}
 .epuise{color:#F2B8A8}
 .produit .ghost{margin-top:auto;min-height:44px}
 .btq-ligne{margin-top:40px}
-@media (max-width:600px){.produits{grid-template-columns:repeat(2,minmax(0,1fr));gap:36px 14px}.produit h3{font-size:1.08rem}.prix-p{font-size:1.2rem}.produit .ghost{font-size:14px}.filtres{gap:2px 20px}}
+@media (max-width:600px){.produits{grid-template-columns:repeat(2,minmax(0,1fr));gap:36px 14px}.produit h3{font-size:1.08rem}.prix-p{font-size:1.2rem}.produit .ghost{font-size:14px}.nom-prix{flex-direction:column;gap:6px}.filtres button{padding:6px 12px 6px 14px;font-size:14px}}

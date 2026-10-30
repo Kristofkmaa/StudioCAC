@@ -52,17 +52,22 @@
   <!-- l'ouverture : Napoléon enfant ; en descendant, le bicorne tombe sur sa tête et il devient l'Empereur, le titre repart de chaque côté -->
   <section class="chapeau" id="chapeau" aria-labelledby="t-titre">
     <div class="scene">
-      <h1 class="geant" id="t-titre"><span class="ln l1"><span class="in" data-t="ouv-l1">Napoléon,</span></span> <span class="ln l2"><span class="in" data-t="ouv-l2">l’enfant</span></span> <span class="ln l3"><span class="in" data-t="ouv-l3">d’Ajaccio</span></span></h1>
-      <p class="geant geant2" id="titreEmpereur" aria-hidden="true"><span class="ln l1"><span class="in" data-t="emp-l1">Napoléon,</span></span> <span class="ln l2"><span class="in" data-t="emp-l2">empereur</span></span> <span class="ln l3"><span class="in" data-t="emp-l3">des Français</span></span></p>
+      <!-- en haut à gauche : le titre, le concept en une phrase, « Découvrir » qui lance la transformation ; le second titre prend la place du premier -->
+      <div class="ouverture-texte">
+        <h1 class="geant" id="t-titre"><span class="ln l1"><span class="in" data-t="ouv-l1">Napoléon,</span></span> <span class="ln l2"><span class="in" data-t="ouv-l2">l’enfant</span></span> <span class="ln l3"><span class="in" data-t="ouv-l3">d’Ajaccio</span></span></h1>
+        <p class="geant geant2" id="titreEmpereur" aria-hidden="true"><span class="ln l1"><span class="in" data-t="emp-l1">Napoléon,</span></span> <span class="ln l2"><span class="in" data-t="emp-l2">empereur</span></span> <span class="ln l3"><span class="in" data-t="emp-l3">des Français</span></span></p>
+        <div class="accroche" id="accroche">
+          <p data-t="ouv-phrase"></p>
+          <button type="button" class="btn lg decouvrir" id="decouvrir"><span data-t="ouv-decouvrir">Découvrir</span><svg width="12" height="14" viewBox="0 0 12 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 1v12M1 8l5 5 5-5"/></svg></button>
+        </div>
+      </div>
       <div class="portrait"><img src="images/napoleon.webp" alt="Portrait de Napoléon Bonaparte" data-t-alt="ouv-gravure" width="1145" height="1374" fetchpriority="high"><img class="enfant" id="enfant" src="images/enfant.webp" alt="" width="1145" height="1374" fetchpriority="high"><span class="ombre-chapeau" id="ombreChapeau"></span><img class="bicorne" id="bicorne" src="images/bicorne.webp" alt="" width="1115" height="553"></div>
-      <div class="final" id="final"><p class="eyebrow" data-t="ouv-lieu">Ajaccio · 4 rue Saint-Charles</p><p data-t="ouv-phrase"></p><div class="actions"><a class="btn lg" href="reserver.html" data-reserver data-t="ouv-reserver">Réserver une séance</a><a class="ghost" href="#formules"><span data-t="ouv-formules">Voir les formules</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a></div></div>
       <a class="cue" href="#suite"><span data-t="ouv-defiler">Faire défiler</span><i></i></a>
     </div>
   </section>
   <section class="ouv-suite" id="suite">
     <div class="page">
       <p class="eyebrow" data-t="ouv-lieu">Ajaccio · 4 rue Saint-Charles</p>
-      <p data-t="ouv-phrase"></p>
       <div class="actions" id="boutonsOuv"><a class="btn lg" href="reserver.html" data-reserver data-t="ouv-reserver">Réserver une séance</a><a class="ghost" href="#formules"><span data-t="ouv-formules">Voir les formules</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a></div>
     </div>
   </section>

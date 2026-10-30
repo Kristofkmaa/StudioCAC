@@ -16,11 +16,13 @@
   --h1:clamp(2.2rem,1.4rem + 3.2vw,3.8rem); --h2:clamp(1.6rem,1.25rem + 1.3vw,2.2rem); --sub:clamp(1.15rem,1.05rem + .4vw,1.45rem);
   --m:max(16px,clamp(16px,4vw,48px)); --gap:clamp(76px,10vw,140px);
   --doux:cubic-bezier(.16,1,.3,1); --barre:0px;
+  /* le « papier rocher » de la salle (outils/papier_rocher.py) : un relief froissé très discret sur le fond */
+  --roche:url(images/roche.webp) 0 0/min(1024px,180vw) repeat; --roche-profond:url(images/roche-profond.webp) 0 0/min(1024px,180vw) repeat;
   color-scheme:dark;
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:84px;background:var(--bg)}
-body{margin:0;background:var(--bg);color:var(--muted);font:400 16px/1.5 "Inter Tight",ui-sans-serif,system-ui,sans-serif;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;overflow-x:hidden}
+body{margin:0;background:var(--roche),var(--bg);color:var(--muted);font:400 16px/1.5 "Inter Tight",ui-sans-serif,system-ui,sans-serif;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;overflow-x:hidden}
 img,video{display:block;max-width:100%}
 a{color:inherit}
 h1,h2,h3,h4,p,ul,ol{margin:0}
@@ -85,7 +87,7 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
   .langues{left:-6px;right:auto}
 }
 /* la feuille du menu, comme celle de Saitora : de grandes lignes séparées par des filets */
-.sheet{position:fixed;inset:0;z-index:60;background:var(--deep);display:flex;flex-direction:column;overflow:hidden auto;overscroll-behavior:contain;opacity:0;visibility:hidden;transition:opacity .35s,visibility 0s .35s}
+.sheet{position:fixed;inset:0;z-index:60;background:var(--roche-profond),var(--deep);display:flex;flex-direction:column;overflow:hidden auto;overscroll-behavior:contain;opacity:0;visibility:hidden;transition:opacity .35s,visibility 0s .35s}
 .sheet.ouverte{opacity:1;visibility:visible;transition:opacity .35s}
 .sheet .haut{display:flex;justify-content:space-between;align-items:center;height:64px;flex:none}
 .sheet .haut img{height:36px;width:auto}
@@ -239,7 +241,7 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 @media (max-width:860px){.avis{grid-template-columns:1fr}.boutique{grid-template-columns:1fr}}
 
 /* venir : le puits profond, le téléphone en grand */
-.well{margin-top:var(--gap);border-radius:16px;background:var(--deep);padding:clamp(64px,10vw,120px) clamp(24px,5vw,64px);display:grid;justify-items:center;text-align:center;gap:22px}
+.well{margin-top:var(--gap);border-radius:16px;background:var(--roche-profond),var(--deep);padding:clamp(64px,10vw,120px) clamp(24px,5vw,64px);display:grid;justify-items:center;text-align:center;gap:22px}
 .well h2{font-size:clamp(3rem,1.6rem + 6vw,7.5rem);letter-spacing:-.05em}
 .gros-tel{color:var(--ink);font-weight:500;font-size:clamp(2rem,1.2rem + 3.6vw,4.4rem);letter-spacing:-.04em;line-height:1;text-decoration:none;white-space:nowrap}
 .gros-mail{color:var(--accent);font-weight:500;font-size:var(--h2);letter-spacing:-.02em;text-decoration:none;overflow-wrap:anywhere}
@@ -249,7 +251,7 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .well .actions{justify-content:center}
 
 /* pied */
-.pied{margin-top:var(--gap);background:var(--deep);padding:clamp(56px,8vw,96px) 0 calc(40px + var(--barre) + env(safe-area-inset-bottom))}
+.pied{margin-top:var(--gap);background:var(--roche-profond),var(--deep);padding:clamp(56px,8vw,96px) 0 calc(40px + var(--barre) + env(safe-area-inset-bottom))}
 .pied .phrase-fin{font-weight:500;font-size:var(--h1);letter-spacing:-.04em;line-height:1;color:var(--ink);max-width:16ch;margin-bottom:28px}
 .pied-bas{display:flex;justify-content:space-between;gap:16px 32px;flex-wrap:wrap;margin-top:64px;padding-top:24px;border-top:1px solid var(--line);font-size:12px;letter-spacing:.12em;text-transform:uppercase}
 .pied-bas nav{display:flex;flex-wrap:wrap;gap:8px 24px}

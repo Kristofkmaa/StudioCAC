@@ -136,7 +136,7 @@
     const dt = avant ? t - avant : 16; avant = t;
     a = cible > a ? Math.min(cible, a + dt / DUREE) : Math.max(cible, a - dt / DUREE * 1.6);
     dessine();
-    if (a !== cible) requestAnimationFrame(boucle); else { joue = false; avant = 0; racine.classList.remove("verrou"); }
+    if (a !== cible) requestAnimationFrame(boucle); else { joue = false; avant = 0; setTimeout(() => racine.classList.remove("verrou"), couronne ? 500 : 0); }  /* la boutique : on attend que la phrase soit là */
   }
   /* une fois l'animation jouée, le site remonte par-dessus Napoléon, resté en fond : il s'efface doucement dans la roche pour les textes */
   const fin = () => chapeau.offsetTop + chapeau.offsetHeight - innerHeight;
@@ -154,8 +154,12 @@
   addEventListener("scroll", () => { if (!tic) { tic = true; requestAnimationFrame(anime); } }, { passive: true });
   addEventListener("resize", anime);
   if (chapeau && !calme) {
-    /* la boutique : la couronne se pose d'elle-même peu après l'arrivée, le titre reste en place */
-    if (couronne) setTimeout(lance, 700);
+    /* la boutique : la couronne se pose d'elle-même peu après l'arrivée, le titre reste en place ; on ne descend qu'une fois
+       la couronne posée et la phrase arrivée (au plus tard après 6 s, au cas où l'animation ne pourrait pas se jouer) */
+    if (couronne) {
+      if (location.hash || scrollY > 0) saute();
+      else { racine.classList.add("verrou"); setTimeout(lance, 700); setTimeout(() => racine.classList.remove("verrou"), 6000); }
+    }
     if (intro) {
       /* l'accueil repart toujours d'en haut, sur l'enfant ; on ne peut pas descendre avant la transformation, mais toute tentative la lance */
       if (location.hash || scrollY > 0) saute();

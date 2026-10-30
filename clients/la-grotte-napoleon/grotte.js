@@ -117,7 +117,7 @@
     if (cue) { const o = intro ? borne((p - .9) / .1) : 1 - borne(p / .15); cue.style.opacity = o.toFixed(3); cue.style.visibility = o > 0 ? "" : "hidden"; }
     if (accroche) { const f = borne(p / .14); accroche.style.opacity = (1 - f).toFixed(3); accroche.style.transform = `translate3d(0,${(f * -10).toFixed(1)}px,0)`; accroche.style.visibility = f >= 1 ? "hidden" : ""; }
     /* puis, l'Empereur en place, ce qu'on vit à la Grotte et les boutons pour réserver */
-    if (concept) { const g = borne((p - .8) / .2); concept.style.opacity = g.toFixed(3); concept.style.transform = `translate3d(0,${((1 - g) * 14).toFixed(1)}px,0)`; concept.style.visibility = g > 0 ? "visible" : ""; }
+    if (concept) concept.classList.toggle("vu", p > .82);
     $("ombreChapeau").style.opacity = (Math.pow(q, 6) * (1 - voile() * .5)).toFixed(3);
     const pose = `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) rotate(${rot.toFixed(2)}deg) scale(${(1 + .02 * tasse).toFixed(3)},${(1 - .06 * tasse).toFixed(3)})`;
     chapeaux.forEach(c => c.style.transform = pose);
@@ -156,6 +156,8 @@
       else {
         racine.classList.add("verrou"); scrollTo(0, 0);
         intro.onclick = lance;
+        /* « Entrer dans la Grotte » : on descend vers la suite du site sans laisser de #… dans l'adresse (le rechargement repart de l'enfant) */
+        const entrer = $("entrer"); if (entrer) entrer.onclick = e => { e.preventDefault(); $("seances").scrollIntoView({ block: "start" }); };
         const essai = () => { if (racine.classList.contains("verrou")) lance(); };
         addEventListener("wheel", e => { if (e.deltaY > 0) essai(); }, { passive: true });
         addEventListener("touchmove", essai, { passive: true });

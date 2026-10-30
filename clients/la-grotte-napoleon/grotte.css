@@ -120,7 +120,8 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 @keyframes de-gauche{from{transform:translateX(-110vw);opacity:0}}
 @keyframes de-droite{from{transform:translateX(110vw);opacity:0}}
 .portrait{position:absolute;left:50%;bottom:0;z-index:2;width:min(100vw,60svh * 1145 / 1374);aspect-ratio:1145/1374;transform:translateX(-50%);animation:monte-portrait 1.2s .2s var(--doux) both}
-.portrait>img:first-child{width:100%;height:100%;-webkit-mask-image:radial-gradient(ellipse 62% 70% at 50% 40%,#000 62%,transparent 100%);mask-image:radial-gradient(ellipse 62% 70% at 50% 40%,#000 62%,transparent 100%)}
+/* le portrait est détouré (fond transparent) : seules les manches, coupées par le bord de l'image, se fondent dans la paroi */
+.portrait>img:first-child{width:100%;height:100%;-webkit-mask-image:linear-gradient(to right,transparent 0,#000 7%,#000 93%,transparent 100%);mask-image:linear-gradient(to right,transparent 0,#000 7%,#000 93%,transparent 100%);filter:drop-shadow(0 0 36px rgba(0,0,0,.55))}
 @keyframes monte-portrait{from{opacity:0;transform:translate(-50%,30px)}}
 .ombre-chapeau{position:absolute;left:22%;width:56%;top:9%;height:14%;border-radius:50%;background:radial-gradient(closest-side,rgba(10,8,6,.55),transparent);opacity:0;pointer-events:none}
 .bicorne{position:absolute;left:4%;top:-19%;width:92%;height:auto;transform-origin:50% 85%;will-change:transform;filter:drop-shadow(0 18px 22px rgba(0,0,0,.45))}

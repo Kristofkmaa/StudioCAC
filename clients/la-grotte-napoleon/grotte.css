@@ -772,3 +772,30 @@ body[data-titre="meta-reserver"]{--barre:0px}
   .flotte.ouverte .flotte-btn::before{transform:rotate(45deg)}
   .flotte-panneau{top:54px;bottom:auto;max-height:calc(100dvh - 80px);overflow:auto;overscroll-behavior:contain;transform-origin:100% 0;transform:translateY(-8px) scale(.96)}
 }
+
+/* ---------- les formules en trois médaillons (accueil) : un disque sombre cerclé d'un double filet doré, le chiffre romain,
+   le titre en Bagnard, un filet avec un losange, le prix en grand ; au survol le disque s'éclaire un peu ---------- */
+.medaillons{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(24px,3vw,48px);margin-top:44px}
+.medaillon{display:flex;flex-direction:column;align-items:center;gap:18px}
+.disque{position:relative;flex:none;width:min(100%,360px);height:auto;aspect-ratio:1/1;overflow:hidden;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:12%;text-align:center;color:var(--ink);text-decoration:none;
+  background:radial-gradient(circle at 50% 28%,#2a251d 0,#191612 62%,#100e0b 100%);box-shadow:inset 0 0 0 1.5px rgba(241,217,166,.75),0 30px 60px -30px rgba(0,0,0,.9);transition:box-shadow .4s var(--doux),transform .5s var(--doux)}
+.disque::before{content:"";position:absolute;inset:9px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(241,217,166,.32);pointer-events:none}
+a.disque:hover{box-shadow:inset 0 0 0 1.5px var(--accent),0 34px 70px -30px rgba(0,0,0,.95),0 0 60px -20px rgba(241,217,166,.35);transform:translateY(-4px)}
+.disque .num{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--accent);opacity:.9;margin-bottom:2px}
+.disque .titre{font-family:var(--serif);font-size:clamp(1.5rem,1rem + 1vw,2.15rem);line-height:1.02;letter-spacing:-.01em}
+.disque .titre.trois{display:grid;gap:2px;font-size:clamp(1.3rem,.95rem + .8vw,1.8rem)}
+.disque .sous{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--mist);opacity:.85}
+.disque .filet{position:relative;width:46%;height:1px;margin:8px 0;background:linear-gradient(90deg,transparent,rgba(241,217,166,.7),transparent)}
+.disque .filet::after{content:"";position:absolute;left:50%;top:50%;width:6px;height:6px;background:var(--accent);transform:translate(-50%,-50%) rotate(45deg)}
+.disque .prix{display:grid;justify-items:center;gap:2px;padding:0;border:0;line-height:1.1}
+.disque .prix b{font-family:var(--serif);font-weight:400;font-size:clamp(2.1rem,1.4rem + 1.6vw,3rem);color:var(--accent);line-height:1}
+.disque .prix small{display:block;margin:2px 0 0;font-size:13px;color:var(--muted)}
+.disque .prix.petit{margin-top:4px}
+.disque .prix.petit b{font-size:clamp(1.4rem,1rem + .9vw,1.9rem)}
+.disque .mini{font-size:12px;color:var(--faint);margin-top:4px}
+.disque .contact{font-size:15px;font-weight:500;color:var(--ink)}
+.disque .tel{display:block;font-size:15px;color:var(--accent);text-decoration:none;font-variant-numeric:tabular-nums}
+.disque .tel small{display:block;font-size:11px;color:var(--muted)}
+.medaillon .lien{font-size:14px}
+@media (max-width:980px){.medaillons{grid-template-columns:1fr;gap:40px}.disque{width:min(330px,84vw)}}
+#formules .medaillon{position:relative;z-index:1}

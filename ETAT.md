@@ -8,6 +8,10 @@ Les règles de travail sont dans `CLAUDE.md`, le rôle de chaque fichier dans `R
 Site de l'utilisateur (saitora.fr, GitHub Pages). Il vend des sites vitrines aux commerçants et artisans corses.
 Le site : écran d'entrée (`index.html`), accueil (`accueil.html`), toutes les démos (`demos.html`), tarifs, devis guidé, outil de charte, guide photo, démos, sites clients et le labo.
 
+## Rangement
+
+Les pages du site sont à la racine (leur place donne leur adresse sur saitora.fr) ; les fichiers qu'elles partagent (style abysse, `offres.js`, `themes.json`, `themes.js`, `demos.js`) sont dans `commun/` depuis le 31 octobre 2026. L'ancien `transition.js` (plus chargé par aucune page) a été supprimé.
+
 ## Branches
 
 - `claude/amazing-allen-r6m4us` : **la branche publiée** (saitora.fr) et la branche par défaut du dépôt.
@@ -16,7 +20,7 @@ Le site : écran d'entrée (`index.html`), accueil (`accueil.html`), toutes les 
 
 ## Ce qui existe
 
-- **13 démos** `demo-*.html`, chacune dans un genre différent (14 genres dans `themes.json`, dessinés par `themes.js`). La liste est dans `demos.js` (partagée par l'accueil et `demos.html`) ; l'accueil n'en montre que trois (A Funtana, U Fucone, Atelier Bois Massif, liste `UNES`), avec « Voir les treize démos ».
+- **13 démos** `demo-*.html`, chacune dans un genre différent (14 genres dans `commun/themes.json`, dessinés par `commun/themes.js`). La liste est dans `commun/demos.js` (partagée par l'accueil et `demos.html`) ; l'accueil n'en montre que trois (A Funtana, U Fucone, Atelier Bois Massif, liste `UNES`), avec « Voir les treize démos ».
 - **Sites clients** dans `clients/` (non indexés) :
   - **La Grotte Napoléon** (`la-grotte-napoleon/`, site du père de l'utilisateur, **en ligne pour test** sur https://saitora.fr/clients/la-grotte-napoleon/ et en page privée Claude https://claude.ai/artifact/FUf2dVq3CJkFbwXnM9XknB, à republier après chaque changement). Accueil : Napoléon enfant qui devient l'Empereur (bouton « Découvrir »), séance, à table, enfance, film, formules en trois médaillons, avis, boutique, venir. Boutique avec la couronne de laurier, 20 souvenirs, fiches produits et panier (paiement pas encore branché). Réservation sur `reserver.html` avec un calendrier comme l'ancien site (places d'exemple). Six langues, la langue suit de page en page. **Tout le détail, les essais refusés et ce qui reste à valider avec le père : `clients/la-grotte-napoleon/NOTES.md`.**
   - **Mademoiselle Charlotte** (`mademoiselle-charlotte/`, **en ligne** sur https://saitora.fr/clients/mademoiselle-charlotte/) : créations brodées pour bébé, fiches produits, note de commande à coller sur sa boutique SumUp. Détail : `clients/mademoiselle-charlotte/NOTES.md`.
@@ -36,7 +40,7 @@ Le site : écran d'entrée (`index.html`), accueil (`accueil.html`), toutes les 
 ## Décisions prises
 
 - **Style du site Saitora : « abysse »**, inspiré de la fiche Refero d'Auros, avec sa palette d'origine (essayée en bleu et corail, puis remise en vert à la demande de l'utilisateur) : vert d'eau profonde `#012624`, surfaces `#003734`, texte `#EDFFFE` / `#BBC7C6`, rose `#FDE9FF` pour les chiffres, dégradé « aurore » (aqua → rose) pour le bouton principal. Police Inter Tight (poids 500 pour les titres).
-  - Fichiers communs : `abysse.css` (couleurs ; l'ancien `theme.css` a été supprimé), `abysse-fin.css` (retouches), `abysse-sphere.js` (**une seule sphère de particules pour tout le site** : même taille, mêmes points, rotation réglée sur l'horloge pour qu'elle reprenne sa position d'une page à l'autre), `abysse-fond.js` (la sphère en fond des pages, à 42 %), `abysse-transition.js` (transitions).
+  - Fichiers communs, dans `commun/` : `abysse.css` (couleurs ; l'ancien `theme.css` a été supprimé), `abysse-fin.css` (retouches), `abysse-sphere.js` (**une seule sphère de particules pour tout le site** : même taille, mêmes points, rotation réglée sur l'horloge pour qu'elle reprenne sa position d'une page à l'autre), `abysse-fond.js` (la sphère en fond des pages, à 42 %), `abysse-transition.js` (transitions).
   - `index.html` (entrée : grand logo, « Saitora » dont les moitiés arrivent des deux côtés) et `accueil.html` (titre géant qui arrive des deux côtés, chiffres, démos, méthode, compris, charte, contact) sont écrits à la main ; plus de carte des villes, de filtres de métiers ni de bloc « À propos », plus de mention « Ajaccio » ni « Corse » visible (elles restent dans les CGV, les mentions légales et la fiche invisible pour Google).
   - Transitions : entrée → accueil, on plonge au centre de la sphère et l'accueil recule depuis l'intérieur de la sienne ; entre les autres pages, la « mini-plongée ». Le changement de page se fait sur un écran uni (l'arrêt du navigateur ne se voit pas), la page suivante est préchargée dès qu'on touche le lien, elle arrive **toujours tout en haut**, et **on ne peut pas défiler pendant la transition**. Essayés puis écartés : le disque qui s'ouvre au doigt, les deux volets (« pas l'ADN du site »).
   - Lettres en contour : police `Inter Tight Contour` (`polices/inter-tight-500-contour-latin.woff2`, sans chevauchement de contours, fabriquée par `outils/police_contour.py`).

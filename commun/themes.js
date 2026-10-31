@@ -235,7 +235,7 @@
   let cssDone = false;
   const injectCss = () => { if (cssDone) return; cssDone = true; const s = document.createElement("style"); s.textContent = CSS; document.head.append(s); };
   window.Themes = {
-    async load(base = "") { const r = await fetch(base + "themes.json"); return (await r.json()).themes; },
+    async load(base = "") { const r = await fetch(base + "commun/themes.json"); return (await r.json()).themes; },
     fonts(list, base = "") {
       list.forEach(t => { const href = base + t.polices.css; if (document.querySelector(`link[data-th="${href}"]`)) return;
         const l = document.createElement("link"); l.rel = "stylesheet"; l.href = href; l.dataset.th = href; document.head.append(l); });

@@ -21,8 +21,8 @@ import json, pathlib, random, sys
 RACINE = pathlib.Path(__file__).resolve().parent.parent
 DOSSIER = RACINE / "outils" / "styles"
 CATALOGUE = json.loads((DOSSIER / "catalogue.json").read_text())
-# la famille « genre » vient de la base des thèmes (themes.json, à la racine) : elle passe en premier
-THEMES = json.loads((RACINE / "themes.json").read_text())["themes"]
+# la famille « genre » vient de la base des thèmes (commun/themes.json) : elle passe en premier
+THEMES = json.loads((RACINE / "commun" / "themes.json").read_text())["themes"]
 CATALOGUE = {"genre": [[t["id"], t["nom"], t["recette"]] for t in THEMES], "_genre": {t["id"]: t["va_avec"] for t in THEMES}, **CATALOGUE}
 REGISTRE_F = DOSSIER / "registre.json"
 POLICES = json.loads((DOSSIER / "polices.json").read_text())

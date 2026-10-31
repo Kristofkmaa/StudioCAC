@@ -113,13 +113,12 @@
   if (carteH) {
     const svg = carteH.querySelector("svg"), etapes = [...document.querySelectorAll(".etapes li")], annee = carteH.querySelector(".annee-carte");
     const segs = [...svg.querySelectorAll(".seg")], lieux = [...svg.querySelectorAll(".lieu")], boutons = [...carteH.querySelectorAll("[data-aller]")];
-    const hach = svg.querySelector("#hachures"), couronne = carteH.querySelector(".couronne-sacre");
+    const couronne = carteH.querySelector(".couronne-sacre");
     const ICI = ["ajaccio", "brienne", "paris", "ajaccio", "toulon", "arcole", "caire", "paris", "paris"];
     let vb = svg.getAttribute("viewBox").split(" ").map(Number), anim = 0, cur = -1;
     const pose = v => {
       vb = v; svg.setAttribute("viewBox", v.map(n => n.toFixed(1)).join(" "));
       const u = v[2] / (svg.clientWidth || 600); svg.style.setProperty("--u", u.toFixed(4));
-      hach.setAttribute("patternTransform", `scale(${u.toFixed(4)})`);
     };
     const place = () => { /* la couronne suit Paris à l’écran */
       const p = svg.querySelector('[data-l="paris"] .pt'), r = svg.getBoundingClientRect(), f = carteH.getBoundingClientRect(), q = p.getBoundingClientRect();
@@ -141,14 +140,28 @@
       };
       anim = requestAnimationFrame(pas);
     };
+    /* le trajet de la date se dessine pendant que la carte arrive ; un point voyage au bout du trait */
+    const voyageur = svg.querySelector(".voyageur"); let traceAnim = 0;
+    const trace = sg => {
+      cancelAnimationFrame(traceAnim); voyageur.classList.remove("part"); if (!sg) return;
+      const rev = sg.querySelector(".rev"), trait = sg.querySelector(".trait"), L = trait.getTotalLength();
+      if (calme) { rev.style.strokeDashoffset = 0; sg.classList.add("arrive"); return; }
+      const t0 = performance.now() + 500, duree = 1900;
+      const pas = now => {
+        const t = Math.max(0, Math.min(1, (now - t0) / duree)), e = t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+        rev.style.strokeDashoffset = 1 - e;
+        if (t > 0) { const q = trait.getPointAtLength(e * L); voyageur.setAttribute("cx", q.x); voyageur.setAttribute("cy", q.y); voyageur.classList.add("part"); }
+        if (t < 1) traceAnim = requestAnimationFrame(pas); else { sg.classList.add("arrive"); voyageur.classList.remove("part"); }
+      };
+      traceAnim = requestAnimationFrame(pas);
+    };
     const montre = i => {
       if (i === cur) return; cur = i;
       const li = etapes[i]; etapes.forEach(x => x.classList.toggle("actif", x === li));
       boutons.forEach(b => b.setAttribute("aria-pressed", b.dataset.aller == i));
       annee.textContent = li.querySelector("b").textContent; carteH.dataset.e = i;
-      segs.forEach(sg => { const k = +sg.dataset.e; sg.classList.toggle("en-cours", k === i); sg.classList.toggle("vu", k < i);
-        /* les trajets passés en pointillés réguliers à l’écran : sans pathLength, les pointillés se mesurent en unités de carte (--u) */
-        if (k < i) sg.removeAttribute("pathLength"); else sg.setAttribute("pathLength", "1"); });
+      segs.forEach(sg => { const k = +sg.dataset.e; sg.classList.toggle("en-cours", k === i); sg.classList.toggle("vu", k < i); sg.classList.remove("arrive"); sg.querySelector(".rev").style.strokeDashoffset = 1; });
+      trace(segs.find(sg => +sg.dataset.e === i));
       lieux.forEach(g => { g.classList.toggle("on", g.dataset.e.split(" ").includes(String(i))); g.classList.toggle("ici", g.dataset.l === ICI[i]); });
       carteH.classList.toggle("sacre", i === etapes.length - 1);
       vole(li.dataset.vue.split(" ").map(Number));

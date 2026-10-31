@@ -19,29 +19,31 @@ Site 100 % statique : pas de build, pas de dépendance, chaque page est un fichi
 | `404.html`, `robots.txt`, `sitemap.xml` | Page introuvable (servie par GitHub Pages), consignes et plan du site pour les moteurs de recherche. |
 | `charte.html` | Outil gratuit de charte graphique en six étapes : couleurs, lettres, logo (lu sur l'appareil ou dessiné sur place, avec ses activités). À la fin, une charte complète en huit chapitres : versions du logo, zone de protection, tailles minimales, interdits illustrés, codes couleurs HEX, RVB et CMJN, lettres, applications, règles. PDF, envoi par e-mail ou ajout au devis. `charte.html?exemple` montre la charte d'Ostrale, une entreprise imaginaire (rien n'est enregistré). |
 | `offres.js` | Les formules et leurs prix, lus à la fois par la page Tarifs et par le devis (qui conseille une formule d'après les réponses). Un prix se change ici. |
-| `devis.html` | Demande de devis guidée en 5 étapes (activité, besoins, style, situation, coordonnées). Envoi via Formspree si `FORM_ENDPOINT` est renseigné en haut du script de `devis.html` ; sinon (ou en cas d’échec) la messagerie du visiteur s’ouvre avec le récapitulatif pré-rempli vers contact@saitora.fr. `devis.html?style=villa-oliviers` présélectionne un style. |
+| `devis.html` | Demande de devis guidée en 5 étapes (activité, besoins, style, situation, coordonnées). Envoi via Formspree si `FORM_ENDPOINT` est renseigné en haut du script de `devis.html` ; sinon (ou en cas d’échec) la messagerie du visiteur s’ouvre avec le récapitulatif pré-rempli vers contact@saitora.fr. `devis.html?style=u-fucone` présélectionne un style. |
 | `transition.js` | Transition « chantier » : la page quittée s'efface vers le fond nuit, puis la page se construit en ~1,2 s à chaque affichage (arrivée sur le site, lien, retour/avant, rechargement) (maquette, titres h1/h2 écrits lettre par lettre, textes ligne par ligne, images du flou au net, boutons). Un clic termine l'animation. pour les liens `data-transition`. |
 | `demo-*.html` | Une démo de site vitrine par secteur. |
+| `demos.html`, `demos.js` | La page de toutes les démos (filtre par famille) et la liste des démos, partagée avec l'accueil (`UNES` : les trois montrées sur l'accueil). |
 | `media/showreel-clair.*`, `media/showreel-sombre.*` | Vidéo de présentation de la page d'accueil, une version par thème (MP4 + WebM + image d'attente). |
 | `media/apercus/` | Captures des démos affichées dans les cartes de la page d'accueil. |
 | `images/<démo>/` | Photos des démos (Pixabay, licence libre, usage commercial autorisé), en WebP, téléchargées par `outils/photos.py` (sources dans `SOURCES.txt`). |
 | `outils/video/` | Film de présentation (demande, plan, design, construction, mise en ligne) et script qui en fabrique la vidéo. |
 | `favicon.svg` | Icône de la page d'accueil (les démos ont chacune la leur, intégrée). |
 | `photos.html` | Guide pour les clients : photographier son commerce au téléphone (règles illustrées, liste des photos selon le métier, envoi). |
-| `clients/<nom>/` | Sites des clients (non indexés), chacun avec sa fiche de style `style.md`. |
+| `clients/<nom>/` | Sites des clients (non indexés), chacun avec sa fiche de style `style.md` et, pour les plus avancés, ses notes de travail `NOTES.md`. |
+| `saitorapp/`, `outils/saitorapp.py` | Saitorapp, l'appli de gestion à installer sur le téléphone du commerçant, et le script qui la fabrique (voir `saitorapp/LISEZMOI.md`). |
 | `themes.json`, `themes.js` | La base des 14 genres (couleurs, polices, recette) et leur aperçu dessiné, montrés dans le devis. |
 | `outils/tirage.py`, `outils/styles/` | Le tirage de la composition de chaque site, son catalogue, ses recettes et le registre des sites. |
 | `outils/verifier.js` | Vérifie une page : rien ne dépasse, rien ne défile sur le côté, aucune erreur ; captures ordinateur et téléphone. |
 | `outils/archives.py` | Images d'archives libres (Wikimedia Commons, Europeana) pour illustrer le monde d'un client. |
 | `outils/polices-independantes.html` | Aperçu des polices de fonderies indépendantes (`python3 outils/polices.py libre <code>`). |
-| `labo/` | Essais de design (shader, 3D, configurateur, comparatif HTML / Astro / Next.js, pièces de la communauté) ; sources dans `labo/sources/`. |
-| `ETAT.md`, `A-FAIRE.md` | Où en est le projet (à lire au début de chaque session) et la liste des choses à faire. |
+| `labo/` | Essais de design (shader, 3D, comparatif HTML / Astro / Next.js, pièces de la communauté, accueils et démos refaits) ; sources dans `labo/sources/`. |
+| `ETAT.md` | Où en est le projet, les branches, ce qui est en attente et la liste des choses à faire (à lire au début de chaque session). |
 
 ## Ajouter une démo
 
 1. Créer `demo-mon-client.html` (en partant d'une démo existante).
 2. Dans son `<head>`, adapter `<title>`, `description`, `og:*`, `theme-color` et le favicon.
-3. Ajouter une ligne dans la liste `DEMOS` en bas de `accueil.html` (nom, secteur, description, `url`, couleurs de l'aperçu).
+3. Ajouter une ligne dans la liste de `demos.js` (nom, secteur, famille, description, nom de fichier) ; l'accueil et `demos.html` la lisent tous les deux.
 4. Photos : ajouter ses recherches dans `outils/photos.py`, puis `PIXABAY_API_KEY=… python3 outils/photos.py` (vérifier chaque photo ; pour en changer, modifier la recherche ou son rang puis `python3 outils/photos.py fichier.webp`).
 5. Générer ses aperçus (`node outils/apercus.js mon-client`), puis l'ajouter au bas de page de `accueil.html`, au mur de `index.html` et de `outils/partage.html` (puis `node outils/partage.js`), aux styles de `devis.html` et à `sitemap.xml`.
 

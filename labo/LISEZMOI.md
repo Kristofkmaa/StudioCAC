@@ -10,7 +10,7 @@ sans toucher aux sites clients ni aux démos. Rien ici n'est montré aux clients
   - `three.module.js` (+ `three.core.js`) : Three.js r186, licence MIT, avec `three-addons/OrbitControls.js`. Dans la page, une « importmap » : `{"three":"../lib/three.module.js","three/addons/":"../lib/three-addons/"}`.
 - Deux règles gardées même ici : rien ne défile sur le côté, et l'essai reste lisible sur téléphone et avec « réduire les animations ».
 - Pages en `noindex` ; le dossier est exclu de `robots.txt`.
-- Un essai réussi qui servirait à un client : on le reprend dans un site, ou on note ce qu'il demanderait (Astro, React…) dans `A-FAIRE.md`.
+- Un essai réussi qui servirait à un client : on le reprend dans un site, ou on note ce qu'il demanderait (Astro, React…) dans `ETAT.md` (« À faire »).
 
 ## Les versions framework (essais 04 et 05)
 

@@ -19,7 +19,7 @@ Site 100 % statique : pas de build, pas de dépendance, chaque page est un fichi
 | `404.html`, `robots.txt`, `sitemap.xml` | Page introuvable (servie par GitHub Pages), consignes et plan du site pour les moteurs de recherche. |
 | `charte.html` | Outil gratuit de charte graphique en six étapes : couleurs, lettres, logo (lu sur l'appareil ou dessiné sur place, avec ses activités). À la fin, une charte complète en huit chapitres : versions du logo, zone de protection, tailles minimales, interdits illustrés, codes couleurs HEX, RVB et CMJN, lettres, applications, règles. PDF, envoi par e-mail ou ajout au devis. `charte.html?exemple` montre la charte d'Ostrale, une entreprise imaginaire (rien n'est enregistré). |
 | `offres.js` | Les formules et leurs prix, lus à la fois par la page Tarifs et par le devis (qui conseille une formule d'après les réponses). Un prix se change ici. |
-| `devis.html` | Demande de devis guidée en 5 étapes (activité, besoins, style, situation, coordonnées). Envoi via Formspree si `FORM_ENDPOINT` est renseigné en haut du script de `devis.html` ; sinon (ou en cas d’échec) la messagerie du visiteur s’ouvre avec le récapitulatif pré-rempli vers contact@saitora.fr. `devis.html?style=villa-oliviers` présélectionne un style. |
+| `devis.html` | Demande de devis guidée en 5 étapes (activité, besoins, style, situation, coordonnées). Envoi via Formspree si `FORM_ENDPOINT` est renseigné en haut du script de `devis.html` ; sinon (ou en cas d’échec) la messagerie du visiteur s’ouvre avec le récapitulatif pré-rempli vers contact@saitora.fr. `devis.html?style=u-fucone` présélectionne un style. |
 | `transition.js` | Transition « chantier » : la page quittée s'efface vers le fond nuit, puis la page se construit en ~1,2 s à chaque affichage (arrivée sur le site, lien, retour/avant, rechargement) (maquette, titres h1/h2 écrits lettre par lettre, textes ligne par ligne, images du flou au net, boutons). Un clic termine l'animation. pour les liens `data-transition`. |
 | `demo-*.html` | Une démo de site vitrine par secteur. |
 | `media/showreel-clair.*`, `media/showreel-sombre.*` | Vidéo de présentation de la page d'accueil, une version par thème (MP4 + WebM + image d'attente). |
@@ -34,8 +34,8 @@ Site 100 % statique : pas de build, pas de dépendance, chaque page est un fichi
 | `outils/verifier.js` | Vérifie une page : rien ne dépasse, rien ne défile sur le côté, aucune erreur ; captures ordinateur et téléphone. |
 | `outils/archives.py` | Images d'archives libres (Wikimedia Commons, Europeana) pour illustrer le monde d'un client. |
 | `outils/polices-independantes.html` | Aperçu des polices de fonderies indépendantes (`python3 outils/polices.py libre <code>`). |
-| `labo/` | Essais de design (shader, 3D, configurateur, comparatif HTML / Astro / Next.js, pièces de la communauté) ; sources dans `labo/sources/`. |
-| `ETAT.md`, `A-FAIRE.md` | Où en est le projet (à lire au début de chaque session) et la liste des choses à faire. |
+| `labo/` | Essais de design (shader, 3D, comparatif HTML / Astro / Next.js, pièces de la communauté, accueils et démos refaits) ; sources dans `labo/sources/`. |
+| `ETAT.md` | Où en est le projet, les branches, ce qui est en attente et la liste des choses à faire (à lire au début de chaque session). |
 
 ## Ajouter une démo
 

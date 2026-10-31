@@ -12,7 +12,7 @@ Le site : écran d'entrée (`index.html`), accueil (`accueil.html`), toutes les 
 
 - `claude/amazing-allen-r6m4us` : **la branche publiée** (saitora.fr) et la branche par défaut du dépôt.
 - `claude/saitora-community-components-fpr0c9` : la branche de travail. Elle a de l'avance sur la publiée : **l'accueil à trois démos et `demos.html`, `outils/saitorapp.py`, `saitorapp/LISEZMOI.md` ne sont pas encore en ligne** (en attente de l'accord de l'utilisateur). Un site client se publie seul : on copie son dossier (et `ETAT.md`) dans un arbre de la branche publiée, on envoie, puis on fusionne la branche publiée dans la branche de travail.
-- L'ancienne branche `claude/festive-ptolemy-h2752z` (démos du 23 octobre, toutes refaites depuis) a été supprimée le 31 octobre 2026 ; elle reste retrouvable par l'étiquette `archive/festive-ptolemy`.
+- L'ancienne branche `claude/festive-ptolemy-h2752z` (démos du 23 octobre, toutes refaites depuis) est à supprimer : la session n'a pas le droit de supprimer une branche ni de créer une étiquette (refus 403), l'utilisateur la supprime lui-même sur GitHub (page Branches, icône corbeille).
 
 ## Ce qui existe
 

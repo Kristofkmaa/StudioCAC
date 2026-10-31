@@ -8,7 +8,7 @@
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#161411">
 <link rel="icon" href="images/couronne.png">
-<link rel="stylesheet" href="grotte.css?v=20261031p">
+<link rel="stylesheet" href="grotte.css?v=20261031q">
 </head>
 <body data-titre="meta-formules">
 <div class="maquette" data-t="bandeau">Maquette préparée par Saitora pour La Grotte Napoléon : à valider ensemble avant la mise en ligne.</div>
@@ -54,12 +54,27 @@
     <p class="eyebrow" data-t="e-formules">Tarifs</p>
     <h1 data-t="fo-page-titre">Formules et menu</h1>
     <p class="intro" data-t="fo-page-intro"></p>
-    <nav class="sommaire" aria-label="Formules"><a href="#complete"><span data-t="f-complete">Formule complète</span><b>48&nbsp;€</b></a><a href="#decouverte"><span data-t="f-decouverte">Formule découverte</span><b>15&nbsp;€</b></a><a href="#groupes"><span data-t="fo-o3">Groupes</span><b data-t="fo-sur-devis">sur devis</b></a></nav>
+    <!-- les trois médaillons de l’accueil servent de sommaire : chacun mène à son chapitre -->
+    <div class="medaillons">
+      <div class="medaillon rise">
+        <a class="disque" href="#complete"><span class="num">I</span><span class="titre" data-t="f-complete">Formule complète</span><span class="sous" data-t="fo-c-sous">La séance et le repas corse</span><span class="filet" aria-hidden="true"></span><span class="prix"><b>48&nbsp;€</b><small data-t="fo-c-adulte">par adulte</small></span><span class="prix petit"><b>30&nbsp;€</b><small data-t="fo-c-enfant">enfant de 7 à 12 ans</small></span><span class="mini" data-t="fo-gratuit">Gratuit pour les moins de 7 ans.</span></a>
+        <a class="ghost lien" href="#complete"><span data-t="fo-detail">Voir le détail</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a>
+      </div>
+      <div class="medaillon rise" style="transition-delay:.08s">
+        <a class="disque" href="#decouverte"><span class="num">II</span><span class="titre" data-t="f-decouverte">Formule découverte</span><span class="sous" data-t="fo-d-sous">La séance et une boisson</span><span class="filet" aria-hidden="true"></span><span class="prix"><b>15&nbsp;€</b><small data-t="fo-d-prix">tarif unique, boisson comprise</small></span><span class="mini" data-t="fo-gratuit">Gratuit pour les moins de 7 ans.</span></a>
+        <a class="ghost lien" href="#decouverte"><span data-t="fo-detail">Voir le détail</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a>
+      </div>
+      <div class="medaillon rise" style="transition-delay:.16s">
+        <div class="disque"><span class="num">III</span><span class="titre trois"><span data-t="med-g1">Groupes</span><span data-t="med-g2">Partenaires</span><span data-t="med-g3">Privatisation</span></span><span class="filet" aria-hidden="true"></span><span class="contact" data-t="med-contact">Contactez-nous</span><a class="tel" href="tel:+33495280461">04 95 28 04 61</a><a class="tel" href="tel:+33677134395">06 77 13 43 95 <small data-t="fo-g-anglais">aussi en anglais</small></a></div>
+        <a class="ghost lien" href="#groupes"><span data-t="fo-detail">Voir le détail</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a>
+      </div>
+    </div>
   </section>
   <section class="page formules-page" aria-label="Formules">
     <div class="formule" id="complete">
       <div class="img"><img src="images/assiette.webp" alt="" width="1400" height="933" loading="lazy" decoding="async"></div>
       <div class="txt">
+        <span class="chapitre" aria-hidden="true">I</span>
         <h3 data-t="f-complete">Formule complète</h3>
         <p class="sous" data-t="fo-c-sous"></p>
         <p data-t="fo-c-texte"></p>
@@ -67,11 +82,13 @@
         <p class="note" data-t="fo-gratuit"></p>
         <h4 data-t="fo-heures">Séances</h4>
         <p class="heures" data-heures="complete"></p>
-        <h4 data-t="fo-menu">Le spuntinu</h4>
-        <p data-t="fo-menu-intro"></p>
-        <ul class="menu-liste"><li data-t="m1"></li><li data-t="m2"></li><li data-t="m3"></li><li data-t="m4"></li><li data-t="m5"></li><li data-t="m6"></li><li data-t="m7"></li><li data-t="m8"></li></ul>
-        <p class="note" data-t="fo-c-enfants"></p>
-        <p class="note" data-t="fo-adapte"></p>
+        <div class="carte-menu">
+          <h4 data-t="fo-menu">Le spuntinu</h4>
+          <p class="carte-intro" data-t="fo-menu-intro"></p>
+          <ul class="menu-liste"><li data-t="m1"></li><li data-t="m2"></li><li data-t="m3"></li><li data-t="m4"></li><li data-t="m5"></li><li data-t="m6"></li><li data-t="m7"></li><li data-t="m8"></li></ul>
+          <p class="carte-note" data-t="fo-c-enfants"></p>
+          <p class="carte-note" data-t="fo-adapte"></p>
+        </div>
         <a class="btn lg" href="reserver.html?formule=complete" data-reserver="complete" data-t="fo-reserver">Réserver cette formule</a>
         <p class="note" data-t="fo-alcool"></p>
       </div>
@@ -80,6 +97,7 @@
     <div class="formule" id="decouverte">
       <div class="img"><img src="images/salle-ecrans.webp" alt="" width="1100" height="1471" loading="lazy" decoding="async"></div>
       <div class="txt">
+        <span class="chapitre" aria-hidden="true">II</span>
         <h3 data-t="f-decouverte">Formule découverte</h3>
         <p class="sous" data-t="fo-d-sous"></p>
         <div class="prix"><div><b>15&nbsp;€</b><span data-t="fo-d-prix">tarif unique, boisson comprise</span></div></div>
@@ -94,6 +112,7 @@
     <div class="formule" id="groupes">
       <div class="img"><img src="images/tables.webp" alt="" width="720" height="1280" loading="lazy" decoding="async"></div>
       <div class="txt">
+        <span class="chapitre" aria-hidden="true">III</span>
         <h3 data-t="fo-o3">Groupes</h3>
         <p class="sous" data-t="fo-g-sous"></p>
         <p data-t="fo-g-texte"></p>
@@ -121,7 +140,7 @@
 </div>
 
 
-<script src="textes.js?v=20261031p"></script>
-<script src="grotte.js?v=20261031p"></script>
+<script src="textes.js?v=20261031q"></script>
+<script src="grotte.js?v=20261031q"></script>
 </body>
 </html>

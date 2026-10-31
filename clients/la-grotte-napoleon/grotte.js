@@ -107,6 +107,27 @@
   const ioR = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("on"); ioR.unobserve(e.target); } }), { rootMargin: "0px 0px -8% 0px" });
   document.querySelectorAll(".rise").forEach(el => calme ? el.classList.add("on") : ioR.observe(el));
   const vid = $("video");
+  /* la chandelle : elle suit la souris avec un peu de retard, comme une flamme qu’on déplace ; au doigt, elle suit le toucher puis s’éteint doucement */
+  if (!calme) {
+    const ch = document.createElement("div"); ch.className = "chandelle"; ch.setAttribute("aria-hidden", "true"); document.body.append(ch);
+    let x = innerWidth / 2, y = innerHeight / 2, cx = x, cy = y, tourne = false, eteint;
+    const pas = () => { cx += (x - cx) * .12; cy += (y - cy) * .12; ch.style.transform = `translate3d(${cx}px,${cy}px,0)`; tourne = Math.abs(x - cx) + Math.abs(y - cy) > .3; if (tourne) requestAnimationFrame(pas); };
+    const vers = (nx, ny, doigt) => { x = nx; y = ny; if (!ch.classList.contains("vue")) { cx = x; cy = y; } ch.classList.add("vue"); if (!tourne) { tourne = true; requestAnimationFrame(pas); } clearTimeout(eteint); if (doigt) eteint = setTimeout(() => ch.classList.remove("vue"), 1400); };
+    addEventListener("pointermove", e => vers(e.clientX, e.clientY, e.pointerType !== "mouse"), { passive: true });
+    addEventListener("pointerdown", e => { if (e.pointerType !== "mouse") vers(e.clientX, e.clientY, true); }, { passive: true });
+    addEventListener("touchmove", e => { const t = e.touches[0]; if (t) vers(t.clientX, t.clientY, true); }, { passive: true });
+    document.documentElement.addEventListener("pointerleave", () => ch.classList.remove("vue"));
+  }
+
+  /* le périple : l’étape qui passe au milieu de l’écran allume son trajet sur la carte et son année */
+  const carteH = $("carteH");
+  if (carteH) {
+    const etapes = [...document.querySelectorAll(".etapes li")], annee = carteH.querySelector(".annee");
+    const montre = li => { etapes.forEach(x => x.classList.toggle("actif", x === li)); carteH.dataset.e = li.dataset.e; annee.textContent = li.querySelector("b").textContent; };
+    montre(etapes[0]);
+    const ioE = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) montre(e.target); }), { rootMargin: matchMedia("(max-width:980px)").matches ? "-62% 0px -30% 0px" : "-45% 0px -45% 0px" });
+    etapes.forEach(li => ioE.observe(li));
+  }
   if (vid) new IntersectionObserver(([e]) => { if (calme) return; if (e.isIntersecting) vid.play().catch(() => {}); else vid.pause(); }, { threshold: .3 }).observe(vid);
 
   /* ---------- sur téléphone : une petite flèche en bas à droite qui s'ouvre sur l'essentiel (réserver, appeler, plan, panier, langue),

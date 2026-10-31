@@ -57,7 +57,7 @@ NODE_PATH=<dossier où playwright est installé>/node_modules node outils/verifi
 ```bash
 python3 outils/tirage.py <nom> --enregistrer
 ```
-- Pour une démo : mettre à jour sa carte dans `accueil.html` (couleurs, texte), refaire les aperçus (`node outils/apercus.js <nom>`), l'image de partage si besoin (`node outils/partage.js`), et son exemple dans `themes.json`.
+- Pour une démo : mettre à jour sa ligne dans `commun/demos.js` (texte, famille), refaire les aperçus (`node outils/apercus.js <nom>`), l'image de partage si besoin (`node outils/partage.js`), et son exemple dans `commun/themes.json`.
 - **L'appli du commerçant (Saitorapp)** : chaque site a la sienne, faite pour son métier (un coiffeur a l'agenda des rendez-vous, pas la vente ; une boutique a les commandes et le stock ; un gîte les séjours). `python3 outils/saitorapp.py ajoute <nom> --nom "<Nom>" --metier <boutique|institut|hebergement|restaurant|artisan|vitrine> --accent "<couleur de la charte>" --logo clients/<nom>/images/logo.png --site ../../clients/<nom>/` ; elle est dans `saitorapp/<nom>/` et s'installe sur le téléphone avec le nom et le logo du client (voir `saitorapp/LISEZMOI.md`).
 - Commit en français, push (règle de CLAUDE.md).
 - Compte rendu en français : l'adresse du site, ce qui le rend unique, ce qui est à valider avec le client, et les captures.

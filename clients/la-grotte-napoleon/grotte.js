@@ -167,12 +167,27 @@
       vole(li.dataset.vue.split(" ").map(Number));
     };
     pose(vb); montre(0);
-    const ioE = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) montre(+e.target.dataset.e); }), { rootMargin: matchMedia("(max-width:980px)").matches ? "-64% 0px -30% 0px" : "-45% 0px -45% 0px" });
-    etapes.forEach(li => ioE.observe(li));
-    /* les dates sous la carte : on descend jusqu’à l’étape, la carte suit */
-    carteH.addEventListener("click", e => { const b = e.target.closest("[data-aller]"); if (!b) return; const li = etapes[+b.dataset.aller]; montre(+b.dataset.aller);
-      const r = li.getBoundingClientRect(), mobile = matchMedia("(max-width:980px)").matches;
-      scrollTo({ top: scrollY + r.top + r.height / 2 - innerHeight * (mobile ? .67 : .5), behavior: calme ? "auto" : "smooth" }); });
+    /* la date active : celle dont le texte est le plus près du milieu de la zone de lecture
+       (le milieu de l’écran ; sur téléphone, le milieu de ce qui reste visible sous la carte) */
+    let vise = -1, viseFin = 0;
+    const lecture = () => {
+      if (vise >= 0 && performance.now() < viseFin) return;
+      vise = -1;
+      const mobile = matchMedia("(max-width:980px)").matches, bas = mobile ? carteH.getBoundingClientRect().bottom : 0;
+      const ligne = mobile ? bas + (innerHeight - bas) / 2 : innerHeight / 2;
+      let mieux = 0, ecart = Infinity;
+      etapes.forEach((li, k) => { const t = li.querySelector("b").getBoundingClientRect(), q = li.querySelector("p").getBoundingClientRect(), c = (t.top + q.bottom) / 2, d = Math.abs(c - ligne); if (d < ecart) { ecart = d; mieux = k; } });
+      montre(mieux);
+    };
+    let attente = 0;
+    addEventListener("scroll", () => { if (!attente) attente = requestAnimationFrame(() => { attente = 0; lecture(); }); }, { passive: true });
+    lecture();
+    /* les dates sous la carte : la carte va tout de suite à la date touchée, la page descend jusqu’à son texte sans passer par les autres */
+    carteH.addEventListener("click", e => { const b = e.target.closest("[data-aller]"); if (!b) return; const k = +b.dataset.aller, li = etapes[k];
+      montre(k); vise = k; viseFin = performance.now() + 1400;
+      const mobile = matchMedia("(max-width:980px)").matches, bas = mobile ? carteH.getBoundingClientRect().bottom : 0, ligne = mobile ? bas + (innerHeight - bas) / 2 : innerHeight / 2;
+      const t = li.querySelector("b").getBoundingClientRect(), q = li.querySelector("p").getBoundingClientRect();
+      scrollTo({ top: scrollY + (t.top + q.bottom) / 2 - ligne, behavior: calme ? "auto" : "smooth" }); });
     addEventListener("resize", () => { pose(vb); place(); }, { passive: true });
   }
 

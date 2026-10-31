@@ -942,9 +942,7 @@ a.disque:hover{box-shadow:none;transform:translateY(-4px);filter:drop-shadow(0 3
 .dates button:hover{background:rgba(142,42,31,.1)}
 .dates button[aria-pressed="true"]{background:#8E2A1F;color:#F6EEDC}
 .etapes{list-style:none;margin:0;padding:0}
-.etapes li{min-height:64vh;display:flex;flex-direction:column;justify-content:center;gap:10px;opacity:.28;transition:opacity .5s var(--doux);scroll-margin-top:30vh}
-.etapes li:first-child{min-height:46vh;justify-content:flex-start;padding-top:4vh}
-.etapes li:last-child{min-height:56vh}
+.etapes li{min-height:58vh;display:flex;flex-direction:column;justify-content:center;gap:10px;opacity:.22;transition:opacity .35s ease}
 .etapes li.actif{opacity:1}
 .etapes b{font-family:var(--serif);font-weight:400;font-size:clamp(3rem,2rem + 3vw,5.2rem);line-height:.9;color:var(--accent);font-variant-numeric:tabular-nums}
 .etapes .lieu-etape{font-family:var(--serif);font-style:italic;font-size:clamp(1.1rem,1rem + .4vw,1.35rem);color:var(--accent);opacity:.8}
@@ -956,7 +954,7 @@ a.disque:hover{box-shadow:none;transform:translateY(-4px);filter:drop-shadow(0 3
   .annee-carte{left:16px;bottom:54px}
   .dates{padding:5px 6px 6px;gap:1px}
   .dates button{min-height:32px;font-size:12.5px;letter-spacing:-.02em}
-  .etapes li,.etapes li:first-child,.etapes li:last-child{min-height:56svh;justify-content:center;padding-top:0;scroll-margin-top:0}
+  .etapes li{min-height:48svh;scroll-margin-top:0}
   .etapes p{max-width:none}
 }
 @media (prefers-reduced-motion:reduce){.carte-svg .seg,.carte-svg .lieu,.etapes li{transition:none}.carte-svg .lieu .halo{animation:none!important}.carte-h.sacre .couronne-sacre{animation:none;opacity:1;transform:translate(var(--cx),calc(var(--cy) - var(--lev)))}}

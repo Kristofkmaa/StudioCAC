@@ -95,15 +95,25 @@ function vue(noms, min = LARGEUR_MIN) {
   const x = Math.min(Math.max(0, cx - w / 2), W - w), y = Math.min(Math.max(0, cy - h / 2), H - h); // la vue reste dans la carte
   return [x, y, w, h].map(v => Math.round(v));
 }
-function trajet(noms) { // des arcs doux d'un lieu à l'autre
-  let s = "";
-  noms.forEach((n, i) => {
-    const [x, y] = xy(n);
-    if (!i) { s = `M${x.toFixed(1)} ${y.toFixed(1)}`; return; }
-    const [px, py] = xy(noms[i - 1]), mx = (px + x) / 2, my = (py + y) / 2, dx = x - px, dy = y - py, f = .16;
-    s += `Q${(mx - dy * f).toFixed(1)} ${(my + dx * f).toFixed(1)} ${x.toFixed(1)} ${y.toFixed(1)}`;
-  });
-  return s;
+function trajet(noms) { // une courbe souple qui passe par chaque lieu (Catmull-Rom), un simple arc s'il n'y en a que deux
+  const p = noms.map(xy), f = v => v.toFixed(1);
+  if (p.length === 2) {
+    const [[ax, ay], [bx, by]] = p, dx = bx - ax, dy = by - ay, cx = (ax + bx) / 2 - dy * .18, cy = (ay + by) / 2 + dx * .18;
+    return { d: `M${f(ax)} ${f(ay)}Q${f(cx)} ${f(cy)} ${f(bx)} ${f(by)}`, fin: [bx, by], avant: [cx, cy] };
+  }
+  let d = `M${f(p[0][0])} ${f(p[0][1])}`, avant;
+  for (let i = 0; i < p.length - 1; i++) {
+    const p0 = p[Math.max(0, i - 1)], p1 = p[i], p2 = p[i + 1], p3 = p[Math.min(p.length - 1, i + 2)];
+    const c1 = [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6], c2 = [p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6];
+    d += `C${f(c1[0])} ${f(c1[1])} ${f(c2[0])} ${f(c2[1])} ${f(p2[0])} ${f(p2[1])}`; avant = c2;
+  }
+  return { d, fin: p[p.length - 1], avant };
+}
+function seg(tr, i) { // le trajet tiré en tirets, révélé par un masque qui se trace ; une flèche à l'arrivée
+  const { d, fin, avant } = trajet(tr), ang = Math.atan2(fin[1] - avant[1], fin[0] - avant[0]) * 180 / Math.PI;
+  return `<g class="seg" data-e="${i}"><mask id="trace${i}" maskUnits="userSpaceOnUse" x="-${W}" y="-${H}" width="${W * 3}" height="${H * 3}"><path class="rev" d="${d}" pathLength="1"/></mask>`
+    + `<path class="ancien" d="${d}"/><path class="trait" d="${d}" mask="url(#trace${i})"/>`
+    + `<path class="fleche" d="M-9 -5.5L0 0L-9 5.5" style="--fx:${fin[0].toFixed(1)}px;--fy:${fin[1].toFixed(1)}px;--fa:${ang.toFixed(1)}deg"/></g>`;
 }
 const nom = n => L[n][2].startsWith("t:") ? `<text data-t="${L[n][2].slice(2)}"></text>` : `<text>${L[n][2]}</text>`;
 const lieux = Object.keys(L).map(n => {
@@ -120,11 +130,13 @@ const html = `<!-- periple: début (fait par outils/carte_periple.js) -->
       <figure class="carte-h rise" id="carteH" data-e="0">
         <svg class="carte-svg" viewBox="${v0.join(" ")}" data-plein="0 0 ${W} ${H}" role="img" aria-labelledby="carteTitre">
           <title id="carteTitre" data-t="h-carte">Carte : d’Ajaccio à Paris, 1769-1804</title>
-          <defs><pattern id="hachures" width="10" height="6" patternUnits="userSpaceOnUse"><path d="M0 3H10" stroke="#6B5634" stroke-opacity=".3" stroke-width="1"/></pattern></defs>
-          <rect class="mer-fond" x="-${W}" y="-${H}" width="${W * 3}" height="${H * 3}" fill="url(#hachures)"/>
-          <use class="cote" href="images/periple-terre.svg#terre"/><use class="cote2" href="images/periple-terre.svg#terre"/><use class="terre" href="images/periple-terre.svg#terre"/>
+          <rect class="mer-fond" x="-${W}" y="-${H}" width="${W * 3}" height="${H * 3}"/>
+          <!-- les lignes d'eau des cartes gravées : deux contours qui suivent la côte au large (un trait, puis la mer par-dessus), puis la terre -->
+          <use class="onde o2" href="images/periple-terre.svg#terre"/><use class="onde o2 mer" href="images/periple-terre.svg#terre"/>
+          <use class="onde o1" href="images/periple-terre.svg#terre"/><use class="onde o1 mer" href="images/periple-terre.svg#terre"/>
+          <use class="terre" href="images/periple-terre.svg#terre"/>
           <g class="noms">${regions}${mers}</g>
-          <g class="trajets">${TRAJETS.map((tr, i) => tr.length ? `<path class="seg" data-e="${i}" d="${trajet(tr)}" pathLength="1"/>` : "").join("")}</g>
+          <g class="trajets">${TRAJETS.map((tr, i) => tr.length ? seg(tr, i) : "").join("")}<circle class="voyageur"/></g>
           <g class="lieux">
 ${lieux}
           </g>

@@ -107,27 +107,62 @@
   const ioR = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("on"); ioR.unobserve(e.target); } }), { rootMargin: "0px 0px -8% 0px" });
   document.querySelectorAll(".rise").forEach(el => calme ? el.classList.add("on") : ioR.observe(el));
   const vid = $("video");
-  /* la chandelle : elle suit la souris avec un peu de retard, comme une flamme qu’on déplace ; au doigt, elle suit le toucher puis s’éteint doucement */
-  if (!calme) {
-    const ch = document.createElement("div"); ch.className = "chandelle"; ch.setAttribute("aria-hidden", "true"); document.body.append(ch);
-    let x = innerWidth / 2, y = innerHeight / 2, cx = x, cy = y, tourne = false, eteint;
-    const pas = () => { cx += (x - cx) * .12; cy += (y - cy) * .12; ch.style.transform = `translate3d(${cx}px,${cy}px,0)`; tourne = Math.abs(x - cx) + Math.abs(y - cy) > .3; if (tourne) requestAnimationFrame(pas); };
-    const vers = (nx, ny, doigt) => { x = nx; y = ny; if (!ch.classList.contains("vue")) { cx = x; cy = y; } ch.classList.add("vue"); if (!tourne) { tourne = true; requestAnimationFrame(pas); } clearTimeout(eteint); if (doigt) eteint = setTimeout(() => ch.classList.remove("vue"), 1400); };
-    addEventListener("pointermove", e => vers(e.clientX, e.clientY, e.pointerType !== "mouse"), { passive: true });
-    addEventListener("pointerdown", e => { if (e.pointerType !== "mouse") vers(e.clientX, e.clientY, true); }, { passive: true });
-    addEventListener("touchmove", e => { const t = e.touches[0]; if (t) vers(t.clientX, t.clientY, true); }, { passive: true });
-    document.documentElement.addEventListener("pointerleave", () => ch.classList.remove("vue"));
-  }
-
-  /* le périple : l’étape qui passe au milieu de l’écran allume son trajet sur la carte et son année */
+  /* le périple : la date qui passe au milieu de l’écran (ou touchée sous la carte) déplace la carte vers ses lieux,
+     en dézoomant quand le voyage est long ; elle trace son trajet, allume ses villes et, en 1804, pose la couronne sur Paris */
   const carteH = $("carteH");
   if (carteH) {
-    const etapes = [...document.querySelectorAll(".etapes li")], annee = carteH.querySelector(".annee");
-    const montre = li => { etapes.forEach(x => x.classList.toggle("actif", x === li)); carteH.dataset.e = li.dataset.e; annee.textContent = li.querySelector("b").textContent; };
-    montre(etapes[0]);
-    const ioE = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) montre(e.target); }), { rootMargin: matchMedia("(max-width:980px)").matches ? "-62% 0px -30% 0px" : "-45% 0px -45% 0px" });
+    const svg = carteH.querySelector("svg"), etapes = [...document.querySelectorAll(".etapes li")], annee = carteH.querySelector(".annee-carte");
+    const segs = [...svg.querySelectorAll(".seg")], lieux = [...svg.querySelectorAll(".lieu")], boutons = [...carteH.querySelectorAll("[data-aller]")];
+    const hach = svg.querySelector("#hachures"), couronne = carteH.querySelector(".couronne-sacre");
+    const ICI = ["ajaccio", "brienne", "paris", "ajaccio", "toulon", "arcole", "caire", "paris", "paris"];
+    let vb = svg.getAttribute("viewBox").split(" ").map(Number), anim = 0, cur = -1;
+    const pose = v => {
+      vb = v; svg.setAttribute("viewBox", v.map(n => n.toFixed(1)).join(" "));
+      const u = v[2] / (svg.clientWidth || 600); svg.style.setProperty("--u", u.toFixed(4));
+      hach.setAttribute("patternTransform", `scale(${u.toFixed(4)})`);
+    };
+    const place = () => { /* la couronne suit Paris à l’écran */
+      const p = svg.querySelector('[data-l="paris"] .pt'), r = svg.getBoundingClientRect(), f = carteH.getBoundingClientRect(), q = p.getBoundingClientRect();
+      const cx = (q.left + q.width / 2 - f.left) + "px", cy = (q.top + q.height / 2 - f.top) + "px";
+      couronne.style.setProperty("--cx", cx); couronne.style.setProperty("--cy", cy); carteH.style.setProperty("--cy", cy);
+    };
+    const vole = cible => {
+      cancelAnimationFrame(anim);
+      const de = vb.slice(), c0 = [de[0] + de[2] / 2, de[1] + de[3] / 2], c1 = [cible[0] + cible[2] / 2, cible[1] + cible[3] / 2];
+      if (calme) { pose(cible); place(); return; }
+      const dist = Math.hypot(c1[0] - c0[0], c1[1] - c0[1]), bosse = Math.max(0, dist * 1.3 - (de[2] + cible[2]) / 2);
+      const duree = 1500 + Math.min(900, dist / 3), t0 = performance.now();
+      const pas = now => {
+        const t = Math.min(1, (now - t0) / duree), e = t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        const w = de[2] + (cible[2] - de[2]) * e + bosse * Math.sin(Math.PI * e), h = w * cible[3] / cible[2];
+        const cx = c0[0] + (c1[0] - c0[0]) * e, cy = c0[1] + (c1[1] - c0[1]) * e;
+        pose([cx - w / 2, cy - h / 2, w, h]); place();
+        if (t < 1) anim = requestAnimationFrame(pas);
+      };
+      anim = requestAnimationFrame(pas);
+    };
+    const montre = i => {
+      if (i === cur) return; cur = i;
+      const li = etapes[i]; etapes.forEach(x => x.classList.toggle("actif", x === li));
+      boutons.forEach(b => b.setAttribute("aria-pressed", b.dataset.aller == i));
+      annee.textContent = li.querySelector("b").textContent; carteH.dataset.e = i;
+      segs.forEach(sg => { const k = +sg.dataset.e; sg.classList.toggle("en-cours", k === i); sg.classList.toggle("vu", k < i);
+        /* les trajets passés en pointillés réguliers à l’écran : sans pathLength, les pointillés se mesurent en unités de carte (--u) */
+        if (k < i) sg.removeAttribute("pathLength"); else sg.setAttribute("pathLength", "1"); });
+      lieux.forEach(g => { g.classList.toggle("on", g.dataset.e.split(" ").includes(String(i))); g.classList.toggle("ici", g.dataset.l === ICI[i]); });
+      carteH.classList.toggle("sacre", i === etapes.length - 1);
+      vole(li.dataset.vue.split(" ").map(Number));
+    };
+    pose(vb); montre(0);
+    const ioE = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) montre(+e.target.dataset.e); }), { rootMargin: matchMedia("(max-width:980px)").matches ? "-64% 0px -30% 0px" : "-45% 0px -45% 0px" });
     etapes.forEach(li => ioE.observe(li));
+    /* les dates sous la carte : on descend jusqu’à l’étape, la carte suit */
+    carteH.addEventListener("click", e => { const b = e.target.closest("[data-aller]"); if (!b) return; const li = etapes[+b.dataset.aller]; montre(+b.dataset.aller);
+      const r = li.getBoundingClientRect(), mobile = matchMedia("(max-width:980px)").matches;
+      scrollTo({ top: scrollY + r.top + r.height / 2 - innerHeight * (mobile ? .67 : .5), behavior: calme ? "auto" : "smooth" }); });
+    addEventListener("resize", () => { pose(vb); place(); }, { passive: true });
   }
+
   if (vid) new IntersectionObserver(([e]) => { if (calme) return; if (e.isIntersecting) vid.play().catch(() => {}); else vid.pause(); }, { threshold: .3 }).observe(vid);
 
   /* ---------- sur téléphone : une petite flèche en bas à droite qui s'ouvre sur l'essentiel (réserver, appeler, plan, panier, langue),

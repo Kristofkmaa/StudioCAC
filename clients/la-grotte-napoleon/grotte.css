@@ -878,48 +878,6 @@ a.disque:hover{box-shadow:none;transform:translateY(-4px);filter:drop-shadow(0 3
 .venir .actions{display:flex;flex-wrap:wrap;align-items:center;gap:14px 26px;margin-top:8px}
 @media (max-width:860px){.venir{grid-template-columns:1fr}.venir-infos>div{grid-template-columns:96px minmax(0,1fr)}}
 
-/* ---------- le périple (L’enfance d’Ajaccio) : la carte gravée reste en place, les étapes défilent à côté et allument chacune son trajet ---------- */
-.periple{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:clamp(32px,5vw,88px);margin-top:clamp(40px,5vw,64px);align-items:start}
-.carte-h{position:sticky;top:max(24px,calc(50vh - min(44vw,560px) * .43));margin:0;border-radius:6px;background:radial-gradient(120% 90% at 50% 45%,#EFE5D1 0%,#E4D6BB 70%,#D8C7A6 100%);box-shadow:0 30px 60px -30px rgba(0,0,0,.8),0 0 0 1px rgba(241,217,166,.35);overflow:hidden}
-.carte-svg{display:block;width:100%;height:auto}
-.carte-svg .cote{stroke:#E4D6BB}
-.carte-svg .filet1,.carte-svg .filet2{fill:none;stroke:#4A3A22}
-.carte-svg .filet1{stroke-width:2.4}.carte-svg .filet2{stroke-width:.9}
-.carte-svg text{font-family:var(--serif);fill:#4A3A22;paint-order:stroke;stroke:#EDE3CE;stroke-width:7px;stroke-linejoin:round}
-.carte-svg :is(.nom-mer,.nom-ile,.nom-terre){stroke:none}
-.carte-svg .nom-mer{font-size:30px;letter-spacing:.32em;font-style:italic;fill-opacity:.5}
-.carte-svg .nom-ile{font-size:34px;letter-spacing:.4em;fill-opacity:.4}
-.carte-svg .nom-terre{font-size:30px;letter-spacing:.36em;fill-opacity:.4}
-.carte-svg .annee{font-size:76px;fill:#8E2A1F;transition:opacity .3s}
-.carte-svg .lieu circle{fill:#8E2A1F}
-.carte-svg .lieu .halo{fill:none;stroke:#8E2A1F;stroke-width:2;opacity:0;transform-box:fill-box;transform-origin:center}
-.carte-svg .lieu text{font-size:30px}
-.carte-svg .lieu,.carte-svg .hors{opacity:0;transition:opacity .6s var(--doux)}
-.carte-svg .hors{font-size:26px;font-style:italic;fill:#8E2A1F}
-.carte-svg .seg{fill:none;stroke:#8E2A1F;stroke-width:3.2;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;opacity:0;transition:stroke-dashoffset 1.4s var(--doux),opacity .4s}
-.carte-svg .p-ajaccio{opacity:1}
-/* le trajet de l’étape lue se trace en entier ; ceux d’avant restent en pointillés */
-.carte-h[data-e="1"] .s1,.carte-h[data-e="2"] .s2,.carte-h[data-e="3"] .s3,.carte-h[data-e="4"] .s4{stroke-dashoffset:0;opacity:1}
-.carte-h[data-e="2"] .s1,.carte-h[data-e="3"] :is(.s1,.s2),.carte-h[data-e="4"] :is(.s1,.s2,.s3){stroke-dashoffset:0;stroke-dasharray:.008 .012;opacity:.45;transition:none}
-.carte-h:is([data-e="1"],[data-e="2"],[data-e="3"],[data-e="4"]) .h-vers,.carte-h:is([data-e="3"],[data-e="4"]) :is(.p-calvi,.p-toulon),.carte-h[data-e="4"] :is(.p-frejus,.h-egypte){opacity:1}
-.carte-h:is([data-e="0"],[data-e="2"],[data-e="4"]) .p-ajaccio .halo,.carte-h[data-e="3"] .p-toulon .halo,.carte-h[data-e="4"] .p-frejus .halo{animation:pouls 2.2s ease-out infinite}
-@keyframes pouls{0%{opacity:.9;transform:scale(.5)}100%{opacity:0;transform:scale(1.6)}}
-.etapes{list-style:none;margin:0;padding:0}
-.etapes li{min-height:62vh;display:flex;flex-direction:column;justify-content:center;gap:14px;opacity:.28;transition:opacity .5s var(--doux)}
-.etapes li:first-child{min-height:44vh;justify-content:flex-start;padding-top:4vh}
-.etapes li:last-child{min-height:50vh}
-.etapes li.actif{opacity:1}
-.etapes b{font-family:var(--serif);font-weight:400;font-size:clamp(3rem,2rem + 3vw,5.2rem);line-height:.9;color:var(--accent);font-variant-numeric:tabular-nums}
-.etapes p{margin:0;max-width:30ch;font-size:clamp(1.1rem,1rem + .5vw,1.45rem);line-height:1.45;color:var(--mist)}
-@media (max-width:980px){
-  .periple{grid-template-columns:minmax(0,1fr);gap:0}
-  .carte-h{top:10px;z-index:2}
-  .etapes li,.etapes li:first-child,.etapes li:last-child{min-height:52svh;justify-content:center;padding-top:0}
-  .etapes p{max-width:none}
-  .carte-svg .lieu text{font-size:42px}.carte-svg .hors{font-size:36px}.carte-svg .annee{font-size:96px}
-}
-@media (prefers-reduced-motion:reduce){.carte-svg .seg,.carte-svg .lieu,.carte-svg .hors,.etapes li{transition:none;animation:none!important}.carte-svg .lieu .halo{animation:none!important}}
-
 /* ---------- page Formules : les médaillons en sommaire, un grand numéro par chapitre, le spuntinu sur une carte de parchemin ---------- */
 .entete-page .medaillons{margin-top:clamp(48px,6vw,80px)}
 .formule .chapitre{font-family:var(--serif);font-weight:400;font-size:clamp(4rem,2.6rem + 4vw,7rem);line-height:.8;color:var(--accent);opacity:.9;margin-bottom:-6px}
@@ -936,9 +894,58 @@ a.disque:hover{box-shadow:none;transform:translateY(-4px);filter:drop-shadow(0 3
 .carte-menu .carte-note{margin:14px auto 0;max-width:40ch;font-size:13.5px;line-height:1.45;color:#6B5634}
 .carte-menu .carte-note+.carte-note{margin-top:4px}
 
-/* ---------- la chandelle : une lueur chaude qui suit la souris (ou le doigt) comme une bougie qu’on promène dans la grotte ---------- */
-.chandelle{position:fixed;left:0;top:0;z-index:30;width:var(--r);height:var(--r);margin:calc(var(--r) / -2) 0 0 calc(var(--r) / -2);--r:min(620px,120vw);pointer-events:none;opacity:0;transition:opacity .8s ease;mix-blend-mode:screen;will-change:transform}
-.chandelle.vue{opacity:1}
-.chandelle::before{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle,rgba(255,190,110,.26) 0%,rgba(255,160,80,.12) 28%,rgba(255,140,60,.04) 50%,transparent 70%);animation:vacille 3.1s ease-in-out infinite}
-@keyframes vacille{0%,100%{opacity:1;transform:scale(1)}18%{opacity:.86;transform:scale(.97)}31%{opacity:.97;transform:scale(1.02)}47%{opacity:.82;transform:scale(.96)}63%{opacity:1;transform:scale(1.01)}80%{opacity:.9;transform:scale(.985)}}
-@media (prefers-reduced-motion:reduce){.chandelle{display:none}}
+
+/* ---------- le périple (L’enfance d’Ajaccio) : une carte gravée de l’Europe à l’Égypte (outils/carte_periple.js) ;
+   à chaque date, la carte zoome ou dézoome vers les lieux, trace le trajet et allume les villes ; en 1804, la couronne du sacre se pose sur Paris.
+   Les tailles des traits et des noms suivent le zoom par --u (unités de carte par pixel, posée par grotte.js). ---------- */
+.periple{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:clamp(32px,5vw,88px);margin-top:clamp(40px,5vw,64px);align-items:start}
+.carte-h{position:sticky;top:max(20px,calc(50vh - min(46vw,600px) * .44));margin:0;border-radius:6px;overflow:hidden;background:#E9DECA;box-shadow:0 30px 60px -30px rgba(0,0,0,.8),0 0 0 1px rgba(241,217,166,.35)}
+.carte-h::after{content:"";position:absolute;inset:8px 8px 52px;border:2px solid rgba(74,58,34,.7);box-shadow:inset 0 0 0 5px rgba(233,222,202,.0),inset 0 0 0 6px rgba(74,58,34,.4);pointer-events:none;border-radius:2px}
+.carte-svg{display:block;width:100%;aspect-ratio:1000/760;height:auto;--u:1;background:radial-gradient(120% 90% at 50% 45%,#EFE5D1 0%,#E4D6BB 70%,#D8C7A6 100%)}
+.carte-svg .cote{fill:none;stroke:#E4D6BB;stroke-width:calc(16px * var(--u))}
+.carte-svg .cote2{fill:none;stroke:rgba(107,86,52,.22);stroke-width:calc(8px * var(--u))}
+.carte-svg .terre{fill:#F3EBDB;stroke:#4A3A22;stroke-width:calc(1.1px * var(--u));stroke-linejoin:round}
+.carte-svg text{font-family:var(--serif);fill:#3E301B}
+.carte-svg .region{font-size:calc(22px * min(var(--u), 2.2));letter-spacing:.4em;fill-opacity:.38;text-anchor:middle}
+.carte-svg .mer{font-size:calc(19px * min(var(--u), 2.6));letter-spacing:.34em;font-style:italic;fill-opacity:.45;text-anchor:middle}
+.carte-svg .seg{fill:none;stroke:#8E2A1F;stroke-width:calc(2.6px * var(--u));stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;opacity:0;transition:stroke-dashoffset 1.6s var(--doux) .5s,opacity .3s}
+.carte-svg .seg.en-cours{stroke-dashoffset:0;opacity:1}
+.carte-svg .seg.vu{stroke-dashoffset:0;stroke-dasharray:calc(2px * var(--u)) calc(5px * var(--u));opacity:.45;transition:opacity .3s}
+.carte-svg .lieu{opacity:0;transition:opacity .5s var(--doux)}
+.carte-svg .lieu.on{opacity:1}
+.carte-svg .lieu .pt{fill:#8E2A1F;r:calc(4.5px * var(--u))}
+.carte-svg .lieu .halo{fill:none;stroke:#8E2A1F;stroke-width:calc(1.5px * var(--u));r:calc(11px * var(--u));opacity:0;transform-box:fill-box;transform-origin:center}
+.carte-svg .lieu.ici .halo{animation:pouls 2.2s ease-out infinite}
+.carte-svg .lieu text{font-size:calc(17px * var(--u));paint-order:stroke;stroke:#EDE3CE;stroke-width:calc(5px * var(--u));stroke-linejoin:round;transform:translate(calc(var(--x) * 1px + var(--ox) * 14px * var(--u)),calc(var(--y) * 1px + var(--oy) * 14px * var(--u)))}
+@keyframes pouls{0%{opacity:.9;transform:scale(.4)}100%{opacity:0;transform:scale(1.7)}}
+.annee-carte{position:absolute;left:24px;bottom:62px;margin:0;font-family:var(--serif);font-size:clamp(2.6rem,1.8rem + 2.4vw,4.4rem);line-height:1;color:#8E2A1F;text-shadow:0 0 12px #EFE5D1,0 0 3px #EFE5D1;pointer-events:none}
+.couronne-sacre{--lev:calc(clamp(90px,13vw,170px) * .652 + 18px);position:absolute;left:0;top:0;width:clamp(90px,13vw,170px);height:auto;margin-left:calc(clamp(90px,13vw,170px) / -2);pointer-events:none;opacity:0;transform:translate(var(--cx,50%),calc(var(--cy,0px) - 260px)) rotate(-8deg);filter:drop-shadow(0 6px 10px rgba(60,40,10,.35))}
+.carte-h.sacre .seg.vu{opacity:0}
+.sacre-titre{position:absolute;left:0;right:0;top:calc(var(--cy,50%) + 22px);margin:0;text-align:center;font-family:var(--serif);font-size:clamp(1.05rem,.8rem + 1vw,1.6rem);color:#8E2A1F;text-shadow:0 0 10px #EFE5D1,0 0 3px #EFE5D1;opacity:0;transform:translateY(8px);pointer-events:none;transition:opacity .3s,transform .3s}
+.carte-h.sacre .sacre-titre{opacity:1;transform:none;transition:opacity 1s var(--doux) 2.6s,transform 1s var(--doux) 2.6s}
+.carte-h.sacre .couronne-sacre{animation:sacre 2.2s var(--doux) .9s forwards}
+@keyframes sacre{0%{opacity:0;transform:translate(var(--cx),calc(var(--cy) - 260px)) rotate(-8deg)}35%{opacity:1}70%{transform:translate(var(--cx),calc(var(--cy) - var(--lev) - 8px)) rotate(3deg)}85%{transform:translate(var(--cx),calc(var(--cy) - var(--lev) + 4px)) rotate(-1deg)}100%{opacity:1;transform:translate(var(--cx),calc(var(--cy) - var(--lev))) rotate(0)}}
+.dates{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:2px;padding:6px 8px 8px;background:#E2D3B6;border-top:1px solid rgba(74,58,34,.35)}
+.dates button{min-height:36px;border-radius:4px;font:400 15px/1 var(--serif);color:#5A4628;font-variant-numeric:tabular-nums;transition:background-color .2s,color .2s}
+.dates button:hover{background:rgba(142,42,31,.1)}
+.dates button[aria-pressed="true"]{background:#8E2A1F;color:#F6EEDC}
+.etapes{list-style:none;margin:0;padding:0}
+.etapes li{min-height:64vh;display:flex;flex-direction:column;justify-content:center;gap:10px;opacity:.28;transition:opacity .5s var(--doux);scroll-margin-top:30vh}
+.etapes li:first-child{min-height:46vh;justify-content:flex-start;padding-top:4vh}
+.etapes li:last-child{min-height:56vh}
+.etapes li.actif{opacity:1}
+.etapes b{font-family:var(--serif);font-weight:400;font-size:clamp(3rem,2rem + 3vw,5.2rem);line-height:.9;color:var(--accent);font-variant-numeric:tabular-nums}
+.etapes .lieu-etape{font-family:var(--serif);font-style:italic;font-size:clamp(1.1rem,1rem + .4vw,1.35rem);color:var(--accent);opacity:.8}
+.etapes p{margin:0;max-width:32ch;font-size:clamp(1.05rem,1rem + .45vw,1.4rem);line-height:1.45;color:var(--mist)}
+@media (max-width:980px){
+  .periple{grid-template-columns:minmax(0,1fr);gap:0}
+  .carte-h{top:8px;z-index:2}
+  .carte-h::after{inset:6px 6px 46px}
+  .annee-carte{left:16px;bottom:54px}
+  .dates{padding:5px 6px 6px;gap:1px}
+  .dates button{min-height:32px;font-size:12.5px;letter-spacing:-.02em}
+  .etapes li,.etapes li:first-child,.etapes li:last-child{min-height:56svh;justify-content:center;padding-top:0;scroll-margin-top:0}
+  .etapes p{max-width:none}
+}
+@media (prefers-reduced-motion:reduce){.carte-svg .seg,.carte-svg .lieu,.etapes li{transition:none}.carte-svg .lieu .halo{animation:none!important}.carte-h.sacre .couronne-sacre{animation:none;opacity:1;transform:translate(var(--cx),calc(var(--cy) - var(--lev)))}}
+@media (max-width:860px){.trio{width:auto;margin:0 7%}}

@@ -64,6 +64,7 @@ Le site : écran d'entrée (`index.html`), accueil (`accueil.html`), tarifs, dev
 - **Charte** (`charte.html`) : elle garde en mémoire les réponses d'un ancien essai (localStorage). Correction proposée, pas encore demandée.
 - **Labo 03** : refaire ou abandonner (voir plus haut).
 - **Labo 08** : demandé par l'utilisateur, en pause (voir plus haut).
+- **Grotte Napoléon, réservations réelles** : le père de l’utilisateur a un système relié à Booking. Booking n’a pas de module pour les sites ; il faut passer par son gestionnaire de réservations (Bókun, Regiondo, FareHarbor, Rezdy…) qui synchronise les places partout. L’utilisateur se renseigne sur l’outil utilisé ; ensuite brancher le calendrier de `reserver.html` dessus (places en direct, réservations envoyées à l’outil ; le paiement des séances passera peut-être par lui, Stripe resterait pour la boutique). `napoleon1769.corsica` est bloqué par le réseau de la session.
 - **Refero** (`styles.refero.design`) est bloqué par le réseau : l'utilisateur colle les fiches dans la discussion.
 - **Idées de thème pour le site de Saitora** proposées : la rue commerçante (devantures dessinées en SVG, la préférée), l'atelier d'imprimeur, le plan d'architecte, la chambre noire (ORYZO + la Corse en 3D).
 

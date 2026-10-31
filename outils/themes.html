@@ -42,12 +42,12 @@ details pre{margin-top:8px;white-space:pre-wrap;font-size:12.5px;background:#F1E
 <div class="page">
   <header>
     <h1>Les thèmes</h1>
-    <p>La base des thèmes de Saitora, <code>themes.json</code> à la racine du site. Le devis la montre au client pour qu'il choisisse un style, et <code>outils/tirage.py</code> y prend le genre de chaque nouveau site et ce qui va avec lui.</p>
+    <p>La base des thèmes de Saitora, <code>commun/themes.json</code>. Le devis la montre au client pour qu'il choisisse un style, et <code>outils/tirage.py</code> y prend le genre de chaque nouveau site et ce qui va avec lui.</p>
     <nav class="jump" id="jump" aria-label="Aller à un thème"></nav>
   </header>
   <main id="list"></main>
 </div>
-<script src="../themes.js"></script>
+<script src="../commun/themes.js"></script>
 <script>
 const esc = s => String(s).replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[m]);
 Themes.load("../").then(list => {

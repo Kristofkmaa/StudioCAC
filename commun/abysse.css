@@ -2,13 +2,13 @@
    Un seul thème, sombre : vert d'eau profonde, trois niveaux de surface sans ombre, rose pour les chiffres,
    le dégradé « aurore » pour l'action principale. Les noms des variables sont ceux de theme.css, pour que
    toutes les pages existantes prennent ces couleurs sans être réécrites. */
-@font-face{font-family:"Inter Tight";font-weight:400;font-display:swap;src:url(polices/inter-tight-400-normal-latin.woff2) format("woff2")}
-@font-face{font-family:"Inter Tight";font-weight:500;font-display:swap;src:url(polices/inter-tight-500-normal-latin.woff2) format("woff2")}
+@font-face{font-family:"Inter Tight";font-weight:400;font-display:swap;src:url(../polices/inter-tight-400-normal-latin.woff2) format("woff2")}
+@font-face{font-family:"Inter Tight";font-weight:500;font-display:swap;src:url(../polices/inter-tight-500-normal-latin.woff2) format("woff2")}
 /* Inter Tight 500 sans chevauchement de contours, pour les lettres en contour seul (-webkit-text-stroke) :
    dans la police d'origine, la barre du « t » ou du « e » passe par-dessus le reste de la lettre et le trait se voit.
    Fabriquée par outils/police_contour.py. */
-@font-face{font-family:"Inter Tight Contour";font-weight:500;font-display:swap;src:url(polices/inter-tight-500-contour-latin.woff2) format("woff2")}
-@font-face{font-family:"Inter Tight";font-weight:600;font-display:swap;src:url(polices/inter-tight-600-normal-latin.woff2) format("woff2")}
+@font-face{font-family:"Inter Tight Contour";font-weight:500;font-display:swap;src:url(../polices/inter-tight-500-contour-latin.woff2) format("woff2")}
+@font-face{font-family:"Inter Tight";font-weight:600;font-display:swap;src:url(../polices/inter-tight-600-normal-latin.woff2) format("woff2")}
 :root,:root[data-theme="light"],:root[data-theme="dark"]{
   --abyss:#012624; --deep:#011D1C; --kelp:#003734; --kelp-hi:#04443F; --mist:#EDFFFE; --silver:#BBC7C6; --slate:#707777; --phosphor:#FDE9FF;
   --aurora:linear-gradient(90deg,#CBFFFC 0%,#EDFFFE 26%,#FFFDFA 48%,#FAD1FF 89%);

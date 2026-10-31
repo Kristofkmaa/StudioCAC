@@ -20,7 +20,7 @@
 <meta name="theme-color" content="#012624">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="polices/jost-archivo-narrow-90ef28.css">
-<link rel="stylesheet" href="abysse.css?v=3">
+<link rel="stylesheet" href="commun/abysse.css?v=3">
 <style>
 /* Tarifs Saitora. Même univers que l'accueil : blanc ou noir modernes, point orchidée, Jost.
    Les formules se lisent comme un tableau comparatif (pas trois cartes identiques), la formule conseillée
@@ -158,12 +158,12 @@ a{color:inherit}
 @media (pointer:coarse){.brand{padding-block:9px;margin-block:-9px}.theme-toggle{width:44px;height:44px}}
 @media (prefers-reduced-motion:reduce){.row .fill{transition:none}}
 </style>
-<link rel="stylesheet" href="abysse-fin.css?v=3">
+<link rel="stylesheet" href="commun/abysse-fin.css?v=3">
 </head>
 <body>
-<script src="abysse-sphere.js?v=3"></script>
-<script src="abysse-transition.js?v=4"></script>
-<script src="abysse-fond.js?v=3"></script>
+<script src="commun/abysse-sphere.js?v=3"></script>
+<script src="commun/abysse-transition.js?v=4"></script>
+<script src="commun/abysse-fond.js?v=3"></script>
 
 <header class="bar">
   <div class="page">
@@ -300,7 +300,7 @@ a{color:inherit}
   </section>
 </main>
 
-<script src="offres.js?v=5"></script>
+<script src="commun/offres.js?v=5"></script>
 <script>
 // les prix viennent de offres.js (une seule source avec le devis)
 document.querySelectorAll("[data-o]").forEach(el => { const [k, f] = el.dataset.o.split("."), v = OFFRES[k][f]; el.textContent = el.dataset.unit ? `${v} ${el.dataset.unit}` : eur(v); });

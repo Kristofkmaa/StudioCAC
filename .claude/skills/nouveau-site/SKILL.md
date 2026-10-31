@@ -20,7 +20,7 @@ Tout ce qui a été appris depuis le début, dans l'ordre où on s'en sert. Chaq
 ```bash
 python3 outils/tirage.py <nom> --charte <style des titres de la charte> --exclure preuves=citations   # pas d'avis réels
 ```
-- Le **genre** (thème) passe en premier et décide de tout : il vient de `themes.json`. Si le client a choisi un style dans le devis, `--imposer genre=<id>`. S'il demande une ressemblance : `--comme <site> --garder …`. Pour refaire un site : `--refaire`.
+- Le **genre** (thème) passe en premier et décide de tout : il vient de `commun/themes.json`. Si le client a choisi un style dans le devis, `--imposer genre=<id>`. S'il demande une ressemblance : `--comme <site> --garder …`. Pour refaire un site : `--refaire`.
 - Imposer l'**idée originale** (`signature=`) quand une s'impose pour le métier (créneaux pour un institut, zone pour un dépanneur…), et `photos=naturelles` pour la nourriture.
 - Suivre la fiche `clients/<nom>/style.md`, le code des options est dans `outils/styles/recettes.md`.
 

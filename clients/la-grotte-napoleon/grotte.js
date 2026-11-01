@@ -392,7 +392,7 @@
         <p class="billet-tete"><img src="images/couronne.png" alt="" width="312" height="276"><span>${t("pa-recap")}</span></p>
         <dl class="bon">${lignes.map(l => `<div><dt>${esc(l.p.nom)}${l.q > 1 ? ` × ${l.q}` : ""}</dt><dd>${euros(l.p.prix * l.q)}</dd></div>`).join("")}
           <div><dt>${t("pa-livraison")}</dt><dd>${commande.mode === "retrait" ? t("pa-gratuit") : t("pa-a-confirmer")}</dd></div></dl>
-        <div class="pied-panneau"><div class="total"><small>${t("pa-total")} · ${n} ${t("pa-articles")}</small><b>${euros(sous)}</b></div><button type="button" class="btn" id="payer">${t("pa-payer")}</button></div>
+        <div class="pied-panneau"><div class="total"><small>${t("pa-total")} · ${n} ${t(n > 1 ? "pa-articles" : "pa-article")}</small><b>${euros(sous)}</b></div><button type="button" class="btn" id="payer">${t("pa-payer")}</button></div>
         <p class="note-papier">${t("pa-cgv")} <a href="cgv.html">${t("r-cgv-lien")}</a>. ${t("pa-securise")}.</p>
       </div></aside></div>`;
   }

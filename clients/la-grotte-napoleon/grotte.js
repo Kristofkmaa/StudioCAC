@@ -448,48 +448,70 @@
     const c = $("rCorps");
     if (etat.fait) {
       const r = etat.fait;
-      c.innerHTML = `<p class="ok-titre">${t("r-ok")}</p><p style="color:var(--gris);margin:0">${t("r-ok-texte")}</p>
-        <div class="billet"><div class="tete-billet"><img src="images/logo-blanc.png" alt="La Grotte Napoléon" width="898" height="383"><span>${t("r-billet")}</span></div>
-        <dl><dt>${t("r-formule")}</dt><dd>${t(r.formule === "complete" ? "f-complete" : "f-decouverte")}</dd><dt>${t("r-jour")}</dt><dd>${jourLong(new Date(r.jour + "T00:00"))}</dd><dt>${t("r-heure")}</dt><dd>${heure(r.heure)}</dd><dt>${t("r-personnes")}</dt><dd>${r.n}</dd><dt>${t("r-langue")}</dt><dd>${T[r.langue]["nom-langue"]}</dd><dt>${t("r-total")}</dt><dd>${euros(r.total)} · ${t(r.paiement === "enligne" ? "r-billet-place" : "r-billet-sur")}</dd><dt>${t("r-nom")}</dt><dd>${esc(r.nom)}</dd></dl></div>
-        <p class="note-maquette">${t("r-ok-maquette")}</p>`;
-      $("rPied").innerHTML = `<button type="button" class="btn creux" style="flex:1" id="rFin">${t("r-fermer")}</button>`;
-      $("rFin").onclick = () => { location.href = "./"; }; return;
+      /* la réservation faite : le même billet sur parchemin, complet */
+      c.innerHTML = `<div class="resa-ok"><h2 class="ok-titre">${t("r-ok")}</h2><p class="ok-texte">${t("r-ok-texte")}</p>
+        <div class="papier billet-final"><p class="billet-tete"><img src="images/couronne.png" alt="" width="312" height="276"><span>${t("r-votre-billet")}</span></p>
+        <dl><div><dt>${t("r-nom")}</dt><dd>${esc(r.nom)}</dd></div><div><dt>${t("r-formule")}</dt><dd>${t(r.formule === "complete" ? "f-complete" : "f-decouverte")}</dd></div><div><dt>${t("r-jour")}</dt><dd>${jourLong(new Date(r.jour + "T00:00"))}</dd></div><div><dt>${t("r-heure")}</dt><dd>${heure(r.heure)}</dd></div><div><dt>${t("r-personnes")}</dt><dd>${r.n}</dd></div><div><dt>${t("r-langue")}</dt><dd>${drapeau(r.langue)} ${T[r.langue]["nom-langue"]}</dd></div></dl>
+        <div class="pied-panneau"><div class="total"><small>${t(r.paiement === "enligne" ? "r-billet-place" : "r-billet-sur")}</small><b>${euros(r.total)}</b></div></div></div>
+        <p class="note-maquette">${t("r-ok-maquette")}</p></div>`;
+      $("rPied").innerHTML = ""; $("rBarre").innerHTML = ""; panneau.closest(".resa").classList.add("faite");
+      c.insertAdjacentHTML("beforeend", `<button type="button" class="btn creux" id="rFin">${t("r-fermer")}</button>`);
+      $("rFin").onclick = () => { location.href = "./?lang=" + L; }; return;
     }
     const [an, mo] = etat.mois.split("-").map(Number), prem = new Date(an, mo - 1, 1), nbJ = new Date(an, mo, 0).getDate(), decal = (prem.getDay() + 6) % 7, a = auj();
     const moisMin = iso(a).slice(0, 7), hs = HEURES[etat.formule];
     const reste = etat.heure != null ? libres(etat.jour, etat.heure) : null;
+    const radio = '<i class="rond-choix" aria-hidden="true"></i>';
     c.innerHTML = `
-      <p class="champ-titre">${t("r-formule")}</p>
-      <div class="choix2" id="rFormule">${["complete", "decouverte"].map(f => `<button type="button" data-f="${f}" aria-pressed="${f === etat.formule}"><b>${t(f === "complete" ? "fo-o1" : "fo-o2")}</b><span>${f === "complete" ? `${euros(48)} · ${euros(30)}` : euros(15)}</span></button>`).join("")}</div>
-      <p class="champ-titre">${t("r-jour")}</p>
-      <p class="cal-horaires">${t("r-horaires")} ${hs.map(heure).join(" · ")}</p>
-      <div class="calendrier">
-        <div class="mois-nav"><button type="button" id="rMoisAv" aria-label="${t("r-mois-prec")}" ${etat.mois <= moisMin ? "disabled" : ""}><svg width="9" height="16" viewBox="0 0 9 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 1L1 8l7 7"/></svg></button><p>${moisAn(prem)}</p><button type="button" id="rMoisAp" aria-label="${t("r-mois-suiv")}"><svg width="9" height="16" viewBox="0 0 9 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M1 1l7 7-7 7"/></svg></button></div>
-        <div class="jours-noms" aria-hidden="true">${[0, 1, 2, 3, 4, 5, 6].map(i => `<span>${jourCourt(i)}</span>`).join("")}</div>
-        <div class="jours-grille" id="rJours">${[...Array(decal)].map((_, i) => `<span>${new Date(an, mo - 1, i - decal + 1).getDate()}</span>`).join("")}${[...Array(nbJ)].map((_, i) => { const d = new Date(an, mo - 1, i + 1), j = iso(d), fini = hs.every(h => passee(j, h)); return `<button type="button" data-j="${j}" aria-pressed="${j === etat.jour}" class="${j === iso(a) ? "auj" : ""}" ${fini ? "disabled" : ""} aria-label="${jourLong(d)}">${i + 1}</button>`; }).join("")}${[...Array((7 - (decal + nbJ) % 7) % 7)].map((_, i) => `<span>${i + 1}</span>`).join("")}</div>
-      </div>
-      ${etat.jour ? `<p class="champ-titre">${t("r-heure")} · <span style="color:var(--gris);letter-spacing:.04em;text-transform:none">${jourLong(new Date(etat.jour + "T00:00"))}</span></p>
-      <div class="heures-choix" id="rHeures">${hs.map(h => { const n = libres(etat.jour, h), p = passee(etat.jour, h); return `<button type="button" data-h="${h}" aria-pressed="${h === etat.heure}" ${n && !p ? "" : "disabled"}><b>${heure(h)}</b><span>${p ? "–" : n ? (n === 1 ? t("sea-place") : t("sea-places", n)) : t("sea-complet")}</span></button>`; }).join("")}</div>` : `<p class="cal-invite">${t("r-choisir-date")}</p>`}
-      <p class="champ-titre">${t("r-personnes")}</p>
-      ${compteur("adultes", etat.formule === "complete" ? t("r-adultes") : t("r-personnes"), euros(etat.formule === "complete" ? 48 : 15))}
-      ${etat.formule === "complete" ? compteur("enfants", t("r-enfants"), euros(30)) : ""}
-      ${compteur("petits", t("r-petits"), t("r-gratuit"))}
-      ${reste != null ? `<p class="reste ${nbPers() > reste ? "alerte" : ""}">${nbPers() > reste ? t("r-trop", reste) : t("r-reste", reste)}</p>` : ""}
-      <label class="champ"><span class="champ-titre" style="display:block;margin:26px 0 10px">${t("r-langue")}</span><select id="rLangue">${LANGUES.map(x => `<option value="${x}" ${x === etat.langueFilm ? "selected" : ""}>${T[x]["nom-langue"]}</option>`).join("")}</select></label>
-      <p class="champ-titre">${t("r-paiement")}</p>
-      <div class="paiement" id="rPaiement">${["enligne", "surplace"].map(p => `<button type="button" data-p="${p}" aria-pressed="${p === etat.paiement}"><i></i><span>${t("r-" + p)}</span></button>`).join("")}</div>
-      ${etat.paiement === "enligne" ? `<p class="paiement-note">${t("r-stripe")}</p>` : ""}
-      <p class="champ-titre">${t("r-vous")}</p>
-      <label class="champ"><span>${t("r-nom")}</span><input id="rNom" autocomplete="name" value="${esc(etat.nom)}"></label>
-      <label class="champ"><span>${t("r-tel")}</span><input id="rTel" type="tel" inputmode="tel" autocomplete="tel" value="${esc(etat.tel)}"></label>
-      <label class="champ"><span>${t("r-email")}</span><input id="rEmail" type="email" inputmode="email" autocomplete="email" value="${esc(etat.email)}"></label>
-      <label class="champ"><span>${t("r-note")}</span><textarea id="rNote">${esc(etat.note)}</textarea></label>
-      <p class="paiement-note">${t("r-cgv")} <a href="cgv.html" target="_blank" style="color:var(--or-clair)">${t("r-cgv-lien")}</a>.</p>
-      <p class="erreur" id="rErreur" role="alert"></p>`;
-    $("rPied").innerHTML = `<div class="total"><small>${t("r-total")}</small><b id="rTotal">${euros(total())}</b></div><button type="button" class="btn" id="rValider">${t(etat.paiement === "enligne" ? "r-payer" : "r-valider")}</button>`;
-    $("rValider").onclick = valider;
+      <section class="chap"><header class="chap-tete"><span class="chap-num">I</span><h2>${t("r-ch-1")}</h2></header>
+        <div class="options" id="rFormule">${["complete", "decouverte"].map(f => `<button type="button" data-f="${f}" aria-pressed="${f === etat.formule}">${radio}<span class="opt-txt"><b>${t(f === "complete" ? "f-complete" : "f-decouverte")}</b><small>${t(f === "complete" ? "fo-c-sous" : "fo-d-sous")}</small></span><span class="opt-prix">${f === "complete" ? `${euros(48)}<small>${euros(30)} ${t("r-n-enfants")}</small>` : euros(15)}</span></button>`).join("")}</div>
+      </section>
+      <section class="chap"><header class="chap-tete"><span class="chap-num">II</span><h2>${t("r-ch-2")}</h2></header>
+        <p class="cal-horaires">${t("r-horaires")} ${hs.map(heure).join(" · ")}</p>
+        <div class="calendrier">
+          <div class="mois-nav"><button type="button" id="rMoisAv" aria-label="${t("r-mois-prec")}" ${etat.mois <= moisMin ? "disabled" : ""}><svg width="9" height="16" viewBox="0 0 9 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 1L1 8l7 7"/></svg></button><p>${moisAn(prem)}</p><button type="button" id="rMoisAp" aria-label="${t("r-mois-suiv")}"><svg width="9" height="16" viewBox="0 0 9 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M1 1l7 7-7 7"/></svg></button></div>
+          <div class="jours-noms" aria-hidden="true">${[0, 1, 2, 3, 4, 5, 6].map(i => `<span>${jourCourt(i)}</span>`).join("")}</div>
+          <div class="jours-grille" id="rJours">${[...Array(decal)].map((_, i) => `<span>${new Date(an, mo - 1, i - decal + 1).getDate()}</span>`).join("")}${[...Array(nbJ)].map((_, i) => { const d = new Date(an, mo - 1, i + 1), j = iso(d), fini = hs.every(h => passee(j, h)); return `<button type="button" data-j="${j}" aria-pressed="${j === etat.jour}" class="${j === iso(a) ? "auj" : ""}" ${fini ? "disabled" : ""} aria-label="${jourLong(d)}">${i + 1}</button>`; }).join("")}${[...Array((7 - (decal + nbJ) % 7) % 7)].map((_, i) => `<span>${i + 1}</span>`).join("")}</div>
+        </div>
+        ${etat.jour ? `<p class="sous-titre">${jourLong(new Date(etat.jour + "T00:00"))}</p>
+        <div class="heures-choix" id="rHeures">${hs.map(h => { const n = libres(etat.jour, h), p = passee(etat.jour, h); return `<button type="button" data-h="${h}" aria-pressed="${h === etat.heure}" ${n && !p ? "" : "disabled"}><b>${heure(h)}</b><span>${p ? "–" : n ? (n === 1 ? t("sea-place") : t("sea-places", n)) : t("sea-complet")}</span></button>`; }).join("")}</div>` : `<p class="cal-invite">${t("r-choisir-date")}</p>`}
+      </section>
+      <section class="chap"><header class="chap-tete"><span class="chap-num">III</span><h2>${t("r-ch-3")}</h2></header>
+        ${compteur("adultes", etat.formule === "complete" ? t("r-adultes") : t("r-personnes"), euros(etat.formule === "complete" ? 48 : 15))}
+        ${etat.formule === "complete" ? compteur("enfants", t("r-enfants"), euros(30)) : ""}
+        ${compteur("petits", t("r-petits"), t("r-gratuit"))}
+        ${reste != null ? `<p class="reste ${nbPers() > reste ? "alerte" : ""}">${nbPers() > reste ? t("r-trop", reste) : t("r-reste", reste)}</p>` : ""}
+        <p class="sous-titre">${t("r-langue")}</p>
+        <div class="langues-film" role="group" aria-label="${t("r-langue")}">${LANGUES.map(x => `<button type="button" data-lf="${x}" aria-pressed="${x === etat.langueFilm}">${drapeau(x)}<span>${T[x]["nom-langue"]}</span></button>`).join("")}</div>
+      </section>
+      <section class="chap"><header class="chap-tete"><span class="chap-num">IV</span><h2>${t("r-ch-4")}</h2></header>
+        <div class="champs-ligne">
+          <label class="champ large"><span>${t("r-nom")}</span><input id="rNom" autocomplete="name" value="${esc(etat.nom)}"></label>
+          <label class="champ"><span>${t("r-tel")}</span><input id="rTel" type="tel" inputmode="tel" autocomplete="tel" value="${esc(etat.tel)}"></label>
+          <label class="champ"><span>${t("r-email")}</span><input id="rEmail" type="email" inputmode="email" autocomplete="email" value="${esc(etat.email)}"></label>
+          <label class="champ large"><span>${t("r-note")}</span><textarea id="rNote" rows="2">${esc(etat.note)}</textarea></label>
+        </div>
+        <p class="sous-titre">${t("r-paiement")}</p>
+        <div class="options petites" id="rPaiement">${["enligne", "surplace"].map(p => `<button type="button" data-p="${p}" aria-pressed="${p === etat.paiement}">${radio}<span class="opt-txt"><b>${t("r-" + p)}</b></span></button>`).join("")}</div>
+        ${etat.paiement === "enligne" ? `<p class="paiement-note">${t("r-stripe")}</p>` : ""}
+        <p class="paiement-note">${t("r-cgv")} <a href="cgv.html" target="_blank">${t("r-cgv-lien")}</a>.</p>
+        <p class="erreur" id="rErreur" role="alert"></p>
+      </section>`;
+    dessineBillet();
     ["rNom", "rTel", "rEmail", "rNote"].forEach(id => $(id).addEventListener("input", e => { etat[{ rNom: "nom", rTel: "tel", rEmail: "email", rNote: "note" }[id]] = e.target.value; }));
-    $("rLangue").onchange = e => etat.langueFilm = e.target.value;
+  }
+  /* le billet sur parchemin, à côté : ce qui est choisi s’y écrit à mesure ; le total et le bouton en bas (et dans la barre du bas sur téléphone) */
+  function dessineBillet() {
+    const vide = `<em>${t("r-a-choisir")}</em>`, pers = [etat.adultes && `${etat.adultes} ${t(etat.formule === "complete" ? "r-n-adultes" : "r-personnes").toLowerCase()}`, etat.enfants && `${etat.enfants} ${t("r-n-enfants")}`, etat.petits && `${etat.petits} ${t("r-n-petits")}`].filter(Boolean).join(", ");
+    $("rBillet").innerHTML = `<div><dt>${t("r-formule")}</dt><dd>${t(etat.formule === "complete" ? "f-complete" : "f-decouverte")}</dd></div>
+      <div><dt>${t("r-jour")}</dt><dd>${etat.jour ? jourLong(new Date(etat.jour + "T00:00")) : vide}</dd></div>
+      <div><dt>${t("r-heure")}</dt><dd>${etat.heure != null ? heure(etat.heure) : vide}</dd></div>
+      <div><dt>${t("r-personnes")}</dt><dd>${pers || vide}</dd></div>
+      <div><dt>${t("r-langue")}</dt><dd>${drapeau(etat.langueFilm)} ${T[etat.langueFilm]["nom-langue"]}</dd></div>`;
+    const bouton = id => `<button type="button" class="btn" id="${id}">${t(etat.paiement === "enligne" ? "r-payer" : "r-valider")}</button>`;
+    $("rPied").innerHTML = `<div class="total"><small>${t("r-total")}</small><b id="rTotal">${euros(total())}</b></div>${bouton("rValider")}`;
+    $("rBarre").innerHTML = `<div class="total"><small>${t("r-total")}</small><b>${euros(total())}</b></div>${bouton("rValider2")}`;
+    $("rValider").onclick = valider; $("rValider2").onclick = valider;
   }
   const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
   const compteur = (k, nom, prix) => `<div class="compteur"><span>${nom}<small>${prix}</small></span><div class="pas"><button type="button" data-moins="${k}" aria-label="−" ${etat[k] ? "" : "disabled"}>−</button><output aria-live="polite">${etat[k]}</output><button type="button" data-plus="${k}" aria-label="+" ${nbPers() >= PLACES ? "disabled" : ""}>+</button></div></div>`;
@@ -503,6 +525,7 @@
     else if (b.dataset.moins) etat[b.dataset.moins] = Math.max(0, etat[b.dataset.moins] - 1);
     else if (b.dataset.plus) etat[b.dataset.plus]++;
     else if (b.dataset.p) etat.paiement = b.dataset.p;
+    else if (b.dataset.lf) etat.langueFilm = b.dataset.lf;
     else if (b.id === "rMoisAv" || b.id === "rMoisAp") { const [y, m] = etat.mois.split("-").map(Number), d = new Date(y, m - 1 + (b.id === "rMoisAp" ? 1 : -1), 1); etat.mois = iso(d).slice(0, 7); }
     else return;
     redessine();

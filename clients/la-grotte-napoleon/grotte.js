@@ -260,7 +260,7 @@
        une large bande (30 % de la hauteur) où les deux se mêlent, sans ligne marquée ; l'enfant disparaît tout à fait à la fin */
     if (enfant) {
       const x = borne((p - .6) / .36), d = x * x * (3 - 2 * x), l = -.2 + 1.45 * d;
-      portrait.style.setProperty("--l", l.toFixed(4)); portrait.style.setProperty("--le", ((l + .1) / 1.62).toFixed(4));
+      portrait.style.setProperty("--l", l.toFixed(4)); portrait.style.setProperty("--le", (l * .95152 + .04848).toFixed(4)); /* la même ligne dans le cadre de l’enfant (70 px de plus en haut) */
       enfant.style.visibility = x >= 1 ? "hidden" : "";
     }
     if (accroche) { const f = borne(p / .14); accroche.style.opacity = (1 - f).toFixed(3); accroche.style.transform = `translate3d(0,${(f * -10).toFixed(1)}px,0)`; accroche.style.visibility = f >= 1 ? "hidden" : ""; }

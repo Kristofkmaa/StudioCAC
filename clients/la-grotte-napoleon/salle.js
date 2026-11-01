@@ -104,6 +104,8 @@
 
   /* ---------- les formes ---------- */
   const ecran = tronc(R, R, BAS, HAUT, 20, 0, 0, -DEMI, DEMI), cadre = tronc(RC, RC, YC0, YC1, 28, 0, 0, -DC, DC);
+  /* le dos de chaque tableau : un panneau de bois de la taille du cadre, juste derrière l'écran (sinon on voyait la salle entre l'écran et le cadre) */
+  const dosPanneau = tronc(R + .012, R + .012, YC0, YC1, 28, 0, 0, -DC, DC);
   const pied = tronc(.035, .035, 0, YC0 + .05, 6, 0, R + .02);
   const sol = disque(RM + .35, 0, 96), mur = tronc(RM + .25, RM - .1, 0, HM, 120, 0, 0, 0, Math.PI * 2, -1);
   const nappes = TABLES.map(([x, z]) => [disque(RT, HT, 32, x, z), tronc(RT * 1.13, RT, .01, HT, 32, x, z), tronc(.04, .03, HT, HT + .16, 10, x, z), disque(.075, HT + .16, 16, x, z)]);
@@ -178,7 +180,7 @@
     gl.depthMask(true); gl.disable(gl.BLEND); gl.bindTexture(gl.TEXTURE_2D, texRoche);
     for (const [dessus, tour, tige, abat] of nappes) { lum(tour, [.62, .07, .05]); lum(dessus, [.78, .12, .08]); lum(tige, [.5, .4, .2]); lum(abat, [1, .8, .5], { brille: .9 }); }
     lum(chaises, [.32, .19, .11]);
-    for (let i = 0; i < N; i++) { const Vi = tourne(V, i); dessine(pLum, cadre, { ...VIDE, V: Vi, oeil, col: [1, 1, 1], brille: .32, dos: 1, orne: 1 }); dessine(pLum, pied, { ...VIDE, V: Vi, oeil, col: [.3, .25, .15] }); gl.bindTexture(gl.TEXTURE_2D, texFilm); dessine(pEcran, ecran, { V: Vi, miroir: 0, oeil }); gl.bindTexture(gl.TEXTURE_2D, texRoche); }
+    for (let i = 0; i < N; i++) { const Vi = tourne(V, i); dessine(pLum, cadre, { ...VIDE, V: Vi, oeil, col: [1, 1, 1], brille: .32, dos: 1, orne: 1 }); dessine(pLum, pied, { ...VIDE, V: Vi, oeil, col: [.3, .25, .15] }); dessine(pLum, dosPanneau, { ...VIDE, V: Vi, oeil, col: [.16, .1, .06] }); gl.bindTexture(gl.TEXTURE_2D, texFilm); dessine(pEcran, ecran, { V: Vi, miroir: 0, oeil }); gl.bindTexture(gl.TEXTURE_2D, texRoche); }
     /* les halos (écrans, lampes) puis la poussière, additifs */
     gl.depthMask(false); gl.enable(gl.BLEND); gl.blendFunc(gl.ONE, gl.ONE);
     ECRANS.forEach(([x, z]) => { dessine(pHalo, { pos: tampon2([x * (R - .15), .8, z * (R - .15)]), n: 1 }, { V, taille: 900 * dpr * (portrait ? .7 : 1), t, vole: 0, col: teinte.map(v => v * .16) }); });

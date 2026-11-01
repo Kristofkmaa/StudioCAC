@@ -110,26 +110,44 @@
   const pied = tronc(.035, .035, 0, YC0 + .05, 6, 0, R + .02);
   const sol = disque(RM + .35, 0, 96), mur = tronc(RM + .25, RM - .1, 0, HM, 120, 0, 0, 0, Math.PI * 2, -1);
   const nappes = TABLES.map(([x, z]) => [disque(RT, HT, 32, x, z), tronc(RT * 1.13, RT, .01, HT, 32, x, z), tronc(.04, .03, HT, HT + .16, 10, x, z), disque(.075, HT + .16, 16, x, z)]);
-  /* les chaises Empire : bâti d'acajou, pieds avant droits, pieds arrière en sabre, dossier incliné à bandeau doré et deux pommeaux,
-     assise de velours vert bordée d'or ; chaque pièce est placée dans le repère de la chaise (z vers l'arrière, à l'opposé de la table) */
-  const BOIS = [], VELOURS = [], OR = [];
+  /* les chaises « Napoléon » (d'après la photo envoyée par l'utilisateur) : tout le bâti doré, pieds et barreaux tournés
+     avec leurs bagues, pieds arrière qui partent en arrière, dossier à quatre barreaux sous un bandeau, assise de velours rouge.
+     Chaque pièce tournée est un profil (rayon, hauteur de 0 à 1) qu'on fait tourner autour de son axe. */
+  const tournees = liste => {
+    const pos = [], uv = [], nor = [], idx = [], C = 9;
+    for (const [prof, L, ox, oy, oz, a, inc, roll] of liste) {
+      const ca = Math.cos(a), sa = Math.sin(a), ci = Math.cos(inc), si = Math.sin(inc), cr = Math.cos(roll), sr = Math.sin(roll);
+      const tr = v => { let [x, y, z] = v; [x, y] = [x * cr - y * sr, x * sr + y * cr]; [y, z] = [y * ci - z * si, y * si + z * ci]; return [x * ca + z * sa, y, -x * sa + z * ca]; };
+      const b = pos.length / 3;
+      prof.forEach(([r, h], j) => { for (let k = 0; k <= C; k++) { const f = k / C * Math.PI * 2, n = [Math.cos(f), 0, Math.sin(f)], q = tr([r * n[0], h * L, r * n[2]]);
+        pos.push(ox + q[0], oy + q[1], oz + q[2]); uv.push(k / C, h); nor.push(...tr(n)); } });
+      for (let j = 0; j < prof.length - 1; j++) for (let k = 0; k < C; k++) { const p0 = b + j * (C + 1) + k, p1 = p0 + C + 1; idx.push(p0, p1, p0 + 1, p1, p1 + 1, p0 + 1); }
+    }
+    return forme(pos, uv, nor, idx);
+  };
+  const PIED = [[.015, 0], [.013, .12], [.016, .32], [.024, .46], [.018, .52], [.027, .6], [.018, .68], [.023, .78], [.019, .88], [.022, 1]];
+  const MONTANT = [[.02, 0], [.016, .1], [.024, .2], [.017, .3], [.02, .55], [.015, .7], [.022, .8], [.016, .9], [.019, 1]];
+  const BARREAU = [[.006, 0], [.011, .12], [.006, .25], [.012, .45], [.006, .6], [.011, .78], [.006, .9], [.008, 1]];
+  const TRAVERSE = [[.009, 0], [.011, .2], [.008, .35], [.016, .5], [.008, .65], [.011, .8], [.009, 1]];
+  const TOURS = [], DORE = [], ASSISE = [], RECUL = .14;
   TABLES.forEach(([x, z]) => [0, 1, 2, 3].forEach(k => {
     const a = k * Math.PI / 2 + Math.PI / 4, d = RT + .33, cx = x + Math.sin(a) * d, cz = z + Math.cos(a) * d, ca = Math.cos(a), sa = Math.sin(a);
-    const piece = (liste, lx, ly, lz, dx, dy, dz, inc = 0) => liste.push([cx + ca * lx + sa * lz, ly, cz - sa * lx + ca * lz, dx, dy, dz, a, inc]);
-    piece(VELOURS, 0, .275, -.01, .155, .03, .15);                       /* le coussin */
-    piece(OR, 0, .245, -.01, .172, .008, .167);                          /* le galon doré autour de l'assise */
-    piece(BOIS, 0, .222, 0, .18, .02, .17);                              /* la ceinture */
+    const w = (lx, lz) => [cx + ca * lx + sa * lz, cz - sa * lx + ca * lz];
+    const tour = (prof, L, lx, ly, lz, inc = 0, roll = 0) => { const [X, Z] = w(lx, lz); TOURS.push([prof, L, X, ly, Z, a, inc, roll]); };
+    const pave = (liste, lx, ly, lz, dx, dy, dz, inc = 0) => { const [X, Z] = w(lx, lz); liste.push([X, ly, Z, dx, dy, dz, a, inc]); };
     for (const u of [-.155, .155]) {
-      piece(BOIS, u, .105, -.145, .017, .105, .017);                     /* pied avant */
-      piece(BOIS, u, .1, .175, .017, .1, .017, -.28);                    /* pied arrière en sabre, qui part en arrière */
-      piece(BOIS, u, .43, .2, .016, .2, .018, .2);                       /* montant du dossier, incliné */
-      piece(OR, u, .655, .245, .024, .024, .024, .2);                    /* pommeau doré */
+      tour(PIED, .245, u, 0, -.145);                                       /* pied avant tourné */
+      tour(PIED, .25, u, 0, .2, -.2);                                      /* pied arrière, qui part en arrière */
+      tour(MONTANT, .36, u, .245, .15, RECUL);                             /* montant du dossier */
     }
-    piece(BOIS, 0, .58, .225, .19, .055, .016, .2);                      /* le bandeau du dossier */
-    piece(OR, 0, .58, .207, .15, .022, .004, .2);                        /* son applique dorée */
-    piece(BOIS, 0, .4, .185, .15, .012, .012, .2);                       /* la traverse basse */
+    for (const u of [-.09, -.03, .03, .09]) tour(BARREAU, .25, u, .31, .15 + .07 * Math.tan(RECUL), RECUL); /* les quatre barreaux */
+    tour(TRAVERSE, .31, -.155, .1, -.145, 0, -Math.PI / 2);                /* la traverse entre les pieds avant */
+    pave(DORE, 0, .235, 0, .18, .025, .17);                                /* la ceinture de l'assise */
+    pave(DORE, 0, .3, .16, .165, .014, .014, RECUL);                       /* la traverse basse du dossier */
+    pave(DORE, 0, .6, .15 + .36 * Math.tan(RECUL), .19, .045, .016, RECUL); /* le bandeau du haut */
+    pave(ASSISE, 0, .277, -.008, .168, .028, .158);                        /* le coussin de velours */
   }));
-  const chaises = paves(BOIS), velours = paves(VELOURS), dorures = paves(OR);
+  const chaises = tournees(TOURS), dorures = paves(DORE), velours = paves(ASSISE);
   const poussiere = tampon(new Float32Array([...Array(260)].flatMap(() => { const a = Math.random() * 6.283, r = Math.sqrt(Math.random()) * 2.8; return [Math.sin(a) * r, .3 + Math.random() * 1.5, Math.cos(a) * r]; })));
   const point = tampon(new Float32Array([0, 0, 0]));
 
@@ -198,7 +216,7 @@
     for (let i = 0; i < N; i++) dessine(pEcran, ecran, { V: tourne(V, i), miroir: 1, oeil });
     gl.depthMask(true); gl.disable(gl.BLEND); gl.bindTexture(gl.TEXTURE_2D, texRoche);
     for (const [dessus, tour, tige, abat] of nappes) { lum(tour, [.62, .07, .05]); lum(dessus, [.78, .12, .08]); lum(tige, [.5, .4, .2]); lum(abat, [1, .8, .5], { brille: .9 }); }
-    lum(chaises, [.34, .13, .07]); lum(velours, [.09, .26, .13]); lum(dorures, [.85, .66, .3], { brille: .18 });
+    lum(chaises, [.88, .68, .32], { brille: .14 }); lum(dorures, [.88, .68, .32], { brille: .14 }); lum(velours, [.5, .04, .07]);
     for (let i = 0; i < N; i++) { const Vi = tourne(V, i); dessine(pLum, cadre, { ...VIDE, V: Vi, oeil, col: [1, 1, 1], brille: .32, dos: 1, orne: 1 }); dessine(pLum, pied, { ...VIDE, V: Vi, oeil, col: [.3, .25, .15] }); dessine(pLum, dosPanneau, { ...VIDE, V: Vi, oeil, col: [.16, .1, .06] }); gl.bindTexture(gl.TEXTURE_2D, texFilm); dessine(pEcran, ecran, { V: Vi, miroir: 0, oeil }); gl.bindTexture(gl.TEXTURE_2D, texRoche); }
     /* les halos (écrans, lampes) puis la poussière, additifs */
     gl.depthMask(false); gl.enable(gl.BLEND); gl.blendFunc(gl.ONE, gl.ONE);

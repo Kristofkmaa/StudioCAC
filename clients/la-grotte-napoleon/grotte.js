@@ -129,7 +129,7 @@
   document.body.append(flotte);
   let flotteOuverte = false, langueOuverte = false;  /* sur ordinateur, un petit drapeau accroché à la flèche ouvre les langues */
   function dessineFlotte() {
-    const liens = [["./#seance", "nav-seance"], ["formules.html", "nav-formules"], ["./#histoire", "nav-histoire"], ["boutique.html", "nav-boutique"], ["./#venir", "nav-acces"]];
+    const liens = [["./#seance", "nav-seance"], ["./#histoire", "nav-histoire"], ["boutique.html", "nav-boutique"], ["./#venir", "nav-acces"]];
     flotte.innerHTML = `<div class="flotte-panneau" id="flottePanneau" ${flotteOuverte ? "" : "hidden"}>
         <nav class="flotte-nav" aria-label="Menu">${liens.map(([h, k]) => `<a href="${h}">${t(k)}</a>`).join("")}</nav>
         <a class="btn lg" href="reserver.html" data-reserver>${t("ouv-reserver")}</a>

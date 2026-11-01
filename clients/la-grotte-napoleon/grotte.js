@@ -91,6 +91,7 @@
     document.querySelectorAll("[data-t-aria]").forEach(el => el.setAttribute("aria-label", t(el.dataset.tAria)));
     document.querySelectorAll("[data-t-alt]").forEach(el => el.alt = t(el.dataset.tAlt));
     document.querySelectorAll("[data-heures]").forEach(el => el.innerHTML = HEURES[el.dataset.heures].map(heure).join(" · "));
+    document.querySelectorAll("[data-pied-langues]").forEach(el => el.innerHTML = LANGUES.map(x => `<button type="button" data-l="${x}" aria-current="${x === l}" aria-label="${T[x]["nom-langue"]}">${drapeau(x)}</button>`).join(""));
     document.querySelectorAll("[data-langue]").forEach(el => el.innerHTML = `<button type="button" aria-expanded="false" aria-haspopup="true" aria-label="${t("nav-langue")} : ${t("nom-langue")}">${drapeau(l)}<svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M1 1l4 4 4-4"/></svg></button><div class="langues">${LANGUES.map(x => `<button type="button" data-l="${x}" aria-current="${x === l}"><span>${T[x]["nom-langue"]}</span>${drapeau(x)}</button>`).join("")}</div>`);
     $("langueMenu").innerHTML = LANGUES.map(x => `<button type="button" data-l="${x}" aria-current="${x === l}" aria-label="${T[x]["nom-langue"]}">${drapeau(x)}</button>`).join("");
     dessineFlotte();
@@ -100,7 +101,7 @@
     const ouvre = e.target.closest("[data-langue]>button");
     document.querySelectorAll(".langues.ouvertes").forEach(m => { if (!ouvre || m !== ouvre.nextElementSibling) { m.classList.remove("ouvertes"); m.previousElementSibling.setAttribute("aria-expanded", "false"); } });
     if (ouvre) { const m = ouvre.nextElementSibling, o = !m.classList.contains("ouvertes"); m.classList.toggle("ouvertes", o); ouvre.setAttribute("aria-expanded", o); return; }
-    const b = e.target.closest("[data-l]"); if (b) langue(b.dataset.l, true);
+    const b = e.target.closest("[data-l]"); if (b && LANGUES.includes(b.dataset.l)) langue(b.dataset.l, true);
   });
 
   /* les blocs apparaissent en montant ; la vidéo de la séance se lance quand on la voit */
@@ -355,50 +356,53 @@
     const z = $("panier"); if (!z) return;
     if (commande.faite) {
       const c = commande.faite;
-      z.innerHTML = `<div class="commande-ok"><p class="ok-titre">${t("pa-ok")}</p><p>${t("pa-ok-t")}</p>
-        <div class="billet"><div class="tete-billet"><span>${t("pa-numero")} ${c.numero}</span><span>${euros(c.total)}${c.mode === "envoi" ? " + " + t("pa-livraison").toLowerCase() : ""}</span></div>
-        <ul class="recap-lignes">${c.lignes.map(l => `<li><span>${esc(l.nom)}${l.opt ? ` <small>${esc(l.opt)}</small>` : ""} × ${l.q}</span><b>${euros(l.prix * l.q)}</b></li>`).join("")}</ul>
-        <p class="note">${c.mode === "retrait" ? t("pa-retrait") + " · " + t("pa-retrait-t") : t("pa-envoi") + " · " + esc(c.adresse)}</p></div>
+      z.innerHTML = `<div class="resa-ok"><h2 class="ok-titre">${t("pa-ok")}</h2><p class="ok-texte">${t("pa-ok-t")}</p>
+        <div class="papier billet-final"><p class="billet-tete"><img src="images/couronne.png" alt="" width="312" height="276"><span>${t("pa-numero")} ${c.numero}</span></p>
+        <dl>${c.lignes.map(l => `<div><dt>${esc(l.nom)}${l.opt ? ` · ${esc(l.opt)}` : ""} × ${l.q}</dt><dd>${euros(l.prix * l.q)}</dd></div>`).join("")}<div><dt>${t("pa-mode")}</dt><dd>${c.mode === "retrait" ? t("pa-retrait") : t("pa-envoi") + " · " + esc(c.adresse)}</dd></div></dl>
+        <div class="pied-panneau"><div class="total"><small>${t("pa-total")}</small><b>${euros(c.total)}</b></div></div></div>
         <p class="note-maquette">${t("pa-ok-maquette")}</p>
-        <a class="btn lg" href="boutique.html#souvenirs">${t("p-retour")}</a></div>`;
+        <a class="btn creux" id="rFin" href="boutique.html#souvenirs">${t("p-retour")}</a></div>`;
       return;
     }
     const lignes = lirePanier().map(l => ({ ...l, p: produit(l.id) })).filter(l => l.p && l.p.prix != null);
     if (!lignes.length) { z.innerHTML = `<div class="panier-vide"><p>${t("pa-vide")}</p><a class="btn lg" href="boutique.html#souvenirs">${t("pa-vide-lien")}</a></div>`; return; }
     const sous = lignes.reduce((s, l) => s + l.p.prix * l.q, 0), n = lignes.reduce((s, l) => s + l.q, 0), err = k => commande.erreurs.includes(k);
     const champ = (k, type, auto, large) => `<label class="champ${large ? " large" : ""}${err(k) ? " faux" : ""}"><span>${t("pa-" + k)}</span><input type="${type}" data-champ="${k}" autocomplete="${auto}" value="${esc(commande[k])}"></label>`;
-    z.innerHTML = `<div class="panier-grille">
+    /* comme la page Réserver : trois étapes numérotées sur la roche, et le bon de commande sur parchemin à côté */
+    const radio = '<i class="rond-choix" aria-hidden="true"></i>', chap = (n, k) => `<header class="chap-tete"><span class="chap-num">${n}</span><h2>${t(k)}</h2></header>`;
+    z.innerHTML = `<div class="resa panier-resa">
       <div class="panier-gauche">
-        <ul class="lignes">${lignes.map((l, i) => `<li class="ligne-p">
-          <a class="vi${l.p.plein ? " plein" : ""}" href="produit.html?id=${l.p.id}"><img src="${l.p.photo}" alt=""></a>
-          <div class="quoi"><a href="produit.html?id=${l.p.id}">${esc(l.p.nom)}</a><small>${[l.c, l.t].filter(Boolean).map(esc).join(" · ")}</small>
-            <div class="pas quantite"><button type="button" data-l="${i}" data-dq="-1" aria-label="−" ${l.q <= 1 ? "disabled" : ""}>−</button><output>${l.q}</output><button type="button" data-l="${i}" data-dq="1" aria-label="+" ${l.q >= 20 ? "disabled" : ""}>+</button></div></div>
-          <div class="combien"><b>${euros(l.p.prix * l.q)}</b><button type="button" class="retirer" data-l="${i}" data-retirer>${t("pa-retirer")}</button></div></li>`).join("")}</ul>
-        <fieldset class="bloc-commande"><legend>${t("pa-mode")}</legend>
-          <div class="modes">${["retrait", "envoi"].map(m => `<button type="button" class="mode" data-mode="${m}" aria-pressed="${commande.mode === m}"><b>${t("pa-" + m)}</b><small>${t("pa-" + m + "-t")}</small><span class="cout">${m === "retrait" ? t("pa-gratuit") : t("pa-a-confirmer")}</span></button>`).join("")}</div>
-        </fieldset>
-        <fieldset class="bloc-commande"><legend>${t("pa-coord")}</legend>
-          <div class="champs">${champ("nom", "text", "name", true)}${champ("email", "email", "email")}${champ("tel", "tel", "tel")}
+        <section class="chap">${chap("I", "pa-souvenirs")}
+          <ul class="lignes">${lignes.map((l, i) => `<li class="ligne-p">
+            <a class="vi${l.p.plein ? " plein" : ""}" href="produit.html?id=${l.p.id}"><img src="${l.p.photo}" alt=""></a>
+            <div class="quoi"><a href="produit.html?id=${l.p.id}">${esc(l.p.nom)}</a><small>${[l.c, l.t].filter(Boolean).map(esc).join(" · ")}</small>
+              <div class="pas quantite"><button type="button" data-ligne="${i}" data-dq="-1" aria-label="−" ${l.q <= 1 ? "disabled" : ""}>−</button><output>${l.q}</output><button type="button" data-ligne="${i}" data-dq="1" aria-label="+" ${l.q >= 20 ? "disabled" : ""}>+</button></div></div>
+            <div class="combien"><b>${euros(l.p.prix * l.q)}</b><button type="button" class="retirer" data-ligne="${i}" data-retirer>${t("pa-retirer")}</button></div></li>`).join("")}</ul>
+        </section>
+        <section class="chap">${chap("II", "pa-mode")}
+          <div class="options">${["retrait", "envoi"].map(m => `<button type="button" data-mode="${m}" aria-pressed="${commande.mode === m}">${radio}<span class="opt-txt"><b>${t("pa-" + m)}</b><small>${t("pa-" + m + "-t")}</small></span><span class="opt-prix petit">${m === "retrait" ? t("pa-gratuit") : t("pa-a-confirmer")}</span></button>`).join("")}</div>
+        </section>
+        <section class="chap">${chap("III", "pa-coord")}
+          <div class="champs-ligne panneau-champs">${champ("nom", "text", "name", true)}${champ("email", "email", "email")}${champ("tel", "tel", "tel")}
           ${commande.mode === "envoi" ? champ("adresse", "text", "street-address", true) + champ("cp", "text", "postal-code") + champ("ville", "text", "address-level2") : ""}</div>
           ${commande.erreurs.length ? `<p class="erreur" role="alert">${commande.erreurs.map(k => t({ nom: "pa-err-nom", email: "pa-err-email", adresse: "pa-err-adresse" }[k])).join(" ")}</p>` : ""}
-        </fieldset>
+        </section>
       </div>
-      <aside class="recap"><h2>${t("pa-recap")}</h2>
-        <dl><div><dt>${t("pa-sous-total")} <small>(${n} ${t("pa-articles")})</small></dt><dd>${euros(sous)}</dd></div>
-        <div><dt>${t("pa-livraison")}</dt><dd>${commande.mode === "retrait" ? t("pa-gratuit") : t("pa-a-confirmer")}</dd></div>
-        <div class="total"><dt>${t("pa-total")}</dt><dd>${euros(sous)}</dd></div></dl>
-        <button type="button" class="btn lg" id="payer">${t("pa-payer")} · ${euros(sous)}</button>
-        <p class="note">${t("pa-cgv")} <a href="cgv.html">${t("r-cgv-lien")}</a>.</p>
-        <p class="securise"><svg width="13" height="15" viewBox="0 0 13 15" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><rect x="1" y="6.5" width="11" height="7.5" rx="1.5"/><path d="M3.5 6.5V4.5a3 3 0 0 1 6 0v2"/></svg>${t("pa-securise")}</p>
-      </aside></div>`;
+      <aside class="resa-billet"><div class="papier">
+        <p class="billet-tete"><img src="images/couronne.png" alt="" width="312" height="276"><span>${t("pa-recap")}</span></p>
+        <dl class="bon">${lignes.map(l => `<div><dt>${esc(l.p.nom)}${l.q > 1 ? ` × ${l.q}` : ""}</dt><dd>${euros(l.p.prix * l.q)}</dd></div>`).join("")}
+          <div><dt>${t("pa-livraison")}</dt><dd>${commande.mode === "retrait" ? t("pa-gratuit") : t("pa-a-confirmer")}</dd></div></dl>
+        <div class="pied-panneau"><div class="total"><small>${t("pa-total")} · ${n} ${t("pa-articles")}</small><b>${euros(sous)}</b></div><button type="button" class="btn" id="payer">${t("pa-payer")}</button></div>
+        <p class="note-papier">${t("pa-cgv")} <a href="cgv.html">${t("r-cgv-lien")}</a>. ${t("pa-securise")}.</p>
+      </div></aside></div>`;
   }
   if ($("panier")) {
     $("panier").addEventListener("input", e => { const k = e.target.dataset.champ; if (k) commande[k] = e.target.value; });
     $("panier").addEventListener("click", e => {
       const b = e.target.closest("button"); if (!b || b.disabled) return;
       const panier = lirePanier().filter(l => produit(l.id) && produit(l.id).prix != null);
-      if (b.dataset.dq) { const l = panier[+b.dataset.l]; l.q = Math.min(20, Math.max(1, l.q + +b.dataset.dq)); ecrirePanier(panier); }
-      else if (b.hasAttribute("data-retirer")) { panier.splice(+b.dataset.l, 1); ecrirePanier(panier); }
+      if (b.dataset.dq) { const l = panier[+b.dataset.ligne]; l.q = Math.min(20, Math.max(1, l.q + +b.dataset.dq)); ecrirePanier(panier); }
+      else if (b.hasAttribute("data-retirer")) { panier.splice(+b.dataset.ligne, 1); ecrirePanier(panier); }
       else if (b.dataset.mode) { commande.mode = b.dataset.mode; commande.erreurs = []; }
       else if (b.id === "payer") {
         commande.erreurs = [];

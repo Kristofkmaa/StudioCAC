@@ -1005,3 +1005,56 @@ a.disque:hover{box-shadow:none;transform:translateY(-4px);filter:drop-shadow(0 3
   .resa{padding-bottom:calc(var(--gap) + 70px)}
 }
 #panneau{scroll-margin-top:40px}
+
+/* ---------- panier (1er novembre 2026) : mêmes étapes et même parchemin que la page Réserver ---------- */
+.panier-resa{padding-top:clamp(20px,3vw,36px)}
+.panier-resa .lignes{border-top:0}
+.ligne-p:first-child{border-top:1px solid var(--line)}
+.opt-prix.petit{font-size:1.1rem}
+.papier dl{margin:0}
+.papier dl div{display:grid;grid-template-columns:minmax(0,1.4fr) auto;gap:12px;padding:11px 0;border-top:1px dashed rgba(74,58,34,.35)}
+.papier dl.bon dt,.papier dl.bon dd{font-family:var(--serif);font-size:1.05rem;color:#2E2414;margin:0}
+.papier dl.bon dd{text-align:right;font-variant-numeric:tabular-nums}
+.papier dl.bon div:last-child dt{font-family:"Inter Tight",sans-serif;font-size:13px;color:#6B5634}
+.note-papier{margin:14px 0 0;font-size:12.5px;line-height:1.45;color:#6B5634}
+.note-papier a{color:#2E2414}
+.panneau-champs .champ input{background:none;border-radius:0;padding:10px 0;min-height:46px;box-shadow:inset 0 -1px 0 var(--line-hi);transition:box-shadow .2s}
+.panneau-champs .champ input:focus{outline:none;box-shadow:inset 0 -1.5px 0 var(--accent)}
+.panneau-champs .champ span{margin:16px 0 0;font-size:13px;color:var(--muted)}
+.panneau-champs .champ.faux input{box-shadow:inset 0 -1.5px 0 #F2B8A8}
+/* les + et − : deux ronds autour du nombre en Bagnard (panier, fiche produit) */
+.pas.quantite{gap:10px}
+.pas.quantite button,.quoi .pas.quantite button{width:38px;height:38px;border-radius:50%;background:none;box-shadow:inset 0 0 0 1px var(--line-hi);color:var(--accent);font-size:18px}
+@media (hover:hover) and (pointer:fine){.pas.quantite button:hover:not([disabled]){box-shadow:inset 0 0 0 1px var(--accent)}}
+.pas.quantite output{font-family:var(--serif);font-weight:400;font-size:1.45rem}
+
+/* ---------- fiche produit : le prix en grand, les choix en lignes séparées par des filets, comme la réservation ---------- */
+.prix-fiche{font-size:clamp(2.2rem,1.8rem + 1.4vw,3rem);color:var(--ink)}
+.infos .option{display:grid;gap:12px;padding:18px 0 4px;border-top:1px solid var(--line)}
+.libelle{font-family:var(--serif);font-size:1.1rem;color:var(--accent)}
+.libelle b{font-family:"Inter Tight",sans-serif;font-size:15px;color:var(--mist)}
+.tailles-choix button{min-width:54px;min-height:46px;border-radius:8px;background:none;box-shadow:inset 0 0 0 1px var(--line-hi);font-family:var(--serif);font-size:1.1rem;color:var(--ink)}
+.tailles-choix button[aria-checked="true"]{background:rgba(241,217,166,.08);color:var(--accent);box-shadow:inset 0 0 0 1.5px var(--accent)}
+.infos .ajouter{margin-top:10px}
+.assurances{gap:0;margin-top:8px;border-top:1px solid var(--line)}
+.assurances li{padding:12px 0 12px;border-bottom:1px solid var(--line)}
+.assurances li::before{display:none}
+
+/* ---------- pied de page (1er novembre 2026) : le logo et une phrase, puis venir, contact, séances, langues ; les mentions en bas ---------- */
+.pied-grille{display:grid;grid-template-columns:minmax(0,1.5fr) repeat(4,minmax(0,1fr));gap:clamp(24px,3vw,48px);margin-top:clamp(56px,7vw,96px);padding-top:clamp(36px,4vw,52px);border-top:1px solid var(--line-hi)}
+.pied .phrase-fin+.btn+.pied-grille{margin-top:clamp(56px,7vw,96px)}
+.pied-marque img{width:min(200px,60%);height:auto;opacity:.95}
+.pied-marque p{margin:18px 0 0;max-width:32ch;font-size:15px;line-height:1.5;color:var(--muted)}
+.pied-col{display:grid;gap:8px;align-content:start;font-size:15px;color:var(--mist)}
+.pied-col p{margin:0}
+.pied-col a{color:var(--mist);text-decoration:none;overflow-wrap:anywhere}
+@media (hover:hover) and (pointer:fine){.pied-col a:hover{color:var(--ink)}}
+.pied-titre{margin:0 0 6px!important;font-family:var(--serif);font-size:1.15rem;color:var(--accent)!important}
+.pied-lien{display:inline-flex;align-items:center;gap:8px;margin-top:6px;color:var(--accent)!important}
+.pied-langues{display:grid;grid-template-columns:repeat(3,38px);gap:6px}
+.pied-langues button{display:grid;place-items:center;width:38px;height:38px;border-radius:50%}
+.pied-langues .drapeau{width:22px;height:15px}
+.pied-langues button[aria-current="true"]{box-shadow:0 0 0 1.5px var(--accent)}
+.pied-bas{margin-top:clamp(40px,5vw,64px)}
+@media (max-width:1100px){.pied-grille{grid-template-columns:repeat(2,minmax(0,1fr))}.pied-marque{grid-column:1/-1}}
+@media (max-width:520px){.pied-grille{grid-template-columns:minmax(0,1fr)}}

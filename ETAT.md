@@ -104,6 +104,7 @@ Idées :
 ## Règles qui ne changent pas
 
 - Après chaque modification : commit en français et envoi sur la branche, sans demander (`CLAUDE.md`).
+- La mise en ligne de la Grotte (branche publiée et page privée Claude) se fait aussi d’office après chaque changement, sans demander (rappel de l’utilisateur, 1er novembre 2026) ; ne pas lui poser de question quand le choix va de soi.
 - Rien ne défile sur le côté, sur aucun site.
 - Jamais de données personnelles des demandeurs (noms, téléphones, e-mails reçus par le devis) sur un site.
 - Jamais l'e-mail personnel de l'utilisateur sur le site (seulement contact@saitora.fr).

@@ -1,7 +1,7 @@
-/* La salle de la Grotte en 3D (WebGL, sans bibliothèque) : cinq écrans incurvés en cercle autour du spectateur,
-   le même film sur les cinq (images/salle.mp4, le film de présentation de la Grotte), des cadres dorés, le reflet des écrans sur le sol, la paroi de roche
-   éclairée par les écrans et un peu de brume. La caméra est au centre, à la place d'un spectateur, et tourne lentement ;
-   on peut aussi la tourner à la souris ou au doigt. Chargé seulement quand la section arrive à l'écran (grotte.js).
+/* La salle de la Grotte en 3D, vue d'en haut comme une maquette (WebGL, sans bibliothèque) : cinq écrans incurvés en cercle,
+   le même film sur les cinq (images/salle.mp4, le film de présentation de la Grotte), des tables à nappe rouge et leur lampe
+   au milieu, un sol de roche qui reflète les écrans. La caméra tourne lentement autour de la salle, en plongée ; on peut aussi
+   la tourner à la souris ou au doigt. Chargé seulement quand la section arrive à l'écran (grotte.js).
    Sans WebGL, ou si le mouvement réduit est demandé, l'image fixe reste. */
 (() => {
   const boite = document.getElementById("salle3d"); if (!boite) return;
@@ -15,46 +15,60 @@
     gl.linkProgram(p); if (!gl.getProgramParameter(p, gl.LINK_STATUS)) console.warn("salle.js :", gl.getProgramInfoLog(p)); return p;
   };
   const tampon = (data, cible = gl.ARRAY_BUFFER) => { const b = gl.createBuffer(); gl.bindBuffer(cible, b); gl.bufferData(cible, data, gl.STATIC_DRAW); return b; };
-  /* une bande incurvée (portion de cylindre) : rayon r, angles a0..a1, hauteurs y0..y1, n segments ; uv de 0 à 1 (×ru en largeur) */
-  const arc = (r, a0, a1, y0, y1, n, ru = 1) => {
+  const forme = (pos, uv, idx) => ({ pos: tampon(new Float32Array(pos)), uv: tampon(new Float32Array(uv)), idx: tampon(new Uint16Array(idx), gl.ELEMENT_ARRAY_BUFFER), n: idx.length });
+  /* une bande incurvée (portion de cylindre) autour de (ox, oz) : rayon r, angles a0..a1, hauteurs y0..y1, n segments */
+  const arc = (r, a0, a1, y0, y1, n, ox = 0, oz = 0) => {
     const pos = [], uv = [], idx = [];
     for (let i = 0; i <= n; i++) {
-      const a = a0 + (a1 - a0) * i / n, x = Math.sin(a) * r, z = Math.cos(a) * r;
-      pos.push(x, y1, z, x, y0, z); uv.push(i / n * ru, 0, i / n * ru, 1);
+      const a = a0 + (a1 - a0) * i / n, x = ox + Math.sin(a) * r, z = oz + Math.cos(a) * r;
+      pos.push(x, y1, z, x, y0, z); uv.push(i / n, 0, i / n, 1);
       if (i < n) { const k = i * 2; idx.push(k, k + 1, k + 2, k + 1, k + 3, k + 2); }
     }
-    return { pos: tampon(new Float32Array(pos)), uv: tampon(new Float32Array(uv)), idx: tampon(new Uint16Array(idx), gl.ELEMENT_ARRAY_BUFFER), n: idx.length };
+    return forme(pos, uv, idx);
   };
-  const quad = (x0, z0, x1, z1, y) => ({ pos: tampon(new Float32Array([x0, y, z0, x1, y, z0, x0, y, z1, x1, y, z1])), uv: tampon(new Float32Array([0, 0, 1, 0, 0, 1, 1, 1])), idx: tampon(new Uint16Array([0, 1, 2, 1, 3, 2]), gl.ELEMENT_ARRAY_BUFFER), n: 6 });
+  /* un disque horizontal (dessus de table, lampe, sol) */
+  const disque = (r, y, n, ox = 0, oz = 0) => {
+    const pos = [ox, y, oz], uv = [.5, .5], idx = [];
+    for (let i = 0; i <= n; i++) { const a = i / n * Math.PI * 2; pos.push(ox + Math.sin(a) * r, y, oz + Math.cos(a) * r); uv.push(.5 + Math.sin(a) / 2, .5 + Math.cos(a) / 2); if (i < n) idx.push(0, i + 1, i + 2); }
+    return forme(pos, uv, idx);
+  };
   const perspective = (fov, asp, n, f) => { const t = 1 / Math.tan(fov / 2); return new Float32Array([t / asp, 0, 0, 0, 0, t, 0, 0, 0, 0, (f + n) / (n - f), -1, 0, 0, 2 * f * n / (n - f), 0]); };
-  const vue = (theta, ey, pente) => { /* rotation autour de Y, l'œil à (0,ey,0), puis un léger regard vers le bas (rotation autour de X) */
-    const c = Math.cos(theta), s = Math.sin(theta), cp = Math.cos(pente), sp = Math.sin(pente);
-    return new Float32Array([c, 0, s, 0, 0, cp, -sp, 0, -s * cp, sp * c, c * cp, 0, 0, -ey * cp, ey * sp, 1]); };
+  const regarde = (e, c) => { /* la caméra en e, qui regarde c */
+    const nz = v => { const l = Math.hypot(...v); return v.map(x => x / l); };
+    const f = nz([c[0] - e[0], c[1] - e[1], c[2] - e[2]]), s = nz([-f[2], 0, f[0]]), u = [s[1] * f[2] - s[2] * f[1], s[2] * f[0] - s[0] * f[2], s[0] * f[1] - s[1] * f[0]];
+    const d = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+    return new Float32Array([s[0], u[0], -f[0], 0, s[1], u[1], -f[1], 0, s[2], u[2], -f[2], 0, -d(s, e), -d(u, e), d(f, e), 1]);
+  };
 
   /* ---------- la scène ---------- */
-  const R = 3.0, RM = 3.75, SOL = -0.04, HAUT = 1.55, BAS = 0.1, DEMI = 0.36, N = 5, OEIL = 0.72, PENTE = -0.1;
-  const brume = `vec3 brume(vec3 c, float d){ return mix(c, vec3(.035,.028,.02), smoothstep(2.2, 7.5, d)); }`;
+  const R = 3.0, SOL = 0, HAUT = 1.45, BAS = .12, DEMI = .36, N = 5;
+  const brume = `vec3 brume(vec3 c, vec3 w){ return mix(c, vec3(.02,.016,.012), smoothstep(3.6, 6.5, length(w.xz))); }`;
   const VS = `precision mediump float; attribute vec3 p; attribute vec2 t; uniform mat4 P, V; uniform float miroir; varying vec2 uv; varying vec3 w;
     void main(){ vec3 q = p; if (miroir > .5) q.y = 2.0 * ${SOL.toFixed(2)} - q.y; w = q; uv = t; gl_Position = P * V * vec4(q, 1.0); }`;
-  /* l'écran : le film, un léger voile vers les bords (projection), le reflet plus pâle et qui s'éteint en descendant */
-  const pEcran = prog(VS, `precision mediump float; varying vec2 uv; varying vec3 w; uniform sampler2D film; uniform float miroir, lum; ${brume}
-    void main(){ vec3 c = texture2D(film, vec2(1.0 - uv.x, uv.y)).rgb * lum; float v = smoothstep(0.0, .08, uv.x) * smoothstep(1.0, .92, uv.x) * smoothstep(0.0, .1, uv.y) * smoothstep(1.0, .9, uv.y);
-      c *= .75 + .25 * v; float a = 1.0; if (miroir > .5) { a = .38 * pow(uv.y, 1.4); c *= .9; }
-      gl_FragColor = vec4(brume(c, length(w)), a); }`);
-  /* uni : cadres dorés, sol, lampes */
-  const pUni = prog(VS, `precision mediump float; varying vec2 uv; varying vec3 w; uniform vec3 col; uniform float alpha, sol; ${brume}
-    void main(){ vec3 c = col; float a = alpha; if (sol > .5) { float d = length(w.xz); c = mix(vec3(.13,.1,.07), vec3(.03,.024,.018), smoothstep(.4, 5.0, d)); }
-      gl_FragColor = vec4(brume(c, length(w)), a); }`);
-  /* la paroi de roche : la texture du site, sombre, éclairée par chaque écran selon l'angle */
-  const pMur = prog(VS, `precision mediump float; varying vec2 uv; varying vec3 w; uniform sampler2D roche; uniform float t; ${brume}
-    void main(){ vec3 r = texture2D(roche, fract(uv * vec2(5.0, 1.6))).rgb; float ang = atan(w.x, w.z); float g = 0.0;
-      for (int i = 0; i < ${N}; i++) { float a = float(i) * ${(2 * Math.PI / N).toFixed(5)}; float d = abs(mod(ang - a + 3.14159, 6.28318) - 3.14159); g += exp(-d * d * 9.0); }
-      float h = smoothstep(${(SOL - .3).toFixed(2)}, ${BAS.toFixed(2)}, w.y) * smoothstep(3.6, 1.2, w.y);
-      vec3 c = r * (vec3(.08,.065,.05) + vec3(.8,.62,.4) * g * h * (.85 + .15 * sin(t * 2.1 + ang * 3.0)));
-      gl_FragColor = vec4(brume(c, length(w)), 1.0); }`);
+  /* l'écran : le film côté salle, le dos sombre côté extérieur ; le reflet plus pâle et qui s'éteint en descendant */
+  const pEcran = prog(VS, `precision mediump float; varying vec2 uv; varying vec3 w; uniform sampler2D film; uniform float miroir, dos; ${brume}
+    void main(){ bool face = gl_FrontFacing; if (dos > .5) face = !face; vec3 c;
+      if (miroir > .5 || face) { c = texture2D(film, vec2(1.0 - uv.x, uv.y)).rgb * 1.08; float v = smoothstep(0.0, .06, uv.x) * smoothstep(1.0, .94, uv.x); c *= .78 + .22 * v; }
+      else c = vec3(.07,.055,.04);
+      float a = 1.0; if (miroir > .5) a = .3 * pow(uv.y, 1.5);
+      gl_FragColor = vec4(brume(c, w), a); }`);
+  /* uni : cadres dorés, nappes, lampes */
+  const pUni = prog(VS, `precision mediump float; varying vec2 uv; varying vec3 w; uniform vec3 col; uniform float dos; ${brume}
+    void main(){ vec3 c = col; if (dos > .5 && gl_FrontFacing) c = vec3(.06,.048,.035); /* le cadre vu de dos : sombre */
+      gl_FragColor = vec4(brume(c, w), 1.0); }`);
+  /* le sol de roche : la texture du site, éclairée par les écrans (plus clair près d'eux) et par les lampes des tables */
+  const pSol = prog(VS, `precision mediump float; varying vec2 uv; varying vec3 w; uniform sampler2D roche; uniform vec2 lampes[4]; ${brume}
+    void main(){ vec3 r = texture2D(roche, fract(w.xz * .28)).rgb; float d = length(w.xz);
+      float g = .3 + .8 * exp(-pow(d - ${(R - .35).toFixed(2)}, 2.0) * 1.4);
+      for (int i = 0; i < 4; i++) g += .6 * exp(-dot(w.xz - lampes[i], w.xz - lampes[i]) * 4.0);
+      vec3 c = r * vec3(.85,.66,.45) * g;
+      gl_FragColor = vec4(brume(c, w), 1.0); }`);
 
-  const ecran = arc(R, -DEMI, DEMI, BAS, HAUT, 18), cadre = arc(R + .025, -DEMI - .018, DEMI + .018, BAS - .035, HAUT + .035, 18);
-  const mur = arc(RM, 0, Math.PI * 2, SOL - .4, 4.2, 96, 1), sol = quad(-8, -8, 8, 8, SOL);
+  const ecran = arc(R, -DEMI, DEMI, BAS, HAUT, 18), cadre = arc(R + .03, -DEMI - .02, DEMI + .02, BAS - .04, HAUT + .04, 18);
+  const sol = disque(7, SOL, 72);
+  /* quatre tables rondes, nappe rouge jusqu'au sol, une petite lampe au milieu */
+  const TABLES = [[-.95, -.6], [.95, -.6], [-.95, .7], [.95, .7]], RT = .42, HT = .46;
+  const nappes = TABLES.map(([x, z]) => [disque(RT, HT, 28, x, z), arc(RT, 0, Math.PI * 2, SOL + .01, HT, 28, x, z), disque(.07, HT + .005, 14, x, z)]);
   const texFilm = gl.createTexture(), texRoche = gl.createTexture();
   for (const tx of [texFilm, texRoche]) { gl.bindTexture(gl.TEXTURE_2D, tx); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, 1, 1, 0, gl.RGB, gl.UNSIGNED_BYTE, new Uint8Array([40, 30, 20])); }
   const roche = new Image(); roche.src = "images/roche.webp";
@@ -68,6 +82,7 @@
   video.play().catch(() => {});
 
   /* ---------- le dessin ---------- */
+  let P;
   const dessine = (p, g, u) => {
     gl.useProgram(p);
     const ap = gl.getAttribLocation(p, "p"), at = gl.getAttribLocation(p, "t");
@@ -75,35 +90,38 @@
     if (at >= 0) { gl.bindBuffer(gl.ARRAY_BUFFER, g.uv); gl.enableVertexAttribArray(at); gl.vertexAttribPointer(at, 2, gl.FLOAT, false, 0, 0); }
     gl.uniformMatrix4fv(gl.getUniformLocation(p, "P"), false, P); gl.uniformMatrix4fv(gl.getUniformLocation(p, "V"), false, u.V);
     gl.uniform1f(gl.getUniformLocation(p, "miroir"), u.miroir || 0);
-    for (const k in u) { if (k === "V" || k === "miroir") continue; const l = gl.getUniformLocation(p, k); if (l) (u[k].length === 3 ? gl.uniform3fv(l, u[k]) : gl.uniform1f(l, u[k])); }
+    for (const k in u) { if (k === "V" || k === "miroir") continue; const l = gl.getUniformLocation(p, k); if (!l) continue; const v = u[k]; if (typeof v === "number") gl.uniform1f(l, v); else if (v.length === 3) gl.uniform3fv(l, v); else gl.uniform2fv(l, v); }
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, g.idx); gl.drawElements(gl.TRIANGLES, g.n, gl.UNSIGNED_SHORT, 0);
   };
-  const tourne = (V, i) => { /* la même vue, tournée de l'angle de l'écran i (V × rotation autour de Y) */
+  const tourne = (V, i) => { /* la même vue, tournée de l'angle de l'écran i */
     const a = i * 2 * Math.PI / N, c = Math.cos(a), s = Math.sin(a), M = new Float32Array(V);
     for (let k = 0; k < 4; k++) { M[k] = V[k] * c + V[8 + k] * s; M[8 + k] = V[8 + k] * c - V[k] * s; } return M;
   };
-  let P, theta = .6, vitesse = 0, actif = false, enCours = false, dernier = 0, larg = 0, haut = 0;
+  const LAMPES = new Float32Array(TABLES.flat()), DOS = 1;
+  let theta = .5, vitesse = 0, actif = false, enCours = false, dernier = 0;
   const taille = () => {
     const dpr = Math.min(devicePixelRatio || 1, innerWidth < 760 ? 1.5 : 2), r = boite.getBoundingClientRect();
-    larg = Math.round(r.width * dpr); haut = Math.round(r.height * dpr);
-    if (toile.width !== larg || toile.height !== haut) { toile.width = larg; toile.height = haut; }
-    gl.viewport(0, 0, larg, haut); P = perspective(innerWidth < 760 ? 1.3 : 1.12, larg / haut, .05, 20);
+    const w = Math.round(r.width * dpr), h = Math.round(r.height * dpr);
+    if (toile.width !== w || toile.height !== h) { toile.width = w; toile.height = h; }
+    gl.viewport(0, 0, w, h); P = perspective(w / h < 1 ? 1.05 : .78, w / h, .1, 30);
   };
   const image = now => {
     if (!actif) { enCours = false; return; } requestAnimationFrame(image);
     const dt = Math.min(.05, (now - dernier) / 1000 || 0); dernier = now;
-    theta += (0.09 + vitesse) * dt; vitesse *= Math.pow(.02, dt); /* un tour en ≈ 70 s, plus l'élan de la main */
+    theta += (.08 + vitesse) * dt; vitesse *= Math.pow(.02, dt);
     taille();
-    const V = vue(theta, OEIL, PENTE);
+    const loin = toile.width / toile.height < 1 ? 6.3 : 6.4, haut = loin * .78;
+    const V = regarde([Math.sin(theta) * loin, haut, Math.cos(theta) * loin], [0, .35, 0]);
     if (source) { gl.bindTexture(gl.TEXTURE_2D, texFilm); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, source); }
-    gl.clearColor(.035, .028, .02, 1); gl.enable(gl.DEPTH_TEST); gl.depthMask(true); gl.disable(gl.BLEND); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-    gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, texRoche); dessine(pMur, mur, { V, t: now / 1000 });
-    gl.depthMask(false); dessine(pUni, sol, { V, col: [0, 0, 0], alpha: 1, sol: 1 });
-    gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    gl.clearColor(.02, .016, .012, 1); gl.enable(gl.DEPTH_TEST); gl.depthMask(true); gl.disable(gl.BLEND); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, texRoche); dessine(pSol, sol, { V, lampes: LAMPES });
+    /* les reflets des écrans sur le sol (sans écrire la profondeur) */
+    gl.depthMask(false); gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
     gl.bindTexture(gl.TEXTURE_2D, texFilm);
-    for (let i = 0; i < N; i++) dessine(pEcran, ecran, { V: tourne(V, i), miroir: 1, lum: 1 }); /* les reflets sur le sol */
-    gl.depthMask(true);
-    for (let i = 0; i < N; i++) { const Vi = tourne(V, i); gl.useProgram(pUni); dessine(pUni, cadre, { V: Vi, col: [.62, .5, .27], alpha: 1, sol: 0 }); gl.bindTexture(gl.TEXTURE_2D, texFilm); dessine(pEcran, ecran, { V: Vi, miroir: 0, lum: 1.05 }); }
+    for (let i = 0; i < N; i++) dessine(pEcran, ecran, { V: tourne(V, i), miroir: 1, dos: DOS });
+    gl.depthMask(true); gl.disable(gl.BLEND);
+    for (const [dessus, tour, lampe] of nappes) { dessine(pUni, tour, { V, col: [.3, .05, .04], dos: 0 }); dessine(pUni, dessus, { V, col: [.48, .09, .07], dos: 0 }); dessine(pUni, lampe, { V, col: [1, .82, .5], dos: 0 }); }
+    for (let i = 0; i < N; i++) { const Vi = tourne(V, i); dessine(pUni, cadre, { V: Vi, col: [.62, .5, .27], dos: DOS }); gl.bindTexture(gl.TEXTURE_2D, texFilm); dessine(pEcran, ecran, { V: Vi, dos: DOS }); }
   };
   /* tourner à la main : on garde le défilement vertical de la page */
   let x0 = null;

@@ -1067,3 +1067,19 @@ a.disque:hover{box-shadow:none;transform:translateY(-4px);filter:drop-shadow(0 3
 .billet-tete{padding-right:56px;padding-left:56px}
 .resa-billet{filter:drop-shadow(0 22px 26px rgba(0,0,0,.6))}
 .resa-ok .papier{transform:rotate(-.4deg);filter:drop-shadow(0 22px 26px rgba(0,0,0,.6))}
+
+/* ---------- la salle : cinq écrans en cercle (un pentagone vu de l'extérieur, un peu d'en haut) qui tournent lentement ;
+   sur chacun le même film : l'enfant, l'Empereur, le sacre, en fondu ; le tour s'arrête au survol ---------- */
+.anneau{position:relative;overflow:hidden;height:clamp(380px,42vw,640px);margin-top:clamp(36px,5vw,64px);perspective:1700px;perspective-origin:50% 22%;--w:clamp(200px,23vw,370px);--h:calc(var(--w) * .5625);--r:calc(var(--w) * .98);border-radius:18px;background:radial-gradient(closest-side,rgba(10,8,6,.97) 0%,rgba(10,8,6,.9) 62%,rgba(10,8,6,0) 100%)}
+.anneau-tour{position:absolute;left:50%;top:40%;width:0;height:0;transform-style:preserve-3d;transform:rotateX(-13deg) rotateY(0);animation:anneau 40s linear infinite}
+@media (hover:hover) and (pointer:fine){.anneau:hover .anneau-tour{animation-play-state:paused}}
+@keyframes anneau{to{transform:rotateX(-13deg) rotateY(-360deg)}}
+.ecran{position:absolute;left:calc(var(--w) / -2);top:calc(var(--h) / -2);width:var(--w);height:var(--h);transform:rotateY(calc(var(--i) * 72deg)) translateZ(var(--r));transform-style:preserve-3d}
+.ecran-film{position:absolute;inset:0;overflow:hidden;border-radius:3px;background:radial-gradient(90% 120% at 50% 40%,#2A2118 0%,#0B0907 80%);box-shadow:0 0 0 2px #3A2E1C,0 0 0 4px rgba(241,217,166,.35),0 0 44px rgba(255,214,150,.28);backface-visibility:hidden}
+.ecran-film img{position:absolute;left:50%;top:-6%;width:62%;height:auto;max-width:none;transform:translateX(-50%);opacity:0;animation:film 15s ease-in-out infinite}
+.ecran-film .f2{animation-delay:5s}.ecran-film .f3{animation-delay:10s;width:74%;top:-4%}
+@keyframes film{0%{opacity:0;transform:translateX(-50%) scale(1)}5%,28%{opacity:1}33.3%,100%{opacity:0;transform:translateX(-50%) scale(1.05)}}
+.ecran::after{content:"";position:absolute;inset:0;border-radius:3px;background:#120F0B;box-shadow:0 0 0 2px #2A2216;transform:rotateY(180deg);backface-visibility:hidden}
+.anneau-sol{position:absolute;left:50%;top:66%;width:calc(var(--r) * 3.2);height:calc(var(--r) * .7);transform:translateX(-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(255,214,150,.16),rgba(255,214,150,.04) 60%,transparent);pointer-events:none}
+@media (max-width:760px){.anneau{--w:36vw;height:clamp(260px,78vw,360px);border-radius:12px}}
+@media (prefers-reduced-motion:reduce){.anneau-tour{animation:none;transform:rotateX(-13deg) rotateY(-20deg)}.ecran-film img{animation:none}.ecran-film .f2{opacity:1}}

@@ -1070,3 +1070,11 @@ a.disque:hover{box-shadow:none;transform:translateY(-4px);filter:drop-shadow(0 3
 .salle3d.pret canvas{opacity:1}
 @media (max-width:760px){.salle3d{aspect-ratio:4/5;border-radius:10px}}
 @media (prefers-reduced-motion:reduce){.salle3d canvas{display:none}}
+
+/* ---------- la salle vue par une ouverture de grotte (1er novembre 2026) : images/grotte-bord.webp (la lèvre de roche, faite
+   à partir du papier rocher du site, éclairée par les écrans, avec son ombre vers l’intérieur) posée sur la salle 3D ;
+   images/grotte-trou.webp découpe la salle à la forme de l’ouverture ---------- */
+.salle3d{aspect-ratio:1600/960;max-height:none;border-radius:0;background:none;box-shadow:none;overflow:visible}
+.salle3d>img,.salle3d>canvas{-webkit-mask:url(images/grotte-trou.webp) center/100% 100% no-repeat;mask:url(images/grotte-trou.webp) center/100% 100% no-repeat}
+.salle3d::after{content:"";position:absolute;inset:0;z-index:2;background:url(images/grotte-bord.webp) center/100% 100% no-repeat;pointer-events:none}
+@media (max-width:760px){.salle3d{aspect-ratio:1/1.05;margin-left:calc(var(--m) * -1);margin-right:calc(var(--m) * -1)}}

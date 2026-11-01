@@ -357,7 +357,7 @@
     if (commande.faite) {
       const c = commande.faite;
       z.innerHTML = `<div class="resa-ok"><h2 class="ok-titre">${t("pa-ok")}</h2><p class="ok-texte">${t("pa-ok-t")}</p>
-        <div class="papier billet-final"><p class="billet-tete"><img src="images/couronne.png" alt="" width="312" height="276"><span>${t("pa-numero")} ${c.numero}</span></p>
+        <div class="papier billet-final"><p class="billet-tete"><span>${t("pa-numero")} ${c.numero}</span></p>
         <dl>${c.lignes.map(l => `<div><dt>${esc(l.nom)}${l.opt ? ` · ${esc(l.opt)}` : ""} × ${l.q}</dt><dd>${euros(l.prix * l.q)}</dd></div>`).join("")}<div><dt>${t("pa-mode")}</dt><dd>${c.mode === "retrait" ? t("pa-retrait") : t("pa-envoi") + " · " + esc(c.adresse)}</dd></div></dl>
         <div class="pied-panneau"><div class="total"><small>${t("pa-total")}</small><b>${euros(c.total)}</b></div></div></div>
         <p class="note-maquette">${t("pa-ok-maquette")}</p>
@@ -389,7 +389,7 @@
         </section>
       </div>
       <aside class="resa-billet"><div class="papier">
-        <p class="billet-tete"><img src="images/couronne.png" alt="" width="312" height="276"><span>${t("pa-recap")}</span></p>
+        <p class="billet-tete"><span>${t("pa-recap")}</span></p>
         <dl class="bon">${lignes.map(l => `<div><dt>${esc(l.p.nom)}${l.q > 1 ? ` × ${l.q}` : ""}</dt><dd>${euros(l.p.prix * l.q)}</dd></div>`).join("")}
           <div><dt>${t("pa-livraison")}</dt><dd>${commande.mode === "retrait" ? t("pa-gratuit") : t("pa-a-confirmer")}</dd></div></dl>
         <div class="pied-panneau"><div class="total"><small>${t("pa-total")} · ${n} ${t(n > 1 ? "pa-articles" : "pa-article")}</small><b>${euros(sous)}</b></div><button type="button" class="btn" id="payer">${t("pa-payer")}</button></div>
@@ -454,7 +454,7 @@
       const r = etat.fait;
       /* la réservation faite : le même billet sur parchemin, complet */
       c.innerHTML = `<div class="resa-ok"><h2 class="ok-titre">${t("r-ok")}</h2><p class="ok-texte">${t("r-ok-texte")}</p>
-        <div class="papier billet-final"><p class="billet-tete"><img src="images/couronne.png" alt="" width="312" height="276"><span>${t("r-votre-billet")}</span></p>
+        <div class="papier billet-final"><p class="billet-tete"><span>${t("r-votre-billet")}</span></p>
         <dl><div><dt>${t("r-nom")}</dt><dd>${esc(r.nom)}</dd></div><div><dt>${t("r-formule")}</dt><dd>${t(r.formule === "complete" ? "f-complete" : "f-decouverte")}</dd></div><div><dt>${t("r-jour")}</dt><dd>${jourLong(new Date(r.jour + "T00:00"))}</dd></div><div><dt>${t("r-heure")}</dt><dd>${heure(r.heure)}</dd></div><div><dt>${t("r-personnes")}</dt><dd>${r.n}</dd></div><div><dt>${t("r-langue")}</dt><dd>${drapeau(r.langue)} ${T[r.langue]["nom-langue"]}</dd></div></dl>
         <div class="pied-panneau"><div class="total"><small>${t(r.paiement === "enligne" ? "r-billet-place" : "r-billet-sur")}</small><b>${euros(r.total)}</b></div></div></div>
         <p class="note-maquette">${t("r-ok-maquette")}</p></div>`;

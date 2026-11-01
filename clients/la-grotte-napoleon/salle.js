@@ -1,5 +1,5 @@
 /* La salle de la Grotte en 3D (WebGL, sans bibliothèque) : cinq écrans incurvés en cercle autour du spectateur,
-   le même film sur les cinq (images/salle.mp4), des cadres dorés, le reflet des écrans sur le sol, la paroi de roche
+   le même film sur les cinq (images/salle.mp4, le film de présentation de la Grotte), des cadres dorés, le reflet des écrans sur le sol, la paroi de roche
    éclairée par les écrans et un peu de brume. La caméra est au centre, à la place d'un spectateur, et tourne lentement ;
    on peut aussi la tourner à la souris ou au doigt. Chargé seulement quand la section arrive à l'écran (grotte.js).
    Sans WebGL, ou si le mouvement réduit est demandé, l'image fixe reste. */
@@ -38,7 +38,7 @@
     void main(){ vec3 q = p; if (miroir > .5) q.y = 2.0 * ${SOL.toFixed(2)} - q.y; w = q; uv = t; gl_Position = P * V * vec4(q, 1.0); }`;
   /* l'écran : le film, un léger voile vers les bords (projection), le reflet plus pâle et qui s'éteint en descendant */
   const pEcran = prog(VS, `precision mediump float; varying vec2 uv; varying vec3 w; uniform sampler2D film; uniform float miroir, lum; ${brume}
-    void main(){ vec3 c = texture2D(film, uv).rgb * lum; float v = smoothstep(0.0, .08, uv.x) * smoothstep(1.0, .92, uv.x) * smoothstep(0.0, .1, uv.y) * smoothstep(1.0, .9, uv.y);
+    void main(){ vec3 c = texture2D(film, vec2(1.0 - uv.x, uv.y)).rgb * lum; float v = smoothstep(0.0, .08, uv.x) * smoothstep(1.0, .92, uv.x) * smoothstep(0.0, .1, uv.y) * smoothstep(1.0, .9, uv.y);
       c *= .75 + .25 * v; float a = 1.0; if (miroir > .5) { a = .38 * pow(uv.y, 1.4); c *= .9; }
       gl_FragColor = vec4(brume(c, length(w)), a); }`);
   /* uni : cadres dorés, sol, lampes */

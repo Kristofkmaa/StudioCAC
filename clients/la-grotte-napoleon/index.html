@@ -8,7 +8,7 @@
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#161411">
 <link rel="icon" href="images/couronne.png">
-<link rel="stylesheet" href="grotte.css?v=20261101k">
+<link rel="stylesheet" href="grotte.css?v=20261101l">
 </head>
 <body data-titre="meta-titre">
 <div class="maquette" data-t="bandeau">Maquette préparée par Saitora pour La Grotte Napoléon : à valider ensemble avant la mise en ligne.</div>
@@ -89,19 +89,11 @@
     </div>
   </section>
 
-  <!-- la salle : cinq écrans en cercle, en 3D, qui tournent lentement ; le même film passe sur les cinq (l'enfant, l'Empereur, le sacre), comme dans la vraie salle -->
+  <!-- la salle : cinq écrans incurvés en cercle autour du spectateur, en vraie 3D (WebGL), le même film sur les cinq, comme dans la vraie salle -->
   <section class="sec page salle" id="salle" aria-labelledby="t-salle">
     <div class="head rise"><div><p class="eyebrow" data-t="salle-e">La salle</p><h2 id="t-salle" data-t="salle-titre">Le film tout autour de vous</h2></div><p data-t="salle-texte"></p></div>
-    <div class="anneau rise" aria-hidden="true">
-      <div class="anneau-tour">
-        <div class="ecran" style="--i:0"><div class="ecran-film"><img class="f1" src="images/enfant.webp" alt="" loading="lazy" decoding="async"><img class="f2" src="images/napoleon.webp" alt="" loading="lazy" decoding="async"><img class="f3" src="images/sacre.webp" alt="" loading="lazy" decoding="async"></div></div>
-        <div class="ecran" style="--i:1"><div class="ecran-film"><img class="f1" src="images/enfant.webp" alt="" loading="lazy" decoding="async"><img class="f2" src="images/napoleon.webp" alt="" loading="lazy" decoding="async"><img class="f3" src="images/sacre.webp" alt="" loading="lazy" decoding="async"></div></div>
-        <div class="ecran" style="--i:2"><div class="ecran-film"><img class="f1" src="images/enfant.webp" alt="" loading="lazy" decoding="async"><img class="f2" src="images/napoleon.webp" alt="" loading="lazy" decoding="async"><img class="f3" src="images/sacre.webp" alt="" loading="lazy" decoding="async"></div></div>
-        <div class="ecran" style="--i:3"><div class="ecran-film"><img class="f1" src="images/enfant.webp" alt="" loading="lazy" decoding="async"><img class="f2" src="images/napoleon.webp" alt="" loading="lazy" decoding="async"><img class="f3" src="images/sacre.webp" alt="" loading="lazy" decoding="async"></div></div>
-        <div class="ecran" style="--i:4"><div class="ecran-film"><img class="f1" src="images/enfant.webp" alt="" loading="lazy" decoding="async"><img class="f2" src="images/napoleon.webp" alt="" loading="lazy" decoding="async"><img class="f3" src="images/sacre.webp" alt="" loading="lazy" decoding="async"></div></div>
-      </div>
-      <div class="anneau-sol"></div>
-    </div>
+    <!-- la salle en 3D (salle.js, chargé quand on y arrive) : l'image fixe d'abord, la 3D par-dessus dès qu'elle est prête -->
+    <div class="salle3d rise" id="salle3d"><img src="images/salle-affiche.webp" alt="" width="640" height="360" loading="lazy" decoding="async"><canvas aria-hidden="true"></canvas></div>
   </section>
 
   <!-- à table : ce qu'on mange pendant le film (photo du client) -->
@@ -217,7 +209,7 @@
 </div>
 
 
-<script src="textes.js?v=20261101k"></script>
-<script src="grotte.js?v=20261101k"></script>
+<script src="textes.js?v=20261101l"></script>
+<script src="grotte.js?v=20261101l"></script>
 </body>
 </html>

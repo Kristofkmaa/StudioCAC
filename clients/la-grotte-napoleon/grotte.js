@@ -129,11 +129,10 @@
   document.body.append(flotte);
   let flotteOuverte = false, langueOuverte = false;  /* sur ordinateur, un petit drapeau accroché à la flèche ouvre les langues */
   function dessineFlotte() {
-    const liens = [["./#seance", "nav-seance"], ["./#histoire", "nav-histoire"], ["boutique.html", "nav-boutique"], ["./#venir", "nav-acces"]];
+    /* le menu ne garde que l’essentiel (demande de l’utilisateur) : réserver, la boutique, le contact ; le panier seulement s’il n’est pas vide */
     flotte.innerHTML = `<div class="flotte-panneau" id="flottePanneau" ${flotteOuverte ? "" : "hidden"}>
-        <nav class="flotte-nav" aria-label="Menu">${liens.map(([h, k]) => `<a href="${h}">${t(k)}</a>`).join("")}</nav>
         <a class="btn lg" href="reserver.html" data-reserver>${t("ouv-reserver")}</a>
-        <div class="flotte-deux"><a class="btn creux" href="tel:+33495280461">${t("barre-appeler")}</a><a class="btn creux" href="./#venir">${t("barre-plan")}</a></div>
+        <div class="flotte-deux"><a class="btn creux" href="boutique.html">${t("nav-boutique")}</a><a class="btn creux" href="./#venir">${t("nav-contact")}</a></div>
         <a class="flotte-panier" href="panier.html"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M3.5 6.5h11l-.9 9.5H4.4z"/><path d="M6.5 6.5V5a2.5 2.5 0 0 1 5 0v1.5"/></svg><span>${t("nav-panier")}</span><span class="nb-panier" hidden></span></a>
         <div class="flotte-langues" role="group" aria-label="${t("nav-langue")}">${LANGUES.map(x => `<button type="button" data-l="${x}" aria-current="${x === L}" aria-label="${T[x]["nom-langue"]}">${drapeau(x)}</button>`).join("")}</div>
       </div>
@@ -286,6 +285,7 @@
   function compteurPanier() {
     const n = lirePanier().reduce((s, l) => s + l.q, 0);
     document.querySelectorAll(".nb-panier").forEach(b => { b.hidden = !n; b.textContent = n; });
+    document.querySelectorAll(".flotte-panier").forEach(a => { a.hidden = !n; });
   }
   compteurPanier();
   addEventListener("storage", e => { if (e.key === "grotte-panier") { compteurPanier(); dessinePanier(); } });

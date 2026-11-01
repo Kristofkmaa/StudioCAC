@@ -692,6 +692,7 @@ body[data-titre="meta-reserver"]{--barre:0px}
 .flotte-deux{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .flotte-deux .btn{min-height:46px;padding:12px;font-size:15px}
 .flotte-panier{position:relative;display:flex;align-items:center;gap:10px;min-height:46px;padding:0 14px;border-radius:999px;box-shadow:inset 0 0 0 1px var(--line-hi);color:var(--ink);text-decoration:none;font-size:15px}
+.flotte-panier[hidden]{display:none}
 .flotte-panier .nb-panier{position:static;margin-left:auto}
 .flotte-langues{display:flex;justify-content:space-between;gap:4px;padding-top:10px;border-top:1px solid var(--line)}
 .flotte-langues button{display:grid;place-items:center;width:40px;height:40px;border-radius:50%}

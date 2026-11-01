@@ -683,7 +683,7 @@ body[data-titre="meta-reserver"]{--barre:0px}
 @media (hover:hover) and (pointer:fine){.flotte-btn:hover,.flotte-drapeau:hover{background:rgba(42,39,32,.95)}}
 .flotte-btn svg{transition:transform .4s var(--doux)}
 .flotte.ouverte .flotte-btn svg{transform:rotate(180deg)}
-.flotte-panneau{position:absolute;right:0;bottom:64px;width:min(300px,calc(100vw - 32px));display:grid;gap:10px;padding:14px;border-radius:18px;background:var(--surface-2);box-shadow:0 30px 70px rgba(0,0,0,.6),inset 0 0 0 1px var(--line);transform-origin:100% 100%;opacity:0;transform:translateY(8px) scale(.96);transition:opacity .22s,transform .3s var(--doux)}
+.flotte-panneau{position:absolute;right:0;bottom:64px;width:min(340px,calc(100vw - 24px));display:grid;gap:0;padding:6px 6px 8px;border-radius:14px;background:var(--roche-profond),#12100D;box-shadow:0 30px 70px rgba(0,0,0,.6),inset 0 0 0 1px rgba(241,217,166,.2);transform-origin:100% 100%;opacity:0;transform:translateY(8px) scale(.96);transition:opacity .22s,transform .3s var(--doux)}
 .flotte.ouverte .flotte-panneau{opacity:1;transform:none}
 .flotte-panneau .btn{width:100%}
 .flotte-nav{display:grid;padding-bottom:6px;margin-bottom:2px;border-bottom:1px solid var(--line)}
@@ -691,10 +691,20 @@ body[data-titre="meta-reserver"]{--barre:0px}
 @media (hover:hover) and (pointer:fine){.flotte-nav a:hover{background:rgba(255,255,255,.05)}}
 .flotte-deux{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .flotte-deux .btn{min-height:46px;padding:12px;font-size:15px}
-.flotte-panier{position:relative;display:flex;align-items:center;gap:10px;min-height:46px;padding:0 14px;border-radius:999px;box-shadow:inset 0 0 0 1px var(--line-hi);color:var(--ink);text-decoration:none;font-size:15px}
 .flotte-panier[hidden]{display:none}
+/* les entrées du menu : un titre en Bagnard, une petite phrase dessous, une flèche ; filets fins entre elles ; réserver en doré */
+.entree{display:flex;align-items:center;gap:14px;padding:16px 14px;border-radius:10px;color:var(--ink);text-decoration:none;transition:background-color .2s}
+.entree+.entree{border-top:1px solid var(--line)}
+.entree>span:first-child{display:grid;gap:3px;flex:1;min-width:0}
+.entree b{font-family:var(--serif);font-weight:400;font-size:1.45rem;line-height:1.1;letter-spacing:-.005em}
+.entree small{font-size:13px;line-height:1.3;color:var(--muted)}
+.entree .fl{flex:none;color:var(--faint);transition:transform .3s var(--doux),color .2s}
+.entree.principale b{color:var(--accent)}
+.entree.principale .fl{color:var(--accent)}
+@media (hover:hover) and (pointer:fine){.entree:hover{background:rgba(241,217,166,.06)}.entree:hover .fl{transform:translateX(3px);color:var(--accent)}}
+.entree:focus-visible{outline:1.5px solid var(--accent);outline-offset:-2px}
 .flotte-panier .nb-panier{position:static;margin-left:auto}
-.flotte-langues{display:flex;justify-content:space-between;gap:4px;padding-top:10px;border-top:1px solid var(--line)}
+.flotte-langues{display:flex;justify-content:space-between;gap:4px;margin:4px 8px 0;padding-top:10px;border-top:1px solid var(--line)}
 .flotte-langues button{display:grid;place-items:center;width:40px;height:40px;border-radius:50%}
 .flotte-langues button .drapeau{width:24px;height:16px}
 .flotte-langues button[aria-current="true"],.flotte-langue-liste button[aria-current="true"]{box-shadow:0 0 0 1.5px var(--accent)}

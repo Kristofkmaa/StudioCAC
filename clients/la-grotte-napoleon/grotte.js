@@ -264,7 +264,6 @@
   if ($("son")) $("son").onclick = () => { const v = $("video"), on = v.muted; v.muted = !on; if (on) { v.currentTime = 0; v.play().catch(() => {}); } $("son").setAttribute("aria-pressed", on); };
 
   /* ---------- le film : la vidéo n'est chargée qu'au toucher ---------- */
-  if ($("filmLire")) $("filmLire").onclick = () => { const v = document.createElement("video"); v.src = "images/film.mp4"; v.poster = "images/film-affiche.webp"; v.controls = true; v.playsInline = true; v.title = t("vid-titre"); $("filmEcran").replaceChildren(v); v.play().catch(() => {}); };
 
   /* ---------- les formules en onglets ---------- */
   const onglets = [...document.querySelectorAll('[role="tab"]')];

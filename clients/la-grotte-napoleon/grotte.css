@@ -286,12 +286,6 @@ main>section:not(.chapeau),main>div,.pied{position:relative;z-index:1}
 .table .texte>p:not(.eyebrow):not(.note){font-size:17px;max-width:52ch}
 @media (max-width:860px){.table{grid-template-columns:1fr}.table .img{order:0;aspect-ratio:4/3;max-width:none}}
 
-/* le film */
-.film{position:relative;margin-top:36px;border-radius:16px;overflow:hidden;background:#000;aspect-ratio:16/9}
-.film>img,.film>video{position:absolute;inset:0;width:100%;height:100%;border:0;object-fit:cover}
-.film .lire{position:absolute;inset:0;display:grid;place-items:center;background:linear-gradient(transparent 50%,rgba(0,0,0,.35))}
-.film .lire span{display:inline-flex;align-items:center;gap:12px;min-height:52px;padding:14px 26px;border-radius:999px;background:var(--champagne);color:var(--on-accent);font:500 15px/1 "Inter Tight",sans-serif;transition:transform .2s}
-@media (hover:hover) and (pointer:fine){.film .lire:hover span{transform:scale(1.04)}}
 
 /* les formules : un sélecteur, un panneau */
 .choix-formule{display:inline-flex;gap:4px;margin-top:36px;padding:4px;border-radius:10px;background:var(--surface);max-width:100%}

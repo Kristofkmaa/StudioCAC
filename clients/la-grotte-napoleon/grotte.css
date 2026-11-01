@@ -483,24 +483,6 @@ main>section:not(.chapeau),main>div,.pied{position:relative;z-index:1}
 .formule{scroll-margin-top:90px}
 /* la réservation en pleine page : le même panneau, posé dans la page */
 /* la page « Réserver » : à gauche le titre, la salle et ce qu'il faut savoir (reste en place), à droite le formulaire sur un voile sombre */
-.resa{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(32px,6vw,100px);align-items:start;padding-top:clamp(40px,7vw,96px)}
-.resa .entete-page{padding-top:0;position:sticky;top:100px}
-.resa .entete-page h1{font-size:clamp(2.6rem,1.6rem + 3.2vw,4.4rem)}
-.resa-photo{margin-top:clamp(24px,3vw,36px);border-radius:4px;overflow:hidden;aspect-ratio:2/1;background:var(--deep)}
-.resa-photo img{width:100%;height:100%;object-fit:cover}
-.resa-infos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 24px;margin:28px 0 0}
-.resa-infos div{padding:14px 0;border-top:1px solid var(--line)}
-.resa-infos dt{font-family:var(--serif);font-size:17px;color:var(--accent)}
-.resa-infos dd{margin:4px 0 0;color:var(--mist);font-size:15px}
-.resa-infos a{color:var(--ink);text-decoration:none}
-@media (max-width:980px){.resa{grid-template-columns:1fr}.resa .entete-page{position:static}.resa-photo{display:none}}
-.panneau.en-page{position:relative;top:auto;right:auto;bottom:auto;z-index:1;width:100%;margin:0;transform:none;background:rgba(10,9,7,.55);border-radius:16px;max-height:none;transition:none}
-.panneau.en-page .entete{display:none}
-.panneau.en-page .corps{overflow:visible;padding:8px clamp(20px,4vw,40px) 24px}
-.panneau.en-page .pied-panneau{position:sticky;bottom:0;border-radius:0 0 16px 16px;background:#1d1b17;padding:14px clamp(20px,4vw,40px) calc(14px + env(safe-area-inset-bottom))}
-.panneau.en-page .champ input,.panneau.en-page .champ select,.panneau.en-page .champ textarea,.panneau.en-page .choix2 button,.panneau.en-page .heures-choix button,.panneau.en-page .paiement button,.panneau.en-page .compteur .pas button{background:var(--deep)}
-.panneau.en-page .billet{background:var(--deep)}
-@media (max-width:640px){.panneau.en-page{border-radius:16px}}
 .pied.court{margin-top:var(--gap)}
 /* sur la page « Réserver », pas de barre du bas : le bouton de validation reste collé en bas du formulaire */
 body[data-titre="meta-reserver"] .barre{display:none!important}
@@ -924,3 +906,102 @@ a.disque:hover{box-shadow:none;transform:translateY(-4px);filter:drop-shadow(0 3
 @media (max-width:760px){.age{grid-template-columns:minmax(0,1fr);gap:14px}.age .recit p:last-child{max-width:none}}
 @media (prefers-reduced-motion:reduce){.age .nombre,.age .recit{opacity:1;transform:none;transition:none}}
 @media (max-width:860px){.trio{width:auto;margin:0 7%}}
+
+
+/* ---------- page Réserver (refaite le 1er novembre 2026) : quatre étapes numérotées I à IV sur la roche, sans boîtes ;
+   à côté, un billet sur parchemin qui se remplit à mesure et garde le total et le bouton ; sur téléphone, le billet après, une barre du total en bas ---------- */
+.resa{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(28px,5vw,90px);align-items:start;padding-top:clamp(36px,6vw,80px);padding-bottom:var(--gap)}
+.resa-tete{grid-column:1/-1;padding-top:0}
+.resa-tete h1{font-size:clamp(2.8rem,1.6rem + 4.4vw,5.6rem)}
+.resa-pratique{display:flex;flex-wrap:wrap;gap:6px 22px;margin:22px 0 0;font-size:15px;color:var(--muted)}
+.resa-pratique a{color:var(--mist);text-decoration:none}
+.resa-pratique>*+*::before{content:"·";margin-right:22px;color:var(--faint)}
+.panneau.en-page{position:static;width:auto;max-height:none;margin:0;padding:0;background:none;border-radius:0;box-shadow:none;transform:none;transition:none;z-index:auto;display:block}
+.panneau.en-page .corps{padding:0;overflow:visible}
+.chap{padding:clamp(28px,3.5vw,44px) 0;border-top:1px solid var(--line)}
+.chap:first-child{border-top:1px solid var(--line-hi)}
+.chap-tete{display:flex;align-items:baseline;gap:18px;margin-bottom:22px}
+.chap-num{font-family:var(--serif);font-size:clamp(2rem,1.5rem + 1.5vw,2.8rem);line-height:1;color:var(--accent);min-width:1.6em}
+.chap-tete h2{margin:0;font-family:var(--serif);font-weight:400;font-size:clamp(1.6rem,1.3rem + 1vw,2.2rem);line-height:1.1;color:var(--ink)}
+.sous-titre{margin:26px 0 12px;font-family:var(--serif);font-size:1.15rem;color:var(--accent)}
+.sous-titre::first-letter{text-transform:uppercase}
+/* les choix (formule, paiement) : des lignes, un rond doré, le prix en Bagnard */
+.options{display:grid;border-top:1px solid var(--line)}
+.options button{display:flex;align-items:center;gap:16px;width:100%;padding:18px 4px;border-bottom:1px solid var(--line);text-align:left;color:var(--mist);transition:background-color .2s}
+@media (hover:hover) and (pointer:fine){.options button:hover{background:rgba(241,217,166,.04)}}
+.rond-choix{flex:none;width:20px;height:20px;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--line-hi);display:grid;place-items:center;transition:box-shadow .2s}
+.options button[aria-pressed="true"] .rond-choix{box-shadow:inset 0 0 0 1.5px var(--accent)}
+.options button[aria-pressed="true"] .rond-choix::after{content:"";width:10px;height:10px;border-radius:50%;background:var(--accent)}
+.opt-txt{display:grid;gap:3px;flex:1;min-width:0}
+.opt-txt b{font-family:var(--serif);font-weight:400;font-size:1.45rem;line-height:1.15;color:var(--ink)}
+.options.petites .opt-txt b{font-family:"Inter Tight",sans-serif;font-weight:500;font-size:16px}
+.opt-txt small{font-size:14px;color:var(--muted)}
+.opt-prix{text-align:right;font-family:var(--serif);font-size:1.7rem;line-height:1;color:var(--ink);font-variant-numeric:tabular-nums}
+.opt-prix small{display:block;margin-top:6px;font-family:"Inter Tight",sans-serif;font-size:13px;color:var(--muted)}
+.options button[aria-pressed="true"] .opt-txt b,.options button[aria-pressed="true"] .opt-prix{color:var(--accent)}
+/* les heures : des chiffres en Bagnard, un filet doré autour de celle choisie */
+.heures-choix{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:8px}
+.heures-choix button{min-height:70px;padding:10px 8px;border-radius:8px;background:none;box-shadow:inset 0 0 0 1px var(--line-hi);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;transition:box-shadow .2s,background-color .2s}
+.heures-choix button b{font-family:var(--serif);font-weight:400;font-size:1.5rem;letter-spacing:0;color:var(--ink)}
+.heures-choix button span{font-size:12.5px;color:var(--muted)}
+.heures-choix button[aria-pressed="true"]{background:rgba(241,217,166,.08);box-shadow:inset 0 0 0 1.5px var(--accent)}
+.heures-choix button[aria-pressed="true"] b{color:var(--accent)}
+.heures-choix button[aria-pressed="true"] span{color:var(--mist)}
+@media (hover:hover) and (pointer:fine){.heures-choix button:hover:not([disabled]){box-shadow:inset 0 0 0 1px var(--accent)}}
+/* les convives : le nombre en Bagnard entre deux ronds */
+.compteur{padding:14px 0;border-bottom:1px solid var(--line)}
+.compteur:first-of-type{border-top:1px solid var(--line)}
+.compteur>span{font-size:16px;color:var(--ink)}
+.compteur .pas{gap:10px}
+.compteur .pas button{width:40px;height:40px;border-radius:50%;background:none;box-shadow:inset 0 0 0 1px var(--line-hi);color:var(--accent);font-size:19px}
+@media (hover:hover) and (pointer:fine){.compteur .pas button:hover:not([disabled]){box-shadow:inset 0 0 0 1px var(--accent)}}
+.compteur .pas output{min-width:36px;font-family:var(--serif);font-weight:400;font-size:1.6rem}
+.langues-film{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.langues-film button{display:flex;align-items:center;gap:10px;min-height:48px;padding:0 14px;border-radius:8px;box-shadow:inset 0 0 0 1px var(--line);font-size:15px;color:var(--mist);text-align:left}
+.langues-film button .drapeau{width:22px;height:15px;flex:none}
+.langues-film button[aria-pressed="true"]{box-shadow:inset 0 0 0 1.5px var(--accent);color:var(--ink);background:rgba(241,217,166,.06)}
+/* les coordonnées : des champs soulignés, sans boîtes */
+.champs-ligne{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 28px}
+.champs-ligne .champ{margin:0}
+.champs-ligne .champ.large{grid-column:1/-1}
+.panneau.en-page .champ input,.panneau.en-page .champ textarea{background:none;border-radius:0;padding:10px 0;min-height:46px;box-shadow:inset 0 -1px 0 var(--line-hi);transition:box-shadow .2s}
+.panneau.en-page .champ input:focus,.panneau.en-page .champ textarea:focus{box-shadow:inset 0 -1.5px 0 var(--accent)}
+.panneau.en-page .champ textarea{min-height:46px;resize:vertical}
+.panneau.en-page .champ span{margin:16px 0 0;font-size:13px;color:var(--muted)}
+.paiement-note a{color:var(--mist)}
+/* le billet sur parchemin */
+.resa-billet{position:sticky;top:96px}
+.papier{position:relative;padding:clamp(26px,3vw,36px) clamp(22px,3vw,34px) clamp(22px,3vw,30px);border-radius:6px;background:radial-gradient(120% 90% at 50% 35%,#F1E8D6 0%,#E6D8BC 72%,#DAC8A6 100%);color:#3E301B;box-shadow:0 30px 60px -28px rgba(0,0,0,.85)}
+.papier::before{content:"";position:absolute;inset:9px;border:1px solid rgba(74,58,34,.55);border-radius:3px;pointer-events:none}
+.billet-tete{display:flex;align-items:center;justify-content:center;gap:12px;margin:0 0 18px;font-family:var(--serif);font-size:1.7rem;color:#8E2A1F}
+.billet-tete img{width:30px;height:auto}
+#rBillet,.billet-final dl{margin:0}
+#rBillet div,.billet-final dl div{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.3fr);gap:12px;padding:11px 0;border-top:1px dashed rgba(74,58,34,.35)}
+#rBillet dt,.billet-final dl dt{font-size:13px;color:#6B5634}
+#rBillet dd,.billet-final dl dd{margin:0;font-family:var(--serif);font-size:1.08rem;line-height:1.3;color:#2E2414;text-transform:none}
+#rBillet dd::first-letter,.billet-final dl dd::first-letter{text-transform:uppercase}
+#rBillet em{font-style:italic;color:#9A8662}
+#rBillet .drapeau,.billet-final .drapeau{display:inline-block;width:18px;height:12px;vertical-align:-1px;margin-right:4px}
+.resa-ok{max-width:620px}
+.resa-ok .ok-titre{margin:0;font-family:var(--serif);font-weight:400;font-size:clamp(2.4rem,1.6rem + 3vw,4rem);line-height:1;color:var(--ink);letter-spacing:0}
+.resa-ok .ok-texte{margin:14px 0 28px;font-size:var(--sub);color:var(--mist)}
+.resa-ok .note-maquette{margin-top:16px}
+.papier .pied-panneau{display:flex;align-items:center;gap:16px;margin-top:6px;padding:18px 0 0;border-top:1.5px solid rgba(74,58,34,.55);background:none}
+.papier .total small{color:#6B5634}
+.papier .total b{font-family:var(--serif);font-weight:400;font-size:2.4rem;color:#2E2414;letter-spacing:0}
+.papier .btn{background:#2A2017;color:#F6EEDC;box-shadow:none}
+@media (hover:hover) and (pointer:fine){.papier .btn:hover{background:#8E2A1F}}
+.resa-barre{display:none}
+.resa.faite .resa-billet{display:none}
+.resa.faite .panneau.en-page{grid-column:1/-1;max-width:760px}
+#rFin{margin-top:24px}
+@media (max-width:980px){
+  .resa{grid-template-columns:minmax(0,1fr)}
+  .resa-billet{position:static}
+  .champs-ligne{grid-template-columns:minmax(0,1fr)}
+  .langues-film{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .resa-barre:not(:empty){display:flex;align-items:center;gap:14px;position:fixed;left:0;right:0;bottom:0;z-index:45;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:rgba(15,14,11,.94);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-top:1px solid var(--line)}
+  .resa-barre .total b{font-family:var(--serif);font-weight:400;font-size:1.7rem}
+  .resa{padding-bottom:calc(var(--gap) + 70px)}
+}
+#panneau{scroll-margin-top:40px}

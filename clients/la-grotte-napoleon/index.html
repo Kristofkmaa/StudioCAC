@@ -8,7 +8,7 @@
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#161411">
 <link rel="icon" href="images/couronne.png">
-<link rel="stylesheet" href="grotte.css?v=20261101a">
+<link rel="stylesheet" href="grotte.css?v=20261101b">
 </head>
 <body data-titre="meta-titre">
 <div class="maquette" data-t="bandeau">Maquette préparée par Saitora pour La Grotte Napoléon : à valider ensemble avant la mise en ligne.</div>
@@ -16,7 +16,7 @@
 <header class="bar" id="tete">
   <div class="page">
     <nav class="g" aria-label="Sections">
-      <a href="./#seance" data-t="nav-seance">La séance</a><a href="formules.html" data-t="nav-formules">Formules</a><a href="./#histoire" data-t="nav-histoire">L’histoire</a><a href="boutique.html" data-t="nav-boutique">Boutique</a>
+      <a href="./#seance" data-t="nav-seance">La séance</a><a href="./#histoire" data-t="nav-histoire">L’histoire</a><a href="boutique.html" data-t="nav-boutique">Boutique</a>
     </nav>
     <div class="gauche-tel tel-seul"><div class="langue" data-langue></div><a class="panier-lien" href="panier.html" aria-label="Panier" data-t-aria="nav-panier"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M3.5 6.5h11l-.9 9.5H4.4z"/><path d="M6.5 6.5V5a2.5 2.5 0 0 1 5 0v1.5"/></svg><span class="nb-panier" hidden></span></a></div>
     <a class="logo" href="./" aria-label="La Grotte Napoléon"><img src="images/logo-blanc.png" alt="La Grotte Napoléon, dipoi 1769" width="898" height="383"></a>
@@ -36,10 +36,9 @@
     <span class="eyebrow">La Grotte Napoléon</span>
     <nav aria-label="Menu">
       <a href="./#seance" style="--i:0"><span class="n">01</span><span class="t" data-t="nav-seance">La séance</span></a>
-      <a href="formules.html" style="--i:1"><span class="n">02</span><span class="t" data-t="nav-formules">Formules</span></a>
-      <a href="./#histoire" style="--i:2"><span class="n">03</span><span class="t" data-t="nav-histoire">L’histoire</span></a>
-      <a href="boutique.html" style="--i:3"><span class="n">04</span><span class="t" data-t="nav-boutique">Boutique</span></a>
-      <a href="./#venir" style="--i:4"><span class="n">05</span><span class="t" data-t="nav-acces">Venir</span></a>
+      <a href="./#histoire" style="--i:1"><span class="n">02</span><span class="t" data-t="nav-histoire">L’histoire</span></a>
+      <a href="boutique.html" style="--i:2"><span class="n">03</span><span class="t" data-t="nav-boutique">Boutique</span></a>
+      <a href="./#venir" style="--i:3"><span class="n">04</span><span class="t" data-t="nav-acces">Venir</span></a>
     </nav>
   </div>
   <div class="bas">
@@ -123,22 +122,22 @@
     <div class="film rise" id="filmEcran"><img src="images/film-affiche.webp" alt="" width="1600" height="900" loading="lazy" decoding="async"><button type="button" class="lire" id="filmLire"><span><svg width="14" height="16" viewBox="0 0 14 16" fill="currentColor" aria-hidden="true"><path d="M1 1v14l12-7z"/></svg><b style="font-weight:500" data-t="vid-lire">Lire la vidéo</b></span></button></div>
   </section>
 
-  <!-- les formules en résumé : le détail est sur formules.html -->
+  <!-- les formules : chaque médaillon mène à la réservation, la formule déjà choisie (le menu n’a plus de page Formules) -->
   <section class="sec page" id="formules" aria-labelledby="t-formules">
     <div class="head rise"><div><p class="eyebrow" data-t="e-formules">Tarifs</p><h2 id="t-formules" data-t="fo-titre">Les formules</h2></div></div>
     <!-- trois médaillons, dans l'esprit des pastilles de l'ancien site : un double cercle doré, le chiffre, le titre, un filet, le prix -->
     <div class="medaillons">
       <div class="medaillon rise">
-        <a class="disque" href="formules.html#complete"><span class="num">I</span><span class="titre" data-t="f-complete">Formule complète</span><span class="sous" data-t="fo-c-sous">La séance et le repas corse</span><span class="filet" aria-hidden="true"></span><span class="prix"><b>48&nbsp;€</b><small data-t="fo-c-adulte">par adulte</small></span><span class="prix petit"><b>30&nbsp;€</b><small data-t="fo-c-enfant">enfant de 7 à 12 ans</small></span><span class="mini" data-t="fo-gratuit">Gratuit pour les moins de 7 ans.</span></a>
-        <a class="ghost lien" href="formules.html#complete"><span data-t="fo-detail">Voir le détail</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a>
+        <a class="disque" href="reserver.html?formule=complete" data-reserver="complete"><span class="num">I</span><span class="titre" data-t="f-complete">Formule complète</span><span class="sous" data-t="fo-c-sous">La séance et le repas corse</span><span class="filet" aria-hidden="true"></span><span class="prix"><b>48&nbsp;€</b><small data-t="fo-c-adulte">par adulte</small></span><span class="prix petit"><b>30&nbsp;€</b><small data-t="fo-c-enfant">enfant de 7 à 12 ans</small></span><span class="mini" data-t="fo-gratuit">Gratuit pour les moins de 7 ans.</span></a>
+        <a class="ghost lien" href="reserver.html?formule=complete" data-reserver="complete"><span data-t="fo-reserver">Réserver cette formule</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a>
       </div>
       <div class="medaillon rise" style="transition-delay:.08s">
-        <a class="disque" href="formules.html#decouverte"><span class="num">II</span><span class="titre" data-t="f-decouverte">Formule découverte</span><span class="sous" data-t="fo-d-sous">La séance et une boisson</span><span class="filet" aria-hidden="true"></span><span class="prix"><b>15&nbsp;€</b><small data-t="fo-d-prix">tarif unique, boisson comprise</small></span><span class="mini" data-t="fo-gratuit">Gratuit pour les moins de 7 ans.</span></a>
-        <a class="ghost lien" href="formules.html#decouverte"><span data-t="fo-detail">Voir le détail</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a>
+        <a class="disque" href="reserver.html?formule=decouverte" data-reserver="decouverte"><span class="num">II</span><span class="titre" data-t="f-decouverte">Formule découverte</span><span class="sous" data-t="fo-d-sous">La séance et une boisson</span><span class="filet" aria-hidden="true"></span><span class="prix"><b>15&nbsp;€</b><small data-t="fo-d-prix">tarif unique, boisson comprise</small></span><span class="mini" data-t="fo-gratuit">Gratuit pour les moins de 7 ans.</span></a>
+        <a class="ghost lien" href="reserver.html?formule=decouverte" data-reserver="decouverte"><span data-t="fo-reserver">Réserver cette formule</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a>
       </div>
       <div class="medaillon rise" style="transition-delay:.16s">
         <div class="disque"><span class="num">III</span><span class="titre trois"><span data-t="med-g1">Groupes</span><span data-t="med-g2">Partenaires</span><span data-t="med-g3">Privatisation</span></span><span class="filet" aria-hidden="true"></span><span class="contact" data-t="med-contact">Contactez-nous</span><a class="tel" href="tel:+33495280461">04 95 28 04 61</a><a class="tel" href="tel:+33677134395">06 77 13 43 95 <small data-t="fo-g-anglais">aussi en anglais</small></a></div>
-        <a class="ghost lien" href="formules.html#groupes"><span data-t="fo-detail">Voir le détail</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a>
+        <a class="ghost lien" href="mailto:grotte@lagrottenapoleon.fr?subject=Groupe"><span data-t="fo-g-ecrire">Écrire pour un groupe</span><span class="fleche" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a>
       </div>
     </div>
   </section>
@@ -196,7 +195,7 @@
 </div>
 
 
-<script src="textes.js?v=20261101a"></script>
-<script src="grotte.js?v=20261101a"></script>
+<script src="textes.js?v=20261101b"></script>
+<script src="grotte.js?v=20261101b"></script>
 </body>
 </html>

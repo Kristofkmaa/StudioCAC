@@ -33,12 +33,13 @@
     for (let i = 0; i <= n; i++) { const a = i / n * Math.PI * 2; pos.push(ox + Math.sin(a) * r, y, oz + Math.cos(a) * r); uv.push(.5 + Math.sin(a) / 2, .5 + Math.cos(a) / 2); nor.push(0, 1, 0); if (i < n) idx.push(0, i + 1, i + 2); }
     return forme(pos, uv, nor, idx);
   };
-  /* des pavés réunis en une seule forme (les chaises) : chaque pavé [cx, cy, cz, dx, dy, dz, angle] */
+  /* des pavés réunis en une seule forme (les chaises) : chaque pavé [cx, cy, cz, dx, dy, dz, angle, inclinaison vers l'arrière] */
   const paves = liste => {
     const pos = [], uv = [], nor = [], idx = [];
     const F = [[[1, 0, 0], [0, 1, 0], [0, 0, 1]], [[-1, 0, 0], [0, 1, 0], [0, 0, -1]], [[0, 1, 0], [0, 0, 1], [1, 0, 0]], [[0, -1, 0], [0, 0, -1], [1, 0, 0]], [[0, 0, 1], [1, 0, 0], [0, 1, 0]], [[0, 0, -1], [-1, 0, 0], [0, 1, 0]]];
-    for (const [cx, cy, cz, dx, dy, dz, ang] of liste) {
-      const c = Math.cos(ang), s = Math.sin(ang), rot = v => [v[0] * c + v[2] * s, v[1], -v[0] * s + v[2] * c], d = [dx, dy, dz];
+    for (const [cx, cy, cz, dx, dy, dz, ang, inc = 0] of liste) {
+      const c = Math.cos(ang), s = Math.sin(ang), ci = Math.cos(inc), si = Math.sin(inc), d = [dx, dy, dz];
+      const rot = v0 => { const v = [v0[0], v0[1] * ci - v0[2] * si, v0[1] * si + v0[2] * ci]; return [v[0] * c + v[2] * s, v[1], -v[0] * s + v[2] * c]; };
       for (const [n, u, v] of F) {
         const b = pos.length / 3;
         for (const [su, sv] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) {
@@ -63,7 +64,7 @@
   /* l'écran a la forme de l'ouverture du cadre doré (images/cadre.webp, proportions 2/1 ; moulures : 10 % à gauche et à droite, 14,8 % en haut et en bas) */
   const LARG = 2 * DEMI * R, HECR = LARG / 2.0, BAS = .4, HAUT = BAS + HECR, CG = .099, CH = .148;
   const LC = LARG / (1 - 2 * CG), HC = HECR / (1 - 2 * CH), RC = R - .02, DC = LC / 2 / RC, YC0 = (BAS + HAUT) / 2 - HC / 2, YC1 = YC0 + HC;
-  const TABLES = [[-1.0, -.62], [1.0, -.62], [-1.0, .72], [1.0, .72]], RT = .4, HT = .44;
+  const TABLES = [[-1.1, -.85], [1.1, -.85], [-1.1, .95], [1.1, .95]], RT = .4, HT = .44;
   const ECRANS = [...Array(N)].map((_, i) => { const a = i * 2 * Math.PI / N; return [-Math.sin(a), Math.cos(a)]; });
 
   /* ---------- les shaders ---------- */
@@ -109,8 +110,26 @@
   const pied = tronc(.035, .035, 0, YC0 + .05, 6, 0, R + .02);
   const sol = disque(RM + .35, 0, 96), mur = tronc(RM + .25, RM - .1, 0, HM, 120, 0, 0, 0, Math.PI * 2, -1);
   const nappes = TABLES.map(([x, z]) => [disque(RT, HT, 32, x, z), tronc(RT * 1.13, RT, .01, HT, 32, x, z), tronc(.04, .03, HT, HT + .16, 10, x, z), disque(.075, HT + .16, 16, x, z)]);
-  const chaises = paves(TABLES.flatMap(([x, z]) => [0, 1, 2, 3].map(k => { const a = k * Math.PI / 2 + Math.PI / 4, d = RT + .32; const cx = x + Math.sin(a) * d, cz = z + Math.cos(a) * d, ca = Math.cos(a), sa = Math.sin(a), pied = (u, v) => [cx + ca * u + sa * v, .11, cz - sa * u + ca * v, .018, .11, .018, a];
-    return [[cx, .24, cz, .17, .025, .17, a], [x + sa * (d + .155), .47, z + ca * (d + .155), .17, .21, .022, a], pied(-.14, -.14), pied(.14, -.14), pied(-.14, .14), pied(.14, .14)]; }).flat()));
+  /* les chaises Empire : bâti d'acajou, pieds avant droits, pieds arrière en sabre, dossier incliné à bandeau doré et deux pommeaux,
+     assise de velours vert bordée d'or ; chaque pièce est placée dans le repère de la chaise (z vers l'arrière, à l'opposé de la table) */
+  const BOIS = [], VELOURS = [], OR = [];
+  TABLES.forEach(([x, z]) => [0, 1, 2, 3].forEach(k => {
+    const a = k * Math.PI / 2 + Math.PI / 4, d = RT + .33, cx = x + Math.sin(a) * d, cz = z + Math.cos(a) * d, ca = Math.cos(a), sa = Math.sin(a);
+    const piece = (liste, lx, ly, lz, dx, dy, dz, inc = 0) => liste.push([cx + ca * lx + sa * lz, ly, cz - sa * lx + ca * lz, dx, dy, dz, a, inc]);
+    piece(VELOURS, 0, .275, -.01, .155, .03, .15);                       /* le coussin */
+    piece(OR, 0, .245, -.01, .172, .008, .167);                          /* le galon doré autour de l'assise */
+    piece(BOIS, 0, .222, 0, .18, .02, .17);                              /* la ceinture */
+    for (const u of [-.155, .155]) {
+      piece(BOIS, u, .105, -.145, .017, .105, .017);                     /* pied avant */
+      piece(BOIS, u, .1, .175, .017, .1, .017, -.28);                    /* pied arrière en sabre, qui part en arrière */
+      piece(BOIS, u, .43, .2, .016, .2, .018, .2);                       /* montant du dossier, incliné */
+      piece(OR, u, .655, .245, .024, .024, .024, .2);                    /* pommeau doré */
+    }
+    piece(BOIS, 0, .58, .225, .19, .055, .016, .2);                      /* le bandeau du dossier */
+    piece(OR, 0, .58, .207, .15, .022, .004, .2);                        /* son applique dorée */
+    piece(BOIS, 0, .4, .185, .15, .012, .012, .2);                       /* la traverse basse */
+  }));
+  const chaises = paves(BOIS), velours = paves(VELOURS), dorures = paves(OR);
   const poussiere = tampon(new Float32Array([...Array(260)].flatMap(() => { const a = Math.random() * 6.283, r = Math.sqrt(Math.random()) * 2.8; return [Math.sin(a) * r, .3 + Math.random() * 1.5, Math.cos(a) * r]; })));
   const point = tampon(new Float32Array([0, 0, 0]));
 
@@ -179,7 +198,7 @@
     for (let i = 0; i < N; i++) dessine(pEcran, ecran, { V: tourne(V, i), miroir: 1, oeil });
     gl.depthMask(true); gl.disable(gl.BLEND); gl.bindTexture(gl.TEXTURE_2D, texRoche);
     for (const [dessus, tour, tige, abat] of nappes) { lum(tour, [.62, .07, .05]); lum(dessus, [.78, .12, .08]); lum(tige, [.5, .4, .2]); lum(abat, [1, .8, .5], { brille: .9 }); }
-    lum(chaises, [.32, .19, .11]);
+    lum(chaises, [.34, .13, .07]); lum(velours, [.09, .26, .13]); lum(dorures, [.85, .66, .3], { brille: .18 });
     for (let i = 0; i < N; i++) { const Vi = tourne(V, i); dessine(pLum, cadre, { ...VIDE, V: Vi, oeil, col: [1, 1, 1], brille: .32, dos: 1, orne: 1 }); dessine(pLum, pied, { ...VIDE, V: Vi, oeil, col: [.3, .25, .15] }); dessine(pLum, dosPanneau, { ...VIDE, V: Vi, oeil, col: [.16, .1, .06] }); gl.bindTexture(gl.TEXTURE_2D, texFilm); dessine(pEcran, ecran, { V: Vi, miroir: 0, oeil }); gl.bindTexture(gl.TEXTURE_2D, texRoche); }
     /* les halos (écrans, lampes) puis la poussière, additifs */
     gl.depthMask(false); gl.enable(gl.BLEND); gl.blendFunc(gl.ONE, gl.ONE);

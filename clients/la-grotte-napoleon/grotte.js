@@ -108,6 +108,9 @@
   const ioR = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("on"); ioR.unobserve(e.target); } }), { rootMargin: "0px 0px -8% 0px" });
   document.querySelectorAll(".rise").forEach(el => calme ? el.classList.add("on") : ioR.observe(el));
   const vid = $("video");
+  /* la salle en 3D : son script ne se charge que quand on s’en approche (et pas si le mouvement réduit est demandé) */
+  if ($("salle3d") && !calme) new IntersectionObserver(([e], io) => { if (!e.isIntersecting) return; io.disconnect(); const sc = document.createElement("script"), v = (document.querySelector('script[src^="grotte.js"]') || {}).src || ""; sc.src = "salle.js" + (v.includes("?") ? "?" + v.split("?")[1] : ""); document.body.append(sc); }, { rootMargin: "500px" }).observe($("salle3d"));
+
   /* les âges : chacun compte depuis zéro quand il arrive à l’écran */
   document.querySelectorAll(".age").forEach(li => {
     const b = li.querySelector("[data-n]"), n = +b.dataset.n;

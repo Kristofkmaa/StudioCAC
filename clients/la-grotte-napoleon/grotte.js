@@ -180,13 +180,11 @@
   const saute = () => { vu = true; a = cible = 1; racine.classList.remove("verrou"); dessine(); };
   function dessine() {
     const p = a;
-    /* la chute : de tout en haut jusqu'à la tête, en se balançant un peu, puis un petit rebond en se posant */
-    const q = borne(p / .82), r = 1 - q, b = borne((p - .82) / .16), rebond = Math.sin(b * Math.PI);
-    /* le bicorne se tasse un peu en se posant ; la couronne (boutique), elle, s'enfile : jamais plus bas que sa place, et droite à l'arrivée,
-       sinon le bandeau passerait sous la ligne du front et semblerait entrer dans le crâne */
-    const y = -innerHeight * 1.05 * Math.pow(r, 1.5) + (couronne ? -6 : 5) * rebond, x = 34 * Math.sin(q * Math.PI * 2.2) * r;
-    const rot = couronne ? -26 * r * r + 9 * Math.sin(q * Math.PI * 1.6) * r * r : -26 * r + 9 * Math.sin(q * Math.PI * 1.6) * r;
-    const tasse = couronne ? 0 : rebond;
+    /* la chute : de tout en haut jusqu'à la tête, en se balançant un peu, et elle se pose en douceur, sans rebond (demande de l'utilisateur) */
+    const q = borne(p / .82), r = 1 - q;
+    /* jamais plus bas que sa place : le balancement et l'inclinaison s'éteignent en douceur juste avant l'arrivée (r * r), rien ne cogne */
+    const y = -innerHeight * 1.05 * Math.pow(r, 1.5), x = 34 * Math.sin(q * Math.PI * 2.2) * r * r;
+    const rot = -26 * r * r + 9 * Math.sin(q * Math.PI * 1.6) * r * r;
     /* l'enfant devient l'Empereur sous le bicorne : une ligne au bord doux descend de la tête (quand le chapeau la touche) jusqu'au bas du portrait ;
        au-dessus l'adulte, en dessous l'enfant, jamais les deux visages l'un sur l'autre */
     /* l'enfant devient l'Empereur dans un fondu doux qui descend de la tête aux pieds, à partir du moment où le bicorne la touche :
@@ -200,7 +198,7 @@
     /* puis, l'Empereur en place, ce qu'on vit à la Grotte et les boutons pour réserver */
     if (concept) concept.classList.toggle("vu", p > .82);
     $("ombreChapeau").style.opacity = (Math.pow(q, 6) * (1 - voile() * .5)).toFixed(3);
-    const pose = `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) rotate(${rot.toFixed(2)}deg) scale(${(1 + .02 * tasse).toFixed(3)},${(1 - .06 * tasse).toFixed(3)})`;
+    const pose = `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) rotate(${rot.toFixed(2)}deg)`;
     chapeaux.forEach(c => c.style.transform = pose);
     const sens = ordi.matches ? [-1, -1, -1] : sensTel;  /* sur ordinateur le titre est dans le coin gauche : tout part et revient par la gauche */
     const e = Math.pow(borne((p - .04) / .7), 2);

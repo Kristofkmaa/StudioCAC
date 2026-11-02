@@ -4,10 +4,11 @@
    la couronne, ou vert) qui font une lumière chaude, cadres dorés haut sur les murs, rien d'autre sur les murs ; au fond, une arcade ouvre sur la seconde salle (trois écrans, tables rondes).
    Les écrans passent le film de présentation (images/salle.mp4) et leur lumière prend la couleur du film.
    Les murs côté caméra s'abaissent pour qu'on voie dedans. La caméra tourne lentement ; on peut la tourner à la souris ou au doigt.
-   Chargé seulement à l'approche de la section (grotte.js) ; sans WebGL ou avec le mouvement réduit, l'image fixe reste. */
+   La toile est transparente : la maquette se pose directement sur le fond de roche de la page, sans cadre.
+   Chargé seulement à l'approche de la section (grotte.js) ; sans WebGL ou avec le mouvement réduit, l'image fixe (transparente) reste. */
 (() => {
   const boite = document.getElementById("salle3d"); if (!boite) return;
-  const toile = boite.querySelector("canvas"), gl = toile.getContext("webgl", { antialias: true, alpha: false, powerPreference: "low-power" });
+  const toile = boite.querySelector("canvas"), gl = toile.getContext("webgl", { antialias: true, alpha: true, premultipliedAlpha: true, powerPreference: "low-power" }); /* toile transparente : la maquette flotte sur le fond du site */
   if (!gl) return;
 
   /* ---------- outils ---------- */
@@ -114,7 +115,7 @@
   const NL = N + LAMPES.length + APPLIQUES.length;
 
   /* ---------- les shaders ---------- */
-  const brume = `vec3 brume(vec3 c, vec3 w, vec3 e){ float d = length(w - e); return mix(c, vec3(.012,.009,.007), smoothstep(12.0, 20.0, d) * .8); }`;
+  const brume = `vec3 brume(vec3 c, vec3 w, vec3 e){ float d = length(w - e); return mix(c, vec3(.012,.009,.007), smoothstep(16.0, 26.0, d) * .6); }`;
   const VS = `precision mediump float; attribute vec3 p; attribute vec2 t; attribute vec3 nr; uniform mat4 P, V;
     varying vec2 uv; varying vec3 w, n;
     void main(){ w = p; uv = t; n = nr; gl_Position = P * V * vec4(p, 1.0); }`;
@@ -147,7 +148,7 @@
     void main(){ vec3 q = p; if (vole > .5) { float s = fract(sin(dot(p, vec3(12.9, 78.2, 37.7))) * 4375.5); q += vec3(sin(t * .21 + s * 40.0) * .25, mod(t * .05 + s, 1.0) * .9 - .45, cos(t * .17 + s * 30.0) * .25); a = smoothstep(0.0, .2, q.y) * (.5 + .5 * sin(t * .8 + s * 20.0)); } else a = 1.0;
       vec4 v = V * vec4(q, 1.0); gl_Position = P * v; gl_PointSize = taille / -v.z; }`,
     `precision mediump float; varying float a; uniform vec3 col;
-    void main(){ vec2 d = gl_PointCoord - .5; float k = exp(-dot(d, d) * 18.0); gl_FragColor = vec4(col * k * a, 1.0); }`);
+    void main(){ vec2 d = gl_PointCoord - .5; float k = exp(-dot(d, d) * 18.0); vec3 c = col * k * a; gl_FragColor = vec4(c, max(c.r, max(c.g, c.b))); }`);
 
   /* ---------- les formes ---------- */
   const ecrans = ECRANS.map(([c, nrm, w]) => { const h = w / 2, wc = w / (1 - 2 * CG), hc = h / (1 - 2 * CH), dev = [c[0] + nrm[0] * .015, c[1], c[2] + nrm[2] * .015], der = [c[0] - nrm[0] * .012, c[1], c[2] - nrm[2] * .012];
@@ -273,7 +274,7 @@
     const lp = new Float32Array(NL * 3), lc = new Float32Array(NL * 3);
     ECRANS.forEach(([c, nrm], i) => { lp.set([c[0] + nrm[0] * .45, c[1], c[2] + nrm[2] * .45], i * 3); lc.set(teinte.map(v => v * 1.7), i * 3); });
     LAMPES.forEach(([x, z], i) => { const f = .9 + .07 * Math.sin(t * 7.1 + i * 2); lp.set([x, HT + .3, z], (N + i) * 3); lc.set(i % 3 === 1 ? [1.0 * f, 1.05 * f, .55 * f] : [1.3 * f, 1.1 * f, .7 * f], (N + i) * 3); });
-    gl.clearColor(.012, .009, .007, 1); gl.enable(gl.DEPTH_TEST); gl.depthMask(true); gl.disable(gl.BLEND); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    gl.clearColor(0, 0, 0, 0); gl.enable(gl.DEPTH_TEST); gl.depthMask(true); gl.disable(gl.BLEND); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, texRoche);
     const lum = (g, col, extra = {}) => { gl.useProgram(pLum); gl.uniform3fv(gl.getUniformLocation(pLum, "lp"), lp); gl.uniform3fv(gl.getUniformLocation(pLum, "lc"), lc); dessine(pLum, g, { ...VIDE, V, oeil, col, ...extra }); };
     lum(solPlat, [.4, .09, .09], { tex: 1 });

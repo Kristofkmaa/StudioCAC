@@ -3,6 +3,18 @@
 Portfolio de sites vitrines pour commerces de proximité, artisans et indépendants.
 Site 100 % statique : les pages sont à la racine (leur place donne leur adresse sur saitora.fr), les fichiers qu'elles partagent dans `commun/`. Pas de build, pas de dépendance, chaque page est un fichier HTML autonome (CSS et JS inclus). Seuls les essais du labo en Astro ou Next.js ont une étape de construction, et leur résultat est enregistré dans le dépôt.
 
+## Où on en est (2 novembre 2026)
+
+Résumé pour reprendre dans une nouvelle session. **Lire ensuite `ETAT.md`** (le détail, les décisions, les pièges) et `CLAUDE.md` (les règles de travail).
+
+- **Branches** : `claude/amazing-allen-r6m4us` est publiée sur saitora.fr ; `claude/saitora-community-components-fpr0c9` est la branche de travail (en avance : accueil à trois démos et `demos.html` pas encore en ligne). L'ancienne `claude/festive-ptolemy-h2752z` est à supprimer à la main sur GitHub.
+- **Dépôt nettoyé le 31 octobre** : 106 fichiers inutiles supprimés, fichiers partagés rangés dans `commun/`, `A-FAIRE.md` fusionné dans `ETAT.md`, détail de chaque site dans son `NOTES.md`.
+- **Chantier en cours : La Grotte Napoléon** (`clients/la-grotte-napoleon/`, site du père de l'utilisateur), en test sur https://saitora.fr/clients/la-grotte-napoleon/ et en page privée Claude https://claude.ai/artifact/FUf2dVq3CJkFbwXnM9XknB. À chaque changement, les deux sont republiées d'office, sans demander.
+  - Fait : ouverture où Napoléon enfant devient l'Empereur, frise des âges, formules en médaillons (qui mènent à la réservation), menu réduit (Réserver, Boutique, Contact), page Réserver en étapes avec billet sur vieux papier, boutique de 20 souvenirs avec panier, six langues.
+  - Dernier ajout : **la salle en 3D** (`salle.js`, WebGL sans bibliothèque), copie du vrai restaurant d'après les photos et la vidéo : 5 écrans à cadre doré qui passent le film, fauteuils de cinéma et chaises Napoléon, arcade de roche, salle du fond, **30 places** (18 + 12).
+  - En attente de l'utilisateur : le nom de l'outil de réservation relié à Booking (pour brancher le calendrier), Stripe et frais de livraison pour la boutique, textes à faire valider par le père (liste dans `NOTES.md`).
+- **Ensuite** : la liste « À faire avant le premier vrai client » de `ETAT.md` (SIRET, médiateur, assurance, Search Console…).
+
 ## Contenu
 
 | Fichier | Rôle |

@@ -8,9 +8,9 @@
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#161411">
 <link rel="icon" href="images/couronne.png">
-<link rel="stylesheet" href="grotte.css?v=20261102c">
+<link rel="stylesheet" href="grotte.css?v=20261102j">
 </head>
-<body data-titre="meta-reserver">
+<body class="btq resa-ouv" data-titre="meta-reserver">
 <div class="maquette" data-t="bandeau">Maquette préparée par Saitora pour La Grotte Napoléon : à valider ensemble avant la mise en ligne.</div>
 
 <header class="bar" id="tete">
@@ -49,11 +49,24 @@
 </div>
 
 <main id="haut">
+  <!-- l'ouverture : la couronne d'impératrice se pose d'elle-même sur Joséphine en habit du sacre (même animation que la couronne de laurier de la boutique), puis la phrase et le bouton arrivent -->
+  <section class="chapeau" id="chapeau" aria-labelledby="t-titre">
+    <div class="scene">
+      <div class="ouverture-texte">
+        <h1 class="geant" id="t-titre"><span class="ln l1"><span class="in" data-t="rj-l1">Une soirée</span></span> <span class="ln l2"><span class="in" data-t="rj-l2">à la cour</span></span> <span class="ln l3"><span class="in" data-t="rj-l3">de l’Empereur</span></span></h1>
+        <div class="accroche concept" id="concept">
+          <p data-t="rj-phrase" style="--i:0"></p>
+          <div class="actions" id="boutonsOuv" style="--i:1"><a class="btn lg" href="#resa" data-t="rj-choisir">Choisir sa séance</a></div>
+        </div>
+      </div>
+      <div class="portrait josephine"><img src="images/josephine.webp" alt="L’impératrice Joséphine en habit du sacre" width="1145" height="1374" fetchpriority="high" data-t-alt="rj-alt"><span class="ombre-chapeau" id="ombreChapeau"></span><img class="bicorne" id="bicorne" src="images/couronne-josephine.webp" alt="" width="720" height="577"></div>
+    </div>
+  </section>
   <!-- la réservation en quatre étapes numérotées ; à côté, le billet sur parchemin se remplit à mesure (sur téléphone : après le formulaire, avec une barre du total en bas) -->
-  <div class="page resa">
+  <div class="page resa" id="resa">
     <header class="resa-tete entete-page">
       <p class="eyebrow" data-t="e-seances">Réservation</p>
-      <h1 id="t-reserver" data-t="r-page-titre">Réserver une séance</h1>
+      <h2 id="t-reserver" data-t="r-page-titre">Réserver une séance</h2>
       <p class="intro" data-t="r-intro2"></p>
       <p class="resa-pratique"><span data-t="v-adresse">4 rue Saint-Charles, 20000 Ajaccio</span><a href="tel:+33495280461">04 95 28 04 61</a><span>30 <span data-t="s-c3">places par séance</span></span></p>
     </header>
@@ -93,7 +106,7 @@
   <a href="./#venir" data-t="barre-plan">Plan</a>
 </div>
 
-<script src="textes.js?v=20261102b"></script>
-<script src="grotte.js?v=20261102r"></script>
+<script src="textes.js?v=20261102j"></script>
+<script src="grotte.js?v=20261102j"></script>
 </body>
 </html>

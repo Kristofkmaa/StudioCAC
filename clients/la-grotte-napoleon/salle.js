@@ -1,8 +1,7 @@
 /* La salle de la Grotte en 3D, vue en plongée comme une maquette (WebGL écrit à la main, sans bibliothèque), d'après la photo
    et de la vidéo de la vraie salle : une longue galerie de roche NOIRE (la roche ne se voit que là où les lampes et les écrans
    l'éclairent), sol rouge sombre, nappes rouges jusqu'au sol, assiettes de présentation argentées, lampes à abat-jour (crème à
-   la couronne, ou vert) qui font une lumière chaude, appliques à bougies rouges à côté des écrans, cadres dorés haut sur les
-   murs ; au fond, une arcade ouvre sur la seconde salle (trois écrans, tables rondes, le mannequin en uniforme à bicorne).
+   la couronne, ou vert) qui font une lumière chaude, cadres dorés haut sur les murs, rien d'autre sur les murs ; au fond, une arcade ouvre sur la seconde salle (trois écrans, tables rondes).
    Les écrans passent le film de présentation (images/salle.mp4) et leur lumière prend la couleur du film.
    Les murs côté caméra s'abaissent pour qu'on voie dedans. La caméra tourne lentement ; on peut la tourner à la souris ou au doigt.
    Chargé seulement à l'approche de la section (grotte.js) ; sans WebGL ou avec le mouvement réduit, l'image fixe reste. */
@@ -86,8 +85,7 @@
   /* ---------- le plan de la salle (une unité ≈ 1,6 m), d'après les photos et la vidéo de l'utilisateur ----------
      la grande salle (ZA..ZE) : tables collées aux deux murs avec une rangée de fauteuils de cinéma contre le mur et des chaises
      dorées côté allée, un écran à cadre doré sur chaque mur, le rideau noir au bout (la cuisine est derrière) ;
-     une arcade de roche large et basse ; la salle du fond (ZF..ZA, plus large) : tables rondes, fauteuils le long des murs,
-     trois écrans (gauche, fond, droite), un mannequin en costume */
+     une arcade de roche large et basse ; la salle du fond (ZF..ZA, plus large) : tables rondes, trois écrans (gauche, fond, droite) */
   const X = 2.0, X2 = 2.4, ZE = 5.6, ZA = 0, ZF = -4.0, HM = 2.4, ARC = 1.15, LINTEAU = 1.5;
   const HT = .44;
   /* les écrans : [centre, normale, largeur de l'ouverture] ; l'ouverture du cadre est en 2/1 (moulures : 9,9 % sur les côtés, 14,8 % en haut et en bas) */
@@ -112,7 +110,7 @@
   for (const [x, z, r] of RONDES) for (let k = 0; k < 4; k++) { const a = k * Math.PI / 2 + Math.PI / 4; ASSIETTES.push([x + Math.sin(a) * (r - .13), z + Math.cos(a) * (r - .13)]); }
   /* les lumières : 5 écrans, une lampe par table, 4 appliques à côté des écrans */
   const LAMPES = [...LONGUES.map(([x, z]) => [x, z]), ...RONDES.map(([x, z]) => [x, z])];
-  const APPLIQUES = [[-X + .06, 1.75, 4.5], [X - .06, 1.75, 4.5], [-X2 + .06, 1.75, -.7], [X2 - .06, 1.75, -1.2]];
+  const APPLIQUES = []; /* plus d'appliques : rien sur les murs à part les écrans (demande de l'utilisateur, 2 novembre 2026) */
   const NL = N + LAMPES.length + APPLIQUES.length;
 
   /* ---------- les shaders ---------- */
@@ -167,8 +165,6 @@
       M.push([xm, (ya + HM) / 2, z, 0, f, x1 - x0 + .002, HM - ya]); }
   }
   const parois = murs(M);
-  /* le rideau noir au bout (la cuisine) et les rideaux sur le mur de droite, près de l'arcade */
-  const rideau = murs([[0, 1.05, ZE - .03, 0, -1, 1.3, 2.1], [X - .03, 1.05, .55, -1, 0, 1.0, 2.1]]);
   /* les tables : la nappe (dessus et pans) ; les rondes en tronc de cône évasé */
   const tables = (() => { const L = [];
     for (const [x, z, hx, hz] of LONGUES) if (hz < .7) L.push([x, HT - .01, z, hx, .012, hz, 0], [x, HT / 2, z, hx + .03, HT / 2 - .01, hz + .03, 0]);
@@ -184,16 +180,7 @@
     for (const dz of [-.21, .21]) FS.push([x - s * .02, .33, z + dz, .15, .015, .018, a]); };
   for (const [x, z, s] of FAUTEUILS) fauteuil(x, z, s);
   const fauteuils = paves(FV), fauteuilsPied = paves(FS);
-  /* le mannequin en costume de Napoléon, près de l'arcade : un pied, un buste bleu nuit, un plastron blanc, un col rouge */
-  const mannequin = [tronc(.025, .025, 0, .78, 8, 1.75, -.4), tronc(.15, .2, .78, 1.42, 18, 1.75, -.4), tronc(.07, .05, 1.42, 1.5, 12, 1.75, -.4),
-    tronc(.09, .09, 1.5, 1.66, 12, 1.75, -.4), paves([[1.75, 1.7, -.4, .19, .035, .05, -.5]]), paves([[1.75, 1.1, -.4 + .16, .06, .3, .03, 0]])];
   const assiettes = disques(ASSIETTES, .065, HT + .004);
-  /* les appliques à bougies : un bras doré sortant du mur, deux bougies, deux ampoules rouges */
-  const AB = [], AR = [];
-  for (const [x, y, z] of APPLIQUES) { const s = x < 0 ? 1 : -1;
-    AB.push([x + s * .05, y - .1, z, .05, .012, .012, 0], [x + s * .1, y - .06, z, .012, .05, .09, 0]);
-    for (const dz of [-.07, .07]) { AB.push([x + s * .1, y - .025, z + dz, .009, .035, .009, 0]); AR.push([x + s * .1, y + .015, z + dz, .013, .018, .013, 0]); } }
-  const appliquesBras = paves(AB), appliquesAmpoules = paves(AR);
   const lampes = LAMPES.map(([x, z]) => [tronc(.022, .018, HT, HT + .12, 8, x, z), tronc(.085, .055, HT + .11, HT + .21, 16, x, z)]);
   /* les chaises « Napoléon » (d'après la photo envoyée par l'utilisateur) : tout le bâti doré, pieds et barreaux tournés
      avec leurs bagues, pieds arrière qui partent en arrière, dossier à quatre barreaux sous un bandeau, assise de velours rouge.
@@ -286,19 +273,14 @@
     const lp = new Float32Array(NL * 3), lc = new Float32Array(NL * 3);
     ECRANS.forEach(([c, nrm], i) => { lp.set([c[0] + nrm[0] * .45, c[1], c[2] + nrm[2] * .45], i * 3); lc.set(teinte.map(v => v * 1.7), i * 3); });
     LAMPES.forEach(([x, z], i) => { const f = .9 + .07 * Math.sin(t * 7.1 + i * 2); lp.set([x, HT + .3, z], (N + i) * 3); lc.set(i % 3 === 1 ? [1.0 * f, 1.05 * f, .55 * f] : [1.3 * f, 1.1 * f, .7 * f], (N + i) * 3); });
-    APPLIQUES.forEach((a, i) => { const f = .8 + .12 * Math.sin(t * 9.3 + i * 3) + .08 * Math.sin(t * 21.7 + i); lp.set(a, (N + LAMPES.length + i) * 3); lc.set([.9 * f, .22 * f, .08 * f], (N + LAMPES.length + i) * 3); });
     gl.clearColor(.012, .009, .007, 1); gl.enable(gl.DEPTH_TEST); gl.depthMask(true); gl.disable(gl.BLEND); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, texRoche);
     const lum = (g, col, extra = {}) => { gl.useProgram(pLum); gl.uniform3fv(gl.getUniformLocation(pLum, "lp"), lp); gl.uniform3fv(gl.getUniformLocation(pLum, "lc"), lc); dessine(pLum, g, { ...VIDE, V, oeil, col, ...extra }); };
     lum(solPlat, [.85, .16, .12], { tex: 1 });
     lum(parois, [.72, .68, .64], { tex: 1, coupe: 1, brille: .03 });
-    lum(rideau, [.07, .06, .06], { coupe: 1 });
     lum(tables, [.7, .08, .07]); for (const [dessus, tour] of rondes) { lum(tour, [.62, .07, .05]); lum(dessus, [.78, .12, .08]); }
     lum(fauteuils, [.62, .05, .05]); lum(fauteuilsPied, [.12, .08, .06]);
-    lum(mannequin[0], [.2, .17, .12]); lum(mannequin[1], [.08, .1, .25]); lum(mannequin[2], [.7, .08, .07]);
-    lum(mannequin[3], [.9, .88, .8]); lum(mannequin[4], [.06, .06, .07], { brille: .02 }); lum(mannequin[5], [.9, .88, .8]);
     lum(assiettes, [.62, .62, .6], { brille: .06 });
-    lum(appliquesBras, [.8, .62, .3], { brille: .1 }); lum(appliquesAmpoules, [1, .15, .05], { brille: 1 });
     /* les lampes : abat-jour crème à la couronne (comme dans la vidéo) ou vert (comme sur la photo), la lumière est chaude */
     lampes.forEach(([tige, abat], i) => { lum(tige, [.6, .5, .3]); lum(abat, i % 3 === 1 ? [.55, .85, .45] : [1, .9, .62], { brille: .95 }); });
     lum(chaises, [.88, .68, .32], { brille: .14 }); lum(dorures, [.88, .68, .32], { brille: .14 }); lum(velours, [.5, .04, .07]);

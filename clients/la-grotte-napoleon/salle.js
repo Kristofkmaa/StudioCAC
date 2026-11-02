@@ -87,21 +87,24 @@
      la grande salle (ZA..ZE) : tables collées aux deux murs avec une rangée de fauteuils de cinéma contre le mur et des chaises
      dorées côté allée, un écran à cadre doré sur chaque mur, le rideau noir au bout (la cuisine est derrière) ;
      une arcade de roche large et basse ; la salle du fond (ZF..ZA, plus large) : tables rondes, trois écrans (gauche, fond, droite) */
-  /* UNE UNITÉ = UN MÈTRE (depuis le 2 novembre 2026). Grande salle 4,4 × 5,6 m, salle du fond 4 × 3,6 m, plafond à 2,6 m, arcade de 2,2 m de large sous un linteau à 2,1 m. */
-  const X = 2.2, X2 = 2.0, ZE = 5.6, ZA = 0, ZF = -3.6, HM = 2.6, ARC = 1.1, LINTEAU = 2.1;
+  /* UNE UNITÉ = UN MÈTRE (depuis le 2 novembre 2026). La vraie salle fait environ 4,4 × 5,6 m (grande salle), 4 × 3,6 m (fond), 2,6 m sous plafond ;
+     à la demande de l'utilisateur, la maquette est agrandie d'un tiers en long et en large (F) et d'un cinquième en haut (H) pour qu'on respire,
+     le mobilier gardant sa taille réelle. Les écrans et l'arcade grandissent avec la salle. */
+  const F = 1.35, H = 1.2;
+  const X = 2.2 * F, X2 = 2.0 * F, ZE = 5.6 * F, ZA = 0, ZF = -3.6 * F, HM = 2.6 * H, ARC = 1.1 * F, LINTEAU = 2.1 * H;
   const HT = .75; /* hauteur des tables */
   /* les écrans : [centre, normale, largeur] ; tous les cinq sont des téléviseurs OLED de 165 cm (16/9 : 1,44 m × 0,81 m), accrochés haut (centre à 2 m) : personne, assis, ne gêne la vue. Le cadre doré (moulures : 9,9 % sur
      les côtés, 14,8 % en haut et en bas, dessinées pour une ouverture 2/1) s'étire un peu en hauteur pour suivre le 16/9. */
-  const ECRAN_L = 1.44, ECRAN_Y = 2.0; /* 165 cm de diagonale : 1,44 × 0,81 m ; bas de l'image à 1,6 m, haut à 2,4 m, juste sous le plafond */
-  const ECRANS = [[[-X + .02, ECRAN_Y, 3.2], [1, 0, 0], ECRAN_L], [[X - .02, ECRAN_Y, 3.2], [-1, 0, 0], ECRAN_L],
-    [[-X2 + .02, ECRAN_Y, -2.2], [1, 0, 0], ECRAN_L], [[0, ECRAN_Y, ZF + .02], [0, 0, 1], ECRAN_L], [[X2 - .02, ECRAN_Y, -2.2], [-1, 0, 0], ECRAN_L]];
+  const ECRAN_L = 1.44 * F, ECRAN_Y = 2.0 * H; /* 165 cm de diagonale (1,44 × 0,81 m), agrandis avec la salle ; le haut reste juste sous le plafond */
+  const ECRANS = [[[-X + .02, ECRAN_Y, 3.2 * F], [1, 0, 0], ECRAN_L], [[X - .02, ECRAN_Y, 3.2 * F], [-1, 0, 0], ECRAN_L],
+    [[-X2 + .02, ECRAN_Y, -2.2 * F], [1, 0, 0], ECRAN_L], [[0, ECRAN_Y, ZF + .02], [0, 0, 1], ECRAN_L], [[X2 - .02, ECRAN_Y, -2.2 * F], [-1, 0, 0], ECRAN_L]];
   const N = ECRANS.length, CG = .099, CH = .148;
   /* les tables collées au mur [x, z, demi-largeur, demi-longueur] (l'allée est du côté du centre), et les tables rondes [x, z, rayon] */
   /* 30 places en tout, comme le vrai restaurant : 18 dans la grande salle (2 + 2 tables collées au mur), 12 dans la salle du fond (2 rondes de 4, une table de 4) */
   /* depuis le mur : la banquette (50 cm), puis la table (70 cm de profondeur, 1,2 m de long pour 4, 1,8 m pour 6), puis les chaises */
-  const LONGUES = [[-X + .9, 1.3, .35, .6], [-X + .9, 3.5, .35, .6], [X - .9, 1.3, .35, .6], [X - .9, 3.8, .35, .9],
-    [X2 - .9, -1.0, .35, .6]];
-  const RONDES = [[-X2 + 1.05, -.95, .5, 1], [0, -2.5, .5]]; /* tables rondes d'un mètre */ /* 4e valeur : côté libre (+1 : la table est contre le mur gauche, deux banquettes de cinéma côté mur, deux chaises côté salle) */ /* une contre le mur gauche (en face de la table collée au mur droit), l'autre au centre de la salle du fond */
+  const LONGUES = [[-X + .9, 1.3 * F, .35, .6], [-X + .9, 3.5 * F, .35, .6], [X - .9, 1.3 * F, .35, .6], [X - .9, 3.8 * F, .35, .9],
+    [X2 - .9, -1.0 * F, .35, .6]];
+  const RONDES = [[-X2 + 1.05, -.95 * F, .5, 1], [0, -2.5 * F, .5]]; /* tables rondes d'un mètre */ /* 4e valeur : côté libre (+1 : la table est contre le mur gauche, deux banquettes de cinéma côté mur, deux chaises côté salle) */ /* une contre le mur gauche (en face de la table collée au mur droit), l'autre au centre de la salle du fond */
   const CHAISES = [], FAUTEUILS = [];
   /* les sièges de cinéma capitonnés rouges, collés au mur, seulement devant les tables collées au mur (demande de
      l'utilisateur : pas de sièges là où il n'y a pas de table) ; un siège tous les 0,54, deux par table de quatre, trois pour la table de six */
@@ -149,7 +152,7 @@
         base *= .55 + .45 * smoothstep(0.0, .07, j) * smoothstep(1.0, .93, j) * smoothstep(0.0, .035, jz); }
       vec3 l = base * vec3(.075,.066,.062);
       for (int i = 0; i < ${NL}; i++) { vec3 d = lp[i] - w; float r = length(d); d /= r;
-        float lam = max(dot(nn, d), 0.0) * .8 + .2; l += base * lc[i] * lam / (1.0 + r * r * (i < ${N} ? .09 : 1.3)); }
+        float lam = max(dot(nn, d), 0.0) * .8 + .2; l += base * lc[i] * lam / (1.0 + r * r * (i < ${N} ? .06 : .9)); }
       l += brille * base;
       if (tex > .5) l += base * vec3(.07,.02,.018) * (1.0 - smoothstep(0.0, 1.5, w.y)); /* le rouge du sol et des nappes renvoyé sur le bas de la roche */
       if (dos > .5 && dot(n0, oeil - w) < 0.0) l = vec3(.035,.028,.02) + l * .08; /* vu de dos : le bois sombre */
@@ -272,7 +275,7 @@
     else gl.drawArrays(gl.POINTS, 0, g.n);
   };
   const VIDE = { tex: 0, coupe: 0, brille: 0, dos: 0, orne: 0, bois: 0 };
-  const CENTRE = [0, .7, 1.0];
+  const CENTRE = [0, .7, 1.0 * F];
   let theta = .5, vitesse = 0, actif = false, enCours = false, dernier = 0, t = 0;
   const taille = () => {
     const dpr = Math.min(devicePixelRatio || 1, innerWidth < 760 ? 1.5 : 2), r = boite.getBoundingClientRect();
@@ -286,7 +289,7 @@
     theta += (.05 + vitesse) * dt; vitesse *= Math.pow(.02, dt);
     const dpr = taille(), portrait = toile.width / toile.height < 1;
     /* la galerie est longue : la caméra s'éloigne quand elle la voit de côté, se rapproche quand elle la voit dans l'axe */
-    const loin = (portrait ? 8.4 : 9.0) + Math.abs(Math.sin(theta)) * (portrait ? .8 : 2.0), h = loin * .62 + Math.sin(t * .23) * .12;
+    const loin = ((portrait ? 8.4 : 9.0) + Math.abs(Math.sin(theta)) * (portrait ? .8 : 2.0)) * F, h = loin * .62 + Math.sin(t * .23) * .12;
     const oeil = [CENTRE[0] + Math.sin(theta) * loin, h, CENTRE[2] + Math.cos(theta) * loin], V = regarde(oeil, CENTRE);
     if (source) { gl.bindTexture(gl.TEXTURE_2D, texFilm); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, source); if (compte++ % 3 === 0) mesure(); }
     teinte = teinte.map((v, k) => v + (cible[k] - v) * Math.min(1, dt * 6));

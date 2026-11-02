@@ -97,7 +97,7 @@
   /* 30 places en tout, comme le vrai restaurant : 18 dans la grande salle (2 + 2 tables collées au mur), 12 dans la salle du fond (2 rondes de 4, une table de 4) */
   const LONGUES = [[-X + .62, 1.7, .28, .5], [-X + .62, 3.9, .28, .5], [X - .62, 1.5, .28, .5], [X - .62, 3.8, .28, .75],
     [X2 - .62, -1.2, .28, .5]];
-  const RONDES = [[-.95, -2.4, .4], [.95, -2.4, .4]]; /* côte à côte, centrées dans la salle du fond */
+  const RONDES = [[-X2 + .7, -1.5, .4], [0, -2.5, .4]]; /* une contre le mur gauche (en face de la table collée au mur droit), l'autre au centre de la salle du fond */
   const CHAISES = [], FAUTEUILS = [];
   /* les sièges de cinéma capitonnés rouges, collés au mur, seulement devant les tables collées au mur (demande de
      l'utilisateur : pas de sièges là où il n'y a pas de table) ; un siège tous les 0,54, deux par table de quatre, trois pour la table de six */

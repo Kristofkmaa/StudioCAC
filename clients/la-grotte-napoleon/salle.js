@@ -87,11 +87,14 @@
      la grande salle (ZA..ZE) : tables collées aux deux murs avec une rangée de fauteuils de cinéma contre le mur et des chaises
      dorées côté allée, un écran à cadre doré sur chaque mur, le rideau noir au bout (la cuisine est derrière) ;
      une arcade de roche large et basse ; la salle du fond (ZF..ZA, plus large) : tables rondes, trois écrans (gauche, fond, droite) */
-  const X = 2.0, X2 = 2.4, ZE = 5.6, ZA = 0, ZF = -4.0, HM = 2.4, ARC = 1.15, LINTEAU = 1.5;
+  const X = 2.0, X2 = 2.4, ZE = 5.6, ZA = 0, ZF = -4.0, HM = 1.75, ARC = 1.15, LINTEAU = 1.3; /* murs ≈ 2,8 m, arcade ≈ 2,1 m : le plafond de la vraie salle est bas */
   const HT = .44;
-  /* les écrans : [centre, normale, largeur de l'ouverture] ; l'ouverture du cadre est en 2/1 (moulures : 9,9 % sur les côtés, 14,8 % en haut et en bas) */
-  const ECRANS = [[[-X + .02, 1.5, 3.0], [1, 0, 0], 1.9], [[X - .02, 1.5, 3.0], [-1, 0, 0], 1.9],
-    [[-X2 + .02, 1.45, -1.8], [1, 0, 0], 1.5], [[-.7, 1.45, ZF + .02], [0, 0, 1], 1.5], [[X2 - .02, 1.45, -2.3], [-1, 0, 0], 1.5]];
+  /* les écrans : [centre, normale, largeur] ; tous les cinq sont des téléviseurs OLED de 165 cm (16/9 : 1,44 m × 0,81 m, soit 0,9 × 0,506 à
+     l'échelle), accrochés haut (centre à 1,32, bas de l'image à 1,7 m, haut à 2,5 m) : personne, assis, ne gêne la vue. Le cadre doré (moulures : 9,9 % sur
+     les côtés, 14,8 % en haut et en bas, dessinées pour une ouverture 2/1) s'étire un peu en hauteur pour suivre le 16/9. */
+  const ECRAN_L = .9, ECRAN_Y = 1.32;
+  const ECRANS = [[[-X + .02, ECRAN_Y, 3.0], [1, 0, 0], ECRAN_L], [[X - .02, ECRAN_Y, 3.0], [-1, 0, 0], ECRAN_L],
+    [[-X2 + .02, ECRAN_Y, -1.8], [1, 0, 0], ECRAN_L], [[-.7, ECRAN_Y, ZF + .02], [0, 0, 1], ECRAN_L], [[X2 - .02, ECRAN_Y, -2.3], [-1, 0, 0], ECRAN_L]];
   const N = ECRANS.length, CG = .099, CH = .148;
   /* les tables collées au mur [x, z, demi-largeur, demi-longueur] (l'allée est du côté du centre), et les tables rondes [x, z, rayon] */
   /* 30 places en tout, comme le vrai restaurant : 18 dans la grande salle (2 + 2 tables collées au mur), 12 dans la salle du fond (2 rondes de 4, une table de 4) */
@@ -154,7 +157,7 @@
   /* l'écran : le film côté salle (rogné en 2/1), le dos sombre */
   const pEcran = prog(VS, `precision mediump float; varying vec2 uv; varying vec3 w, n; uniform sampler2D film; uniform vec3 oeil; ${brume}
     void main(){ vec3 c;
-      if (dot(n, oeil - w) > 0.0) { c = texture2D(film, vec2(uv.x, .056 + uv.y * .889)).rgb * 1.15; float v = smoothstep(0.0, .05, uv.x) * smoothstep(1.0, .95, uv.x); c *= .8 + .2 * v; }
+      if (dot(n, oeil - w) > 0.0) { c = texture2D(film, uv).rgb * 1.15; /* l'écran est en 16/9 comme le film : rien n'est rogné */ float v = smoothstep(0.0, .05, uv.x) * smoothstep(1.0, .95, uv.x); c *= .8 + .2 * v; }
       else c = vec3(.03,.025,.02);
       gl_FragColor = vec4(brume(c, w, oeil), 1.0); }`);
   /* halos et poussière : des points lumineux doux, additifs */
@@ -165,7 +168,7 @@
     void main(){ vec2 d = gl_PointCoord - .5; float k = exp(-dot(d, d) * 18.0); vec3 c = col * k * a; gl_FragColor = vec4(c, max(c.r, max(c.g, c.b))); }`);
 
   /* ---------- les formes ---------- */
-  const ecrans = ECRANS.map(([c, nrm, w]) => { const h = w / 2, wc = w / (1 - 2 * CG), hc = h / (1 - 2 * CH), dev = [c[0] + nrm[0] * .015, c[1], c[2] + nrm[2] * .015], der = [c[0] - nrm[0] * .012, c[1], c[2] - nrm[2] * .012];
+  const ecrans = ECRANS.map(([c, nrm, w]) => { const h = w * 9 / 16, wc = w / (1 - 2 * CG), hc = h / (1 - 2 * CH), dev = [c[0] + nrm[0] * .015, c[1], c[2] + nrm[2] * .015], der = [c[0] - nrm[0] * .012, c[1], c[2] - nrm[2] * .012];
     return { film: plan(c, nrm, w, h), cadre: plan(dev, nrm, wc, hc), dos: plan(der, nrm, wc, hc) }; });
   const rect = (x0, x1, z0, z1, y) => [x0, y, z0, x1, y, z0, x0, y, z1, x1, y, z1];
   const solPlat = (() => { const pos = [...rect(-X, X, ZA, ZE, 0), ...rect(-X2, X2, ZF, ZA, 0)], nor = Array(8).fill([0, 1, 0]).flat();

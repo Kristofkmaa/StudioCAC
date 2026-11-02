@@ -1,6 +1,6 @@
 /* La salle de la Grotte en 3D, vue en plongée comme une maquette (WebGL écrit à la main, sans bibliothèque), d'après la photo
    et de la vidéo de la vraie salle : une longue galerie de roche NOIRE (la roche ne se voit que là où les lampes et les écrans
-   l'éclairent), sol rouge sombre, nappes rouges jusqu'au sol, assiettes de présentation argentées, lampes à abat-jour (crème à
+   l'éclairent), parquet sombre, nappes rouges jusqu'au sol, rangées de sièges de cinéma capitonnés rouges le long des murs, assiettes de présentation argentées, lampes à abat-jour (crème à
    la couronne, ou vert) qui font une lumière chaude, cadres dorés haut sur les murs, rien d'autre sur les murs ; au fond, une arcade ouvre sur la seconde salle (trois écrans, tables rondes).
    Les écrans passent le film de présentation (images/salle.mp4) et leur lumière prend la couleur du film.
    Les murs côté caméra s'abaissent pour qu'on voie dedans. La caméra tourne lentement ; on peut la tourner à la souris ou au doigt.
@@ -95,13 +95,17 @@
   const N = ECRANS.length, CG = .099, CH = .148;
   /* les tables collées au mur [x, z, demi-largeur, demi-longueur] (l'allée est du côté du centre), et les tables rondes [x, z, rayon] */
   /* 30 places en tout, comme le vrai restaurant : 18 dans la grande salle (2 + 2 tables collées au mur), 12 dans la salle du fond (2 rondes de 4, une table de 4) */
-  const LONGUES = [[-X + .52, 1.7, .28, .5], [-X + .52, 3.9, .28, .5], [X - .52, 1.5, .28, .5], [X - .52, 3.8, .28, .75],
-    [X2 - .52, -1.2, .28, .5]];
+  const LONGUES = [[-X + .62, 1.7, .28, .5], [-X + .62, 3.9, .28, .5], [X - .62, 1.5, .28, .5], [X - .62, 3.8, .28, .75],
+    [X2 - .62, -1.2, .28, .5]];
   const RONDES = [[-.3, -1.35, .4], [.75, -2.65, .4]];
   const CHAISES = [], FAUTEUILS = [];
+  /* les rangées de sièges de cinéma capitonnés rouges, collées aux murs comme sur les photos et la vidéo :
+     [x du siège, z de début, z de fin, sens vers l'allée] ; un siège tous les 0,54 */
+  for (const [x, z0, z1, s] of [[-X + .3, 1.0, 4.6, 1], [X - .3, .9, 4.6, -1], [-X2 + .3, ZF + .5, -1.5, 1], [X2 - .3, ZF + .5, -.5, -1]])
+    for (let z = z0 + .27; z < z1; z += .54) FAUTEUILS.push([x, z, s]);
   for (const [x, z, hx, hz] of LONGUES) {
     const n = Math.max(2, Math.round(hz * 2 / .52)), pas = hz * 2 / n, s = x < 0 ? 1 : -1;  /* s : vers l'allée */
-    for (let k = 0; k < n; k++) { const zz = z - hz + pas * (k + .5); CHAISES.push([x + s * (hx + .26), zz, s * Math.PI / 2]); FAUTEUILS.push([x - s * .22, zz, s]); } /* le fauteuil (0,2 de profondeur) reste devant le mur, qui est à 0,52 du centre de la table */
+    for (let k = 0; k < n; k++) { const zz = z - hz + pas * (k + .5); CHAISES.push([x + s * (hx + .26), zz, s * Math.PI / 2]); }
   }
   for (const [x, z, r] of RONDES) for (let k = 0; k < 4; k++) { const a = k * Math.PI / 2 + Math.PI / 4; CHAISES.push([x + Math.sin(a) * (r + .3), z + Math.cos(a) * (r + .3), a]); }
   /* les assiettes de présentation argentées, une par place, posées sur la nappe */
@@ -120,7 +124,7 @@
     varying vec2 uv; varying vec3 w, n;
     void main(){ w = p; uv = t; n = nr; gl_Position = P * V * vec4(p, 1.0); }`;
   const pLum = prog(VS, `precision mediump float; varying vec2 uv; varying vec3 w, n; uniform vec3 col, oeil; uniform vec3 lp[${NL}], lc[${NL}];
-    uniform sampler2D roche, motif; uniform float tex, coupe, brille, dos, orne; ${brume}
+    uniform sampler2D roche, motif; uniform float tex, coupe, brille, dos, orne, bois; ${brume}
     void main(){
       vec3 n0 = normalize(n);
       /* les murs dont la caméra voit le dos (ceux entre elle et la salle) s'abaissent, avec un haut irrégulier comme de la roche */
@@ -129,11 +133,17 @@
       vec3 base = col;
       if (orne > .5) { vec4 m = texture2D(motif, uv); if (m.a < .5) discard; base = m.rgb * 1.1; } /* le cadre doré : ses moulures, son ouverture vide */
       if (tex > .5) base *= texture2D(roche, fract((abs(n0.y) > .5 ? w.xz : vec2(w.x + w.z, w.y)) * .32)).rgb * 1.7;
+      if (bois > .5) { /* le parquet : des lames de 0,22 dans la longueur, chacune sa nuance, joints sombres, bouts décalés */
+        float px = w.x * 4.5, lame = floor(px), bout = floor(w.z * .8 + fract(lame * .37) * 1.3);
+        float nu = fract(sin(lame * 12.99 + bout * 7.7) * 437.5), fil = fract(sin(w.z * 41.0 + lame * 3.0) * 7.3);
+        base *= (.7 + .55 * nu) * (.92 + .08 * fil);
+        float j = fract(px), jz = fract(w.z * .8 + fract(lame * .37) * 1.3);
+        base *= .55 + .45 * smoothstep(0.0, .07, j) * smoothstep(1.0, .93, j) * smoothstep(0.0, .035, jz); }
       vec3 l = base * vec3(.075,.066,.062);
       for (int i = 0; i < ${NL}; i++) { vec3 d = lp[i] - w; float r = length(d); d /= r;
         float lam = max(dot(nn, d), 0.0) * .8 + .2; l += base * lc[i] * lam / (1.0 + r * r * (i < ${N} ? .09 : 1.3)); }
       l += brille * base;
-      if (tex > .5) l += base * vec3(.08,.025,.02) * (1.0 - smoothstep(0.0, 1.5, w.y)); /* le rouge du sol et des nappes renvoyé sur le bas de la roche */
+      if (tex > .5) l += base * vec3(.07,.02,.018) * (1.0 - smoothstep(0.0, 1.5, w.y)); /* le rouge du sol et des nappes renvoyé sur le bas de la roche */
       if (dos > .5 && dot(n0, oeil - w) < 0.0) l = vec3(.035,.028,.02) + l * .08; /* vu de dos : le bois sombre */
       gl_FragColor = vec4(brume(l, w, oeil), 1.0); }`);
   gl.useProgram(pLum); gl.uniform1i(gl.getUniformLocation(pLum, "motif"), 1); /* le cadre doré sur l'unité de texture 1 */
@@ -176,9 +186,9 @@
   /* les fauteuils de cinéma contre le mur : assise, haut dossier incliné en velours rouge, accoudoirs et pied sombres ; plus ceux du fond */
   const FV = [], FS = [];
   const fauteuil = (x, z, s) => { const a = s > 0 ? Math.PI / 2 : -Math.PI / 2;
-    FV.push([x, .27, z, .15, .05, .2, a], [x - s * .14, .5, z, .17, .25, .045, a, -.12]);
-    FS.push([x, .11, z, .1, .11, .12, a]);
-    for (const dz of [-.21, .21]) FS.push([x - s * .02, .33, z + dz, .15, .015, .018, a]); };
+    FV.push([x + s * .02, .28, z, .24, .06, .25, a], [x - s * .16, .52, z, .24, .26, .06, a, -.12], [x - s * .2, .83, z, .19, .08, .07, a, -.12]);
+    FS.push([x, .11, z, .22, .11, .23, a]);
+    for (const dz of [-.26, .26]) FS.push([x + s * .02, .41, z + dz, .02, .035, .22, a]); };
   for (const [x, z, s] of FAUTEUILS) fauteuil(x, z, s);
   const fauteuils = paves(FV), fauteuilsPied = paves(FS);
   const assiettes = disques(ASSIETTES, .065, HT + .004);
@@ -251,7 +261,7 @@
     if (g.idx) { gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, g.idx); gl.drawElements(gl.TRIANGLES, g.n, gl.UNSIGNED_SHORT, 0); }
     else gl.drawArrays(gl.POINTS, 0, g.n);
   };
-  const VIDE = { tex: 0, coupe: 0, brille: 0, dos: 0, orne: 0 };
+  const VIDE = { tex: 0, coupe: 0, brille: 0, dos: 0, orne: 0, bois: 0 };
   const CENTRE = [0, .5, .8];
   let theta = .5, vitesse = 0, actif = false, enCours = false, dernier = 0, t = 0;
   const taille = () => {
@@ -277,10 +287,10 @@
     gl.clearColor(0, 0, 0, 0); gl.enable(gl.DEPTH_TEST); gl.depthMask(true); gl.disable(gl.BLEND); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, texRoche);
     const lum = (g, col, extra = {}) => { gl.useProgram(pLum); gl.uniform3fv(gl.getUniformLocation(pLum, "lp"), lp); gl.uniform3fv(gl.getUniformLocation(pLum, "lc"), lc); dessine(pLum, g, { ...VIDE, V, oeil, col, ...extra }); };
-    lum(solPlat, [.4, .09, .09], { tex: 1 });
+    lum(solPlat, [.2, .13, .085], { bois: 1 });
     lum(parois, [.72, .68, .64], { tex: 1, coupe: 1, brille: .03 });
     lum(tables, [.4, .1, .12]); for (const [dessus, tour] of rondes) { lum(tour, [.37, .09, .11]); lum(dessus, [.43, .12, .13]); }
-    lum(fauteuils, [.32, .07, .09]); lum(fauteuilsPied, [.12, .08, .06]);
+    lum(fauteuils, [.38, .05, .09]); lum(fauteuilsPied, [.08, .06, .05]);
     lum(assiettes, [.62, .62, .6], { brille: .06 });
     /* les lampes : abat-jour crème à la couronne (comme dans la vidéo) ou vert (comme sur la photo), la lumière est chaude */
     lampes.forEach(([tige, abat], i) => { lum(tige, [.6, .5, .3]); lum(abat, i % 3 === 1 ? [.55, .85, .45] : [1, .9, .62], { brille: .95 }); });

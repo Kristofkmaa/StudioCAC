@@ -101,7 +101,7 @@
   const CHAISES = [], FAUTEUILS = [];
   for (const [x, z, hx, hz] of LONGUES) {
     const n = Math.max(2, Math.round(hz * 2 / .52)), pas = hz * 2 / n, s = x < 0 ? 1 : -1;  /* s : vers l'allée */
-    for (let k = 0; k < n; k++) { const zz = z - hz + pas * (k + .5); CHAISES.push([x + s * (hx + .26), zz, s * Math.PI / 2]); FAUTEUILS.push([x - s * (hx + .2), zz, s]); }
+    for (let k = 0; k < n; k++) { const zz = z - hz + pas * (k + .5); CHAISES.push([x + s * (hx + .26), zz, s * Math.PI / 2]); FAUTEUILS.push([x - s * .22, zz, s]); } /* le fauteuil (0,2 de profondeur) reste devant le mur, qui est à 0,52 du centre de la table */
   }
   for (const [x, z, r] of RONDES) for (let k = 0; k < 4; k++) { const a = k * Math.PI / 2 + Math.PI / 4; CHAISES.push([x + Math.sin(a) * (r + .3), z + Math.cos(a) * (r + .3), a]); }
   /* les assiettes de présentation argentées, une par place, posées sur la nappe */

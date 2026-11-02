@@ -97,7 +97,7 @@
   /* 30 places en tout, comme le vrai restaurant : 18 dans la grande salle (2 + 2 tables collées au mur), 12 dans la salle du fond (2 rondes de 4, une table de 4) */
   const LONGUES = [[-X + .62, 1.7, .28, .5], [-X + .62, 3.9, .28, .5], [X - .62, 1.5, .28, .5], [X - .62, 3.8, .28, .75],
     [X2 - .62, -1.2, .28, .5]];
-  const RONDES = [[-X2 + .7, -1.5, .4], [0, -2.5, .4]]; /* une contre le mur gauche (en face de la table collée au mur droit), l'autre au centre de la salle du fond */
+  const RONDES = [[-X2 + .7, -1.5, .4, 1], [0, -2.5, .4]]; /* 4e valeur : côté libre (+1 : les chaises vers les x positifs, la table est contre le mur gauche) */ /* une contre le mur gauche (en face de la table collée au mur droit), l'autre au centre de la salle du fond */
   const CHAISES = [], FAUTEUILS = [];
   /* les sièges de cinéma capitonnés rouges, collés au mur, seulement devant les tables collées au mur (demande de
      l'utilisateur : pas de sièges là où il n'y a pas de table) ; un siège tous les 0,54, deux par table de quatre, trois pour la table de six */
@@ -107,12 +107,14 @@
     const n = Math.max(2, Math.round(hz * 2 / .52)), pas = hz * 2 / n, s = x < 0 ? 1 : -1;  /* s : vers l'allée */
     for (let k = 0; k < n; k++) { const zz = z - hz + pas * (k + .5); CHAISES.push([x + s * (hx + .26), zz, s * Math.PI / 2]); }
   }
-  for (const [x, z, r] of RONDES) for (let k = 0; k < 4; k++) { const a = k * Math.PI / 2 + Math.PI / 4; CHAISES.push([x + Math.sin(a) * (r + .3), z + Math.cos(a) * (r + .3), a]); }
+  /* les chaises d'une table ronde : tout autour, ou seulement du côté libre quand la table est contre un mur */
+  const anglesRonde = libre => (libre ? [20, 60, 120, 160].map(d => libre * d) : [45, 135, 225, 315]).map(d => d * Math.PI / 180);
+  for (const [x, z, r, libre] of RONDES) for (const a of anglesRonde(libre)) CHAISES.push([x + Math.sin(a) * (r + .3), z + Math.cos(a) * (r + .3), a]);
   /* les assiettes de présentation argentées, une par place, posées sur la nappe */
   const ASSIETTES = [];
   for (const [x, z, hx, hz] of LONGUES) { const n = Math.max(2, Math.round(hz * 2 / .52)), pas = hz * 2 / n;
     for (let k = 0; k < n; k++) { const zz = z - hz + pas * (k + .5); ASSIETTES.push([x - hx + .13, zz], [x + hx - .13, zz]); } }
-  for (const [x, z, r] of RONDES) for (let k = 0; k < 4; k++) { const a = k * Math.PI / 2 + Math.PI / 4; ASSIETTES.push([x + Math.sin(a) * (r - .13), z + Math.cos(a) * (r - .13)]); }
+  for (const [x, z, r, libre] of RONDES) for (const a of anglesRonde(libre)) ASSIETTES.push([x + Math.sin(a) * (r - .13), z + Math.cos(a) * (r - .13)]);
   /* les lumières : 5 écrans, une lampe par table, 4 appliques à côté des écrans */
   const LAMPES = [...LONGUES.map(([x, z]) => [x, z]), ...RONDES.map(([x, z]) => [x, z])];
   const APPLIQUES = []; /* plus d'appliques : rien sur les murs à part les écrans (demande de l'utilisateur, 2 novembre 2026) */

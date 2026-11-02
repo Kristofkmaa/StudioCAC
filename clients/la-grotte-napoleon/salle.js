@@ -1,6 +1,6 @@
 /* La salle de la Grotte en 3D, vue en plongée comme une maquette (WebGL écrit à la main, sans bibliothèque), d'après la photo
    et de la vidéo de la vraie salle : une longue galerie de roche NOIRE (la roche ne se voit que là où les lampes et les écrans
-   l'éclairent), parquet sombre, nappes rouges jusqu'au sol, rangées de sièges de cinéma capitonnés rouges le long des murs, assiettes de présentation argentées, lampes à abat-jour (crème à
+   l'éclairent), parquet sombre, nappes rouges jusqu'au sol, sièges de cinéma capitonnés rouges contre le mur derrière chaque table collée au mur, assiettes de présentation argentées, lampes à abat-jour (crème à
    la couronne, ou vert) qui font une lumière chaude, cadres dorés haut sur les murs, rien d'autre sur les murs ; au fond, une arcade ouvre sur la seconde salle (trois écrans, tables rondes).
    Les écrans passent le film de présentation (images/salle.mp4) et leur lumière prend la couleur du film.
    Les murs côté caméra s'abaissent pour qu'on voie dedans. La caméra tourne lentement ; on peut la tourner à la souris ou au doigt.
@@ -99,10 +99,10 @@
     [X2 - .62, -1.2, .28, .5]];
   const RONDES = [[-.3, -1.35, .4], [.75, -2.65, .4]];
   const CHAISES = [], FAUTEUILS = [];
-  /* les rangées de sièges de cinéma capitonnés rouges, collées aux murs comme sur les photos et la vidéo :
-     [x du siège, z de début, z de fin, sens vers l'allée] ; un siège tous les 0,54 */
-  for (const [x, z0, z1, s] of [[-X + .3, 1.0, 4.6, 1], [X - .3, .9, 4.6, -1], [-X2 + .3, ZF + .5, -1.5, 1], [X2 - .3, ZF + .5, -.5, -1]])
-    for (let z = z0 + .27; z < z1; z += .54) FAUTEUILS.push([x, z, s]);
+  /* les sièges de cinéma capitonnés rouges, collés au mur, seulement devant les tables collées au mur (demande de
+     l'utilisateur : pas de sièges là où il n'y a pas de table) ; un siège tous les 0,54, deux par table de quatre, trois pour la table de six */
+  for (const [x, z, , hz] of LONGUES) { const s = x < 0 ? 1 : -1, n = Math.max(2, Math.round(hz * 2 / .54));
+    for (let k = 0; k < n; k++) FAUTEUILS.push([x - s * .32, z - (n - 1) * .27 + k * .54, s]); }
   for (const [x, z, hx, hz] of LONGUES) {
     const n = Math.max(2, Math.round(hz * 2 / .52)), pas = hz * 2 / n, s = x < 0 ? 1 : -1;  /* s : vers l'allée */
     for (let k = 0; k < n; k++) { const zz = z - hz + pas * (k + .5); CHAISES.push([x + s * (hx + .26), zz, s * Math.PI / 2]); }

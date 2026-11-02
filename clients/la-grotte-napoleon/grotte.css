@@ -492,14 +492,14 @@ body[data-titre="meta-reserver"]{--barre:0px}
 .portrait.sacre .bicorne.arriere{z-index:0}
 .portrait.sacre .ombre-chapeau{z-index:2}
 .portrait.sacre .ombre-chapeau{left:37%;width:26%;top:13.5%;height:5.5%}
-/* la page Réserver : la couronne d'impératrice se pose dans la coiffure de Joséphine (images/josephine.webp, même cadre que napoleon.webp).
-   Trois couches qui bougent ensemble, comme le laurier de la boutique : la couronne entière derrière le portrait (couronne-josephine-arriere.webp :
-   le cercle du fond et les bouts du bandeau passent derrière la tête et les tempes, le chignon sort entre les arches), puis l'ombre qu'elle pose
-   sur les cheveux (couronne-josephine-ombre.webp, qui apparaît à l'arrivée), puis l'avant seul (couronne-josephine-avant.webp : bandeau, arches, perles) */
+/* la page Réserver : le diadème se pose dans la coiffure de Joséphine (images/josephine.webp, même cadre que napoleon.webp), comme le laurier
+   sur Napoléon à la boutique. Trois couches qui bougent ensemble : le diadème entier derrière le portrait (diademe-arriere.webp : ses deux bouts
+   passent derrière les cheveux, sur les côtés de la tête), l'ombre qu'il pose sur les boucles (diademe-ombre.webp, qui apparaît à l'arrivée),
+   puis l'avant seul (diademe-avant.webp : le bandeau, le fleuron et les perles, sans les bouts) */
 .portrait.josephine>img:first-child{position:relative;z-index:1}
-.portrait.josephine .bicorne{left:35.98%;top:1.892%;width:29.345%;z-index:3;transform-origin:50% 75%;filter:drop-shadow(0 6px 8px rgba(0,0,0,.35))}
+.portrait.josephine .bicorne{left:35.459%;top:8.37%;width:31.004%;z-index:3;transform-origin:50% 60%;filter:drop-shadow(0 5px 7px rgba(0,0,0,.35))}
 .portrait.josephine .bicorne.arriere{z-index:0;filter:none}
-.portrait.josephine .ombre-chapeau{z-index:2;left:35.284%;top:6.114%;width:30.655%;height:auto;border-radius:0;background:none}
+.portrait.josephine .ombre-chapeau{z-index:2;left:36.681%;top:8.224%;width:28.384%;height:auto;border-radius:0;background:none}
 .resa-ouv .page.resa{scroll-margin-top:80px}
 /* sur téléphone, la barre du total reste cachée tant que Joséphine occupe l'écran : elle ne couvre ni la phrase ni le bouton */
 .resa-barre{transition:transform .45s var(--doux)}

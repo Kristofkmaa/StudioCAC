@@ -167,7 +167,7 @@
   const haut = () => { barre.classList.toggle("vue", scrollY > 120 && !boutonsVus); tete.classList.toggle("pleine", scrollY > 10); };
 
   /* ---------- le bicorne tombe sur sa tête, le titre repart de chaque côté ---------- */
-  const chapeau = $("chapeau"), bicorne = $("bicorne"), enfant = $("enfant"), portrait = chapeau && chapeau.querySelector(".portrait"), scene = chapeau && chapeau.querySelector(".scene"), chapeaux = chapeau ? [...chapeau.querySelectorAll(".bicorne")] : [], couronne = !!document.querySelector(".portrait.sacre"), lignes = chapeau ? [...chapeau.querySelectorAll("#t-titre .ln")] : [], lignes2 = chapeau ? [...chapeau.querySelectorAll("#titreEmpereur .ln")] : [], titreEmpereur = $("titreEmpereur"), sensTel = [-1, 1, -1], ordi = matchMedia("(min-width: 981px)");
+  const chapeau = $("chapeau"), bicorne = $("bicorne"), enfant = $("enfant"), portrait = chapeau && chapeau.querySelector(".portrait"), scene = chapeau && chapeau.querySelector(".scene"), chapeaux = chapeau ? [...chapeau.querySelectorAll(".bicorne")] : [], couronne = !!document.querySelector(".portrait.sacre, .portrait.josephine"), lignes = chapeau ? [...chapeau.querySelectorAll("#t-titre .ln")] : [], lignes2 = chapeau ? [...chapeau.querySelectorAll("#titreEmpereur .ln")] : [], titreEmpereur = $("titreEmpereur"), sensTel = [-1, 1, -1], ordi = matchMedia("(min-width: 981px)");
   const borne = x => Math.min(1, Math.max(0, x));
   /* la transformation (le chapeau tombe, l'enfant devient l'Empereur, les titres changent) se joue d'elle-même, à sa vitesse : à l'accueil
      quand on touche « Découvrir » (ou qu'on essaie de descendre), à la boutique dès qu'on commence à défiler. Elle ne se joue qu'une fois :
@@ -231,6 +231,9 @@
   }
   addEventListener("scroll", () => { if (!tic) { tic = true; requestAnimationFrame(anime); } }, { passive: true });
   addEventListener("resize", anime);
+  /* la page Réserver : la barre du total (téléphone) n'arrive qu'une fois Joséphine passée */
+  const barreResa = chapeau && $("rBarre");
+  if (barreResa) { const cache = () => barreResa.classList.toggle("cachee", scrollY < innerHeight * .55); cache(); addEventListener("scroll", cache, { passive: true }); }
   if (chapeau && !calme) {
     /* la boutique : la couronne se pose d'elle-même peu après l'arrivée, le titre reste en place ; on ne descend qu'une fois
        la couronne posée et la phrase arrivée (au plus tard après 6 s, au cas où l'animation ne pourrait pas se jouer) */

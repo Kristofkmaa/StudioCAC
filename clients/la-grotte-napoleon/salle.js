@@ -87,8 +87,9 @@
     [[-X2 + .02, 1.3, -1.8], [1, 0, 0], 1.4], [[-.7, 1.3, ZF + .02], [0, 0, 1], 1.4], [[X2 - .02, 1.3, -2.3], [-1, 0, 0], 1.5]];
   const N = ECRANS.length, CG = .099, CH = .148;
   /* les tables collées au mur [x, z, demi-largeur, demi-longueur] (l'allée est du côté du centre), et les tables rondes [x, z, rayon] */
-  const LONGUES = [[-X + .52, 1.55, .28, .9], [-X + .52, 3.95, .28, 1.1], [X - .52, 1.35, .28, .75], [X - .52, 3.75, .28, 1.25],
-    [X2 - .52, -1.2, .28, .55], [-X2 + .52, -3.2, .28, .5]];
+  /* 30 places en tout, comme le vrai restaurant : 18 dans la grande salle (2 + 2 tables collées au mur), 12 dans la salle du fond (2 rondes de 4, une table de 4) */
+  const LONGUES = [[-X + .52, 1.7, .28, .5], [-X + .52, 3.9, .28, .5], [X - .52, 1.5, .28, .5], [X - .52, 3.8, .28, .75],
+    [X2 - .52, -1.2, .28, .5]];
   const RONDES = [[-.3, -1.35, .4], [.75, -2.65, .4]];
   const CHAISES = [], FAUTEUILS = [];
   for (const [x, z, hx, hz] of LONGUES) {
@@ -167,8 +168,6 @@
     FS.push([x, .11, z, .1, .11, .12, a]);
     for (const dz of [-.21, .21]) FS.push([x - s * .02, .33, z + dz, .15, .015, .018, a]); };
   for (const [x, z, s] of FAUTEUILS) fauteuil(x, z, s);
-  for (let k = 0; k < 3; k++) fauteuil(X2 - .2, -2.65 - k * .45, -1);                                 /* le long du mur droit du fond */
-  for (let k = 0; k < 3; k++) fauteuil(-X2 + .2, -.55 - k * .45, 1);                                   /* le long du mur gauche du fond */
   const fauteuils = paves(FV), fauteuilsPied = paves(FS);
   /* le mannequin en costume de Napoléon, près de l'arcade : un pied, un buste bleu nuit, un plastron blanc, un col rouge */
   const mannequin = [tronc(.025, .025, 0, .78, 8, 1.75, -.4), tronc(.15, .2, .78, 1.42, 18, 1.75, -.4), tronc(.07, .05, 1.42, 1.5, 12, 1.75, -.4)];

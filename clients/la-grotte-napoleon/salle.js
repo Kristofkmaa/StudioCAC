@@ -116,7 +116,7 @@
   const NL = N + LAMPES.length + APPLIQUES.length;
 
   /* ---------- les shaders ---------- */
-  const brume = `vec3 brume(vec3 c, vec3 w, vec3 e){ float d = length(w - e); return mix(c, vec3(.012,.009,.007), smoothstep(10.0, 18.0, d) * .85); }`;
+  const brume = `vec3 brume(vec3 c, vec3 w, vec3 e){ float d = length(w - e); return mix(c, vec3(.012,.009,.007), smoothstep(12.0, 20.0, d) * .8); }`;
   const VS = `precision mediump float; attribute vec3 p; attribute vec2 t; attribute vec3 nr; uniform mat4 P, V;
     varying vec2 uv; varying vec3 w, n;
     void main(){ w = p; uv = t; n = nr; gl_Position = P * V * vec4(p, 1.0); }`;
@@ -130,11 +130,11 @@
       vec3 base = col;
       if (orne > .5) { vec4 m = texture2D(motif, uv); if (m.a < .5) discard; base = m.rgb * 1.1; } /* le cadre doré : ses moulures, son ouverture vide */
       if (tex > .5) base *= texture2D(roche, fract((abs(n0.y) > .5 ? w.xz : vec2(w.x + w.z, w.y)) * .32)).rgb * 1.7;
-      vec3 l = base * vec3(.022,.02,.02);
+      vec3 l = base * vec3(.075,.066,.062);
       for (int i = 0; i < ${NL}; i++) { vec3 d = lp[i] - w; float r = length(d); d /= r;
-        float lam = max(dot(nn, d), 0.0) * .8 + .2; l += base * lc[i] * lam / (1.0 + r * r * (i < ${N} ? .3 : 2.4)); }
+        float lam = max(dot(nn, d), 0.0) * .8 + .2; l += base * lc[i] * lam / (1.0 + r * r * (i < ${N} ? .22 : 1.3)); }
       l += brille * base;
-      if (tex > .5) l += base * vec3(.075,.012,.008) * (1.0 - smoothstep(0.0, 1.3, w.y)); /* le rouge du sol et des nappes renvoyé sur le bas de la roche */
+      if (tex > .5) l += base * vec3(.13,.03,.02) * (1.0 - smoothstep(0.0, 1.5, w.y)); /* le rouge du sol et des nappes renvoyé sur le bas de la roche */
       if (dos > .5 && dot(n0, oeil - w) < 0.0) l = vec3(.035,.028,.02) + l * .08; /* vu de dos : le bois sombre */
       gl_FragColor = vec4(brume(l, w, oeil), 1.0); }`);
   gl.useProgram(pLum); gl.uniform1i(gl.getUniformLocation(pLum, "motif"), 1); /* le cadre doré sur l'unité de texture 1 */
@@ -283,13 +283,13 @@
     /* les lumières : les écrans (couleur du film), les lampes des tables et les appliques (vacillement) */
     const lp = new Float32Array(NL * 3), lc = new Float32Array(NL * 3);
     ECRANS.forEach(([c, nrm], i) => { lp.set([c[0] + nrm[0] * .45, c[1], c[2] + nrm[2] * .45], i * 3); lc.set(teinte.map(v => v * 2.1), i * 3); });
-    LAMPES.forEach(([x, z], i) => { const f = .9 + .07 * Math.sin(t * 7.1 + i * 2); lp.set([x, HT + .3, z], (N + i) * 3); lc.set(i % 3 === 1 ? [.8 * f, .85 * f, .45 * f] : [1.05 * f, .88 * f, .55 * f], (N + i) * 3); });
+    LAMPES.forEach(([x, z], i) => { const f = .9 + .07 * Math.sin(t * 7.1 + i * 2); lp.set([x, HT + .3, z], (N + i) * 3); lc.set(i % 3 === 1 ? [1.0 * f, 1.05 * f, .55 * f] : [1.3 * f, 1.1 * f, .7 * f], (N + i) * 3); });
     APPLIQUES.forEach((a, i) => { const f = .8 + .12 * Math.sin(t * 9.3 + i * 3) + .08 * Math.sin(t * 21.7 + i); lp.set(a, (N + LAMPES.length + i) * 3); lc.set([.9 * f, .22 * f, .08 * f], (N + LAMPES.length + i) * 3); });
     gl.clearColor(.012, .009, .007, 1); gl.enable(gl.DEPTH_TEST); gl.depthMask(true); gl.disable(gl.BLEND); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, texRoche);
     const lum = (g, col, extra = {}) => { gl.useProgram(pLum); gl.uniform3fv(gl.getUniformLocation(pLum, "lp"), lp); gl.uniform3fv(gl.getUniformLocation(pLum, "lc"), lc); dessine(pLum, g, { ...VIDE, V, oeil, col, ...extra }); };
-    lum(solPlat, [.62, .1, .08], { tex: 1 });
-    lum(parois, [.5, .47, .45], { tex: 1, coupe: 1, brille: .012 });
+    lum(solPlat, [.85, .16, .12], { tex: 1 });
+    lum(parois, [.72, .68, .64], { tex: 1, coupe: 1, brille: .03 });
     lum(rideau, [.07, .06, .06], { coupe: 1 });
     lum(tables, [.7, .08, .07]); for (const [dessus, tour] of rondes) { lum(tour, [.62, .07, .05]); lum(dessus, [.78, .12, .08]); }
     lum(fauteuils, [.62, .05, .05]); lum(fauteuilsPied, [.12, .08, .06]);

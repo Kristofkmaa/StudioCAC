@@ -132,7 +132,7 @@
       if (tex > .5) base *= texture2D(roche, fract((abs(n0.y) > .5 ? w.xz : vec2(w.x + w.z, w.y)) * .32)).rgb * 1.7;
       vec3 l = base * vec3(.075,.066,.062);
       for (int i = 0; i < ${NL}; i++) { vec3 d = lp[i] - w; float r = length(d); d /= r;
-        float lam = max(dot(nn, d), 0.0) * .8 + .2; l += base * lc[i] * lam / (1.0 + r * r * (i < ${N} ? .22 : 1.3)); }
+        float lam = max(dot(nn, d), 0.0) * .8 + .2; l += base * lc[i] * lam / (1.0 + r * r * (i < ${N} ? .09 : 1.3)); }
       l += brille * base;
       if (tex > .5) l += base * vec3(.13,.03,.02) * (1.0 - smoothstep(0.0, 1.5, w.y)); /* le rouge du sol et des nappes renvoyé sur le bas de la roche */
       if (dos > .5 && dot(n0, oeil - w) < 0.0) l = vec3(.035,.028,.02) + l * .08; /* vu de dos : le bois sombre */
@@ -227,7 +227,6 @@
   }
   const chaises = tournees(TOURS), dorures = paves(DORE), velours = paves(ASSISE);
   const poussiere = tampon(new Float32Array([...Array(320)].flatMap(() => { const z = ZF + .3 + Math.random() * (ZE - ZF - .6); return [(Math.random() * 2 - 1) * ((z > ZA ? X : X2) - .2), .3 + Math.random() * 1.6, z]; })));
-  const point = tampon(new Float32Array([0, 0, 0]));
 
   /* ---------- les textures ---------- */
   const texFilm = gl.createTexture(), texRoche = gl.createTexture();
@@ -248,8 +247,11 @@
   video.play().catch(() => {});
   /* la couleur moyenne du film, lue sur une toute petite image : c'est la lumière des écrans */
   const petit = document.createElement("canvas"); petit.width = petit.height = 6; const cx2 = petit.getContext("2d", { willReadFrequently: true });
-  let teinte = [.8, .7, .55], cible = teinte.slice(), compte = 0;
-  const mesure = () => { try { cx2.drawImage(source, 0, 0, 6, 6); const d = cx2.getImageData(0, 0, 6, 6).data; const m = [0, 0, 0]; for (let i = 0; i < d.length; i += 4) for (let k = 0; k < 3; k++) m[k] += d[i + k]; cible = m.map(v => Math.min(1, v / 36 / 255 * 1.6 + .08)); } catch (e) {} };
+  let teinte = [.5, .45, .35], cible = teinte.slice(), compte = 0;
+  /* la moyenne de l'image, puis une courbe qui accentue : une image claire éclaire fort toute la salle, une image sombre presque pas */
+  const mesure = () => { try { cx2.drawImage(source, 0, 0, 6, 6); const d = cx2.getImageData(0, 0, 6, 6).data; const m = [0, 0, 0]; for (let i = 0; i < d.length; i += 4) for (let k = 0; k < 3; k++) m[k] += d[i + k];
+    const c = m.map(v => v / 36 / 255), lu = .3 * c[0] + .59 * c[1] + .11 * c[2], gain = .2 + 8.0 * Math.pow(lu, 1.2);
+    cible = c.map(v => (.15 + v) * gain); } catch (e) {} };
 
   /* ---------- le dessin ---------- */
   let P;
@@ -278,11 +280,11 @@
     /* la galerie est longue : la caméra s'éloigne quand elle la voit de côté, se rapproche quand elle la voit dans l'axe */
     const loin = (portrait ? 8.2 : 9.2) + Math.abs(Math.sin(theta)) * (portrait ? .8 : 2.0), h = loin * .62 + Math.sin(t * .23) * .12;
     const oeil = [CENTRE[0] + Math.sin(theta) * loin, h, CENTRE[2] + Math.cos(theta) * loin], V = regarde(oeil, CENTRE);
-    if (source) { gl.bindTexture(gl.TEXTURE_2D, texFilm); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, source); if (compte++ % 6 === 0) mesure(); }
-    teinte = teinte.map((v, k) => v + (cible[k] - v) * Math.min(1, dt * 4));
+    if (source) { gl.bindTexture(gl.TEXTURE_2D, texFilm); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, source); if (compte++ % 3 === 0) mesure(); }
+    teinte = teinte.map((v, k) => v + (cible[k] - v) * Math.min(1, dt * 6));
     /* les lumières : les écrans (couleur du film), les lampes des tables et les appliques (vacillement) */
     const lp = new Float32Array(NL * 3), lc = new Float32Array(NL * 3);
-    ECRANS.forEach(([c, nrm], i) => { lp.set([c[0] + nrm[0] * .45, c[1], c[2] + nrm[2] * .45], i * 3); lc.set(teinte.map(v => v * 2.1), i * 3); });
+    ECRANS.forEach(([c, nrm], i) => { lp.set([c[0] + nrm[0] * .45, c[1], c[2] + nrm[2] * .45], i * 3); lc.set(teinte.map(v => v * 1.7), i * 3); });
     LAMPES.forEach(([x, z], i) => { const f = .9 + .07 * Math.sin(t * 7.1 + i * 2); lp.set([x, HT + .3, z], (N + i) * 3); lc.set(i % 3 === 1 ? [1.0 * f, 1.05 * f, .55 * f] : [1.3 * f, 1.1 * f, .7 * f], (N + i) * 3); });
     APPLIQUES.forEach((a, i) => { const f = .8 + .12 * Math.sin(t * 9.3 + i * 3) + .08 * Math.sin(t * 21.7 + i); lp.set(a, (N + LAMPES.length + i) * 3); lc.set([.9 * f, .22 * f, .08 * f], (N + LAMPES.length + i) * 3); });
     gl.clearColor(.012, .009, .007, 1); gl.enable(gl.DEPTH_TEST); gl.depthMask(true); gl.disable(gl.BLEND); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
@@ -305,16 +307,11 @@
       lum(e.cadre, [1, 1, 1], { brille: .32, dos: 1, orne: 1 });
       gl.bindTexture(gl.TEXTURE_2D, texFilm); dessine(pEcran, e.film, { V, oeil }); gl.bindTexture(gl.TEXTURE_2D, texRoche);
     });
-    /* les halos (écrans, lampes, appliques) puis la poussière, additifs */
+    /* la poussière dans la lumière, additive (plus de halos : ils faisaient des taches) */
     gl.depthMask(false); gl.enable(gl.BLEND); gl.blendFunc(gl.ONE, gl.ONE);
-    ECRANS.forEach(([c, nrm, w]) => nrm[0] * (oeil[0] - c[0]) + nrm[2] * (oeil[2] - c[2]) > 0 && dessine(pHalo, { pos: tampon2([c[0] + nrm[0] * .2, c[1], c[2] + nrm[2] * .2]), n: 1 }, { V, taille: 700 * w * dpr * (portrait ? .7 : 1), t, vole: 0, col: teinte.map(v => v * .13) }));
-    LAMPES.forEach(([x, z], i) => { const f = .9 + .1 * Math.sin(t * 7.1 + i * 2); dessine(pHalo, { pos: tampon2([x, HT + .18, z]), n: 1 }, { V, taille: 230 * dpr, t, vole: 0, col: i % 3 === 1 ? [.3 * f, .4 * f, .18 * f] : [.42 * f, .34 * f, .2 * f] }); });
-    APPLIQUES.forEach((a, i) => { const f = .8 + .2 * Math.sin(t * 9.3 + i * 3); dessine(pHalo, { pos: tampon2(a), n: 1 }, { V, taille: 160 * dpr, t, vole: 0, col: [.5 * f, .12 * f, .05 * f] }); });
     dessine(pHalo, { pos: poussiere, n: 300 }, { V, taille: 26 * dpr, t, vole: 1, col: teinte.map(v => v * .2) });
     gl.depthMask(true); gl.disable(gl.BLEND);
   };
-  /* un petit tampon réutilisé pour les halos (un seul point) */
-  const tampon2 = v => { gl.bindBuffer(gl.ARRAY_BUFFER, point); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(v), gl.DYNAMIC_DRAW); return point; };
   /* tourner à la main : on garde le défilement vertical de la page */
   let x0 = null;
   toile.addEventListener("pointerdown", e => { x0 = e.clientX; toile.setPointerCapture(e.pointerId); });

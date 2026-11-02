@@ -83,43 +83,44 @@
     return forme(pos, uv, nor, idx);
   };
 
-  /* ---------- le plan de la salle (une unité ≈ 1,6 m), d'après les photos et la vidéo de l'utilisateur ----------
+  /* ---------- le plan de la salle (une unité = un mètre), d'après les photos et la vidéo de l'utilisateur ----------
      la grande salle (ZA..ZE) : tables collées aux deux murs avec une rangée de fauteuils de cinéma contre le mur et des chaises
      dorées côté allée, un écran à cadre doré sur chaque mur, le rideau noir au bout (la cuisine est derrière) ;
      une arcade de roche large et basse ; la salle du fond (ZF..ZA, plus large) : tables rondes, trois écrans (gauche, fond, droite) */
-  const X = 2.0, X2 = 2.4, ZE = 5.6, ZA = 0, ZF = -4.0, HM = 1.75, ARC = 1.15, LINTEAU = 1.3; /* murs ≈ 2,8 m, arcade ≈ 2,1 m : le plafond de la vraie salle est bas */
-  const HT = .44;
-  /* les écrans : [centre, normale, largeur] ; tous les cinq sont des téléviseurs OLED de 165 cm (16/9 : 1,44 m × 0,81 m, soit 0,9 × 0,506 à
-     l'échelle), accrochés haut (centre à 1,32, bas de l'image à 1,7 m, haut à 2,5 m) : personne, assis, ne gêne la vue. Le cadre doré (moulures : 9,9 % sur
+  /* UNE UNITÉ = UN MÈTRE (depuis le 2 novembre 2026). Grande salle 4,4 × 5,6 m, salle du fond 4 × 3,6 m, plafond à 2,6 m, arcade de 2,2 m de large sous un linteau à 2,1 m. */
+  const X = 2.2, X2 = 2.0, ZE = 5.6, ZA = 0, ZF = -3.6, HM = 2.6, ARC = 1.1, LINTEAU = 2.1;
+  const HT = .75; /* hauteur des tables */
+  /* les écrans : [centre, normale, largeur] ; tous les cinq sont des téléviseurs OLED de 165 cm (16/9 : 1,44 m × 0,81 m), accrochés haut (centre à 2 m) : personne, assis, ne gêne la vue. Le cadre doré (moulures : 9,9 % sur
      les côtés, 14,8 % en haut et en bas, dessinées pour une ouverture 2/1) s'étire un peu en hauteur pour suivre le 16/9. */
-  const ECRAN_L = .9, ECRAN_Y = 1.32;
-  const ECRANS = [[[-X + .02, ECRAN_Y, 3.0], [1, 0, 0], ECRAN_L], [[X - .02, ECRAN_Y, 3.0], [-1, 0, 0], ECRAN_L],
-    [[-X2 + .02, ECRAN_Y, -1.8], [1, 0, 0], ECRAN_L], [[-.7, ECRAN_Y, ZF + .02], [0, 0, 1], ECRAN_L], [[X2 - .02, ECRAN_Y, -2.3], [-1, 0, 0], ECRAN_L]];
+  const ECRAN_L = 1.44, ECRAN_Y = 2.0; /* 165 cm de diagonale : 1,44 × 0,81 m ; bas de l'image à 1,6 m, haut à 2,4 m, juste sous le plafond */
+  const ECRANS = [[[-X + .02, ECRAN_Y, 3.2], [1, 0, 0], ECRAN_L], [[X - .02, ECRAN_Y, 3.2], [-1, 0, 0], ECRAN_L],
+    [[-X2 + .02, ECRAN_Y, -2.2], [1, 0, 0], ECRAN_L], [[0, ECRAN_Y, ZF + .02], [0, 0, 1], ECRAN_L], [[X2 - .02, ECRAN_Y, -2.2], [-1, 0, 0], ECRAN_L]];
   const N = ECRANS.length, CG = .099, CH = .148;
   /* les tables collées au mur [x, z, demi-largeur, demi-longueur] (l'allée est du côté du centre), et les tables rondes [x, z, rayon] */
   /* 30 places en tout, comme le vrai restaurant : 18 dans la grande salle (2 + 2 tables collées au mur), 12 dans la salle du fond (2 rondes de 4, une table de 4) */
-  const LONGUES = [[-X + .62, 1.7, .28, .5], [-X + .62, 3.9, .28, .5], [X - .62, 1.5, .28, .5], [X - .62, 3.8, .28, .75],
-    [X2 - .62, -1.2, .28, .5]];
-  const RONDES = [[-X2 + .75, -1.5, .4, 1], [0, -2.5, .4]]; /* 4e valeur : côté libre (+1 : la table est contre le mur gauche, deux banquettes de cinéma côté mur, deux chaises côté salle) */ /* une contre le mur gauche (en face de la table collée au mur droit), l'autre au centre de la salle du fond */
+  /* depuis le mur : la banquette (50 cm), puis la table (70 cm de profondeur, 1,2 m de long pour 4, 1,8 m pour 6), puis les chaises */
+  const LONGUES = [[-X + .9, 1.3, .35, .6], [-X + .9, 3.5, .35, .6], [X - .9, 1.3, .35, .6], [X - .9, 3.8, .35, .9],
+    [X2 - .9, -1.0, .35, .6]];
+  const RONDES = [[-X2 + 1.05, -.95, .5, 1], [0, -2.5, .5]]; /* tables rondes d'un mètre */ /* 4e valeur : côté libre (+1 : la table est contre le mur gauche, deux banquettes de cinéma côté mur, deux chaises côté salle) */ /* une contre le mur gauche (en face de la table collée au mur droit), l'autre au centre de la salle du fond */
   const CHAISES = [], FAUTEUILS = [];
   /* les sièges de cinéma capitonnés rouges, collés au mur, seulement devant les tables collées au mur (demande de
      l'utilisateur : pas de sièges là où il n'y a pas de table) ; un siège tous les 0,54, deux par table de quatre, trois pour la table de six */
-  for (const [x, z, , hz] of LONGUES) { const s = x < 0 ? 1 : -1, n = Math.max(2, Math.round(hz * 2 / .54));
-    for (let k = 0; k < n; k++) FAUTEUILS.push([x - s * .32, z - (n - 1) * .27 + k * .54, s]); }
+  for (const [x, z, , hz] of LONGUES) { const s = x < 0 ? 1 : -1, n = Math.max(2, Math.round(hz * 2 / .56));
+    for (let k = 0; k < n; k++) FAUTEUILS.push([x - s * .6, z - (n - 1) * .28 + k * .56, s]); }
   for (const [x, z, hx, hz] of LONGUES) {
-    const n = Math.max(2, Math.round(hz * 2 / .52)), pas = hz * 2 / n, s = x < 0 ? 1 : -1;  /* s : vers l'allée */
-    for (let k = 0; k < n; k++) { const zz = z - hz + pas * (k + .5); CHAISES.push([x + s * (hx + .26), zz, s * Math.PI / 2]); }
+    const n = Math.max(2, Math.round(hz * 2 / .56)), pas = hz * 2 / n, s = x < 0 ? 1 : -1;  /* s : vers l'allée */
+    for (let k = 0; k < n; k++) { const zz = z - hz + pas * (k + .5); CHAISES.push([x + s * (hx + .3), zz, s * Math.PI / 2]); }
   }
   /* les chaises d'une table ronde : tout autour, ou deux du côté libre quand la table est contre un mur (et deux banquettes côté mur) */
   const anglesRonde = libre => (libre ? [60, 120].map(d => libre * d) : [45, 135, 225, 315]).map(d => d * Math.PI / 180);
   const anglesAssiettes = libre => (libre ? [60, 120, 240, 300].map(d => libre * d) : [45, 135, 225, 315]).map(d => d * Math.PI / 180);
-  for (const [x, z, r, libre] of RONDES) { for (const a of anglesRonde(libre)) CHAISES.push([x + Math.sin(a) * (r + .3), z + Math.cos(a) * (r + .3), a]);
-    if (libre) for (const dz of [-.27, .27]) FAUTEUILS.push([x - libre * .45, z + dz, libre]); }
+  for (const [x, z, r, libre] of RONDES) { for (const a of anglesRonde(libre)) CHAISES.push([x + Math.sin(a) * (r + .35), z + Math.cos(a) * (r + .35), a]);
+    if (libre) for (const dz of [-.28, .28]) FAUTEUILS.push([x - libre * .75, z + dz, libre]); }
   /* les assiettes de présentation argentées, une par place, posées sur la nappe */
   const ASSIETTES = [];
-  for (const [x, z, hx, hz] of LONGUES) { const n = Math.max(2, Math.round(hz * 2 / .52)), pas = hz * 2 / n;
-    for (let k = 0; k < n; k++) { const zz = z - hz + pas * (k + .5); ASSIETTES.push([x - hx + .13, zz], [x + hx - .13, zz]); } }
-  for (const [x, z, r, libre] of RONDES) for (const a of anglesAssiettes(libre)) ASSIETTES.push([x + Math.sin(a) * (r - .13), z + Math.cos(a) * (r - .13)]);
+  for (const [x, z, hx, hz] of LONGUES) { const n = Math.max(2, Math.round(hz * 2 / .56)), pas = hz * 2 / n;
+    for (let k = 0; k < n; k++) { const zz = z - hz + pas * (k + .5); ASSIETTES.push([x - hx + .18, zz], [x + hx - .18, zz]); } }
+  for (const [x, z, r, libre] of RONDES) for (const a of anglesAssiettes(libre)) ASSIETTES.push([x + Math.sin(a) * (r - .18), z + Math.cos(a) * (r - .18)]);
   /* les lumières : 5 écrans, une lampe par table, 4 appliques à côté des écrans */
   const LAMPES = [...LONGUES.map(([x, z]) => [x, z]), ...RONDES.map(([x, z]) => [x, z])];
   const APPLIQUES = []; /* plus d'appliques : rien sur les murs à part les écrans (demande de l'utilisateur, 2 novembre 2026) */
@@ -185,21 +186,21 @@
   const parois = murs(M);
   /* les tables : la nappe (dessus et pans) ; les rondes en tronc de cône évasé */
   const tables = (() => { const L = [];
-    for (const [x, z, hx, hz] of LONGUES) if (hz < .7) L.push([x, HT - .01, z, hx, .012, hz, 0], [x, HT / 2, z, hx + .03, HT / 2 - .01, hz + .03, 0]);
+    for (const [x, z, hx, hz] of LONGUES) if (hz < .8) L.push([x, HT - .01, z, hx, .012, hz, 0], [x, HT / 2, z, hx + .03, HT / 2 - .01, hz + .03, 0]);
     return paves(L); })();
   /* les tables rondes, et la grande table de droite qui est ovale sur la photo (nappe évasée jusqu'au sol) */
   const rondes = [...RONDES.map(([x, z, r]) => [disque(r, HT, 32, x, z), tronc(r * 1.14, r, .01, HT, 32, x, z)]),
-    ...LONGUES.filter(([, , , hz]) => hz >= .7).map(([x, z, hx, hz]) => [disque(hz, HT, 40, x, z, (hx + .06) / hz), tronc(hz * 1.1, hz, .01, HT, 40, x, z, 0, Math.PI * 2, 1, (hx + .06) / hz)])];
+    ...LONGUES.filter(([, , , hz]) => hz >= .8).map(([x, z, hx, hz]) => [disque(hz, HT, 40, x, z, (hx + .06) / hz), tronc(hz * 1.1, hz, .01, HT, 40, x, z, 0, Math.PI * 2, 1, (hx + .06) / hz)])];
   /* les fauteuils de cinéma contre le mur : assise, haut dossier incliné en velours rouge, accoudoirs et pied sombres ; plus ceux du fond */
   const FV = [], FS = [];
   const fauteuil = (x, z, s) => { const a = s > 0 ? Math.PI / 2 : -Math.PI / 2;
-    FV.push([x + s * .02, .28, z, .24, .06, .25, a], [x - s * .16, .52, z, .24, .26, .06, a, -.12], [x - s * .2, .83, z, .19, .08, .07, a, -.12]);
-    FS.push([x, .11, z, .22, .11, .23, a]);
-    for (const dz of [-.26, .26]) FS.push([x + s * .02, .41, z + dz, .02, .035, .22, a]); };
+    FV.push([x + s * .02, .42, z, .26, .06, .26, a], [x - s * .17, .74, z, .26, .3, .06, a, -.12], [x - s * .21, 1.1, z, .2, .08, .07, a, -.12]);
+    FS.push([x, .18, z, .24, .18, .24, a]);
+    for (const dz of [-.27, .27]) FS.push([x + s * .02, .6, z + dz, .02, .035, .23, a]); };
   for (const [x, z, s] of FAUTEUILS) fauteuil(x, z, s);
   const fauteuils = paves(FV), fauteuilsPied = paves(FS);
-  const assiettes = disques(ASSIETTES, .065, HT + .004);
-  const lampes = LAMPES.map(([x, z]) => [tronc(.022, .018, HT, HT + .12, 8, x, z), tronc(.085, .055, HT + .11, HT + .21, 16, x, z)]);
+  const assiettes = disques(ASSIETTES, .14, HT + .004); /* assiettes de présentation de 28 cm */
+  const lampes = LAMPES.map(([x, z]) => [tronc(.022, .018, HT, HT + .14, 8, x, z), tronc(.1, .065, HT + .13, HT + .3, 16, x, z)]);
   /* les chaises « Napoléon » (d'après la photo envoyée par l'utilisateur) : tout le bâti doré, pieds et barreaux tournés
      avec leurs bagues, pieds arrière qui partent en arrière, dossier à quatre barreaux sous un bandeau, assise de velours rouge.
      Chaque pièce tournée est un profil (rayon, hauteur de 0 à 1) qu'on fait tourner autour de son axe. */
@@ -219,11 +220,13 @@
   const MONTANT = [[.02, 0], [.016, .1], [.024, .2], [.017, .3], [.02, .55], [.015, .7], [.022, .8], [.016, .9], [.019, 1]];
   const BARREAU = [[.006, 0], [.011, .12], [.006, .25], [.012, .45], [.006, .6], [.011, .78], [.006, .9], [.008, 1]];
   const TRAVERSE = [[.009, 0], [.011, .2], [.008, .35], [.016, .5], [.008, .65], [.011, .8], [.009, 1]];
-  const TOURS = [], DORE = [], ASSISE = [], RECUL = .14;
+  /* les cotes de la chaise sont écrites à l'ancienne échelle et un peu trop larges : KX agrandit en largeur et profondeur (41 cm de large),
+     KY en hauteur (assise à 44 cm, dossier à 1,04 m) */
+  const TOURS = [], DORE = [], ASSISE = [], RECUL = .14, KX = 1.15, KY = 1.6;
   for (const [cx, cz, a] of CHAISES) {
     const ca = Math.cos(a), sa = Math.sin(a), w = (lx, lz) => [cx + ca * lx + sa * lz, cz - sa * lx + ca * lz];
-    const tour = (prof, L, lx, ly, lz, inc = 0, roll = 0) => { const [X2, Z2] = w(lx, lz); TOURS.push([prof, L, X2, ly, Z2, a, inc, roll]); };
-    const pave = (liste, lx, ly, lz, dx, dy, dz, inc = 0) => { const [X2, Z2] = w(lx, lz); liste.push([X2, ly, Z2, dx, dy, dz, a, inc]); };
+    const tour = (prof, L, lx, ly, lz, inc = 0, roll = 0) => { const [X2, Z2] = w(lx * KX, lz * KX); TOURS.push([prof.map(([r, h]) => [r * KX, h]), L * KY, X2, ly * KY, Z2, a, inc, roll]); };
+    const pave = (liste, lx, ly, lz, dx, dy, dz, inc = 0) => { const [X2, Z2] = w(lx * KX, lz * KX); liste.push([X2, ly * KY, Z2, dx * KX, dy * KY, dz * KX, a, inc]); };
     for (const u of [-.155, .155]) { tour(PIED, .245, u, 0, -.145); tour(PIED, .25, u, 0, .2, -.2); tour(MONTANT, .36, u, .245, .15, RECUL); }
     for (const u of [-.09, -.03, .03, .09]) tour(BARREAU, .25, u, .31, .15 + .07 * Math.tan(RECUL), RECUL);
     tour(TRAVERSE, .31, -.155, .1, -.145, 0, -Math.PI / 2);
@@ -231,7 +234,7 @@
     pave(ASSISE, 0, .277, -.008, .168, .028, .158);
   }
   const chaises = tournees(TOURS), dorures = paves(DORE), velours = paves(ASSISE);
-  const poussiere = tampon(new Float32Array([...Array(320)].flatMap(() => { const z = ZF + .3 + Math.random() * (ZE - ZF - .6); return [(Math.random() * 2 - 1) * ((z > ZA ? X : X2) - .2), .3 + Math.random() * 1.6, z]; })));
+  const poussiere = tampon(new Float32Array([...Array(320)].flatMap(() => { const z = ZF + .3 + Math.random() * (ZE - ZF - .6); return [(Math.random() * 2 - 1) * ((z > ZA ? X : X2) - .2), .3 + Math.random() * 2.0, z]; })));
 
   /* ---------- les textures ---------- */
   const texFilm = gl.createTexture(), texRoche = gl.createTexture();
@@ -269,7 +272,7 @@
     else gl.drawArrays(gl.POINTS, 0, g.n);
   };
   const VIDE = { tex: 0, coupe: 0, brille: 0, dos: 0, orne: 0, bois: 0 };
-  const CENTRE = [0, .5, .8];
+  const CENTRE = [0, .7, 1.0];
   let theta = .5, vitesse = 0, actif = false, enCours = false, dernier = 0, t = 0;
   const taille = () => {
     const dpr = Math.min(devicePixelRatio || 1, innerWidth < 760 ? 1.5 : 2), r = boite.getBoundingClientRect();
@@ -283,14 +286,14 @@
     theta += (.05 + vitesse) * dt; vitesse *= Math.pow(.02, dt);
     const dpr = taille(), portrait = toile.width / toile.height < 1;
     /* la galerie est longue : la caméra s'éloigne quand elle la voit de côté, se rapproche quand elle la voit dans l'axe */
-    const loin = (portrait ? 8.2 : 9.2) + Math.abs(Math.sin(theta)) * (portrait ? .8 : 2.0), h = loin * .62 + Math.sin(t * .23) * .12;
+    const loin = (portrait ? 8.4 : 9.0) + Math.abs(Math.sin(theta)) * (portrait ? .8 : 2.0), h = loin * .62 + Math.sin(t * .23) * .12;
     const oeil = [CENTRE[0] + Math.sin(theta) * loin, h, CENTRE[2] + Math.cos(theta) * loin], V = regarde(oeil, CENTRE);
     if (source) { gl.bindTexture(gl.TEXTURE_2D, texFilm); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, source); if (compte++ % 3 === 0) mesure(); }
     teinte = teinte.map((v, k) => v + (cible[k] - v) * Math.min(1, dt * 6));
     /* les lumières : les écrans (couleur du film), les lampes des tables et les appliques (vacillement) */
     const lp = new Float32Array(NL * 3), lc = new Float32Array(NL * 3);
     ECRANS.forEach(([c, nrm], i) => { lp.set([c[0] + nrm[0] * .45, c[1], c[2] + nrm[2] * .45], i * 3); lc.set(teinte.map(v => v * 1.7), i * 3); });
-    LAMPES.forEach(([x, z], i) => { const f = .9 + .07 * Math.sin(t * 7.1 + i * 2); lp.set([x, HT + .3, z], (N + i) * 3); lc.set(i % 3 === 1 ? [1.0 * f, 1.05 * f, .55 * f] : [1.3 * f, 1.1 * f, .7 * f], (N + i) * 3); });
+    LAMPES.forEach(([x, z], i) => { const f = .9 + .07 * Math.sin(t * 7.1 + i * 2); lp.set([x, HT + .35, z], (N + i) * 3); lc.set(i % 3 === 1 ? [1.0 * f, 1.05 * f, .55 * f] : [1.3 * f, 1.1 * f, .7 * f], (N + i) * 3); });
     gl.clearColor(0, 0, 0, 0); gl.enable(gl.DEPTH_TEST); gl.depthMask(true); gl.disable(gl.BLEND); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, texRoche);
     const lum = (g, col, extra = {}) => { gl.useProgram(pLum); gl.uniform3fv(gl.getUniformLocation(pLum, "lp"), lp); gl.uniform3fv(gl.getUniformLocation(pLum, "lc"), lc); dessine(pLum, g, { ...VIDE, V, oeil, col, ...extra }); };

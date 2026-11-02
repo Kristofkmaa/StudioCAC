@@ -132,7 +132,7 @@
       for (int i = 0; i < ${NL}; i++) { vec3 d = lp[i] - w; float r = length(d); d /= r;
         float lam = max(dot(nn, d), 0.0) * .8 + .2; l += base * lc[i] * lam / (1.0 + r * r * (i < ${N} ? .09 : 1.3)); }
       l += brille * base;
-      if (tex > .5) l += base * vec3(.13,.03,.02) * (1.0 - smoothstep(0.0, 1.5, w.y)); /* le rouge du sol et des nappes renvoyé sur le bas de la roche */
+      if (tex > .5) l += base * vec3(.08,.025,.02) * (1.0 - smoothstep(0.0, 1.5, w.y)); /* le rouge du sol et des nappes renvoyé sur le bas de la roche */
       if (dos > .5 && dot(n0, oeil - w) < 0.0) l = vec3(.035,.028,.02) + l * .08; /* vu de dos : le bois sombre */
       gl_FragColor = vec4(brume(l, w, oeil), 1.0); }`);
   gl.useProgram(pLum); gl.uniform1i(gl.getUniformLocation(pLum, "motif"), 1); /* le cadre doré sur l'unité de texture 1 */
@@ -276,14 +276,14 @@
     gl.clearColor(.012, .009, .007, 1); gl.enable(gl.DEPTH_TEST); gl.depthMask(true); gl.disable(gl.BLEND); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, texRoche);
     const lum = (g, col, extra = {}) => { gl.useProgram(pLum); gl.uniform3fv(gl.getUniformLocation(pLum, "lp"), lp); gl.uniform3fv(gl.getUniformLocation(pLum, "lc"), lc); dessine(pLum, g, { ...VIDE, V, oeil, col, ...extra }); };
-    lum(solPlat, [.85, .16, .12], { tex: 1 });
+    lum(solPlat, [.4, .09, .09], { tex: 1 });
     lum(parois, [.72, .68, .64], { tex: 1, coupe: 1, brille: .03 });
-    lum(tables, [.7, .08, .07]); for (const [dessus, tour] of rondes) { lum(tour, [.62, .07, .05]); lum(dessus, [.78, .12, .08]); }
-    lum(fauteuils, [.62, .05, .05]); lum(fauteuilsPied, [.12, .08, .06]);
+    lum(tables, [.4, .1, .12]); for (const [dessus, tour] of rondes) { lum(tour, [.37, .09, .11]); lum(dessus, [.43, .12, .13]); }
+    lum(fauteuils, [.32, .07, .09]); lum(fauteuilsPied, [.12, .08, .06]);
     lum(assiettes, [.62, .62, .6], { brille: .06 });
     /* les lampes : abat-jour crème à la couronne (comme dans la vidéo) ou vert (comme sur la photo), la lumière est chaude */
     lampes.forEach(([tige, abat], i) => { lum(tige, [.6, .5, .3]); lum(abat, i % 3 === 1 ? [.55, .85, .45] : [1, .9, .62], { brille: .95 }); });
-    lum(chaises, [.88, .68, .32], { brille: .14 }); lum(dorures, [.88, .68, .32], { brille: .14 }); lum(velours, [.5, .04, .07]);
+    lum(chaises, [.7, .54, .27], { brille: .07 }); lum(dorures, [.7, .54, .27], { brille: .07 }); lum(velours, [.32, .06, .09]);
     ecrans.forEach((e, i) => { const [c, nrm] = ECRANS[i]; if (nrm[0] * (oeil[0] - c[0]) + nrm[2] * (oeil[2] - c[2]) < 0) return; /* le mur est abaissé de ce côté : son écran disparaît avec lui */
       dessine(pLum, e.dos, { ...VIDE, V, oeil, col: [.16, .1, .06], lp, lc });
       lum(e.cadre, [1, 1, 1], { brille: .32, dos: 1, orne: 1 });

@@ -1,8 +1,9 @@
 /* La salle de la Grotte en 3D, vue en plongée comme une maquette (WebGL écrit à la main, sans bibliothèque), d'après la photo
-   de la vraie salle envoyée par l'utilisateur : une longue galerie de roche au sol rouge ; sur les murs de côté, quatre écrans
-   dans des cadres dorés ; au fond, une arcade ouvre sur un renfoncement où se trouve le cinquième écran. Tables à nappe rouge
-   le long des murs (chaises côté allée), tables ovales à droite (chaises des deux côtés), lampes à abat-jour vert, appliques à
-   bougies, rideau rouge. Les écrans passent le film de présentation (images/salle.mp4) et leur lumière prend la couleur du film.
+   et de la vidéo de la vraie salle : une longue galerie de roche NOIRE (la roche ne se voit que là où les lampes et les écrans
+   l'éclairent), sol rouge sombre, nappes rouges jusqu'au sol, assiettes de présentation argentées, lampes à abat-jour (crème à
+   la couronne, ou vert) qui font une lumière chaude, appliques à bougies rouges à côté des écrans, cadres dorés haut sur les
+   murs ; au fond, une arcade ouvre sur la seconde salle (trois écrans, tables rondes, le mannequin en uniforme à bicorne).
+   Les écrans passent le film de présentation (images/salle.mp4) et leur lumière prend la couleur du film.
    Les murs côté caméra s'abaissent pour qu'on voie dedans. La caméra tourne lentement ; on peut la tourner à la souris ou au doigt.
    Chargé seulement à l'approche de la section (grotte.js) ; sans WebGL ou avec le mouvement réduit, l'image fixe reste. */
 (() => {
@@ -19,19 +20,26 @@
   const tampon = (data, cible = gl.ARRAY_BUFFER) => { const b = gl.createBuffer(); gl.bindBuffer(cible, b); gl.bufferData(cible, data, gl.STATIC_DRAW); return b; };
   const forme = (pos, uv, nor, idx) => ({ pos: tampon(new Float32Array(pos)), uv: tampon(new Float32Array(uv)), nor: tampon(new Float32Array(nor)), idx: tampon(new Uint16Array(idx), gl.ELEMENT_ARRAY_BUFFER), n: idx.length });
   /* un tronc de cône (ou cylindre) autour de (ox, oz) : rayons r0 en bas, r1 en haut ; normales vers l'extérieur (sens = -1 : vers l'intérieur) */
-  const tronc = (r0, r1, y0, y1, n, ox = 0, oz = 0, a0 = 0, a1 = Math.PI * 2, sens = 1) => {
+  const tronc = (r0, r1, y0, y1, n, ox = 0, oz = 0, a0 = 0, a1 = Math.PI * 2, sens = 1, ex = 1) => {
     const pos = [], uv = [], nor = [], idx = [], pente = (r0 - r1) / (y1 - y0);
     for (let i = 0; i <= n; i++) {
       const a = a0 + (a1 - a0) * i / n, sx = Math.sin(a), cz = Math.cos(a), l = Math.hypot(1, pente);
-      pos.push(ox + sx * r1, y1, oz + cz * r1, ox + sx * r0, y0, oz + cz * r0); uv.push(i / n, 0, i / n, 1);
+      pos.push(ox + sx * r1 * ex, y1, oz + cz * r1, ox + sx * r0 * ex, y0, oz + cz * r0); uv.push(i / n, 0, i / n, 1);
       for (let k = 0; k < 2; k++) nor.push(sens * sx / l, sens * pente / l, sens * cz / l);
       if (i < n) { const k = i * 2; idx.push(k, k + 1, k + 2, k + 1, k + 3, k + 2); }
     }
     return forme(pos, uv, nor, idx);
   };
-  const disque = (r, y, n, ox = 0, oz = 0) => {
+  const disque = (r, y, n, ox = 0, oz = 0, ex = 1) => {
     const pos = [ox, y, oz], uv = [.5, .5], nor = [0, 1, 0], idx = [];
-    for (let i = 0; i <= n; i++) { const a = i / n * Math.PI * 2; pos.push(ox + Math.sin(a) * r, y, oz + Math.cos(a) * r); uv.push(.5 + Math.sin(a) / 2, .5 + Math.cos(a) / 2); nor.push(0, 1, 0); if (i < n) idx.push(0, i + 1, i + 2); }
+    for (let i = 0; i <= n; i++) { const a = i / n * Math.PI * 2; pos.push(ox + Math.sin(a) * r * ex, y, oz + Math.cos(a) * r); uv.push(.5 + Math.sin(a) / 2, .5 + Math.cos(a) / 2); nor.push(0, 1, 0); if (i < n) idx.push(0, i + 1, i + 2); }
+    return forme(pos, uv, nor, idx);
+  };
+  /* plusieurs disques plats réunis (les assiettes) : [x, z], rayon r, hauteur y */
+  const disques = (liste, r, y) => {
+    const pos = [], uv = [], nor = [], idx = [], C = 14;
+    for (const [ox, oz] of liste) { const b = pos.length / 3; pos.push(ox, y, oz); uv.push(.5, .5); nor.push(0, 1, 0);
+      for (let i = 0; i <= C; i++) { const a = i / C * Math.PI * 2; pos.push(ox + Math.sin(a) * r, y, oz + Math.cos(a) * r); uv.push(.5 + Math.sin(a) / 2, .5 + Math.cos(a) / 2); nor.push(0, 1, 0); if (i < C) idx.push(b, b + i + 1, b + i + 2); } }
     return forme(pos, uv, nor, idx);
   };
   /* des pavés réunis en une seule forme (les chaises) : chaque pavé [cx, cy, cz, dx, dy, dz, angle, inclinaison vers l'arrière] */
@@ -83,8 +91,8 @@
   const X = 2.0, X2 = 2.4, ZE = 5.6, ZA = 0, ZF = -4.0, HM = 2.4, ARC = 1.15, LINTEAU = 1.5;
   const HT = .44;
   /* les écrans : [centre, normale, largeur de l'ouverture] ; l'ouverture du cadre est en 2/1 (moulures : 9,9 % sur les côtés, 14,8 % en haut et en bas) */
-  const ECRANS = [[[-X + .02, 1.35, 3.0], [1, 0, 0], 1.8], [[X - .02, 1.35, 3.0], [-1, 0, 0], 1.8],
-    [[-X2 + .02, 1.3, -1.8], [1, 0, 0], 1.4], [[-.7, 1.3, ZF + .02], [0, 0, 1], 1.4], [[X2 - .02, 1.3, -2.3], [-1, 0, 0], 1.5]];
+  const ECRANS = [[[-X + .02, 1.5, 3.0], [1, 0, 0], 1.9], [[X - .02, 1.5, 3.0], [-1, 0, 0], 1.9],
+    [[-X2 + .02, 1.45, -1.8], [1, 0, 0], 1.5], [[-.7, 1.45, ZF + .02], [0, 0, 1], 1.5], [[X2 - .02, 1.45, -2.3], [-1, 0, 0], 1.5]];
   const N = ECRANS.length, CG = .099, CH = .148;
   /* les tables collées au mur [x, z, demi-largeur, demi-longueur] (l'allée est du côté du centre), et les tables rondes [x, z, rayon] */
   /* 30 places en tout, comme le vrai restaurant : 18 dans la grande salle (2 + 2 tables collées au mur), 12 dans la salle du fond (2 rondes de 4, une table de 4) */
@@ -97,6 +105,11 @@
     for (let k = 0; k < n; k++) { const zz = z - hz + pas * (k + .5); CHAISES.push([x + s * (hx + .26), zz, s * Math.PI / 2]); FAUTEUILS.push([x - s * (hx + .2), zz, s]); }
   }
   for (const [x, z, r] of RONDES) for (let k = 0; k < 4; k++) { const a = k * Math.PI / 2 + Math.PI / 4; CHAISES.push([x + Math.sin(a) * (r + .3), z + Math.cos(a) * (r + .3), a]); }
+  /* les assiettes de présentation argentées, une par place, posées sur la nappe */
+  const ASSIETTES = [];
+  for (const [x, z, hx, hz] of LONGUES) { const n = Math.max(2, Math.round(hz * 2 / .52)), pas = hz * 2 / n;
+    for (let k = 0; k < n; k++) { const zz = z - hz + pas * (k + .5); ASSIETTES.push([x - hx + .13, zz], [x + hx - .13, zz]); } }
+  for (const [x, z, r] of RONDES) for (let k = 0; k < 4; k++) { const a = k * Math.PI / 2 + Math.PI / 4; ASSIETTES.push([x + Math.sin(a) * (r - .13), z + Math.cos(a) * (r - .13)]); }
   /* les lumières : 5 écrans, une lampe par table, 4 appliques à côté des écrans */
   const LAMPES = [...LONGUES.map(([x, z]) => [x, z]), ...RONDES.map(([x, z]) => [x, z])];
   const APPLIQUES = [[-X + .06, 1.75, 4.5], [X - .06, 1.75, 4.5], [-X2 + .06, 1.75, -.7], [X2 - .06, 1.75, -1.2]];
@@ -117,10 +130,11 @@
       vec3 base = col;
       if (orne > .5) { vec4 m = texture2D(motif, uv); if (m.a < .5) discard; base = m.rgb * 1.1; } /* le cadre doré : ses moulures, son ouverture vide */
       if (tex > .5) base *= texture2D(roche, fract((abs(n0.y) > .5 ? w.xz : vec2(w.x + w.z, w.y)) * .32)).rgb * 1.7;
-      vec3 l = base * vec3(.05,.042,.034);
+      vec3 l = base * vec3(.022,.02,.02);
       for (int i = 0; i < ${NL}; i++) { vec3 d = lp[i] - w; float r = length(d); d /= r;
         float lam = max(dot(nn, d), 0.0) * .8 + .2; l += base * lc[i] * lam / (1.0 + r * r * (i < ${N} ? .3 : 2.4)); }
       l += brille * base;
+      if (tex > .5) l += base * vec3(.075,.012,.008) * (1.0 - smoothstep(0.0, 1.3, w.y)); /* le rouge du sol et des nappes renvoyé sur le bas de la roche */
       if (dos > .5 && dot(n0, oeil - w) < 0.0) l = vec3(.035,.028,.02) + l * .08; /* vu de dos : le bois sombre */
       gl_FragColor = vec4(brume(l, w, oeil), 1.0); }`);
   gl.useProgram(pLum); gl.uniform1i(gl.getUniformLocation(pLum, "motif"), 1); /* le cadre doré sur l'unité de texture 1 */
@@ -143,7 +157,6 @@
   const rect = (x0, x1, z0, z1, y) => [x0, y, z0, x1, y, z0, x0, y, z1, x1, y, z1];
   const solPlat = (() => { const pos = [...rect(-X, X, ZA, ZE, 0), ...rect(-X2, X2, ZF, ZA, 0)], nor = Array(8).fill([0, 1, 0]).flat();
     return forme(pos, [0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1], nor, [0, 2, 1, 1, 2, 3, 4, 6, 5, 5, 6, 7]); })();
-  const tapis = forme(rect(-.3, .3, ZA - 2.6, ZE - .2, .004), [0, 0, 1, 0, 0, 1, 1, 1], [0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0], [0, 2, 1, 1, 2, 3]);
   /* les murs ; le mur de l'arcade a une face vers chaque salle, son linteau de roche est bas et irrégulier */
   const M = [[-X, HM / 2, (ZA + ZE) / 2, 1, 0, ZE - ZA, HM], [X, HM / 2, (ZA + ZE) / 2, -1, 0, ZE - ZA, HM], [0, HM / 2, ZE, 0, -1, 2 * X, HM],
     [-X2, HM / 2, (ZF + ZA) / 2, 1, 0, ZA - ZF, HM], [X2, HM / 2, (ZF + ZA) / 2, -1, 0, ZA - ZF, HM], [0, HM / 2, ZF, 0, 1, 2 * X2, HM]];
@@ -158,9 +171,11 @@
   const rideau = murs([[0, 1.05, ZE - .03, 0, -1, 1.3, 2.1], [X - .03, 1.05, .55, -1, 0, 1.0, 2.1]]);
   /* les tables : la nappe (dessus et pans) ; les rondes en tronc de cône évasé */
   const tables = (() => { const L = [];
-    for (const [x, z, hx, hz] of LONGUES) L.push([x, HT - .01, z, hx, .012, hz, 0], [x, HT / 2, z, hx + .03, HT / 2 - .01, hz + .03, 0]);
+    for (const [x, z, hx, hz] of LONGUES) if (hz < .7) L.push([x, HT - .01, z, hx, .012, hz, 0], [x, HT / 2, z, hx + .03, HT / 2 - .01, hz + .03, 0]);
     return paves(L); })();
-  const rondes = RONDES.map(([x, z, r]) => [disque(r, HT, 32, x, z), tronc(r * 1.14, r, .01, HT, 32, x, z)]);
+  /* les tables rondes, et la grande table de droite qui est ovale sur la photo (nappe évasée jusqu'au sol) */
+  const rondes = [...RONDES.map(([x, z, r]) => [disque(r, HT, 32, x, z), tronc(r * 1.14, r, .01, HT, 32, x, z)]),
+    ...LONGUES.filter(([, , , hz]) => hz >= .7).map(([x, z, hx, hz]) => [disque(hz, HT, 40, x, z, (hx + .06) / hz), tronc(hz * 1.1, hz, .01, HT, 40, x, z, 0, Math.PI * 2, 1, (hx + .06) / hz)])];
   /* les fauteuils de cinéma contre le mur : assise, haut dossier incliné en velours rouge, accoudoirs et pied sombres ; plus ceux du fond */
   const FV = [], FS = [];
   const fauteuil = (x, z, s) => { const a = s > 0 ? Math.PI / 2 : -Math.PI / 2;
@@ -170,7 +185,15 @@
   for (const [x, z, s] of FAUTEUILS) fauteuil(x, z, s);
   const fauteuils = paves(FV), fauteuilsPied = paves(FS);
   /* le mannequin en costume de Napoléon, près de l'arcade : un pied, un buste bleu nuit, un plastron blanc, un col rouge */
-  const mannequin = [tronc(.025, .025, 0, .78, 8, 1.75, -.4), tronc(.15, .2, .78, 1.42, 18, 1.75, -.4), tronc(.07, .05, 1.42, 1.5, 12, 1.75, -.4)];
+  const mannequin = [tronc(.025, .025, 0, .78, 8, 1.75, -.4), tronc(.15, .2, .78, 1.42, 18, 1.75, -.4), tronc(.07, .05, 1.42, 1.5, 12, 1.75, -.4),
+    tronc(.09, .09, 1.5, 1.66, 12, 1.75, -.4), paves([[1.75, 1.7, -.4, .19, .035, .05, -.5]]), paves([[1.75, 1.1, -.4 + .16, .06, .3, .03, 0]])];
+  const assiettes = disques(ASSIETTES, .065, HT + .004);
+  /* les appliques à bougies : un bras doré sortant du mur, deux bougies, deux ampoules rouges */
+  const AB = [], AR = [];
+  for (const [x, y, z] of APPLIQUES) { const s = x < 0 ? 1 : -1;
+    AB.push([x + s * .05, y - .1, z, .05, .012, .012, 0], [x + s * .1, y - .06, z, .012, .05, .09, 0]);
+    for (const dz of [-.07, .07]) { AB.push([x + s * .1, y - .025, z + dz, .009, .035, .009, 0]); AR.push([x + s * .1, y + .015, z + dz, .013, .018, .013, 0]); } }
+  const appliquesBras = paves(AB), appliquesAmpoules = paves(AR);
   const lampes = LAMPES.map(([x, z]) => [tronc(.022, .018, HT, HT + .12, 8, x, z), tronc(.085, .055, HT + .11, HT + .21, 16, x, z)]);
   /* les chaises « Napoléon » (d'après la photo envoyée par l'utilisateur) : tout le bâti doré, pieds et barreaux tournés
      avec leurs bagues, pieds arrière qui partent en arrière, dossier à quatre barreaux sous un bandeau, assise de velours rouge.
@@ -259,20 +282,23 @@
     teinte = teinte.map((v, k) => v + (cible[k] - v) * Math.min(1, dt * 4));
     /* les lumières : les écrans (couleur du film), les lampes des tables et les appliques (vacillement) */
     const lp = new Float32Array(NL * 3), lc = new Float32Array(NL * 3);
-    ECRANS.forEach(([c, nrm], i) => { lp.set([c[0] + nrm[0] * .45, c[1], c[2] + nrm[2] * .45], i * 3); lc.set(teinte.map(v => v * 1.5), i * 3); });
-    LAMPES.forEach(([x, z], i) => { const f = .9 + .07 * Math.sin(t * 7.1 + i * 2); lp.set([x, HT + .3, z], (N + i) * 3); lc.set([.75 * f, .78 * f, .42 * f], (N + i) * 3); });
-    APPLIQUES.forEach((a, i) => { const f = .8 + .12 * Math.sin(t * 9.3 + i * 3) + .08 * Math.sin(t * 21.7 + i); lp.set(a, (N + LAMPES.length + i) * 3); lc.set([1.1 * f, .6 * f, .25 * f], (N + LAMPES.length + i) * 3); });
+    ECRANS.forEach(([c, nrm], i) => { lp.set([c[0] + nrm[0] * .45, c[1], c[2] + nrm[2] * .45], i * 3); lc.set(teinte.map(v => v * 2.1), i * 3); });
+    LAMPES.forEach(([x, z], i) => { const f = .9 + .07 * Math.sin(t * 7.1 + i * 2); lp.set([x, HT + .3, z], (N + i) * 3); lc.set(i % 3 === 1 ? [.8 * f, .85 * f, .45 * f] : [1.05 * f, .88 * f, .55 * f], (N + i) * 3); });
+    APPLIQUES.forEach((a, i) => { const f = .8 + .12 * Math.sin(t * 9.3 + i * 3) + .08 * Math.sin(t * 21.7 + i); lp.set(a, (N + LAMPES.length + i) * 3); lc.set([.9 * f, .22 * f, .08 * f], (N + LAMPES.length + i) * 3); });
     gl.clearColor(.012, .009, .007, 1); gl.enable(gl.DEPTH_TEST); gl.depthMask(true); gl.disable(gl.BLEND); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, texRoche);
     const lum = (g, col, extra = {}) => { gl.useProgram(pLum); gl.uniform3fv(gl.getUniformLocation(pLum, "lp"), lp); gl.uniform3fv(gl.getUniformLocation(pLum, "lc"), lc); dessine(pLum, g, { ...VIDE, V, oeil, col, ...extra }); };
-    lum(solPlat, [1.1, .42, .34], { tex: 1 });
-    lum(tapis, [.42, .05, .05]);
-    lum(parois, [1.25, 1.05, .85], { tex: 1, coupe: 1, brille: .1 });
+    lum(solPlat, [.62, .1, .08], { tex: 1 });
+    lum(parois, [.5, .47, .45], { tex: 1, coupe: 1, brille: .012 });
     lum(rideau, [.07, .06, .06], { coupe: 1 });
     lum(tables, [.7, .08, .07]); for (const [dessus, tour] of rondes) { lum(tour, [.62, .07, .05]); lum(dessus, [.78, .12, .08]); }
     lum(fauteuils, [.62, .05, .05]); lum(fauteuilsPied, [.12, .08, .06]);
     lum(mannequin[0], [.2, .17, .12]); lum(mannequin[1], [.08, .1, .25]); lum(mannequin[2], [.7, .08, .07]);
-    for (const [tige, abat] of lampes) { lum(tige, [.6, .5, .3]); lum(abat, [.55, .85, .45], { brille: .9 }); }
+    lum(mannequin[3], [.9, .88, .8]); lum(mannequin[4], [.06, .06, .07], { brille: .02 }); lum(mannequin[5], [.9, .88, .8]);
+    lum(assiettes, [.62, .62, .6], { brille: .06 });
+    lum(appliquesBras, [.8, .62, .3], { brille: .1 }); lum(appliquesAmpoules, [1, .15, .05], { brille: 1 });
+    /* les lampes : abat-jour crème à la couronne (comme dans la vidéo) ou vert (comme sur la photo), la lumière est chaude */
+    lampes.forEach(([tige, abat], i) => { lum(tige, [.6, .5, .3]); lum(abat, i % 3 === 1 ? [.55, .85, .45] : [1, .9, .62], { brille: .95 }); });
     lum(chaises, [.88, .68, .32], { brille: .14 }); lum(dorures, [.88, .68, .32], { brille: .14 }); lum(velours, [.5, .04, .07]);
     ecrans.forEach((e, i) => { const [c, nrm] = ECRANS[i]; if (nrm[0] * (oeil[0] - c[0]) + nrm[2] * (oeil[2] - c[2]) < 0) return; /* le mur est abaissé de ce côté : son écran disparaît avec lui */
       dessine(pLum, e.dos, { ...VIDE, V, oeil, col: [.16, .1, .06], lp, lc });
@@ -282,8 +308,8 @@
     /* les halos (écrans, lampes, appliques) puis la poussière, additifs */
     gl.depthMask(false); gl.enable(gl.BLEND); gl.blendFunc(gl.ONE, gl.ONE);
     ECRANS.forEach(([c, nrm, w]) => nrm[0] * (oeil[0] - c[0]) + nrm[2] * (oeil[2] - c[2]) > 0 && dessine(pHalo, { pos: tampon2([c[0] + nrm[0] * .2, c[1], c[2] + nrm[2] * .2]), n: 1 }, { V, taille: 700 * w * dpr * (portrait ? .7 : 1), t, vole: 0, col: teinte.map(v => v * .13) }));
-    LAMPES.forEach(([x, z], i) => { const f = .9 + .1 * Math.sin(t * 7.1 + i * 2); dessine(pHalo, { pos: tampon2([x, HT + .18, z]), n: 1 }, { V, taille: 230 * dpr, t, vole: 0, col: [.3 * f, .42 * f, .2 * f] }); });
-    APPLIQUES.forEach((a, i) => { const f = .8 + .2 * Math.sin(t * 9.3 + i * 3); dessine(pHalo, { pos: tampon2(a), n: 1 }, { V, taille: 200 * dpr, t, vole: 0, col: [.6 * f, .34 * f, .12 * f] }); });
+    LAMPES.forEach(([x, z], i) => { const f = .9 + .1 * Math.sin(t * 7.1 + i * 2); dessine(pHalo, { pos: tampon2([x, HT + .18, z]), n: 1 }, { V, taille: 230 * dpr, t, vole: 0, col: i % 3 === 1 ? [.3 * f, .4 * f, .18 * f] : [.42 * f, .34 * f, .2 * f] }); });
+    APPLIQUES.forEach((a, i) => { const f = .8 + .2 * Math.sin(t * 9.3 + i * 3); dessine(pHalo, { pos: tampon2(a), n: 1 }, { V, taille: 160 * dpr, t, vole: 0, col: [.5 * f, .12 * f, .05 * f] }); });
     dessine(pHalo, { pos: poussiere, n: 300 }, { V, taille: 26 * dpr, t, vole: 1, col: teinte.map(v => v * .2) });
     gl.depthMask(true); gl.disable(gl.BLEND);
   };

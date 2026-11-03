@@ -3,7 +3,9 @@
    l'éclairent), parquet sombre, nappes rouges jusqu'au sol, sièges de cinéma capitonnés rouges contre le mur derrière chaque table collée au mur, assiettes de présentation argentées, lampes à abat-jour (crème à
    la couronne, ou vert) qui font une lumière chaude, cadres dorés haut sur les murs, rien d'autre sur les murs ; au fond, une arcade ouvre sur la seconde salle (trois écrans, tables rondes).
    Les écrans passent le film de présentation (images/salle.mp4) et leur lumière prend la couleur du film.
-   Les murs côté caméra s'abaissent pour qu'on voie dedans. La caméra tourne lentement ; on peut la tourner à la souris ou au doigt.
+   Vue des yeux d'un client assis à sa table (3 novembre 2026, demande de l'utilisateur : plus de maquette vue d'en haut, où l'on croirait
+   choisir sa place) : la table et son assiette en bas, les murs de roche, les écrans tout autour ; la tête tourne lentement sur elle-même,
+   on peut la tourner à la souris ou au doigt.
    La toile est transparente : la maquette se pose directement sur le fond de roche de la page, sans cadre.
    Chargé seulement à l'approche de la section (grotte.js) ; sans WebGL ou avec le mouvement réduit, l'image fixe (transparente) reste. */
 (() => {
@@ -114,6 +116,9 @@
     const n = Math.max(2, Math.round(hz * 2 / .56)), pas = hz * 2 / n, s = x < 0 ? 1 : -1;  /* s : vers l'allée */
     for (let k = 0; k < n; k++) { const zz = z - hz + pas * (k + .5); CHAISES.push([x + s * (hx + .3), zz, s * Math.PI / 2]); }
   }
+  /* le client qu'on incarne : assis sur la première chaise de la table collée au mur gauche, face à la table et au mur ;
+     sa chaise n'est pas dessinée (on est assis dessus). Depuis là, en tournant la tête, on voit les cinq écrans. */
+  const SIEGE = CHAISES.shift();
   /* les chaises d'une table ronde : tout autour, ou deux du côté libre quand la table est contre un mur (et deux banquettes côté mur) */
   const anglesRonde = libre => (libre ? [60, 120].map(d => libre * d) : [45, 135, 225, 315]).map(d => d * Math.PI / 180);
   const anglesAssiettes = libre => (libre ? [60, 120, 240, 300].map(d => libre * d) : [45, 135, 225, 315]).map(d => d * Math.PI / 180);
@@ -187,6 +192,9 @@
       M.push([xm, (ya + HM) / 2, z, 0, f, x1 - x0 + .002, HM - ya]); }
   }
   const parois = murs(M);
+  /* le plafond de roche (on est dans la salle : on le voit en levant un peu les yeux) */
+  const plafond = (() => { const pos = [...rect(-X, X, ZA, ZE, HM), ...rect(-X2, X2, ZF, ZA, HM)], nor = Array(8).fill([0, -1, 0]).flat();
+    return forme(pos, [0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1], nor, [0, 1, 2, 1, 3, 2, 4, 5, 6, 5, 7, 6]); })();
   /* les tables : la nappe (dessus et pans) ; les rondes en tronc de cône évasé */
   const tables = (() => { const L = [];
     for (const [x, z, hx, hz] of LONGUES) if (hz < .8) L.push([x, HT - .01, z, hx, .012, hz, 0], [x, HT / 2, z, hx + .03, HT / 2 - .01, hz + .03, 0]);
@@ -275,40 +283,39 @@
     else gl.drawArrays(gl.POINTS, 0, g.n);
   };
   const VIDE = { tex: 0, coupe: 0, brille: 0, dos: 0, orne: 0, bois: 0 };
-  const CENTRE = [0, .7, 1.0 * F];
-  let theta = .5, vitesse = 0, actif = false, enCours = false, dernier = 0, t = 0;
+  let theta = .35, vitesse = 0, actif = false, enCours = false, dernier = 0, t = 0;
   const taille = () => {
     const dpr = Math.min(devicePixelRatio || 1, innerWidth < 760 ? 1.5 : 2), r = boite.getBoundingClientRect();
     const w = Math.round(r.width * dpr), h = Math.round(r.height * dpr);
     if (toile.width !== w || toile.height !== h) { toile.width = w; toile.height = h; }
-    gl.viewport(0, 0, w, h); P = perspective(w / h < 1 ? 1.05 : .74, w / h, .1, 50); return dpr;
+    gl.viewport(0, 0, w, h); P = perspective(w / h < 1 ? 1.45 : 1.15, w / h, .05, 50); /* un regard large, comme nos yeux : la table en bas, les écrans en haut */ return dpr;
   };
   const image = now => {
     if (!actif) { enCours = false; return; } requestAnimationFrame(image);
     const dt = Math.min(.05, (now - dernier) / 1000 || 0); dernier = now; t += dt;
-    theta += (.05 + vitesse) * dt; vitesse *= Math.pow(.02, dt);
+    theta += (.09 + vitesse) * dt; vitesse *= Math.pow(.02, dt); /* un tour complet en un peu plus d'une minute */
     const dpr = taille(), portrait = toile.width / toile.height < 1;
-    /* la galerie est longue : la caméra s'éloigne quand elle la voit de côté, se rapproche quand elle la voit dans l'axe */
-    const loin = ((portrait ? 8.4 : 9.0) + Math.abs(Math.sin(theta)) * (portrait ? .8 : 2.0)) * F, h = loin * .62 + Math.sin(t * .23) * .12;
-    const oeil = [CENTRE[0] + Math.sin(theta) * loin, h, CENTRE[2] + Math.cos(theta) * loin], V = regarde(oeil, CENTRE);
+    /* les yeux d'un client assis (1,15 m), un peu penché vers sa table ; la tête tourne sur elle-même, et respire à peine */
+    const [sx, sz, sa] = SIEGE, ex = sx - Math.sin(sa) * .1, ez = sz - Math.cos(sa) * .1, cap = sa + Math.PI + theta, haut = (portrait ? .07 : .02) + Math.sin(t * .21) * .02;
+    const oeil = [ex, 1.15 + Math.sin(t * .37) * .006, ez], V = regarde(oeil, [ex + Math.sin(cap), oeil[1] + haut, ez + Math.cos(cap)]);
     if (source) { gl.bindTexture(gl.TEXTURE_2D, texFilm); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, source); if (compte++ % 3 === 0) mesure(); }
     teinte = teinte.map((v, k) => v + (cible[k] - v) * Math.min(1, dt * 6));
     /* les lumières : les écrans (couleur du film), les lampes des tables et les appliques (vacillement) */
     const lp = new Float32Array(NL * 3), lc = new Float32Array(NL * 3);
     ECRANS.forEach(([c, nrm], i) => { lp.set([c[0] + nrm[0] * .45, c[1], c[2] + nrm[2] * .45], i * 3); lc.set(teinte.map(v => v * 1.7), i * 3); });
-    LAMPES.forEach(([x, z], i) => { const f = .9 + .07 * Math.sin(t * 7.1 + i * 2); lp.set([x, HT + .35, z], (N + i) * 3); lc.set(i % 3 === 1 ? [1.0 * f, 1.05 * f, .55 * f] : [1.3 * f, 1.1 * f, .7 * f], (N + i) * 3); });
+    LAMPES.forEach(([x, z], i) => { const f = .9 + .07 * Math.sin(t * 7.1 + i * 2); lp.set([x, HT + .35, z], (N + i) * 3); lc.set((i % 3 === 1 ? [1.0, 1.05, .55] : [1.3, 1.1, .7]).map(v => v * f * .72), (N + i) * 3); });
     gl.clearColor(0, 0, 0, 0); gl.enable(gl.DEPTH_TEST); gl.depthMask(true); gl.disable(gl.BLEND); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, texRoche);
     const lum = (g, col, extra = {}) => { gl.useProgram(pLum); gl.uniform3fv(gl.getUniformLocation(pLum, "lp"), lp); gl.uniform3fv(gl.getUniformLocation(pLum, "lc"), lc); dessine(pLum, g, { ...VIDE, V, oeil, col, ...extra }); };
     lum(solPlat, [.2, .13, .085], { bois: 1 });
-    lum(parois, [.72, .68, .64], { tex: 1, coupe: 1, brille: .03 });
+    lum(parois, [.72, .68, .64], { tex: 1, brille: .03 }); lum(plafond, [.34, .31, .29], { tex: 1 });
     lum(tables, [.4, .1, .12]); for (const [dessus, tour] of rondes) { lum(tour, [.37, .09, .11]); lum(dessus, [.43, .12, .13]); }
     lum(fauteuils, [.38, .05, .09]); lum(fauteuilsPied, [.08, .06, .05]);
     lum(assiettes, [.62, .62, .6], { brille: .06 });
     /* les lampes : abat-jour crème à la couronne (comme dans la vidéo) ou vert (comme sur la photo), la lumière est chaude */
-    lampes.forEach(([tige, abat], i) => { lum(tige, [.6, .5, .3]); lum(abat, i % 3 === 1 ? [.55, .85, .45] : [1, .9, .62], { brille: .95 }); });
+    lampes.forEach(([tige, abat], i) => { lum(tige, [.6, .5, .3]); lum(abat, i % 3 === 1 ? [.45, .7, .38] : [.85, .74, .5], { brille: .45 }); }); /* de près, l'abat-jour luit sans éblouir */
     lum(chaises, [.7, .54, .27], { brille: .07 }); lum(dorures, [.7, .54, .27], { brille: .07 }); lum(velours, [.32, .06, .09]);
-    ecrans.forEach((e, i) => { const [c, nrm] = ECRANS[i]; if (nrm[0] * (oeil[0] - c[0]) + nrm[2] * (oeil[2] - c[2]) < 0) return; /* le mur est abaissé de ce côté : son écran disparaît avec lui */
+    ecrans.forEach((e, i) => { const [c, nrm] = ECRANS[i]; if (nrm[0] * (oeil[0] - c[0]) + nrm[2] * (oeil[2] - c[2]) < 0) return; /* un écran vu de l'autre salle, à travers le mur : on ne le dessine pas */
       dessine(pLum, e.dos, { ...VIDE, V, oeil, col: [.16, .1, .06], lp, lc });
       lum(e.cadre, [1, 1, 1], { brille: .32, dos: 1, orne: 1 });
       gl.bindTexture(gl.TEXTURE_2D, texFilm); dessine(pEcran, e.film, { V, oeil }); gl.bindTexture(gl.TEXTURE_2D, texRoche);

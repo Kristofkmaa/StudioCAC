@@ -57,7 +57,7 @@ Les pages du site sont à la racine (leur place donne leur adresse sur saitora.f
 
 ## En attente
 
-- **Grotte Napoléon, réservations réelles** : le père a un système relié à Booking. Booking n'a pas de module pour les sites ; il faut passer par son gestionnaire de réservations (Bókun, Regiondo, FareHarbor, Rezdy…) qui synchronise les places partout. L'utilisateur se renseigne sur l'outil ; ensuite brancher le calendrier de `reserver.html` dessus (places en direct, réservations envoyées à l'outil ; le paiement des séances passera peut-être par lui, Stripe resterait pour la boutique). `napoleon1769.corsica` est bloqué par le réseau de la session.
+- **Grotte Napoléon, réservations réelles** : branché le 3 novembre 2026 sur le calendrier WooCommerce Bookings de l’ancien site (`lagrottenapoleon.fr`) : places en direct, et la réservation part dans son panier (paiement Stripe là-bas). Reste : savoir comment le père relie Booking et GetYourGuide à ce calendrier (rien ne le fait tout seul : risque de surréservation), et peut-être un gestionnaire comme Bókun. Détail dans `clients/la-grotte-napoleon/NOTES.md`.
 - **Grotte Napoléon, boutique** : Stripe, frais de livraison, conditions de vente des produits (rétractation 14 jours), textes à valider par le père (liste dans `clients/la-grotte-napoleon/NOTES.md`).
 - **Publier le reste de la branche de travail** (accueil à trois démos, `demos.html`) quand l'utilisateur le demande.
 - **Bobyshop** : fait comme une boulangerie « pains du monde » d'après sa charte, alors que son devis disait AXI, restaurant / bar / café. À réorienter quand l'utilisateur saura la vraie activité de son ami.

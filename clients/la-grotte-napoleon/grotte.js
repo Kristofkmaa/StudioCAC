@@ -40,19 +40,39 @@
   const plus = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
   const auj = () => { const d = new Date(); d.setHours(0, 0, 0, 0); return d; };
 
-  /* ---------- les séances : mêmes heures que l'ancien site, une seule salle de 30 places ---------- */
+  /* ---------- les séances : une seule salle de 30 places ; les heures sont celles du calendrier de réservation de la Grotte ---------- */
   const PLACES = 30;
-  const HEURES = { complete: [720, 810, 1200, 1290], decouverte: [720, 810, 900, 960, 1020, 1200, 1290] };
+  const HEURES = { complete: [720, 810], decouverte: [720, 810, 900, 960] };
   const PRIX = { complete: { adulte: 48, enfant: 30 }, decouverte: { adulte: 15, enfant: 15 } };
   const toutes = [...new Set([...HEURES.complete, ...HEURES.decouverte])].sort((a, b) => a - b);
-  /* maquette : des places déjà prises, toujours les mêmes pour un jour et une heure donnés, plus celles réservées ici */
-  let resas = []; try { resas = JSON.parse(localStorage.getItem("grotte-resas")) || []; } catch (e) {}
-  const prises = (j, h) => {
-    let x = 0; for (const c of j + h) x = (x * 31 + c.charCodeAt(0)) % 9973;
-    const soir = h >= 1200 ? 9 : 0, base = (x % 23) + soir;
-    return Math.min(PLACES, base + (x % 11 === 0 ? 30 : 0)) + resas.filter(r => r.jour === j && r.heure === h).reduce((s, r) => s + r.n, 0);
+  /* ---------- les vraies places, en direct : le calendrier WooCommerce Bookings du site de la Grotte (lagrottenapoleon.fr), le même qui
+     reçoit aujourd'hui les réservations. Une seule demande pour les douze mois à venir (environ 5 s), gardée 5 minutes dans l'onglet.
+     dispo = { complete: { "2027-04-15": { 720: 30, 810: 28 } }, decouverte: {…} } ; null tant que ça charge ---------- */
+  const GROTTE = "https://lagrottenapoleon.fr";
+  const SEANCES = {
+    complete: { id: 13049, page: "/produit/seance-grotte-napoleon-formule-complete/", adulte: 13055, enfant: 13075 },
+    decouverte: { id: 17438, page: "/produit/seance-grotte-napoleon-formule-decouverte/", adulte: 17446, enfant: 17446 }
   };
-  const libres = (j, h) => Math.max(0, PLACES - prises(j, h));
+  let dispo = null, dispoErreur = false;
+  const lisDispo = recu => {
+    const d = { complete: {}, decouverte: {} }, f = { 13049: "complete", 17438: "decouverte" };
+    for (const r of recu.records || []) {
+      const k = f[r.product_id], [j, hm] = r.date.split("T"); if (!k || hm === "00:00") continue;
+      const [hh, mm] = hm.split(":").map(Number); (d[k][j] = d[k][j] || {})[hh * 60 + mm] = r.available;
+    }
+    return d;
+  };
+  function chargeDispo(fin) {
+    try { const c = JSON.parse(sessionStorage.getItem("grotte-dispo")); if (c && Date.now() - c.t < 3e5) { dispo = c.d; return fin(); } } catch (e) {}
+    const a = auj(), b = plus(a, 366);
+    fetch(`${GROTTE}/wp-json/wc-bookings/v1/products/slots?product_ids=13049,17438&min_date=${iso(a)}&max_date=${iso(b)}&limit=3000`)
+      .then(r => { if (!r.ok) throw 0; return r.json(); })
+      .then(r => { dispo = lisDispo(r); try { sessionStorage.setItem("grotte-dispo", JSON.stringify({ t: Date.now(), d: dispo })); } catch (e) {} fin(); })
+      .catch(() => { dispoErreur = true; fin(); });
+  }
+  /* les heures d'un jour pour une formule, et les places qui restent */
+  const heuresDe = (f, j) => dispo ? Object.keys(dispo[f][j] || {}).map(Number).sort((x, y) => x - y) : [];
+  const libres = (j, h, f = etat.formule) => dispo ? (dispo[f][j]?.[h] ?? 0) : 0;
   const passee = (j, h) => { const d = new Date(j + "T00:00"); d.setMinutes(h - 10); return d < new Date(); };
 
   function dessineSeances() {
@@ -473,7 +493,7 @@
       $("rFin").onclick = () => { location.href = "./?lang=" + L; }; return;
     }
     const [an, mo] = etat.mois.split("-").map(Number), prem = new Date(an, mo - 1, 1), nbJ = new Date(an, mo, 0).getDate(), decal = (prem.getDay() + 6) % 7, a = auj();
-    const moisMin = iso(a).slice(0, 7), hs = HEURES[etat.formule];
+    const moisMin = iso(a).slice(0, 7), moisMax = iso(plus(a, 365)).slice(0, 7), hs = etat.jour ? heuresDe(etat.formule, etat.jour) : [];
     const reste = etat.heure != null ? libres(etat.jour, etat.heure) : null;
     const radio = '<i class="rond-choix" aria-hidden="true"></i>';
     c.innerHTML = `
@@ -481,38 +501,28 @@
         <div class="options" id="rFormule">${["complete", "decouverte"].map(f => `<button type="button" data-f="${f}" aria-pressed="${f === etat.formule}">${radio}<span class="opt-txt"><b>${t(f === "complete" ? "f-complete" : "f-decouverte")}</b><small>${t(f === "complete" ? "fo-c-sous" : "fo-d-sous")}</small></span><span class="opt-prix">${f === "complete" ? `${euros(48)}<small>${euros(30)} ${t("r-n-enfants")}</small>` : euros(15)}</span></button>`).join("")}</div>
       </section>
       <section class="chap"><header class="chap-tete"><span class="chap-num">II</span><h2>${t("r-ch-2")}</h2></header>
-        <p class="cal-horaires">${t("r-horaires")} ${hs.map(heure).join(" · ")}</p>
+        <p class="cal-horaires">${t("r-horaires")} ${HEURES[etat.formule].map(heure).join(" · ")}</p>
         <div class="calendrier">
-          <div class="mois-nav"><button type="button" id="rMoisAv" aria-label="${t("r-mois-prec")}" ${etat.mois <= moisMin ? "disabled" : ""}><svg width="9" height="16" viewBox="0 0 9 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 1L1 8l7 7"/></svg></button><p>${moisAn(prem)}</p><button type="button" id="rMoisAp" aria-label="${t("r-mois-suiv")}"><svg width="9" height="16" viewBox="0 0 9 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M1 1l7 7-7 7"/></svg></button></div>
+          <div class="mois-nav"><button type="button" id="rMoisAv" aria-label="${t("r-mois-prec")}" ${etat.mois <= moisMin ? "disabled" : ""}><svg width="9" height="16" viewBox="0 0 9 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 1L1 8l7 7"/></svg></button><p>${moisAn(prem)}</p><button type="button" id="rMoisAp" aria-label="${t("r-mois-suiv")}" ${etat.mois >= moisMax ? "disabled" : ""}><svg width="9" height="16" viewBox="0 0 9 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M1 1l7 7-7 7"/></svg></button></div>
           <div class="jours-noms" aria-hidden="true">${[0, 1, 2, 3, 4, 5, 6].map(i => `<span>${jourCourt(i)}</span>`).join("")}</div>
-          <div class="jours-grille" id="rJours">${[...Array(decal)].map((_, i) => `<span>${new Date(an, mo - 1, i - decal + 1).getDate()}</span>`).join("")}${[...Array(nbJ)].map((_, i) => { const d = new Date(an, mo - 1, i + 1), j = iso(d), fini = hs.every(h => passee(j, h)); return `<button type="button" data-j="${j}" aria-pressed="${j === etat.jour}" class="${j === iso(a) ? "auj" : ""}" ${fini ? "disabled" : ""} aria-label="${jourLong(d)}">${i + 1}</button>`; }).join("")}${[...Array((7 - (decal + nbJ) % 7) % 7)].map((_, i) => `<span>${i + 1}</span>`).join("")}</div>
+          <div class="jours-grille" id="rJours">${[...Array(decal)].map((_, i) => `<span>${new Date(an, mo - 1, i - decal + 1).getDate()}</span>`).join("")}${[...Array(nbJ)].map((_, i) => { const d = new Date(an, mo - 1, i + 1), j = iso(d), fini = heuresDe(etat.formule, j).every(h => passee(j, h) || !libres(j, h)); return `<button type="button" data-j="${j}" aria-pressed="${j === etat.jour}" class="${j === iso(a) ? "auj" : ""}" ${fini ? "disabled" : ""} aria-label="${jourLong(d)}">${i + 1}</button>`; }).join("")}${[...Array((7 - (decal + nbJ) % 7) % 7)].map((_, i) => `<span>${i + 1}</span>`).join("")}</div>
         </div>
-        ${etat.jour ? `<p class="sous-titre">${jourLong(new Date(etat.jour + "T00:00"))}</p>
-        <div class="heures-choix" id="rHeures">${hs.map(h => { const n = libres(etat.jour, h), p = passee(etat.jour, h); return `<button type="button" data-h="${h}" aria-pressed="${h === etat.heure}" ${n && !p ? "" : "disabled"}><b>${heure(h)}</b><span>${p ? "–" : n ? (n === 1 ? t("sea-place") : t("sea-places", n)) : t("sea-complet")}</span></button>`; }).join("")}</div>` : `<p class="cal-invite">${t("r-choisir-date")}</p>`}
+        ${!dispo ? `<p class="cal-invite ${dispoErreur ? "alerte" : "charge"}">${dispoErreur ? t("r-dispo-err") : t("r-dispo-charge")}</p>` : !moisOuvert() ? `<p class="cal-invite">${t("r-mois-ferme")}</p>` : ""}
+        ${dispo && etat.jour ? `<p class="sous-titre">${jourLong(new Date(etat.jour + "T00:00"))}</p>
+        <div class="heures-choix" id="rHeures">${hs.map(h => { const n = libres(etat.jour, h), p = passee(etat.jour, h); return `<button type="button" data-h="${h}" aria-pressed="${h === etat.heure}" ${n && !p ? "" : "disabled"}><b>${heure(h)}</b><span>${p ? "–" : n ? (n === 1 ? t("sea-place") : t("sea-places", n)) : t("sea-complet")}</span></button>`; }).join("")}</div>` : dispo && moisOuvert() ? `<p class="cal-invite">${t("r-choisir-date")}</p>` : ""}
       </section>
       <section class="chap"><header class="chap-tete"><span class="chap-num">III</span><h2>${t("r-ch-3")}</h2></header>
         ${compteur("adultes", etat.formule === "complete" ? t("r-adultes") : t("r-personnes"), euros(etat.formule === "complete" ? 48 : 15))}
         ${etat.formule === "complete" ? compteur("enfants", t("r-enfants"), euros(30)) : ""}
         ${compteur("petits", t("r-petits"), t("r-gratuit"))}
         ${reste != null ? `<p class="reste ${nbPers() > reste ? "alerte" : ""}">${nbPers() > reste ? t("r-trop", reste) : t("r-reste", reste)}</p>` : ""}
-        <p class="sous-titre">${t("r-langue")}</p>
-        <div class="langues-film" role="group" aria-label="${t("r-langue")}">${LANGUES.map(x => `<button type="button" data-lf="${x}" aria-pressed="${x === etat.langueFilm}">${drapeau(x)}<span>${T[x]["nom-langue"]}</span></button>`).join("")}</div>
       </section>
-      <section class="chap"><header class="chap-tete"><span class="chap-num">IV</span><h2>${t("r-ch-4")}</h2></header>
-        <div class="champs-ligne">
-          <label class="champ large"><span>${t("r-nom")}</span><input id="rNom" autocomplete="name" value="${esc(etat.nom)}"></label>
-          <label class="champ"><span>${t("r-tel")}</span><input id="rTel" type="tel" inputmode="tel" autocomplete="tel" value="${esc(etat.tel)}"></label>
-          <label class="champ"><span>${t("r-email")}</span><input id="rEmail" type="email" inputmode="email" autocomplete="email" value="${esc(etat.email)}"></label>
-          <label class="champ large"><span>${t("r-note")}</span><textarea id="rNote" rows="2">${esc(etat.note)}</textarea></label>
-        </div>
-        <p class="sous-titre">${t("r-paiement")}</p>
-        <div class="options petites" id="rPaiement">${["enligne", "surplace"].map(p => `<button type="button" data-p="${p}" aria-pressed="${p === etat.paiement}">${radio}<span class="opt-txt"><b>${t("r-" + p)}</b></span></button>`).join("")}</div>
-        ${etat.paiement === "enligne" ? `<p class="paiement-note">${t("r-stripe")}</p>` : ""}
+      <section class="chap"><header class="chap-tete"><span class="chap-num">IV</span><h2>${t("r-ch-4b")}</h2></header>
+        <p class="paiement-note">${t("r-suite")}</p>
         <p class="paiement-note">${t("r-cgv")} <a href="cgv.html" target="_blank">${t("r-cgv-lien")}</a>.</p>
         <p class="erreur" id="rErreur" role="alert"></p>
       </section>`;
     dessineBillet();
-    ["rNom", "rTel", "rEmail", "rNote"].forEach(id => $(id).addEventListener("input", e => { etat[{ rNom: "nom", rTel: "tel", rEmail: "email", rNote: "note" }[id]] = e.target.value; }));
   }
   /* le billet sur parchemin, à côté : ce qui est choisi s’y écrit à mesure ; le total et le bouton en bas (et dans la barre du bas sur téléphone) */
   function dessineBillet() {
@@ -521,19 +531,23 @@
       <div><dt>${t("r-jour")}</dt><dd>${etat.jour ? jourLong(new Date(etat.jour + "T00:00")) : vide}</dd></div>
       <div><dt>${t("r-heure")}</dt><dd>${etat.heure != null ? heure(etat.heure) : vide}</dd></div>
       <div><dt>${t("r-personnes")}</dt><dd>${pers || vide}</dd></div>
-      <div><dt>${t("r-langue")}</dt><dd>${drapeau(etat.langueFilm)} ${T[etat.langueFilm]["nom-langue"]}</dd></div>`;
-    const bouton = id => `<button type="button" class="btn" id="${id}">${t(etat.paiement === "enligne" ? "r-payer" : "r-valider")}</button>`;
+`;
+    const bouton = id => `<button type="button" class="btn" id="${id}">${t("r-continuer")}</button>`;
     $("rPied").innerHTML = `<div class="total"><small>${t("r-total")}</small><b id="rTotal">${euros(total())}</b></div>${bouton("rValider")}`;
     $("rBarre").innerHTML = `<div class="total"><small>${t("r-total")}</small><b>${euros(total())}</b></div>${bouton("rValider2")}`;
     $("rValider").onclick = valider; $("rValider2").onclick = valider;
   }
+  /* le décalage horaire de Paris ce jour-là (+0100 l'hiver, +0200 l'été), comme l'attend le calendrier de la Grotte */
+  const decalage = (j, h) => { const z = new Date(Date.UTC(+j.slice(0, 4), +j.slice(5, 7) - 1, +j.slice(8, 10), Math.floor(h / 60), h % 60)).toLocaleString("en-US", { timeZone: "Europe/Paris", timeZoneName: "longOffset" }).match(/GMT([+-]\d\d):?(\d\d)?/); return z ? z[1] + (z[2] || "00") : "+0100"; };
+  /* le mois affiché a-t-il au moins une séance ? */
+  const moisOuvert = () => Object.keys(dispo?.[etat.formule] || {}).some(j => j.startsWith(etat.mois) && heuresDe(etat.formule, j).some(h => !passee(j, h) && libres(j, h)));
   const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
   const compteur = (k, nom, prix) => `<div class="compteur"><span>${nom}<small>${prix}</small></span><div class="pas"><button type="button" data-moins="${k}" aria-label="−" ${etat[k] ? "" : "disabled"}>−</button><output aria-live="polite">${etat[k]}</output><button type="button" data-plus="${k}" aria-label="+" ${nbPers() >= PLACES ? "disabled" : ""}>+</button></div></div>`;
   /* garder la place dans le panneau quand on le redessine */
   const redessine = () => { if (!etat.ouvert) return; const c = $("rCorps"), y = c.scrollTop, w = scrollY; dessinePanneau(); c.scrollTop = y; if (enPage) scrollTo(0, w); };
   if (enPage) $("rCorps").addEventListener("click", e => {
     const b = e.target.closest("button"); if (!b || b.disabled) return;
-    if (b.dataset.f) { etat.formule = b.dataset.f; if (etat.heure != null && !HEURES[etat.formule].includes(etat.heure)) etat.heure = null; if (etat.formule === "decouverte") { etat.adultes += etat.enfants; etat.enfants = 0; } }
+    if (b.dataset.f) { etat.formule = b.dataset.f; if (etat.heure != null && !libres(etat.jour, etat.heure)) etat.heure = null; if (etat.formule === "decouverte") { etat.adultes += etat.enfants; etat.enfants = 0; } }
     else if (b.dataset.j) { etat.jour = b.dataset.j; if (etat.heure != null && (passee(etat.jour, etat.heure) || !libres(etat.jour, etat.heure))) etat.heure = null; }
     else if (b.dataset.h) etat.heure = +b.dataset.h;
     else if (b.dataset.moins) etat[b.dataset.moins] = Math.max(0, etat[b.dataset.moins] - 1);
@@ -550,12 +564,15 @@
     if (etat.heure == null) return dire("r-err-heure");
     if (!nbPers()) return dire("r-err-pers");
     const reste = libres(etat.jour, etat.heure); if (nbPers() > reste) { err.textContent = t("r-trop", reste); return; }
-    if (!etat.nom.trim()) { dire("r-err-nom"); $("rNom").focus(); return; }
-    if (!etat.tel.trim() && !etat.email.trim()) { dire("r-err-contact"); $("rTel").focus(); return; }
-    const r = { jour: etat.jour, heure: etat.heure, n: nbPers(), formule: etat.formule, total: total(), paiement: etat.paiement, langue: etat.langueFilm, nom: etat.nom.trim() };
-    resas.push(r); try { localStorage.setItem("grotte-resas", JSON.stringify(resas)); } catch (e) {}
-    etat.fait = r; $("rCorps").scrollTop = 0; dessinePanneau(); dessineSeances();
-    if (enPage) panneau.scrollIntoView({ behavior: calme ? "auto" : "smooth", block: "start" });
+    /* la réservation part dans le panier du site de la Grotte (le même formulaire que sa page de réservation) ; on y donne ses coordonnées et on paie */
+    const P = SEANCES[etat.formule], [y, m, d] = etat.jour.split("-"), hh = String(Math.floor(etat.heure / 60)).padStart(2, "0"), mm = String(etat.heure % 60).padStart(2, "0");
+    const champs = { "add-to-cart": P.id, wc_bookings_field_start_date_day: d, wc_bookings_field_start_date_month: m, wc_bookings_field_start_date_year: y,
+      wc_bookings_field_start_date_time: `${etat.jour}T${hh}:${mm}:00${decalage(etat.jour, etat.heure)}`, wc_bookings_field_start_date_local_timezone: "Europe/Paris" };
+    if (etat.formule === "complete") { champs["wc_bookings_field_persons_" + P.adulte] = etat.adultes; champs["wc_bookings_field_persons_" + P.enfant] = etat.enfants; }
+    else champs["wc_bookings_field_persons_" + P.adulte] = etat.adultes + etat.enfants;
+    const f = document.createElement("form"); f.method = "post"; f.action = GROTTE + P.page;
+    for (const [k, v] of Object.entries(champs)) { const x = document.createElement("input"); x.type = "hidden"; x.name = k; x.value = v; f.append(x); }
+    document.body.append(f); sessionStorage.removeItem("grotte-dispo"); f.submit();
   }
 
   langue(L, false);
@@ -567,5 +584,10 @@
     if (/^\d{4}-\d\d-\d\d$/.test(q.get("jour") || "") && q.get("jour") >= iso(auj())) o.jour = q.get("jour");
     if (toutes.includes(+q.get("heure"))) o.heure = +q.get("heure");
     ouvrir(o);
+    chargeDispo(() => {
+      if (dispo && !etat.jour && !moisOuvert()) { const prem = Object.keys(dispo[etat.formule]).filter(j => heuresDe(etat.formule, j).some(h => !passee(j, h) && libres(j, h))).sort()[0]; if (prem) etat.mois = prem.slice(0, 7); }
+      if (etat.jour && etat.heure != null && !libres(etat.jour, etat.heure)) etat.heure = null;
+      redessine();
+    });
   }
 })();

@@ -255,6 +255,13 @@
     }
   }
   anime();
+  /* ---------- la carte Google Maps de « Venir » : chargée seulement quand on la demande, dans la langue du site ---------- */
+  if ($("carteBtn")) $("carteBtn").onclick = () => {
+    const f = document.createElement("iframe");
+    f.src = "https://www.google.com/maps?q=" + encodeURIComponent("La Grotte Napoléon, 4 rue Saint-Charles, 20000 Ajaccio") + "&z=17&output=embed&hl=" + (L === "co" ? "fr" : L);
+    f.title = t("carte-titre"); f.loading = "lazy"; f.referrerPolicy = "no-referrer-when-downgrade"; f.allowFullscreen = true;
+    $("carte").replaceChildren(f);
+  };
   const menu = $("menuTel");
   const ouvreMenu = o => { if (o) { menu.hidden = false; requestAnimationFrame(() => menu.classList.add("ouverte")); } else { menu.classList.remove("ouverte"); setTimeout(() => menu.hidden = true, 300); } $("menuBtn").setAttribute("aria-expanded", o); document.body.style.overflow = o ? "hidden" : ""; };
   $("menuBtn").onclick = () => ouvreMenu(true);

@@ -207,9 +207,13 @@ main>section:not(.chapeau),main>div,.pied{position:relative;z-index:1}
      au menton, 35 % de la hauteur du portrait) doit finir au-dessus du texte : plus l'écran est court, plus Napoléon est petit */
   /* la scène fait la hauteur visible (svh) : sur iPhone, la barre de Safari ne cache plus le texte du bas.
      Le portrait descend jusqu'en bas de l'écran (sinon le buste s'arrête net au milieu), sans que la tête dépasse sur le texte */
-  .scene{height:100vh;height:100svh;--ph:min(calc((100svh - var(--tete) - 480px) / .35),calc((100svh - var(--tete) - 140px) / 1.13));--pw:calc(var(--ph) * 1145 / 1374);--haut:calc(var(--tete) + 150px + var(--ph) * .13);padding:calc(var(--tete) + 14px) var(--m) calc(22px + env(safe-area-inset-bottom))}
+  .scene{height:100vh;height:100svh;--ph:min(calc((100svh - var(--tete) - 480px) / .35),calc((100svh - var(--tete) - 140px) / 1.13));--pw:calc(var(--ph) * 1145 / 1374);--haut:calc(var(--tete) + 172px + var(--ph) * .13);padding:calc(var(--tete) + 14px) var(--m) calc(22px + env(safe-area-inset-bottom))}
   .portrait{bottom:auto;top:var(--haut);width:var(--pw)}
   .portrait.sacre{width:calc(var(--pw) * 1.707);top:calc(var(--haut) - var(--ph) * .179)}
+  /* tous les personnages à la taille du Napoléon de la boutique (demande de l'utilisateur), les yeux sur la même ligne (--haut + .3092 × --ph) :
+     Napoléon de l'accueil (et l'enfant) agrandi de 1,1 (yeux à .3071 de son image), Joséphine de 1,72 (yeux à .2948) */
+  .portrait:not(.sacre):not(.josephine){width:calc(var(--pw) * 1.1);top:calc(var(--haut) + var(--ph) * (.3092 - .3071 * 1.1))}
+  .portrait.josephine{width:calc(var(--pw) * 1.72);top:calc(var(--haut) + var(--ph) * (.3092 - .2948 * 1.72))}
   .scene::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(to bottom,rgba(22,20,17,.9) 0,rgba(22,20,17,.55) 20%,transparent 32%,transparent 58%,rgba(22,20,17,.75) 70%,rgba(22,20,17,.96) 84%)}
   .ouverture-texte{margin-top:0;align-self:stretch;grid-template-rows:auto minmax(0,1fr)}
   .ouverture-texte>.accroche{align-self:end}
@@ -742,6 +746,9 @@ body[data-titre="meta-reserver"]{--barre:0px}
   .scene::after{background:linear-gradient(to right,rgba(22,20,17,.7) 0,rgba(22,20,17,.3) 26%,transparent 40%,transparent 60%,rgba(22,20,17,.3) 74%,rgba(22,20,17,.7) 100%)}
   .portrait{left:50%;top:calc(100vh - var(--ph));height:var(--ph)}
   .portrait.sacre{height:calc(var(--ph) * 1.707);top:calc(100vh - var(--ph) * 1.179)}
+  /* tous les personnages à la taille du Napoléon de la boutique, les yeux sur la même ligne (100vh − .6908 × --ph) */
+  .portrait:not(.sacre):not(.josephine){height:calc(var(--ph) * 1.1);top:calc(100vh - var(--ph) * (.6908 + .3071 * 1.1))}
+  .portrait.josephine{height:calc(var(--ph) * 1.72);top:calc(100vh - var(--ph) * (.6908 + .2948 * 1.72))}
 }
 @media (prefers-reduced-motion:reduce){.flotte-panneau{transition:none}}
 

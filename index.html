@@ -55,8 +55,13 @@ h1 span+span{animation-name:de-droite;font-family:"Inter Tight Contour","Inter T
 .enter::after{content:"→"}
 @media (hover:hover) and (pointer:fine){.enter:hover{background-position:100% 0}}
 .enter:active{transform:scale(.97)}
-.foot{display:flex;justify-content:space-between;gap:8px 24px;flex-wrap:wrap;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
-@media (prefers-reduced-motion:reduce){h1 span,.later,.mark,.tw-mot::after{animation:none}}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:8px 24px;flex-wrap:wrap;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--mist)}
+.decode{font-variant-numeric:tabular-nums;min-height:1.4em}
+.direct{display:inline-flex;align-items:center;gap:10px;font-variant-numeric:tabular-nums}
+.direct i{position:relative;width:8px;height:8px;border-radius:50%;background:#CBFFFC}
+.direct i::after{content:"";position:absolute;inset:0;border-radius:50%;background:#CBFFFC;animation:onde 2s ease-out infinite}
+@keyframes onde{from{transform:scale(1);opacity:.7}to{transform:scale(3.4);opacity:0}}
+@media (prefers-reduced-motion:reduce){h1 span,.later,.mark,.tw-mot::after,.direct i::after{animation:none}}
 @media (max-height:520px){.mid{gap:12px}.enter{min-height:52px}}
 </style>
 </head>
@@ -72,7 +77,8 @@ h1 span+span{animation-name:de-droite;font-family:"Inter Tight Contour","Inter T
     <p class="later accroche" aria-label="Un site pour votre restaurant, votre commerce, votre atelier, votre boutique, votre salon, votre gîte.">Un site pour votre <span class="tw" aria-hidden="true"><span class="tw-place">restaurant</span><span class="tw-mot" id="mot">restaurant</span></span></p>
     <a class="enter later" href="accueil.html">Entrer</a>
   </div>
-  <div class="foot later"><span>Sites vitrines sur mesure</span><span>Votre vitrine, ouverte jour et nuit</span></div>
+  <!-- le bas de l'écran : à gauche, une promesse qui se décode puis laisse la place à la suivante ; à droite, l'heure qu'il est, en direct -->
+  <div class="foot later"><span class="decode" id="decode" aria-label="Sites vitrines sur mesure. En ligne en deux à trois semaines. Une maquette sous une semaine. Une réponse sous 24 heures. Un seul interlocuteur.">Sites vitrines sur mesure</span><span class="direct"><i aria-hidden="true"></i><span id="heure">Votre vitrine, ouverte jour et nuit</span></span></div>
 </main>
 
 <script>
@@ -118,6 +124,19 @@ h1 span+span{animation-name:de-droite;font-family:"Inter Tight Contour","Inter T
     if (sens > 0 && n === mot.length) { sens = -1; d = 1700; } else if (sens < 0 && n === 0) { sens = 1; m = (m + 1) % mots.length; d = 320; }
     setTimeout(pas, d); };
   setTimeout(pas, 2600); /* le premier mot est déjà écrit à l'arrivée ; on attend que le logo et la phrase soient posés */
+})();
+// le bas de l'écran. À gauche : une promesse (toutes vraies, reprises de l'accueil) se décode lettre à lettre, reste, puis la suivante.
+// À droite : l'heure qu'il est, en direct, pour dire qu'une vitrine en ligne est ouverte à cette heure-ci aussi.
+(() => {
+  const calme = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const h = document.getElementById("heure");
+  const tic = () => { const d = new Date(), n = d.getHours(); h.textContent = `Il est ${String(n).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}, votre vitrine serait ouverte`; };
+  tic(); setInterval(tic, 10000);
+  const el = document.getElementById("decode"); if (calme) return;
+  const phrases = ["Sites vitrines sur mesure", "En ligne en deux à trois semaines", "Une maquette sous une semaine", "Une réponse sous 24 heures", "Un seul interlocuteur"], signes = "/\\<>-_=+*#abcdefghijklmnopqrstuvwxyz";
+  let k = 0;
+  const decode = fin => { let f = 0; const total = fin.length * 2 + 14; const pas = () => { let o = ""; for (let i = 0; i < fin.length; i++) o += f >= i * 2 + 14 || fin[i] === " " ? fin[i] : signes[(Math.random() * signes.length) | 0]; el.textContent = o; if (f++ < total) requestAnimationFrame(pas); }; pas(); };
+  setInterval(() => { if (document.hidden) return; k = (k + 1) % phrases.length; decode(phrases[k]); }, 4200);
 })();
 </script>
 </body>

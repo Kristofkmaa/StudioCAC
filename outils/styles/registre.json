@@ -437,6 +437,27 @@
       "appoint": "aucune",
       "texture": "aucune",
       "police": "Redaction 35 + Redaction"
+    },
+    "brunu": {
+      "genre": "affiche-brute",
+      "photos": "naturelles",
+      "navigation": "classique",
+      "signature": "configurateur",
+      "a_propos": "texte-photo",
+      "preuves": "chiffres",
+      "contact": "plan",
+      "pied": "infos",
+      "ornement": "aucun",
+      "arrivee": "mots",
+      "decoupes": "droites",
+      "ouverture": "affiche",
+      "services": "tableau",
+      "formes": "droites",
+      "rythme": "blocs",
+      "titres": "geants",
+      "appoint": "affiche",
+      "texture": "grain",
+      "boutons": "rectangle"
     }
   }
 }

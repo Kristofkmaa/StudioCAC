@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>N3E Graphics · Kits déco et tenues de motocross 100 % personnalisés, en Corse</title>
+<meta name="description" content="Kits déco, tenues et textile de motocross dessinés sur mesure par un pilote, en Corse. Maquette avant impression, vinyles haut de gamme.">
+<meta name="theme-color" content="#FBFAF7">
+<link rel="icon" href="images/icone.png">
+<link rel="stylesheet" href="../../polices/redaction-geist.css">
+<link rel="stylesheet" href="n3e.css?v=1">
+<script>document.documentElement.classList.add("js")</script>
+</head>
+<body class="grain">
+
+<p class="maquette">Maquette à valider · les prix et textes viennent de n3egraphics.com</p>
+
+<header class="nav" id="nav">
+  <a class="nav-logo" href="#haut" aria-label="N3E Graphics, haut de page"><img src="images/logo.png" alt="N3E Graphics" width="520" height="255"></a>
+  <nav aria-label="Principale"><a href="#kit">Le kit</a><a href="#boutique">La boutique</a><a href="#realisations">Réalisations</a></nav>
+  <a class="nav-panier" href="#demande" id="panier" aria-label="Ma sélection : 0 article"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2.4l2.2 10.5h10.2L20 7H7"/><circle cx="9.5" cy="19" r="1.4"/><circle cx="17" cy="19" r="1.4"/></svg><b id="compte">0</b></a>
+  <a class="nav-btn" href="#demande">Ma maquette</a>
+</header>
+
+<main id="haut">
+
+<!-- OUVERTURE : fenêtre en forme de plaque numéro, le titre réparti de part et d'autre -->
+<section class="ouv">
+  <div class="halos" aria-hidden="true"><i></i><i></i></div>
+  <h1 class="ouv-titre">
+    <span class="ln g"><span>Ta moto,</span></span>
+    <span class="fenetre sq"><img src="images/pilote-dos.webp" alt="Un pilote de dos, tee-shirt N3E Graphics, devant sa moto rose numéro 938 posée sur les rochers d’une rivière corse" width="1200" height="1600" fetchpriority="high"></span>
+    <span class="ln d"><span>ton <span class="mk">dessin.<svg viewBox="0 0 200 20" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M3 12 C 40 2, 80 18, 120 9 S 180 6, 197 11"/></svg></span></span></span>
+  </h1>
+  <div class="ouv-bas">
+    <p class="chapo">Kits déco, tenues et textile de motocross <span class="gt">100&nbsp;% personnalisés</span>, dessinés en Corse par un pilote. Tu valides ta maquette avant l’impression.</p>
+    <p class="liens"><a class="lien" href="#kit">Dessiner mon kit <i aria-hidden="true">→</i></a><a class="lien" href="#boutique">Voir la boutique <i aria-hidden="true">→</i></a></p>
+  </div>
+</section>
+
+<!-- les marques pour lesquelles il dessine (liste réelle de sa fiche produit) -->
+<div class="bande" aria-label="Les marques de motos habillées par N3E Graphics">
+  <div class="bande-fil"><span>KTM</span><span>GasGas</span><span>Husqvarna</span><span>Beta</span><span>Yamaha</span><span>Suzuki</span><span>Sherco</span><span>Stark Varg</span><span>Fantic</span><span>Triumph</span><span>Kawasaki</span><span>TM Racing</span><span>Honda</span><span>Talaria</span><span>Surron</span></div>
+</div>
+
+<!-- L'IDÉE ORIGINALE : le configurateur de kit -->
+<section class="sec" id="kit">
+  <div class="tete rise">
+    <h2>Dessine ton kit</h2>
+    <p>Choisis ta marque, tes couleurs, ton numéro. Le dessin change sous tes yeux, le prix aussi. Ce n’est qu’un croquis : la vraie maquette, c’est moi qui te l’envoie.</p>
+  </div>
+  <div class="config">
+    <div class="scene">
+      <div class="ba" id="ba" style="--p:28%">
+        <div class="ba-kit" id="vueKit"></div>
+        <div class="ba-origine" id="vueOrigine" aria-hidden="true"></div>
+        <span class="ba-et g">D’origine</span><span class="ba-et d">Avec ton kit</span>
+        <div class="ba-trait" aria-hidden="true"><i>↔</i></div>
+        <input class="ba-range" id="baRange" type="range" min="0" max="100" value="28" aria-label="Comparer la moto d’origine et la moto avec ton kit">
+      </div>
+      <ul class="pieces" aria-label="Ce que contient le kit">
+        <li>2 ouïes de réservoir</li><li>1 plaque avant, 2 latérales</li><li>2 boîtes à air</li><li>Garde-boue avant</li><li>Garde-boue arrière</li><li>2 protections de fourche</li><li>2 bras oscillants</li>
+      </ul>
+    </div>
+
+    <form class="reglages rise" id="reglages" onsubmit="return false">
+      <fieldset><legend>Formule</legend>
+        <div class="choix"><label><input type="radio" name="formule" value="perso" checked><span>100&nbsp;% perso</span></label><label><input type="radio" name="formule" value="semi"><span>Semi-perso</span></label></div>
+        <p class="aide" id="aideFormule"></p>
+      </fieldset>
+      <div class="duo">
+        <label class="champ">Marque<select name="marque" id="marque"></select></label>
+        <label class="champ">Cylindrée<select name="cyl"><option>50</option><option>65</option><option>85</option><option selected>125</option><option>250</option><option>450</option></select></label>
+      </div>
+      <fieldset><legend>Couleur de fond</legend><div class="pastilles" id="fonds"></div></fieldset>
+      <fieldset><legend>Couleur d’accent</legend><div class="pastilles" id="accents"></div></fieldset>
+      <fieldset><legend>Dessin</legend>
+        <div class="choix"><label><input type="radio" name="motif" value="eclats" checked><span>Éclats</span></label><label><input type="radio" name="motif" value="lignes"><span>Lignes</span></label><label><input type="radio" name="motif" value="uni"><span>Uni</span></label></div>
+      </fieldset>
+      <div class="duo">
+        <label class="champ">Ton numéro<input type="text" name="num" inputmode="numeric" maxlength="3" value="938" autocomplete="off"></label>
+        <label class="champ">Ton nom<input type="text" name="nom" maxlength="12" placeholder="Sur les ouïes" autocomplete="off"></label>
+      </div>
+      <fieldset><legend>Finition</legend>
+        <div class="choix"><label><input type="radio" name="fini" value="mat" checked><span>Classique</span></label><label><input type="radio" name="fini" value="chrome"><span>Base chrome</span></label><label><input type="radio" name="fini" value="holo"><span>Holographique</span></label></div>
+      </fieldset>
+      <label class="coche" id="lLogo" hidden><input type="checkbox" name="logo"><span>Ajouter un logo (+ 10&nbsp;€)</span></label>
+      <div class="prix lueur">
+        <div><p class="prix-n" id="prix">210&nbsp;€</p><p class="prix-d" id="prixDetail"></p></div>
+        <div class="prix-b"><button class="btn" type="button" id="ajouterKit">Ajouter à ma sélection</button><a class="lien" href="#demande" id="demanderKit">Demander ma maquette <i aria-hidden="true">→</i></a></div>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- CE QU'ON FAIT : rangées alternées -->
+<section class="sec" id="savoir">
+  <div class="tete rise"><h2>Trois façons de rouler différent</h2></div>
+
+  <article class="rangee">
+    <div class="rangee-img rideau sq"><img src="images/yamaha-blanche.webp" alt="Yamaha blanche et violette habillée d’un kit N3E Graphics, sur un terrain en terre face aux collines" width="512" height="512" loading="lazy"></div>
+    <div class="rangee-txt rise">
+      <h3>Le kit 100&nbsp;% personnalisé</h3>
+      <p>Ne roule plus avec une déco comme les autres. Tu m’envoies tes idées, tes couleurs, tes sponsors : je crée un dessin qui n’existe que sur ta moto.</p>
+      <p class="chiffre"><b>155&nbsp;€</b> pour les 50&nbsp;cc, <b>210&nbsp;€</b> pour les 125 et plus. <i>Une mini plaque offerte.</i></p>
+      <a class="lien" href="#kit">Commencer mon dessin <i aria-hidden="true">→</i></a>
+    </div>
+  </article>
+
+  <article class="rangee inv">
+    <div class="rangee-img rideau sq"><img src="images/ktm-gopro.webp" alt="KTM habillée du kit GoPro bleu et orange, numéro 5, dans un atelier vitré" width="1400" height="933" loading="lazy"></div>
+    <div class="rangee-txt rise">
+      <h3>Le kit semi-personnalisé</h3>
+      <p>Un dessin professionnel déjà prêt, que tu fais tien : ton style, tes couleurs, ton nom et ton numéro. Adaptable à tout modèle et toute année.</p>
+      <p class="chiffre"><b>110&nbsp;€</b> pour les 50&nbsp;cc, <b>165&nbsp;€</b> pour les 125 et plus. <i>Dix mini plaques offertes.</i></p>
+      <a class="lien" href="#boutique">Voir le kit KTM GoPro <i aria-hidden="true">→</i></a>
+    </div>
+  </article>
+
+  <article class="rangee">
+    <div class="rangee-img rideau sq"><img src="images/tenues.webp" alt="Cinq maillots de motocross N3E Graphics suspendus à un portant, chacun dans ses couleurs" width="1179" height="614" loading="lazy"></div>
+    <div class="rangee-txt rise">
+      <h3>La tenue assortie</h3>
+      <p>Maillot et pantalon dans les mêmes couleurs que ta déco, avec ton nom et ton numéro. Pour être reconnu au premier virage.</p>
+      <p class="chiffre"><i>Prix sur devis, selon le modèle.</i></p>
+      <a class="lien" href="#demande">Demander un devis <i aria-hidden="true">→</i></a>
+    </div>
+  </article>
+</section>
+
+<!-- une photo qui grandit jusqu'à remplir l'écran -->
+<section class="zoom" id="zoom" aria-label="Une passion devenue une marque">
+  <div class="zoom-colle">
+    <div class="zoom-img"><img src="images/69-couchant.webp" alt="Suzuki jaune numéro 69, kit N3E Graphics, sur une plage corse au coucher du soleil" width="2000" height="1333" loading="lazy"></div>
+    <p class="zoom-mot">Une passion devenue une marque.</p>
+  </div>
+</section>
+
+<!-- LA BOUTIQUE : filtres animés, j'aime et ajout à la sélection -->
+<section class="sec" id="boutique">
+  <div class="tete rise">
+    <h2>La boutique</h2>
+    <p>Tout ce que tu peux commander aujourd’hui. Ajoute à ta sélection, je te réponds avec une maquette ou un devis.</p>
+  </div>
+  <div class="filtres rise" id="filtres" role="group" aria-label="Filtrer la boutique">
+    <button type="button" aria-pressed="true" data-f="tout">Tout</button><button type="button" aria-pressed="false" data-f="kits">Kits déco</button><button type="button" aria-pressed="false" data-f="tenues">Tenues et textile</button><button type="button" aria-pressed="false" data-f="accessoires">Accessoires</button>
+  </div>
+  <ul class="grille" id="grille">
+    <li class="carte large" data-c="kits" data-nom="Kit déco 100 % personnalisé"><div class="carte-img sq"><img src="images/938-rochers.webp" alt="" width="1400" height="1867" loading="lazy"></div><div class="carte-bas"><h3>Kit déco 100&nbsp;% personnalisé</h3><p>À partir de 155&nbsp;€</p></div></li>
+    <li class="carte" data-c="kits" data-nom="Kit déco KTM GoPro semi-personnalisé"><div class="carte-img sq"><img src="images/ktm-gopro.webp" alt="" width="1400" height="933" loading="lazy"></div><div class="carte-bas"><h3>Kit déco KTM GoPro</h3><p>Semi-personnalisé, à partir de 110&nbsp;€</p></div></li>
+    <li class="carte" data-c="tenues" data-nom="Tenue motocross personnalisée"><div class="carte-img sq"><img src="images/tenues.webp" alt="" width="1179" height="614" loading="lazy"></div><div class="carte-bas"><h3>Tenue motocross</h3><p>Personnalisée, sur devis</p></div></li>
+    <li class="carte" data-c="tenues" data-nom="Tee-shirt N3E Graphics"><div class="carte-img sq"><img src="images/tee-shirt.webp" alt="Tee-shirt blanc, petit logo N3E Graphics rose sur la poitrine et grand logo dans le dos" width="1000" height="750" loading="lazy"></div><div class="carte-bas"><h3>Tee-shirt N3E Graphics</h3><p>100&nbsp;% coton, du XS au XXL, de 29 à 44&nbsp;€</p></div></li>
+    <li class="carte" data-c="accessoires" data-nom="Déco de casque"><div class="carte-img sq"><img src="images/casque.webp" alt="Casque de motocross rose et blanc numéro 938" width="1000" height="808" loading="lazy"></div><div class="carte-bas"><h3>Déco de casque</h3><p>100&nbsp;% personnalisable, sur devis</p></div></li>
+    <li class="carte" data-c="accessoires" data-nom="Housse de selle personnalisée"><div class="carte-img sq selle"><img src="images/69-couchant.webp" alt="" width="2000" height="1333" loading="lazy"></div><div class="carte-bas"><h3>Housse de selle</h3><p>Sur mesure, fabrication française, sur devis</p></div></li>
+    <li class="carte" data-c="kits" data-nom="Réimpression d’un kit"><div class="carte-img sq"><img src="images/26-bord-de-mer.webp" alt="" width="1400" height="2100" loading="lazy"></div><div class="carte-bas"><h3>Réimpression</h3><p>Une pièce abîmée ? On la réimprime, sur devis</p></div></li>
+  </ul>
+</section>
+
+<!-- RÉALISATIONS : galerie en accordéon -->
+<section class="sec" id="realisations">
+  <div class="tete rise">
+    <h2>Dernières réalisations</h2>
+    <p>Des kits posés, sortis de l’atelier et roulés en Corse.</p>
+  </div>
+  <div class="galerie rise" id="galerie">
+    <figure class="vol ouvert" tabindex="0"><img src="images/938-rochers.webp" alt="Moto rose numéro 938 posée sur des rochers clairs, au bord d’une rivière" width="1400" height="1867" loading="lazy"><figcaption>Le 938, rose N3E</figcaption></figure>
+    <figure class="vol" tabindex="0"><img src="images/26-bord-de-mer.webp" alt="Moto rouge numéro 26 sur son trépied, au bord de la mer sous un ciel nuageux" width="1400" height="2100" loading="lazy"><figcaption>Le 26, rouge et bleu</figcaption></figure>
+    <figure class="vol" tabindex="0"><img src="images/69-couchant.webp" alt="Suzuki jaune numéro 69 sur la plage au coucher du soleil" width="2000" height="1333" loading="lazy"><figcaption>Le 69, jaune Suzuki</figcaption></figure>
+    <figure class="vol" tabindex="0"><img src="images/ktm-gopro.webp" alt="KTM bleue et orange numéro 5, kit GoPro" width="1400" height="933" loading="lazy"><figcaption>Le 5, kit GoPro</figcaption></figure>
+    <figure class="vol" tabindex="0"><img src="images/virage.webp" alt="Un pilote en plein virage relevé, sur une piste en terre dans le maquis" width="1180" height="1574" loading="lazy"><figcaption>En piste</figcaption></figure>
+  </div>
+</section>
+
+<!-- PAROLES DE CLIENTS : deux avis réels repris de son site -->
+<section class="sec paroles" id="avis">
+  <h2 class="rise">Ils roulent avec</h2>
+  <figure class="parole rise">
+    <blockquote><p>Personnalisation à 100&nbsp;%, vendeur à l’écoute, plusieurs maquettes proposées, découpes parfaitement adaptées aux plastiques et excellente tenue des adhésifs.</p></blockquote>
+    <figcaption>Antony A.</figcaption>
+  </figure>
+  <figure class="parole d rise">
+    <blockquote><p>Le kit déco est d’une qualité exceptionnelle et s’installe parfaitement, sans le moindre souci. Le vendeur est très professionnel, réactif et à l’écoute.</p></blockquote>
+    <figcaption>Manon S.</figcaption>
+  </figure>
+</section>
+
+<!-- À PROPOS : lettre signée -->
+<section class="sec lettre-sec" id="histoire">
+  <div class="lettre-img rideau sq"><img src="images/virage.webp" alt="Un pilote de motocross penché dans un virage en terre" width="1180" height="1574" loading="lazy"></div>
+  <div class="lettre rise">
+    <h2>Avant d’être N3E, je suis pilote</h2>
+    <p>Quoi de mieux que de partager cette passion avec vous ? Ce sport nous fait vivre des moments inoubliables, entre passionnés.</p>
+    <p>Et quoi de mieux qu’une déco entièrement à votre goût ? Je reste à l’écoute de chaque client, et je tiens à ce que chacun reparte avec un travail de qualité : fiable, réactif, professionnel.</p>
+    <p>La boutique grandit, avec beaucoup de nouveautés à venir. Suivez-nous sur les réseaux pour ne rien manquer.</p>
+    <p class="signe">N3E Graphics<i>nine three eight</i></p>
+  </div>
+</section>
+
+<!-- QUESTIONS : ses vraies réponses -->
+<section class="sec" id="questions">
+  <div class="tete rise"><h2>Tes questions</h2></div>
+  <div class="questions rise">
+    <details><summary>Quels matériaux utilisez-vous ?</summary><p>Tous nos vinyles viennent de chez Substance Graphics, une marque spécialisée dans les sports extrêmes et reconnue pour la qualité de ses matériaux. Des vinyles haut de gamme, pour une résistance maximale et une belle finition.</p></details>
+    <details><summary>Les kits résistent-ils aux lavages et aux chutes ?</summary><p>Oui. Ils sont fabriqués avec des matériaux parmi les plus résistants du marché, pour supporter le motocross : lavages répétés, boue, soleil, frottements et chutes.</p></details>
+    <details><summary>Proposez-vous une maquette avant impression ?</summary><p>Oui. Une prévisualisation de ton kit est réalisée avant la production, pour valider chaque détail.</p></details>
+    <details><summary>Puis-je créer une déco 100&nbsp;% personnalisée ?</summary><p>Bien sûr. Envoie tes idées, tes couleurs, tes sponsors ou tes inspirations : on crée un dessin entièrement sur mesure, adapté à ta moto.</p></details>
+    <details><summary>Et mes logos de sponsors ?</summary><p>Nous avons tous les logos habituels du motocross. Pour un logo particulier, envoie-le par e-mail en format vectoriel (.ai ou .eps). Sans fichier vectoriel, on fait au mieux selon la qualité de l’image ; si elle ne suffit pas, le logo est remplacé par une écriture.</p></details>
+  </div>
+</section>
+
+<!-- CONTACT : comment ça se passe, puis un formulaire court -->
+<section class="panneau" id="demande">
+  <div class="tete rise"><h2>Comment ça se passe</h2></div>
+  <ol class="etapes">
+    <li class="rise"><h3>Tu m’écris</h3><p>Ta moto, ton année, tes couleurs, ton numéro, tes sponsors. Ou simplement ce que tu as dessiné plus haut.</p></li>
+    <li class="rise"><h3>Tu reçois ta maquette</h3><p>Tu vois ton kit avant qu’il existe. On ajuste jusqu’à ce que ce soit le tien.</p></li>
+    <li class="rise"><h3>J’imprime sous 5&nbsp;jours</h3><p>Après ta validation. La pose est en option, les mini plaques et stickers de moyeux aussi.</p></li>
+  </ol>
+  <div class="contact">
+    <form class="formulaire rise" id="formulaire" action="mailto:nine3eightgraphics@gmail.com" method="post" enctype="text/plain">
+      <div class="selection" id="selection" hidden><h3>Ta sélection</h3><ul id="liste"></ul></div>
+      <label class="champ">Ton prénom<input type="text" name="prenom" autocomplete="given-name" required></label>
+      <label class="champ">Ton message<textarea name="message" id="message" rows="5" placeholder="Ta moto, ton année, tes couleurs, tes idées…" required></textarea></label>
+      <button class="btn" type="submit">Envoyer ma demande</button>
+      <p class="aide">Ta messagerie s’ouvre avec le message prêt à partir. Rien n’est enregistré sur ce site.</p>
+    </form>
+    <address class="coord rise">
+      <p><a href="tel:+33645885370">06 45 88 53 70</a></p>
+      <p><a href="mailto:nine3eightgraphics@gmail.com">nine3eightgraphics@gmail.com</a></p>
+      <p>Sur rendez-vous uniquement<br>1 place de la Fontaine<br>20167 Sarrola-Carcopino</p>
+      <p class="reseaux"><a class="lien" href="https://www.instagram.com/n3e_graphics/" rel="noopener">Instagram <i aria-hidden="true">→</i></a><a class="lien" href="https://www.tiktok.com/@nine3eight_graphics" rel="noopener">TikTok <i aria-hidden="true">→</i></a></p>
+    </address>
+  </div>
+</section>
+
+</main>
+
+<footer class="pied">
+  <div class="pied-haut">
+    <nav aria-label="Pied de page"><a href="#kit">Le kit</a><a href="#boutique">La boutique</a><a href="#realisations">Réalisations</a><a href="#histoire">L’histoire</a><a href="#questions">Questions</a><a href="#demande">Contact</a></nav>
+    <p>Photos et visuels : N3E Graphics. Conditions de vente et mentions légales : à reprendre du site actuel.</p>
+    <p>Site : <a href="https://saitora.fr/" rel="noopener">Saitora</a></p>
+  </div>
+  <p class="pied-nom" aria-hidden="true">N3E Graphics</p>
+</footer>
+
+<script src="n3e.js?v=1" defer></script>
+</body>
+</html>

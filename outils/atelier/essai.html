@@ -125,13 +125,22 @@ a{color:var(--accent)}
       const dispo = ((await mcp.listTools(SERVEUR)).servers[0] || { tools: [] }).tools.map(t => t.name);
       $("outils").replaceChildren(...dispo.map(t => Object.assign(document.createElement("li"), { textContent: t })));
       const sel = $("env"); sel.replaceChildren(...liste.map(v => Object.assign(document.createElement("option"), { value: v.environment_id, textContent: v.name + (v.description ? " · " + v.description.slice(0, 40) : "") })));
-      const peut = dispo.includes("create_session");
+      const voie = dispo.includes("create_session") ? "create_session" : dispo.includes("create_trigger") ? "create_trigger" : ""; const peut = !!voie; $("b4").dataset.voie = voie;
       $("l-env").hidden = !liste.length || !peut; $("b4").hidden = !peut;
-      o.textContent = peut ? `Ton compte autorise ${dispo.length} outil(s), dont la création de session. Tu peux lancer la session de test.` : `Ton compte autorise ${dispo.length} outil(s), mais pas la création de session depuis une page. On passera par la fiche à coller.`;
+      o.textContent = voie === "create_trigger" ? `Ton compte autorise ${dispo.length} outil(s). Pas de création directe, mais une tâche programmée peut lancer la session. Essaie le bouton.` : peut ? `Ton compte autorise ${dispo.length} outil(s), dont la création de session. Tu peux lancer la session de test.` : `Ton compte autorise ${dispo.length} outil(s), mais pas la création de session depuis une page. On passera par la fiche à coller.`;
       if (!peut) etat("e3", false, "création non autorisée");
     } catch (e) { o.textContent = ditMcp(e); etat("e3", false, "échec : " + e.code); }
     $("b3").disabled = false; };
   $("b4").onclick = async () => { const o = $("o3"); $("b4").disabled = true; o.textContent = "Je lance la session…";
+    const PROMPT = "Ceci est un essai lancé depuis la page « Atelier Saitora ». Ne modifie aucun fichier et ne lance aucune commande. Réponds seulement : « L’atelier fonctionne : la page a bien lancé cette session. »";
+    if ($("b4").dataset.voie === "create_trigger") {
+      try {
+        const r = (await mcp.callTool(SERVEUR, "create_trigger", { name: "Essai de l’atelier Saitora", prompt: PROMPT, initiation: "human_request", create_new_session_on_fire: true, environment_id: $("env").value || undefined, run_once_at: new Date(Date.now() + 100000).toISOString().slice(0, 19) + "Z" })).payload;
+        o.replaceChildren(document.createTextNode("Tâche créée : la session d’essai démarre dans deux minutes environ. "), Object.assign(document.createElement("a"), { href: "https://claude.ai/code", textContent: "Voir mes sessions", target: "_blank", rel: "noopener" }), document.createTextNode("\n" + JSON.stringify(r).slice(0, 300)));
+        etat("e3", true, "tâche créée");
+      } catch (e) { o.textContent = ditMcp(e) + (e.code === "server_unavailable" || e.code === "upstream_error" ? " La tâche a peut-être été créée quand même : regarde tes tâches programmées avant de réessayer." : ""); etat("e3", false, "échec : " + e.code); $("b4").disabled = false; }
+      return;
+    }
     try {
       const r = (await mcp.callTool(SERVEUR, "create_session", { title: "Essai de l’atelier Saitora", environment_id: $("env").value || undefined, prompt: "Ceci est un essai lancé depuis la page « Atelier Saitora ». Ne modifie aucun fichier et ne lance aucune commande. Réponds seulement : « L’atelier fonctionne : la page a bien lancé cette session. »" })).payload;
       const id = (r && (r.session_id || r.id || (r.session && (r.session.session_id || r.session.id)))) || "";

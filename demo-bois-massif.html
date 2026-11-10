@@ -157,6 +157,40 @@ footer .legal{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap
 .dock a{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 24px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:14px;text-decoration:none;border:1px solid var(--line)}
 .dock a.go{background:var(--wood);border-color:var(--wood);color:var(--black)}
 
+/* ---- les mouvements, tirés de la banque animations/mouvements.html : 02, 08, 10, 24, 26, 30, 33 ---- */
+/* 10 : un projecteur éclaire l'établi et suit le doigt ou la souris */
+@property --px{syntax:"<percentage>";inherits:true;initial-value:68%}
+@property --py{syntax:"<percentage>";inherits:true;initial-value:38%}
+.hero{--px:68%;--py:38%}
+.hero .proj{position:absolute;inset:0;z-index:1;background:radial-gradient(circle clamp(180px,26vw,380px) at var(--px) var(--py),transparent 0,rgba(13,11,10,.2) 45%,rgba(13,11,10,.78) 100%);pointer-events:none}
+#titre .mo{display:inline-block;white-space:nowrap}
+#titre .le{display:inline-block}
+/* 33 : un trait de la couleur du bois court sur les quatre étapes */
+.credits{position:relative}
+.credits::before{content:"";position:absolute;left:0;top:0;height:2px;width:100%;background:var(--wood);transform:scaleX(var(--k,1));transform-origin:0 50%}
+.ok.fait{color:var(--wood)}
+@media (prefers-reduced-motion:no-preference){
+  /* 30 : les lettres du titre sortent du flou, une à une */
+  .js #titre .le{opacity:0;filter:blur(14px);transform:translateY(.12em);animation:net .9s cubic-bezier(.22,.8,.2,1) forwards;animation-delay:calc(var(--i)*38ms + .2s)}
+  .js .hero .sc,.js .hero .say,.js .hero .acts{animation:monte .9s cubic-bezier(.22,.8,.2,1) 1.1s both}
+  .js .hero .sc{animation-delay:0s}
+  .js .hero>img{animation:approche 18s ease-out both}
+  .hero:not(.suit){animation:balaie 11s ease-in-out infinite alternate}
+  /* 02 : les blocs arrivent quand on les regarde */
+  .js .leve{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .9s cubic-bezier(.22,.8,.2,1);transition-delay:var(--d,0ms)}
+  .js .leve.on{opacity:1;transform:none}
+  .js .credits.leve>div{opacity:.3;transition:opacity .5s ease}
+  .js .credits.leve>div.passe{opacity:1}
+  /* 08 : la grande phrase s'allume mot à mot */
+  .js #phrase .mot{opacity:.18;transition:opacity .4s ease}
+  .js #phrase .mot.lu{opacity:1}
+  .link.fait::after{animation:valide .5s cubic-bezier(.22,.8,.2,1)}
+}
+@keyframes net{to{opacity:1;filter:blur(0);transform:none}}
+@keyframes monte{from{opacity:0;transform:translateY(20px)}}
+@keyframes approche{from{transform:scale(1.14)}}
+@keyframes balaie{0%{--px:30%;--py:55%}50%{--px:70%;--py:34%}100%{--px:52%;--py:62%}}
+@keyframes valide{40%{transform:translateX(10px) scale(1.3)}}
 @media (prefers-reduced-motion:reduce){.js .curtain img{opacity:1;transform:none;transition:none}}
 @media (max-width:900px){
   .top{grid-template-columns:1fr}
@@ -196,9 +230,10 @@ footer .legal{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap
 <main>
 <section class="hero" id="top" style="padding:0">
   <img src="images/bois/atelier.webp" alt="L'établi de l'atelier, outils et planches de bois" width="857" height="857" fetchpriority="high">
+  <div class="proj" aria-hidden="true"></div>
   <div class="wrap">
     <p class="sc">Atelier Bois Massif présente</p>
-    <h1 class="disp">Des meubles en bois d'ici</h1>
+    <h1 class="disp" id="titre">Des meubles en bois d'ici</h1>
     <p class="say">Cuisines, tables, bibliothèques et escaliers dessinés pour votre maison, avec des planches choisies chez les scieurs à moins de 80 km de l'atelier.</p>
     <div class="acts"><a class="link" href="#bois">Choisir son bois</a><a class="link" href="#projet">Décrire mon projet</a></div>
   </div>
@@ -207,8 +242,8 @@ footer .legal{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap
 <section id="bois">
   <span class="n" aria-hidden="true">01</span>
   <div class="wrap">
-    <h2 class="disp h2">Choisissez votre bois<em>La page prend sa couleur.</em></h2>
-    <div class="config">
+    <h2 class="disp h2 leve">Choisissez votre bois<em>La page prend sa couleur.</em></h2>
+    <div class="config leve" style="--d:120ms">
       <div class="pic"><img id="essImg" src="images/bois/chene.webp" alt="Veinage du bois de chêne" width="560" height="560"><span class="big" id="essBig" aria-hidden="true">Chêne</span></div>
       <div class="side">
         <ul class="ess" id="essList"></ul>
@@ -221,12 +256,12 @@ footer .legal{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap
 <section id="realisations" style="padding-top:0">
   <span class="n" aria-hidden="true">02</span>
   <div class="wrap">
-    <h2 class="disp h2">Sortis de l'atelier<em>Les cotes sont les vraies, en millimètres.</em></h2>
+    <h2 class="disp h2 leve">Sortis de l'atelier<em>Les cotes sont les vraies, en millimètres.</em></h2>
     <div class="wall">
       <figure class="tall curtain"><img src="images/bois/table.webp" alt="Grande table en chêne dressée pour un dîner aux chandelles" width="560" height="700" loading="lazy"><span class="cote">2 200</span><figcaption><b>Table de ferme</b><span>Chêne massif, huile naturelle</span></figcaption></figure>
       <figure class="tall curtain" style="--d:120ms"><img src="images/bois/bibliotheque.webp" alt="Bibliothèque murale en noyer du sol au plafond" width="560" height="700" loading="lazy"><span class="cote">3 200</span><figcaption><b>Bibliothèque murale</b><span>Noyer, tenons et mortaises</span></figcaption></figure>
       <figure class="wide curtain" style="--d:240ms"><img src="images/bois/cuisine.webp" alt="Cuisine avec îlot central en bois massif" width="560" height="700" loading="lazy" style="object-position:50% 60%"><span class="cote">4 100</span><figcaption><b>Cuisine en châtaignier</b><span>Façades massives, plan en chêne</span></figcaption></figure>
-      <div class="blk"><b>4 à 8 semaines</b><span>de l'atelier à chez vous</span></div>
+      <div class="blk leve"><b>4 à 8 semaines</b><span>de l'atelier à chez vous</span></div>
       <figure class="curtain" style="--d:360ms"><img src="images/bois/noyer.webp" alt="Planche de noyer" width="560" height="560" loading="lazy"><figcaption><b>Le noyer</b><span>pour la bibliothèque</span></figcaption></figure>
     </div>
   </div>
@@ -235,27 +270,27 @@ footer .legal{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap
 <section class="phrase">
   <span class="n" aria-hidden="true">03</span>
   <div class="wrap">
-    <blockquote>On choisit chaque planche <em>chez le scieur</em>, à moins de 80 km.</blockquote>
-    <cite>Le bois sèche deux ans dans la cour avant d'entrer à l'atelier.</cite>
+    <blockquote id="phrase">On choisit chaque planche <em>chez le scieur</em>, à moins de 80 km.</blockquote>
+    <cite class="leve">Le bois sèche deux ans dans la cour avant d'entrer à l'atelier.</cite>
   </div>
 </section>
 
 <section id="prix">
   <span class="n" aria-hidden="true">04</span>
   <div class="wrap">
-    <h2 class="disp h2">Ce que ça coûte<em>Des ordres de prix, pour savoir où l'on va.</em></h2>
+    <h2 class="disp h2 leve">Ce que ça coûte<em>Des ordres de prix, pour savoir où l'on va.</em></h2>
     <div class="tw"><table class="prices">
       <thead><tr><th class="sc">Le meuble</th><th class="sc">Ce qui est compris</th><th class="sc">Délai</th><th class="sc">À partir de</th></tr></thead>
       <tbody>
-        <tr><td>Table</td><td>Plateau 40 mm, pieds assemblés, huile naturelle</td><td>5 semaines</td><td class="p">1 800 €</td></tr>
-        <tr><td>Bibliothèque</td><td>Sur mesure du sol au plafond, fixations murales</td><td>6 semaines</td><td class="p">3 500 €</td></tr>
-        <tr><td>Cuisine</td><td>Façades massives, plan de travail, pose</td><td>8 semaines</td><td class="p">9 000 €</td></tr>
-        <tr><td>Escalier</td><td>Limons et marches massives, pose</td><td>7 semaines</td><td class="p">6 500 €</td></tr>
-        <tr><td>Dressing</td><td>Caissons, portes, tiroirs, pose</td><td>6 semaines</td><td class="p">4 200 €</td></tr>
+        <tr class="leve"><td>Table</td><td>Plateau 40 mm, pieds assemblés, huile naturelle</td><td>5 semaines</td><td class="p">1 800 €</td></tr>
+        <tr class="leve"><td>Bibliothèque</td><td>Sur mesure du sol au plafond, fixations murales</td><td>6 semaines</td><td class="p">3 500 €</td></tr>
+        <tr class="leve"><td>Cuisine</td><td>Façades massives, plan de travail, pose</td><td>8 semaines</td><td class="p">9 000 €</td></tr>
+        <tr class="leve"><td>Escalier</td><td>Limons et marches massives, pose</td><td>7 semaines</td><td class="p">6 500 €</td></tr>
+        <tr class="leve"><td>Dressing</td><td>Caissons, portes, tiroirs, pose</td><td>6 semaines</td><td class="p">4 200 €</td></tr>
       </tbody>
     </table></div>
     <p style="margin-top:14px;font-size:14px;color:var(--grey)">Prix de démonstration, pose comprise quand elle est indiquée.</p>
-    <div class="credits">
+    <div class="credits leve" id="frise">
       <div><small class="sc">Première semaine</small><b>La visite</b><p>On mesure, on écoute vos envies et vos contraintes.</p></div>
       <div><small class="sc">Deuxième semaine</small><b>Le plan</b><p>Plan coté, essence, finition, devis détaillé.</p></div>
       <div><small class="sc">4 à 8 semaines</small><b>L'atelier</b><p>Débit, assemblage, finition. Passez voir où on en est.</p></div>
@@ -267,8 +302,8 @@ footer .legal{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap
 <section id="projet" style="padding-top:0">
   <span class="n" aria-hidden="true">05</span>
   <div class="wrap">
-    <h2 class="disp h2">Votre projet<em>La visite et le devis sont gratuits.</em></h2>
-    <div class="project">
+    <h2 class="disp h2 leve">Votre projet<em>La visite et le devis sont gratuits.</em></h2>
+    <div class="project leve" style="--d:120ms">
       <div class="infos">
         <p>Quelques informations suffisent pour qu'on vous rappelle avec une première estimation.</p>
         <p><b>L'atelier</b>ZA des Scieries, bâtiment 3. Visite sur rendez-vous.</p>
@@ -290,7 +325,7 @@ footer .legal{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap
 
 <footer>
   <div class="wrap">
-    <p class="last">Un meuble qui durera plus que la maison.</p>
+    <p class="last leve">Un meuble qui durera plus que la maison.</p>
     <p style="margin-top:24px"><a class="link" href="#projet">Parler de mon projet</a></p>
     <div class="row"><p><b>L'atelier</b>ZA des Scieries, bâtiment 3</p><p><b>Téléphone</b>06 00 00 00 00</p><p><b>Sur rendez-vous</b>Du lundi au vendredi</p></div>
     <div class="legal"><span>© Atelier Bois Massif, atelier fictif</span><span>Site réalisé par <a href="accueil.html">Saitora</a> · Photos : Pixabay</span></div>
@@ -338,7 +373,8 @@ const fmtB = v => v >= 15000 ? "15 000 € et plus" : Number(v).toLocaleString("
 $("budget").oninput = () => $("bOut").textContent = fmtB($("budget").value);
 $("pj").addEventListener("submit", e => { e.preventDefault();
   if (!$("pName").value.trim() || !$("pTel").value.trim()) { $("ok").textContent = "Indiquez votre nom et votre téléphone pour qu'on vous rappelle."; return; }
-  $("ok").textContent = `Merci ${$("pName").value.trim()}. Projet « ${kind}${wood === "Je ne sais pas" ? ", essence à définir ensemble" : " en " + wood.toLowerCase()} », budget ${fmtB($("budget").value)}. On vous rappelle sous 48 h. (Démo : rien n'est envoyé.)`; });
+  $("ok").textContent = `Merci ${$("pName").value.trim()}. Projet « ${kind}${wood === "Je ne sais pas" ? ", essence à définir ensemble" : " en " + wood.toLowerCase()} », budget ${fmtB($("budget").value)}. On vous rappelle sous 48 h. (Démo : rien n'est envoyé.)`;
+  const bt = $("pj").querySelector("button[type=submit]"); bt.textContent = "Demande envoyée"; bt.classList.add("fait"); $("ok").classList.add("fait"); setTimeout(() => { bt.textContent = "Envoyer ma demande"; bt.classList.remove("fait"); }, 3200); });
 
 // ——— bandeau collant après l'ouverture, dévoilement des photos une fois chargées
 new IntersectionObserver(([e]) => $("dock").classList.toggle("on", !e.isIntersecting && e.boundingClientRect.top < 0)).observe($("top"));
@@ -346,6 +382,28 @@ const ready = img => img.complete && img.naturalWidth ? Promise.resolve() : new 
 const io = new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting) return; io.unobserve(e.target); const img = e.target.querySelector("img");
   (img.decode ? img.decode().catch(() => {}) : ready(img)).then(() => ready(img)).then(() => requestAnimationFrame(() => e.target.classList.add("on"))); }), { rootMargin: "0px 0px -8% 0px" });
 document.querySelectorAll(".curtain").forEach(el => io.observe(el));
+
+// ——— les mouvements (banque animations/mouvements.html)
+const calme = matchMedia("(prefers-reduced-motion: reduce)").matches;
+// 30 : le titre est découpé en lettres (les mots restent entiers), lu d'un bloc par les lecteurs d'écran
+{ const t = $("titre"), texte = t.textContent; let i = 0; t.setAttribute("aria-label", texte);
+  t.innerHTML = texte.split(" ").map(m => `<span class="mo" aria-hidden="true">${[...m].map(c => `<span class="le" style="--i:${i++}">${c}</span>`).join("")}</span>`).join(" "); }
+// 10 : le projecteur suit le doigt ou la souris sur l'ouverture
+{ const h = $("top"); const suit = e => { const r = h.getBoundingClientRect(); h.classList.add("suit"); h.style.setProperty("--px", (e.clientX - r.left) / r.width * 100 + "%"); h.style.setProperty("--py", (e.clientY - r.top) / r.height * 100 + "%"); };
+  h.addEventListener("pointermove", suit); h.addEventListener("pointerdown", suit); }
+// 02 : ce qui arrive quand on le regarde ; 24 : le prix de la ligne monte jusqu'à sa valeur
+{ const nb = n => n.toLocaleString("fr-FR").replace(/\u202f|\u00a0/g, " ") + " €";
+  const vu = new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting) return; vu.unobserve(e.target); e.target.classList.add("on");
+    const p = e.target.querySelector("td.p"); if (p && !calme) { const but = parseInt(p.textContent.replace(/\D/g, ""), 10), t0 = performance.now(), monte = t => { const k = Math.min(1, (t - t0) / 900); p.textContent = nb(Math.round(but * (1 - Math.pow(1 - k, 3)) / 100) * 100); if (k < 1) requestAnimationFrame(monte); else p.textContent = nb(but); }; requestAnimationFrame(monte); } }), { rootMargin: "0px 0px -6% 0px", threshold: .1 });
+  document.querySelectorAll(".leve").forEach(e => vu.observe(e)); }
+// 08 : la grande phrase s'allume mot à mot ; 33 : le trait des étapes avance avec le défilement
+{ const ph = $("phrase"), fr = $("frise"), etapes = [...fr.children];
+  ph.innerHTML = [...ph.childNodes].map(n => { const em = n.nodeType === 1; return n.textContent.split(/(\s+)/).map(m => /^\s*$/.test(m) ? m : `<span class="mot">${em ? "<em>" + m + "</em>" : m}</span>`).join(""); }).join("");
+  const mots = [...ph.querySelectorAll(".mot")];
+  if (!calme) { let prevu = false; const lis = () => { prevu = false;
+      const r = ph.getBoundingClientRect(), k = Math.min(1, Math.max(0, (innerHeight * .88 - r.top) / (innerHeight * .5 + r.height))); mots.forEach((m, i) => m.classList.toggle("lu", i < Math.round(k * mots.length * 1.15)));
+      const f = fr.getBoundingClientRect(), q = Math.min(1, Math.max(0, (innerHeight * .92 - f.top) / (innerHeight * .55))); fr.style.setProperty("--k", q.toFixed(3)); etapes.forEach((d, i) => d.classList.toggle("passe", q > (i + .35) / etapes.length)); };
+    addEventListener("scroll", () => { if (!prevu) { prevu = true; requestAnimationFrame(lis); } }, { passive: true }); lis(); } }
 </script>
 </body>
 </html>

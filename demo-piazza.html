@@ -91,6 +91,7 @@ input[type=range]{width:100%;accent-color:var(--red);min-height:32px}
 .sheet .head b{font:italic 400 1.15rem/1 var(--serif);color:var(--ink)}
 .plan{display:block;width:100%;height:auto;margin:14px 0 6px}
 .plan rect.room{fill:rgba(210,69,43,.06);stroke:var(--ink);stroke-width:3}
+.plan{transition:none}
 .plan line{stroke:var(--red);stroke-width:1}
 .plan .wall{stroke:var(--ink);stroke-width:1.5}
 .plan .surf{font:400 34px var(--serif);fill:var(--ink)}
@@ -334,13 +335,14 @@ const seg = (id, list, cur) => $(id).innerHTML = list.map(([n], i) => `<button t
 $("extras").innerHTML = EXTRAS.map(([n], i) => `<label><input type="checkbox" data-i="${i}"${i === 0 ? " checked" : ""}>${n}</label>`).join("");
 const m1 = n => n.toLocaleString("fr-FR", { maximumFractionDigits: 1 }) + " m";
 function plan(s) {
-  // un rectangle de proportions 1,4 pour la surface, à l'échelle, avec ses cotes
-  const w = Math.sqrt(s * 1.4), h = s / w, k = Math.min(400 / w, 250 / h), W = w * k, H = h * k, x = (520 - W) / 2 + 10, y = (360 - H) / 2 - 6;
+  // un rectangle de proportions 1,4 pour la surface, avec ses cotes. L'échelle est fixe (la plus grande surface remplit la feuille) :
+  // quand on agrandit la surface, la pièce grandit vraiment sur le plan, et la mire mesure toujours juste.
+  const w = Math.sqrt(s * 1.4), h = s / w, k = 18.6, W = w * k, H = h * k, x = (520 - W) / 2 + 10, y = (360 - H) / 2 - 6;
   const cut = Math.min(W * .45, 120); G = { x, y, W, H, k };
   return `<rect pathLength="1" class="room" x="${x}" y="${y}" width="${W}" height="${H}"/>
     <line pathLength="1" class="wall" x1="${x + cut}" y1="${y}" x2="${x + cut}" y2="${y + H * .55}"/>
     <line pathLength="1" class="wall" x1="${x}" y1="${y + H * .55}" x2="${x + cut * .6}" y2="${y + H * .55}"/>
-    <text class="surf" x="${x + W / 2 + cut / 2}" y="${y + H / 2 + 12}" text-anchor="middle">${s} m²</text>
+    <text class="surf" x="${x + W / 2 + cut / 2}" y="${y + H / 2 + Math.min(34, W / 6) * .35}" text-anchor="middle" style="font-size:${Math.min(34, W / 6).toFixed(0)}px">${s} m²</text>
     <line pathLength="1" x1="${x}" y1="${y + H + 18}" x2="${x + W}" y2="${y + H + 18}"/><line pathLength="1" x1="${x}" y1="${y + H + 12}" x2="${x}" y2="${y + H + 24}"/><line pathLength="1" x1="${x + W}" y1="${y + H + 12}" x2="${x + W}" y2="${y + H + 24}"/>
     <text class="cote" x="${x + W / 2}" y="${y + H + 36}" text-anchor="middle">${m1(w)}</text>
     <line pathLength="1" x1="${x - 18}" y1="${y}" x2="${x - 18}" y2="${y + H}"/><line pathLength="1" x1="${x - 24}" y1="${y}" x2="${x - 12}" y2="${y}"/><line pathLength="1" x1="${x - 24}" y1="${y + H}" x2="${x - 12}" y2="${y + H}"/>

@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Brunu · torréfacteur (site test)</title>
+<meta name="description" content="Site test du labo Saitora : une boutique de café imaginaire, montée avec neuf autres animations choisies.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#FF4F1F">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../polices/bricolage-grotesque-lato-9a8267.css">
+<style>
+/* Brunu : troisième site test du labo (10 novembre 2026). Boutique de café imaginaire, photos libres, cafés, prix et coordonnées d'exemple.
+   Fiche de style tirée : style.md (genre « Affiche brute » : typographie énorme, blocs de couleur francs, bordures noires épaisses,
+   ombres décalées pleines, boutons rectangulaires ; ouverture en affiche sans photo, titres mot par mot, configurateur).
+   Animations reprises de « Mouvements, 44 animations », aucune déjà utilisée dans les labos 14 et 15 : 14 texte qui se décode,
+   44 filtre animé, 37 cartes qui se retournent, 34 j'aime et ajout au panier, 35 notifications empilées, 27 bascule clair / sombre
+   (ici : torréfaction claire ou foncée), 05 cartes en relief, 25 bordure lumineuse, 06 boutons (l'onde au toucher). Rien ne défile sur le côté. */
+:root{--creme:#F4EBDA;--noir:#15110E;--feu:#FF4F1F;--soleil:#FFC93C;--gris:#5E554C;
+  --titre:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;--texte:"Lato",ui-sans-serif,system-ui,sans-serif;
+  --e:cubic-bezier(.16,1,.3,1);--m:clamp(16px,4vw,48px);--b:3px solid var(--noir);--o:6px 6px 0 var(--noir)}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:86px}
+body{margin:0;background:var(--creme);color:var(--noir);font:400 17px/1.5 var(--texte);-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+img{display:block;max-width:100%}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--feu);outline-offset:3px}
+main{overflow-x:clip}
+.page{max-width:1180px;margin:0 auto;padding:0 var(--m)}
+.demo{background:var(--noir);color:#E9DFCD;font-size:13px;text-align:center;padding:8px 16px;line-height:1.4}
+h1,h2,h3{font-family:var(--titre);font-weight:800;letter-spacing:-.035em;line-height:.95;margin:0}
+h2{font-size:clamp(2.8rem,1.4rem + 7vw,7.5rem)}
+.sec{padding-top:clamp(64px,9vw,120px)}
+.sous{max-width:46ch;margin:18px 0 0;font-size:clamp(17px,1rem + .3vw,20px);color:var(--gris)}
+/* anim. 06 : le bouton, épais, qui s'enfonce et fait une onde là où on le touche */
+.btn{position:relative;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:0 26px;border:var(--b);background:var(--noir);color:var(--creme);font-family:var(--titre);font-weight:700;font-size:18px;text-decoration:none;box-shadow:var(--o);transition:transform .12s,box-shadow .12s}
+.btn:active{transform:translate(4px,4px);box-shadow:2px 2px 0 var(--noir)}
+.btn.clair{background:var(--soleil);color:var(--noir)}
+.btn .onde{position:absolute;width:20px;height:20px;margin:-10px;border-radius:50%;background:rgba(255,255,255,.5);pointer-events:none;animation:onde .7s ease-out forwards}
+@keyframes onde{to{transform:scale(24);opacity:0}}
+/* les grands titres arrivent mot par mot */
+.mots .m{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.08em;margin-bottom:-.08em}
+.mots .m>span{display:inline-block;transform:translateY(110%);transition:transform .8s var(--e);transition-delay:calc(var(--i) * 70ms)}
+.mots.on .m>span{transform:none}
+.rise{opacity:0;transform:translateY(18px);transition:opacity .8s var(--e),transform .8s var(--e);transition-delay:calc(var(--d,0) * 90ms)}
+.rise.on{opacity:1;transform:none}
+
+/* ---------- l'en-tête classique : le nom, trois liens, le panier ---------- */
+.tete{position:sticky;top:0;z-index:30;background:var(--creme);border-bottom:var(--b)}
+.tete .page{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:66px}
+.nom{font-family:var(--titre);font-weight:800;font-size:30px;letter-spacing:-.05em;text-decoration:none}
+.nav{display:flex;align-items:center;gap:26px;font-weight:700}
+.nav a{text-decoration:none}
+@media (hover:hover){.nav a:hover{text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:5px}}
+.panier{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:0 14px;border:var(--b);background:var(--soleil);font-family:var(--titre);font-weight:700}
+.panier em{font-style:normal;display:grid;place-items:center;min-width:26px;height:26px;padding:0 6px;background:var(--noir);color:var(--creme);font-size:15px}
+.panier.saute{animation:saute .45s var(--e)}
+@keyframes saute{40%{transform:scale(1.14) rotate(-3deg)}}
+@media (max-width:760px){.nav a{display:none}}
+
+/* ---------- l'ouverture en affiche : pas de photo, un bloc de couleur, un titre énorme ---------- */
+.affiche{background:var(--feu);border-bottom:var(--b);padding:clamp(40px,7vw,96px) 0 clamp(36px,5vw,64px)}
+.affiche h1{font-size:clamp(2.9rem,1rem + 8.6vw,9.4rem)}
+.affiche h1 .apres{color:var(--creme)}
+.affiche .bas{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:26px 40px;margin-top:clamp(26px,4vw,48px)}
+.affiche p{margin:0 0 22px;max-width:36ch;font-size:clamp(18px,1rem + .5vw,22px);font-weight:700}
+/* anim. 14 : la prochaine torréfaction, qui se décode */
+.ticket{border:var(--b);background:var(--creme);box-shadow:var(--o);padding:14px 18px;min-width:min(100%,290px)}
+.ticket small{display:block;font-weight:700;color:var(--gris)}
+.ticket b{display:block;font-family:var(--titre);font-weight:800;font-size:clamp(22px,1.1rem + 1vw,30px);letter-spacing:-.02em;min-height:1.2em;font-variant-numeric:tabular-nums}
+
+/* ---------- les cafés : filtre animé (44), cartes qui se retournent (37), j'aime et panier (34) ---------- */
+.filtres{display:flex;flex-wrap:wrap;gap:10px;margin:30px 0 26px}
+.filtres button{min-height:46px;padding:0 18px;border:var(--b);background:var(--creme);font-family:var(--titre);font-weight:700;transition:background-color .25s,color .25s}
+.filtres button[aria-pressed="true"]{background:var(--noir);color:var(--creme)}
+.cafes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(14px,2.4vw,26px);perspective:1400px}
+.cafe{aspect-ratio:4/5;will-change:transform}
+.cafe[hidden]{display:none}
+.cafe .tourne{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .8s var(--e)}
+.cafe.vu .tourne{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;border:var(--b);box-shadow:var(--o);padding:clamp(16px,2vw,24px);display:flex;flex-direction:column;justify-content:space-between;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.devant{background:var(--c);text-align:left;width:100%;font:inherit}
+.devant small{font-weight:700;font-size:15px}
+.devant b{font-family:var(--titre);font-weight:800;font-size:clamp(2rem,1rem + 3.4vw,3.6rem);line-height:.92;letter-spacing:-.04em}
+.devant span{display:flex;justify-content:space-between;align-items:center;font-weight:700}
+.devant i{font-style:normal;display:grid;place-items:center;width:40px;height:40px;border:var(--b);background:var(--creme);font-size:20px}
+.dos{background:var(--creme);transform:rotateY(180deg)}
+.dos p{margin:0;font-size:16px}
+.dos h3{font-size:24px;margin-bottom:8px}
+.dos .prix{font-family:var(--titre);font-weight:800;font-size:clamp(2.2rem,1.4rem + 2vw,3.2rem);letter-spacing:-.04em;line-height:1}
+.dos .prix small{font-family:var(--texte);font-weight:400;font-size:15px;letter-spacing:0;color:var(--gris)}
+.gestes{display:flex;gap:10px;align-items:stretch}
+.gestes .btn{flex:1;min-height:48px;padding:0 12px;font-size:16px;box-shadow:4px 4px 0 var(--noir)}
+.aime{flex:none;width:48px;border:var(--b);background:var(--creme);display:grid;place-items:center;position:relative}
+.aime svg{width:24px;height:24px;fill:none;stroke:var(--noir);stroke-width:2;transition:fill .2s,stroke .2s}
+.aime[aria-pressed="true"] svg{fill:var(--feu);stroke:var(--feu);animation:pop .5s var(--e)}
+@keyframes pop{0%{transform:scale(.3)}55%{transform:scale(1.3)}}
+.aime::after{content:"";position:absolute;left:50%;top:50%;width:5px;height:5px;margin:-2.5px;border-radius:50%;opacity:0;box-shadow:0 -22px var(--feu),16px -16px var(--soleil),22px 0 var(--noir),16px 16px var(--feu),0 22px var(--soleil),-16px 16px var(--noir),-22px 0 var(--feu),-16px -16px var(--soleil)}
+.aime[aria-pressed="true"]::after{animation:eclat .6s ease-out}
+@keyframes eclat{0%{transform:scale(.2);opacity:1}100%{transform:scale(1.5);opacity:0}}
+.retour{background:none;border:0;padding:6px 0;font-weight:700;text-decoration:underline;text-underline-offset:4px;align-self:flex-start;min-height:44px}
+.vole{position:fixed;left:0;top:0;z-index:80;width:22px;height:22px;margin:-11px;border-radius:50%;background:var(--noir);border:3px solid var(--soleil);pointer-events:none}
+@media (max-width:900px){.cafes{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.cafes{grid-template-columns:1fr}.cafe{aspect-ratio:5/4}}
+
+/* ---------- anim. 35 : les notifications empilées ---------- */
+.pile-notes{position:fixed;right:14px;bottom:14px;left:14px;z-index:70;display:flex;flex-direction:column;align-items:flex-end;pointer-events:none}
+.note{position:relative;overflow:hidden;margin-top:8px;max-width:100%;border:var(--b);background:var(--creme);box-shadow:4px 4px 0 var(--noir);padding:12px 16px;font-weight:700;animation:entre .5s var(--e)}
+@keyframes entre{from{transform:translateX(110%);opacity:0}}
+.note::after{content:"";position:absolute;left:0;bottom:0;height:4px;width:100%;background:var(--feu);transform-origin:0 50%;animation:barre 3s linear forwards}
+@keyframes barre{to{transform:scaleX(0)}}
+.note.sort{transition:transform .4s,opacity .4s,margin .4s var(--e),height .4s var(--e),padding .4s var(--e);transform:translateX(40%);opacity:0}
+
+/* ---------- le configurateur : torréfaction claire ou foncée (anim. 27, deux calques, un cercle qui s'ouvre) ---------- */
+.cuisson{position:relative;margin-top:34px;border:var(--b);box-shadow:var(--o);overflow:hidden}
+.calque{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(20px,4vw,56px);padding:clamp(22px,4vw,56px);min-height:clamp(340px,40vw,440px);align-items:end}
+.calque.claire{background:var(--soleil)}
+.calque.foncee{position:absolute;inset:0;background:var(--noir);color:var(--creme);clip-path:circle(var(--r,0%) at calc(100% - 78px) 60px);transition:clip-path .9s var(--e)}
+.cuisson.foncee .calque.foncee{--r:160%}
+.calque h3{font-size:clamp(2.4rem,1.2rem + 5vw,5.6rem)}
+.calque p{margin:14px 0 0;max-width:34ch}
+.fiche{display:grid;gap:12px;margin:0}
+.fiche div{display:grid;grid-template-columns:110px minmax(0,1fr);gap:14px;align-items:center;font-weight:700}
+.fiche i{display:block;height:14px;border:2px solid currentColor;background:linear-gradient(currentColor,currentColor) 0 0/var(--v) 100% no-repeat}
+.bascule{position:absolute;right:18px;top:18px;z-index:5;display:flex;align-items:center;gap:10px;min-height:48px;padding:0 6px 0 14px;border:var(--b);background:var(--creme);color:var(--noir);font-family:var(--titre);font-weight:700}
+.bascule u{position:relative;display:block;width:52px;height:30px;border:var(--b);background:var(--soleil);text-decoration:none;transition:background-color .4s}
+.bascule u::after{content:"";position:absolute;left:3px;top:3px;width:18px;height:18px;background:var(--noir);transition:transform .5s var(--e)}
+.bascule[aria-pressed="true"] u{background:var(--feu)}
+.bascule[aria-pressed="true"] u::after{transform:translateX(22px)}
+@media (max-width:760px){.calque{grid-template-columns:1fr;padding-top:86px}}
+
+/* ---------- l'atelier : trois photos en relief (anim. 05) ---------- */
+.atelier{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(14px,2.4vw,26px);margin-top:34px;perspective:1100px}
+.relief{position:relative;aspect-ratio:4/5;border:var(--b);box-shadow:var(--o);overflow:hidden;transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .5s var(--e);touch-action:pan-y;margin:0}
+.relief.vif{transition:transform .08s linear}
+.relief img{position:absolute;inset:-8%;width:116%;height:116%;max-width:none;object-fit:cover;transform:translate(calc(var(--px,0) * -14px),calc(var(--py,0) * -14px));transition:inherit}
+.relief figcaption{position:absolute;left:0;bottom:0;right:0;z-index:2;background:var(--creme);border-top:var(--b);padding:12px 14px;font-weight:700}
+.relief figcaption b{display:block;font-family:var(--titre);font-weight:800;font-size:22px;letter-spacing:-.02em}
+@media (max-width:760px){.atelier{grid-template-columns:1fr}.relief{aspect-ratio:5/4}}
+
+/* ---------- les chiffres, puis l'abonnement et sa bordure lumineuse (anim. 25) ---------- */
+.chiffres{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:var(--b);margin-top:clamp(64px,9vw,120px);background:var(--creme)}
+.chiffres div{padding:clamp(16px,3vw,34px);border-right:var(--b)}
+.chiffres div:last-child{border-right:0}
+.chiffres b{display:block;font-family:var(--titre);font-weight:800;font-size:clamp(2.6rem,1rem + 6.4vw,7rem);letter-spacing:-.05em;line-height:.9}
+.chiffres span{font-weight:700}
+@media (max-width:620px){.chiffres{grid-template-columns:1fr}.chiffres div{border-right:0;border-bottom:var(--b)}.chiffres div:last-child{border-bottom:0}}
+.abo{position:relative;margin-top:clamp(64px,9vw,120px);padding:5px;overflow:hidden;background:var(--noir);box-shadow:var(--o)}
+.abo::before{content:"";position:absolute;left:50%;top:50%;width:170%;aspect-ratio:1;margin:-85% 0 0 -85%;background:conic-gradient(transparent 0 58%,var(--feu) 78%,var(--soleil) 92%,transparent 100%);animation:tour 3.6s linear infinite}
+@keyframes tour{to{transform:rotate(1turn)}}
+.abo>div{position:relative;background:var(--noir);color:var(--creme);padding:clamp(24px,5vw,64px);display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:26px 40px}
+.abo h2{font-size:clamp(2.4rem,1.2rem + 5.4vw,6rem);max-width:11ch}
+.abo h2 em{font-style:normal;color:var(--soleil)}
+.abo p{margin:16px 0 0;max-width:40ch;color:#D8CDBA}
+
+/* ---------- venir : le plan dessiné et les infos ; le pied en trois colonnes ---------- */
+.venir{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(24px,5vw,64px);align-items:center}
+.plan{border:var(--b);box-shadow:var(--o);background:var(--soleil)}
+.plan svg{display:block;width:100%;height:auto}
+.plan .rue{stroke:var(--creme);stroke-width:18;fill:none;stroke-linecap:square}
+.plan .ici{fill:var(--feu);stroke:var(--noir);stroke-width:3}
+.plan text{font-family:var(--titre);font-weight:800;font-size:22px;fill:var(--noir)}
+.infos{list-style:none;margin:22px 0 26px;padding:0;border-top:var(--b)}
+.infos li{display:grid;grid-template-columns:110px minmax(0,1fr);gap:14px;padding:14px 0;border-bottom:var(--b)}
+.infos li span:first-child{font-weight:700}
+@media (max-width:820px){.venir{grid-template-columns:1fr}}
+.pied{margin-top:clamp(64px,9vw,120px);background:var(--noir);color:var(--creme);padding:clamp(36px,6vw,70px) 0}
+.pied .page{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:28px 40px}
+.pied b{display:block;font-family:var(--titre);font-weight:800;font-size:20px;margin-bottom:8px}
+.pied .gros{font-size:clamp(3rem,2rem + 5vw,6rem);letter-spacing:-.05em;line-height:.9;margin:0}
+.pied p{margin:0;color:#D8CDBA}
+.pied small{display:block;margin-top:14px;font-size:13px;color:#A99E8C}
+@media (max-width:760px){.pied .page{grid-template-columns:1fr}}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .rise,.mots .m>span{opacity:1!important;transform:none!important}
+}
+</style>
+</head>
+<body>
+<div class="demo">Site test du labo Saitora : boutique imaginaire, photos libres, cafés, prix et coordonnées d’exemple. Rien n’est vendu.</div>
+
+<header class="tete">
+  <div class="page">
+    <a class="nom" href="#haut">brunu</a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#cafes">Les cafés</a><a href="#cuisson">La torréfaction</a><a href="#venir">La boutique</a>
+      <button class="panier" type="button" id="panier" aria-label="Panier">Panier <em id="nb">0</em></button>
+    </nav>
+  </div>
+</header>
+
+<main id="haut">
+  <section class="affiche" aria-labelledby="t-ouv">
+    <div class="page">
+      <h1 id="t-ouv" class="mots">Torréfié mardi. | Chez vous jeudi.</h1>
+      <div class="bas">
+        <div><p>Six cafés, grillés deux fois par semaine dans l’atelier, à Bastia. Jamais plus de dix jours entre le four et votre tasse.</p>
+          <a class="btn" href="#cafes">Choisir son café</a></div>
+        <div class="ticket"><small>Prochaine torréfaction</small><b id="prochaine" aria-live="polite">…</b></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page sec" id="cafes" aria-labelledby="t-cafes">
+    <h2 id="t-cafes" class="mots">Six cafés.</h2>
+    <p class="sous rise">Touchez une carte pour la retourner : les notes, le prix, et le bouton pour l’ajouter.</p>
+    <div class="filtres rise" role="group" aria-label="Filtrer les cafés">
+      <button type="button" data-f="tout" aria-pressed="true">Tout</button><button type="button" data-f="doux" aria-pressed="false">Doux</button><button type="button" data-f="corse" aria-pressed="false">Corsé</button><button type="button" data-f="deca" aria-pressed="false">Décaféiné</button>
+    </div>
+    <div class="cafes" id="liste"></div>
+  </section>
+
+  <section class="page sec" id="cuisson" aria-labelledby="t-cuisson">
+    <h2 id="t-cuisson" class="mots">Claire ou foncée ?</h2>
+    <p class="sous rise">Le même grain ne donne pas la même tasse selon le temps passé au four. Basculez pour comparer.</p>
+    <div class="cuisson rise" id="bloc-cuisson">
+      <button class="bascule" type="button" id="bascule" aria-pressed="false"><span id="bascule-txt">Claire</span><u aria-hidden="true"></u></button>
+      <div class="calque claire">
+        <div><h3>Claire</h3><p>Neuf minutes au four. Le grain garde son fruit : une tasse vive, presque un thé, pour le filtre du matin.</p></div>
+        <dl class="fiche"><div><dt>Acidité</dt><dd style="margin:0"><i style="--v:85%"></i></dd></div><div><dt>Amertume</dt><dd style="margin:0"><i style="--v:25%"></i></dd></div><div><dt>Corps</dt><dd style="margin:0"><i style="--v:40%"></i></dd></div></dl>
+      </div>
+      <div class="calque foncee" aria-hidden="true">
+        <div><h3>Foncée</h3><p>Treize minutes au four. Le sucre caramélise : une tasse ronde, chocolat et noisette, pour l’espresso.</p></div>
+        <dl class="fiche"><div><dt>Acidité</dt><dd style="margin:0"><i style="--v:25%"></i></dd></div><div><dt>Amertume</dt><dd style="margin:0"><i style="--v:75%"></i></dd></div><div><dt>Corps</dt><dd style="margin:0"><i style="--v:90%"></i></dd></div></dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="page sec" aria-labelledby="t-atelier">
+    <h2 id="t-atelier" class="mots">L’atelier.</h2>
+    <div class="atelier">
+      <figure class="relief rise"><img src="images/torrefacteur.webp" alt="Les grains tournent dans le refroidisseur" width="1200" height="900" loading="lazy" decoding="async"><figcaption><b>Le four</b>Douze kilos à la fois, pas plus.</figcaption></figure>
+      <figure class="relief rise" style="--d:1"><img src="images/degustation.webp" alt="On goûte chaque fournée à la cuillère" width="1200" height="900" loading="lazy" decoding="async"><figcaption><b>La cuillère</b>Chaque fournée est goûtée.</figcaption></figure>
+      <figure class="relief rise" style="--d:2"><img src="images/espresso.webp" alt="Deux espressos coulent" width="1200" height="900" loading="lazy" decoding="async"><figcaption><b>La tasse</b>On vous le fait goûter sur place.</figcaption></figure>
+    </div>
+    <div class="chiffres rise"><div><b>6</b><span>cafés, et pas un de plus</span></div><div><b>2</b><span>torréfactions par semaine</span></div><div><b>10</b><span>jours au plus, du four à la tasse</span></div></div>
+  </section>
+
+  <section class="page" aria-labelledby="t-abo">
+    <div class="abo rise"><div>
+      <div><h2 id="t-abo">Deux paquets par mois, <em>22&nbsp;€</em>.</h2><p>L’abonnement : on choisit pour vous dans la torréfaction de la semaine, vous recevez deux paquets de 250 g. Sans engagement.</p></div>
+      <button class="btn clair" type="button" id="abo">S’abonner</button>
+    </div></div>
+  </section>
+
+  <section class="page sec" id="venir" aria-labelledby="t-venir">
+    <div class="venir">
+      <div class="plan rise" role="img" aria-label="Plan : la boutique est à l’angle de deux rues, près de la place">
+        <svg viewBox="0 0 600 400" aria-hidden="true"><path class="rue" d="M0 130 H600 M0 300 H600 M170 0 V400 M430 0 V400"/><rect x="200" y="160" width="200" height="110" fill="#15110E"/><text x="222" y="224" style="fill:#F4EBDA">la place</text><path class="ici" d="M448 150 h70 v70 h-70 z"/><text x="446" y="252">brunu</text></svg>
+      </div>
+      <div class="rise" style="--d:1">
+        <h2 id="t-venir" style="font-size:clamp(2.6rem,1.4rem + 5vw,5.6rem)">Passez à la boutique.</h2>
+        <ul class="infos"><li><span>Adresse</span><span>Bastia, près de la place (adresse d’exemple)</span></li><li><span>Horaires</span><span>Du mardi au samedi, 8 h – 18 h 30</span></li><li><span>Téléphone</span><span>04 95 00 00 00 (numéro d’exemple)</span></li></ul>
+        <a class="btn" href="#cafes">Voir les cafés</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="pied">
+  <div class="page">
+    <div><p class="gros" style="font-family:var(--titre);font-weight:800;color:var(--creme)">brunu</p><small>Site test du labo Saitora. Boutique imaginaire ; photos Pixabay (licence libre) : KlausF60, ClaroCafe, mgattorna. <a href="../">Retour au labo</a></small></div>
+    <div><b>La boutique</b><p>Bastia (adresse d’exemple)<br>Du mardi au samedi<br>8 h – 18 h 30</p></div>
+    <div><b>La torréfaction</b><p>Le mardi et le vendredi.<br>Expédition le lendemain.</p></div>
+  </div>
+</footer>
+<div class="pile-notes" id="notes" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+  const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const borne = (v, a, b) => Math.max(a, Math.min(b, v)), calme = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* les six cafés (d'exemple) */
+  const CAFES = [
+    { n: "Sidamo", o: "Éthiopie", c: "doux", t: "Claire", notes: "Fleur d’oranger, pêche, thé noir.", p: "9,50", coul: "#FFC93C" },
+    { n: "Huila", o: "Colombie", c: "doux", t: "Moyenne", notes: "Caramel, pomme cuite, noisette.", p: "8,90", coul: "#F4EBDA" },
+    { n: "Cerrado", o: "Brésil", c: "corse", t: "Foncée", notes: "Chocolat noir, noix, sucre brun.", p: "8,50", coul: "#FF4F1F" },
+    { n: "Antigua", o: "Guatemala", c: "corse", t: "Foncée", notes: "Cacao, épices douces, fumé léger.", p: "9,20", coul: "#D9C7A6" },
+    { n: "U Brunu", o: "L’assemblage de la maison", c: "corse", t: "Moyenne", notes: "Rond, praliné : fait pour l’espresso.", p: "8,00", coul: "#FFC93C" },
+    { n: "Déca", o: "Colombie, sans solvant", c: "deca", t: "Moyenne", notes: "Biscuit, miel, et on dort bien.", p: "9,80", coul: "#F4EBDA" }
+  ];
+  const coeur = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-9.6A3.9 3.9 0 0 1 12 8a3.9 3.9 0 0 1 7 2.4C19 15.6 12 20 12 20z"/></svg>';
+  $("#liste").innerHTML = CAFES.map((k, i) => `<article class="cafe rise" data-c="${k.c}" style="--d:${i % 3}"><div class="tourne">
+    <button type="button" class="face devant" style="--c:${k.coul}" aria-label="${k.n}, ${k.o} : voir les notes et le prix"><small>${k.o}</small><b>${k.n}</b><span>Torréfaction ${k.t.toLowerCase()}<i aria-hidden="true">↻</i></span></button>
+    <div class="face dos"><div><h3>${k.n}</h3><p>${k.notes}</p></div><p class="prix">${k.p}&nbsp;€ <small>les 250 g</small></p>
+      <div><div class="gestes"><button type="button" class="btn ajoute" data-n="${k.n}" tabindex="-1">Ajouter</button><button type="button" class="aime" aria-pressed="false" aria-label="J’aime ${k.n}" tabindex="-1">${coeur}</button></div><button type="button" class="retour" tabindex="-1">Retourner la carte</button></div></div>
+  </div></article>`).join("");
+
+  /* ---------- les titres mot par mot, les apparitions ---------- */
+  $$(".mots").forEach(h => { const t = h.textContent; h.setAttribute("aria-label", t); let apres = false; h.setAttribute("aria-label", t.replace(" |", ""));
+    h.innerHTML = t.split(" ").map((w, i) => { if (w === "|") { apres = true; return "<br>"; } return `<span class="m${apres ? " apres" : ""}" aria-hidden="true"><span style="--i:${i}">${w}</span></span>`; }).join(" "); });
+  const io = new IntersectionObserver(es => { for (const e of es) if (e.isIntersecting) { io.unobserve(e.target); e.target.classList.add("on"); } }, { threshold: .2 });
+  $$(".rise, .mots").forEach(el => io.observe(el));
+
+  /* ---------- anim. 14 : la prochaine torréfaction (mardi ou vendredi), qui se décode ---------- */
+  { const el = $("#prochaine"), d = new Date(); while (![2, 5].includes(d.getDay())) d.setDate(d.getDate() + 1);
+    const fin = d.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" }), signes = "/\\<>-_=+*#abcdefghijklmnopqrstuvwxyz";
+    if (calme) el.textContent = fin; else { let f = 0; const total = fin.length * 2 + 14; const pas = () => { let o = ""; for (let i = 0; i < fin.length; i++) o += f >= i * 2 + 14 || fin[i] === " " ? fin[i] : signes[(Math.random() * signes.length) | 0]; el.textContent = o; if (f++ < total) requestAnimationFrame(pas); }; setTimeout(pas, 700); } }
+
+  /* ---------- anim. 06 : l'onde des boutons ---------- */
+  document.addEventListener("pointerdown", e => { const b = e.target.closest(".btn"); if (!b || calme) return; const r = b.getBoundingClientRect(), o = document.createElement("span"); o.className = "onde"; o.style.left = e.clientX - r.left + "px"; o.style.top = e.clientY - r.top + "px"; b.appendChild(o); setTimeout(() => o.remove(), 700); });
+
+  /* ---------- anim. 35 : les notifications ---------- */
+  const notes = $("#notes");
+  const note = txt => { const t = document.createElement("div"); t.className = "note"; t.textContent = txt; notes.appendChild(t); while (notes.children.length > 3) notes.firstElementChild.remove();
+    setTimeout(() => { t.style.height = t.offsetHeight + "px"; void t.offsetWidth; t.classList.add("sort"); t.style.height = "0px"; t.style.paddingTop = t.style.paddingBottom = "0px"; t.style.marginTop = "0px"; setTimeout(() => t.remove(), 420); }, 3000); };
+
+  /* ---------- anim. 37 : les cartes qui se retournent ; anim. 34 : j'aime, et le paquet qui vole jusqu'au panier ---------- */
+  const panier = $("#panier"), nb = $("#nb"); let total = 0;
+  const tourne = (carte, vu) => { carte.classList.toggle("vu", vu); $$(".dos button", carte).forEach(b => b.tabIndex = vu ? 0 : -1); $(".devant", carte).tabIndex = vu ? -1 : 0; (vu ? $(".ajoute", carte) : $(".devant", carte)).focus({ preventScroll: true }); };
+  $("#liste").addEventListener("click", e => { const carte = e.target.closest(".cafe"); if (!carte) return;
+    if (e.target.closest(".devant")) return tourne(carte, true);
+    if (e.target.closest(".retour")) return tourne(carte, false);
+    const a = e.target.closest(".aime"); if (a) { a.setAttribute("aria-pressed", String(a.getAttribute("aria-pressed") !== "true")); return; }
+    const b = e.target.closest(".ajoute"); if (!b) return;
+    const fini = () => { nb.textContent = ++total; panier.classList.remove("saute"); void panier.offsetWidth; panier.classList.add("saute"); note(`${b.dataset.n} ajouté au panier`); };
+    if (calme || !document.body.animate) return fini();
+    const r0 = b.getBoundingClientRect(), r1 = panier.getBoundingClientRect(), x0 = r0.left + r0.width / 2, y0 = r0.top + r0.height / 2, dx = r1.left + r1.width / 2 - x0, dy = r1.top + r1.height / 2 - y0;
+    const v = document.createElement("i"); v.className = "vole"; document.body.appendChild(v);
+    v.animate([{ transform: `translate(${x0}px,${y0}px) scale(1)` }, { transform: `translate(${x0 + dx * .5}px,${y0 + dy - 70}px) scale(1.1)`, offset: .55 }, { transform: `translate(${x0 + dx}px,${y0 + dy}px) scale(.3)` }], { duration: 750, easing: "cubic-bezier(.4,0,.2,1)" }).onfinish = () => { v.remove(); fini(); }; });
+  panier.addEventListener("click", () => note(total ? `${total} paquet${total > 1 ? "s" : ""} dans le panier (site test : rien n’est vendu)` : "Le panier est vide"));
+  $("#abo").addEventListener("click", () => note("Abonnement : site test, rien n’est envoyé"));
+
+  /* ---------- anim. 44 : le filtre, les cartes glissent à leur nouvelle place ---------- */
+  { const cartes = $$(".cafe"), bs = $$(".filtres button");
+    bs.forEach(b => b.addEventListener("click", () => { bs.forEach(x => x.setAttribute("aria-pressed", String(x === b))); const f = b.dataset.f, avant = new Map();
+      cartes.forEach(c => { if (!c.hidden) avant.set(c, c.getBoundingClientRect()); });
+      cartes.forEach(c => { c.hidden = !(f === "tout" || c.dataset.c === f); c.classList.add("on"); });
+      if (calme || !document.body.animate) return;
+      cartes.forEach(c => { if (c.hidden) return; const l = c.getBoundingClientRect(), a = avant.get(c);
+        if (a) { const dx = a.left - l.left, dy = a.top - l.top; if (dx || dy) c.animate([{ transform: `translate(${dx}px,${dy}px)` }, { transform: "none" }], { duration: 600, easing: "cubic-bezier(.16,1,.3,1)" }); }
+        else c.animate([{ transform: "scale(.7)", opacity: 0 }, { transform: "none", opacity: 1 }], { duration: 500, easing: "cubic-bezier(.16,1,.3,1)" }); }); })); }
+
+  /* ---------- anim. 27 : claire ou foncée ---------- */
+  { const bloc = $("#bloc-cuisson"), b = $("#bascule"); b.addEventListener("click", () => { const f = bloc.classList.toggle("foncee"); b.setAttribute("aria-pressed", String(f)); $("#bascule-txt").textContent = f ? "Foncée" : "Claire"; $(".calque.foncee", bloc).setAttribute("aria-hidden", String(!f)); $(".calque.claire", bloc).setAttribute("aria-hidden", String(f)); }); }
+
+  /* ---------- anim. 05 : les photos en relief ---------- */
+  $$(".relief").forEach(c => { if (calme) return;
+    const pose = e => { const r = c.getBoundingClientRect(), x = borne((e.clientX - r.left) / r.width * 2 - 1, -1, 1), y = borne((e.clientY - r.top) / r.height * 2 - 1, -1, 1); c.classList.add("vif"); c.style.setProperty("--ry", x * 11 + "deg"); c.style.setProperty("--rx", -y * 9 + "deg"); c.style.setProperty("--px", x); c.style.setProperty("--py", y); };
+    const lache = () => { c.classList.remove("vif"); for (const p of ["--ry", "--rx", "--px", "--py"]) c.style.removeProperty(p); };
+    c.addEventListener("pointermove", pose); c.addEventListener("pointerdown", pose); c.addEventListener("pointerleave", lache); c.addEventListener("pointerup", e => { if (e.pointerType !== "mouse") lache(); }); c.addEventListener("pointercancel", lache); });
+})();
+</script>
+</body>
+</html>

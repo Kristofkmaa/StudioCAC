@@ -96,6 +96,8 @@ Idées :
 
 ## Pièges connus de l'environnement
 
+- **Publication GitHub Pages :** chaque envoi sur la branche publiée lance une publication (≈ 1 min). Un nouvel envoi avant la fin **annule** la précédente, et l’étape « deploy » peut rester bloquée puis échouer au bout de dix minutes (vu le 10 novembre 2026) : le site reste alors sur l’ancienne version. Vérifier après un envoi : `curl -s https://api.github.com/repos/kristofkmaa/studiocac/actions/runs?per_page=3` (statut et conclusion) ; en cas d’échec, refaire un envoi. Éviter d’enchaîner deux envois en moins de deux minutes.
+
 - **Réseau de la session :**
   - Passent : npm, PyPI, raw.githubusercontent.com, fonts.googleapis.com, lagrottenapoleon.fr.
   - Bloqués : saitora.fr, napoleon1769.corsica, pixabay.com (en dehors de l'API avec clé), Wikimedia, Europeana, Fontshare, Velvetyne, cdn.jsdelivr.net, unpkg.com. On peut les autoriser dans les réglages réseau de l'environnement (claude.ai/code).

@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>A Tavulata · cuisine de marché (site test)</title>
+<meta name="description" content="Site test du labo Saitora : un restaurant imaginaire de cuisine de marché, monté avec une douzaine d'animations choisies.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#FBF6EE">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../polices/redaction-uncut-sans-libre-29d207.css">
+<style>
+/* A Tavulata : site test du labo (10 novembre 2026). Restaurant imaginaire, textes, prix et horaires d'exemple.
+   Fiche de style tirée : style.md (genre « Moderne doux », ouverture « passe-partout », avant / après, lettre signée…).
+   Animations reprises du fichier « Mouvements, 44 animations » de l'utilisateur : 15 liens à lettres roulantes, 30 lettres
+   qui sortent du flou, 39 compte à rebours à volets, 20 avant / après, 29 surlignage tracé, 02 apparition (en « zoom lent »
+   pour les photos), 17 onglets à pastille, 09 tracé (la signature), 18 accordéon, 26 formulaire, 42 itinéraire qui se trace,
+   36 feuille qui monte du bas. Chacune porte un vrai contenu de restaurant ; rien ne défile sur le côté. */
+@font-face{font-family:"Caveat";font-weight:600;font-display:swap;src:url(../../polices/caveat-600-normal-latin.woff2) format("woff2")}
+:root{
+  --fond:#FBF6EE; --papier:#F3EBDD; --encre:#2B2620; --doux:#6F665B; --filet:rgba(43,38,32,.14);
+  --sauge:#DDE5D3; --sauge-fonce:#3F5136; --abricot:#F6D7C3; --tomate:#C9492F;
+  --titre:"Redaction",Georgia,serif; --texte:"Uncut Sans",ui-sans-serif,system-ui,sans-serif; --main:"Caveat",cursive;
+  --e:cubic-bezier(.16,1,.3,1); --m:clamp(16px,4vw,48px); --r:16px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:80px}
+body{margin:0;background:var(--fond);color:var(--encre);font:400 17px/1.55 var(--texte);-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+img{display:block;max-width:100%}
+a{color:inherit}
+button,input,textarea,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--tomate);outline-offset:3px}
+.page{max-width:1200px;margin:0 auto;padding:0 var(--m)}
+main{overflow-x:clip} /* les grands ronds de couleur derrière les photos peuvent déborder : on les coupe au bord */
+.demo{background:var(--encre);color:#EDE6DA;font-size:13px;text-align:center;padding:8px 16px;line-height:1.4}
+h1,h2,h3{font-family:var(--titre);font-weight:400;letter-spacing:-.02em;line-height:1.02;margin:0}
+h2{font-size:clamp(2.3rem,1.5rem + 3.6vw,4.4rem)}
+h2 em,h1 em{font-style:italic}
+.etiq{font-family:var(--titre);font-style:italic;font-size:18px;color:var(--doux);margin:0 0 14px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 28px;border-radius:999px;border:0;background:var(--tomate);color:#fff;text-decoration:none;font-weight:500;cursor:pointer;transition:transform .15s,background-color .3s}
+.btn:active{transform:scale(.97)}
+@media (hover:hover){.btn:hover{background:#B33E26}}
+.lien{display:inline-flex;align-items:center;gap:12px;text-decoration:none;font-weight:500;background:none;border:0;padding:8px 0;cursor:pointer}
+.lien i{display:grid;place-items:center;width:30px;height:30px;border-radius:8px;background:var(--encre);color:var(--fond);font-style:normal;font-size:14px;transition:transform .3s var(--e)}
+@media (hover:hover){.lien:hover i{transform:translateX(3px)}}
+
+/* ---------- en-tête : le nom à gauche, trois liens à lettres roulantes (anim. 15), le bouton ---------- */
+.tete{position:sticky;top:0;z-index:30;background:rgba(251,246,238,.9);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid transparent;transition:border-color .3s}
+.tete.pleine{border-color:var(--filet)}
+.tete .page{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:68px}
+.nom{font-family:var(--titre);font-size:26px;text-decoration:none;letter-spacing:-.02em}
+.nom em{font-style:italic;color:var(--tomate)}
+.nav{display:flex;align-items:center;gap:30px}
+.roule{display:block;height:1.4em;overflow:hidden;text-decoration:none;font-weight:500;line-height:1.4}
+.roule .ch{display:inline-block;position:relative;transition:transform .5s var(--e);transition-delay:calc(var(--i) * 20ms)}
+.roule .ch::after{content:attr(data-c);position:absolute;left:0;top:100%;color:var(--tomate);font-family:var(--titre);font-style:italic}
+@media (hover:hover){.roule:hover .ch{transform:translateY(-100%)}}
+.tete .btn{min-height:44px;padding:0 20px;font-size:15px}
+@media (max-width:820px){.nav .roule{display:none}}
+
+/* ---------- ouverture « passe-partout » : la photo dans un large cadre couleur papier, le titre chevauche le bord ---------- */
+.ouv{padding:clamp(14px,2.4vw,28px) var(--m) 0}
+.cadre{position:relative;max-width:1200px;margin:0 auto;background:var(--papier);border-radius:var(--r);padding:clamp(14px,3vw,40px) clamp(14px,3vw,40px) 0}
+.cadre .photo{position:relative;border-radius:10px;overflow:hidden;aspect-ratio:16/10;max-height:68svh;width:100%}
+.cadre .photo img{width:100%;height:100%;object-fit:cover}
+.pastille{position:absolute;z-index:2;font-family:var(--titre);font-style:italic;font-size:17px;background:var(--fond);color:var(--encre);padding:6px 14px;border-radius:999px;box-shadow:0 6px 20px rgba(43,38,32,.18);transform:rotate(var(--rot))}
+.ouv h1{position:relative;z-index:3;font-size:clamp(2.6rem,1.4rem + 6.4vw,7.2rem);max-width:13ch;margin-top:-.32em;padding:0 clamp(4px,1vw,12px)}
+.ouv h1 .mot{display:inline-block;white-space:nowrap}
+/* anim. 30 : chaque lettre arrive nette, l'une après l'autre */
+.flou .l{display:inline-block;opacity:0;filter:blur(12px);transform:translateY(.25em);transition:opacity .7s,filter .9s,transform .9s var(--e);transition-delay:calc(var(--i) * 26ms)}
+.flou.on .l{opacity:1;filter:none;transform:none}
+.ouv-bas{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(24px,4vw,60px);align-items:end;padding:clamp(22px,3vw,36px) clamp(4px,1vw,12px) clamp(26px,4vw,44px)}
+.ouv-bas p{margin:0 0 22px;max-width:40ch;font-size:clamp(17px,1rem + .3vw,20px);color:var(--doux)}
+.actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px 26px}
+/* anim. 39 : le prochain service, en chiffres à volets */
+.service{justify-self:end;text-align:left}
+.service .etiq{margin-bottom:10px}
+.volets{display:flex;align-items:flex-end;gap:10px}
+.vu{text-align:center}
+.vu small{display:block;margin-top:8px;font-size:13px;color:var(--doux)}
+.fc{--h:clamp(58px,8vw,92px);position:relative;width:calc(var(--h) * .9);height:var(--h);font-family:var(--titre);font-size:calc(var(--h) * .66);line-height:var(--h);perspective:400px;font-variant-numeric:tabular-nums}
+.fc b{position:absolute;left:0;width:100%;height:50%;overflow:hidden;background:var(--encre);color:var(--fond);font-weight:400;display:flex;justify-content:center;backface-visibility:hidden}
+.fc .t,.fc .ft{top:0;border-radius:12px 12px 0 0;align-items:flex-start;border-bottom:1px solid #1a1612}
+.fc .b,.fc .fb{bottom:0;border-radius:0 0 12px 12px;align-items:flex-end;background:#36302A}
+.fc .ft{transform-origin:50% 100%}.fc .fb{transform-origin:50% 0;transform:rotateX(90deg)}
+.deux-pts{font-family:var(--titre);font-size:clamp(34px,4.6vw,52px);line-height:1;padding-bottom:calc(var(--h,70px) * .35 + 26px);color:var(--doux)}
+@media (max-width:860px){.ouv-bas{grid-template-columns:1fr}.service{justify-self:start}}
+@media (max-width:600px){.ouv h1{margin-top:.3em}} /* sur téléphone, le titre passe sous la photo : il reste lisible */
+
+/* ---------- apparitions (anim. 02) et photos en « zoom lent » ---------- */
+.rise{opacity:0;transform:translateY(18px);transition:opacity .9s var(--e),transform .9s var(--e);transition-delay:calc(var(--d,0) * 90ms)}
+.rise.on{opacity:1;transform:none}
+.zoom{overflow:hidden}
+.zoom img{opacity:0;transform:scale(1.08);transition:opacity 1.2s ease,transform 2.6s var(--e)}
+.zoom.on img{opacity:1;transform:none}
+
+/* ---------- l'idée : le marché du matin devient l'assiette du soir (anim. 20, avant / après) ---------- */
+.bloc{margin:clamp(56px,9vw,120px) var(--m) 0;border-radius:clamp(20px,3vw,36px);padding:clamp(40px,7vw,96px) clamp(18px,5vw,72px)}
+.bloc.sauge{background:var(--sauge)}
+.bloc.abricot{background:var(--abricot)}
+.bloc-in{max-width:1080px;margin:0 auto}
+.idee{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);gap:clamp(28px,5vw,72px);align-items:center}
+.idee p{color:#4C5446;margin:22px 0 0;max-width:36ch}
+/* anim. 29 : un mot souligné à la main */
+.mk{position:relative;white-space:nowrap}
+.mk svg{position:absolute;left:-3%;bottom:-.16em;width:106%;height:.36em;overflow:visible}
+.mk path{fill:none;stroke:var(--tomate);stroke-width:5;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.1s .35s var(--e)}
+.on .mk path{stroke-dashoffset:0}
+.ba{position:relative;aspect-ratio:16/10;border-radius:var(--r);overflow:hidden;--p:50%;touch-action:pan-y;cursor:ew-resize;user-select:none;-webkit-user-select:none;box-shadow:0 30px 60px -34px rgba(43,38,32,.6)}
+.ba img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.ba .avant{clip-path:inset(0 calc(100% - var(--p)) 0 0)}
+.ba .lb{position:absolute;bottom:14px;z-index:3;font-family:var(--titre);font-style:italic;font-size:16px;padding:5px 12px;border-radius:999px;background:rgba(251,246,238,.92)}
+.ba .l1{left:14px}.ba .l2{right:14px}
+.ba .poignee{position:absolute;top:0;bottom:0;left:var(--p);width:2px;background:#fff;z-index:4;transform:translateX(-1px)}
+.ba .poignee::after{content:"";position:absolute;top:50%;left:50%;width:48px;height:48px;margin:-24px;border-radius:50%;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232B2620' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 6l-6 6 6 6M15 6l6 6-6 6'/%3E%3C/svg%3E") center/22px no-repeat;box-shadow:0 6px 20px rgba(0,0,0,.3)}
+.ba-aide{margin-top:12px;font-size:14px;color:#4C5446}
+@media (max-width:860px){.idee{grid-template-columns:1fr}}
+
+/* ---------- la maison en trois rangées : photo d'un côté, texte de l'autre ---------- */
+.rangees{display:grid;gap:clamp(56px,8vw,110px);margin-top:clamp(56px,9vw,120px)}
+.rangee{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(26px,5vw,80px);align-items:center}
+.rangee:nth-child(even) .image{order:2}
+.rangee .image{position:relative}
+.rangee .image .zoom{border-radius:var(--r);aspect-ratio:4/3}
+.rangee .image img{width:100%;height:100%;object-fit:cover}
+.rond{position:absolute;z-index:-1;width:62%;aspect-ratio:1;border-radius:50%;background:var(--abricot);right:-8%;bottom:-12%}
+.rangee:nth-child(even) .rond{left:-8%;right:auto;background:var(--sauge)}
+.rangee h3{font-size:clamp(2rem,1.4rem + 2.4vw,3.2rem)}
+.rangee h3 em{font-style:italic}
+.rangee p{color:var(--doux);margin:18px 0 0;max-width:38ch}
+.chiffre{display:block;margin-top:26px;padding-top:14px;border-top:1px solid var(--filet);max-width:220px}
+.chiffre b{display:block;font-family:var(--titre);font-weight:400;font-size:44px;line-height:1}
+.chiffre span{font-size:14px;color:var(--doux)}
+@media (max-width:860px){.rangee{grid-template-columns:1fr}.rangee:nth-child(even) .image{order:0}.rond{width:48%}}
+
+/* ---------- la carte : onglets à pastille glissante (anim. 17) ---------- */
+.carte-tete{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:34px}
+.onglets{position:relative;display:inline-flex;background:var(--fond);border-radius:999px;padding:5px;max-width:100%}
+.onglets button{position:relative;z-index:1;background:none;border:0;min-height:44px;padding:0 clamp(14px,2.4vw,22px);border-radius:999px;color:var(--doux);font-weight:500;cursor:pointer;transition:color .35s;white-space:nowrap}
+.onglets button[aria-selected="true"]{color:#fff}
+.pill{position:absolute;top:5px;bottom:5px;left:0;width:0;background:var(--tomate);border-radius:999px;transition:transform .5s var(--e),width .5s var(--e)}
+.volets-carte{display:grid}
+.volet{grid-area:1/1;opacity:0;transform:translateY(12px);transition:opacity .35s,transform .5s var(--e);visibility:hidden}
+.volet.on{opacity:1;transform:none;visibility:visible;transition-delay:.1s}
+.volet>p{margin:0 0 20px;color:#6B4D3D;max-width:52ch}
+.plats{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 clamp(28px,5vw,64px)}
+.plats li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 18px;padding:18px 0;border-top:1px solid rgba(43,38,32,.16)}
+.plats b{font-family:var(--titre);font-weight:400;font-size:clamp(20px,1.1rem + .5vw,24px);line-height:1.15}
+.plats span{grid-column:1;font-size:15px;color:#6B4D3D}
+.plats em{grid-row:1;grid-column:2;font-style:normal;font-family:var(--titre);font-size:22px}
+.note{font-size:14px;color:#6B4D3D;margin:22px 0 0}
+@media (max-width:700px){.plats{grid-template-columns:1fr}}
+
+/* ---------- la lettre signée (anim. 09 : la signature se trace) ---------- */
+.lettre{max-width:720px;margin:clamp(56px,9vw,120px) auto 0;padding:0 var(--m)}
+.lettre .feuille{background:var(--papier);border-radius:var(--r);padding:clamp(28px,6vw,64px);position:relative}
+.lettre p{margin:0 0 16px;font-size:clamp(17px,1rem + .3vw,19px)}
+.lettre .debut{font-family:var(--titre);font-size:clamp(1.6rem,1.2rem + 1.4vw,2.3rem);line-height:1.15;margin-bottom:22px}
+.signe{display:inline-block;margin-top:10px;font-family:var(--main);font-size:clamp(40px,6vw,58px);line-height:1;color:var(--tomate);clip-path:inset(0 100% 0 0);transition:clip-path 1.8s cubic-bezier(.5,0,.2,1) .2s}
+.on .signe{clip-path:inset(0 0 0 0)}
+.signe-trait{display:block;width:min(220px,60%);height:16px;margin-top:2px;overflow:visible}
+.signe-trait path{fill:none;stroke:var(--tomate);stroke-width:2.2;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .9s var(--e) 1.9s}
+.on .signe-trait path{stroke-dashoffset:0}
+
+/* ---------- questions : accordéon fluide (anim. 18) ---------- */
+.questions{max-width:860px;margin:clamp(56px,9vw,120px) auto 0;padding:0 var(--m)}
+.acc{margin-top:28px;border-top:1px solid var(--filet)}
+.acc-i{border-bottom:1px solid var(--filet)}
+.acc-i>button{width:100%;display:flex;justify-content:space-between;align-items:center;gap:20px;background:none;border:0;padding:22px 0;text-align:left;font-family:var(--titre);font-size:clamp(20px,1.1rem + .9vw,27px);cursor:pointer;min-height:44px}
+.acc-i>button::after{content:"";flex:none;width:16px;height:16px;background:linear-gradient(currentColor,currentColor) 50% 50%/100% 1.5px no-repeat,linear-gradient(currentColor,currentColor) 50% 50%/1.5px 100% no-repeat;transition:transform .5s var(--e)}
+.acc-i.open>button::after{transform:rotate(135deg)}
+.acc-b{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s var(--e)}
+.acc-i.open .acc-b{grid-template-rows:1fr}
+.acc-b>div{overflow:hidden}
+.acc-b p{margin:0;color:var(--doux);padding-bottom:22px;max-width:60ch;opacity:0;transform:translateY(-6px);transition:opacity .4s,transform .5s var(--e)}
+.acc-i.open .acc-b p{opacity:1;transform:none;transition-delay:.1s}
+
+/* ---------- réserver : comment ça se passe, puis le formulaire (anim. 26) ---------- */
+.resa{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(30px,6vw,90px);align-items:start}
+.etapes{list-style:none;margin:30px 0 0;padding:0;counter-reset:e}
+.etapes li{counter-increment:e;display:grid;grid-template-columns:48px minmax(0,1fr);gap:16px;padding:18px 0;border-top:1px solid rgba(63,81,54,.2)}
+.etapes li::before{content:counter(e);font-family:var(--titre);font-size:34px;line-height:1;color:var(--sauge-fonce)}
+.etapes b{display:block;font-weight:500}
+.etapes span{color:#4C5446;font-size:15px}
+form{background:var(--fond);border-radius:var(--r);padding:clamp(22px,4vw,40px)}
+.fl{position:relative;margin-bottom:10px}
+.fl input,.fl select{width:100%;background:none;border:0;border-bottom:1px solid var(--filet);padding:26px 0 10px;font-size:16px;outline:none;border-radius:0;-webkit-appearance:none;appearance:none}
+.fl label{position:absolute;left:0;top:24px;color:var(--doux);pointer-events:none;transform-origin:0 0;transition:transform .4s var(--e),color .3s}
+.fl input:focus+label,.fl input:not(:placeholder-shown)+label,.fl select+label{transform:translateY(-20px) scale(.78);color:var(--tomate)}
+.fl::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--tomate);transform:scaleX(0);transform-origin:0 50%;transition:transform .5s var(--e)}
+.fl:focus-within::after{transform:none}
+.deux{display:grid;grid-template-columns:1fr 1fr;gap:0 18px}
+.envoi{position:relative;margin-top:22px;width:230px;max-width:100%;transition:width .6s var(--e),background-color .4s}
+.envoi span{transition:opacity .25s}
+.envoi svg{position:absolute;inset:0;margin:auto;width:24px;height:24px;fill:none;stroke:#fff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.envoi .sp{stroke-dasharray:44 100;opacity:0;transform-origin:50% 50%}
+.envoi .ck{stroke-dasharray:1;stroke-dashoffset:1}
+.envoi.charge,.envoi.fait{width:52px;padding:0}
+.envoi.charge span,.envoi.fait span{opacity:0}
+.envoi.charge .sp{opacity:1;animation:tourne .8s linear infinite}
+.envoi.fait{background:var(--sauge-fonce)}
+.envoi.fait .ck{stroke-dashoffset:0;transition:stroke-dashoffset .5s .1s var(--e)}
+@keyframes tourne{to{transform:rotate(1turn)}}
+.merci{margin:16px 0 0;font-size:15px;color:var(--sauge-fonce);min-height:1.5em}
+@media (max-width:860px){.resa{grid-template-columns:1fr}}
+@media (max-width:420px){.deux{grid-template-columns:1fr}}
+
+/* ---------- nous trouver : l'itinéraire qui se trace depuis le port (anim. 42) ---------- */
+.trouver{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:clamp(28px,5vw,72px);align-items:center;margin-top:clamp(56px,9vw,120px)}
+.plan{background:var(--papier);border-radius:var(--r);padding:clamp(10px,2vw,18px)}
+.plan svg{display:block;width:100%;height:auto}
+.plan .rue{stroke:#E4D8C6;stroke-width:16;fill:none;stroke-linecap:round}
+.plan .mer{fill:#D7E3E6}
+.plan .rt{fill:none;stroke:var(--tomate);stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1}
+.plan.on .rt{stroke-dashoffset:0;transition:stroke-dashoffset 2.2s cubic-bezier(.6,0,.3,1) .2s}
+.plan .epingle{opacity:0;transform:translateY(-60px)}
+.plan.on .epingle{opacity:1;transform:none;transition:transform .7s 2.2s cubic-bezier(.3,1.8,.5,1),opacity .2s 2.2s}
+.plan .onde{fill:none;stroke:var(--tomate);stroke-width:2;opacity:0;transform-box:fill-box;transform-origin:center}
+.plan.on .onde{animation:onde 1.8s 2.9s ease-out infinite}
+@keyframes onde{0%{transform:scale(.4);opacity:.9}100%{transform:scale(2.6);opacity:0}}
+.plan text{font-family:var(--titre);font-style:italic;font-size:22px;fill:var(--doux)}
+.plan .depart{fill:var(--encre)}
+.infos{list-style:none;margin:24px 0 26px;padding:0}
+.infos li{display:grid;grid-template-columns:110px minmax(0,1fr);gap:14px;padding:14px 0;border-top:1px solid var(--filet)}
+.infos li span:first-child{font-family:var(--titre);font-style:italic;color:var(--doux)}
+@media (max-width:860px){.trouver{grid-template-columns:1fr}}
+
+/* ---------- la feuille des horaires qui monte du bas (anim. 36) ---------- */
+.voile{position:fixed;inset:0;z-index:60;background:rgba(43,38,32,.45);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);opacity:0;pointer-events:none;transition:opacity .4s}
+.voile.ouvert{opacity:1;pointer-events:auto}
+.feuille-h{position:fixed;left:50%;bottom:0;z-index:61;width:min(560px,100%);background:var(--fond);border-radius:26px 26px 0 0;padding:12px clamp(20px,5vw,34px) calc(28px + env(safe-area-inset-bottom));transform:translate(-50%,calc(105% + var(--dy,0px)));transition:transform .6s cubic-bezier(.3,1.25,.4,1);touch-action:none;visibility:hidden}
+.feuille-h.ouvert{transform:translate(-50%,var(--dy,0px));visibility:visible}
+.feuille-h.vit{transition:none}
+.feuille-h .grip{width:44px;height:5px;border-radius:3px;background:rgba(43,38,32,.22);margin:0 auto 18px}
+.feuille-h h3{font-size:30px;margin-bottom:12px}
+.feuille-h dl{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px 20px;margin:0}
+.feuille-h dt{color:var(--doux)}
+.feuille-h dd{margin:0;font-variant-numeric:tabular-nums;text-align:right}
+.feuille-h .aujourdhui{color:var(--tomate)}
+.feuille-h .fermer{margin-top:20px}
+
+/* ---------- pied de page : le nom géant, coupé par le bas ---------- */
+.pied{margin-top:clamp(70px,10vw,140px);background:var(--encre);color:#EDE6DA;padding:clamp(40px,6vw,70px) var(--m) 0;overflow:hidden}
+.pied-haut{max-width:1200px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px 40px;font-size:15px}
+.pied-haut a{color:#EDE6DA}
+.pied small{display:block;color:#A79E90;margin-top:6px;max-width:60ch}
+.geant{font-family:var(--titre);font-size:clamp(4.4rem,22vw,22rem);line-height:.8;letter-spacing:-.04em;white-space:nowrap;text-align:center;margin:clamp(30px,5vw,60px) 0 -.12em;color:#F3EBDD}
+.geant em{font-style:italic;color:var(--abricot)}
+
+/* ---------- la barre du bas sur téléphone, cachée tant que l'ouverture est visible ---------- */
+.barre{position:fixed;left:0;right:0;bottom:0;z-index:40;display:none;gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:rgba(251,246,238,.94);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-top:1px solid var(--filet);transform:translateY(110%);transition:transform .45s var(--e)}
+.barre.vue{transform:none}
+.barre a,.barre button{flex:1;min-height:48px;display:grid;place-items:center;border-radius:999px;text-decoration:none;font-weight:500;font-size:15px;background:var(--papier);border:0;cursor:pointer}
+.barre .btn{background:var(--tomate);color:#fff}
+@media (max-width:820px){.barre{display:flex}.pied{padding-bottom:84px}}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .rise,.flou .l,.zoom img{opacity:1!important;transform:none!important;filter:none!important}
+  .signe{clip-path:none}.signe-trait path,.mk path,.plan .rt{stroke-dashoffset:0}
+  .plan .epingle{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+<div class="demo">Site test du labo Saitora : restaurant imaginaire, photos libres, textes, prix et horaires d’exemple.</div>
+
+<header class="tete" id="tete">
+  <div class="page">
+    <a class="nom" href="#haut">A <em>Tavulata</em></a>
+    <nav class="nav" aria-label="Sections">
+      <a class="roule" href="#carte">La carte</a>
+      <a class="roule" href="#maison">La maison</a>
+      <a class="roule" href="#trouver">Nous trouver</a>
+      <a class="btn" href="#reserver">Réserver</a>
+    </nav>
+  </div>
+</header>
+
+<main id="haut">
+  <!-- l'ouverture « passe-partout » : la table dressée dans son cadre, le titre qui en chevauche le bord -->
+  <section class="ouv" aria-labelledby="t-ouv">
+    <div class="cadre">
+      <div class="photo zoom"><img src="images/ouverture.webp" alt="Une table dressée : on sert le vin, les assiettes arrivent" width="1600" height="1100" fetchpriority="high"></div>
+      <span class="pastille" style="--rot:-4deg;top:clamp(26px,5vw,64px);right:clamp(26px,5vw,64px)">de saison</span>
+      <h1 id="t-ouv" class="flou" aria-label="Ce matin au marché, ce soir dans l’assiette."><span class="mot">Ce</span> <span class="mot">matin</span> <span class="mot">au</span> <span class="mot">marché,</span> <span class="mot">ce</span> <span class="mot">soir</span> <em><span class="mot">dans</span> <span class="mot">l’assiette.</span></em></h1>
+      <div class="ouv-bas">
+        <div>
+          <p>Une petite salle de vingt-quatre couverts dans la vieille ville d’Ajaccio. La carte s’écrit chaque matin au marché, et change quand les étals changent.</p>
+          <div class="actions"><a class="btn" href="#reserver">Réserver une table</a><a class="lien" href="#carte">Voir la carte <i aria-hidden="true">→</i></a></div>
+        </div>
+        <!-- le prochain service, calculé sur les horaires (mardi à samedi midi et soir, dimanche midi, fermé le lundi) -->
+        <div class="service" aria-live="polite">
+          <p class="etiq" id="service-txt">Prochain service dans</p>
+          <div class="volets" aria-hidden="true"><div class="vu"><div class="fc" data-u="h"></div><small>heures</small></div><span class="deux-pts">:</span><div class="vu"><div class="fc" data-u="m"></div><small>minutes</small></div><span class="deux-pts">:</span><div class="vu"><div class="fc" data-u="s"></div><small>secondes</small></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- l'idée : glisser du marché à l'assiette -->
+  <section class="bloc sauge" aria-labelledby="t-idee">
+    <div class="bloc-in idee">
+      <div class="rise">
+        <p class="etiq">Notre façon de faire</p>
+        <h2 id="t-idee">Ce qui était beau <span class="mk">le matin<svg viewBox="0 0 200 20" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M3 12 C 40 2, 80 18, 120 9 S 180 6, 197 11"/></svg></span> finit dans <em>l’assiette</em>.</h2>
+        <p>À sept heures, on choisit au marché ce qui nous fait envie. À vingt heures, c’est dans votre assiette. Faites glisser pour voir le chemin.</p>
+      </div>
+      <div class="rise" style="--d:2">
+        <div class="ba" id="ba" role="slider" tabindex="0" aria-label="Du marché à l’assiette : faire glisser" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+          <img src="images/assiette-tomates.webp" alt="L’assiette du soir : spaghettis aux tomates et basilic" width="1600" height="1000" loading="lazy" decoding="async">
+          <img class="avant" src="images/marche-tomates.webp" alt="Le marché du matin : un étal de tomates" width="1600" height="1000" loading="lazy" decoding="async">
+          <span class="lb l1">7 h, au marché</span><span class="lb l2">20 h, à table</span><div class="poignee"></div>
+        </div>
+        <p class="ba-aide">Glissez le curseur, ou utilisez les flèches du clavier.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- la maison en trois rangées -->
+  <section class="page" id="maison" aria-label="La maison">
+    <div class="rangees">
+      <article class="rangee">
+        <div class="image rise"><div class="zoom"><img src="images/marche.webp" alt="Un étal de légumes au marché" width="1200" height="900" loading="lazy" decoding="async"></div><span class="pastille" style="--rot:5deg;left:18px;top:18px">du jour</span><span class="rond" aria-hidden="true"></span></div>
+        <div class="rise" style="--d:1">
+          <p class="etiq">Le marché</p>
+          <h3>Ce que le marché <em>donne</em>, ce matin-là.</h3>
+          <p>Pas de carte écrite d’avance : les maraîchers et les pêcheurs décident un peu pour nous. Trois entrées, trois plats, deux desserts, et c’est tout.</p>
+          <span class="chiffre"><b>8</b><span>plats à la carte, chaque jour</span></span>
+        </div>
+      </article>
+      <article class="rangee">
+        <div class="image rise"><div class="zoom"><img src="images/cuisine.webp" alt="En cuisine, une assiette se dresse" width="1200" height="900" loading="lazy" decoding="async"></div><span class="pastille" style="--rot:-5deg;right:18px;top:18px">fait maison</span><span class="rond" aria-hidden="true"></span></div>
+        <div class="rise" style="--d:1">
+          <p class="etiq">La cuisine</p>
+          <h3>Une cuisine <em>ouverte</em> sur la salle.</h3>
+          <p>On voit les assiettes partir, on entend la poêle. Les pâtes sont faites le matin, le pain vient du four du quartier.</p>
+          <span class="chiffre"><b>2</b><span>cuisiniers, et pas de micro-ondes</span></span>
+        </div>
+      </article>
+      <article class="rangee">
+        <div class="image rise"><div class="zoom"><img src="images/salle.webp" alt="La salle, ses lampes et sa fenêtre sur la rue" width="1200" height="900" loading="lazy" decoding="async"></div><span class="rond" aria-hidden="true"></span></div>
+        <div class="rise" style="--d:1">
+          <p class="etiq">La salle</p>
+          <h3>Vingt-quatre couverts, <em>pas un de plus</em>.</h3>
+          <p>Six tables près de la fenêtre et une grande tablée au fond, pour les anniversaires et les retrouvailles.</p>
+          <span class="chiffre"><b>24</b><span>couverts dans la salle</span></span>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- la carte, en onglets -->
+  <section class="bloc abricot" id="carte" aria-labelledby="t-carte">
+    <div class="bloc-in">
+      <div class="carte-tete rise">
+        <div><p class="etiq">La carte de la semaine</p><h2 id="t-carte">Ce qu’on <em>sert</em>.</h2></div>
+        <div class="onglets" role="tablist" aria-label="Moment du repas"><span class="pill" aria-hidden="true"></span>
+          <button role="tab" id="o-midi" aria-selected="true" aria-controls="v-midi" type="button">Le midi</button>
+          <button role="tab" id="o-soir" aria-selected="false" aria-controls="v-soir" type="button" tabindex="-1">Le soir</button>
+          <button role="tab" id="o-dim" aria-selected="false" aria-controls="v-dim" type="button" tabindex="-1">Le dimanche</button>
+        </div>
+      </div>
+      <div class="volets-carte rise" style="--d:1">
+        <div class="volet on" id="v-midi" role="tabpanel" aria-labelledby="o-midi">
+          <p>Formule entrée, plat, café en quarante-cinq minutes, pour ceux qui retournent travailler.</p>
+          <ul class="plats">
+            <li><b>Formule du marché</b><span>Entrée et plat du jour, café</span><em>21&nbsp;€</em></li>
+            <li><b>Plat du jour seul</b><span>Selon l’étal du matin</span><em>15&nbsp;€</em></li>
+            <li><b>Soupe de saison</b><span>Pain grillé, huile d’olive de la vallée</span><em>8&nbsp;€</em></li>
+            <li><b>Tarte du moment</b><span>Fruits du marché</span><em>7&nbsp;€</em></li>
+          </ul>
+        </div>
+        <div class="volet" id="v-soir" role="tabpanel" aria-labelledby="o-soir" hidden>
+          <p>La carte entière, et des assiettes à partager au centre de la table.</p>
+          <ul class="plats">
+            <li><b>Spaghettis aux tomates du marché</b><span>Basilic, parmesan de vingt-quatre mois</span><em>18&nbsp;€</em></li>
+            <li><b>Poisson de la pêche du jour</b><span>Légumes rôtis, sauce vierge</span><em>26&nbsp;€</em></li>
+            <li><b>Assiette à partager</b><span>Charcuterie, fromage, confiture de figues</span><em>22&nbsp;€</em></li>
+            <li><b>Fiadone</b><span>Le gâteau au brocciu, citron</span><em>8&nbsp;€</em></li>
+          </ul>
+        </div>
+        <div class="volet" id="v-dim" role="tabpanel" aria-labelledby="o-dim" hidden>
+          <p>Une grande table, les plats au centre, de midi à quinze heures.</p>
+          <ul class="plats">
+            <li><b>Le déjeuner du dimanche</b><span>Trois plats à partager, dessert</span><em>32&nbsp;€</em></li>
+            <li><b>Pour les enfants</b><span>Pâtes au beurre, glace</span><em>11&nbsp;€</em></li>
+          </ul>
+        </div>
+      </div>
+      <p class="note">Prix et plats d’exemple, à remplacer par ceux du restaurant.</p>
+    </div>
+  </section>
+
+  <!-- la lettre signée -->
+  <section class="lettre" aria-labelledby="t-lettre">
+    <div class="feuille rise" id="lettre">
+      <h2 id="t-lettre" class="debut">Bonjour, et bienvenue à table.</h2>
+      <p>On a ouvert A Tavulata pour cuisiner comme on aime manger : simplement, avec ce qui est bon le jour même. Pas de carte de quarante plats, pas de surgelés, pas de promesses qu’on ne tient pas.</p>
+      <p>Le matin on va au marché, l’après-midi on prépare, le soir on vous reçoit. Si un plat vous a plu, dites-le-nous : il reviendra peut-être la semaine prochaine.</p>
+      <span class="signe">Lisa &amp; Marc</span>
+      <svg class="signe-trait" viewBox="0 0 220 16" aria-hidden="true"><path pathLength="1" d="M4 10 C 40 4, 70 14, 110 8 S 180 4, 214 9"/></svg>
+    </div>
+  </section>
+
+  <!-- les questions -->
+  <section class="questions" aria-labelledby="t-q">
+    <p class="etiq rise">Avant de venir</p>
+    <h2 id="t-q" class="rise">Vos <em>questions</em>.</h2>
+    <div class="acc rise" style="--d:1">
+      <div class="acc-i open"><button type="button" aria-expanded="true">Faut-il réserver ?</button><div class="acc-b"><div><p>Le soir et le dimanche, oui : la salle est petite. Le midi, on garde toujours deux tables pour ceux qui passent.</p></div></div></div>
+      <div class="acc-i"><button type="button" aria-expanded="false">Y a-t-il des plats végétariens ?</button><div class="acc-b"><div><p>Toujours au moins une entrée et un plat, qui changent avec le marché. Dites-nous vos allergies en réservant.</p></div></div></div>
+      <div class="acc-i"><button type="button" aria-expanded="false">Peut-on venir en groupe ?</button><div class="acc-b"><div><p>La grande tablée du fond accueille jusqu’à douze personnes. Au-delà, on peut privatiser la salle le lundi.</p></div></div></div>
+      <div class="acc-i"><button type="button" aria-expanded="false">Les enfants sont-ils bienvenus ?</button><div class="acc-b"><div><p>Bien sûr : il y a des chaises hautes et une assiette pour eux le dimanche.</p></div></div></div>
+    </div>
+  </section>
+
+  <!-- réserver -->
+  <section class="bloc sauge" id="reserver" aria-labelledby="t-resa">
+    <div class="bloc-in resa">
+      <div class="rise">
+        <p class="etiq">Réserver</p>
+        <h2 id="t-resa">Une table, <em>trois</em> étapes.</h2>
+        <ol class="etapes">
+          <li><div><b>Vous envoyez la demande</b><span>Le jour, l’heure et le nombre de personnes.</span></div></li>
+          <li><div><b>On vous rappelle</b><span>Dans l’heure pendant le service, le matin sinon.</span></div></li>
+          <li><div><b>La table vous attend</b><span>On la garde quinze minutes après l’heure prévue.</span></div></li>
+        </ol>
+      </div>
+      <form class="rise" style="--d:2" id="form" novalidate>
+        <div class="fl"><input id="f-nom" name="nom" type="text" placeholder=" " autocomplete="name" required><label for="f-nom">Votre nom</label></div>
+        <div class="fl"><input id="f-tel" name="tel" type="tel" inputmode="tel" placeholder=" " autocomplete="tel" required><label for="f-tel">Votre téléphone</label></div>
+        <div class="deux">
+          <div class="fl"><input id="f-jour" name="jour" type="date" placeholder=" " required><label for="f-jour">Le jour</label></div>
+          <div class="fl"><select id="f-n" name="n"><option>2 personnes</option><option>3 personnes</option><option>4 personnes</option><option>5 personnes</option><option>6 personnes</option><option>Plus de 6</option></select><label for="f-n">Combien</label></div>
+        </div>
+        <button class="btn envoi" type="submit"><span>Envoyer la demande</span><svg viewBox="0 0 26 26" aria-hidden="true"><circle class="sp" cx="13" cy="13" r="10"/><path class="ck" pathLength="1" d="M6 13.5l4.5 4.5L20 8.5"/></svg></button>
+        <p class="merci" id="merci" role="status"></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- nous trouver : depuis le port, l'itinéraire se trace -->
+  <section class="page" id="trouver" aria-labelledby="t-trouver">
+    <div class="trouver">
+      <div class="plan rise" id="plan" role="img" aria-label="Plan : depuis le port, cinq minutes à pied par la rue du marché jusqu’au restaurant">
+        <svg viewBox="0 0 640 420" aria-hidden="true">
+          <path class="mer" d="M0 300 C 90 280, 150 330, 230 320 S 360 360, 420 420 L0 420 Z"/>
+          <path class="rue" d="M60 250 L 250 210 L 330 120 L 560 90"/>
+          <path class="rue" d="M250 210 L 420 260 L 600 240"/>
+          <path class="rue" d="M330 120 L 300 30"/>
+          <path class="rue" d="M420 260 L 470 150 L 560 90"/>
+          <text x="40" y="380">Le port</text>
+          <text x="345" y="205">la place du marché</text>
+          <circle class="depart" cx="70" cy="250" r="9"/>
+          <path class="rt" pathLength="1" d="M70 250 L 250 210 L 330 120 L 470 101 L 548 92"/>
+          <circle class="onde" cx="552" cy="88" r="16"/>
+          <g class="epingle"><path d="M552 86 c-16 0 -28 -12 -28 -28 c0 -18 14 -30 28 -30 s28 12 28 30 c0 16 -12 28 -28 28 z" fill="#C9492F"/><circle cx="552" cy="58" r="10" fill="#FBF6EE"/></g>
+          <text x="470" y="140">A Tavulata</text>
+        </svg>
+      </div>
+      <div class="rise" style="--d:1">
+        <p class="etiq">Nous trouver</p>
+        <h2 id="t-trouver">À cinq minutes <em>du port</em>.</h2>
+        <ul class="infos">
+          <li><span>Adresse</span><span>Vieille ville d’Ajaccio (adresse d’exemple)</span></li>
+          <li><span>Téléphone</span><span>04 95 00 00 00 (numéro d’exemple)</span></li>
+          <li><span>Aujourd’hui</span><span id="auj-txt">…</span></li>
+        </ul>
+        <div class="actions"><button class="btn" type="button" id="voir-horaires">Voir les horaires</button><a class="lien" href="#reserver">Réserver <i aria-hidden="true">→</i></a></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="pied">
+  <div class="pied-haut">
+    <div>Cuisine de marché · vieille ville d’Ajaccio<small>Site test du labo Saitora. Restaurant imaginaire ; photos Pixabay (licence libre) : elle_kh, Lens_and_Light, Hansuan_Fabregas, Kamali_1922, Pexels, Madun_Digital.</small></div>
+    <a href="../">Retour au labo</a>
+  </div>
+  <p class="geant" aria-hidden="true">A <em>Tavulata</em></p>
+</footer>
+
+<div class="barre" id="barre"><a href="tel:+33495000000">Appeler</a><a class="btn" href="#reserver">Réserver</a><button type="button" id="voir-horaires-2">Horaires</button></div>
+
+<div class="voile" id="voile"></div>
+<div class="feuille-h" id="feuille" role="dialog" aria-modal="true" aria-labelledby="t-horaires">
+  <div class="grip" aria-hidden="true"></div>
+  <h3 id="t-horaires">Horaires</h3>
+  <dl id="horaires-liste"></dl>
+  <button type="button" class="lien fermer" id="fermer-horaires">Fermer <i aria-hidden="true">×</i></button>
+</div>
+
+<script>
+(() => {
+  const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const borne = (v, a, b) => Math.max(a, Math.min(b, v)), calme = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* les horaires (d'exemple) : [jour 0 = dimanche] → services [début, fin] en minutes */
+  const JOURS = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
+  const SERVICES = { 0: [[720, 900]], 1: [], 2: [[720, 870], [1140, 1350]], 3: [[720, 870], [1140, 1350]], 4: [[720, 870], [1140, 1350]], 5: [[720, 870], [1140, 1350]], 6: [[720, 870], [1140, 1350]] };
+  const hm = m => `${Math.floor(m / 60)} h${m % 60 ? " " + String(m % 60).padStart(2, "0") : ""}`;
+  const plage = s => s.length ? s.map(([a, b]) => `${hm(a)} – ${hm(b)}`).join(" · ") : "fermé";
+
+  /* ---------- anim. 15 : les liens à lettres roulantes ---------- */
+  $$(".roule").forEach(a => { const t = a.textContent; a.setAttribute("aria-label", t);
+    a.innerHTML = [...t].map((c, i) => `<span class="ch" aria-hidden="true" style="--i:${i}" data-c="${c === " " ? " " : c}">${c === " " ? "&nbsp;" : c}</span>`).join(""); });
+
+  /* ---------- anim. 30 : le grand titre, lettre à lettre ---------- */
+  { const h = $(".flou"); let i = 0;
+    h.querySelectorAll(".mot").forEach(m => { m.innerHTML = [...m.textContent].map(c => `<span class="l" style="--i:${i++}">${c}</span>`).join(""); m.setAttribute("aria-hidden", "true"); });
+    requestAnimationFrame(() => setTimeout(() => h.classList.add("on"), calme ? 0 : 250)); }
+
+  /* ---------- apparitions (anim. 02), photos en zoom lent (seulement une fois l'image chargée) ---------- */
+  const io = new IntersectionObserver(es => { for (const e of es) if (e.isIntersecting) { const t = e.target; io.unobserve(t);
+    const img = t.matches(".zoom") ? t.querySelector("img") : null;
+    if (img && img.decode) img.decode().catch(() => {}).then(() => t.classList.add("on")); else t.classList.add("on"); } }, { threshold: .2 });
+  $$(".rise, .zoom").forEach(el => io.observe(el));
+  /* la photo d'ouverture, tout de suite */
+  { const z = $(".cadre .zoom"), img = z.querySelector("img"); io.unobserve(z); (img.decode ? img.decode() : Promise.resolve()).catch(() => {}).then(() => z.classList.add("on")); }
+
+  /* ---------- anim. 39 : le prochain service, en volets ---------- */
+  { const fcs = {}; $$(".fc").forEach(el => { el.innerHTML = '<b class="t"></b><b class="b"></b><b class="ft"></b><b class="fb"></b>'; fcs[el.dataset.u] = { el, v: null }; });
+    const pose = (u, v) => { const o = fcs[u], s = String(v).padStart(2, "0"); if (o.v === s) return; const [t, b, ft, fb] = o.el.children, ancien = o.v; o.v = s;
+      if (ancien === null || calme || !t.animate) { t.textContent = b.textContent = ft.textContent = fb.textContent = s; ft.style.visibility = "hidden"; return; }
+      t.textContent = s; ft.textContent = ancien; fb.textContent = s; ft.style.visibility = "visible";
+      ft.animate([{ transform: "rotateX(0deg)" }, { transform: "rotateX(-90deg)" }], { duration: 260, easing: "ease-in", fill: "forwards" });
+      fb.animate([{ transform: "rotateX(90deg)" }, { transform: "rotateX(0deg)" }], { duration: 300, delay: 260, easing: "cubic-bezier(.2,1.3,.5,1)", fill: "forwards" }).onfinish = () => { b.textContent = s; }; };
+    /* le prochain moment qui compte : la fin du service en cours, ou le début du suivant (on regarde jusqu'à une semaine) */
+    const prochain = () => { const n = new Date(), m = n.getHours() * 60 + n.getMinutes() + n.getSeconds() / 60;
+      for (const [a, b] of SERVICES[n.getDay()]) if (m >= a && m < b) { const fin = new Date(n); fin.setHours(0, b, 0, 0); return { ouvert: true, quand: fin }; }
+      for (let k = 0; k < 8; k++) { const d = new Date(n); d.setDate(d.getDate() + k); for (const [a] of SERVICES[d.getDay()]) { const deb = new Date(d); deb.setHours(0, a, 0, 0); if (deb > n) return { ouvert: false, quand: deb }; } }
+      return { ouvert: false, quand: n }; };
+    const tic = () => { const p = prochain(), r = Math.max(0, Math.floor((p.quand - Date.now()) / 1000));
+      $("#service-txt").textContent = p.ouvert ? "La cuisine est ouverte encore" : "Prochain service dans";
+      pose("h", Math.min(99, Math.floor(r / 3600))); pose("m", Math.floor(r / 60) % 60); pose("s", r % 60); };
+    tic(); setInterval(tic, 250);
+    const d = new Date().getDay(); $("#auj-txt").textContent = `${JOURS[d]} : ${plage(SERVICES[d])}`;
+    $("#horaires-liste").innerHTML = [2, 3, 4, 5, 6, 0, 1].map(j => `<dt class="${j === d ? "aujourdhui" : ""}">${JOURS[j]}</dt><dd class="${j === d ? "aujourdhui" : ""}">${plage(SERVICES[j])}</dd>`).join(""); }
+
+  /* ---------- anim. 20 : du marché à l'assiette ---------- */
+  { const ba = $("#ba"); let p = 50, tient = false; const pose = v => { p = borne(v, 0, 100); ba.style.setProperty("--p", p + "%"); ba.setAttribute("aria-valuenow", Math.round(p)); };
+    const a = e => { const r = ba.getBoundingClientRect(); pose((e.clientX - r.left) / r.width * 100); };
+    ba.addEventListener("pointerdown", e => { tient = true; try { ba.setPointerCapture(e.pointerId); } catch (x) {} a(e); });
+    ba.addEventListener("pointermove", e => { if (tient) a(e); });
+    const lache = () => { tient = false; }; ba.addEventListener("pointerup", lache); ba.addEventListener("pointercancel", lache);
+    ba.addEventListener("keydown", e => { if (e.key === "ArrowLeft") { pose(p - 5); e.preventDefault(); } if (e.key === "ArrowRight") { pose(p + 5); e.preventDefault(); } }); }
+
+  /* ---------- anim. 17 : la carte en onglets ---------- */
+  { const ons = $$(".onglets button"), pill = $(".pill"), vs = $$(".volet");
+    const choisit = (i, focus) => { ons.forEach((o, k) => { o.setAttribute("aria-selected", String(k === i)); o.tabIndex = k === i ? 0 : -1; });
+      vs.forEach((v, k) => { v.classList.toggle("on", k === i); v.hidden = k !== i; });
+      pill.style.width = ons[i].offsetWidth + "px"; pill.style.transform = `translateX(${ons[i].offsetLeft - 5}px)`; if (focus) ons[i].focus(); };
+    ons.forEach((o, i) => { o.addEventListener("click", () => choisit(i)); o.addEventListener("keydown", e => { if (e.key === "ArrowRight") choisit((i + 1) % ons.length, true); if (e.key === "ArrowLeft") choisit((i + ons.length - 1) % ons.length, true); }); });
+    const actuel = () => ons.findIndex(o => o.getAttribute("aria-selected") === "true");
+    choisit(0); addEventListener("resize", () => choisit(actuel())); document.fonts && document.fonts.ready.then(() => choisit(actuel())); }
+
+  /* ---------- anim. 18 : l'accordéon des questions ---------- */
+  $$(".acc-i > button").forEach(b => b.addEventListener("click", () => { const it = b.parentElement, o = !it.classList.contains("open");
+    $$(".acc-i").forEach(x => { x.classList.remove("open"); x.firstElementChild.setAttribute("aria-expanded", "false"); });
+    if (o) { it.classList.add("open"); b.setAttribute("aria-expanded", "true"); } }));
+
+  /* ---------- anim. 26 : le formulaire (site test : rien n'est envoyé) ---------- */
+  { const f = $("#form"), b = $(".envoi"), merci = $("#merci"); $("#f-jour").min = new Date().toISOString().slice(0, 10);
+    f.addEventListener("submit", e => { e.preventDefault(); if (b.classList.contains("charge") || b.classList.contains("fait")) return;
+      const vide = [...f.querySelectorAll("[required]")].find(x => !x.value.trim()); if (vide) { merci.textContent = "Il manque une information."; vide.focus(); return; }
+      merci.textContent = ""; b.classList.add("charge");
+      setTimeout(() => { b.classList.remove("charge"); b.classList.add("fait"); merci.textContent = "Merci ! (Site test : la demande n’est envoyée nulle part.)"; setTimeout(() => b.classList.remove("fait"), 3200); }, calme ? 0 : 1300); }); }
+
+  /* ---------- anim. 42 : l'itinéraire depuis le port ---------- */
+  new IntersectionObserver((es, o) => { if (es[0].isIntersecting) { o.disconnect(); setTimeout(() => $("#plan").classList.add("on"), 200); } }, { threshold: .45 }).observe($("#plan"));
+
+  /* ---------- anim. 36 : la feuille des horaires qui monte du bas ---------- */
+  { const fe = $("#feuille"), vo = $("#voile"); let y0 = null, dy = 0, avant = null;
+    const ouvre = () => { avant = document.activeElement; fe.classList.add("ouvert"); vo.classList.add("ouvert"); setTimeout(() => $("#fermer-horaires").focus(), 50); };
+    const ferme = () => { fe.classList.remove("ouvert"); vo.classList.remove("ouvert"); fe.style.removeProperty("--dy"); if (avant) avant.focus(); };
+    $("#voir-horaires").addEventListener("click", ouvre); $("#voir-horaires-2").addEventListener("click", ouvre); $("#fermer-horaires").addEventListener("click", ferme); vo.addEventListener("click", ferme);
+    addEventListener("keydown", e => { if (e.key === "Escape" && fe.classList.contains("ouvert")) ferme(); });
+    fe.addEventListener("pointerdown", e => { if (e.target.closest("button")) return; y0 = e.clientY; dy = 0; fe.classList.add("vit"); try { fe.setPointerCapture(e.pointerId); } catch (x) {} });
+    fe.addEventListener("pointermove", e => { if (y0 === null) return; dy = Math.max(-20, e.clientY - y0); fe.style.setProperty("--dy", dy + "px"); });
+    const lache = () => { if (y0 === null) return; y0 = null; fe.classList.remove("vit"); if (dy > 70) ferme(); else fe.style.removeProperty("--dy"); };
+    fe.addEventListener("pointerup", lache); fe.addEventListener("pointercancel", lache); }
+
+  /* ---------- l'en-tête et la barre du bas (cachée tant que l'ouverture est visible) ---------- */
+  { const tete = $("#tete"), barre = $("#barre"), ouv = $(".ouv-bas");
+    new IntersectionObserver(([e]) => barre.classList.toggle("vue", !e.isIntersecting && e.boundingClientRect.top < 0)).observe(ouv);
+    addEventListener("scroll", () => tete.classList.toggle("pleine", scrollY > 10), { passive: true }); }
+})();
+</script>
+</body>
+</html>

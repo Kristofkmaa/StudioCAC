@@ -35,7 +35,7 @@ Les pages du site sont à la racine (leur place donne leur adresse sur saitora.f
   - `photos.py` : Pixabay (clé dans la variable `PIXABAY_API_KEY`, jamais écrite nulle part).
   - `saitorapp.py` : fabrique les applis Saitorapp.
 - **Guide photo pour les clients** : `photos.html` (`photos.html?metier=Restaurant`), relié depuis la charte et la fin du devis.
-- **Le labo** (`labo/`, non indexé, règles dans `labo/LISEZMOI.md`) : 01 la mer en shader ; 02 la Corse en 3D ; 04 et 05 Libecciu en Astro et en Next.js ; 06 le comparatif mesuré ; 07 douze composants de la communauté essayés ; 10 l'accueil « abysse » (devenu le vrai) ; 11 A Funtana en papier ; 12 U Fucone (devenue une vraie démo, détail dans son `NOTES.md`). Supprimés : 03 configurateur et 09 parchemin (abandonnés, 31 octobre 2026), 13 Bois Massif façon ORYZO, l'essai Garage Santoni en Caldera.
+- **Le labo** (`labo/`, non indexé, règles dans `labo/LISEZMOI.md`) : 01 la mer en shader ; 02 la Corse en 3D ; 04 et 05 Libecciu en Astro et en Next.js ; 06 le comparatif mesuré ; 07 douze composants de la communauté essayés ; 10 l'accueil « abysse » (devenu le vrai) ; 11 A Funtana en papier ; 12 U Fucone (devenue une vraie démo, détail dans son `NOTES.md`). 14 A Tavulata, un restaurant imaginaire monté avec douze animations du fichier « Mouvements, 44 animations » de l’utilisateur (10 novembre 2026, détail dans son `NOTES.md`). Supprimés : 03 configurateur et 09 parchemin (abandonnés, 31 octobre 2026), 13 Bois Massif façon ORYZO, l'essai Garage Santoni en Caldera.
 
 ## Décisions prises
 

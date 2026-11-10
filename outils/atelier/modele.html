@@ -1,0 +1,385 @@
+<title>Atelier Saitora</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="__POLICES__">
+<style>
+/* L'atelier Saitora : on choisit le projet, le genre, la composition et les animations ; la page écrit le prompt à coller dans une session.
+   Page fabriquée par outils/atelier/construire.py à partir de ce modèle : ne pas modifier index.html à la main.
+   Une colonne de six étapes numérotées, une barre fixe en bas qui tient le prompt prêt. Sombre d'abord, comme saitora.fr. */
+:root{--bg:#012624;--surface:#003734;--surface-2:#04443F;--ink:#FFFFFF;--muted:#BBC7C6;--line:rgba(255,255,255,.14);--accent:#CBFFFC;--rose:#FAD1FF;--ok:#9FE0B1;--warn:#F0CF8A;--on-accent:#012624;
+  --titre:"Inter Tight",ui-sans-serif,system-ui,sans-serif;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;color-scheme:dark}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#F1FAF8;--surface:#E2F2EF;--surface-2:#D3EAE6;--ink:#012624;--muted:#3F5452;--line:rgba(1,38,36,.18);--accent:#007A72;--rose:#8E2BAB;--ok:#1E7A3C;--warn:#8A5A00;--on-accent:#FFFFFF;color-scheme:light}}
+:root[data-theme="light"]{--bg:#F1FAF8;--surface:#E2F2EF;--surface-2:#D3EAE6;--ink:#012624;--muted:#3F5452;--line:rgba(1,38,36,.18);--accent:#007A72;--rose:#8E2BAB;--ok:#1E7A3C;--warn:#8A5A00;--on-accent:#FFFFFF;color-scheme:light}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--muted);font:400 16px/1.5 var(--titre);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-top:clamp(28px,6vw,64px);padding-bottom:calc(120px + env(safe-area-inset-bottom,0px));overflow-x:clip}
+.page{max-width:1040px;margin:0 auto;display:grid;gap:clamp(28px,5vw,52px);min-width:0}
+h1{margin:0;color:var(--ink);font-weight:500;font-size:clamp(2.4rem,1.4rem + 5vw,4.6rem);letter-spacing:-.05em;line-height:.96}
+h2{margin:0;color:var(--ink);font-weight:500;font-size:clamp(1.5rem,1.2rem + 1.4vw,2.1rem);letter-spacing:-.035em;line-height:1.05}
+h3{margin:0;color:var(--ink);font-weight:500;font-size:1rem;letter-spacing:-.01em}
+p{margin:0;max-width:64ch}
+a{color:var(--accent)}
+.intro{font-size:clamp(1.05rem,1rem + .4vw,1.25rem);color:var(--ink);opacity:.85}
+.plan{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:14px;padding:0;margin:0;list-style:none}
+.plan a{color:var(--muted);text-decoration:none;display:inline-flex;gap:6px;min-height:32px;align-items:center}
+.plan a b{color:var(--rose);font-weight:400;font-variant-numeric:tabular-nums}
+.plan a:hover{color:var(--ink)}
+.etape{display:grid;gap:18px;min-width:0;scroll-margin-top:16px;border-top:1px solid var(--line);padding-top:clamp(20px,3vw,32px)}
+.tete{display:grid;gap:8px}
+.num{font-size:13px;color:var(--rose);font-variant-numeric:tabular-nums;letter-spacing:.08em}
+.note{font-size:14px}
+.panneau{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:clamp(16px,3vw,28px);display:grid;gap:16px;min-width:0}
+.champs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:14px}
+label.ch{font-size:14px;display:grid;gap:6px;min-width:0}
+label.ch.large{grid-column:1/-1}
+input[type=text],input[type=url],textarea,select{width:100%;min-width:0;font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+textarea{min-height:96px;resize:vertical}
+input[type=color]{width:56px;height:46px;padding:2px;border:1px solid var(--line);border-radius:10px;background:var(--bg)}
+.rang{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+button{font:500 15px/1.15 var(--titre);min-height:46px;padding:8px 20px;border-radius:999px;border:1px solid var(--line);background:none;color:var(--ink);cursor:pointer}
+button.plein{background:var(--accent);color:var(--on-accent);border-color:transparent}
+button:disabled{opacity:.45;cursor:default}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--rose);outline-offset:3px}
+/* les choix : des pastilles qu'on allume */
+.puce{min-height:44px;padding:6px 14px;border-radius:999px;font-size:14px;font-weight:400;display:inline-flex;align-items:center;gap:8px}
+.puce[aria-pressed=true]{background:var(--accent);color:var(--on-accent);border-color:transparent;font-weight:500}
+.puce small{font-size:12px;opacity:.7;font-variant-numeric:tabular-nums}
+.puce.hors{border-style:dashed;opacity:.72}
+.coche{display:inline-flex;align-items:center;gap:10px;min-height:44px;font-size:15px;color:var(--ink);cursor:pointer}
+.coche input{width:20px;height:20px;accent-color:var(--accent);flex:none}
+/* les genres */
+.genres{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:14px}
+.genre{display:grid;gap:10px;align-content:start;text-align:left;padding:10px;border-radius:16px;min-height:0;background:var(--surface);font-weight:400;line-height:1.4}
+.genre .vue{border-radius:9px;overflow:hidden;border:1px solid var(--line);display:block}
+.genre .gn{color:var(--ink);font-weight:500;font-size:16px;padding:0 4px;display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.genre .gn small{font-size:12px;color:var(--muted);font-weight:400;white-space:nowrap}
+.genre .ga{font-size:14px;color:var(--muted);padding:0 4px 4px}
+.genre[aria-pressed=true]{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent)}
+.genre.hasard{place-content:center;text-align:center;min-height:120px;border-style:dashed}
+/* la composition */
+.fam{border-top:1px solid var(--line)}
+.fam:first-of-type{border-top:0}
+.fam summary{display:flex;justify-content:space-between;gap:14px;align-items:center;min-height:52px;cursor:pointer;list-style:none;color:var(--ink)}
+.fam summary::-webkit-details-marker{display:none}
+.fam summary .fv{font-size:14px;color:var(--muted);text-align:right}
+.fam summary .fv.pris{color:var(--accent)}
+.fam .corps{display:grid;gap:12px;padding:4px 0 18px}
+.fam .fd{font-size:14px;min-height:2.8em}
+/* les animations */
+.anims{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:10px}
+.anim{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;align-items:start;min-width:0}
+.anim.pris{border-color:var(--accent)}
+.anim input{width:22px;height:22px;margin-top:2px;accent-color:var(--accent)}
+.anim label{display:contents;cursor:pointer}
+.anim .an{color:var(--ink);font-weight:500;font-size:15px;line-height:1.25}
+.anim .an b{color:var(--rose);font-weight:400;font-variant-numeric:tabular-nums;margin-right:6px}
+.anim .ap{grid-column:2;font-size:14px}
+.anim .ag{grid-column:2;font-size:13px;color:var(--warn)}
+.anim .voir{grid-column:2;justify-self:start;min-height:36px;padding:4px 14px;font-size:13px;margin-top:4px}
+dialog{width:min(100% - 24px,900px);max-width:none;padding:0;border:1px solid var(--line);border-radius:16px;background:var(--surface);color:var(--ink)}
+dialog::backdrop{background:rgba(0,0,0,.6)}
+dialog .vt{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 12px 10px 18px}
+dialog iframe{display:block;width:100%;height:min(68vh,560px);border:0;background:#0d0c0b}
+dialog .note{padding:10px 18px 14px;max-width:none}
+/* le prompt */
+#prompt{min-height:340px;font:13px/1.55 var(--mono);white-space:pre-wrap;overflow-wrap:anywhere}
+.sortie{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:14px 16px;color:var(--ink);white-space:pre-wrap;overflow-wrap:anywhere}
+.sortie:empty{display:none}
+.barre{position:fixed;left:0;right:0;bottom:0;z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--line);
+  padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.barre>div{max-width:1040px;margin:0 auto;display:flex;gap:12px;align-items:center;justify-content:space-between}
+.barre p{font-size:14px;color:var(--ink);min-width:0;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.barre button{flex:none}
+[hidden]{display:none!important}
+@media (hover:hover){button:not(:disabled):not(.plein):not([aria-pressed=true]):hover{border-color:var(--accent)}}
+@media (prefers-reduced-motion:no-preference){.pense::after{content:"…";animation:pts 1.2s steps(4) infinite}@keyframes pts{0%{content:""}25%{content:"."}50%{content:".."}75%{content:"..."}}}
+</style>
+
+<main class="page">
+  <header style="display:grid;gap:16px">
+    <p class="num">SAITORA · L’ATELIER</p>
+    <h1>Préparer un site</h1>
+    <p class="intro">Choisis le projet, le genre et les animations. À la fin, tu repars avec le texte à coller dans une session : tout y est décidé, je n’ai plus qu’à construire.</p>
+    <ul class="plan" aria-label="Les étapes">
+      <li><a href="#s1"><b>01</b>Le projet</a></li><li><a href="#s2"><b>02</b>Le genre</a></li><li><a href="#s3"><b>03</b>La composition</a></li>
+      <li><a href="#s4"><b>04</b>Les animations</a></li><li><a href="#s5"><b>05</b>Tes consignes</a></li><li><a href="#s6"><b>06</b>Le prompt</a></li>
+    </ul>
+  </header>
+
+  <section class="etape" id="s1" aria-labelledby="t1">
+    <div class="tete"><p class="num">01</p><h2 id="t1">Le projet</h2><p>Seul le nom est obligatoire. Plus tu en dis, moins j’invente.</p></div>
+    <div class="rang" id="types" role="group" aria-label="Type de projet"></div>
+    <div class="panneau">
+      <div class="champs">
+        <label class="ch" id="l-nom">Nom du commerce<input type="text" id="nom" autocomplete="off" placeholder="Chez Margot"></label>
+        <label class="ch" id="l-refaire" hidden>Le site à refaire<select id="refaire"></select></label>
+        <label class="ch">Métier<input type="text" id="metier" autocomplete="off" list="metiers" placeholder="Restaurant"></label>
+        <label class="ch">Ville ou lieu<input type="text" id="ville" autocomplete="off" placeholder="Ajaccio"></label>
+        <label class="ch large">Lien de charte reçu par le devis (si tu l’as)<input type="url" id="charte" autocomplete="off" inputmode="url" placeholder="https://saitora.fr/charte.html?voir=…"></label>
+        <label class="ch large" id="l-ancien">Adresse de son site actuel (s’il en a un)<input type="url" id="ancien" autocomplete="off" inputmode="url" placeholder="https://…"></label>
+      </div>
+      <datalist id="metiers"><option>Restaurant<option>Boulangerie<option>Gîte, maison d’hôtes<option>Hôtel<option>Salon de coiffure<option>Institut de beauté<option>Artisan du bâtiment<option>Garage<option>Boutique<option>Fleuriste<option>Cave, bar à vins<option>Cabinet<option>Salle de sport<option>Agence immobilière</datalist>
+      <label class="coche"><input type="checkbox" id="couleurs">Je connais déjà ses couleurs</label>
+      <div class="rang" id="z-couleurs" hidden>
+        <label class="ch">Principale<input type="color" id="c1"></label>
+        <label class="ch">Fond<input type="color" id="c2"></label>
+        <label class="ch">Boutons<input type="color" id="c3"></label>
+        <label class="coche"><input type="checkbox" id="coulApercu">Les voir sur les aperçus de genre</label>
+      </div>
+      <div style="display:grid;gap:8px"><h3>Style de ses titres</h3><div class="rang" id="titres" role="group" aria-label="Style des titres"></div><p class="note">Sert à tirer la paire de polices. Laisse « Selon le genre » si tu ne sais pas.</p></div>
+      <label class="ch large">Ce qui est vrai chez lui<textarea id="vrai" placeholder="Horaires, spécialités, histoire de la maison, ce qui le rend différent, téléphone du commerce…"></textarea></label>
+      <div style="display:grid;gap:4px"><h3>Les photos</h3>
+        <div class="rang"><label class="coche"><input type="checkbox" id="ph-client">Celles du client</label><label class="coche"><input type="checkbox" id="ph-archives">Archives libres de son lieu</label><label class="coche"><input type="checkbox" id="ph-pixabay">Pixabay</label></div></div>
+      <label class="coche"><input type="checkbox" id="avis">Il a de vrais avis de clients à montrer</label>
+    </div>
+    <div class="panneau" id="z-idee" hidden>
+      <div style="display:grid;gap:6px"><h3>Pas d’idée ? Je propose.</h3><p class="note">À partir de ce que tu as écrit au-dessus, je choisis un genre, une idée originale et quelques animations. Tu peux tout changer ensuite. La première fois, Claude demande ton accord.</p></div>
+      <div class="rang"><button type="button" id="proposer">Proposer pour moi</button></div>
+      <div class="sortie" id="idee" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="etape" id="s2" aria-labelledby="t2">
+    <div class="tete"><p class="num">02</p><h2 id="t2">Le genre</h2><p>Il décide de tout le reste : la grille, les tailles, le ton. Les aperçus portent le nom de ton projet.</p></div>
+    <div class="genres" id="genres"></div>
+  </section>
+
+  <section class="etape" id="s3" aria-labelledby="t3">
+    <div class="tete"><p class="num">03</p><h2 id="t3">La composition</h2><p>Ne choisis que ce qui compte pour toi. Le reste est tiré au sort dans la session, loin de ce que les autres sites ont déjà. Le chiffre dit combien de sites ont déjà cette option ; en pointillé, ce qui va moins bien avec le genre choisi.</p></div>
+    <label class="ch" style="max-width:420px">Doit ressembler à un de nos sites<select id="comme"></select></label>
+    <div class="panneau" id="familles" style="gap:0;padding-block:8px"></div>
+    <div class="rang"><button type="button" id="vider-compo">Tout remettre au tirage</button></div>
+  </section>
+
+  <section class="etape" id="s4" aria-labelledby="t4">
+    <div class="tete"><p class="num">04</p><h2 id="t4">Les animations</h2><p>Ta banque de 44 mouvements. Six à dix suffisent pour un site : au-delà, ça fatigue. «&nbsp;Voir&nbsp;» la joue en vrai.</p></div>
+    <div class="rang" id="filtres" role="group" aria-label="Filtrer les animations"></div>
+    <div class="anims" id="anims"></div>
+  </section>
+
+  <section class="etape" id="s5" aria-labelledby="t5">
+    <div class="tete"><p class="num">05</p><h2 id="t5">Tes consignes</h2><p>Ce que tu veux absolument, ce que tu ne veux pas, ce que le client a demandé.</p></div>
+    <textarea id="consignes" aria-labelledby="t5" placeholder="Par exemple : la carte doit être lisible en un coup d’œil, pas de noir, il veut qu’on voie la terrasse en premier…"></textarea>
+    <div class="rang"><label class="coche"><input type="checkbox" id="planche">Me montrer une planche de polices avant de construire</label><label class="coche"><input type="checkbox" id="app">Préparer aussi son appli (Saitorapp)</label></div>
+  </section>
+
+  <section class="etape" id="s6" aria-labelledby="t6">
+    <div class="tete"><p class="num">06</p><h2 id="t6">Le prompt</h2><p>Copie-le et colle-le dans une nouvelle session Claude Code sur le dépôt StudioCAC. Tu peux le retoucher ici avant de copier.</p></div>
+    <textarea id="prompt" aria-labelledby="t6" spellcheck="false"></textarea>
+    <div class="rang"><button type="button" class="plein" id="copier2">Copier le prompt</button><button type="button" id="refaire-prompt" hidden>Annuler mes retouches</button><button type="button" id="effacer">Tout effacer et recommencer</button></div>
+    <p class="note" id="etat-copie" aria-live="polite"></p>
+  </section>
+</main>
+
+<div class="barre"><div><p id="resume"></p><button type="button" class="plein" id="copier">Copier le prompt</button></div></div>
+
+<dialog id="vue" aria-labelledby="vue-t">
+  <div class="vt"><strong id="vue-t"></strong><button type="button" id="vue-x">Fermer</button></div>
+  <iframe id="vue-f" title="Aperçu de l’animation"></iframe>
+  <p class="note">Fais défiler dans le cadre pour la voir jouer. Si le cadre reste vide, ouvre <a href="https://claude.ai/artifact/68hT3KBSuiVqkwgb4kunVy" target="_blank" rel="noopener">ta banque d’animations</a>.</p>
+</dialog>
+
+<script>
+/*__THEMES_JS__*/
+</script>
+<script>
+(async () => {
+  const D = /*__DONNEES__*/null;
+  const $ = id => document.getElementById(id);
+  const el = (tag, props = {}, ...enfants) => { const e = Object.assign(document.createElement(tag), props); e.append(...enfants); return e; };
+  const TYPES = [["client", "Site client"], ["demo", "Démo Saitora"], ["refaire", "Refaire un de nos sites"], ["labo", "Essai du labo"]];
+  const CATS = ["Toutes", ...new Set(D.animations.map(a => a.cat)), "Choisies"];
+  const VIDE = { type: "client", nom: "", refaire: "", metier: "", ville: "", charte: "", ancien: "", couleurs: false, c1: "#1F3A5F", c2: "#F6F1E7", c3: "#C8553D", coulApercu: true, titres: "", vrai: "",
+    phClient: true, phArchives: true, phPixabay: true, avis: false, genre: "", comme: "", choix: {}, anims: [], consignes: "", planche: false, app: false, filtre: "Toutes" };
+  let S = structuredClone(VIDE), retouche = false;
+  try { Object.assign(S, JSON.parse(localStorage.getItem("atelier-saitora") || "{}")); } catch (e) {}
+  const garde = () => { try { localStorage.setItem("atelier-saitora", JSON.stringify(S)); } catch (e) {} };
+
+  const theme = id => D.themes.find(t => t.id === id);
+  const famille = id => D.familles.find(f => f.id === id);
+  const option = (f, o) => (famille(f).options.find(x => x[0] === o) || []);
+  const nomProjet = () => S.type === "refaire" ? S.refaire : S.nom.trim();
+  const slug = () => S.type === "refaire" ? S.refaire : S.nom.trim().toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  const clair = hex => { const n = parseInt(hex.slice(1), 16), r = n >> 16, g = n >> 8 & 255, b = n & 255; return (r * 299 + g * 587 + b * 114) / 1000 > 140; };
+
+  /* --- 01 le projet --- */
+  $("types").append(...TYPES.map(([id, nom]) => el("button", { type: "button", className: "puce", textContent: nom, onclick: () => { S.type = id; tout(); } , id: "ty-" + id })));
+  $("refaire").append(...D.sites.map(s => el("option", { value: s, textContent: s })));
+  $("comme").append(el("option", { value: "", textContent: "À aucun" }), ...D.sites.map(s => el("option", { value: s, textContent: s })));
+  $("titres").append(...[["", "Selon le genre"], ...D.chartes.map(c => [c, c])].map(([id, nom]) => el("button", { type: "button", className: "puce", textContent: nom, onclick: () => { S.titres = id; tout(); } })));
+  const CHAMPS = { nom: "nom", refaire: "refaire", metier: "metier", ville: "ville", charte: "charte", ancien: "ancien", c1: "c1", c2: "c2", c3: "c3", vrai: "vrai", consignes: "consignes", comme: "comme" };
+  const COCHES = { couleurs: "couleurs", coulApercu: "coulApercu", "ph-client": "phClient", "ph-archives": "phArchives", "ph-pixabay": "phPixabay", avis: "avis", planche: "planche", app: "app" };
+  let attente;
+  for (const [id, cle] of Object.entries(CHAMPS)) $(id).addEventListener("input", e => { S[cle] = e.target.value; clearTimeout(attente); attente = setTimeout(() => { if (["nom", "refaire", "metier", "c1", "c2", "c3"].includes(id)) genres(); }, 350); if (id === "comme" || id === "refaire") familles(); bilan(); });
+  for (const [id, cle] of Object.entries(COCHES)) $(id).addEventListener("change", e => { S[cle] = e.target.checked; tout(); });
+
+  /* --- 02 le genre --- */
+  function genres() {
+    const nom = nomProjet() || "Votre commerce", quoi = S.metier.trim() || "Depuis toujours";
+    const peint = t => S.couleurs && S.coulApercu ? { ...t, couleurs: { fond: S.c2, texte: clair(S.c2) ? "#161616" : "#F4F1EA", accent: S.c3, second: S.c1 } } : t;
+    const hasard = el("button", { type: "button", className: "genre hasard" }, el("span", { className: "gn", style: "justify-content:center", textContent: "Au tirage" }), el("span", { className: "ga", textContent: "Je laisse le sort choisir, loin des genres déjà trop vus." }));
+    hasard.setAttribute("aria-pressed", !S.genre); hasard.onclick = () => { S.genre = ""; tout(); };
+    $("genres").replaceChildren(hasard, ...D.themes.map(t => {
+      const vue = el("span", { className: "vue" }); vue.innerHTML = Themes.render(peint(t), { nom, quoi }, "");
+      const n = D.deja.genre[t.id] || 0;
+      const b = el("button", { type: "button", className: "genre" }, vue, el("span", { className: "gn" }, t.nom, el("small", { textContent: n ? `déjà ${n} site${n > 1 ? "s" : ""}` : "jamais fait" })), el("span", { className: "ga", textContent: t.accroche + " Pour : " + t.pour.join(", ").toLowerCase() + "." }));
+      b.setAttribute("aria-pressed", S.genre === t.id); b.onclick = () => { S.genre = S.genre === t.id ? "" : t.id; tout(); };
+      return b; }));
+  }
+
+  /* --- 03 la composition --- */
+  const ouverts = new Set(["signature"]);
+  function familles() {
+    const permis = S.genre ? theme(S.genre).va_avec : {};
+    const modele = S.comme ? " (comme " + S.comme + ")" : "";
+    $("familles").replaceChildren(...D.familles.map(f => {
+      const pris = S.choix[f.id], fd = el("p", { className: "fd", textContent: pris ? option(f.id, pris)[2] : "Rien d’imposé : tiré au sort dans la session" + modele + "." });
+      const puces = [["", "Au tirage"], ...f.options].filter(o => !(f.id === "preuves" && o[0] === "citations" && !S.avis)).map(o => {
+        const n = D.deja[f.id][o[0]] || 0, hors = o[0] && permis[f.id] && !permis[f.id].includes(o[0]);
+        const b = el("button", { type: "button", className: "puce" + (hors ? " hors" : "") }, o[1], ...(o[0] ? [el("small", { textContent: "×" + n })] : []));
+        b.setAttribute("aria-pressed", (pris || "") === o[0]);
+        b.onclick = () => { if (o[0]) S.choix[f.id] = o[0]; else delete S.choix[f.id]; ouverts.add(f.id); familles(); bilan(); };
+        if (o[0]) b.onmouseenter = b.onfocus = () => { fd.textContent = o[2] + (hors ? " (Va moins bien avec le genre choisi.)" : ""); };
+        return b; });
+      const d = el("details", { className: "fam", open: ouverts.has(f.id) }, el("summary", {}, el("span", { textContent: f.nom }), el("span", { className: "fv" + (pris ? " pris" : ""), textContent: pris ? option(f.id, pris)[1] : "au tirage" })), el("div", { className: "corps" }, el("div", { className: "rang" }, ...puces), fd));
+      d.addEventListener("toggle", () => d.open ? ouverts.add(f.id) : ouverts.delete(f.id));
+      return d; }));
+  }
+  $("vider-compo").onclick = () => { S.choix = {}; S.comme = ""; tout(); };
+
+  /* --- 04 les animations --- */
+  function anims() {
+    $("filtres").replaceChildren(...CATS.map(c => { const b = el("button", { type: "button", className: "puce", textContent: c === "Choisies" ? `Choisies (${S.anims.length})` : c, onclick: () => { S.filtre = c; anims(); garde(); } }); b.setAttribute("aria-pressed", S.filtre === c); return b; }));
+    const vues = D.animations.filter(a => S.filtre === "Toutes" || (S.filtre === "Choisies" ? S.anims.includes(a.n) : a.cat === S.filtre));
+    $("anims").replaceChildren(...(vues.length ? vues.map(a => {
+      const c = el("input", { type: "checkbox", checked: S.anims.includes(a.n), id: "a" + a.n });
+      c.onchange = () => { S.anims = c.checked ? [...S.anims, a.n].sort((x, y) => x - y) : S.anims.filter(n => n !== a.n); anims(); bilan(); };
+      const voir = el("button", { type: "button", className: "voir", textContent: "Voir" });
+      voir.onclick = () => { $("vue-t").textContent = String(a.n).padStart(2, "0") + " · " + a.nom; $("vue-f").src = "mouvements.html" + (a.sec === "bar" ? "" : "?seul=" + a.sec); $("vue").showModal(); };
+      return el("div", { className: "anim" + (c.checked ? " pris" : "") }, c, el("label", { htmlFor: "a" + a.n }, el("span", { className: "an" }, el("b", { textContent: String(a.n).padStart(2, "0") }), a.nom)), el("p", { className: "ap", textContent: a.pour }), ...(a.garde ? [el("p", { className: "ag", textContent: a.garde })] : []), voir);
+    }) : [el("p", { className: "note", textContent: "Aucune animation choisie pour l’instant." })]));
+  }
+  $("vue-x").onclick = () => $("vue").close();
+  $("vue").addEventListener("close", () => { $("vue-f").src = "about:blank"; });
+  $("vue").addEventListener("click", e => { if (e.target === $("vue")) $("vue").close(); });
+
+  /* --- 06 le prompt --- */
+  function ecrit() {
+    const nom = nomProjet() || "(nom à donner)", s = slug() || "nom-du-site", L = [];
+    const quoi = { client: "site client", demo: "site de démonstration", refaire: "un de nos sites, à refaire", labo: "essai du labo" }[S.type];
+    L.push(`Nouveau site Saitora : « ${nom} » (${quoi}).`, "", "Lis ETAT.md, puis suis le skill nouveau-site du début à la fin. Cette fiche vient de l’atelier : ce qui y est choisi est décidé, ne me repose pas la question.", "", "LE PROJET");
+    L.push({ client: `- Où : clients/${s}/index.html, non indexé, avec le bandeau « maquette à valider ».`, demo: `- Où : demo-${s}.html, avec le bandeau « site de démonstration », et sa ligne dans commun/demos.js.`,
+      refaire: `- C’est le site « ${s} » du registre : le refaire entièrement, il ne doit plus ressembler à sa version actuelle.`, labo: `- Où : labo/NN-${s}/ (NN = le prochain numéro libre), listé dans labo/index.html.` }[S.type]);
+    if (S.metier.trim() || S.ville.trim()) L.push("- Activité : " + [S.metier.trim(), S.ville.trim()].filter(Boolean).join(", ") + ".");
+    if (S.charte.trim()) L.push("- Lien de charte à décoder (couleurs, logo, style des titres) : " + S.charte.trim());
+    if (S.couleurs) L.push(`- Couleurs du client : principale ${S.c1.toUpperCase()}, fond ${S.c2.toUpperCase()}, boutons ${S.c3.toUpperCase()}. Elles passent avant celles du genre.`);
+    if (!S.couleurs && !S.charte.trim()) L.push("- Pas de charte : partir des couleurs et des polices du genre, ajustées au métier.");
+    if (S.ancien.trim()) L.push("- Son site actuel, pour y reprendre ce qui est vrai (textes, horaires, prix), pas le style : " + S.ancien.trim());
+    if (S.vrai.trim()) L.push("- Ce qui est vrai chez lui :", ...S.vrai.trim().split("\n").map(l => "  " + l));
+    L.push("- Ce qui manque : des exemples plausibles, marqués « à valider ». Jamais de faux avis, de faux clients ni de faux chiffres. Aucune donnée personnelle de la personne qui a fait la demande.");
+    const ph = [S.phClient && "celles du client", S.phArchives && "les archives libres de son lieu (outils/archives.py)", S.phPixabay && "Pixabay (outils/photos.py)"].filter(Boolean);
+    L.push(ph.length ? "- Photos, dans cet ordre : " + ph.join(", puis ") + ". Un même ton pour toutes, créditées en pied de page." : "- Photos : aucune source choisie, me demander avant d’en mettre.");
+    if (S.avis) L.push("- Il a de vrais avis : me les demander, ne pas en inventer.");
+
+    const imposer = [S.genre && "genre=" + S.genre, ...D.familles.filter(f => S.choix[f.id]).map(f => f.id + "=" + S.choix[f.id])].filter(Boolean);
+    let cmd = "python3 outils/tirage.py " + s;
+    if (S.type === "labo") cmd += ` --fiche labo/NN-${s}/style.md`;
+    if (S.type === "refaire") cmd += " --refaire";
+    if (S.titres) cmd += " --charte " + S.titres;
+    if (S.comme) cmd += " --comme " + S.comme;
+    if (imposer.length) cmd += " --imposer " + imposer.join(",");
+    if (!S.avis && S.choix.preuves !== "citations") cmd += " --exclure preuves=citations";
+    L.push("", "LE STYLE", "Lance le tirage avec cette commande, puis suis la fiche qu’il écrit :", cmd);
+    if (imposer.length) { L.push("Ce que j’ai choisi :"); if (S.genre) L.push("- Genre : " + theme(S.genre).nom + "."); D.familles.filter(f => S.choix[f.id]).forEach(f => L.push(`- ${f.nom} : ${option(f.id, S.choix[f.id])[1]}. ${option(f.id, S.choix[f.id])[2]}`)); L.push("Tout le reste est laissé au tirage."); }
+    else L.push("Je n’impose rien : le tirage décide de tout.");
+    if (S.comme) L.push(`Il doit ressembler au site « ${S.comme} »${imposer.length ? ", sauf pour ce que j’ai choisi ci-dessus" : ""}.`);
+
+    L.push("", "LES ANIMATIONS");
+    if (S.anims.length) {
+      L.push("À prendre dans ma banque, outils/atelier/mouvements.html (pour chacune : sa section, son CSS sous le commentaire /* NN */, son JavaScript sous // NN) :");
+      D.animations.filter(a => S.anims.includes(a.n)).forEach(a => L.push(`- ${String(a.n).padStart(2, "0")} ${a.nom} (section #${a.sec})${a.garde ? " : à adapter pour que rien ne défile sur le côté" : ""}`));
+      L.push("Les fondre dans le genre et la charte (couleurs, polices, courbes) avec le vrai contenu du client. Respecter prefers-reduced-motion. Ne pas en ajouter d’autres sans me le dire.");
+    } else L.push("Je n’en impose aucune : en choisir peu (six à dix) dans ma banque, outils/atelier/mouvements.html, selon le genre, et me dire lesquelles.");
+
+    if (S.consignes.trim()) L.push("", "MES CONSIGNES", S.consignes.trim());
+    L.push("", "À LA FIN");
+    if (S.planche) L.push("- Avant de construire : me montrer une planche de 4 à 6 polices avec les vrais textes du site, et attendre mon choix.");
+    L.push("- Vérifier avec outils/verifier.js, regarder les captures ordinateur et téléphone, corriger.", `- Enregistrer le tirage (${cmd.split(" --")[0]}${S.type === "labo" ? ` --fiche labo/NN-${s}/style.md` : ""} --enregistrer).`);
+    if (S.app) L.push("- Préparer son appli de commerçant avec outils/saitorapp.py, adaptée à son métier.");
+    L.push("- Commit, push et mise en ligne, puis me donner les liens, ce qui rend ce site unique et la liste de ce qui est à valider avec le client.");
+    return L.join("\n");
+  }
+  function bilan() {
+    garde();
+    if (!retouche) $("prompt").value = ecrit();
+    const pret = !!nomProjet(), n = Object.keys(S.choix).length;
+    $("resume").textContent = pret ? `« ${nomProjet()} » · ${S.genre ? theme(S.genre).nom : "genre au tirage"} · ${n} choix de composition · ${S.anims.length} animation${S.anims.length > 1 ? "s" : ""}` : "Donne un nom au projet pour avoir ton prompt.";
+    $("copier").disabled = $("copier2").disabled = !pret;
+  }
+  $("prompt").addEventListener("input", () => { retouche = true; $("refaire-prompt").hidden = false; });
+  $("refaire-prompt").onclick = () => { retouche = false; $("refaire-prompt").hidden = true; bilan(); };
+  async function copie() {
+    const t = $("prompt").value; let ok = false;
+    try { await navigator.clipboard.writeText(t); ok = true; } catch (e) { try { $("prompt").focus(); $("prompt").select(); ok = document.execCommand("copy"); } catch (e2) {} }
+    $("etat-copie").textContent = ok ? "Copié. Colle-le dans une nouvelle session Claude Code." : "La copie est bloquée ici : le texte est sélectionné, copie-le à la main.";
+    for (const b of [$("copier"), $("copier2")]) { b.textContent = ok ? "Copié" : "Sélectionné"; setTimeout(() => { b.textContent = "Copier le prompt"; }, 1800); }
+  }
+  $("copier").onclick = $("copier2").onclick = copie;
+  let sur = 0;
+  $("effacer").onclick = () => { if (Date.now() - sur > 4000) { sur = Date.now(); $("effacer").textContent = "Appuie encore pour tout effacer"; setTimeout(() => { $("effacer").textContent = "Tout effacer et recommencer"; }, 4000); return; }
+    S = structuredClone(VIDE); retouche = false; $("refaire-prompt").hidden = true; $("idee").textContent = ""; $("effacer").textContent = "Tout effacer et recommencer"; tout(); scrollTo({ top: 0 }); };
+
+  /* --- tout redessiner d'après l'état --- */
+  function tout() {
+    if (S.type === "refaire" && !S.refaire) S.refaire = D.sites[0];
+    if (!S.avis && S.choix.preuves === "citations") delete S.choix.preuves;
+    for (const [id] of TYPES) $("ty-" + id).setAttribute("aria-pressed", S.type === id);
+    $("l-nom").hidden = S.type === "refaire"; $("l-refaire").hidden = S.type !== "refaire"; $("l-ancien").hidden = S.type !== "client";
+    for (const [id, cle] of Object.entries(CHAMPS)) if ($(id).value !== S[cle]) $(id).value = S[cle];
+    for (const [id, cle] of Object.entries(COCHES)) $(id).checked = S[cle];
+    $("z-couleurs").hidden = !S.couleurs;
+    [...$("titres").children].forEach((b, i) => b.setAttribute("aria-pressed", S.titres === (i ? D.chartes[i - 1] : "")));
+    genres(); familles(); anims(); bilan();
+  }
+  tout();
+
+  /* --- « Proposer pour moi » : Claude choisit un genre, une idée et des animations (sur l'abonnement de la personne) --- */
+  const sample = await claude.use("sample");
+  if (!sample) return;
+  $("z-idee").hidden = false;
+  const DIT = { not_granted: "Tu n’as pas donné ton accord : je ne peux pas proposer. Tu peux tout choisir à la main.", rate_limited: "Limite d’usage atteinte pour l’instant. Réessaie plus tard, ou choisis à la main.", invalid_json: "Ma réponse était mal formée. Réessaie." };
+  $("proposer").onclick = async () => {
+    const o = $("idee"); $("proposer").disabled = true; o.textContent = "Je réfléchis"; o.classList.add("pense");
+    const sig = famille("signature");
+    const demande = `Tu aides un créateur de sites vitrines pour petits commerces (studio Saitora). Choisis pour ce projet un genre, une idée originale et des animations.
+
+PROJET
+Nom : ${nomProjet() || "(inconnu)"}
+Métier : ${S.metier || "(inconnu)"}
+Lieu : ${S.ville || "(inconnu)"}
+Ce qui est vrai : ${S.vrai || "(rien de précisé)"}
+Consignes : ${S.consignes || "(aucune)"}
+
+GENRES (id : nom, pour qui, combien de sites l'ont déjà)
+${D.themes.map(t => `${t.id} : ${t.nom}. ${t.accroche} Pour ${t.pour.join(", ")}. Déjà ${D.deja.genre[t.id] || 0}.`).join("\n")}
+
+IDÉES ORIGINALES (id : ce que le visiteur peut faire)
+${sig.options.map(x => `${x[0]} : ${x[1]}. ${x[2]}`).join("\n")}
+
+ANIMATIONS (numéro : nom, usage)
+${D.animations.filter(a => !a.garde).map(a => `${a.n} : ${a.nom}. ${a.pour}`).join("\n")}
+
+RÈGLES : sobre et classe, jamais chargé. Un genre qui va au métier, de préférence peu utilisé. Une seule idée originale, faite pour ce métier. Six à neuf animations qui vont ensemble et avec le genre. Pas de chiffres animés sans vrais chiffres.
+
+Réponds seulement par un objet JSON : {"genre":"id","signature":"id","animations":[numéros],"pourquoi":"trois phrases courtes en français simple, en tutoyant, sans tiret long"}`;
+    try {
+      const r = await sample.json(demande, { cache: false });
+      const g = theme(r.genre), sg = sig.options.find(x => x[0] === r.signature), an = (Array.isArray(r.animations) ? r.animations : []).map(Number).filter(n => D.animations.some(a => a.n === n));
+      if (!g && !sg && !an.length) throw { code: "invalid_json" };
+      if (g) S.genre = g.id; if (sg) S.choix.signature = sg[0]; if (an.length) S.anims = [...new Set(an)].sort((x, y) => x - y);
+      o.classList.remove("pense");
+      o.textContent = [g && "Genre : " + g.nom, sg && "Idée originale : " + sg[1], an.length && "Animations : " + S.anims.map(n => String(n).padStart(2, "0")).join(", "), "", String(r.pourquoi || ""), "", "C’est rempli dans les étapes 02 à 04 : change ce que tu veux."].filter(x => x !== false && x !== undefined && x !== 0).join("\n");
+      tout();
+    } catch (e) { o.classList.remove("pense"); o.textContent = DIT[e.code] || "Je n’ai pas pu proposer (" + (e.code || "erreur") + "). Tu peux tout choisir à la main."; }
+    $("proposer").disabled = false;
+  };
+})();
+</script>

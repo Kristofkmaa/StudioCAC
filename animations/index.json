@@ -1,0 +1,1546 @@
+{
+ "_note": "Index de la banque d'animations (animations/mouvements.html), extrait par outils/atelier/construire.py. n : numéro ; p : pack ; t : section dans le pack (END : pied de page) ; s : styles ; g : déclencheurs ; e : emplacement.",
+ "packs": {
+  "bases": {
+   "nom": "Les bases",
+   "groupe": "Tous métiers",
+   "numeros": "01 à 44"
+  },
+  "bases2": {
+   "nom": "Les bases 2",
+   "groupe": "Tous métiers",
+   "numeros": "87 à 92"
+  },
+  "premium": {
+   "nom": "Premium",
+   "groupe": "Tous métiers",
+   "numeros": "54 à 64"
+  },
+  "premium3": {
+   "nom": "Premium 2",
+   "groupe": "Tous métiers",
+   "numeros": "77 à 86"
+  },
+  "premium4": {
+   "nom": "Premium 3",
+   "groupe": "Tous métiers",
+   "numeros": "93 à 100"
+  },
+  "horlogerie": {
+   "nom": "Horlogerie",
+   "groupe": "Par métier",
+   "numeros": "45 à 53"
+  },
+  "restaurant": {
+   "nom": "Restaurant",
+   "groupe": "Par métier",
+   "numeros": "65 à 68"
+  },
+  "architecte": {
+   "nom": "Architecte",
+   "groupe": "Par métier",
+   "numeros": "69 à 72"
+  },
+  "fleuriste": {
+   "nom": "Fleuriste",
+   "groupe": "Par métier",
+   "numeros": "73 à 76"
+  }
+ },
+ "animations": [
+  {
+   "n": 1,
+   "p": "bases",
+   "t": "#hero",
+   "title": "Entrée de titre ligne par ligne",
+   "d": "Les lignes du titre montent une à une sur un fond de halos mouvants.",
+   "s": [
+    "Texte",
+    "Fonds et ambiance"
+   ],
+   "g": [
+    "Au chargement"
+   ],
+   "e": "Haut de page"
+  },
+  {
+   "n": 2,
+   "p": "bases",
+   "t": "#reveal",
+   "title": "Apparition au défilement",
+   "d": "Les blocs arrivent en décalé quand ils entrent à l’écran.",
+   "s": [
+    "Défilement",
+    "Cartes"
+   ],
+   "g": [
+    "Au défilement"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 3,
+   "p": "bases",
+   "t": "#mq",
+   "title": "Bandeau défilant",
+   "d": "Deux rangées de mots en sens inverse, inclinées par la vitesse du scroll.",
+   "s": [
+    "Texte",
+    "Défilement"
+   ],
+   "g": [
+    "En continu",
+    "Au défilement"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 4,
+   "p": "bases",
+   "t": "#count",
+   "title": "Chiffres qui comptent",
+   "d": "Compteurs qui montent jusqu’à leur valeur, anneau de progression.",
+   "s": [
+    "Chiffres"
+   ],
+   "g": [
+    "Au défilement"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 5,
+   "p": "bases",
+   "t": "#tilt",
+   "title": "Cartes en relief",
+   "d": "Cartes qui s’inclinent vers le pointeur avec un reflet.",
+   "s": [
+    "Cartes",
+    "3D"
+   ],
+   "g": [
+    "Au pointeur"
+   ],
+   "e": "Composant"
+  },
+  {
+   "n": 6,
+   "p": "bases",
+   "t": "#btn",
+   "title": "Trois boutons",
+   "d": "Magnétique avec onde au clic, remplissage, lien fléché souligné.",
+   "s": [
+    "Boutons et micro-interactions"
+   ],
+   "g": [
+    "Au pointeur",
+    "Au clic ou au glisser"
+   ],
+   "e": "Composant"
+  },
+  {
+   "n": 7,
+   "p": "bases",
+   "t": "#hz",
+   "title": "Défilement horizontal épinglé",
+   "d": "La section se fige et les panneaux défilent de côté, avec parallaxe.",
+   "s": [
+    "Défilement",
+    "Galeries et images"
+   ],
+   "g": [
+    "Au défilement"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 8,
+   "p": "bases",
+   "t": "#scrub",
+   "title": "Texte lié au défilement",
+   "d": "Les mots d’un paragraphe s’allument un à un en descendant.",
+   "s": [
+    "Texte",
+    "Défilement"
+   ],
+   "g": [
+    "Au défilement"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 9,
+   "p": "bases",
+   "t": "#draw",
+   "title": "Tracé qui se dessine",
+   "d": "Un trait SVG se trace à mesure qu’on défile.",
+   "s": [
+    "Illustration animée",
+    "Défilement"
+   ],
+   "g": [
+    "Au défilement"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 10,
+   "p": "bases",
+   "t": "#spot",
+   "title": "Projecteur",
+   "d": "Un halo suit le pointeur et révèle une grille de points.",
+   "s": [
+    "Fonds et ambiance"
+   ],
+   "g": [
+    "Au pointeur"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 11,
+   "p": "bases",
+   "t": "#reveal",
+   "title": "Barre de progression de lecture",
+   "d": "Fine barre en haut de page qui avance avec le défilement.",
+   "s": [
+    "Navigation",
+    "Défilement"
+   ],
+   "g": [
+    "Au défilement"
+   ],
+   "e": "Composant"
+  },
+  {
+   "n": 12,
+   "p": "bases",
+   "t": "#hero2",
+   "title": "Écran de chargement",
+   "d": "Compteur de 0 à 100 puis deux rideaux qui s’ouvrent.",
+   "s": [
+    "Chargement et transitions"
+   ],
+   "g": [
+    "Au chargement"
+   ],
+   "e": "Haut de page"
+  },
+  {
+   "n": 13,
+   "p": "bases",
+   "t": "#hero2",
+   "title": "Titre machine à écrire",
+   "d": "Un mot du titre se tape, s’efface et change en boucle.",
+   "s": [
+    "Texte"
+   ],
+   "g": [
+    "En continu"
+   ],
+   "e": "Haut de page"
+  },
+  {
+   "n": 14,
+   "p": "bases",
+   "t": "#scr",
+   "title": "Texte qui se décode",
+   "d": "Les lettres défilent au hasard avant de se fixer.",
+   "s": [
+    "Texte"
+   ],
+   "g": [
+    "Au défilement"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 15,
+   "p": "bases",
+   "t": "#roll",
+   "title": "Liens à lettres roulantes",
+   "d": "Au survol, chaque lettre roule vers le haut avec un décalage.",
+   "s": [
+    "Texte",
+    "Navigation"
+   ],
+   "g": [
+    "Au pointeur"
+   ],
+   "e": "Composant"
+  },
+  {
+   "n": 16,
+   "p": "bases",
+   "t": "#menu",
+   "title": "Menu plein écran",
+   "d": "Le menu s’ouvre en cercle depuis le bouton, liens en cascade.",
+   "s": [
+    "Navigation"
+   ],
+   "g": [
+    "Au clic ou au glisser"
+   ],
+   "e": "Composant"
+  },
+  {
+   "n": 17,
+   "p": "bases",
+   "t": "#tabs",
+   "title": "Onglets à pastille glissante",
+   "d": "La pastille glisse et se redimensionne sous l’onglet actif.",
+   "s": [
+    "Navigation",
+    "Contenu"
+   ],
+   "g": [
+    "Au clic ou au glisser"
+   ],
+   "e": "Composant"
+  },
+  {
+   "n": 18,
+   "p": "bases",
+   "t": "#acc",
+   "title": "Accordéon fluide",
+   "d": "Questions-réponses qui s’ouvrent en douceur, sans calcul de hauteur.",
+   "s": [
+    "Contenu"
+   ],
+   "g": [
+    "Au clic ou au glisser"
+   ],
+   "e": "Composant"
+  },
+  {
+   "n": 19,
+   "p": "bases",
+   "t": "#figs",
+   "title": "Images dévoilées au rideau",
+   "d": "Les images se découvrent de haut en bas avec un zoom arrière.",
+   "s": [
+    "Galeries et images"
+   ],
+   "g": [
+    "Au défilement"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 20,
+   "p": "bases",
+   "t": "#ba",
+   "title": "Avant / après",
+   "d": "Poignée à glisser pour comparer deux versions.",
+   "s": [
+    "Galeries et images",
+    "Contenu"
+   ],
+   "g": [
+    "Au clic ou au glisser"
+   ],
+   "e": "Composant"
+  },
+  {
+   "n": 21,
+   "p": "bases",
+   "t": "#car",
+   "title": "Carrousel aimanté",
+   "d": "Cartes d’avis qui s’aimantent au centre et grossissent.",
+   "s": [
+    "Galeries et images"
+   ],
+   "g": [
+    "Au clic ou au glisser"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 22,
+   "p": "bases",
+   "t": "#stk",
+   "title": "Cartes qui s’empilent",
+   "d": "Chaque carte recouvre la précédente en défilant.",
+   "s": [
+    "Cartes",
+    "Défilement"
+   ],
+   "g": [
+    "Au défilement"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 23,
+   "p": "bases",
+   "t": "#zoom",
+   "title": "Zoom épinglé",
+   "d": "Une image grandit jusqu’à occuper tout l’écran.",
+   "s": [
+    "Galeries et images",
+    "Défilement"
+   ],
+   "g": [
+    "Au défilement"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 24,
+   "p": "bases",
+   "t": "#odo",
+   "title": "Prix à chiffres roulants",
+   "d": "Les chiffres du prix roulent quand on bascule mensuel/annuel.",
+   "s": [
+    "Chiffres"
+   ],
+   "g": [
+    "Au clic ou au glisser"
+   ],
+   "e": "Composant"
+  },
+  {
+   "n": 25,
+   "p": "bases",
+   "t": "#glow",
+   "title": "Bordure lumineuse et squelette",
+   "d": "Un trait de lumière fait le tour d’une carte ; squelette de chargement.",
+   "s": [
+    "Cartes",
+    "Chargement et transitions"
+   ],
+   "g": [
+    "En continu"
+   ],
+   "e": "Composant"
+  },
+  {
+   "n": 26,
+   "p": "bases",
+   "t": "#form",
+   "title": "Formulaire animé",
+   "d": "Étiquettes flottantes, bouton qui devient une coche, confettis.",
+   "s": [
+    "Formulaires et choix",
+    "Boutons et micro-interactions"
+   ],
+   "g": [
+    "Au clic ou au glisser"
+   ],
+   "e": "Composant"
+  },
+  {
+   "n": 27,
+   "p": "bases",
+   "t": "#theme",
+   "title": "Bascule clair / sombre",
+   "d": "Le thème change par un cercle qui grandit depuis le bouton.",
+   "s": [
+    "Chargement et transitions",
+    "Boutons et micro-interactions"
+   ],
+   "g": [
+    "Au clic ou au glisser"
+   ],
+   "e": "Composant"
+  },
+  {
+   "n": 28,
+   "p": "bases",
+   "t": "#hero3",
+   "title": "Fond de particules reliées",
+   "d": "Des points reliés par des lignes, attirés par le pointeur.",
+   "s": [
+    "Fonds et ambiance"
+   ],
+   "g": [
+    "En continu",
+    "Au pointeur"
+   ],
+   "e": "Haut de page"
+  },
+  {
+   "n": 29,
+   "p": "bases",
+   "t": "#mk",
+   "title": "Surlignage tracé et dégradé animé",
+   "d": "Un mot souligné à la main, un autre en dégradé qui défile.",
+   "s": [
+    "Texte"
+   ],
+   "g": [
+    "Au défilement",
+    "En continu"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 30,
+   "p": "bases",
+   "t": "#lt",
+   "title": "Lettres qui sortent du flou",
+   "d": "Chaque lettre devient nette l’une après l’autre.",
+   "s": [
+    "Texte"
+   ],
+   "g": [
+    "Au défilement"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 31,
+   "p": "bases",
+   "t": "#wave",
+   "title": "Vagues de séparation",
+   "d": "Trois vagues en boucle pour passer d’une section à l’autre.",
+   "s": [
+    "Fonds et ambiance"
+   ],
+   "g": [
+    "En continu"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 32,
+   "p": "bases",
+   "t": "#blob",
+   "title": "Forme organique qui respire",
+   "d": "Une forme aux contours qui changent en continu.",
+   "s": [
+    "Fonds et ambiance",
+    "Galeries et images"
+   ],
+   "g": [
+    "En continu"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 33,
+   "p": "bases",
+   "t": "#tl",
+   "title": "Frise qui se remplit",
+   "d": "Une ligne du temps se remplit et active ses étapes.",
+   "s": [
+    "Contenu",
+    "Défilement"
+   ],
+   "g": [
+    "Au défilement"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 34,
+   "p": "bases",
+   "t": "#micro",
+   "title": "J’aime et ajout au panier",
+   "d": "Cœur avec éclat ; pastille qui vole jusqu’au panier.",
+   "s": [
+    "Boutons et micro-interactions"
+   ],
+   "g": [
+    "Au clic ou au glisser"
+   ],
+   "e": "Composant"
+  },
+  {
+   "n": 35,
+   "p": "bases",
+   "t": "#toast",
+   "title": "Notifications empilées",
+   "d": "Messages qui entrent, s’empilent et repartent avec un minuteur.",
+   "s": [
+    "Boutons et micro-interactions"
+   ],
+   "g": [
+    "Au clic ou au glisser"
+   ],
+   "e": "Composant"
+  },
+  {
+   "n": 36,
+   "p": "bases",
+   "t": "#sheet",
+   "title": "Feuille qui monte du bas",
+   "d": "Panneau à ressort, à glisser vers le bas pour fermer.",
+   "s": [
+    "Navigation",
+    "Contenu"
+   ],
+   "g": [
+    "Au clic ou au glisser"
+   ],
+   "e": "Composant"
+  },
+  {
+   "n": 37,
+   "p": "bases",
+   "t": "#flip",
+   "title": "Cartes qui se retournent",
+   "d": "Recto et verso en 3D au toucher.",
+   "s": [
+    "Cartes",
+    "3D"
+   ],
+   "g": [
+    "Au clic ou au glisser"
+   ],
+   "e": "Composant"
+  },
+  {
+   "n": 38,
+   "p": "bases",
+   "t": "#exp",
+   "title": "Galerie en accordéon",
+   "d": "Le panneau choisi s’élargit, les autres se resserrent.",
+   "s": [
+    "Galeries et images"
+   ],
+   "g": [
+    "Au pointeur",
+    "Au clic ou au glisser"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 39,
+   "p": "bases",
+   "t": "#cd",
+   "title": "Compte à rebours à volets",
+   "d": "Chiffres à volets qui basculent chaque seconde.",
+   "s": [
+    "Chiffres"
+   ],
+   "g": [
+    "En continu"
+   ],
+   "e": "Composant"
+  },
+  {
+   "n": 40,
+   "p": "bases",
+   "t": "#par",
+   "title": "Décor en profondeur",
+   "d": "Plusieurs calques bougent à des vitesses différentes avec le pointeur.",
+   "s": [
+    "Fonds et ambiance",
+    "Galeries et images"
+   ],
+   "g": [
+    "Au pointeur"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 41,
+   "p": "bases",
+   "t": "#badge",
+   "title": "Pastille tournante",
+   "d": "Texte en cercle qui tourne, plus vite quand on défile.",
+   "s": [
+    "Boutons et micro-interactions",
+    "Texte"
+   ],
+   "g": [
+    "En continu",
+    "Au défilement"
+   ],
+   "e": "Composant"
+  },
+  {
+   "n": 42,
+   "p": "bases",
+   "t": "#map",
+   "title": "Itinéraire qui se trace",
+   "d": "Un trajet se dessine sur un plan, l’épingle tombe et pulse.",
+   "s": [
+    "Illustration animée"
+   ],
+   "g": [
+    "Au défilement"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 43,
+   "p": "bases",
+   "t": "#pt",
+   "title": "Transition entre pages",
+   "d": "Un volet traverse l’écran pendant que le contenu change.",
+   "s": [
+    "Chargement et transitions",
+    "Navigation"
+   ],
+   "g": [
+    "Au clic ou au glisser"
+   ],
+   "e": "Composant"
+  },
+  {
+   "n": 44,
+   "p": "bases",
+   "t": "#flt",
+   "title": "Filtre animé",
+   "d": "Les cartes glissent à leur nouvelle place quand on filtre.",
+   "s": [
+    "Galeries et images",
+    "Contenu"
+   ],
+   "g": [
+    "Au clic ou au glisser"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 45,
+   "p": "horlogerie",
+   "t": "#hero",
+   "title": "Séquence d’ouverture orchestrée",
+   "d": "La montre se pose, les index apparaissent, les aiguilles filent à l’heure.",
+   "s": [
+    "Chargement et transitions",
+    "Illustration animée"
+   ],
+   "g": [
+    "Au chargement"
+   ],
+   "e": "Haut de page"
+  },
+  {
+   "n": 46,
+   "p": "horlogerie",
+   "t": "#hero",
+   "title": "Montre à l’heure réelle",
+   "d": "Trotteuse mécanique, reflet du verre et inclinaison au pointeur.",
+   "s": [
+    "Illustration animée"
+   ],
+   "g": [
+    "En continu",
+    "Au pointeur"
+   ],
+   "e": "Haut de page"
+  },
+  {
+   "n": 47,
+   "p": "horlogerie",
+   "t": "#credo",
+   "title": "Titre à passage de lumière",
+   "d": "Les lignes montent puis un éclat les traverse.",
+   "s": [
+    "Texte"
+   ],
+   "g": [
+    "Au défilement"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 48,
+   "p": "horlogerie",
+   "t": "#eclate",
+   "title": "Vue éclatée en 3D",
+   "d": "L’objet se sépare en couches légendées en défilant.",
+   "s": [
+    "3D",
+    "Défilement",
+    "Illustration animée"
+   ],
+   "g": [
+    "Au défilement"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 49,
+   "p": "horlogerie",
+   "t": "#calibre",
+   "title": "Rouages qui engrènent",
+   "d": "Train de roues aux bons rapports, accéléré par le défilement.",
+   "s": [
+    "Illustration animée"
+   ],
+   "g": [
+    "En continu",
+    "Au défilement"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 50,
+   "p": "horlogerie",
+   "t": "#cadrans",
+   "title": "Galerie à inertie",
+   "d": "On la lance, elle garde son élan, se déforme puis s’aimante.",
+   "s": [
+    "Galeries et images"
+   ],
+   "g": [
+    "Au clic ou au glisser"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 51,
+   "p": "horlogerie",
+   "t": "#liste",
+   "title": "Liste à aperçu flottant",
+   "d": "Un visuel suit le pointeur derrière la ligne survolée.",
+   "s": [
+    "Navigation",
+    "Galeries et images"
+   ],
+   "g": [
+    "Au pointeur"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 52,
+   "p": "horlogerie",
+   "t": "#nuit",
+   "title": "Du jour à la nuit",
+   "d": "Le fond s’assombrit en défilant et le produit s’illumine.",
+   "s": [
+    "Défilement",
+    "Chargement et transitions"
+   ],
+   "g": [
+    "Au défilement"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 53,
+   "p": "horlogerie",
+   "t": "#essai",
+   "title": "Bouton à maintenir",
+   "d": "Un anneau se remplit tant qu’on appuie ; relâché trop tôt, rien n’est envoyé.",
+   "s": [
+    "Boutons et micro-interactions",
+    "Formulaires et choix"
+   ],
+   "g": [
+    "Au clic ou au glisser"
+   ],
+   "e": "Composant"
+  },
+  {
+   "n": 54,
+   "p": "premium",
+   "t": "#hero",
+   "title": "Ouverture « portes »",
+   "d": "Un mot plein écran se fend en deux et dévoile la page.",
+   "s": [
+    "Chargement et transitions"
+   ],
+   "g": [
+    "Au chargement"
+   ],
+   "e": "Haut de page"
+  },
+  {
+   "n": 55,
+   "p": "premium",
+   "t": "#hero",
+   "title": "Fond aurore",
+   "d": "Nappes de couleur calculées en direct, déformées par le pointeur.",
+   "s": [
+    "Fonds et ambiance"
+   ],
+   "g": [
+    "En continu",
+    "Au pointeur"
+   ],
+   "e": "Haut de page"
+  },
+  {
+   "n": 56,
+   "p": "premium",
+   "t": "#kine",
+   "title": "Barre de navigation « île »",
+   "d": "Large en haut, pastille en défilant, sommaire au clic.",
+   "s": [
+    "Navigation"
+   ],
+   "g": [
+    "Au défilement",
+    "Au clic ou au glisser"
+   ],
+   "e": "Composant"
+  },
+  {
+   "n": 57,
+   "p": "premium",
+   "t": "#kine",
+   "title": "Typographie cinétique",
+   "d": "Lignes de mots géants qui glissent en sens opposés.",
+   "s": [
+    "Texte",
+    "Défilement"
+   ],
+   "g": [
+    "Au défilement"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 58,
+   "p": "premium",
+   "t": "#cyl",
+   "title": "Carrousel cylindrique 3D",
+   "d": "Cartes sur un cylindre, à lancer, avec élan.",
+   "s": [
+    "Galeries et images",
+    "3D"
+   ],
+   "g": [
+    "Au clic ou au glisser"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 59,
+   "p": "premium",
+   "t": "#glow",
+   "title": "Cartes à bordure lumineuse",
+   "d": "La bordure s’allume près du pointeur.",
+   "s": [
+    "Cartes"
+   ],
+   "g": [
+    "Au pointeur"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 60,
+   "p": "premium",
+   "t": "#story",
+   "title": "Récit au défilement",
+   "d": "Un visuel reste en place et se métamorphose à chaque étape.",
+   "s": [
+    "Défilement",
+    "Illustration animée",
+    "Contenu"
+   ],
+   "g": [
+    "Au défilement"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 61,
+   "p": "premium",
+   "t": "#deck",
+   "title": "Pile de cartes à lancer",
+   "d": "On attrape la carte du dessus et on la jette sur le côté.",
+   "s": [
+    "Cartes",
+    "Galeries et images"
+   ],
+   "g": [
+    "Au clic ou au glisser"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 62,
+   "p": "premium",
+   "t": "#cursor",
+   "title": "Curseur personnalisé",
+   "d": "Il grossit et s’annonce sur les liens, qui s’aimantent.",
+   "s": [
+    "Navigation",
+    "Boutons et micro-interactions"
+   ],
+   "g": [
+    "Au pointeur"
+   ],
+   "e": "Composant"
+  },
+  {
+   "n": 63,
+   "p": "premium",
+   "t": "#act",
+   "title": "Glisser pour confirmer",
+   "d": "Glissière de validation, et bouton à remplissage liquide.",
+   "s": [
+    "Boutons et micro-interactions",
+    "Formulaires et choix"
+   ],
+   "g": [
+    "Au clic ou au glisser",
+    "Au pointeur"
+   ],
+   "e": "Composant"
+  },
+  {
+   "n": 64,
+   "p": "premium",
+   "t": "END",
+   "title": "Pied de page dévoilé",
+   "d": "Il attend sous la page, qui se soulève pour le montrer.",
+   "s": [
+    "Défilement"
+   ],
+   "g": [
+    "Au défilement"
+   ],
+   "e": "Pied de page"
+  },
+  {
+   "n": 65,
+   "p": "restaurant",
+   "t": "#braise",
+   "title": "Braises vivantes",
+   "d": "Braises et étincelles ; on souffle dessus en maintenant appuyé.",
+   "s": [
+    "Fonds et ambiance"
+   ],
+   "g": [
+    "En continu",
+    "Au clic ou au glisser"
+   ],
+   "e": "Haut de page"
+  },
+  {
+   "n": 66,
+   "p": "restaurant",
+   "t": "#dress",
+   "title": "Dressage d’une assiette",
+   "d": "L’assiette se compose geste après geste en défilant.",
+   "s": [
+    "Illustration animée",
+    "Défilement"
+   ],
+   "g": [
+    "Au défilement"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 67,
+   "p": "restaurant",
+   "t": "#ardoise",
+   "title": "Ardoise à la craie",
+   "d": "Le menu du jour s’écrit ligne après ligne.",
+   "s": [
+    "Texte"
+   ],
+   "g": [
+    "Au défilement"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 68,
+   "p": "restaurant",
+   "t": "#table",
+   "title": "Plan de table",
+   "d": "Les chaises se replacent selon le nombre de couverts.",
+   "s": [
+    "Illustration animée",
+    "Formulaires et choix"
+   ],
+   "g": [
+    "Au clic ou au glisser"
+   ],
+   "e": "Composant"
+  },
+  {
+   "n": 69,
+   "p": "architecte",
+   "t": "#cotes",
+   "title": "Outil de mesure",
+   "d": "Un réticule suit le pointeur et affiche les cotes en direct.",
+   "s": [
+    "Illustration animée"
+   ],
+   "g": [
+    "Au pointeur"
+   ],
+   "e": "Haut de page"
+  },
+  {
+   "n": 70,
+   "p": "architecte",
+   "t": "#plan",
+   "title": "Plan qui se trace",
+   "d": "Murs, portes qui s’ouvrent, mobilier puis cotes, au défilement.",
+   "s": [
+    "Illustration animée",
+    "Défilement"
+   ],
+   "g": [
+    "Au défilement"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 71,
+   "p": "architecte",
+   "t": "#iso",
+   "title": "Maquette isométrique",
+   "d": "Le bâtiment s’empile niveau par niveau puis s’éclaire.",
+   "s": [
+    "3D",
+    "Défilement",
+    "Illustration animée"
+   ],
+   "g": [
+    "Au défilement"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 72,
+   "p": "architecte",
+   "t": "#loupe",
+   "title": "Loupe croquis / rendu",
+   "d": "Une loupe révèle la version habillée sous le dessin au trait.",
+   "s": [
+    "Galeries et images"
+   ],
+   "g": [
+    "Au pointeur"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 73,
+   "p": "fleuriste",
+   "t": "#pousse",
+   "title": "Bouquet qui pousse",
+   "d": "Les tiges montent, les feuilles se déplient, les fleurs s’ouvrent.",
+   "s": [
+    "Illustration animée"
+   ],
+   "g": [
+    "Au chargement"
+   ],
+   "e": "Haut de page"
+  },
+  {
+   "n": 74,
+   "p": "fleuriste",
+   "t": "#compose",
+   "title": "Composer son bouquet",
+   "d": "Chaque fleur choisie pousse dans le vase, le prix suit.",
+   "s": [
+    "Formulaires et choix",
+    "Illustration animée"
+   ],
+   "g": [
+    "Au clic ou au glisser"
+   ],
+   "e": "Composant"
+  },
+  {
+   "n": 75,
+   "p": "fleuriste",
+   "t": "#vent",
+   "title": "Pétales au vent",
+   "d": "Des pétales tombent, poussés par le pointeur et le défilement.",
+   "s": [
+    "Fonds et ambiance"
+   ],
+   "g": [
+    "En continu",
+    "Au pointeur"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 76,
+   "p": "fleuriste",
+   "t": "#saisons",
+   "title": "Roue des saisons",
+   "d": "Une roue à tourner ; la liste et la couleur de la page suivent.",
+   "s": [
+    "Navigation",
+    "Contenu",
+    "Illustration animée"
+   ],
+   "g": [
+    "Au clic ou au glisser"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 77,
+   "p": "premium3",
+   "t": "#lam",
+   "title": "Ouverture en lamelles",
+   "d": "Le visuel arrive par bandes verticales décalées, puis le titre monte.",
+   "s": [
+    "Chargement et transitions",
+    "Galeries et images"
+   ],
+   "g": [
+    "Au chargement"
+   ],
+   "e": "Haut de page"
+  },
+  {
+   "n": 78,
+   "p": "premium3",
+   "t": "#trail",
+   "title": "Traînée d’images",
+   "d": "Des vignettes naissent sous le pointeur puis retombent.",
+   "s": [
+    "Galeries et images",
+    "Fonds et ambiance"
+   ],
+   "g": [
+    "Au pointeur"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 79,
+   "p": "premium3",
+   "t": "#path",
+   "title": "Texte sur une courbe",
+   "d": "Deux lignes de texte glissent le long d’un tracé ondulé.",
+   "s": [
+    "Texte",
+    "Défilement"
+   ],
+   "g": [
+    "Au défilement"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 80,
+   "p": "premium3",
+   "t": "#vague",
+   "title": "Transition en vague",
+   "d": "La section suivante monte avec un bord bombé qui s’aplatit.",
+   "s": [
+    "Chargement et transitions",
+    "Défilement"
+   ],
+   "g": [
+    "Au défilement"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 81,
+   "p": "premium3",
+   "t": "#mosa",
+   "title": "Mosaïque qui s’assemble",
+   "d": "Des tuiles éparpillées se rangent en grille en défilant.",
+   "s": [
+    "Galeries et images",
+    "Défilement"
+   ],
+   "g": [
+    "Au défilement"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 82,
+   "p": "premium3",
+   "t": "#dates",
+   "title": "Sélecteur de dates",
+   "d": "Arrivée, départ : la plage se remplit, le nombre de nuits suit.",
+   "s": [
+    "Formulaires et choix",
+    "Chiffres"
+   ],
+   "g": [
+    "Au clic ou au glisser"
+   ],
+   "e": "Composant"
+  },
+  {
+   "n": 83,
+   "p": "premium3",
+   "t": "#stories",
+   "title": "Stories",
+   "d": "Barres de progression, avance automatique, toucher pour passer.",
+   "s": [
+    "Galeries et images",
+    "Contenu"
+   ],
+   "g": [
+    "En continu",
+    "Au clic ou au glisser"
+   ],
+   "e": "Composant"
+  },
+  {
+   "n": 84,
+   "p": "premium3",
+   "t": "#dock",
+   "title": "Dock magnétique",
+   "d": "Les icônes grossissent à l’approche du pointeur.",
+   "s": [
+    "Navigation",
+    "Boutons et micro-interactions"
+   ],
+   "g": [
+    "Au pointeur"
+   ],
+   "e": "Composant"
+  },
+  {
+   "n": 85,
+   "p": "premium3",
+   "t": "#tunnel",
+   "title": "Tunnel de cartes",
+   "d": "Les cartes viennent vers soi et passent de chaque côté.",
+   "s": [
+    "3D",
+    "Défilement",
+    "Galeries et images"
+   ],
+   "g": [
+    "Au défilement"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 86,
+   "p": "premium3",
+   "t": "#zoomt",
+   "title": "Zoom à travers le titre",
+   "d": "On traverse une lettre pour entrer dans la section suivante.",
+   "s": [
+    "Texte",
+    "Défilement",
+    "Chargement et transitions"
+   ],
+   "g": [
+    "Au défilement"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 87,
+   "p": "bases2",
+   "t": "#tips",
+   "title": "Bouton retour en haut",
+   "d": "Il apparaît après un peu de défilement, avec un anneau de progression.",
+   "s": [
+    "Navigation",
+    "Boutons et micro-interactions"
+   ],
+   "g": [
+    "Au défilement",
+    "Au clic ou au glisser"
+   ],
+   "e": "Composant"
+  },
+  {
+   "n": 88,
+   "p": "bases2",
+   "t": "#tips",
+   "title": "En-tête qui se cache",
+   "d": "Il s’efface en descendant et revient dès qu’on remonte.",
+   "s": [
+    "Navigation"
+   ],
+   "g": [
+    "Au défilement"
+   ],
+   "e": "Haut de page"
+  },
+  {
+   "n": 89,
+   "p": "bases2",
+   "t": "#tips",
+   "title": "Info-bulles animées",
+   "d": "Bulles d’aide au survol ou au toucher, bouton qui confirme la copie.",
+   "s": [
+    "Boutons et micro-interactions"
+   ],
+   "g": [
+    "Au pointeur",
+    "Au clic ou au glisser"
+   ],
+   "e": "Composant"
+  },
+  {
+   "n": 90,
+   "p": "bases2",
+   "t": "#stars",
+   "title": "Étoiles de notation",
+   "d": "Aperçu au survol, rebond à la sélection.",
+   "s": [
+    "Formulaires et choix",
+    "Boutons et micro-interactions"
+   ],
+   "g": [
+    "Au pointeur",
+    "Au clic ou au glisser"
+   ],
+   "e": "Composant"
+  },
+  {
+   "n": 91,
+   "p": "bases2",
+   "t": "#ctrl",
+   "title": "Interrupteur, case et radios",
+   "d": "Champs de formulaire habillés et animés.",
+   "s": [
+    "Formulaires et choix",
+    "Boutons et micro-interactions"
+   ],
+   "g": [
+    "Au clic ou au glisser"
+   ],
+   "e": "Composant"
+  },
+  {
+   "n": 92,
+   "p": "bases2",
+   "t": "#modal",
+   "title": "Fenêtre modale",
+   "d": "Fond flouté, entrée à ressort, fermeture animée.",
+   "s": [
+    "Contenu",
+    "Navigation"
+   ],
+   "g": [
+    "Au clic ou au glisser"
+   ],
+   "e": "Composant"
+  },
+  {
+   "n": 93,
+   "p": "premium4",
+   "t": "#react",
+   "title": "Lettres réactives",
+   "d": "Le titre se soulève et s’allume sous le pointeur ; une onde le parcourt au repos.",
+   "s": [
+    "Texte"
+   ],
+   "g": [
+    "Au pointeur",
+    "En continu"
+   ],
+   "e": "Haut de page"
+  },
+  {
+   "n": 94,
+   "p": "premium4",
+   "t": "#iris",
+   "title": "Révélation circulaire",
+   "d": "La section suivante s’ouvre comme un iris en défilant.",
+   "s": [
+    "Chargement et transitions",
+    "Défilement"
+   ],
+   "g": [
+    "Au défilement"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 95,
+   "p": "premium4",
+   "t": "#fan",
+   "title": "Cartes en éventail",
+   "d": "La pile se déploie en arc, la carte visée se lève.",
+   "s": [
+    "Cartes",
+    "Galeries et images"
+   ],
+   "g": [
+    "Au clic ou au glisser",
+    "Au pointeur"
+   ],
+   "e": "Composant"
+  },
+  {
+   "n": 96,
+   "p": "premium4",
+   "t": "#tarifs",
+   "title": "Tarifs à surbrillance glissante",
+   "d": "Un fond coulisse derrière l’offre choisie.",
+   "s": [
+    "Chiffres",
+    "Contenu",
+    "Boutons et micro-interactions"
+   ],
+   "g": [
+    "Au clic ou au glisser",
+    "Au pointeur"
+   ],
+   "e": "Composant"
+  },
+  {
+   "n": 97,
+   "p": "premium4",
+   "t": "#courbe",
+   "title": "Courbe qui se trace",
+   "d": "La ligne se dessine, les points apparaissent, lecture au pointeur.",
+   "s": [
+    "Chiffres",
+    "Illustration animée"
+   ],
+   "g": [
+    "Au défilement",
+    "Au pointeur"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 98,
+   "p": "premium4",
+   "t": "#grains",
+   "title": "Texte en particules",
+   "d": "Des grains s’assemblent en mot et fuient le pointeur.",
+   "s": [
+    "Texte",
+    "Fonds et ambiance"
+   ],
+   "g": [
+    "Au défilement",
+    "Au pointeur"
+   ],
+   "e": "Section"
+  },
+  {
+   "n": 99,
+   "p": "premium4",
+   "t": "#livret",
+   "title": "Livret à pages tournées",
+   "d": "Un livret en 3D à feuilleter, pour une carte ou un catalogue.",
+   "s": [
+    "3D",
+    "Galeries et images",
+    "Contenu"
+   ],
+   "g": [
+    "Au clic ou au glisser"
+   ],
+   "e": "Composant"
+  },
+  {
+   "n": 100,
+   "p": "premium4",
+   "t": "#mur",
+   "title": "Mur incliné",
+   "d": "Rangées de visuels en perspective qui défilent en sens opposés.",
+   "s": [
+    "Fonds et ambiance",
+    "Galeries et images",
+    "3D"
+   ],
+   "g": [
+    "En continu",
+    "Au défilement"
+   ],
+   "e": "Section"
+  }
+ ]
+}

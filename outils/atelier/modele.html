@@ -54,6 +54,16 @@ button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-vis
 .genre .ga{font-size:14px;color:var(--muted);padding:0 4px 4px}
 .genre[aria-pressed=true]{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent)}
 .genre.hasard{place-content:center;text-align:center;min-height:120px;border-style:dashed}
+/* les pages */
+.pages{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,290px),1fr));gap:10px}
+.pg{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px 14px;display:grid;gap:6px;align-content:start}
+.pg.pris{border-color:var(--accent)}
+.pg .coche{font-weight:500}
+.pg p{font-size:14px}
+.pg select{padding:9px 12px;font-size:15px}
+.anim .at{grid-column:2;display:flex;flex-wrap:wrap;gap:4px;font-size:12px}
+.anim .at span{padding:2px 8px;border-radius:999px;background:var(--surface-2);color:var(--ink)}
+.anim .at span.pr{background:none;border:1px solid var(--rose);color:var(--rose)}
 /* la composition */
 .fam{border-top:1px solid var(--line)}
 .fam:first-of-type{border-top:0}
@@ -97,10 +107,10 @@ dialog .note{padding:10px 18px 14px;max-width:none}
   <header style="display:grid;gap:16px">
     <p class="num">SAITORA · L’ATELIER</p>
     <h1>Préparer un site</h1>
-    <p class="intro">Choisis le projet, le genre et les animations. À la fin, tu repars avec le texte à coller dans une session : tout y est décidé, je n’ai plus qu’à construire.</p>
+    <p class="intro">Choisis le projet, les pages, le genre et les animations. À la fin, tu repars avec le texte à coller dans une session : tout y est décidé, je n’ai plus qu’à construire.</p>
     <ul class="plan" aria-label="Les étapes">
-      <li><a href="#s1"><b>01</b>Le projet</a></li><li><a href="#s2"><b>02</b>Le genre</a></li><li><a href="#s3"><b>03</b>La composition</a></li>
-      <li><a href="#s4"><b>04</b>Les animations</a></li><li><a href="#s5"><b>05</b>Tes consignes</a></li><li><a href="#s6"><b>06</b>Le prompt</a></li>
+      <li><a href="#s1"><b>01</b>Le projet</a></li><li><a href="#sp"><b>02</b>Les pages</a></li><li><a href="#s2"><b>03</b>Le genre</a></li><li><a href="#s3"><b>04</b>La composition</a></li>
+      <li><a href="#s4"><b>05</b>Les animations</a></li><li><a href="#s5"><b>06</b>Tes consignes</a></li><li><a href="#s6"><b>07</b>Le prompt</a></li>
     </ul>
   </header>
 
@@ -137,32 +147,44 @@ dialog .note{padding:10px 18px 14px;max-width:none}
     </div>
   </section>
 
+  <section class="etape" id="sp" aria-labelledby="tp">
+    <div class="tete"><p class="num">02</p><h2 id="tp">Les pages</h2><p>Un seul bloc qu’on fait défiler, ou un site avec plusieurs pages ? Une page en plus se justifie quand elle a un vrai travail à faire : vendre, réserver, montrer beaucoup de photos.</p></div>
+    <div class="rang" id="blocs" role="group" aria-label="Une ou plusieurs pages"></div>
+    <div class="panneau" id="z-pages" hidden>
+      <div style="display:grid;gap:6px"><h3>Les pages en plus de l’accueil</h3><p class="note" id="conseil-pages"></p></div>
+      <div class="pages" id="pages"></div>
+      <label class="ch large">Une autre page, ou une précision<textarea id="pagesNote" style="min-height:72px" placeholder="Par exemple : une page par chambre, la boutique a une quarantaine de produits, la réservation passe par son outil actuel…"></textarea></label>
+    </div>
+  </section>
+
   <section class="etape" id="s2" aria-labelledby="t2">
-    <div class="tete"><p class="num">02</p><h2 id="t2">Le genre</h2><p>Il décide de tout le reste : la grille, les tailles, le ton. Les aperçus portent le nom de ton projet.</p></div>
+    <div class="tete"><p class="num">03</p><h2 id="t2">Le genre</h2><p>Il décide de tout le reste : la grille, les tailles, le ton. Les aperçus portent le nom de ton projet.</p></div>
     <div class="genres" id="genres"></div>
   </section>
 
   <section class="etape" id="s3" aria-labelledby="t3">
-    <div class="tete"><p class="num">03</p><h2 id="t3">La composition</h2><p>Ne choisis que ce qui compte pour toi. Le reste est tiré au sort dans la session, loin de ce que les autres sites ont déjà. Le chiffre dit combien de sites ont déjà cette option ; en pointillé, ce qui va moins bien avec le genre choisi.</p></div>
+    <div class="tete"><p class="num">04</p><h2 id="t3">La composition</h2><p>Ne choisis que ce qui compte pour toi. Le reste est tiré au sort dans la session, loin de ce que les autres sites ont déjà. Le chiffre dit combien de sites ont déjà cette option ; en pointillé, ce qui va moins bien avec le genre choisi.</p></div>
     <label class="ch" style="max-width:420px">Doit ressembler à un de nos sites<select id="comme"></select></label>
     <div class="panneau" id="familles" style="gap:0;padding-block:8px"></div>
     <div class="rang"><button type="button" id="vider-compo">Tout remettre au tirage</button></div>
   </section>
 
   <section class="etape" id="s4" aria-labelledby="t4">
-    <div class="tete"><p class="num">04</p><h2 id="t4">Les animations</h2><p>Ta banque de 44 mouvements. Six à dix suffisent pour un site : au-delà, ça fatigue. «&nbsp;Voir&nbsp;» la joue en vrai.</p></div>
-    <div class="rang" id="filtres" role="group" aria-label="Filtrer les animations"></div>
+    <div class="tete"><p class="num">05</p><h2 id="t4">Les animations</h2><p>Ta banque de 100 mouvements : 50 basiques, 50 premium, dont quatre séries faites pour un métier. Six à dix suffisent pour un site : au-delà, ça fatigue. «&nbsp;Voir&nbsp;» la joue en vrai.</p></div>
+    <div class="rang" id="niveaux" role="group" aria-label="Filtrer par série"></div>
+    <div class="rang" id="filtres" role="group" aria-label="Filtrer par style"></div>
+    <p class="note" id="compte-anims" aria-live="polite"></p>
     <div class="anims" id="anims"></div>
   </section>
 
   <section class="etape" id="s5" aria-labelledby="t5">
-    <div class="tete"><p class="num">05</p><h2 id="t5">Tes consignes</h2><p>Ce que tu veux absolument, ce que tu ne veux pas, ce que le client a demandé.</p></div>
+    <div class="tete"><p class="num">06</p><h2 id="t5">Tes consignes</h2><p>Ce que tu veux absolument, ce que tu ne veux pas, ce que le client a demandé.</p></div>
     <textarea id="consignes" aria-labelledby="t5" placeholder="Par exemple : la carte doit être lisible en un coup d’œil, pas de noir, il veut qu’on voie la terrasse en premier…"></textarea>
     <div class="rang"><label class="coche"><input type="checkbox" id="planche">Me montrer une planche de polices avant de construire</label><label class="coche"><input type="checkbox" id="app">Préparer aussi son appli (Saitorapp)</label></div>
   </section>
 
   <section class="etape" id="s6" aria-labelledby="t6">
-    <div class="tete"><p class="num">06</p><h2 id="t6">Le prompt</h2><p>Copie-le et colle-le dans une nouvelle session Claude Code sur le dépôt StudioCAC. Tu peux le retoucher ici avant de copier.</p></div>
+    <div class="tete"><p class="num">07</p><h2 id="t6">Le prompt</h2><p>Copie-le et colle-le dans une nouvelle session Claude Code sur le dépôt StudioCAC. Tu peux le retoucher ici avant de copier.</p></div>
     <textarea id="prompt" aria-labelledby="t6" spellcheck="false"></textarea>
     <div class="rang"><button type="button" class="plein" id="copier2">Copier le prompt</button><button type="button" id="refaire-prompt" hidden>Annuler mes retouches</button><button type="button" id="effacer">Tout effacer et recommencer</button></div>
     <p class="note" id="etat-copie" aria-live="polite"></p>
@@ -174,7 +196,7 @@ dialog .note{padding:10px 18px 14px;max-width:none}
 <dialog id="vue" aria-labelledby="vue-t">
   <div class="vt"><strong id="vue-t"></strong><button type="button" id="vue-x">Fermer</button></div>
   <iframe id="vue-f" title="Aperçu de l’animation"></iframe>
-  <p class="note">Fais défiler dans le cadre pour la voir jouer. Si le cadre reste vide, ouvre <a href="https://claude.ai/artifact/68hT3KBSuiVqkwgb4kunVy" target="_blank" rel="noopener">ta banque d’animations</a>.</p>
+  <p class="note">Le cadre descend tout seul jusqu’à l’animation : fais défiler dedans pour la voir jouer. Si le cadre reste vide, ouvre <a href="https://claude.ai/artifact/68hT3KBSuiVqkwgb4kunVy" target="_blank" rel="noopener">ta banque d’animations</a>.</p>
 </dialog>
 
 <script>
@@ -186,9 +208,23 @@ dialog .note{padding:10px 18px 14px;max-width:none}
   const $ = id => document.getElementById(id);
   const el = (tag, props = {}, ...enfants) => { const e = Object.assign(document.createElement(tag), props); e.append(...enfants); return e; };
   const TYPES = [["client", "Site client"], ["demo", "Démo Saitora"], ["refaire", "Refaire un de nos sites"], ["labo", "Essai du labo"]];
-  const CATS = ["Toutes", ...new Set(D.animations.map(a => a.cat)), "Choisies"];
+  const CATS = ["Toutes", ...D.styles, "Choisies"];
+  const NIVEAUX = [["", "Toutes les séries"], ["basique", "Basiques"], ["premium", "Premium"], ...D.metiers];
+  const BLOCS = [["une", "Une seule page"], ["plusieurs", "Plusieurs pages"]];
+  /* les pages possibles : identifiant, nom, à quoi elle sert, fichier, et pour certaines la façon de la brancher */
+  const PAGES = [
+    ["boutique", "Boutique", "Le catalogue, avec une fiche par produit.", "boutique.html", [["message", "La sélection part par message (pas de paiement)"], ["existante", "Branchée sur sa boutique en ligne actuelle"], ["paiement", "Vrai panier et paiement (à préparer avec lui)"]]],
+    ["reserver", "Réserver", "Une table, une chambre, un créneau, une séance.", "reserver.html", [["message", "Une demande envoyée par message"], ["existant", "Branchée sur son outil de réservation actuel"], ["calendrier", "Un vrai calendrier avec les places libres"]]],
+    ["carte", "La carte ou les tarifs", "Le menu, les prestations et leurs prix, en entier.", "carte.html"],
+    ["realisations", "Réalisations", "Beaucoup de photos : chantiers, créations, avant et après.", "realisations.html"],
+    ["histoire", "L’histoire", "La maison, l’équipe, le savoir-faire.", "histoire.html"],
+    ["contact", "Contact et accès", "Le plan, les horaires, le formulaire.", "contact.html"],
+    ["devis", "Demande de devis", "Un formulaire en étapes pour chiffrer une demande.", "devis.html"],
+    ["actualites", "Actualités", "Nouveautés, événements, plats du moment.", "actualites.html"]];
+  const CONSEILS = [[/restau|bistro|pizz|brasserie|caf|bar/i, ["carte", "reserver"]], [/h[oô]tel|g[iî]te|h[oô]te|chambre|villa|camping|locat/i, ["reserver", "realisations"]], [/boutique|magasin|[ée]picerie|cave|fleur|bijou|cr[ée]at/i, ["boutique"]],
+    [/coiff|beaut|institut|spa|barb|massage|esth/i, ["carte", "reserver"]], [/artisan|ma[cç]on|plomb|[ée]lectr|peint|menuis|garage|b[aâ]timent|vitr/i, ["realisations", "devis"]], [/sport|salle|club|cours|yoga/i, ["carte", "reserver"]]];
   const VIDE = { type: "client", nom: "", refaire: "", metier: "", ville: "", charte: "", ancien: "", couleurs: false, c1: "#1F3A5F", c2: "#F6F1E7", c3: "#C8553D", coulApercu: true, titres: "", vrai: "",
-    phClient: true, phArchives: true, phPixabay: true, avis: false, genre: "", comme: "", choix: {}, anims: [], consignes: "", planche: false, app: false, filtre: "Toutes" };
+    phClient: true, phArchives: true, phPixabay: true, avis: false, genre: "", comme: "", choix: {}, anims: [], consignes: "", planche: false, app: false, filtre: "Toutes", niveau: "", bloc: "une", pages: {}, pagesNote: "" };
   let S = structuredClone(VIDE), retouche = false;
   try { Object.assign(S, JSON.parse(localStorage.getItem("atelier-saitora") || "{}")); } catch (e) {}
   const garde = () => { try { localStorage.setItem("atelier-saitora", JSON.stringify(S)); } catch (e) {} };
@@ -205,13 +241,28 @@ dialog .note{padding:10px 18px 14px;max-width:none}
   $("refaire").append(...D.sites.map(s => el("option", { value: s, textContent: s })));
   $("comme").append(el("option", { value: "", textContent: "À aucun" }), ...D.sites.map(s => el("option", { value: s, textContent: s })));
   $("titres").append(...[["", "Selon le genre"], ...D.chartes.map(c => [c, c])].map(([id, nom]) => el("button", { type: "button", className: "puce", textContent: nom, onclick: () => { S.titres = id; tout(); } })));
-  const CHAMPS = { nom: "nom", refaire: "refaire", metier: "metier", ville: "ville", charte: "charte", ancien: "ancien", c1: "c1", c2: "c2", c3: "c3", vrai: "vrai", consignes: "consignes", comme: "comme" };
+  const CHAMPS = { nom: "nom", refaire: "refaire", metier: "metier", ville: "ville", charte: "charte", ancien: "ancien", c1: "c1", c2: "c2", c3: "c3", vrai: "vrai", consignes: "consignes", comme: "comme", pagesNote: "pagesNote" };
   const COCHES = { couleurs: "couleurs", coulApercu: "coulApercu", "ph-client": "phClient", "ph-archives": "phArchives", "ph-pixabay": "phPixabay", avis: "avis", planche: "planche", app: "app" };
   let attente;
-  for (const [id, cle] of Object.entries(CHAMPS)) $(id).addEventListener("input", e => { S[cle] = e.target.value; clearTimeout(attente); attente = setTimeout(() => { if (["nom", "refaire", "metier", "c1", "c2", "c3"].includes(id)) genres(); }, 350); if (id === "comme" || id === "refaire") familles(); bilan(); });
+  for (const [id, cle] of Object.entries(CHAMPS)) $(id).addEventListener("input", e => { S[cle] = e.target.value; clearTimeout(attente); attente = setTimeout(() => { if (["nom", "refaire", "metier", "c1", "c2", "c3"].includes(id)) genres(); if (id === "metier") pages(); }, 350); if (id === "comme" || id === "refaire") familles(); bilan(); });
   for (const [id, cle] of Object.entries(COCHES)) $(id).addEventListener("change", e => { S[cle] = e.target.checked; tout(); });
 
-  /* --- 02 le genre --- */
+  /* --- 02 les pages --- */
+  $("blocs").append(...BLOCS.map(([id, nom]) => el("button", { type: "button", className: "puce", textContent: nom, id: "bl-" + id, onclick: () => { S.bloc = id; tout(); } })));
+  function pages() {
+    for (const [id] of BLOCS) $("bl-" + id).setAttribute("aria-pressed", S.bloc === id);
+    $("z-pages").hidden = S.bloc !== "plusieurs";
+    const idees = (CONSEILS.find(c => c[0].test(S.metier)) || [0, []])[1];
+    $("conseil-pages").textContent = idees.length ? "Pour ce métier, on pense d’abord à : " + idees.map(i => PAGES.find(x => x[0] === i)[1].toLowerCase()).join(", ") + "." : "Coche seulement les pages qui ont de quoi être remplies.";
+    $("pages").replaceChildren(...PAGES.map(([id, nom, quoi, fichier, modes]) => {
+      const c = el("input", { type: "checkbox", checked: !!S.pages[id] });
+      c.onchange = () => { if (c.checked) S.pages[id] = modes ? modes[0][0] : true; else delete S.pages[id]; pages(); bilan(); };
+      const bloc = el("div", { className: "pg" + (S.pages[id] ? " pris" : "") }, el("label", { className: "coche" }, c, nom + (idees.includes(id) ? " · conseillée" : "")), el("p", { textContent: quoi }));
+      if (modes && S.pages[id]) { const sl = el("select", { ariaLabel: "Fonctionnement de la page " + nom }, ...modes.map(([v, t]) => el("option", { value: v, textContent: t }))); sl.value = S.pages[id]; sl.onchange = () => { S.pages[id] = sl.value; bilan(); }; bloc.append(sl); }
+      return bloc; }));
+  }
+
+  /* --- 03 le genre --- */
   function genres() {
     const nom = nomProjet() || "Votre commerce", quoi = S.metier.trim() || "Depuis toujours";
     const peint = t => S.couleurs && S.coulApercu ? { ...t, couleurs: { fond: S.c2, texte: clair(S.c2) ? "#161616" : "#F4F1EA", accent: S.c3, second: S.c1 } } : t;
@@ -247,15 +298,18 @@ dialog .note{padding:10px 18px 14px;max-width:none}
 
   /* --- 04 les animations --- */
   function anims() {
+    if (!CATS.includes(S.filtre)) S.filtre = "Toutes";
+    $("niveaux").replaceChildren(...NIVEAUX.map(([id, nom]) => { const b = el("button", { type: "button", className: "puce", textContent: nom, onclick: () => { S.niveau = id; anims(); garde(); } }); b.setAttribute("aria-pressed", S.niveau === id); return b; }));
     $("filtres").replaceChildren(...CATS.map(c => { const b = el("button", { type: "button", className: "puce", textContent: c === "Choisies" ? `Choisies (${S.anims.length})` : c, onclick: () => { S.filtre = c; anims(); garde(); } }); b.setAttribute("aria-pressed", S.filtre === c); return b; }));
-    const vues = D.animations.filter(a => S.filtre === "Toutes" || (S.filtre === "Choisies" ? S.anims.includes(a.n) : a.cat === S.filtre));
+    const vues = D.animations.filter(a => (S.filtre === "Choisies" ? S.anims.includes(a.n) : (S.filtre === "Toutes" || a.s.includes(S.filtre)) && (!S.niveau || a.niveau === S.niveau || a.p === S.niveau)));
+    $("compte-anims").textContent = `${vues.length} animation${vues.length > 1 ? "s" : ""} affichée${vues.length > 1 ? "s" : ""}, ${S.anims.length} choisie${S.anims.length > 1 ? "s" : ""}.`;
     $("anims").replaceChildren(...(vues.length ? vues.map(a => {
       const c = el("input", { type: "checkbox", checked: S.anims.includes(a.n), id: "a" + a.n });
       c.onchange = () => { S.anims = c.checked ? [...S.anims, a.n].sort((x, y) => x - y) : S.anims.filter(n => n !== a.n); anims(); bilan(); };
       const voir = el("button", { type: "button", className: "voir", textContent: "Voir" });
-      voir.onclick = () => { $("vue-t").textContent = String(a.n).padStart(2, "0") + " · " + a.nom; $("vue-f").src = "mouvements.html" + (a.sec === "bar" ? "" : "?seul=" + a.sec); $("vue").showModal(); };
-      return el("div", { className: "anim" + (c.checked ? " pris" : "") }, c, el("label", { htmlFor: "a" + a.n }, el("span", { className: "an" }, el("b", { textContent: String(a.n).padStart(2, "0") }), a.nom)), el("p", { className: "ap", textContent: a.pour }), ...(a.garde ? [el("p", { className: "ag", textContent: a.garde })] : []), voir);
-    }) : [el("p", { className: "note", textContent: "Aucune animation choisie pour l’instant." })]));
+      voir.onclick = () => { $("vue-t").textContent = String(a.n).padStart(2, "0") + " · " + a.nom; $("vue-f").src = "apercu.html?voir=" + a.n; $("vue").showModal(); };
+      return el("div", { className: "anim" + (c.checked ? " pris" : "") }, c, el("label", { htmlFor: "a" + a.n }, el("span", { className: "an" }, el("b", { textContent: String(a.n).padStart(2, "0") }), a.nom)), el("p", { className: "ap", textContent: a.pour }), el("p", { className: "at" }, ...(a.niveau === "premium" ? [el("span", { className: "pr", textContent: D.metiers.some(m => m[0] === a.p) ? D.packs[a.p] : "Premium" })] : []), ...a.g.map(x => el("span", { textContent: x }))), ...(a.garde ? [el("p", { className: "ag", textContent: a.garde })] : []), voir);
+    }) : [el("p", { className: "note", textContent: S.filtre === "Choisies" ? "Aucune animation choisie pour l’instant." : "Aucune animation dans ce filtre." })]));
   }
   $("vue-x").onclick = () => $("vue").close();
   $("vue").addEventListener("close", () => { $("vue-f").src = "about:blank"; });
@@ -279,6 +333,17 @@ dialog .note{padding:10px 18px 14px;max-width:none}
     L.push(ph.length ? "- Photos, dans cet ordre : " + ph.join(", puis ") + ". Un même ton pour toutes, créditées en pied de page." : "- Photos : aucune source choisie, me demander avant d’en mettre.");
     if (S.avis) L.push("- Il a de vrais avis : me les demander, ne pas en inventer.");
 
+    L.push("", "LES PAGES");
+    const pg = PAGES.filter(x => S.pages[x[0]]);
+    if (S.bloc === "une" || (!pg.length && !S.pagesNote.trim())) L.push("Une seule page : tout tient dans un seul bloc qu’on fait défiler, la navigation mène aux sections.");
+    else {
+      const ou = { client: `clients/${s}/`, demo: `à la racine, sous le nom demo-${s}-<page>.html`, refaire: "à côté de sa page actuelle", labo: `labo/NN-${s}/` }[S.type];
+      L.push(`Plusieurs pages (${ou}) : l’accueil, plus :`);
+      pg.forEach(x => { const m = x[4] && (x[4].find(o => o[0] === S.pages[x[0]]) || x[4][0]); L.push(`- ${x[1]} (${x[3]}) : ${x[2]}${m ? " Fonctionnement : " + m[1].toLowerCase() + "." : ""}`); });
+      if (S.pagesNote.trim()) L.push("- Précisions : " + S.pagesNote.trim());
+      L.push("Même en-tête, même pied et mêmes feuilles de style sur toutes les pages ; la navigation marque la page où l’on est ; l’accueil résume chaque page et y mène. Chaque page a son propre travail : pas de page vide ni de doublon avec l’accueil. Vérifier chaque page avec outils/verifier.js.");
+    }
+
     const imposer = [S.genre && "genre=" + S.genre, ...D.familles.filter(f => S.choix[f.id]).map(f => f.id + "=" + S.choix[f.id])].filter(Boolean);
     let cmd = "python3 outils/tirage.py " + s;
     if (S.type === "labo") cmd += ` --fiche labo/NN-${s}/style.md`;
@@ -294,10 +359,10 @@ dialog .note{padding:10px 18px 14px;max-width:none}
 
     L.push("", "LES ANIMATIONS");
     if (S.anims.length) {
-      L.push("À prendre dans ma banque, outils/atelier/mouvements.html (pour chacune : sa section, son CSS sous le commentaire /* NN */, son JavaScript sous // NN) :");
-      D.animations.filter(a => S.anims.includes(a.n)).forEach(a => L.push(`- ${String(a.n).padStart(2, "0")} ${a.nom} (section #${a.sec})${a.garde ? " : à adapter pour que rien ne défile sur le côté" : ""}`));
+      L.push("À prendre dans ma banque, animations/mouvements.html (lire animations/LISEZMOI.md ; chaque pack est un <template data-pack> autonome ; pour chacune : sa section, son CSS sous le commentaire /* NN */, son JavaScript sous // NN) :");
+      D.animations.filter(a => S.anims.includes(a.n)).forEach(a => L.push(`- ${String(a.n).padStart(2, "0")} ${a.nom} (pack « ${a.p} », ${a.t === "END" ? "pied de page" : "section " + a.t})${a.garde ? " : à adapter pour que rien ne défile sur le côté" : ""}`));
       L.push("Les fondre dans le genre et la charte (couleurs, polices, courbes) avec le vrai contenu du client. Respecter prefers-reduced-motion. Ne pas en ajouter d’autres sans me le dire.");
-    } else L.push("Je n’en impose aucune : en choisir peu (six à dix) dans ma banque, outils/atelier/mouvements.html, selon le genre, et me dire lesquelles.");
+    } else L.push("Je n’en impose aucune : en choisir peu (six à dix) dans ma banque, animations/mouvements.html (index dans animations/index.json), selon le genre et le métier, et me dire lesquelles.");
 
     if (S.consignes.trim()) L.push("", "MES CONSIGNES", S.consignes.trim());
     L.push("", "À LA FIN");
@@ -311,7 +376,7 @@ dialog .note{padding:10px 18px 14px;max-width:none}
     garde();
     if (!retouche) $("prompt").value = ecrit();
     const pret = !!nomProjet(), n = Object.keys(S.choix).length;
-    $("resume").textContent = pret ? `« ${nomProjet()} » · ${S.genre ? theme(S.genre).nom : "genre au tirage"} · ${n} choix de composition · ${S.anims.length} animation${S.anims.length > 1 ? "s" : ""}` : "Donne un nom au projet pour avoir ton prompt.";
+    $("resume").textContent = pret ? `« ${nomProjet()} » · ${S.genre ? theme(S.genre).nom : "genre au tirage"} · ${S.bloc === "plusieurs" ? 1 + PAGES.filter(x => S.pages[x[0]]).length + " pages" : "une page"} · ${n} choix de composition · ${S.anims.length} animation${S.anims.length > 1 ? "s" : ""}` : "Donne un nom au projet pour avoir ton prompt.";
     $("copier").disabled = $("copier2").disabled = !pret;
   }
   $("prompt").addEventListener("input", () => { retouche = true; $("refaire-prompt").hidden = false; });
@@ -337,7 +402,7 @@ dialog .note{padding:10px 18px 14px;max-width:none}
     for (const [id, cle] of Object.entries(COCHES)) $(id).checked = S[cle];
     $("z-couleurs").hidden = !S.couleurs;
     [...$("titres").children].forEach((b, i) => b.setAttribute("aria-pressed", S.titres === (i ? D.chartes[i - 1] : "")));
-    genres(); familles(); anims(); bilan();
+    pages(); genres(); familles(); anims(); bilan();
   }
   tout();
 
@@ -365,9 +430,9 @@ IDÉES ORIGINALES (id : ce que le visiteur peut faire)
 ${sig.options.map(x => `${x[0]} : ${x[1]}. ${x[2]}`).join("\n")}
 
 ANIMATIONS (numéro : nom, usage)
-${D.animations.filter(a => !a.garde).map(a => `${a.n} : ${a.nom}. ${a.pour}`).join("\n")}
+${D.animations.filter(a => !a.garde).map(a => `${a.n} : ${a.nom}. ${a.pour}${D.metiers.some(m => m[0] === a.p) ? " (série " + D.packs[a.p] + ")" : ""}`).join("\n")}
 
-RÈGLES : sobre et classe, jamais chargé. Un genre qui va au métier, de préférence peu utilisé. Une seule idée originale, faite pour ce métier. Six à neuf animations qui vont ensemble et avec le genre. Pas de chiffres animés sans vrais chiffres.
+RÈGLES : sobre et classe, jamais chargé. Un genre qui va au métier, de préférence peu utilisé. Une seule idée originale, faite pour ce métier. Six à neuf animations qui vont ensemble et avec le genre. Pas de chiffres animés sans vrais chiffres. Les séries faites pour un métier ne vont qu’à ce métier ou à un métier très proche.
 
 Réponds seulement par un objet JSON : {"genre":"id","signature":"id","animations":[numéros],"pourquoi":"trois phrases courtes en français simple, en tutoyant, sans tiret long"}`;
     try {
@@ -376,7 +441,7 @@ Réponds seulement par un objet JSON : {"genre":"id","signature":"id","animation
       if (!g && !sg && !an.length) throw { code: "invalid_json" };
       if (g) S.genre = g.id; if (sg) S.choix.signature = sg[0]; if (an.length) S.anims = [...new Set(an)].sort((x, y) => x - y);
       o.classList.remove("pense");
-      o.textContent = [g && "Genre : " + g.nom, sg && "Idée originale : " + sg[1], an.length && "Animations : " + S.anims.map(n => String(n).padStart(2, "0")).join(", "), "", String(r.pourquoi || ""), "", "C’est rempli dans les étapes 02 à 04 : change ce que tu veux."].filter(x => x !== false && x !== undefined && x !== 0).join("\n");
+      o.textContent = [g && "Genre : " + g.nom, sg && "Idée originale : " + sg[1], an.length && "Animations : " + S.anims.map(n => String(n).padStart(2, "0")).join(", "), "", String(r.pourquoi || ""), "", "C’est rempli dans les étapes 03 à 05 : change ce que tu veux."].filter(x => x !== false && x !== undefined && x !== 0).join("\n");
       tout();
     } catch (e) { o.classList.remove("pense"); o.textContent = DIT[e.code] || "Je n’ai pas pu proposer (" + (e.code || "erreur") + "). Tu peux tout choisir à la main."; }
     $("proposer").disabled = false;

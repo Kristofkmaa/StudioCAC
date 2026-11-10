@@ -267,10 +267,9 @@ legend{margin-bottom:10px}
   .js .rise{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .9s var(--e);transition-delay:calc(var(--i,0)*90ms)}
   .js .rise.on{opacity:1;transform:none}
   /* 19 : les images se dévoilent au rideau */
-  .js .rideau{clip-path:inset(0 0 100% 0 round 24px);transition:clip-path 1.2s var(--e)}
-  .js .rideau img{transform:scale(1.18);transition:transform 1.6s var(--e)}
-  .js .rideau.on{clip-path:inset(0 0 0 0 round 24px)}
-  .js .rideau.on img{transform:none}
+  /* le rideau est sur l'image, pas sur son cadre : un cadre entièrement masqué par son propre clip-path n'est jamais « vu » par l'observateur */
+  .js .rideau img{clip-path:inset(0 0 100% 0);transform:scale(1.18);transition:clip-path 1.2s var(--e),transform 1.6s var(--e)}
+  .js .rideau.on img{clip-path:inset(0 0 0 0);transform:none}
   /* 25 : la bordure du prix tourne, le voile d'attente passe */
   .lueur::before{animation:tourne 6s linear infinite}
   .sq.charge{animation:voile 1.3s linear infinite}

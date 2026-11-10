@@ -13,6 +13,7 @@
 <meta name="theme-color" content="#1F5C86">
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Crect%20width=%2264%22%20height=%2264%22%20rx=%226%22%20fill=%22%2324302F%22/%3E%3Cpath%20d=%22M10%2038c6%200%206-5%2011-5s5%205%2011%205%206-5%2011-5%205%205%2011%205%22%20fill=%22none%22%20stroke=%22%23F3F2EC%22%20stroke-width=%224%22%20stroke-linecap=%22round%22/%3E%3C/svg%3E">
 <link rel="stylesheet" href="polices/dm-serif-display-plus-jakarta-sans-190a57.css">
+<script>document.documentElement.classList.add("js")</script>
 <style>
 /* La Table du Port, genre « méditerranéen coloré » : aplats bleu de mer, terre cuite et ocre, carreaux de faïence,
    formes douces et vagues entre les sections, une serif à l'italique chaleureuse. */
@@ -34,7 +35,7 @@ button,input,select{font:inherit;color:inherit}
 .wrap{max-width:1300px;margin-inline:auto;padding-inline:var(--m)}
 .demo{background:var(--deep);color:#D8E4EE;font-size:13px;text-align:center;padding:6px 16px}
 .it{font-style:italic}
-.pill{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:50px;padding:0 24px;border-radius:999px;background:var(--terra);color:#fff;font-weight:700;text-decoration:none;border:0;cursor:pointer;transition:background-color .15s,transform .15s cubic-bezier(.23,1,.32,1)}
+.pill{position:relative;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:50px;padding:0 24px;border-radius:999px;background:var(--terra);color:#fff;font-weight:700;text-decoration:none;border:0;cursor:pointer;transition:background-color .15s,transform .15s cubic-bezier(.23,1,.32,1)}
 .pill.ghost{background:none;border:2px solid currentColor;color:inherit}
 @media (hover:hover) and (pointer:fine){.pill:hover{background:#B4462F}.pill.ghost:hover{background:rgba(255,255,255,.12)}}
 .pill:active{transform:scale(.97)}
@@ -76,8 +77,8 @@ button,input,select{font:inherit;color:inherit}
 /* ---- vagues ---- */
 .wave{position:relative}
 .wave::before{content:"";position:absolute;left:0;right:0;top:-38px;height:40px;background:inherit;
-  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 40' preserveAspectRatio='none'%3E%3Cpath d='M0 20C120 0 240 0 360 20s240 20 360 0 240-20 360 0 240 20 360 0V40H0Z'/%3E%3C/svg%3E") 0 0/100% 100%;
-          mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 40' preserveAspectRatio='none'%3E%3Cpath d='M0 20C120 0 240 0 360 20s240 20 360 0 240-20 360 0 240 20 360 0V40H0Z'/%3E%3C/svg%3E") 0 0/100% 100%}
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 40' preserveAspectRatio='none'%3E%3Cpath d='M0 20C120 0 240 0 360 20s240 20 360 0 240-20 360 0 240 20 360 0V40H0Z'/%3E%3C/svg%3E") 0 0/200% 100% repeat-x;
+          mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 40' preserveAspectRatio='none'%3E%3Cpath d='M0 20C120 0 240 0 360 20s240 20 360 0 240-20 360 0 240 20 360 0V40H0Z'/%3E%3C/svg%3E") 0 0/200% 100% repeat-x}
 section{padding-block:clamp(80px,9vw,130px)}
 
 /* ---- l'ardoise du jour ---- */
@@ -89,7 +90,8 @@ section{padding-block:clamp(80px,9vw,130px)}
 .board .in{background:var(--chalk);border-radius:calc(var(--r) - 8px);padding:clamp(20px,3vw,36px)}
 .board .date{font:400 1.6rem/1.1 var(--serif);font-style:italic;color:var(--sea)}
 .board ul{list-style:none;margin-top:14px}
-.board li{display:flex;align-items:baseline;gap:12px;padding:14px 0;border-bottom:1px dashed var(--line)}
+.board li{position:relative;padding:14px 0;border-bottom:1px dashed var(--line)}
+.board li .tx{display:flex;align-items:baseline;gap:12px}
 .board li b{font:400 1.45rem/1.1 var(--serif)}
 .board li span{display:block;font-size:15px;color:#4C5B66}
 .board li .p{margin-left:auto;font-weight:700;white-space:nowrap}
@@ -102,9 +104,10 @@ section{padding-block:clamp(80px,9vw,130px)}
 
 /* ---- la carte : cartes qui défilent ---- */
 .menu-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
-.cats{display:flex;gap:8px;flex-wrap:wrap}
-.cats button{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid var(--ink);background:none;font-weight:700;cursor:pointer;transition:background-color .15s,color .15s}
-.cats button[aria-pressed="true"]{background:var(--ink);color:var(--chalk)}
+.cats{position:relative;display:inline-flex;padding:4px;border-radius:999px;border:2px solid var(--ink)}
+.cats button{position:relative;z-index:1;min-height:44px;padding:0 18px;border-radius:999px;border:0;background:none;font-weight:700;cursor:pointer;transition:color .3s}
+.cats button[aria-pressed="true"]{color:var(--chalk)}
+.cats .glisse{position:absolute;left:0;top:4px;bottom:4px;width:var(--w,0);border-radius:999px;background:var(--ink);transform:translateX(var(--x,0));transition:transform .45s cubic-bezier(.22,.8,.2,1),width .45s cubic-bezier(.22,.8,.2,1)}
 /* les plats en grille : tout tient dans l'écran, rien ne défile sur le côté */
 .rail{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;max-width:1300px;margin:28px auto 20px;padding-inline:var(--m)}
 .card{min-height:340px;border-radius:var(--r);padding:24px;display:flex;flex-direction:column;background:var(--c);color:var(--fg,var(--ink));position:relative;overflow:hidden}
@@ -167,6 +170,49 @@ footer .row{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top
 footer .row b{display:block;font:400 1.3rem/1.2 var(--serif);margin-bottom:4px}
 footer .legal{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:28px 0;font-size:13px;color:#F6D9CF}
 
+/* ---- le plan de table (réservation) ---- */
+.plan{display:flex;align-items:center;gap:18px;padding:14px 18px;border-radius:18px;background:var(--sand)}
+.plan svg{width:112px;height:112px;flex:none;overflow:visible}
+.plan b{display:block;font:400 1.5rem/1.1 var(--serif)}
+.plan span{font-size:15px;color:#4C5B66}
+.form button[type=submit].fait{background:var(--olive)}
+
+/* ---- les mouvements, tirés de la banque animations/mouvements.html : 02, 06, 08, 17, 19, 26, 31, 67, 68 ---- */
+@media (prefers-reduced-motion:no-preference){
+  /* 02 : les blocs arrivent quand on les regarde */
+  .js .rise{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .9s cubic-bezier(.22,.8,.2,1);transition-delay:calc(var(--i,0)*90ms)}
+  .js .rise.on{opacity:1;transform:none}
+  /* 19 : les photos de l'ouverture se dévoilent au rideau (le rideau est sur l'image : son cadre reste visible pour l'observateur) */
+  .js .rideau img{clip-path:inset(0 0 100% 0);transform:scale(1.16);transition:clip-path 1.2s cubic-bezier(.22,.8,.2,1),transform 1.6s cubic-bezier(.22,.8,.2,1);transition-delay:calc(var(--i,0)*160ms)}
+  .js .rideau.on img{clip-path:inset(0 0 0 0);transform:none}
+  /* 31 : les vagues entre les sections avancent doucement */
+  .wave::before{animation:houle 14s linear infinite}
+  /* 67 : l'ardoise s'écrit ligne après ligne, un bout de craie suit le trait */
+  .js .board .tx{clip-path:inset(-20% 100% -20% 0)}
+  .js .board.on .tx{clip-path:inset(-20% 0 -20% 0);transition:clip-path .8s linear;transition-delay:calc(var(--i,0)*.62s)}
+  .js .board li::after{content:"";position:absolute;top:38%;left:0;width:20px;height:6px;margin-left:-4px;border-radius:2px;background:var(--sea);transform:rotate(-40deg);opacity:0}
+  .js .board.on li::after{animation:craie .8s linear forwards;animation-delay:calc(var(--i,0)*.62s)}
+  .js .board .date,.js .board .end{opacity:0;transition:opacity .6s ease}
+  .js .board.on .date{opacity:1}
+  .js .board.on .end{opacity:1;transition-delay:3.9s}
+  /* 17 : les plats arrivent en décalé quand on change de partie de la carte */
+  .js .rail .card{animation:plat .6s cubic-bezier(.22,.8,.2,1) both;animation-delay:calc(var(--i,0)*70ms)}
+  /* 06 : l'onde au toucher sur les boutons */
+  .pill::after{content:"";position:absolute;left:var(--x,50%);top:var(--y,50%);width:10px;height:10px;margin:-5px;border-radius:50%;background:rgba(255,255,255,.4);transform:scale(0);opacity:0;pointer-events:none}
+  .pill.onde::after{animation:onde .6s ease-out}
+  /* 26 : le bouton confirme */
+  .form button[type=submit]{transition:background-color .3s,transform .15s cubic-bezier(.23,1,.32,1)}
+  .form button[type=submit].fait{animation:confirme .5s cubic-bezier(.22,.8,.2,1)}
+  /* 08 : la grande phrase s'allume mot à mot */
+  .js #phrase .mot{opacity:.22;transition:opacity .35s ease}
+  .js #phrase .mot.lu{opacity:1}
+}
+@keyframes houle{to{-webkit-mask-position:-100% 0;mask-position:-100% 0}}
+@keyframes craie{0%{left:0;opacity:1}97%{left:100%;opacity:1}100%{left:100%;opacity:0}}
+@keyframes plat{from{opacity:0;transform:translateY(22px)}}
+@keyframes onde{0%{transform:scale(0);opacity:1}100%{transform:scale(34);opacity:0}}
+@keyframes confirme{40%{transform:scale(1.07)}}
+
 /* barre basse sur téléphone */
 .dock{display:none}
 
@@ -198,6 +244,7 @@ footer .legal{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap
   .mosaic .title{min-height:460px}
   .mosaic{grid-template-rows:auto 190px 190px}
   .form .two{grid-template-columns:1fr}
+  .plan svg{width:92px;height:92px}
 }
 </style>
 </head>
@@ -220,28 +267,28 @@ footer .legal{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap
       <p class="say">Un restaurant de quai, face aux bateaux. La pêche du matin s'écrit sur l'ardoise et se cuisine à midi et le soir.</p>
       <div class="acts"><a class="pill" href="#reserver">Réserver une table</a><a class="pill ghost" href="#ardoise">L'ardoise du jour</a></div>
     </div>
-    <figure class="big"><img src="images/port/terrasse-coucher.webp" alt="La terrasse au coucher du soleil, tables dressées face au port" width="682" height="853" fetchpriority="high"><span class="cap">La terrasse, 24 couverts</span></figure>
+    <figure class="big rideau"><img src="images/port/terrasse-coucher.webp" alt="La terrasse au coucher du soleil, tables dressées face au port" width="682" height="853" fetchpriority="high"><span class="cap">La terrasse, 24 couverts</span></figure>
     <div class="open" id="openNow"><small>En ce moment</small><b><span class="dot"></span><span id="openTxt"></span><em class="it" id="openSub"></em></b></div>
-    <figure><img src="images/port/plat-daurade.webp" alt="Filet de daurade, beurre blanc et épinards" width="900" height="810"></figure>
+    <figure class="rideau" style="--i:1"><img src="images/port/plat-daurade.webp" alt="Filet de daurade, beurre blanc et épinards" width="900" height="810"></figure>
   </div>
 </div>
 
 <section class="slate wave" id="ardoise">
   <div class="wrap grid">
     <div>
-      <h2 class="h2">L'ardoise <em class="it">du jour</em></h2>
+      <h2 class="h2 rise">L'ardoise <em class="it">du jour</em></h2>
       <div class="filet"><i></i></div>
-      <p class="lede">Arrivé ce matin au quai, cuisiné à midi et ce soir. Quand c'est fini, c'est fini : on raye au fur et à mesure.</p>
-      <div class="boats"><img src="images/port/port-barques.webp" alt="Les barques de pêche amarrées au quai" width="576" height="720" loading="lazy"><p>Les barques de Gilles et Paco, à quai à 6 h.</p></div>
+      <p class="lede rise" style="--i:1">Arrivé ce matin au quai, cuisiné à midi et ce soir. Quand c'est fini, c'est fini : on raye au fur et à mesure.</p>
+      <div class="boats rise" style="--i:2"><img src="images/port/port-barques.webp" alt="Les barques de pêche amarrées au quai" width="576" height="720" loading="lazy"><p>Les barques de Gilles et Paco, à quai à 6 h.</p></div>
     </div>
-    <div class="board"><div class="in"><p class="date" id="ardoiseDate"></p><ul id="catch"></ul><p class="end">Prix nets, service compris.</p></div></div>
+    <div class="board" id="board"><div class="in"><p class="date" id="ardoiseDate"></p><ul id="catch"></ul><p class="end">Prix nets, service compris.</p></div></div>
   </div>
 </section>
 
 <section id="carte" style="padding-bottom:clamp(60px,7vw,100px)">
   <div class="wrap">
     <div class="menu-head">
-      <div><h2 class="h2">La <em class="it">carte</em></h2><div class="filet"><i></i></div><p class="lede">Les deux plats en photo ne quittent jamais la carte : les habitués les commandent sans l'ouvrir.</p></div>
+      <div><h2 class="h2 rise">La <em class="it">carte</em></h2><div class="filet"><i></i></div><p class="lede rise" style="--i:1">Les deux plats en photo ne quittent jamais la carte : les habitués les commandent sans l'ouvrir.</p></div>
       <div><div class="cats" id="cats" role="group" aria-label="Partie de la carte"></div></div>
     </div>
   </div>
@@ -251,9 +298,9 @@ footer .legal{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap
 
 <section class="place wave" id="lieu">
   <div class="wrap grid">
-    <div class="frame" id="frame"></div>
+    <div class="frame rise" id="frame"></div>
     <div>
-      <h2 class="h2">Le <em class="it">lieu</em></h2>
+      <h2 class="h2 rise">Le <em class="it">lieu</em></h2>
       <div class="filet"><i></i></div>
       <h3 id="pTitle"></h3>
       <p class="lede" id="pTxt"></p>
@@ -265,7 +312,7 @@ footer .legal{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap
 
 <section class="quote wave">
   <div class="wrap">
-    <blockquote>« Chaque matin, on passe voir les pêcheurs avant d'écrire l'ardoise. »</blockquote>
+    <blockquote id="phrase">« Chaque matin, on passe voir les pêcheurs avant d'écrire l'ardoise. »</blockquote>
     <cite>Marion en salle, Julien aux fourneaux · une adresse de quai depuis 2009</cite>
   </div>
 </section>
@@ -273,18 +320,19 @@ footer .legal{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap
 <section class="book" id="reserver">
   <div class="wrap grid">
     <div id="infos">
-      <h2 class="h2">Midi et soir, <em class="it">sauf le lundi</em></h2>
+      <h2 class="h2 rise">Midi et soir, <em class="it">sauf le lundi</em></h2>
       <div class="filet"><i></i></div>
-      <table class="hours" id="hours"></table>
-      <div class="infos">
+      <table class="hours rise" id="hours" style="--i:1"></table>
+      <div class="infos rise" style="--i:2">
         <p><b>4 quai des Pêcheurs</b>Sur le port, face aux bateaux</p>
         <p><b><a href="tel:+33400000000">04 00 00 00 00</a></b>Réservation conseillée le week-end</p>
         <p><b>Bon à savoir</b>Menu enfant, accès en fauteuil roulant, carte bancaire acceptée</p>
       </div>
     </div>
-    <form class="form" id="book" novalidate>
+    <form class="form rise" id="book" novalidate>
       <h3>Réserver une table</h3>
       <div class="two"><div><label for="rDate">Le jour</label><input type="date" id="rDate"></div><div><span class="lab">Couverts</span><div class="chips" id="covers"></div></div></div>
+      <div class="plan"><svg id="tbl" viewBox="-120 -120 240 240" aria-hidden="true"></svg><p><b id="planN">Une table pour 2</b><span id="planTxt">En salle ou en terrasse, selon le temps.</span></p></div>
       <div><span class="lab">L'heure</span><div class="chips" id="times"></div></div>
       <div class="two"><div><label for="rName">Nom</label><input id="rName" autocomplete="name"></div><div><label for="rTel">Téléphone</label><input id="rTel" type="tel" inputmode="tel" autocomplete="tel"></div></div>
       <button class="pill" type="submit" style="justify-self:start">Demander la réservation</button>
@@ -296,7 +344,7 @@ footer .legal{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap
 
 <footer class="wave">
   <div class="wrap">
-    <p class="last">La terrasse face aux bateaux, <em class="it">chauffée l'hiver.</em></p>
+    <p class="last rise">La terrasse face aux bateaux, <em class="it">chauffée l'hiver.</em></p>
     <div class="acts"><a class="pill" href="#reserver">Réserver une table</a><a class="pill ghost" href="tel:+33400000000">04 00 00 00 00</a></div>
     <div class="row">
       <p><b>Adresse</b>4 quai des Pêcheurs</p>
@@ -318,7 +366,7 @@ const today = new Date();
 const CATCH = [["Daurade royale", "entière, grillée au fenouil", 26], ["Rougets barbets", "poêlés, sauce vierge", 24], ["Poulpe de roche", "braisé, pommes grenaille", 22], ["Sardines du golfe", "à la plancha, fleur de sel", 16], ["Loup de ligne", "pour deux, au four", 58]];
 $("ardoiseDate").textContent = today.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" }).replace(/^./, c => c.toUpperCase());
 const goneI = today.getHours() >= 20 ? 4 : today.getHours() >= 13 ? 1 : -1;   // le loup part le soir, les rougets à midi
-$("catch").innerHTML = CATCH.map(([n, d, p], i) => `<li class="${i === goneI ? "out" : ""}"><div><b>${esc(n)}</b>${i === goneI ? '<span class="gone">parti</span>' : ""}<span>${esc(d)}</span></div><span class="p">${p} €</span></li>`).join("");
+$("catch").innerHTML = CATCH.map(([n, d, p], i) => `<li class="${i === goneI ? "out" : ""}" style="--i:${i + 1}"><div class="tx"><div><b>${esc(n)}</b>${i === goneI ? '<span class="gone">parti</span>' : ""}<span>${esc(d)}</span></div><span class="p">${p} €</span></div></li>`).join("");
 
 // ——— la carte : cartes qui défilent
 const MENU = {
@@ -329,10 +377,11 @@ const MENU = {
 const TINTS = [["var(--sea)", "var(--chalk)"], ["var(--ochre)", "var(--ink)"], ["var(--olive)", "var(--chalk)"], ["var(--terra)", "var(--chalk)"]];
 let part = "Plats";
 function renderMenu() {
-  $("cats").innerHTML = Object.keys(MENU).map(k => `<button type="button" data-k="${k}" aria-pressed="${k === part}">${k}</button>`).join("");
+  if (!$("cats").children.length) $("cats").innerHTML = '<i class="glisse" aria-hidden="true"></i>' + Object.keys(MENU).map(k => `<button type="button" data-k="${k}">${k}</button>`).join("");
+  [...$("cats").querySelectorAll("button")].forEach(b => { const v = b.dataset.k === part; b.setAttribute("aria-pressed", v); if (v) { $("cats").style.setProperty("--x", b.offsetLeft + "px"); $("cats").style.setProperty("--w", b.offsetWidth + "px"); } });
   $("rail").innerHTML = MENU[part].map(([n, d, p, t, img], i) => img
-    ? `<article class="card photo"><img src="images/port/${img}.webp" alt="${esc(n)}" width="900" height="850" loading="lazy"><div class="t">${t ? `<span class="tag">${esc(t)}</span>` : ""}<h3>${esc(n)}</h3><p>${esc(d)}</p><span class="price">${p} €</span></div></article>`
-    : `<article class="card" style="--c:${TINTS[i % 4][0]};--fg:${TINTS[i % 4][1]}"><span class="num">${i + 1}</span>${t ? `<span class="tag">${esc(t)}</span>` : ""}<h3>${esc(n)}</h3><p>${esc(d)}</p><span class="price">${p} €</span></article>`).join("");
+    ? `<article class="card photo" style="--i:${i}"><img src="images/port/${img}.webp" alt="${esc(n)}" width="900" height="850" loading="lazy"><div class="t">${t ? `<span class="tag">${esc(t)}</span>` : ""}<h3>${esc(n)}</h3><p>${esc(d)}</p><span class="price">${p} €</span></div></article>`
+    : `<article class="card" style="--i:${i};--c:${TINTS[i % 4][0]};--fg:${TINTS[i % 4][1]}"><span class="num">${i + 1}</span>${t ? `<span class="tag">${esc(t)}</span>` : ""}<h3>${esc(n)}</h3><p>${esc(d)}</p><span class="price">${p} €</span></article>`).join("");
   }
 $("cats").addEventListener("click", e => { const b = e.target.closest("button"); if (!b || b.dataset.k === part) return; part = b.dataset.k; renderMenu(); });
 renderMenu();
@@ -366,14 +415,54 @@ new IntersectionObserver(([e]) => document.querySelector(".dock").classList.togg
 let covers = "2", time = "20 h";
 const chips = (id, items, cur, key) => $(id).innerHTML = items.map(v => `<button type="button" data-v="${v}" aria-pressed="${v == cur}">${v}</button>`).join("");
 chips("covers", ["1", "2", "3", "4", "5", "6", "8+"], covers); chips("times", ["12 h", "12 h 30", "13 h", "19 h 30", "20 h", "20 h 30", "21 h"], time);
-$("covers").addEventListener("click", e => { const b = e.target.closest("button"); if (b) chips("covers", ["1", "2", "3", "4", "5", "6", "8+"], covers = b.dataset.v); });
+$("covers").addEventListener("click", e => { const b = e.target.closest("button"); if (b) { chips("covers", ["1", "2", "3", "4", "5", "6", "8+"], covers = b.dataset.v); table(); } });
 $("times").addEventListener("click", e => { const b = e.target.closest("button"); if (b) chips("times", ["12 h", "12 h 30", "13 h", "19 h 30", "20 h", "20 h 30", "21 h"], time = b.dataset.v); });
 const iso = x => `${x.getFullYear()}-${String(x.getMonth() + 1).padStart(2, "0")}-${String(x.getDate()).padStart(2, "0")}`;
 const tm = new Date(); tm.setDate(tm.getDate() + 1); $("rDate").value = iso(tm); $("rDate").min = iso(new Date());
 $("book").addEventListener("submit", e => { e.preventDefault();
   if (!$("rName").value.trim() || !$("rTel").value.trim()) { $("ok").textContent = "Indiquez votre nom et votre téléphone pour qu'on vous confirme la table."; return; }
   const day = new Date($("rDate").value + "T00:00").toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" });
-  $("ok").textContent = `Demande envoyée : ${covers} couvert${covers === "1" ? "" : "s"}, ${day} à ${time}. On vous rappelle pour confirmer. (Démo : rien n'est envoyé.)`; });
+  $("ok").textContent = `Demande envoyée : ${covers} couvert${covers === "1" ? "" : "s"}, ${day} à ${time}. On vous rappelle pour confirmer. (Démo : rien n'est envoyé.)`;
+  const bt = $("book").querySelector("button[type=submit]"); bt.textContent = "Demande envoyée"; bt.classList.add("fait"); setTimeout(() => { bt.textContent = "Demander la réservation"; bt.classList.remove("fait"); }, 3200); });
+
+// ——— les mouvements (banque animations/mouvements.html)
+const calme = matchMedia("(prefers-reduced-motion: reduce)").matches;
+// 02, 19, 67 : ce qui arrive quand on le regarde
+if ("IntersectionObserver" in window) {
+  const vu = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("on"); vu.unobserve(e.target); } }), { rootMargin: "0px 0px -8% 0px", threshold: .1 });
+  document.querySelectorAll(".rise, .rideau, .board").forEach(e => vu.observe(e));
+} else document.querySelectorAll(".rise, .rideau, .board").forEach(e => e.classList.add("on"));
+// 06 : l'onde part de l'endroit touché
+document.addEventListener("pointerdown", e => { const b = e.target.closest(".pill"); if (!b) return; const r = b.getBoundingClientRect(); b.style.setProperty("--x", e.clientX - r.left + "px"); b.style.setProperty("--y", e.clientY - r.top + "px"); b.classList.remove("onde"); void b.offsetWidth; b.classList.add("onde"); });
+// 17 : la pastille des onglets se replace si la largeur change
+addEventListener("resize", renderMenuPastille); function renderMenuPastille() { const b = $("cats").querySelector('[aria-pressed="true"]'); if (b) { $("cats").style.setProperty("--x", b.offsetLeft + "px"); $("cats").style.setProperty("--w", b.offsetWidth + "px"); } }
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(renderMenuPastille);
+// 08 : la grande phrase s'allume mot à mot en descendant
+const phrase = $("phrase"), mots = phrase.textContent.trim().split(/\s+/);
+phrase.innerHTML = mots.map(m => `<span class="mot">${esc(m)}</span>`).join(" ");
+if (!calme) { let prevu = false; const lis = () => { prevu = false; const r = phrase.getBoundingClientRect(), k = Math.min(1, Math.max(0, (innerHeight * .88 - r.top) / (innerHeight * .5 + r.height))); [...phrase.children].forEach((m, i) => m.classList.toggle("lu", i < Math.round(k * mots.length * 1.15))); };
+  addEventListener("scroll", () => { if (!prevu) { prevu = true; requestAnimationFrame(lis); } }, { passive: true }); lis(); }
+// 68 : le plan de table suit le nombre de couverts
+const tbl = $("tbl"), MAXS = 8;
+tbl.innerHTML = Array.from({ length: MAXS }, () => '<g class="seat"><g class="ch"><rect x="-17" y="-12" width="34" height="25" rx="9" fill="#1F5C86"/><rect x="-17" y="-18" width="34" height="10" rx="5" fill="#163F5E"/></g></g>').join("") + '<circle id="ttop" r="50" fill="#E3A63B"/>' + Array.from({ length: MAXS }, () => '<g class="seat2"><g class="pl"><circle r="10" fill="#FBF6EC"/><circle r="6.5" fill="none" stroke="#C8553D" stroke-width="1.5"/></g></g>').join("");
+const sieges = [...tbl.querySelectorAll(".seat")].map((el, i) => ({ el, ch: el.firstChild, el2: tbl.querySelectorAll(".seat2")[i], pl: tbl.querySelectorAll(".seat2")[i].firstChild, a: (i * 360) / 2, s: 0, ta: 0, ts: 0 }));
+let rayon = 40, tourne = false;
+function table() {
+  const n = covers === "8+" ? 8 : +covers;
+  $("planN").textContent = covers === "8+" ? "Une grande tablée" : n === 1 ? "Une table pour vous" : "Une table pour " + n;
+  $("planTxt").textContent = covers === "8+" ? "À partir de huit, on vous appelle pour préparer la salle." : n >= 5 ? "On rapproche deux tables, en salle." : "En salle ou en terrasse, selon le temps.";
+  sieges.forEach((s, i) => { if (i < n) { s.ta = (i * 360) / n; s.ts = 1; } else s.ts = 0; });
+  if (!tourne) { tourne = true; requestAnimationFrame(pose); }
+}
+function pose() {
+  const n = sieges.filter(s => s.ts).length, cible = 30 + n * 5.5, f = calme ? 1 : .12; let bouge = Math.abs(cible - rayon) > .05;
+  rayon += (cible - rayon) * f; $("ttop").setAttribute("r", rayon.toFixed(1));
+  for (const s of sieges) { if (Math.abs(s.ta - s.a) > .05 || Math.abs(s.ts - s.s) > .005) bouge = true; s.a += (s.ta - s.a) * f; s.s += (s.ts - s.s) * (calme ? 1 : .15); const e = s.s < .01 ? 0 : s.s;
+    s.el.setAttribute("transform", `rotate(${s.a.toFixed(2)})`); s.el2.setAttribute("transform", `rotate(${s.a.toFixed(2)})`);
+    s.ch.setAttribute("transform", `translate(0 ${(-(rayon + 22)).toFixed(1)}) scale(${e.toFixed(3)})`); s.pl.setAttribute("transform", `translate(0 ${(-(rayon - 17)).toFixed(1)}) scale(${e.toFixed(3)})`); }
+  if (bouge) requestAnimationFrame(pose); else tourne = false;
+}
+table();
 </script>
 </body>
 </html>

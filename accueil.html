@@ -169,16 +169,27 @@ h1,h2,h3{color:var(--white);font-weight:500;line-height:1;text-wrap:balance}
 .sec .head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px 40px;flex-wrap:wrap}
 .sec .head>div{display:grid;gap:18px;max-width:640px}
 .sec .head p:not(.eyebrow){max-width:46ch}
-.works{margin-top:36px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
-.work{display:flex;flex-direction:column;gap:14px;padding:28px;border-radius:16px;background:var(--kelp);text-decoration:none;transition:background-color .3s}
-.work[hidden]{display:none}
-.work .top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
-.work h3{font-size:clamp(1.5rem,1.3rem + .6vw,1.9rem);letter-spacing:-.02em}
-.work .eyebrow{margin-top:8px;display:block}
-.work p{font-size:15px}
-.work .shot{margin-top:auto;border-radius:6px;overflow:hidden;background:var(--deep)}
-.work .shot img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;transition:transform .7s cubic-bezier(.16,1,.3,1)}
-@media (hover:hover) and (pointer:fine){.work:hover{background:#04443F}.work:hover .shot img{transform:scale(1.04)}}
+/* les réalisations en accordéon (demande de l'utilisateur, 10 novembre 2026 : « pour pas que le site descende jusqu'aux abysses ») :
+   treize lignes, une seule ouverte à la fois, avec l'aperçu de la démo, ce qu'on peut y faire et le lien */
+.works{margin-top:36px;border-top:1px solid var(--line)}
+.wk{border-bottom:1px solid var(--line)}
+.wk>button{width:100%;display:grid;grid-template-columns:3.2ch minmax(0,1fr) auto 20px;align-items:baseline;gap:8px 20px;min-height:64px;padding:16px 0;background:none;border:0;color:var(--white);text-align:left;font:inherit;cursor:pointer}
+.wk .n{font-size:13px;color:var(--mist);font-variant-numeric:tabular-nums}
+.wk h3{font-size:clamp(1.35rem,1.1rem + 1.1vw,2.1rem);font-weight:500;letter-spacing:-.03em;line-height:1.1;transition:transform .5s cubic-bezier(.16,1,.3,1)}
+.wk .eyebrow{color:var(--mist)}
+.wk .pm{align-self:center;width:16px;height:16px;background:linear-gradient(currentColor,currentColor) 50% 50%/100% 1.5px no-repeat,linear-gradient(currentColor,currentColor) 50% 50%/1.5px 100% no-repeat;transition:transform .5s cubic-bezier(.16,1,.3,1)}
+.wk.open .pm{transform:rotate(135deg)}
+@media (hover:hover) and (pointer:fine){.wk>button:hover h3{transform:translateX(8px)}}
+.wk-b{display:grid;grid-template-rows:0fr;transition:grid-template-rows .6s cubic-bezier(.16,1,.3,1)}
+.wk.open .wk-b{grid-template-rows:1fr}
+.wk-b>div{overflow:hidden;min-height:0}
+.wk-in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:clamp(20px,4vw,56px);align-items:end;padding:6px 0 30px calc(3.2ch + 20px);opacity:0;transform:translateY(-8px);transition:opacity .4s,transform .6s cubic-bezier(.16,1,.3,1);visibility:hidden}
+.wk.open .wk-in{opacity:1;transform:none;visibility:visible;transition-delay:.12s}
+.wk-in p{max-width:38ch;font-size:clamp(1rem,.95rem + .25vw,1.15rem);margin-bottom:14px}
+.wk-in .shot{border-radius:10px;overflow:hidden;background:var(--deep)}
+.wk-in .shot img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top}
+@media (max-width:760px){.wk>button{grid-template-columns:2.6ch minmax(0,1fr) 20px}.wk .eyebrow{grid-column:2;grid-row:2}.wk .pm{grid-column:3;grid-row:1}.wk-in{grid-template-columns:minmax(0,1fr);padding-left:0}.wk-in .shot{order:-1}}
+@media (prefers-reduced-motion:reduce){.wk-b,.wk-in,.wk h3,.wk .pm{transition:none}}
 
 /* ---- méthode ---- */
 .steps{margin-top:36px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
@@ -250,7 +261,6 @@ footer a{text-decoration:none}
 section[id]{scroll-margin-top:20px}
 
 @media (max-width:1000px){
-  .works{grid-template-columns:repeat(2,minmax(0,1fr))}
   .stats{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:36px}
 }
 @media (max-width:900px){
@@ -263,9 +273,7 @@ section[id]{scroll-margin-top:20px}
   .inc li,.inc li:not(:nth-child(3n+1)){padding:24px 0;border-left:0}
 }
 @media (max-width:620px){
-  .works{grid-template-columns:minmax(0,1fr)}
   .row-card,.steps li{padding:28px 24px}
-  .work{padding:22px}
   .cue{display:none}
 }
 </style>
@@ -335,7 +343,7 @@ section[id]{scroll-margin-top:20px}
   <div class="page">
     <section class="sec" id="vitrines" aria-labelledby="t-real">
       <div class="head rise"><div><p class="eyebrow">Réalisations</p><h2 id="t-real">Treize commerces, treize sites</h2></div><p>Des démos, une par métier. Le vôtre sera fait avec votre logo, vos couleurs et vos photos.</p></div>
-      <div class="works" id="works"></div>
+      <div class="works rise" id="works"></div>
     </section>
 
     <section class="sec" id="methode" aria-labelledby="t-meth">
@@ -443,12 +451,17 @@ const DEMOS = [
   ["Forza Club", "Salle de sport", "sejours", "Les places libres cours par cours, et la séance d'essai en deux champs.", "forza"],
   ["Agence Piazza", "Immobilier", "services", "On estime son bien en trois questions, avec le plan de sa surface.", "piazza"],
 ];
-$("works").innerHTML = DEMOS.map(([nom, metier, , txt, slug]) => `
-  <a class="work rise" href="demo-${slug}.html" target="_blank" rel="noopener">
-    <div class="top"><div><h3>${esc(nom)}</h3><span class="eyebrow">${esc(metier)}</span></div><span class="arrow">${fleche}</span></div>
-    <p>${esc(txt)}</p>
-    <div class="shot"><img src="media/apercus/${slug}.webp" alt="La page d'accueil de la démo ${esc(nom)}" width="720" height="450" loading="lazy" decoding="async"></div>
-  </a>`).join("");
+$("works").innerHTML = DEMOS.map(([nom, metier, , txt, slug], i) => `
+  <div class="wk${i ? "" : " open"}">
+    <button type="button" aria-expanded="${!i}" aria-controls="wk-${slug}"><span class="n">${String(i + 1).padStart(2, "0")}</span><h3>${esc(nom)}</h3><span class="eyebrow">${esc(metier)}</span><span class="pm" aria-hidden="true"></span></button>
+    <div class="wk-b" id="wk-${slug}"><div><div class="wk-in">
+      <div><p>${esc(txt)}</p><a class="ghost" href="demo-${slug}.html" target="_blank" rel="noopener">Voir la démo <span class="arrow">${fleche}</span></a></div>
+      <a class="shot" href="demo-${slug}.html" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><img src="media/apercus/${slug}.webp" alt="" width="720" height="450" loading="lazy" decoding="async"></a>
+    </div></div></div>
+  </div>`).join("");
+$("works").addEventListener("click", e => { const b = e.target.closest(".wk > button"); if (!b) return; const it = b.parentElement, ouvre = !it.classList.contains("open");
+  document.querySelectorAll(".wk").forEach(x => { x.classList.remove("open"); x.firstElementChild.setAttribute("aria-expanded", "false"); });
+  if (ouvre) { it.classList.add("open"); b.setAttribute("aria-expanded", "true"); } });
 
 // ——— arrivée par la sphère : l'en-tête et l'étiquette apparaissent pendant le recul
 if (dezoom && !calme) {

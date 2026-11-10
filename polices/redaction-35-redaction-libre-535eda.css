@@ -1,0 +1,67 @@
+/* Polices de fonderies indépendantes hébergées sur le site, générées par outils/polices.py libre */
+/* Redaction : OFL-1.1, Jeremy Mickel (https://www.redaction.us/) */
+/* Redaction 35 : OFL-1.1, Jeremy Mickel (https://www.redaction.us/) */
+/* Redaction 35 400 normal (latin) */
+@font-face {
+  font-family: 'Redaction 35';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url(redaction-35-latin-400-normal.woff2) format('woff2');
+}
+/* Redaction 35 400 italic (latin) */
+@font-face {
+  font-family: 'Redaction 35';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 400;
+  src: url(redaction-35-latin-400-italic.woff2) format('woff2');
+}
+/* Redaction 35 700 normal (latin) */
+@font-face {
+  font-family: 'Redaction 35';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url(redaction-35-latin-700-normal.woff2) format('woff2');
+}
+/* Redaction 35 700 italic (latin) */
+@font-face {
+  font-family: 'Redaction 35';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 700;
+  src: url(redaction-35-latin-700-italic.woff2) format('woff2');
+}
+/* Redaction 400 normal (latin) */
+@font-face {
+  font-family: 'Redaction';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url(redaction-latin-400-normal.woff2) format('woff2');
+}
+/* Redaction 400 italic (latin) */
+@font-face {
+  font-family: 'Redaction';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 400;
+  src: url(redaction-latin-400-italic.woff2) format('woff2');
+}
+/* Redaction 700 normal (latin) */
+@font-face {
+  font-family: 'Redaction';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url(redaction-latin-700-normal.woff2) format('woff2');
+}
+/* Redaction 700 italic (latin) */
+@font-face {
+  font-family: 'Redaction';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 700;
+  src: url(redaction-latin-700-italic.woff2) format('woff2');
+}

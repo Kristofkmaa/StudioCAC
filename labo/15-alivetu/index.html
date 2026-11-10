@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Alivetu · maison d’hôtes dans les oliviers (site test)</title>
+<meta name="description" content="Site test du labo Saitora : une maison d'hôtes imaginaire, montée avec onze autres animations choisies.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0F1A2C">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../polices/redaction-35-redaction-libre-535eda.css">
+<style>
+/* Alivetu : deuxième site test du labo (10 novembre 2026). Maison d'hôtes imaginaire, photos libres, textes, prix et coordonnées d'exemple.
+   Fiche de style tirée : style.md (genre « Carnet d'architecte » en version nuit : encre bleu nuit, trait de crayon rouge, plans au trait
+   avec leurs cotes, surfaces en chiffres, photos dans des cadres ; ouverture plein cadre, menu plein écran, grande phrase, chiffres clés,
+   calendrier, vague, pied en bloc de couleur).
+   Animations reprises de « Mouvements, 44 animations », toutes différentes de celles d'A Tavulata (labo 14) : 12 écran de chargement,
+   40 décor en profondeur, 16 menu plein écran, 08 texte lié au défilement, 22 cartes qui s'empilent, 04 chiffres qui comptent,
+   23 zoom épinglé, 33 frise qui se remplit, 24 prix à chiffres roulants, 38 galerie en accordéon, 31 vagues. Rien ne défile sur le côté. */
+:root{
+  --nuit:#0F1A2C; --nuit-2:#16243B; --nuit-3:#1D2E4A; --papier:#EDE8DC; --pale:#A9B4C6; --filet:rgba(237,232,220,.16);
+  --crayon:#E2573F; --titre:"Redaction 35",Georgia,serif; --texte:"Redaction",Georgia,serif;
+  --e:cubic-bezier(.16,1,.3,1); --m:clamp(18px,4.5vw,56px);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--nuit);color:var(--papier);font:400 18px/1.55 var(--texte);-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;
+  background-image:linear-gradient(rgba(237,232,220,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(237,232,220,.035) 1px,transparent 1px);background-size:32px 32px}
+body.fige{overflow:hidden}
+img{display:block;max-width:100%}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--crayon);outline-offset:3px}
+main{overflow-x:clip}
+.page{max-width:1160px;margin:0 auto;padding:0 var(--m)}
+.demo{position:relative;z-index:3;background:#0A1220;color:var(--pale);font-size:13px;text-align:center;padding:8px 16px;line-height:1.4}
+h1,h2,h3{font-family:var(--titre);font-weight:400;letter-spacing:-.015em;line-height:1.04;margin:0}
+h2{font-size:clamp(2.2rem,1.4rem + 3.6vw,4.4rem)}
+em{font-style:italic}
+h1 em,h2 em{color:var(--crayon)}
+.etiq{font-style:italic;color:var(--pale);margin:0 0 14px;font-size:18px}
+.sec{padding-top:clamp(70px,10vw,140px)}
+/* le bouton : un texte, puis un rond plein avec une flèche */
+.rond{display:inline-flex;align-items:center;gap:14px;min-height:48px;text-decoration:none;background:none;border:0;padding:0;font-size:19px}
+.rond i{flex:none;display:grid;place-items:center;width:46px;height:46px;border-radius:50%;background:var(--crayon);color:#fff;font-style:normal;transition:transform .4s var(--e)}
+@media (hover:hover){.rond:hover i{transform:translateX(5px)}}
+.rise{opacity:0;transform:translateY(18px);transition:opacity .9s var(--e),transform .9s var(--e);transition-delay:calc(var(--d,0) * 90ms)}
+.rise.on{opacity:1;transform:none}
+
+/* ---------- anim. 12 : l'écran de chargement, deux volets qui s'ouvrent sur un compteur ---------- */
+#pre{position:fixed;inset:0;z-index:100;pointer-events:none}
+#pre .v{position:absolute;left:0;width:100%;height:50.5%;background:var(--papier);transition:transform .9s var(--e)}
+#pre .v1{top:0}#pre .v2{bottom:0;transition-delay:.06s}
+#pre .c{position:absolute;right:var(--m);bottom:5vh;font-family:var(--titre);font-size:clamp(80px,22vw,220px);line-height:1;color:var(--nuit);font-variant-numeric:tabular-nums;transition:opacity .3s}
+#pre .n{position:absolute;left:var(--m);top:5vh;font-family:var(--titre);font-size:28px;color:var(--nuit);transition:opacity .3s}
+#pre.ouvert .v1{transform:translateY(-101%)}#pre.ouvert .v2{transform:translateY(101%)}#pre.ouvert .c,#pre.ouvert .n{opacity:0}
+
+/* ---------- l'en-tête minimal et le menu plein écran (anim. 16) ---------- */
+.tete{position:fixed;left:0;right:0;top:var(--bandeau,0px);z-index:50;display:flex;justify-content:space-between;align-items:center;padding:14px var(--m);pointer-events:none;transition:color .4s}
+.tete>*{pointer-events:auto}
+.tete .nom{font-family:var(--titre);font-size:26px;text-decoration:none}
+.burger{display:flex;align-items:center;gap:10px;min-height:44px;background:rgba(15,26,44,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid currentColor;border-radius:999px;padding:0 18px;font-size:16px;transition:color .4s,background-color .4s}
+.burger s{display:block;width:18px;height:10px;position:relative}
+.burger s::before,.burger s::after{content:"";position:absolute;left:0;width:100%;height:1.5px;background:currentColor;transition:transform .5s var(--e)}
+.burger s::before{top:0}.burger s::after{bottom:0}
+.menu-ouvert .burger s::before{transform:translateY(4.25px) rotate(45deg)}.menu-ouvert .burger s::after{transform:translateY(-4.25px) rotate(-45deg)}
+.menu-ouvert .tete{color:var(--nuit)}.menu-ouvert .burger{background:transparent}
+body:not(.menu-ouvert).bas .tete .nom{opacity:0;pointer-events:none}
+.tete .nom{transition:opacity .3s}
+.menu{position:fixed;inset:0;z-index:40;background:var(--papier);color:var(--nuit);clip-path:circle(0 at calc(100% - 70px) calc(40px + var(--bandeau,0px)));transition:clip-path .8s var(--e),visibility 0s .8s;visibility:hidden;display:flex;flex-direction:column;justify-content:center;padding:80px var(--m) 40px;gap:4px}
+.menu-ouvert .menu{clip-path:circle(150% at calc(100% - 70px) calc(40px + var(--bandeau,0px)));visibility:visible;transition:clip-path .8s var(--e)}
+.menu a{font-family:var(--titre);font-size:clamp(2.4rem,9vw,5.6rem);line-height:1.12;text-decoration:none;overflow:hidden;display:block}
+.menu a span{display:block;transform:translateY(105%);transition:transform .7s var(--e)}
+.menu-ouvert .menu a span{transform:none;transition-delay:calc(.15s + var(--i) * 70ms)}
+.menu small{margin-top:28px;font-size:16px;font-style:italic;opacity:.7}
+@media (hover:hover){.menu a:hover{color:var(--crayon)}}
+
+/* ---------- l'ouverture plein cadre : un décor de nuit en profondeur (anim. 40), dessiné, qui suit le doigt ---------- */
+.scene{position:relative;height:100vh;height:100svh;min-height:560px;margin-top:-1px;overflow:hidden;background:linear-gradient(180deg,#0A1220 0%,#16284a 52%,#3b3f6b 78%,#c66a4d 108%);touch-action:pan-y}
+.scene>i{position:absolute;inset:-8%;transform:translate3d(calc(var(--x,0) * var(--k) * 1px),calc(var(--y,0) * var(--k) * 1px),0);will-change:transform}
+.scene .etoiles{--k:5;background-image:radial-gradient(circle,#fff 1px,transparent 1.6px),radial-gradient(circle,#fff .8px,transparent 1.3px);background-size:53px 47px,89px 71px;background-position:0 0,23px 31px;opacity:.55;-webkit-mask-image:linear-gradient(#000,transparent 62%);mask-image:linear-gradient(#000,transparent 62%)}
+.scene .lune{--k:11;background:radial-gradient(circle at 74% 30%,#f6ecd2 0 3.4%,rgba(246,236,210,.22) 3.8% 7%,transparent 7.4%)}
+.scene .c1{--k:20;background:radial-gradient(ellipse 60% 44% at 26% 108%,#22345a 0 99%,transparent 100%),radial-gradient(ellipse 64% 40% at 84% 110%,#22345a 0 99%,transparent 100%)}
+.scene .c2{--k:34;background:radial-gradient(ellipse 72% 36% at 64% 114%,#172644 0 99%,transparent 100%),radial-gradient(ellipse 52% 30% at 6% 112%,#172644 0 99%,transparent 100%)}
+.scene .c3{--k:54;background:radial-gradient(ellipse 84% 28% at 32% 118%,#0c1526 0 99%,transparent 100%),radial-gradient(ellipse 62% 25% at 98% 116%,#0c1526 0 99%,transparent 100%)}
+/* la maison et ses oliviers, au trait de l'architecte, avec la cote d'altitude */
+.scene svg{position:absolute;right:clamp(10px,7vw,120px);bottom:21%;width:min(46vw,440px);height:auto;transform:translate3d(calc(var(--x,0) * 42px),calc(var(--y,0) * 42px),0);will-change:transform;overflow:visible}
+.scene svg path,.scene svg circle,.scene svg line{fill:none;stroke:var(--papier);stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+.scene svg .cote{stroke:var(--crayon)}
+.scene svg .fen{fill:#f3c877;stroke:none}
+.scene svg text{font-family:var(--texte);font-style:italic;font-size:15px;fill:var(--crayon)}
+.scene .txt{position:absolute;left:var(--m);right:var(--m);bottom:clamp(28px,6vh,64px);z-index:2;max-width:760px}
+.scene h1{font-size:clamp(2.6rem,1.3rem + 5.4vw,6rem);text-shadow:0 2px 30px rgba(10,18,32,.7)}
+.scene p{margin:18px 0 22px;max-width:40ch;color:#D6DCE8;text-shadow:0 1px 14px rgba(10,18,32,.8)}
+@media (max-width:700px){.scene svg{right:4vw;bottom:auto;top:24%;width:62vw}}
+
+/* ---------- anim. 08 : la grande phrase qui s'allume au défilement ---------- */
+#phrase{min-height:170vh;padding-top:clamp(60px,9vw,120px)}
+.colle-phrase{position:sticky;top:22vh}
+.mots{font-family:var(--titre);font-size:clamp(1.9rem,1.1rem + 3.6vw,4.2rem);line-height:1.16;max-width:20ch;margin:0}
+.mots span{opacity:.14;transition:opacity .35s}
+.mots span.on{opacity:1}
+.mots span.hl.on{color:var(--crayon);font-style:italic}
+.mots-qui{margin:26px 0 0;font-style:italic;color:var(--pale)}
+
+/* ---------- les chambres : des cartes qui s'empilent (anim. 22), chacune avec sa photo encadrée, son plan coté et sa surface ---------- */
+.pile{margin-top:44px}
+.carte{position:sticky;top:calc(74px + var(--i) * 14px);margin-bottom:30px}
+.carte>div{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(20px,4vw,56px);align-items:center;border-radius:14px;padding:clamp(18px,3.4vw,44px);background:var(--g);border:1px solid var(--filet);transform:scale(var(--s,1));filter:brightness(var(--b,1));transform-origin:50% 0;box-shadow:0 -18px 40px -26px rgba(0,0,0,.7)}
+.cadre{background:#F7F4EC;padding:clamp(8px,1.2vw,14px);box-shadow:0 20px 40px -22px rgba(0,0,0,.8)}
+.cadre img{width:100%;aspect-ratio:3/2;object-fit:cover}
+.carte h3{font-size:clamp(1.8rem,1.3rem + 1.8vw,2.8rem)}
+.carte p{margin:12px 0 0;color:#C9D1DE;max-width:38ch}
+.fiche{display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(16px,3vw,34px);align-items:end;margin-top:22px;padding-top:18px;border-top:1px solid var(--filet)}
+.surface b{display:block;font-family:var(--titre);font-weight:400;font-size:clamp(3rem,2rem + 3vw,4.6rem);line-height:.9}
+.surface span{font-style:italic;color:var(--pale);font-size:16px}
+.plan{width:100%;max-width:230px;height:auto;justify-self:end;overflow:visible}
+.plan path,.plan line{fill:none;stroke:var(--papier);stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+.plan .cote{stroke:var(--crayon);stroke-width:1}
+.plan text{font-family:var(--texte);font-style:italic;font-size:11px;fill:var(--crayon)}
+.plan .trait{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.6s var(--e) .2s}
+.carte.vu .plan .trait{stroke-dashoffset:0}
+.depuis{margin-top:16px;font-style:italic;color:var(--pale)}
+.depuis b{font-family:var(--titre);font-weight:400;font-style:normal;font-size:24px;color:var(--papier)}
+@media (max-width:820px){.carte{position:static}.carte>div{grid-template-columns:1fr;transform:none!important;filter:none!important}}
+
+/* ---------- anim. 04 : les chiffres qui comptent ---------- */
+.chiffres{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(20px,4vw,48px);margin-top:clamp(60px,9vw,120px)}
+.chiffres div{border-top:1px solid var(--papier);padding-top:14px}
+.chiffres b{display:block;font-family:var(--titre);font-weight:400;font-size:clamp(3rem,1.6rem + 5vw,6rem);line-height:1;font-variant-numeric:tabular-nums}
+.chiffres span{color:var(--pale);font-style:italic}
+@media (max-width:700px){.chiffres{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* ---------- anim. 23 : la vue, épinglée, qui prend tout l'écran ---------- */
+#vue{height:230vh;margin-top:clamp(70px,10vw,140px)}
+#vue .epingle{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
+.zm{position:absolute;inset:0;transform:scale(calc(.52 + .48 * var(--p,0)));border-radius:calc((1 - var(--p,0)) * 40px);overflow:hidden;will-change:transform;background:var(--nuit-2)}
+.zm img{width:100%;height:100%;object-fit:cover}
+.zm::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(10,18,32,.75),transparent 55%)}
+.zm p{position:absolute;left:var(--m);right:var(--m);bottom:clamp(40px,10vh,110px);z-index:2;margin:0;font-family:var(--titre);font-size:clamp(2.2rem,1rem + 6vw,6rem);line-height:1;opacity:calc((var(--p,0) - .6) * 2.5);transform:translateY(calc((1 - var(--p,0)) * 60px))}
+#vue .etiq{position:absolute;left:var(--m);top:84px;z-index:3;margin:0}
+
+/* ---------- anim. 33 : une journée, sur une frise qui se remplit ---------- */
+.journee{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:clamp(30px,6vw,90px);align-items:start}
+.journee .colle{position:sticky;top:110px}
+.frise{position:relative;list-style:none;margin:0;padding:0 0 0 46px}
+.frise::before,.frise .plein{content:"";position:absolute;left:11px;top:8px;bottom:8px;width:2px;background:var(--filet)}
+.frise .plein{background:var(--crayon);transform-origin:50% 0;transform:scaleY(var(--p,0))}
+.frise li{position:relative;padding:0 0 clamp(44px,7vw,72px);opacity:.3;transform:translateX(14px);transition:opacity .6s,transform .7s var(--e)}
+.frise li:last-child{padding-bottom:0}
+.frise li::before{content:"";position:absolute;left:-42px;top:8px;width:16px;height:16px;border-radius:50%;background:var(--nuit);border:2px solid var(--pale);transition:transform .5s var(--e),background-color .3s,border-color .3s}
+.frise li.on{opacity:1;transform:none}
+.frise li.on::before{background:var(--crayon);border-color:var(--crayon);transform:scale(1.25)}
+.frise time{font-style:italic;color:var(--crayon)}
+.frise b{display:block;font-family:var(--titre);font-weight:400;font-size:clamp(1.5rem,1.1rem + 1.4vw,2.2rem);line-height:1.1;margin:2px 0 6px}
+.frise span{color:#C9D1DE}
+@media (max-width:820px){.journee{grid-template-columns:1fr}.journee .colle{position:static}}
+
+/* ---------- le calendrier et les prix à chiffres roulants (anim. 24) ---------- */
+.tarifs{background:var(--nuit-2);border:1px solid var(--filet);border-radius:14px;padding:clamp(22px,4vw,52px);margin-top:36px}
+.mois{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:6px}
+.mois button{min-height:48px;border-radius:8px;border:1px solid var(--filet);background:none;font-size:16px;transition:background-color .3s,color .3s,border-color .3s}
+.mois button[aria-pressed="true"]{background:var(--papier);color:var(--nuit);border-color:var(--papier)}
+.mois button:disabled{opacity:.35;text-decoration:line-through;cursor:default}
+.saison{margin:20px 0 0;font-style:italic;color:var(--pale);min-height:1.6em}
+.saison b{font-style:normal;font-weight:400;color:var(--papier)}
+.prix{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(14px,2.4vw,30px);margin-top:26px}
+.prix div{border-top:1px solid var(--filet);padding-top:14px}
+.prix h3{font-family:var(--texte);font-style:italic;font-size:18px;color:var(--pale);letter-spacing:0}
+.odo{display:flex;align-items:flex-start;font-family:var(--titre);font-size:clamp(3rem,1.6rem + 4.4vw,5.4rem);line-height:1;margin-top:8px}
+.odo .col{height:1em;overflow:hidden}
+.odo .col>span{display:block;transition:transform 1s var(--e);transition-delay:calc(var(--i) * 80ms);transform:translateY(calc(var(--c) * -1em))}
+.odo .col b{display:block;height:1em;font-weight:400}
+.odo small{font-family:var(--texte);font-size:.24em;color:var(--crayon);margin:.5em 0 0 .3em;font-style:italic}
+.tarifs .note{margin:22px 0 0;font-size:15px;color:var(--pale)}
+@media (max-width:820px){.mois{grid-template-columns:repeat(4,minmax(0,1fr))}.prix{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* ---------- anim. 38 : la galerie en accordéon ---------- */
+.galerie{display:flex;gap:10px;height:min(62vh,480px);margin-top:36px}
+.galerie button{flex:1;min-width:0;border:0;padding:0;border-radius:12px;position:relative;overflow:hidden;transition:flex .8s var(--e);text-align:left;background:var(--nuit-3)}
+.galerie button.on{flex:6}
+.galerie img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.galerie button::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(10,18,32,.7),transparent 45%);opacity:0;transition:opacity .4s}
+.galerie button.on::after{opacity:1}
+.galerie span{position:absolute;left:20px;bottom:16px;z-index:2;font-family:var(--titre);font-size:clamp(20px,1rem + 1vw,28px);white-space:nowrap;opacity:0;transform:translateY(12px);transition:opacity .4s,transform .6s var(--e);color:#fff}
+.galerie button.on span{opacity:1;transform:none;transition-delay:.25s}
+@media (max-width:700px){.galerie{flex-direction:column;height:560px}}
+
+/* ---------- anim. 31 : les vagues, puis le bloc clair pour écrire ---------- */
+.vagues{position:relative;height:clamp(110px,16vw,190px);margin-top:clamp(70px,10vw,140px);overflow:hidden}
+.vagues svg{position:absolute;left:0;bottom:-1px;width:200%;height:100%;animation:vague var(--t) linear infinite}
+@keyframes vague{to{transform:translateX(-50%)}}
+.ecrire{background:var(--papier);color:var(--nuit);padding:clamp(40px,7vw,90px) 0 clamp(60px,9vw,120px)}
+.ecrire .etiq{color:#5A6478}
+.ecrire h2 em{color:var(--crayon)}
+.gros{display:grid;gap:6px;margin:30px 0 34px}
+.gros a{font-family:var(--titre);font-size:clamp(1.45rem,.2rem + 5.6vw,5.4rem);line-height:1.08;text-decoration:none;overflow-wrap:anywhere}
+@media (hover:hover){.gros a:hover{color:var(--crayon)}}
+.ecrire p{max-width:46ch;margin:0}
+.pied{background:var(--crayon);color:#fff;padding:clamp(40px,6vw,80px) 0}
+.pied .page{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:26px 40px}
+.pied p{margin:0;font-family:var(--titre);font-size:clamp(1.8rem,1.2rem + 2.4vw,3.2rem);line-height:1.08;max-width:16ch}
+.pied small{display:block;margin-top:16px;font-size:14px;opacity:.85;max-width:60ch;font-family:var(--texte)}
+.pied .rond i{background:#fff;color:var(--crayon)}
+.pied a.retour{font-size:15px}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  #pre{display:none}.rise{opacity:1!important;transform:none!important}
+  .mots span{opacity:1}.plan .trait{stroke-dashoffset:0}.frise li{opacity:1;transform:none}
+  #vue{height:auto}#vue .epingle{position:relative;height:70vh}.zm{transform:none;border-radius:0}.zm p{opacity:1;transform:none}
+  #phrase{min-height:0}.colle-phrase{position:static}
+}
+</style>
+</head>
+<body>
+<div id="pre" aria-hidden="true"><div class="v v1"></div><div class="v v2"></div><span class="n">Alivetu</span><div class="c">0</div></div>
+<div class="demo">Site test du labo Saitora : maison d’hôtes imaginaire, photos libres, textes, prix et coordonnées d’exemple.</div>
+
+<header class="tete">
+  <a class="nom" href="#haut">Alivetu</a>
+  <button class="burger" type="button" id="burger" aria-expanded="false" aria-controls="menu"><s aria-hidden="true"></s><span>Menu</span></button>
+</header>
+<nav class="menu" id="menu" aria-label="Menu">
+  <a href="#chambres" style="--i:0"><span>Les chambres</span></a>
+  <a href="#journee" style="--i:1"><span>Une journée</span></a>
+  <a href="#prix" style="--i:2"><span>Les prix</span></a>
+  <a href="#ecrire" style="--i:3"><span>Nous écrire</span></a>
+  <small>Maison d’hôtes dans les oliviers · ouverte de mars à novembre</small>
+</nav>
+
+<main id="haut">
+  <!-- l'ouverture : la colline la nuit, en profondeur ; la maison est dessinée au trait, avec sa cote -->
+  <section class="scene" id="scene" aria-labelledby="t-ouv">
+    <i class="etoiles"></i><i class="lune"></i><i class="c1"></i><i class="c2"></i>
+    <svg viewBox="0 0 440 240" aria-hidden="true">
+      <path d="M150 170 V110 L215 70 L280 110 V170 Z"/><path d="M280 128 H350 V170 H280"/><path d="M280 128 L315 108 L350 128"/>
+      <path d="M195 170 V138 H222 V170"/><rect class="fen" x="238" y="122" width="22" height="22"/><rect class="fen" x="300" y="140" width="18" height="16"/>
+      <path d="M238 122 h22 v22 h-22 z M300 140 h18 v16 h-18 z"/>
+      <path d="M70 170 V140"/><circle cx="70" cy="118" r="24"/><path d="M112 170 V150"/><circle cx="112" cy="134" r="17"/><path d="M392 170 V146"/><circle cx="392" cy="126" r="21"/>
+      <path d="M20 170 H430"/>
+      <line class="cote" x1="20" y1="196" x2="430" y2="196"/><line class="cote" x1="20" y1="190" x2="20" y2="202"/><line class="cote" x1="430" y1="190" x2="430" y2="202"/>
+      <text x="150" y="218">320 m au-dessus de la mer</text>
+    </svg>
+    <i class="c3"></i>
+    <div class="txt">
+      <h1 id="t-ouv">Une maison dans <em>les oliviers</em>, au‑dessus de la mer.</h1>
+      <p>Trois chambres et un petit gîte en Balagne, au bout d’un chemin de pierre. On y vient pour le calme, on y revient pour la vue.</p>
+      <a class="rond" href="#chambres">Voir les chambres <i aria-hidden="true">→</i></a>
+    </div>
+  </section>
+
+  <!-- la grande phrase -->
+  <section class="page" id="phrase" aria-label="En une phrase">
+    <div class="colle-phrase"><p class="mots" id="mots">Ici on n’entend que les cigales, le vent dans les oliviers et, le soir, <em>la mer au loin.</em></p>
+    <p class="mots-qui">Anna et Paul, qui vous reçoivent</p></div>
+  </section>
+
+  <!-- les chambres -->
+  <section class="page sec" id="chambres" aria-labelledby="t-ch">
+    <p class="etiq rise">Trois chambres et un gîte</p>
+    <h2 id="t-ch" class="rise">Choisir <em>sa chambre</em>.</h2>
+    <div class="pile">
+      <article class="carte" style="--i:0"><div style="--g:#16243B">
+        <div class="cadre"><img src="images/chambre-figuier.webp" alt="La chambre du Figuier : poutres, mur de pierre, lit en fer forgé" width="1200" height="800" loading="lazy" decoding="async"></div>
+        <div><h3>Le Figuier</h3><p>La plus ancienne pièce de la maison : poutres d’origine, mur de pierre, et le figuier juste sous la fenêtre.</p>
+          <div class="fiche"><div class="surface"><b data-to="22">22</b><span>m², pour deux</span></div><svg class="plan" data-l="5.2" data-p="4.2" aria-hidden="true"></svg></div>
+          <p class="depuis">dès <b data-prix="0">105&nbsp;€</b> la nuit, petit-déjeuner compris</p></div>
+      </div></article>
+      <article class="carte" style="--i:1"><div style="--g:#1A2B47">
+        <div class="cadre"><img src="images/chambre-alba.webp" alt="La chambre Alba : voilages blancs et fenêtre en arche" width="1200" height="800" loading="lazy" decoding="async"></div>
+        <div><h3>Alba</h3><p>Plein est : le soleil se lève dans la chambre. Une fenêtre en arche, des voilages, une grande salle d’eau.</p>
+          <div class="fiche"><div class="surface"><b data-to="26">26</b><span>m², pour deux</span></div><svg class="plan" data-l="6.0" data-p="4.3" aria-hidden="true"></svg></div>
+          <p class="depuis">dès <b data-prix="1">115&nbsp;€</b> la nuit, petit-déjeuner compris</p></div>
+      </div></article>
+      <article class="carte" style="--i:2"><div style="--g:#1F3354">
+        <div class="cadre"><img src="images/chambre-machja.webp" alt="La chambre Machja : deux lits sous les poutres blanches" width="1200" height="800" loading="lazy" decoding="async"></div>
+        <div><h3>Machja</h3><p>Sous le toit, deux lits qu’on rapproche ou qu’on sépare. Elle sent le maquis quand on ouvre la lucarne.</p>
+          <div class="fiche"><div class="surface"><b data-to="18">18</b><span>m², pour deux</span></div><svg class="plan" data-l="4.5" data-p="4.0" aria-hidden="true"></svg></div>
+          <p class="depuis">dès <b data-prix="2">100&nbsp;€</b> la nuit, petit-déjeuner compris</p></div>
+      </div></article>
+      <article class="carte" style="--i:3"><div style="--g:#243B61">
+        <div class="cadre"><img src="images/gite.webp" alt="Le gîte : une maison de pierre aux volets bleus" width="1200" height="800" loading="lazy" decoding="async"></div>
+        <div><h3>Le gîte</h3><p>L’ancienne bergerie, à cinquante mètres : deux chambres, une cuisine, une terrasse à soi. Pour une famille.</p>
+          <div class="fiche"><div class="surface"><b data-to="64">64</b><span>m², pour quatre</span></div><svg class="plan" data-l="9.6" data-p="6.6" data-mur="5.4" aria-hidden="true"></svg></div>
+          <p class="depuis">dès <b data-prix="3">160&nbsp;€</b> la nuit</p></div>
+      </div></article>
+    </div>
+
+    <div class="chiffres" aria-label="La maison en chiffres">
+      <div class="rise"><b data-to="4">4</b><span>logements, pas un de plus</span></div>
+      <div class="rise" style="--d:1"><b data-to="2">2</b><span>hectares d’oliviers</span></div>
+      <div class="rise" style="--d:2"><b data-to="12">12</b><span>minutes de la plage</span></div>
+      <div class="rise" style="--d:3"><b data-to="320">320</b><span>mètres d’altitude</span></div>
+    </div>
+  </section>
+
+  <!-- la vue, qui prend tout l'écran -->
+  <section id="vue" aria-label="La vue">
+    <div class="epingle"><p class="etiq">Depuis la terrasse</p>
+      <div class="zm"><img src="images/vue.webp" alt="Le coucher du soleil sur la côte, vu de la terrasse" width="1280" height="800" loading="lazy" decoding="async"><p>Le soir, la vue<br>prend <em>toute la place</em>.</p></div></div>
+  </section>
+
+  <!-- une journée -->
+  <section class="page sec" id="journee" aria-labelledby="t-j">
+    <div class="journee">
+      <div class="colle"><p class="etiq rise">À votre rythme</p><h2 id="t-j" class="rise">Une <em>journée</em> à Alivetu.</h2></div>
+      <ul class="frise" id="frise"><div class="plein" aria-hidden="true"></div>
+        <li><time>8 h 30</time><b>Le petit-déjeuner sous le figuier</b><span>Pain du village, confitures de la maison, œufs des poules d’à côté.</span></li>
+        <li><time>11 h</time><b>La piscine, ou la plage</b><span>Le bassin est à vous ; la plage est à douze minutes en voiture.</span></li>
+        <li><time>17 h</time><b>Le sentier des bergeries</b><span>Une heure de marche à l’ombre, au départ du portail.</span></li>
+        <li><time>19 h 30</time><b>L’apéritif sur la terrasse</b><span>Le soleil se couche en face. On apporte l’huile et les olives.</span></li>
+        <li><time>20 h 30</time><b>La table d’hôtes, le vendredi</b><span>Un seul menu, une grande table, les légumes du potager.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- les prix, mois par mois -->
+  <section class="page sec" id="prix" aria-labelledby="t-p">
+    <p class="etiq rise">Les prix, mois par mois</p>
+    <h2 id="t-p" class="rise">Quand <em>venez-vous</em> ?</h2>
+    <div class="tarifs rise" style="--d:1">
+      <div class="mois" id="mois" role="group" aria-label="Choisir un mois"></div>
+      <p class="saison" id="saison" aria-live="polite"></p>
+      <div class="prix">
+        <div><h3>Le Figuier</h3><div class="odo" data-v="105,125,155"></div></div>
+        <div><h3>Alba</h3><div class="odo" data-v="115,140,175"></div></div>
+        <div><h3>Machja</h3><div class="odo" data-v="100,118,145"></div></div>
+        <div><h3>Le gîte</h3><div class="odo" data-v="160,195,250"></div></div>
+      </div>
+      <p class="note">Prix par nuit pour deux (quatre pour le gîte). Prix d’exemple, à remplacer par ceux de la maison.</p>
+    </div>
+  </section>
+
+  <!-- autour de la maison -->
+  <section class="page sec" aria-labelledby="t-g">
+    <p class="etiq rise">Autour de la maison</p>
+    <h2 id="t-g" class="rise">Dehors, <em>surtout</em>.</h2>
+    <div class="galerie rise" style="--d:1" id="galerie">
+      <button type="button" class="on"><img src="images/oliviers.webp" alt="" width="1200" height="900" loading="lazy" decoding="async"><span>Les oliviers</span></button>
+      <button type="button"><img src="images/piscine.webp" alt="" width="1200" height="900" loading="lazy" decoding="async"><span>La piscine</span></button>
+      <button type="button"><img src="images/dejeuner.webp" alt="" width="1200" height="900" loading="lazy" decoding="async"><span>Le petit-déjeuner</span></button>
+      <button type="button"><img src="images/cour.webp" alt="" width="1200" height="900" loading="lazy" decoding="async"><span>La cour</span></button>
+    </div>
+  </section>
+
+  <div class="vagues" id="vagues" aria-hidden="true"></div>
+  <section class="ecrire" id="ecrire" aria-labelledby="t-e">
+    <div class="page">
+      <p class="etiq">Réserver</p>
+      <h2 id="t-e">Un mot, et on vous <em>garde la chambre</em>.</h2>
+      <div class="gros"><a href="tel:+33495000000">04 95 00 00 00</a><a href="mailto:bonjour@alivetu.example">bonjour@alivetu.example</a></div>
+      <p>Dites-nous vos dates et la chambre qui vous plaît. On répond dans la journée. (Téléphone et adresse d’exemple.)</p>
+    </div>
+  </section>
+</main>
+
+<footer class="pied">
+  <div class="page">
+    <div><p>On vous attend au bout du chemin.</p><small>Site test du labo Saitora. Maison imaginaire ; photos Pixabay (licence libre) : Chikilino, DavidPogue, MarcelDominic, Monvej, VirgoStudio, a-mblomma, lutz6078, simonefer, tatwalter.</small></div>
+    <div style="display:grid;gap:14px;justify-items:start"><a class="rond" href="#prix">Voir les prix <i aria-hidden="true">→</i></a><a class="retour" href="../">Retour au labo</a></div>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const borne = (v, a, b) => Math.max(a, Math.min(b, v)), calme = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------- anim. 12 : le chargement (un compteur, puis les deux volets s'écartent) ---------- */
+  { const pre = $("#pre"), c = $(".c", pre);
+    if (calme) pre.classList.add("ouvert");
+    else { const t0 = performance.now(), duree = 1000; const pas = t => { const k = borne((t - t0) / duree, 0, 1); c.textContent = Math.round((1 - Math.pow(1 - k, 3)) * 100); if (k < 1) requestAnimationFrame(pas); else setTimeout(() => pre.classList.add("ouvert"), 140); }; requestAnimationFrame(pas);
+      setTimeout(() => pre.classList.add("ouvert"), 2500); /* filet de sécurité */ } }
+
+  /* ---------- anim. 16 : le menu plein écran ---------- */
+  { const b = $("#burger"), corps = document.body; const pose = o => { corps.classList.toggle("menu-ouvert", o); corps.classList.toggle("fige", o); b.setAttribute("aria-expanded", String(o)); $("span", b).textContent = o ? "Fermer" : "Menu"; };
+    b.addEventListener("click", () => pose(!corps.classList.contains("menu-ouvert")));
+    $$(".menu a").forEach(a => a.addEventListener("click", () => pose(false)));
+    addEventListener("keydown", e => { if (e.key === "Escape" && corps.classList.contains("menu-ouvert")) { pose(false); b.focus(); } }); }
+
+  /* ---------- anim. 08 : la phrase, mot par mot ---------- */
+  const mots = (() => { const p = $("#mots"), out = []; p.setAttribute("aria-label", p.textContent);
+    p.childNodes.forEach(n => { const hl = n.nodeType === 1; (n.textContent || "").split(/(\s+)/).forEach(w => { if (!w) return; if (/^\s+$/.test(w)) out.push(document.createTextNode(" ")); else { const s = document.createElement("span"); s.textContent = w; s.setAttribute("aria-hidden", "true"); if (hl) s.className = "hl"; out.push(s); } }); });
+    p.replaceChildren(...out); return $$("span", p); })();
+
+  /* ---------- les plans des chambres, dessinés au trait avec leurs cotes (longueur × profondeur en mètres) ---------- */
+  $$(".plan").forEach(svg => { const L = +svg.dataset.l, P = +svg.dataset.p, mur = +svg.dataset.mur || 0, k = 20, w = L * k, h = P * k, fr = v => String(v).replace(".", ",");
+    svg.setAttribute("viewBox", `-26 -8 ${w + 40} ${h + 34}`);
+    svg.innerHTML = `<path class="trait" pathLength="1" d="M0 0 H${w} V${h} H${w * .34} M${w * .2} ${h} H0 V0"/>
+      <path class="trait" pathLength="1" d="M${w * .2} ${h} A${w * .14} ${w * .14} 0 0 1 ${w * .34} ${h - w * .14}"/>
+      ${mur ? `<path class="trait" pathLength="1" d="M${mur * k} 0 V${h * .62}"/>` : ""}
+      <path class="trait" pathLength="1" d="M${w - 44} 10 h34 v${Math.min(44, h * .5)} h-34 z M${w - 44} 22 h34"/>
+      <line class="cote" x1="0" y1="${h + 12}" x2="${w}" y2="${h + 12}"/><line class="cote" x1="0" y1="${h + 8}" x2="0" y2="${h + 16}"/><line class="cote" x1="${w}" y1="${h + 8}" x2="${w}" y2="${h + 16}"/>
+      <text x="${w / 2}" y="${h + 25}" text-anchor="middle">${fr(L.toFixed(1))} m</text>
+      <line class="cote" x1="-10" y1="0" x2="-10" y2="${h}"/><line class="cote" x1="-14" y1="0" x2="-6" y2="0"/><line class="cote" x1="-14" y1="${h}" x2="-6" y2="${h}"/>
+      <text x="-16" y="${h / 2}" text-anchor="middle" transform="rotate(-90 -16 ${h / 2})">${fr(P.toFixed(1))} m</text>`; });
+
+  /* ---------- apparitions, plans qui se tracent, chiffres qui comptent (anim. 04) ---------- */
+  const doux = t => 1 - Math.pow(2, -10 * t);
+  const compte = el => { const to = +el.dataset.to; if (calme) return; const t0 = performance.now(), duree = 1600; const pas = t => { const k = borne((t - t0) / duree, 0, 1); el.textContent = Math.round(to * (k >= 1 ? 1 : doux(k))); if (k < 1) requestAnimationFrame(pas); }; requestAnimationFrame(pas); };
+  const io = new IntersectionObserver(es => { for (const e of es) if (e.isIntersecting) { const t = e.target; io.unobserve(t); if (t.dataset.to) compte(t); else if (t.classList.contains("carte")) t.classList.add("vu"); else t.classList.add("on"); } }, { threshold: .25 });
+  $$(".rise, [data-to], .carte").forEach(el => io.observe(el));
+
+  /* ---------- le calendrier : un mois choisi, la saison, et les prix qui roulent (anim. 24) ---------- */
+  { const NOMS = ["Janv.", "Févr.", "Mars", "Avril", "Mai", "Juin", "Juil.", "Août", "Sept.", "Oct.", "Nov.", "Déc."], LONGS = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
+    const SAISON = [-1, -1, 0, 0, 1, 1, 2, 2, 1, 0, 0, -1], NOM_S = ["basse saison", "moyenne saison", "haute saison"];
+    const boite = $("#mois"), odos = $$(".odo"), txt = $("#saison");
+    odos.forEach(o => { const v = o.dataset.v.split(",")[0]; o.innerHTML = [...v].map((c, i) => `<span class="col"><span style="--i:${i};--c:${c}">${"0123456789".split("").map(n => `<b>${n}</b>`).join("")}</span></span>`).join("") + "<small>€ la nuit</small>"; o.setAttribute("role", "img"); });
+    boite.innerHTML = NOMS.map((n, i) => `<button type="button" data-m="${i}" aria-pressed="false" ${SAISON[i] < 0 ? "disabled" : ""} aria-label="${LONGS[i]}${SAISON[i] < 0 ? " : fermé" : ""}">${n}</button>`).join("");
+    const choisit = m => { const s = SAISON[m]; $$("button", boite).forEach(b => b.setAttribute("aria-pressed", String(+b.dataset.m === m)));
+      txt.innerHTML = `En ${LONGS[m]}, c’est la <b>${NOM_S[s]}</b>.`;
+      odos.forEach(o => { const v = o.dataset.v.split(",")[s]; o.setAttribute("aria-label", v + " euros la nuit"); $$(".col > span", o).forEach((c, i) => c.style.setProperty("--c", v[i])); });
+      $$("[data-prix]").forEach(b => { b.innerHTML = odos[+b.dataset.prix].dataset.v.split(",")[0] + "&nbsp;€"; }); };
+    boite.addEventListener("click", e => { const b = e.target.closest("button"); if (b && !b.disabled) choisit(+b.dataset.m); });
+    /* le mois en cours d'abord ; si la maison est fermée ce mois-là, le prochain mois ouvert */
+    let m = new Date().getMonth(); while (SAISON[m] < 0) m = (m + 1) % 12; choisit(m); }
+
+  /* ---------- anim. 38 : la galerie en accordéon ---------- */
+  { const ps = $$("#galerie button"), ouvre = p => ps.forEach(x => { x.classList.toggle("on", x === p); x.setAttribute("aria-pressed", String(x === p)); });
+    ps.forEach(p => { p.setAttribute("aria-label", $("span", p).textContent); p.addEventListener("click", () => ouvre(p)); p.addEventListener("pointerenter", e => { if (e.pointerType === "mouse") ouvre(p); }); }); ouvre(ps[0]); }
+
+  /* ---------- anim. 31 : les vagues qui mènent au bloc clair ---------- */
+  { const mk = (amp, base, coul, duree, ph) => { let d = `M0 200 L0 ${base}`; for (let x = 0; x <= 2880; x += 20) d += ` L${x} ${(base + Math.sin(x / 1440 * Math.PI * 4 + ph) * amp + Math.sin(x / 1440 * Math.PI * 10 + ph * 2) * amp * .25).toFixed(1)}`; return `<svg viewBox="0 0 2880 200" preserveAspectRatio="none" style="--t:${duree}s"><path d="${d} L2880 200 Z" fill="${coul}"/></svg>`; };
+    $("#vagues").innerHTML = mk(24, 70, "#22345a", 19, 0) + mk(18, 108, "#6f7d99", 13, 2) + mk(13, 146, "#EDE8DC", 9, 4); }
+
+  /* ---------- ce qui suit le défilement : la phrase (08), la pile (22), la vue (23), la frise (33), et le décor (40) ---------- */
+  const scene = $("#scene"), phrase = $("#phrase"), cartes = $$(".carte"), vue = $("#vue"), zm = $(".zm"), frise = $("#frise"), lis = $$("li", frise);
+  let vif = 0, sx = 0, sy = 0, tx = 0, ty = 0, sceneVue = true;
+  const vise = e => { const r = scene.getBoundingClientRect(); tx = borne((e.clientX - r.left) / r.width * 2 - 1, -1, 1); ty = borne((e.clientY - r.top) / r.height * 2 - 1, -1, 1); vif = performance.now(); };
+  scene.addEventListener("pointermove", vise); scene.addEventListener("pointerdown", vise);
+  new IntersectionObserver(([e]) => { sceneVue = e.isIntersecting; }).observe(scene);
+  const large = matchMedia("(min-width: 821px)"), bandeau = $(".demo");
+  function image(t) {
+    const vh = innerHeight;
+    document.body.classList.toggle("bas", scrollY > vh * .8);
+    document.documentElement.style.setProperty("--bandeau", Math.max(0, bandeau.offsetHeight - scrollY) + "px");
+    if (!calme) {
+      if (sceneVue) { if (t - vif > 2500) { tx = Math.sin(t / 2100) * .7; ty = Math.cos(t / 2700) * .5; } sx += (tx - sx) * .07; sy += (ty - sy) * .07; scene.style.setProperty("--x", (-sx).toFixed(3)); scene.style.setProperty("--y", (-sy * .5).toFixed(3)); }
+      const pr = phrase.getBoundingClientRect(), pp = borne((vh * .75 - pr.top) / (pr.height - vh * .2), 0, 1), n = Math.round(pp * mots.length * 1.15); mots.forEach((w, i) => w.classList.toggle("on", i < n));
+      if (large.matches) cartes.forEach((c, i) => { const s = cartes[i + 1], d = c.firstElementChild; if (!s) return; const r = c.getBoundingClientRect(), nr = s.getBoundingClientRect(), k = borne(1 - (nr.top - r.top - 14) / r.height, 0, 1); d.style.setProperty("--s", (1 - k * .05).toFixed(3)); d.style.setProperty("--b", (1 - k * .3).toFixed(3)); });
+      const zr = vue.getBoundingClientRect(); zm.style.setProperty("--p", borne(-zr.top / (zr.height - vh), 0, 1).toFixed(3));
+      const fr = frise.getBoundingClientRect(); frise.style.setProperty("--p", borne((vh * .62 - fr.top) / fr.height, 0, 1).toFixed(3)); lis.forEach(li => li.classList.toggle("on", li.getBoundingClientRect().top < vh * .62));
+    }
+    requestAnimationFrame(image);
+  }
+  requestAnimationFrame(image);
+})();
+</script>
+</body>
+</html>

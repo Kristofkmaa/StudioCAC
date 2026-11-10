@@ -167,6 +167,38 @@ footer .legal{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap
 /* dévoilement des photos, une fois chargées */
 .js .curtain img{opacity:0;transform:scale(1.045);transition:opacity .9s ease-out,transform 1.4s cubic-bezier(.23,1,.32,1);transition-delay:var(--d,0ms)}
 .js .curtain.on img{opacity:1;transform:none}
+/* ---- les mouvements, tirés de la banque animations/mouvements.html : 02, 04, 06, 18, 24, 26, 29 ---- */
+.trait{position:relative;display:inline-block}
+.trait svg{position:absolute;left:-2%;bottom:-.1em;width:104%;height:.16em;overflow:visible}
+.trait path{fill:none;stroke:var(--mustard);stroke-width:6;stroke-linecap:round;vector-effect:non-scaling-stroke;stroke-dasharray:1;stroke-dashoffset:0}
+.form button.fait{background:var(--olive)}
+@media (prefers-reduced-motion:no-preference){
+  /* 29 : le trait à la main sous le nom */
+  .js .trait path{stroke-dashoffset:1;animation:trace 1s cubic-bezier(.4,0,.2,1) .7s forwards}
+  /* 02 : les blocs arrivent quand on les regarde */
+  .js .leve{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .8s cubic-bezier(.22,.8,.2,1);transition-delay:var(--d,0ms)}
+  .js .leve.on{opacity:1;transform:none}
+  .js .lines.leve li{opacity:0;transform:translateX(-18px);transition:opacity .6s ease,transform .7s cubic-bezier(.22,.8,.2,1)}
+  .js .lines.leve.on li{opacity:1;transform:none}
+  .js .lines.leve.on li:nth-child(2){transition-delay:.18s}.js .lines.leve.on li:nth-child(3){transition-delay:.36s}
+  /* 18 : le rayon s'ouvre en douceur */
+  .shelves details[open] ul{animation:ouvre .5s cubic-bezier(.22,.8,.2,1)}
+  .shelves details[open] li{animation:ouvre .5s cubic-bezier(.22,.8,.2,1) both}
+  .shelves details[open] li:nth-child(2){animation-delay:.07s}.shelves details[open] li:nth-child(3){animation-delay:.14s}
+  /* 24 : les chiffres du compte à rebours roulent quand on change de hameau */
+  .count .num.roule{animation:roule .45s cubic-bezier(.22,.8,.2,1)}
+  /* la camionnette repart et revient quand on change de hameau */
+  .van.repart{animation:repart 1s cubic-bezier(.5,0,.3,1)}
+  /* 06 : la flèche ronde réagit au toucher ; 26 : le bouton confirme */
+  .round:active i{transform:scale(.88)}
+  .round i{transition:transform .3s cubic-bezier(.3,1.6,.5,1)}
+  .form button.fait{animation:confirme .5s cubic-bezier(.22,.8,.2,1)}
+}
+@keyframes trace{to{stroke-dashoffset:0}}
+@keyframes ouvre{from{opacity:0;transform:translateY(-10px)}}
+@keyframes roule{0%{transform:translateY(-.5em);opacity:0}}
+@keyframes repart{0%{transform:none;opacity:1}42%{transform:translateX(-46%) rotate(-2deg);opacity:0}43%{transform:translateX(10px);opacity:0}100%{transform:none;opacity:1}}
+@keyframes confirme{40%{transform:scale(1.06)}}
 @media (prefers-reduced-motion:reduce){.js .curtain img{opacity:1;transform:none;transition:none}.seal svg,.van .body,.road-line{animation:none}}
 
 @media (max-width:900px){
@@ -208,7 +240,7 @@ footer .legal{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap
   <div class="card">
     <div class="seal" aria-hidden="true"><svg viewBox="0 0 200 200"><defs><path id="c" d="M100 100 m-74 0 a74 74 0 1 1 148 0 a74 74 0 1 1 -148 0"/></defs><text><textPath href="#c">Vallée du Prunelli · depuis 1952 · </textPath></text></svg><b>ZR</b></div>
     <p class="hand">depuis 1952</p>
-    <h1>Zia Rosa</h1>
+    <h1><span class="trait">Zia Rosa<svg viewBox="0 0 300 18" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M4 10 C 50 2, 110 16, 170 8 S 260 5, 296 11"/></svg></span></h1>
     <p class="say">L'épicerie du village : la coupe, les fromages de la vallée, le pain du matin. Le mardi et le vendredi, la camionnette monte dans les hameaux.</p>
     <p class="state" id="open"></p>
     <div class="acts"><a class="round" href="#tournee"><i>→</i>Quand passe la camionnette ?</a><a class="round alt" href="#rayons"><i>→</i>Les rayons</a></div>
@@ -219,13 +251,13 @@ footer .legal{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap
   <div class="panel">
     <div class="wrap van-grid">
       <div>
-        <p class="hand">la tournée des hameaux</p>
-        <h2 class="h2">La camionnette passe dans…</h2>
+        <p class="hand leve">la tournée des hameaux</p>
+        <h2 class="h2 leve" style="--d:80ms">La camionnette passe dans…</h2>
         <div class="ham" id="ham" role="group" aria-label="Votre hameau"></div>
         <div class="count" aria-live="polite"><div><b class="num" id="cD">0</b><span>jours</span></div><div><b class="num" id="cH">0</b><span>heures</span></div><div><b class="num" id="cM">0</b><span>minutes</span></div></div>
         <p class="when" id="when"></p>
       </div>
-      <svg class="van" viewBox="0 0 360 230" role="img" aria-label="La camionnette de l'épicerie">
+      <svg class="van" id="van" viewBox="0 0 360 230" role="img" aria-label="La camionnette de l'épicerie">
         <line class="road-line" x1="0" y1="214" x2="360" y2="214" stroke="#3E2414" stroke-width="5" stroke-linecap="round"/>
         <g class="body">
           <path d="M28 60 Q28 34 54 34 H226 Q246 34 258 52 L300 108 Q318 112 324 128 V176 Q324 188 312 188 H40 Q28 188 28 176Z" fill="#FBF0DB" stroke="#3E2414" stroke-width="5" stroke-linejoin="round"/>
@@ -244,21 +276,21 @@ footer .legal{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap
 
 <section id="rayons" style="padding-top:0">
   <div class="wrap">
-    <p class="hand">au comptoir et en rayon</p>
-    <h2 class="h2">Les rayons</h2>
-    <p class="lede">Plus de quatre cents produits, dont une bonne part faits à moins de vingt kilomètres. Touchez un rayon pour voir ce qu'il y a dedans.</p>
-    <div class="shelves" id="shelves"></div>
+    <p class="hand leve">au comptoir et en rayon</p>
+    <h2 class="h2 leve" style="--d:80ms">Les rayons</h2>
+    <p class="lede leve" style="--d:160ms">Plus de quatre cents produits, dont une bonne part faits à moins de vingt kilomètres. Touchez un rayon pour voir ce qu'il y a dedans.</p>
+    <div class="shelves leve" id="shelves" style="--d:200ms"></div>
     <p class="fine">Prix de démonstration.</p>
   </div>
 </section>
 
 <section style="padding-top:0">
   <div class="wrap">
-    <h2 class="h2">Le village en quatre chiffres</h2>
-    <div class="figs">
-      <div style="--c:var(--rust)"><b class="num">1952</b><span>l'année où Rosa a levé le rideau, place de la fontaine</span></div>
-      <div style="--c:var(--orange)"><b class="num">400</b><span>produits en rayon, de la coppa au timbre</span></div>
-      <div style="--c:var(--olive)"><b class="num">20 km</b><span>au plus, pour une bonne part de ce qui est vendu</span></div>
+    <h2 class="h2 leve">Le village en quatre chiffres</h2>
+    <div class="figs leve" id="figs" style="--d:120ms">
+      <div style="--c:var(--rust)"><b class="num compte" data-de="1900" data-to="1952">1952</b><span>l'année où Rosa a levé le rideau, place de la fontaine</span></div>
+      <div style="--c:var(--orange)"><b class="num compte" data-de="0" data-to="400">400</b><span>produits en rayon, de la coppa au timbre</span></div>
+      <div style="--c:var(--olive)"><b class="num"><span class="compte" data-de="0" data-to="20">20</span> km</b><span>au plus, pour une bonne part de ce qui est vendu</span></div>
       <div style="--c:var(--brown)"><b class="num">2</b><span>tournées par semaine dans les hameaux</span></div>
     </div>
     <div class="pair">
@@ -271,7 +303,7 @@ footer .legal{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap
 <section class="portrait curtain" id="maison">
   <img src="images/zia-rosa/jambons.webp" alt="Des jambons qui sèchent, pendus sous la charpente" width="800" height="1000" loading="lazy">
   <div class="wrap">
-    <div class="lines">
+    <div class="lines leve">
       <p class="hand">la maison</p>
       <ol>
         <li>Ouverte en 1952, sur la place de la fontaine.</li>
@@ -285,11 +317,11 @@ footer .legal{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap
 <section id="commander">
   <div class="wrap order">
     <div>
-      <p class="hand">pour la tournée</p>
-      <h2 class="h2">Commander</h2>
-      <p class="lede">Envoyez votre liste la veille avant 18 h : la camionnette vous apporte la coupe, le pain et le gaz, à régler à la livraison ou sur le carnet.</p>
+      <p class="hand leve">pour la tournée</p>
+      <h2 class="h2 leve" style="--d:80ms">Commander</h2>
+      <p class="lede leve" style="--d:160ms">Envoyez votre liste la veille avant 18 h : la camionnette vous apporte la coupe, le pain et le gaz, à régler à la livraison ou sur le carnet.</p>
     </div>
-    <form class="form" id="order" novalidate>
+    <form class="form leve" id="order" style="--d:120ms" novalidate>
       <div><label for="oHam">Votre hameau</label><select id="oHam"></select></div>
       <div><label for="oList">Votre liste</label><textarea id="oList" placeholder="200 g de coppa, un pain de campagne, une recharge de gaz…"></textarea></div>
       <div class="two"><div><label for="oName">Votre nom</label><input id="oName" autocomplete="name"></div><div><label for="oTel">Téléphone</label><input id="oTel" type="tel" inputmode="tel" autocomplete="tel"></div></div>
@@ -348,16 +380,18 @@ $("ham").innerHTML = HAMLETS.map(([n], i) => `<button type="button" data-i="${i}
 $("oHam").innerHTML = HAMLETS.map(([n, d, m], i) => `<option value="${i}">${n}, le ${DN[d]} vers ${hm(m)}</option>`).join("");
 function tick() {
   const r = nextRound(cur), left = Math.max(0, r.d - new Date()), mins = Math.floor(left / 6e4);
-  $("cD").textContent = Math.floor(mins / 1440); $("cH").textContent = Math.floor(mins % 1440 / 60); $("cM").textContent = mins % 60;
+  [["cD", Math.floor(mins / 1440)], ["cH", Math.floor(mins % 1440 / 60)], ["cM", mins % 60]].forEach(([id, v]) => { const el = $(id); if (el.textContent !== String(v)) { el.textContent = v; el.classList.remove("roule"); void el.offsetWidth; el.classList.add("roule"); } });
   const late = new Date() > r.eve;
   $("when").innerHTML = `À ${esc(r.n)}, <em>${dm(r.d)} vers ${hm(r.min)}</em>.<small>${late ? "La liste de cette tournée est close : appelez la boutique, on fera de notre mieux." : `Envoyez votre liste avant le ${dm(r.eve)}, 18 h.`}</small>`;
 }
-function pick(i) { cur = i; $("oHam").value = i; [...$("ham").children].forEach((b, k) => b.setAttribute("aria-pressed", k === i)); tick(); }
+function pick(i) { if (i !== cur) { const v = $("van"); v.classList.remove("repart"); void v.getBoundingClientRect(); v.classList.add("repart"); } cur = i; $("oHam").value = i; [...$("ham").children].forEach((b, k) => b.setAttribute("aria-pressed", k === i)); tick(); }
 $("ham").addEventListener("click", e => { const b = e.target.closest("button"); if (b) pick(+b.dataset.i); });
 $("oHam").addEventListener("change", e => pick(+e.target.value));
 pick(0); setInterval(tick, 20000);
 $("order").addEventListener("submit", e => { e.preventDefault(); const r = nextRound(+$("oHam").value);
-  $("done").textContent = $("oList").value.trim() ? `Démonstration : votre liste partirait chez Rosa pour la tournée du ${dm(r.d)}.` : "Votre liste est vide."; });
+  const plein = !!$("oList").value.trim();
+  $("done").textContent = plein ? `Démonstration : votre liste partirait chez Rosa pour la tournée du ${dm(r.d)}.` : "Votre liste est vide.";
+  if (plein) { const bt = $("order").querySelector("button[type=submit]"), avant = bt.innerHTML; bt.textContent = "Liste envoyée"; bt.classList.add("fait"); setTimeout(() => { bt.innerHTML = avant; bt.classList.remove("fait"); }, 3200); } });
 
 // ——— horaires, et ouvert maintenant ?
 const OPEN = { 0: [[7.5, 12]], 1: [[7, 12.5], [16, 19.5]], 2: [[7, 12.5], [16, 19.5]], 3: [[7, 12.5], [16, 19.5]], 4: [[7, 12.5], [16, 19.5]], 5: [[7, 12.5], [16, 19.5]], 6: [[7, 12.5], [16, 19.5]] };
@@ -373,6 +407,13 @@ const ready = img => img.complete && img.naturalWidth ? Promise.resolve() : new 
 const show = el => { const img = el.querySelector("img"); (img.decode ? img.decode().catch(() => {}) : ready(img)).then(() => ready(img)).then(() => requestAnimationFrame(() => el.classList.add("on"))); };
 const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { show(e.target); io.unobserve(e.target); } }), { rootMargin: "0px 0px -8% 0px" });
 document.querySelectorAll(".curtain").forEach(el => io.observe(el));
+
+// ——— les mouvements (banque animations/mouvements.html)
+const calme = matchMedia("(prefers-reduced-motion: reduce)").matches;
+// 02 : ce qui arrive quand on le regarde ; 04 : les chiffres du village montent
+{ const vu = new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting) return; vu.unobserve(e.target); e.target.classList.add("on");
+    if (e.target.id === "figs" && !calme) e.target.querySelectorAll(".compte").forEach(c => { const de = +c.dataset.de, but = +c.dataset.to, t0 = performance.now(), monte = t => { const k = Math.min(1, (t - t0) / 1300); c.textContent = Math.round(de + (but - de) * (1 - Math.pow(1 - k, 3))); if (k < 1) requestAnimationFrame(monte); }; requestAnimationFrame(monte); }); }), { rootMargin: "0px 0px -6% 0px", threshold: .1 });
+  document.querySelectorAll(".leve").forEach(e => vu.observe(e)); }
 new IntersectionObserver(([e]) => document.querySelector(".dock").classList.toggle("on", !e.isIntersecting && e.boundingClientRect.top < 0)).observe(document.querySelector(".hero"));
 </script>
 </body>

@@ -1,5 +1,5 @@
 /* N3E Graphics : le configurateur de kit (l'idée du site), la boutique et les mouvements.
-   Les animations viennent de la banque outils/atelier/mouvements.html : 01, 02, 03, 06, 19, 20, 23, 25, 29, 34, 38, 44.
+   Les animations viennent de la banque animations/mouvements.html : 01, 02, 03, 06, 19, 20, 23, 25, 29, 34, 38, 44.
    Sans JavaScript la page reste lisible en entier ; avec « moins de mouvement », rien ne bouge. */
 (() => {
   const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];

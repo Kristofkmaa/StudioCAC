@@ -37,7 +37,7 @@ button,input,select{font:inherit;color:inherit}
 .link{display:inline-flex;align-items:center;gap:10px;min-height:44px;font-weight:500;text-decoration:underline;text-decoration-color:var(--rose);text-decoration-thickness:1.5px;text-underline-offset:.4em}
 .link::after{content:"→";text-decoration:none;color:var(--rose);transition:transform .2s cubic-bezier(.23,1,.32,1)}
 @media (hover:hover) and (pointer:fine){.link:hover::after{transform:translateX(5px)}}
-.btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 26px;background:var(--vert);color:var(--paper);font-weight:600;text-decoration:none;border:0;cursor:pointer;transition:background-color .15s,transform .15s cubic-bezier(.23,1,.32,1)}
+.btn{position:relative;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 26px;background:var(--vert);color:var(--paper);font-weight:600;text-decoration:none;border:0;cursor:pointer;transition:background-color .15s,transform .15s cubic-bezier(.23,1,.32,1)}
 @media (hover:hover) and (pointer:fine){.btn:hover{background:#24482D}}
 .btn:active{transform:scale(.97)}
 .filet{display:flex;align-items:center;gap:12px;color:var(--rose);margin-top:16px;max-width:260px}
@@ -116,8 +116,10 @@ section{padding-block:clamp(80px,9vw,130px)}
 .toc li button b{font:500 clamp(1.6rem,1.3rem + 1vw,2.2rem)/1.1 var(--serif)}
 .toc li button span.p{color:var(--soft);font-size:15px;white-space:nowrap}
 .toc li button[aria-current="true"] b{font-style:italic;color:var(--vert)}
-.toc li .more{display:none;padding:0 0 18px 64px;color:var(--soft);max-width:48ch}
-.toc li button[aria-current="true"] + .more{display:block}
+.toc li .more{display:grid;grid-template-rows:0fr;color:var(--soft);max-width:48ch;transition:grid-template-rows .45s cubic-bezier(.22,.8,.2,1)}
+.toc li .more span{min-height:0;overflow:hidden;padding-left:64px}
+.toc li .more span::after{content:"";display:block;height:18px}
+.toc li button[aria-current="true"] + .more{grid-template-rows:1fr}
 .toc figure{position:relative}
 .toc figure img{width:100%;aspect-ratio:4/5;object-fit:cover;filter:saturate(.85);transition:opacity .35s ease}
 .toc figure img.fade{opacity:0}
@@ -149,6 +151,36 @@ section{padding-block:clamp(80px,9vw,130px)}
 .infos td{padding:2px 14px 2px 0}
 .infos tr.now td{font-weight:600;color:var(--vert)}
 
+/* ---- les mouvements, tirés de la banque animations/mouvements.html : 02, 06, 18, 42, 73, 74, 75 ---- */
+.vent{position:relative}
+.vent canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.vent .wrap{position:relative}
+@media (prefers-reduced-motion:no-preference){
+  /* 02 : les blocs arrivent quand on les regarde */
+  .js .rise{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .9s cubic-bezier(.22,.8,.2,1);transition-delay:calc(var(--i,0)*100ms)}
+  .js .rise.on{opacity:1;transform:none}
+  /* 73 : les planches d'herbier poussent du bas, l'étiquette se pose ensuite */
+  .js .sheet img{clip-path:inset(100% 0 0 0);transition:clip-path 1.5s cubic-bezier(.3,.7,.2,1);transition-delay:calc(var(--i,0)*150ms + .2s)}
+  .js .sheet.on img{clip-path:inset(0 0 0 0)}
+  .js .sheet .tag{opacity:0;transform:translateY(8px);transition:opacity .5s ease,transform .6s cubic-bezier(.22,.8,.2,1);transition-delay:calc(var(--i,0)*150ms + 1.3s)}
+  .js .sheet.on .tag{opacity:1;transform:none}
+  /* 74 : chaque tige ajoutée pousse dans le bouquet */
+  .stage img.neuf{animation:pousse .7s cubic-bezier(.3,.7,.2,1) both;animation-delay:calc(var(--d,0)*70ms)}
+  #price.change{animation:prix .35s cubic-bezier(.22,.8,.2,1)}
+  /* 42 : le chemin se trace jusqu'à la boutique, l'épingle se pose */
+  .js .map .route{stroke-dashoffset:1;transition:stroke-dashoffset 1.6s cubic-bezier(.4,0,.2,1) .3s}
+  .js .map.on .route{stroke-dashoffset:0}
+  .js .map .epingle{opacity:0}
+  .js .map.on .epingle{opacity:1;animation:pose .7s cubic-bezier(.3,1.5,.5,1) 1.7s backwards}
+  /* 06 : l'onde au toucher */
+  .btn::after{content:"";position:absolute;left:var(--x,50%);top:var(--y,50%);width:10px;height:10px;margin:-5px;border-radius:50%;background:rgba(241,235,221,.4);transform:scale(0);opacity:0;pointer-events:none}
+  .btn.onde::after{animation:onde .6s ease-out}
+}
+@keyframes pousse{from{scale:1 0;opacity:0}}
+@keyframes prix{0%{transform:translateY(.25em);opacity:.2}}
+@keyframes pose{from{opacity:0;transform:translateY(-34px)}}
+@keyframes onde{0%{transform:scale(0);opacity:1}100%{transform:scale(34);opacity:0}}
+
 footer{border-top:1px solid var(--line)}
 footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:22px;font-size:14px;color:var(--soft)}
 
@@ -172,7 +204,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
   .row3 figure:last-child{display:block}
   .toc li button{grid-template-columns:36px 1fr}
   .toc li button span.p{grid-column:2}
-  .toc li .more{padding-left:48px}
+  .toc li .more span{padding-left:48px}
 }
 </style>
 </head>
@@ -197,16 +229,16 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
       <div class="filet" aria-hidden="true"><i></i></div>
     </div>
     <figure class="shop"><img src="images/fleuriste/boutique.webp" alt="La devanture de la boutique, fleurs et plantes devant les arches" width="1600" height="1060" fetchpriority="high"></figure>
-    <figure class="sheet"><img src="images/fleuriste/tige-ciste.webp" alt="Planche botanique : ciste à fleurs blanches" width="420" height="669"><span class="tag"><b>Cistus salviifolius</b><span>N° 12 · le ciste du maquis</span></span></figure>
-    <figure class="sheet"><img src="images/fleuriste/tige-pavot.webp" alt="Planche botanique : pavot rose" width="373" height="720"><span class="tag"><b>Papaver rhoeas</b><span>N° 27 · en mai, au bord des routes</span></span></figure>
+    <figure class="sheet vu"><img src="images/fleuriste/tige-ciste.webp" alt="Planche botanique : ciste à fleurs blanches" width="420" height="669"><span class="tag"><b>Cistus salviifolius</b><span>N° 12 · le ciste du maquis</span></span></figure>
+    <figure class="sheet vu" style="--i:2"><img src="images/fleuriste/tige-pavot.webp" alt="Planche botanique : pavot rose" width="373" height="720"><span class="tag"><b>Papaver rhoeas</b><span>N° 27 · en mai, au bord des routes</span></span></figure>
   </div>
 </div>
 
 <section id="composer">
   <div class="wrap">
     <h2 class="h2 words">Composez <em>votre bouquet</em></h2>
-    <p class="lede">Touchez les fleurs, autant de fois que vous voulez de tiges, choisissez la taille et le papier : le bouquet se dessine et le prix s'affiche. On le prépare pour l'heure qui vous arrange.</p>
-    <div class="compose">
+    <p class="lede rise">Touchez les fleurs, autant de fois que vous voulez de tiges, choisissez la taille et le papier : le bouquet se dessine et le prix s'affiche. On le prépare pour l'heure qui vous arrange.</p>
+    <div class="compose rise" style="--i:1">
       <div>
         <div class="flowers" id="flowers" role="group" aria-label="Les fleurs"></div>
         <div class="opts"><span class="lab">La taille</span><div class="seg" id="size"></div></div>
@@ -226,7 +258,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
 <section class="alt" id="boutique">
   <div class="wrap">
     <h2 class="h2 words">Pour <em>chaque moment</em></h2>
-    <div class="toc">
+    <div class="toc rise">
       <ol id="toc"></ol>
       <figure><img id="tocImg" src="images/fleuriste/etal.webp" alt="" width="1000" height="750" loading="lazy"><span class="tag" id="tocTag"></span></figure>
     </div>
@@ -237,25 +269,26 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
   <div class="wrap">
     <h2 class="h2 words">Ce matin <em>à la boutique</em></h2>
     <div class="row3">
-      <figure><img src="images/fleuriste/roses.webp" alt="Des roses pâles en bouquet" width="1000" height="750" loading="lazy"><figcaption><b>Rosa</b>roses de jardin</figcaption></figure>
-      <figure><img src="images/fleuriste/sechees.webp" alt="Des fleurs séchées sur l'étal" width="1000" height="750" loading="lazy"><figcaption><b>Siccae</b>fleurs séchées</figcaption></figure>
-      <figure><img src="images/fleuriste/bouquet-bleu.webp" alt="Un bouquet de fleurs bleues tenu à la main" width="1000" height="750" loading="lazy"><figcaption><b>Myosotis</b>le petit bouquet</figcaption></figure>
+      <figure class="rise"><img src="images/fleuriste/roses.webp" alt="Des roses pâles en bouquet" width="1000" height="750" loading="lazy"><figcaption><b>Rosa</b>roses de jardin</figcaption></figure>
+      <figure class="rise" style="--i:1"><img src="images/fleuriste/sechees.webp" alt="Des fleurs séchées sur l'étal" width="1000" height="750" loading="lazy"><figcaption><b>Siccae</b>fleurs séchées</figcaption></figure>
+      <figure class="rise" style="--i:2"><img src="images/fleuriste/bouquet-bleu.webp" alt="Un bouquet de fleurs bleues tenu à la main" width="1000" height="750" loading="lazy"><figcaption><b>Myosotis</b>le petit bouquet</figcaption></figure>
     </div>
   </div>
 </section>
 
-<section>
+<section class="vent" id="vent">
+  <canvas id="petales" aria-hidden="true"></canvas>
   <div class="wrap about">
     <div>
       <h2 class="h2 words">Cueilli <em>près d'ici</em></h2>
-      <p class="lede">Une partie de nos fleurs vient des producteurs du Cap Corse et de la plaine orientale ; le reste, on le choisit au marché de gros chaque mardi. Le ciste, la myrte et l'immortelle, on les cueille nous-mêmes, avec l'accord des propriétaires.</p>
-      <ul>
+      <p class="lede rise">Une partie de nos fleurs vient des producteurs du Cap Corse et de la plaine orientale ; le reste, on le choisit au marché de gros chaque mardi. Le ciste, la myrte et l'immortelle, on les cueille nous-mêmes, avec l'accord des propriétaires.</p>
+      <ul class="rise" style="--i:1">
         <li><b>Livraison</b>Dans Bastia le jour même pour une commande avant 11 h.</li>
         <li><b>Abonnement</b>Un bouquet chaque semaine pour les bureaux et les restaurants.</li>
         <li><b>Atelier</b>Un samedi par mois, apprendre à composer son bouquet.</li>
       </ul>
     </div>
-    <img src="images/fleuriste/panier.webp" alt="Un panier rempli de fleurs des champs" width="800" height="1100" loading="lazy">
+    <img class="rise" src="images/fleuriste/panier.webp" alt="Un panier rempli de fleurs des champs" width="800" height="1100" loading="lazy">
   </div>
 </section>
 
@@ -263,17 +296,18 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
   <div class="wrap">
     <h2 class="h2 words">Venir <em>à la boutique</em></h2>
     <div class="visit">
-      <svg class="map" viewBox="0 0 600 400" role="img" aria-label="Plan du quartier : la boutique rue des Fleurs, entre la place du marché et le vieux port">
+      <svg class="map vu" viewBox="0 0 600 400" role="img" aria-label="Plan du quartier : la boutique rue des Fleurs, entre la place du marché et le vieux port">
         <path d="M0 300C120 280 200 330 320 300S520 260 600 280V400H0Z" fill="#C9D7CF"/>
         <text x="470" y="360">le vieux port</text>
         <path d="M60 60L540 120M120 0L180 400M60 220L560 250M400 0L360 290" stroke="#D8CFBB" stroke-width="18" fill="none" stroke-linecap="round"/>
         <rect x="200" y="120" width="140" height="80" fill="#E8E0CD" stroke="#B9AE95"/>
         <text x="270" y="166" text-anchor="middle">place du marché</text>
         <text x="420" y="104" transform="rotate(7 420 104)">rue des Fleurs</text>
-        <circle cx="380" cy="128" r="22" fill="#2F5A3A"/><text class="shop" x="380" y="133" text-anchor="middle">F</text>
-        <path d="M380 150v18" stroke="#2F5A3A" stroke-width="2"/>
+        <path class="route" pathLength="1" d="M262 212 C 290 262 352 250 380 172" fill="none" stroke="#B5656A" stroke-width="3" stroke-linecap="round" stroke-dasharray="1" stroke-dashoffset="0"/>
+        <g class="epingle"><circle cx="380" cy="128" r="22" fill="#2F5A3A"/><text class="shop" x="380" y="133" text-anchor="middle">F</text>
+        <path d="M380 150v18" stroke="#2F5A3A" stroke-width="2"/></g>
       </svg>
-      <div class="infos">
+      <div class="infos rise" style="--i:1">
         <div><h3>L'adresse</h3><p>12, rue des Fleurs, Bastia<br>À deux minutes de la place du marché</p></div>
         <div><h3>Les horaires</h3><table id="hrs"></table></div>
         <div><h3>Nous joindre</h3><p><a href="tel:+33400000000">04 00 00 00 00</a> · bonjour@fiori-di-macchia.fr</p></div>
@@ -295,7 +329,7 @@ const eur = n => n.toLocaleString("fr-FR", { minimumFractionDigits: n % 1 ? 2 : 
 const FLOWERS = [["ciste", "Ciste", "Cistus", 3.5, 1], ["pavot", "Pavot", "Papaver", 3, 1.12], ["azalee", "Azalée", "Rhododendron", 4.5, .95], ["tournesol", "Tournesol", "Helianthus", 3.8, 1.18], ["hortensia", "Hortensia", "Hydrangea", 6, .72]];
 const SIZES = [["Petit", 0, 5], ["Moyen", 8, 9], ["Généreux", 16, 15]];   // [nom, supplément, nombre de tiges conseillé]
 const WRAPS = [["Kraft", 0, "#C9A473"], ["Lin", 4, "#E3DCCB"], ["Sans papier", 0, null]];
-const pick = {}; let size = 1, wrap = 0;
+const pick = {}; let size = 1, wrap = 0, neuf = "tout", ancienPrix = "";
 $("flowers").innerHTML = FLOWERS.map(([k, n, l, p]) => `<button type="button" data-k="${k}" aria-pressed="false"><img src="images/fleuriste/tige-${k}.webp" alt="" loading="lazy"><span>${n}</span><small>${eur(p)} la tige</small></button>`).join("");
 const seg = (id, list, cur) => $(id).innerHTML = list.map(([n], i) => `<button type="button" data-i="${i}" aria-pressed="${i === cur}">${n}</button>`).join("");
 function render() {
@@ -304,15 +338,16 @@ function render() {
   seg("size", SIZES, size); seg("wrapType", WRAPS, wrap);
   const w = WRAPS[wrap], spread = Math.min(56, 10 + total * 4.5), base = [150, 175, 205][size];
   const imgs = stems.map(([k, h], i) => { const a = total > 1 ? -spread / 2 + spread * i / (total - 1) : 0, hh = base * h * (1 - Math.abs(a) / 220);
-    return `<img src="images/fleuriste/tige-${k}.webp" alt="" style="height:${hh.toFixed(0)}px;transform:translateX(-50%) rotate(${a.toFixed(1)}deg);z-index:${i % 2 ? 2 : 1}">`; }).join("");
+    const n = neuf === "tout" || (neuf === k && (i === total - 1 || stems[i + 1][0] !== k));
+    return `<img src="images/fleuriste/tige-${k}.webp" alt="" class="${n ? "neuf" : ""}" style="--d:${neuf === "tout" ? i : 0};height:${hh.toFixed(0)}px;transform:translateX(-50%) rotate(${a.toFixed(1)}deg);z-index:${i % 2 ? 2 : 1}">`; }).join(""); neuf = "";
   const paper = w[2] ? `<svg viewBox="0 0 200 150"><path d="M20 0L100 150L180 0L140 20L100 4L60 20Z" fill="${w[2]}" stroke="rgba(43,42,34,.35)"/><path d="M60 20L100 150L140 20" fill="none" stroke="rgba(43,42,34,.18)"/><path d="M76 92C90 100 110 100 124 92" fill="none" stroke="#B5656A" stroke-width="5" stroke-linecap="round"/></svg>` : "";
   $("stage").innerHTML = total ? imgs + paper : `<p class="none">Touchez une fleur pour commencer.<br>Chaque touche ajoute une tige.</p>`;
   const price = stems.reduce((s, [k]) => s + FLOWERS.find(f => f[0] === k)[3], 0) + (total ? SIZES[size][1] + w[1] : 0);
-  $("price").textContent = eur(price);
+  if (eur(price) !== ancienPrix) { ancienPrix = eur(price); $("price").textContent = ancienPrix; $("price").classList.remove("change"); void $("price").offsetWidth; $("price").classList.add("change"); }
   $("desc").textContent = total ? `${total} tige${total > 1 ? "s" : ""}, bouquet ${SIZES[size][0].toLowerCase()}, ${w[2] ? "papier " + w[0].toLowerCase() : "sans papier"}. Conseil : ${SIZES[size][2]} tiges pour cette taille.` : "Le prix se calcule tige par tige.";
   $("order").disabled = !total;
 }
-$("flowers").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; const k = b.dataset.k; pick[k] = ((pick[k] || 0) + 1); if (Object.values(pick).reduce((a, b) => a + b, 0) > 20) pick[k]--; $("ok").textContent = ""; render(); });
+$("flowers").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; const k = b.dataset.k; pick[k] = ((pick[k] || 0) + 1); neuf = k; if (Object.values(pick).reduce((a, b) => a + b, 0) > 20) { pick[k]--; neuf = ""; } $("ok").textContent = ""; render(); });
 $("size").addEventListener("click", e => { const b = e.target.closest("button"); if (b) { size = +b.dataset.i; render(); } });
 $("wrapType").addEventListener("click", e => { const b = e.target.closest("button"); if (b) { wrap = +b.dataset.i; render(); } });
 $("reset").onclick = () => { Object.keys(pick).forEach(k => delete pick[k]); $("ok").textContent = ""; render(); };
@@ -326,7 +361,7 @@ const TOC = [["Le bouquet du jour", "dès 25 €", "Composé chaque matin avec c
   ["Plantes et maquis", "dès 12 €", "Myrte, lentisque, romarin et oliviers en pot, adaptés au soleil et au vent d'ici.", "panier", "Myrtus communis", "pour le balcon"],
   ["Abonnement", "dès 30 € la semaine", "Un bouquet frais chaque lundi pour l'accueil d'un bureau, d'un hôtel ou d'un restaurant.", "bouquet-bleu", "Hebdomadaire", "livré le lundi"]];
 let ti = 0;
-$("toc").innerHTML = TOC.map(([n, p, d], i) => `<li><button type="button" data-i="${i}" aria-current="${i === 0}"><span class="n">${["i", "ii", "iii", "iv", "v"][i]}.</span><b>${n}</b><span class="p">${p}</span></button><p class="more">${esc(d)}</p></li>`).join("");
+$("toc").innerHTML = TOC.map(([n, p, d], i) => `<li><button type="button" data-i="${i}" aria-current="${i === 0}"><span class="n">${["i", "ii", "iii", "iv", "v"][i]}.</span><b>${n}</b><span class="p">${p}</span></button><p class="more"><span>${esc(d)}</span></p></li>`).join("");
 function showToc(i) { ti = i; [...$("toc").querySelectorAll("button")].forEach((b, k) => b.setAttribute("aria-current", k === i));
   const [, , , img, lat, sub] = TOC[i], im = $("tocImg"); $("tocTag").innerHTML = `<b>${esc(lat)}</b><span>${esc(sub)}</span>`;
   im.classList.add("fade"); const pre = new Image(); pre.src = `images/fleuriste/${img}.webp`;
@@ -346,7 +381,25 @@ document.querySelectorAll(".words").forEach(t => { let i = 0;
       c.textContent.split(/( +)/).forEach(w => { if (!w) return; if (/^ +$/.test(w)) f.append(w); else { const s = document.createElement("span"); s.style.setProperty("--i", i++); s.textContent = w; f.append(s); } }); c.replaceWith(f); } else walk(c); });
   walk(t); });
 const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("on"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -8% 0px" });
-document.querySelectorAll(".words").forEach(el => io.observe(el));
+document.querySelectorAll(".words, .rise, .vu").forEach(el => io.observe(el));
+
+// ——— les mouvements (banque animations/mouvements.html)
+const calme = matchMedia("(prefers-reduced-motion: reduce)").matches;
+// 06 : l'onde part de l'endroit touché
+document.addEventListener("pointerdown", e => { const b = e.target.closest(".btn"); if (!b) return; const r = b.getBoundingClientRect(); b.style.setProperty("--x", e.clientX - r.left + "px"); b.style.setProperty("--y", e.clientY - r.top + "px"); b.classList.remove("onde"); void b.offsetWidth; b.classList.add("onde"); });
+// 75 : des pétales au vent ; le défilement et le doigt font le vent. Ils ne tournent que quand la section est à l'écran.
+if (!calme) { const zone = $("vent"), c = $("petales"), x = c.getContext("2d"), P = []; let W = 0, H = 0, vent = 0, dernierY = scrollY, actif = false, t0 = 0;
+  const taille = () => { const r = zone.getBoundingClientRect(), d = Math.min(2, devicePixelRatio || 1); W = r.width; H = r.height; c.width = W * d; c.height = H * d; x.setTransform(d, 0, 0, d, 0, 0); };
+  const seme = (p, haut) => Object.assign(p, { x: Math.random() * W, y: haut ? -20 : Math.random() * H, r: 5 + Math.random() * 6, a: Math.random() * 6.3, va: (Math.random() - .5) * 1.4, vy: 14 + Math.random() * 22, ph: Math.random() * 6.3, c: Math.random() < .7 ? "#B5656A" : "#D9A7A3" });
+  taille(); for (let i = 0; i < (innerWidth < 700 ? 9 : 16); i++) P.push(seme({}, false));
+  addEventListener("resize", taille);
+  addEventListener("scroll", () => { vent += (scrollY - dernierY) * .6; dernierY = scrollY; }, { passive: true });
+  zone.addEventListener("pointermove", e => { vent += e.movementX * .25; });
+  const pas = t => { if (!actif) return; const dt = Math.min(.05, (t - t0) / 1000 || 0); t0 = t; vent *= .94; x.clearRect(0, 0, W, H);
+    for (const p of P) { p.y += p.vy * dt; p.x += (Math.sin(t / 900 + p.ph) * 12 + vent) * dt * 3; p.a += p.va * dt; if (p.y > H + 20) seme(p, true); if (p.x < -20) p.x = W + 20; if (p.x > W + 20) p.x = -20;
+      x.save(); x.translate(p.x, p.y); x.rotate(p.a); x.globalAlpha = .55; x.fillStyle = p.c; x.beginPath(); x.ellipse(0, 0, p.r, p.r * .55, 0, 0, 6.3); x.fill(); x.restore(); }
+    requestAnimationFrame(pas); };
+  new IntersectionObserver(([e]) => { const v = e.isIntersecting; if (v && !actif) { actif = true; t0 = 0; requestAnimationFrame(pas); } else if (!v) actif = false; }).observe(zone); }
 </script>
 </body>
 </html>

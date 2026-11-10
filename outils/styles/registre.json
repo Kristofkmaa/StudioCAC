@@ -458,6 +458,27 @@
       "appoint": "affiche",
       "texture": "grain",
       "boutons": "rectangle"
+    },
+    "n3e-graphics": {
+      "signature": "configurateur",
+      "genre": "recit",
+      "ouverture": "fenetre",
+      "navigation": "pilule",
+      "services": "zigzag",
+      "preuves": "citations",
+      "a_propos": "lettre",
+      "contact": "etapes",
+      "formes": "arrondies",
+      "photos": "teintees",
+      "rythme": "clair",
+      "titres": "normaux",
+      "appoint": "italique",
+      "texture": "grain",
+      "arrivee": "rideau",
+      "decoupes": "arrondies",
+      "boutons": "souligne",
+      "pied": "geant",
+      "ornement": "aucun"
     }
   }
 }

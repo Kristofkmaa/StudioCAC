@@ -181,13 +181,18 @@ h1,h2,h3{color:var(--white);font-weight:500;line-height:1;text-wrap:balance}
 .pc .voir{display:inline-flex;align-items:center;gap:10px;margin-top:22px;color:var(--white);font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase}
 .pc .shot{border-radius:10px;overflow:hidden;background:var(--deep)}
 .pc .shot img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top}
-.autres{margin-top:clamp(28px,4vw,48px)}
-.autres ul{margin-top:14px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--line)}
-.autres a{display:grid;gap:4px;min-height:64px;padding:16px 16px 16px 0;border-bottom:1px solid var(--line);text-decoration:none}
-.autres b{color:var(--white);font-weight:500;font-size:1.1rem;letter-spacing:-.02em;transition:transform .4s cubic-bezier(.16,1,.3,1)}
-.autres span{font-size:13px;color:var(--mist)}
-@media (hover:hover) and (pointer:fine){.autres a:hover b{transform:translateX(6px)}}
-@media (max-width:980px){.autres ul{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.autres{margin-top:clamp(36px,5vw,64px)}
+.autres ul{margin-top:18px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.autres a{display:block;padding:10px 10px 16px;border-radius:14px;background:var(--kelp);border:1px solid var(--line);text-decoration:none;transition:background-color .3s,transform .4s cubic-bezier(.16,1,.3,1)}
+.autres .vi{display:block;border-radius:8px;overflow:hidden;background:var(--deep)}
+.autres .vi img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;transition:transform .7s cubic-bezier(.16,1,.3,1)}
+.autres .bas{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 6px 0}
+.autres b{display:block;color:var(--white);font-weight:500;font-size:1.15rem;letter-spacing:-.02em;line-height:1.15}
+.autres .bas span span{display:block;margin-top:3px;font-size:13px;color:var(--mist)}
+.autres .arrow{flex:none}
+@media (hover:hover) and (pointer:fine){.autres a:hover{background:#04443F;transform:translateY(-4px)}.autres a:hover .vi img{transform:scale(1.05)}}
+@media (max-width:980px){.autres ul{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}}
+@media (max-width:420px){.autres b{font-size:1rem}.autres .arrow{display:none}}
 @media (max-width:760px){.pc{top:calc(76px + var(--i) * 10px);margin-bottom:18px}.pc>a{grid-template-columns:minmax(0,1fr);min-height:0;gap:18px}.pc p{margin-top:12px}.pc .voir{margin-top:14px}}
 @media (prefers-reduced-motion:reduce){.pc{position:static}.pc>a{transform:none;filter:none}}
 
@@ -202,19 +207,21 @@ h1,h2,h3{color:var(--white);font-weight:500;line-height:1;text-wrap:balance}
 .ba .av-corps b{display:block;font:700 3cqw/1.1 "Comic Sans MS","Comic Sans",cursive;color:#c00;margin-bottom:1cqw;text-decoration:underline}
 .ba .av-new{display:inline-block;margin-top:1.4cqw;background:#ff0;border:.25cqw dashed #f00;padding:.6cqw 1.2cqw;font-weight:700;color:#f00}
 .ba .av-pied{border-top:.2cqw solid #000;text-align:center;padding:.9cqw;font-size:1.25cqw;color:#444}
-.ba .apres{background:#0C0B0A;color:#F3EEE6;font:400 1.35cqw/1.5 "Inter Tight",sans-serif;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
-.ba .ap-txt{display:flex;flex-direction:column;justify-content:space-between;padding:3cqw 3.4cqw}
-.ba .ap-nav{display:flex;justify-content:space-between;align-items:baseline;font-size:1.1cqw;letter-spacing:.14em;text-transform:uppercase;color:#B9AF9F}
-.ba .ap-nav b{font:400 2.2cqw/1 "Instrument Serif",Georgia,serif;letter-spacing:0;text-transform:none;color:#F3EEE6}
-.ba .ap-eye{font-size:1.05cqw;letter-spacing:.2em;text-transform:uppercase;color:#C9A66B}
-.ba .ap-h{font:400 6.4cqw/.95 "Instrument Serif",Georgia,serif;letter-spacing:-.02em;margin:1.2cqw 0 1.6cqw}
-.ba .ap-h i{color:#C9A66B}
-.ba .ap-p{max-width:30cqw;color:#B9AF9F}
-.ba .ap-btn{display:inline-block;margin-top:2.2cqw;border:.1cqw solid #C9A66B;border-radius:99cqw;padding:.9cqw 2.2cqw;font-size:1.1cqw;letter-spacing:.16em;text-transform:uppercase;color:#C9A66B}
-.ba .ap-bas{font-size:1.05cqw;color:#8A8174;letter-spacing:.06em}
-.ba .ap-img{position:relative}
-.ba .ap-img img{width:100%;height:100%;object-fit:cover}
-.ba .ap-img::after{content:"";position:absolute;inset:0;background:linear-gradient(270deg,#0C0B0A,transparent 38%)}
+.ba .apres{background:#0C0B0A;color:#F6F1E8;font:400 1.3cqw/1.5 "Inter Tight",sans-serif}
+.ba .apres>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ba .apres::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(12,11,10,.72) 0,rgba(12,11,10,.1) 26%,rgba(12,11,10,.12) 46%,rgba(12,11,10,.9) 100%)}
+.ba .apres>*:not(img){position:absolute;z-index:2}
+.ba .ap-nav{left:3.4cqw;right:3.4cqw;top:2.8cqw;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;font-size:1.02cqw;letter-spacing:.18em;text-transform:uppercase}
+.ba .ap-nav b{font:400 2.5cqw/1 "Instrument Serif",Georgia,serif;letter-spacing:.02em;text-transform:none}
+.ba .ap-nav span:last-child{justify-self:end;border:.1cqw solid rgba(246,241,232,.6);border-radius:99cqw;padding:.7cqw 1.8cqw}
+.ba .ap-eye{left:3.4cqw;bottom:21.5cqw;font-size:1cqw;letter-spacing:.24em;text-transform:uppercase;color:#E7C98F}
+.ba .ap-h{left:3.2cqw;right:3.4cqw;bottom:6.6cqw;font:400 9cqw/.9 "Instrument Serif",Georgia,serif;letter-spacing:-.025em}
+.ba .ap-h i{color:#E7C98F}
+.ba .ap-bas{left:3.4cqw;right:3.4cqw;bottom:2.6cqw;display:flex;justify-content:space-between;gap:2cqw;padding-top:1.4cqw;border-top:.08cqw solid rgba(246,241,232,.35);font-size:1.05cqw;letter-spacing:.06em;color:#DCD3C4}
+.ba .ap-carte{right:3.4cqw;top:11cqw;width:21cqw;padding:1.6cqw 1.8cqw;border-radius:1.2cqw;background:rgba(12,11,10,.42);-webkit-backdrop-filter:blur(1.2cqw);backdrop-filter:blur(1.2cqw);border:.08cqw solid rgba(246,241,232,.28)}
+.ba .ap-carte small{display:block;font-size:.95cqw;letter-spacing:.2em;text-transform:uppercase;color:#E7C98F}
+.ba .ap-carte b{display:block;margin:.5cqw 0 .3cqw;font:400 2.1cqw/1.05 "Instrument Serif",Georgia,serif}
+.ba .ap-carte span{font-size:1.05cqw;color:#DCD3C4}
 .ba .lb{position:absolute;bottom:14px;z-index:3;font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:6px 12px;border-radius:999px;background:rgba(1,29,28,.85);color:#fff}
 .ba .l1{left:14px}.ba .l2{right:14px}
 .ba .hd{position:absolute;top:0;bottom:0;left:var(--p);width:2px;background:#fff;z-index:4;transform:translateX(-1px)}
@@ -381,10 +388,12 @@ section[id]{scroll-margin-top:20px}
       <div class="head rise"><div><p class="eyebrow">Vous avez déjà un site ?</p><h2 id="t-ref">On peut aussi refaire le vôtre</h2></div><p>On garde votre adresse, vos textes et vos photos, et on refait tout le reste. Faites glisser pour comparer.</p></div>
       <div class="ba rise" id="ba" role="slider" tabindex="0" aria-label="Comparer le site avant et après la refonte" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
         <div class="lay apres" aria-hidden="true">
-          <div class="ap-img"><img src="images/port/terrasse-coucher.webp" alt="" loading="lazy" decoding="async"></div>
-          <div class="ap-txt"><div class="ap-nav"><b>Le Galion</b><span>La carte · La maison · Réserver</span></div>
-            <div><span class="ap-eye">Table de poisson · sur le port</span><div class="ap-h">La mer, <i>le soir même</i>.</div><div class="ap-p">La pêche du matin, cuisinée simplement, face aux bateaux qui rentrent.</div><span class="ap-btn">Réserver une table</span></div>
-            <div class="ap-bas">Midi et soir · fermé le lundi</div></div>
+          <img src="images/port/terrasse-coucher.webp" alt="" loading="lazy" decoding="async">
+          <div class="ap-nav"><span>La carte · La maison</span><b>Le Galion</b><span>Réserver</span></div>
+          <div class="ap-carte"><small>Ce soir</small><b>Daurade royale, fenouil confit</b><span>La pêche du matin, face aux bateaux.</span></div>
+          <span class="ap-eye">Table de poisson · sur le port</span>
+          <div class="ap-h">La mer, <i>le soir même</i>.</div>
+          <div class="ap-bas"><span>Midi et soir · fermé le lundi</span><span>Sur le port, face aux bateaux qui rentrent</span></div>
         </div>
         <div class="lay avant" aria-hidden="true">
           <div class="av-band">★ BIENVENUE SUR LE SITE DU RESTAURANT LE GALION ★</div>
@@ -507,7 +516,7 @@ const DEMOS = [
   <div class="pc" style="--i:${i}"><a href="demo-${slug}.html" target="_blank" rel="noopener" style="--g:${fonds[i]}">
     <div><span class="n">${String(i + 1).padStart(2, "0")} / 13</span><h3>${esc(nom)}</h3><span class="eyebrow">${esc(metier)}</span><p>${esc(txt)}</p><span class="voir">Voir la démo <span class="arrow">${fleche}</span></span></div>
     <div class="shot"><img src="media/apercus/${slug}.webp" alt="La page d'accueil de la démo ${esc(nom)}" width="720" height="450" loading="lazy" decoding="async"></div>
-  </a></div>`).join("") + `</div><div class="autres"><p class="eyebrow">Et huit autres démos</p><ul>${DEMOS.filter(d => !PILE.includes(d[4])).map(([nom, metier, , , slug]) => `<li><a href="demo-${slug}.html" target="_blank" rel="noopener"><b>${esc(nom)}</b><span>${esc(metier)}</span></a></li>`).join("")}</ul></div>`;
+  </a></div>`).join("") + `</div><div class="autres"><p class="eyebrow">Et huit autres démos</p><ul>${DEMOS.filter(d => !PILE.includes(d[4])).map(([nom, metier, , , slug]) => `<li><a href="demo-${slug}.html" target="_blank" rel="noopener"><span class="vi"><img src="media/apercus/${slug}.webp" alt="" width="720" height="450" loading="lazy" decoding="async"></span><span class="bas"><span><b>${esc(nom)}</b><span>${esc(metier)}</span></span><span class="arrow">${fleche}</span></span></a></li>`).join("")}</ul></div>`;
   /* chaque carte rétrécit et s'assombrit un peu quand la suivante vient se poser dessus */
   const cartes = [...document.querySelectorAll(".pc")], calmeP = matchMedia("(prefers-reduced-motion: reduce)").matches; let tic = false;
   const pose = () => { tic = false; cartes.forEach((c, i) => { const n = cartes[i + 1], a = c.firstElementChild; if (!n) return; const r = c.getBoundingClientRect(), nr = n.getBoundingClientRect(), k = Math.max(0, Math.min(1, 1 - (nr.top - r.top - 14) / r.height)); a.style.setProperty("--s", (1 - k * .05).toFixed(3)); a.style.setProperty("--b", (1 - k * .32).toFixed(3)); }); };

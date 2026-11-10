@@ -33,7 +33,7 @@ button,input,select{font:inherit;color:inherit}
 .demo{background:var(--ink);color:#BDBDB6;font-size:13px;text-align:center;padding:6px 16px}
 .bw{filter:grayscale(1) contrast(1.15)}
 .wd{font-family:var(--wide);font-weight:800;text-transform:uppercase;letter-spacing:-.02em;line-height:1.02}
-.pill{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 26px;border-radius:999px;background:var(--orange);color:var(--ink);font-weight:800;text-decoration:none;border:0;cursor:pointer;transition:transform .15s cubic-bezier(.23,1,.32,1),background-color .15s}
+.pill{position:relative;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 26px;border-radius:999px;background:var(--orange);color:var(--ink);font-weight:800;text-decoration:none;border:0;cursor:pointer;transition:transform .15s cubic-bezier(.23,1,.32,1),background-color .15s}
 .pill.dark{background:var(--ink);color:var(--white)}
 .pill.line{background:none;box-shadow:inset 0 0 0 2px currentColor}
 @media (hover:hover) and (pointer:fine){.pill:hover{transform:translateY(-2px)}}
@@ -139,8 +139,11 @@ section{padding-block:clamp(80px,9vw,130px)}
 
 /* ---- tarifs et contact : plein écran orange ---- */
 .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:clamp(36px,5vw,56px)}
-.plan{background:var(--white);border-radius:24px;padding:24px;display:flex;flex-direction:column}
-.plan.star{background:var(--ink);color:var(--white)}
+.plans{position:relative;isolation:isolate}
+.plan{position:relative;border-radius:24px;padding:24px;display:flex;flex-direction:column;cursor:pointer;transition:color .35s}
+.plan::before{content:"";position:absolute;inset:0;z-index:-2;border-radius:24px;background:var(--white)}
+.plan.sel{color:var(--white)}
+.surb{position:absolute;z-index:-1;left:0;top:0;width:var(--w,0);height:var(--h,0);border-radius:24px;background:var(--ink);transform:translate(var(--x,0),var(--y,0));transition:transform .5s cubic-bezier(.22,.8,.2,1),width .5s cubic-bezier(.22,.8,.2,1),height .5s cubic-bezier(.22,.8,.2,1)}
 .plan h3{font:800 1.1rem/1.2 var(--wide);text-transform:uppercase}
 .plan b{display:block;margin-top:14px;font:900 clamp(2.6rem,2rem + 2vw,3.6rem)/1 var(--wide);letter-spacing:-.04em}
 .plan b small{font:700 1rem/1 var(--sans);letter-spacing:0}
@@ -154,7 +157,37 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
 
 /* ---- barre basse (téléphone) ---- */
 .dock{display:none}
-@media (prefers-reduced-motion:reduce){.js .curtain img{opacity:1;transform:none;transition:none}.pill:hover{transform:none}}
+/* ---- les mouvements, tirés de la banque animations/mouvements.html : 01, 02, 04, 06, 39, 57, 96 ---- */
+.prochain{display:flex;flex-wrap:wrap;align-items:center;gap:14px 28px;margin-top:28px}
+.prochain p{font-weight:700;color:#CFCFC8}
+.prochain p b{display:block;font:800 clamp(1.3rem,1.1rem + .8vw,1.8rem)/1.1 var(--wide);text-transform:uppercase;color:var(--white);margin-top:4px}
+.volets{display:flex;align-items:center;gap:6px;perspective:400px;font:900 clamp(1.8rem,1.2rem + 2.4vw,3.2rem)/1 var(--wide);font-variant-numeric:tabular-nums}
+.volets span{display:grid;place-items:center;min-width:1.05em;padding:.22em .1em;border-radius:10px;background:#1E1E1C;color:var(--lime);transform-origin:50% 0}
+.volets i{font-style:normal;color:var(--orange)}
+.kine{overflow:hidden;padding-block:clamp(28px,4vw,56px);display:grid;gap:6px}
+.kr{display:flex;gap:.6em;width:max-content;white-space:nowrap;font:900 clamp(3rem,1.4rem + 8vw,8.6rem)/.95 var(--wide);text-transform:uppercase;letter-spacing:-.04em;transform:translate3d(var(--x,0px),0,0) skewX(var(--sk,0deg));will-change:transform}
+.kr span::after{content:".";color:var(--orange)}
+.kr.inv{color:transparent;-webkit-text-stroke:2px var(--ink)}
+.kr.inv span::after{-webkit-text-stroke:0;color:var(--orange)}
+@media (prefers-reduced-motion:no-preference){
+  /* 01 : le nom arrive d'un coup, franc et court */
+  .js .hero h1 span{animation:frappe .7s cubic-bezier(.2,.9,.2,1) both}
+  .js .hero .under{animation:monte .7s cubic-bezier(.22,.8,.2,1) .25s both}
+  /* 02 : les blocs arrivent quand on les regarde */
+  .js .rise{opacity:0;transform:translateY(22px);transition:opacity .5s ease,transform .6s cubic-bezier(.22,.8,.2,1);transition-delay:var(--d,0ms)}
+  .js .rise.on{opacity:1;transform:none}
+  .js .classes li{animation:monte .45s cubic-bezier(.22,.8,.2,1) both;animation-delay:calc(var(--i,0)*55ms)}
+  /* 39 : le volet du chiffre qui change bascule */
+  .volets span.bascule{animation:bascule .45s cubic-bezier(.3,.7,.2,1)}
+  /* 06 : l'onde au toucher */
+  .pill::after{content:"";position:absolute;left:var(--x,50%);top:var(--y,50%);width:10px;height:10px;margin:-5px;border-radius:50%;background:rgba(255,255,255,.45);transform:scale(0);opacity:0;pointer-events:none}
+  .pill.onde::after{animation:onde .5s ease-out}
+}
+@keyframes frappe{0%{opacity:0;transform:translateX(-12%) skewX(-22deg)}60%{opacity:1;transform:translateX(1.5%) skewX(-4deg)}100%{transform:skewX(-8deg)}}
+@keyframes monte{from{opacity:0;transform:translateY(22px)}}
+@keyframes bascule{from{transform:rotateX(-88deg);opacity:.3}}
+@keyframes onde{0%{transform:scale(0);opacity:1}100%{transform:scale(34);opacity:0}}
+@media (prefers-reduced-motion:reduce){.js .curtain img{opacity:1;transform:none;transition:none}.pill:hover{transform:none}.surb{transition:none}}
 @media (max-width:960px){
   .top nav{display:none}
   .hero .under{grid-template-columns:1fr}
@@ -219,8 +252,9 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
 
 <section class="black planning" id="planning">
   <div class="wrap">
-    <h2 class="wd h2">Places libres cette semaine</h2>
-    <p class="lede">Choisissez un jour : chaque cours affiche ses places restantes. Réservez votre séance d'essai en deux champs.</p>
+    <h2 class="wd h2 rise">Places libres cette semaine</h2>
+    <p class="lede rise" style="--d:90ms">Choisissez un jour : chaque cours affiche ses places restantes. Réservez votre séance d'essai en deux champs.</p>
+    <div class="prochain rise" id="prochain"><p>Prochain cours<b id="pcNom"></b></p><div class="volets" id="volets" role="timer" aria-label="Temps avant le prochain cours"></div></div>
     <div class="days" id="days" role="group" aria-label="Le jour"></div>
     <div class="kinds" id="kinds" role="group" aria-label="La discipline"></div>
     <ul class="classes" id="classes"></ul>
@@ -236,8 +270,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
 
 <section class="diag" id="disciplines">
   <div class="wrap">
-    <h2 class="wd h2">Les cours</h2>
-    <p class="lede">Quatre disciplines, toutes encadrées par un coach, pour tous les niveaux : on adapte chaque exercice.</p>
+    <h2 class="wd h2 rise">Les cours</h2>
+    <p class="lede rise" style="--d:90ms">Quatre disciplines, toutes encadrées par un coach, pour tous les niveaux : on adapte chaque exercice.</p>
     <div class="disc">
       <article class="d"><figure class="curtain"><img class="bw" src="images/sport/sac.webp" alt="Un coup de pied sauté dans un sac de frappe" width="1000" height="750" loading="lazy"></figure><div><h3 class="wd">Boxe</h3><p>Technique, sac et travail à deux, sans combat. On en ressort vidé et léger.</p><div class="meter">Intensité <span><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></div><p class="meta">55 min · gants prêtés</p></div></article>
       <article class="d"><figure class="curtain"><img class="bw" src="images/sport/squat.webp" alt="Un squat avec une barre chargée" width="1600" height="1000" loading="lazy"></figure><div><h3 class="wd">Cross training</h3><p>Force et cardio mélangés, un enchaînement différent chaque jour, écrit au tableau.</p><div class="meter">Intensité <span><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></div><p class="meta">50 min · tous niveaux, charges adaptées</p></div></article>
@@ -249,9 +283,9 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
 
 <section class="black diag">
   <div class="wrap">
-    <h2 class="wd h2">La salle en quatre chiffres</h2>
-    <div class="figs">
-      <div><b>12</b><span>personnes au plus par cours, le coach vous voit</span></div>
+    <h2 class="wd h2 rise">La salle en quatre chiffres</h2>
+    <div class="figs rise" style="--d:90ms">
+      <div><b id="compte" data-to="12">12</b><span>personnes au plus par cours, le coach vous voit</span></div>
       <div><b>6-22</b><span>heures d'ouverture, du lundi au samedi</span></div>
       <div><b>0</b><span>engagement : on arrête quand on veut</span></div>
       <div><b>1<sup style="font-size:.4em">re</sup></b><span>séance offerte, sans rien à payer</span></div>
@@ -260,10 +294,11 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
   </div>
 </section>
 
-<section>
+<section style="padding-top:0">
+  <div class="kine" id="kine" aria-hidden="true"><div class="kr"><span>Boxe</span><span>Cross training</span><span>HIIT</span><span>Renfo</span><span>Mobilité</span><span>Boxe</span><span>Cross training</span><span>HIIT</span><span>Renfo</span><span>Mobilité</span></div><div class="kr inv"><span>Douze par cours</span><span>6 h à 22 h</span><span>Sans engagement</span><span>Douze par cours</span><span>6 h à 22 h</span><span>Sans engagement</span></div></div>
   <div class="wrap letter">
-    <h2 class="wd h2">Le mot du coach</h2>
-    <div class="text">
+    <h2 class="wd h2 rise">Le mot du coach</h2>
+    <div class="text rise" style="--d:90ms">
       <p>J'ai ouvert Forza pour une raison simple : dans les grandes salles, on s'ennuie et on abandonne. Ici, on se connaît par son prénom, on vient à des heures fixes, et quelqu'un remarque quand vous n'êtes pas venu.</p>
       <p>Pas besoin d'être en forme pour commencer : c'est justement pour ça qu'on vient. Venez faire une séance, on regarde ensemble ce qui vous convient.</p>
       <p class="sign">Marc<small>coach et fondateur, fictif lui aussi</small></p>
@@ -273,14 +308,14 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
 
 <section class="orange diag" id="tarifs">
   <div class="wrap">
-    <h2 class="wd h2">Les tarifs</h2>
+    <h2 class="wd h2 rise">Les tarifs</h2>
     <p class="lede">Sans frais d'inscription, sans engagement. Prix de démonstration.</p>
-    <div class="plans">
+    <div class="plans" id="plans"><i class="surb" aria-hidden="true"></i>
       <div class="plan"><h3>À la séance</h3><b>15 €</b><p>Pour venir quand vous voulez, sur réservation.</p></div>
-      <div class="plan star"><span class="tag">Le plus choisi</span><h3>Illimité</h3><b>59 € <small>par mois</small></b><p>Tous les cours, tous les jours, résiliable chaque mois.</p></div>
+      <div class="plan star sel"><span class="tag">Le plus choisi</span><h3>Illimité</h3><b>59 € <small>par mois</small></b><p>Tous les cours, tous les jours, résiliable chaque mois.</p></div>
       <div class="plan"><h3>Carnet de 10</h3><b>120 €</b><p>Valable six mois, partageable en couple.</p></div>
     </div>
-    <div class="contact">
+    <div class="contact rise">
       <div><h3>La salle</h3><p>Zone de Baleone, Ajaccio<br>Parking, douches, vestiaires</p></div>
       <div><h3>Les horaires</h3><p>Lundi au vendredi : 6 h – 22 h<br>Samedi : 8 h – 18 h · Dimanche : 9 h – 12 h</p></div>
       <div><h3>Nous joindre</h3><a class="tel" href="tel:+33400000000">04 00 00 00 00</a><p>salut@forza-club.fr</p></div>
@@ -319,8 +354,8 @@ function render() {
   $("kinds").innerHTML = KINDS.map(k => `<button type="button" data-k="${k}" aria-pressed="${k === kind}">${k}</button>`).join("");
   const d = DAYS[day], nowM = now.getHours() * 60 + now.getMinutes();
   const list = WEEK.filter(([wd, m, k]) => wd === d.getDay() && (kind === "Tout" || k === kind) && !(day === 0 && m < nowM)).sort((a, b) => a[1] - b[1]);
-  $("classes").innerHTML = list.length ? list.map(([, m, k, c]) => { const t = taken(d, m), left = CAP - t, id = `${day}-${m}`;
-    return `<li class="cls${left ? "" : " full"}"><span class="t">${hm(m)}</span><span class="n"><b>${k}</b><span>avec ${c}</span></span><span class="cap"><span class="dots" aria-hidden="true">${Array.from({ length: CAP }, (_, i) => `<i class="${i < t ? "taken" : "free"}"></i>`).join("")}</span><p class="left">${left ? `<b>${left}</b> place${left > 1 ? "s" : ""} sur ${CAP}` : "Complet"}</p></span><button class="pill" type="button" data-id="${id}" data-m="${m}" data-k="${k}"${left ? "" : " disabled"}>${left ? "Réserver" : "Complet"}</button></li>`; }).join("")
+  $("classes").innerHTML = list.length ? list.map(([, m, k, c], rang) => { const t = taken(d, m), left = CAP - t, id = `${day}-${m}`;
+    return `<li class="cls${left ? "" : " full"}" style="--i:${rang}"><span class="t">${hm(m)}</span><span class="n"><b>${k}</b><span>avec ${c}</span></span><span class="cap"><span class="dots" aria-hidden="true">${Array.from({ length: CAP }, (_, i) => `<i class="${i < t ? "taken" : "free"}"></i>`).join("")}</span><p class="left">${left ? `<b>${left}</b> place${left > 1 ? "s" : ""} sur ${CAP}` : "Complet"}</p></span><button class="pill" type="button" data-id="${id}" data-m="${m}" data-k="${k}"${left ? "" : " disabled"}>${left ? "Réserver" : "Complet"}</button></li>`; }).join("")
     : `<li class="empty">Pas de cours ${kind === "Tout" ? "" : "de " + kind.toLowerCase() + " "}ce jour-là${day === 0 ? " à partir de maintenant" : ""}. Essayez un autre jour.</li>`;
 }
 $("days").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; day = +b.dataset.i; $("trial").hidden = true; render(); });
@@ -339,6 +374,39 @@ const ready = img => img.complete && img.naturalWidth ? Promise.resolve() : new 
 const io = new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting) return; io.unobserve(e.target); const img = e.target.querySelector("img");
   (img.decode ? img.decode().catch(() => {}) : ready(img)).then(() => ready(img)).then(() => requestAnimationFrame(() => e.target.classList.add("on"))); }), { rootMargin: "0px 0px -8% 0px" });
 document.querySelectorAll(".curtain").forEach(el => io.observe(el));
+
+// ——— les mouvements (banque animations/mouvements.html)
+const calme = matchMedia("(prefers-reduced-motion: reduce)").matches;
+// 02 : ce qui arrive quand on le regarde
+{ const vu = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("on"); vu.unobserve(e.target); } }), { rootMargin: "0px 0px -8% 0px", threshold: .1 }); document.querySelectorAll(".rise").forEach(e => vu.observe(e)); }
+// 06 : l'onde part de l'endroit touché
+document.addEventListener("pointerdown", e => { const b = e.target.closest(".pill"); if (!b) return; const r = b.getBoundingClientRect(); b.style.setProperty("--x", e.clientX - r.left + "px"); b.style.setProperty("--y", e.clientY - r.top + "px"); b.classList.remove("onde"); void b.offsetWidth; b.classList.add("onde"); });
+// 39 : le compte à rebours à volets jusqu'au prochain cours du planning
+{ const suivant = () => { const t = new Date(); for (let j = 0; j < 8; j++) { const d = new Date(t); d.setDate(t.getDate() + j); const mn = j ? -1 : t.getHours() * 60 + t.getMinutes();
+      const c = WEEK.filter(([wd, m]) => wd === d.getDay() && m > mn).sort((a, b) => a[1] - b[1])[0]; if (c) { d.setHours(0, c[1], 0, 0); return { quand: d, nom: c[2], j }; } } };
+  let cible = suivant(), avant = "";
+  const tic = () => { let reste = Math.max(0, Math.floor((cible.quand - Date.now()) / 1000)); if (!reste) { cible = suivant(); reste = Math.max(0, Math.floor((cible.quand - Date.now()) / 1000)); }
+    $("pcNom").textContent = `${cible.nom}, ${cible.j === 0 ? "aujourd'hui" : cible.j === 1 ? "demain" : cible.quand.toLocaleDateString("fr-FR", { weekday: "long" })} à ${hm(cible.quand.getHours() * 60 + cible.quand.getMinutes())}`;
+    const txt = [Math.floor(reste / 3600), Math.floor(reste / 60) % 60, reste % 60].map(n => String(n).padStart(2, "0")).join(":");
+    if (!$("volets").children.length) $("volets").innerHTML = [...txt].map(c => c === ":" ? "<i>:</i>" : `<span>${c}</span>`).join("");
+    [...$("volets").children].forEach((el, i) => { if (txt[i] !== ":" && txt[i] !== avant[i]) { el.textContent = txt[i]; if (avant) { el.classList.remove("bascule"); void el.offsetWidth; el.classList.add("bascule"); } } }); avant = txt; };
+  tic(); setInterval(tic, 1000); }
+// 96 : la surbrillance glisse derrière l'offre visée
+{ const pl = $("plans"), surb = pl.querySelector(".surb"), cartes = [...pl.querySelectorAll(".plan")];
+  const va = c => { cartes.forEach(x => x.classList.toggle("sel", x === c)); pl.style.setProperty("--x", c.offsetLeft + "px"); pl.style.setProperty("--y", c.offsetTop + "px"); pl.style.setProperty("--w", c.offsetWidth + "px"); pl.style.setProperty("--h", c.offsetHeight + "px"); };
+  cartes.forEach(c => { c.addEventListener("click", () => va(c)); if (matchMedia("(hover:hover)").matches) c.addEventListener("mouseenter", () => va(c)); });
+  const place = () => va(pl.querySelector(".plan.sel") || cartes[1]); place(); addEventListener("resize", place); if (document.fonts && document.fonts.ready) document.fonts.ready.then(place); }
+// 57 : les grands mots glissent en sens opposés, et penchent selon la vitesse du défilement
+if (!calme) { const k = $("kine"), [r1, r2] = k.children; let dernier = scrollY, penche = 0, prevu = false;
+  const pas = () => { prevu = false; const b = k.getBoundingClientRect(); if (b.bottom < -100 || b.top > innerHeight + 100) { dernier = scrollY; return; }
+    const v = scrollY - dernier; dernier = scrollY; penche += (Math.max(-14, Math.min(14, v * .5)) - penche) * .3; const a = (innerHeight - b.top) * .45;
+    r1.style.setProperty("--x", -(a % (r1.scrollWidth / 2)) + "px"); r1.style.setProperty("--sk", -penche + "deg");
+    r2.style.setProperty("--x", (-(r2.scrollWidth / 2) + (a % (r2.scrollWidth / 2))) + "px"); r2.style.setProperty("--sk", penche + "deg");
+    if (Math.abs(penche) > .1) { prevu = true; requestAnimationFrame(pas); } };
+  addEventListener("scroll", () => { if (!prevu) { prevu = true; requestAnimationFrame(pas); } }, { passive: true }); pas(); }
+// 04 : le chiffre monte quand on arrive dessus
+if (!calme) { const c = $("compte"), but = +c.dataset.to; c.textContent = "0";
+  new IntersectionObserver(([e], o) => { if (!e.isIntersecting) return; o.disconnect(); const t0 = performance.now(), monte = t => { const q = Math.min(1, (t - t0) / 900); c.textContent = Math.round(but * (1 - Math.pow(1 - q, 3))); if (q < 1) requestAnimationFrame(monte); }; requestAnimationFrame(monte); }, { threshold: .6 }).observe(c); }
 new IntersectionObserver(([e]) => $("dock").classList.toggle("on", !e.isIntersecting && e.boundingClientRect.top < 0)).observe($("top"));
 </script>
 </body>

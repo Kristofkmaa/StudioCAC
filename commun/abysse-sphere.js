@@ -41,8 +41,9 @@ window.AbysseSphere = (() => {
       if (!px || px.length !== pts.length) tampons(pts.length);
       const ay = (Date.now() / 1000 * VITESSE) % (Math.PI * 2) + incl.x * .6, ax = -.35 + incl.y * .4;
       const cy = Math.cos(ay), sy = Math.sin(ay), cx = Math.cos(ax), sx = Math.sin(ax), ox = W / 2, oy = H / 2, RR = R * Z * grow, taille = mob ? 1.5 : 1.9;
+      const jour = document.documentElement.dataset.theme === "jour";   // thème de jour : des points foncés
       const glow = ctx.createRadialGradient(ox, oy, 0, ox, oy, RR * 1.25);
-      glow.addColorStop(0, `rgba(0,130,124,${.28 * A})`); glow.addColorStop(1, "rgba(0,130,124,0)"); ctx.fillStyle = glow;
+      glow.addColorStop(0, `rgba(0,130,124,${(jour ? .14 : .28) * A})`); glow.addColorStop(1, "rgba(0,130,124,0)"); ctx.fillStyle = glow;
       const gr = RR * 1.25, gx = Math.max(0, ox - gr), gy = Math.max(0, oy - gr);   // le halo n'est peint que là où il existe
       ctx.fillRect(gx, gy, Math.min(W, ox + gr) - gx, Math.min(H, oy + gr) - gy);
       compte.fill(0);
@@ -64,7 +65,8 @@ window.AbysseSphere = (() => {
         const de = compte[g], a = compte[g + 1];
         if (de === a) continue;
         const teinte = g / NIV | 0, f = ((g % NIV) + .5) / NIV, base = (.18 + f * .82) * A;
-        ctx.fillStyle = teinte === 0 ? `rgba(250,209,255,${Math.min(1, base * 1.3)})` : teinte === 1 ? `rgba(237,255,254,${base})` : `rgba(0,170,160,${base * .8})`;
+        ctx.fillStyle = jour ? (teinte === 0 ? `rgba(160,60,190,${Math.min(1, base * 1.1)})` : teinte === 1 ? `rgba(1,60,56,${base * .9})` : `rgba(0,140,132,${base * .8})`)
+          : teinte === 0 ? `rgba(250,209,255,${Math.min(1, base * 1.3)})` : teinte === 1 ? `rgba(237,255,254,${base})` : `rgba(0,170,160,${base * .8})`;
         for (let j = de; j < a; j++) { const i = ordre[j]; ctx.fillRect(px[i], py[i], pr[i], pr[i]); }
       }
     };

@@ -8,11 +8,30 @@
 (() => {
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const root = document.documentElement;
+  /* le thème de jour : retenu d'une page à l'autre ; posé ici, tout en haut du <body>, donc avant le premier affichage */
+  const CLE_JOUR = "saitora-jour";
+  let jour = false; try { jour = localStorage.getItem(CLE_JOUR) === "1"; } catch (e) {}
+  const teinte = () => { if (jour) root.dataset.theme = "jour"; else if (root.dataset.theme === "jour") delete root.dataset.theme;
+    const m = document.querySelector('meta[name="theme-color"]'); if (m) m.content = jour ? "#F1FAF8" : "#012624"; };
+  teinte();
+  addEventListener("DOMContentLoaded", () => {
+    const b = document.createElement("button"); b.type = "button"; b.className = "ab-theme";
+    b.innerHTML = '<svg class="soleil" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4"/></svg><svg class="lune" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>';
+    const nomme = () => { b.setAttribute("aria-label", jour ? "Passer au thème de nuit" : "Passer au thème de jour"); b.setAttribute("aria-pressed", String(jour)); }; nomme();
+    b.addEventListener("click", () => {
+      const change = () => { jour = !jour; try { localStorage.setItem(CLE_JOUR, jour ? "1" : "0"); } catch (e) {} teinte(); nomme(); dispatchEvent(new Event("saitora-theme")); };
+      if (reduce || !document.startViewTransition) return change();
+      /* l'iris : la nouvelle teinte s'ouvre en cercle depuis le bouton jusqu'au coin le plus éloigné */
+      const r = b.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height / 2, R = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+      document.startViewTransition(change).ready.then(() => root.animate({ clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${R}px at ${x}px ${y}px)`] }, { duration: 900, easing: "cubic-bezier(.16,1,.3,1)", pseudoElement: "::view-transition-new(root)" })).catch(() => {});
+    });
+    document.body.appendChild(b);
+  });
   const OUT = "cubic-bezier(.16,1,.3,1)";
   const KEY = "abysse-arrivee";
   const css = document.createElement("style");
   css.textContent = `.ab-cover{position:fixed;inset:0;z-index:9999;pointer-events:none;overflow:hidden}
-.ab-eau{position:absolute;inset:0;background:#012624}
+.ab-eau{position:absolute;inset:0;background:var(--abyss,#012624)}
 .ab-cover canvas{position:absolute;inset:0;width:100%;height:100%}`;
   document.head.appendChild(css);
   // ——— pendant une transition, on ne défile pas (molette, doigt, clavier) ; la page d'arrivée s'ouvre toujours tout en haut
@@ -45,7 +64,7 @@
   // ——— la page suivante est demandée dès que le doigt se pose sur le lien (ou que la souris s'y arrête) :
   // elle est déjà là à la fin de la plongée, l'image ne reste pas figée pendant le téléchargement
   const dejaDemandees = new Set();
-  const interne = a => { if (!a || a.target === "_blank") return null; const u = new URL(a.href, location.href); return u.origin === location.origin && /\/(index|accueil|tarifs|devis|charte|photos|cgv|mentions-legales)\.html$/.test(u.pathname) && u.pathname !== location.pathname ? u : null; };
+  const interne = a => { if (!a || a.target === "_blank") return null; const u = new URL(a.href, location.href); return u.origin === location.origin && /\/(index|accueil|tarifs|devis|charte|photos|cgv|mentions-legales|demos)\.html$/.test(u.pathname) && u.pathname !== location.pathname ? u : null; };
   const precharge = href => { if (dejaDemandees.has(href)) return; dejaDemandees.add(href); const l = document.createElement("link"); l.rel = "prefetch"; l.href = href; document.head.appendChild(l); };
   addEventListener("pointerdown", e => { const a = e.target.closest?.("a[href]"); if (interne(a)) precharge(a.href); }, { passive: true, capture: true });
   addEventListener("pointerover", e => { const a = e.target.closest?.("a[href]"); if (e.pointerType === "mouse" && interne(a)) precharge(a.href); }, { passive: true });
@@ -55,7 +74,7 @@
     const a = e.target.closest("a[href]");
     if (!a || reduce || e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || a.target === "_blank") return;
     const url = new URL(a.href, location.href);
-    if (url.origin !== location.origin || !/\/(index|accueil|tarifs|devis|charte|photos|cgv|mentions-legales)\.html$/.test(url.pathname) || url.pathname === location.pathname) return;
+    if (url.origin !== location.origin || !/\/(index|accueil|tarifs|devis|charte|photos|cgv|mentions-legales|demos)\.html$/.test(url.pathname) || url.pathname === location.pathname) return;
     e.preventDefault();
     verrouiller(true);
     precharge(a.href);                                        // la page suivante se télécharge pendant la plongée

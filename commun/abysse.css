@@ -24,3 +24,34 @@
   --night:var(--abyss);
   color-scheme:dark;
 }
+
+/* Le thème de jour (10 novembre 2026, demande de l'utilisateur) : les mêmes variables en clair. Il se choisit avec le bouton soleil / lune
+   (abysse-transition.js), s'ouvre comme un iris depuis ce bouton et se retient d'une page à l'autre (localStorage « saitora-jour »).
+   Le sélecteur est plus précis que les :root des pages : il gagne même quand une page redéfinit ses couleurs. */
+:root[data-theme="jour"]{
+  --abyss:#F1FAF8; --deep:#E2F2EF; --kelp:#D3EAE6; --kelp-hi:#C0E0DB; --mist:#012624; --silver:#3F5452; --slate:#6A7B79; --phosphor:#8E2BAB;
+  --aurora:linear-gradient(90deg,#16B5AA 0%,#5AD0C7 30%,#D08BE6 68%,#B95AD6 96%);
+  --white:#012624;
+  --bg:var(--abyss); --bg-alt:rgba(226,242,239,.82); --surface:rgba(211,234,230,.86); --surface-2:rgba(192,224,219,.9);
+  --ink:#012624; --muted:var(--silver); --faint:#6A7B79;
+  --line:rgba(1,38,36,.13); --line-hi:rgba(1,38,36,.32); --chip:rgba(1,38,36,.07);
+  --accent:#007A72; --accent-hover:#8E2BAB; --on-accent:#FFFFFF; --accent-text:#8E2BAB;
+  --invert-bg:#012624; --invert-ink:#EDFFFE; --invert-muted:#BBC7C6;
+  --ok:#1E7A3C; --warn:#8A5A00;
+  --logo-filter:none;
+  --night:#012624;
+  color-scheme:light;
+}
+/* le bouton jour / nuit, posé par abysse-transition.js en bas à droite de chaque page */
+.ab-theme{position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom));z-index:60;width:46px;height:46px;border-radius:50%;border:1px solid var(--line-hi);background:var(--kelp);color:var(--mist);display:grid;place-items:center;cursor:pointer;padding:0;transition:transform .2s,background-color .3s}
+.ab-theme:active{transform:scale(.92)}
+.ab-theme svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;transition:transform .6s cubic-bezier(.16,1,.3,1)}
+:root[data-theme="jour"] .ab-theme svg{transform:rotate(180deg)}
+.ab-theme .lune{display:none}
+:root[data-theme="jour"] .ab-theme .lune{display:block}
+:root[data-theme="jour"] .ab-theme .soleil{display:none}
+/* l'iris : l'ancienne page reste en place, la nouvelle s'ouvre en cercle depuis le bouton */
+::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
+::view-transition-old(root){z-index:1}
+::view-transition-new(root){z-index:2}
+@media print{.ab-theme{display:none}}

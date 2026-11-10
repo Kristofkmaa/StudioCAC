@@ -20,7 +20,7 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfessionalService","name":"Saitora","url":"https://saitora.fr/","email":"contact@saitora.fr","logo":"https://saitora.fr/favicon.svg","image":"https://saitora.fr/images/partage.jpg","description":"Création de sites vitrines pour les restaurants, artisans et commerces de Corse.","address":{"@type":"PostalAddress","addressLocality":"Ajaccio","addressRegion":"Corse","addressCountry":"FR"},"areaServed":{"@type":"AdministrativeArea","name":"Corse"}}</script>
 <meta name="theme-color" content="#012624">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="commun/abysse.css?v=3">
+<link rel="stylesheet" href="commun/abysse.css?v=4">
 <style>html.sc-pending,html.sc-pending body{background:#012624}</style>
 <script>if(!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("sc-pending")</script>
 <link rel="preload" href="polices/inter-tight-500-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -163,7 +163,7 @@ h1,h2,h3{color:var(--white);font-weight:500;line-height:1;text-wrap:balance}
 .row-card:nth-child(even){background:var(--deep)}
 .row-card h3{font-size:var(--h2);letter-spacing:-.02em}
 .row-card p{grid-column:1;max-width:46ch}
-@media (hover:hover) and (pointer:fine){.row-card:hover{background:#04443F}}
+@media (hover:hover) and (pointer:fine){.row-card:hover{background:var(--kelp-hi)}}
 /* ---- réalisations ---- *//* ---- réalisations ---- */
 .sec{margin-top:var(--gap)}
 .sec .head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px 40px;flex-wrap:wrap}
@@ -184,6 +184,7 @@ h1,h2,h3{color:var(--white);font-weight:500;line-height:1;text-wrap:balance}
 .pc .voir{display:inline-flex;align-items:center;gap:10px;margin-top:22px;color:var(--white);font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase}
 .pc .shot{border-radius:10px;overflow:hidden;background:var(--deep)}
 .pc .shot img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top}
+:root[data-theme="jour"] .pc>a{--g:color-mix(in srgb,var(--kelp),#fff calc(60% - var(--i) * 12%))!important}
 .autres{margin-top:clamp(36px,5vw,64px)}
 .autres ul{margin-top:18px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
 .autres a{display:block;padding:10px 10px 16px;border-radius:14px;background:var(--kelp);border:1px solid var(--line);text-decoration:none;transition:background-color .3s,transform .4s cubic-bezier(.16,1,.3,1)}
@@ -193,7 +194,7 @@ h1,h2,h3{color:var(--white);font-weight:500;line-height:1;text-wrap:balance}
 .autres b{display:block;color:var(--white);font-weight:500;font-size:1.15rem;letter-spacing:-.02em;line-height:1.15}
 .autres .bas span span{display:block;margin-top:3px;font-size:13px;color:var(--mist)}
 .autres .arrow{flex:none}
-@media (hover:hover) and (pointer:fine){.autres a:hover{background:#04443F;transform:translateY(-4px)}.autres a:hover .vi img{transform:scale(1.05)}}
+@media (hover:hover) and (pointer:fine){.autres a:hover{background:var(--kelp-hi);transform:translateY(-4px)}.autres a:hover .vi img{transform:scale(1.05)}}
 @media (max-width:980px){.autres ul{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}}
 @media (max-width:420px){.autres b{font-size:1rem}.autres .arrow{display:none}}
 @media (max-width:760px){.pc{top:calc(76px + var(--i) * 10px);margin-bottom:18px}.pc>a{grid-template-columns:minmax(0,1fr);min-height:0;gap:18px}.pc p{margin-top:12px}.pc .voir{margin-top:14px}}
@@ -247,27 +248,27 @@ h1,h2,h3{color:var(--white);font-weight:500;line-height:1;text-wrap:balance}
 .pic{width:72px;height:56px;margin-bottom:6px;overflow:visible;stroke:var(--white);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .pic .t{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.3s cubic-bezier(.16,1,.3,1) .25s}
 .inc li.on .pic .t{stroke-dashoffset:0}
-.pic .fil{stroke:#CBFFFC;opacity:0;transition:opacity .5s .9s;clip-path:inset(12px 0 9px 0)}
+.pic .fil{stroke:var(--accent);opacity:0;transition:opacity .5s .9s;clip-path:inset(12px 0 9px 0)}
 .inc li.on .pic .fil{opacity:1}
 .inc li.on .pic .fil path{animation:pic-defile 3.2s linear infinite}
 @keyframes pic-defile{to{transform:translateY(-14px)}}
-.pic .pt{fill:#FAD1FF;stroke:none;transform-box:fill-box;transform-origin:center;transform:scale(0);transition:transform .5s cubic-bezier(.3,1.6,.5,1) .9s}
+.pic .pt{fill:var(--accent-hover);stroke:none;transform-box:fill-box;transform-origin:center;transform:scale(0);transition:transform .5s cubic-bezier(.3,1.6,.5,1) .9s}
 .inc li.on .pic .pt{transform:none}
-.pic .adr{stroke:#CBFFFC;stroke-width:3;stroke-dasharray:1;stroke-dashoffset:1}
+.pic .adr{stroke:var(--accent);stroke-width:3;stroke-dasharray:1;stroke-dashoffset:1}
 .inc li.on .pic .adr{animation:pic-ecrit 3.6s cubic-bezier(.5,0,.2,1) 1s infinite}
 @keyframes pic-ecrit{0%{stroke-dashoffset:1}45%,85%{stroke-dashoffset:0}100%{stroke-dashoffset:0;opacity:0}}
-.pic .vie{fill:#CBFFFC;stroke:none;opacity:0}
+.pic .vie{fill:var(--accent);stroke:none;opacity:0}
 .inc li.on .pic .vie{animation:pic-vie 1.8s ease-in-out 1s infinite}
 .inc li.on .pic .v2{animation-delay:1.5s}
 @keyframes pic-vie{0%,100%{opacity:.25}50%{opacity:1}}
 .pic .rangs path{stroke-width:5;opacity:0;transition:opacity .5s 1s}
 .inc li.on .pic .rangs path{opacity:.28}
-.pic .rangs .r3{stroke:#FAD1FF}
+.pic .rangs .r3{stroke:var(--accent-hover)}
 .inc li.on .pic .rangs .r3{opacity:1;animation:pic-monte 4.5s cubic-bezier(.16,1,.3,1) 1.4s infinite}
 .inc li.on .pic .rangs .r1{animation:pic-descend 4.5s cubic-bezier(.16,1,.3,1) 1.4s infinite}
 @keyframes pic-monte{0%,12%{transform:none}35%,88%{transform:translateY(-28px)}100%{transform:none}}
 @keyframes pic-descend{0%,12%{transform:none}35%,88%{transform:translateY(28px)}100%{transform:none}}
-.pic .coche{stroke:#CBFFFC;stroke-width:2.6;stroke-dasharray:1;stroke-dashoffset:1}
+.pic .coche{stroke:var(--accent);stroke-width:2.6;stroke-dasharray:1;stroke-dashoffset:1}
 .inc li.on .pic .coche{animation:pic-coche 3.4s cubic-bezier(.16,1,.3,1) 1.2s infinite}
 @keyframes pic-coche{0%{stroke-dashoffset:1}30%,85%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:0;opacity:0}}
 .pic .roue{transform-box:fill-box;transform-origin:center;opacity:0;transition:opacity .6s .3s}
@@ -285,13 +286,39 @@ h1,h2,h3{color:var(--white);font-weight:500;line-height:1;text-wrap:balance}
 .swatch b{color:var(--white);font-weight:500;font-size:var(--h2);letter-spacing:-.02em;line-height:1}
 
 /* ---- contact : le puits profond ---- */
-.well{margin-top:var(--gap);border-radius:16px;background:var(--deep);padding:clamp(64px,10vw,120px) clamp(24px,5vw,64px);display:grid;justify-items:center;text-align:center;gap:24px}
-.well h2{font-size:var(--display);letter-spacing:-.045em;max-width:12ch}
-.well p:not(.eyebrow){max-width:46ch;color:var(--mist)}
-.mail{color:var(--white);font-size:var(--h2);font-weight:500;letter-spacing:-.02em;text-decoration:none;overflow-wrap:anywhere}
+/* le contact (refait le 10 novembre 2026) : un trait de lumière fait le tour du panneau (animation 25 de « Mouvements »),
+   les trois promesses se cochent une à une à l'arrivée, le bouton « Copier » devient une coche */
+.well{position:relative;margin-top:var(--gap);border-radius:18px;padding:1.5px;overflow:hidden;background:var(--line)}
+.well::before{content:"";position:absolute;left:50%;top:50%;width:150%;aspect-ratio:1;margin:-75% 0 0 -75%;background:conic-gradient(transparent 0 60%,var(--accent) 80%,var(--accent-hover) 92%,transparent 100%);animation:well-tour 6s linear infinite}
+@keyframes well-tour{to{transform:rotate(1turn)}}
+.well-in{position:relative;border-radius:16.5px;background:var(--deep);padding:clamp(36px,6vw,88px) clamp(22px,5vw,72px);display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:clamp(32px,6vw,90px);align-items:center}
+.well-g{display:grid;gap:22px;justify-items:start}
+.well h2{font-size:var(--display);letter-spacing:-.045em;max-width:11ch}
+.well-g p:not(.eyebrow){max-width:40ch;color:var(--mist);font-size:var(--sub);line-height:1.3;letter-spacing:-.01em}
+.aurora .va{display:inline-block;transition:transform .4s cubic-bezier(.16,1,.3,1)}
+@media (hover:hover) and (pointer:fine){.aurora:hover .va{transform:translateX(5px)}}
+.well-d{display:grid;gap:14px;justify-items:start;padding:clamp(22px,3vw,36px);border-radius:14px;background:var(--kelp);border:1px solid var(--line)}
+.mail{color:var(--white);font-size:clamp(1.35rem,1rem + 1.5vw,2.1rem);font-weight:500;letter-spacing:-.03em;text-decoration:none;overflow-wrap:anywhere}
 @media (hover:hover) and (pointer:fine){.mail:hover{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:6px}}
-.mail-row{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px 20px}
-.promises{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 28px;font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+.copie{position:relative;min-height:44px;width:180px;padding:0 18px;border-radius:999px;border:1px solid var(--line-hi);background:none;color:var(--white);font:500 12px/1 "Inter Tight",sans-serif;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:width .5s cubic-bezier(.16,1,.3,1),background-color .3s,border-color .3s}
+.copie span{transition:opacity .2s;white-space:nowrap}
+.copie svg{position:absolute;inset:0;margin:auto;width:22px;height:22px;fill:none;stroke:var(--abyss);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.copie svg path{stroke-dasharray:1;stroke-dashoffset:1}
+.copie.fait{width:44px;padding:0;background:var(--accent);border-color:var(--accent)}
+.copie.fait span{opacity:0}
+.copie.fait svg path{stroke-dashoffset:0;transition:stroke-dashoffset .45s .15s cubic-bezier(.16,1,.3,1)}
+.promises{width:100%;margin-top:10px;display:grid;border-top:1px solid var(--line)}
+.promises li{display:grid;grid-template-columns:26px minmax(0,1fr);gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line);font-size:14px}
+.promises li:last-child{border-bottom:0;padding-bottom:0}
+.promises b{display:block;color:var(--white);font-weight:500;font-size:1.05rem;letter-spacing:-.01em}
+.promises svg{width:26px;height:26px;fill:none;stroke:var(--accent);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.promises svg *{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .8s cubic-bezier(.16,1,.3,1)}
+.well.on .promises svg *{stroke-dashoffset:0}
+.well.on .promises li:nth-child(1) circle{transition-delay:.3s}.well.on .promises li:nth-child(1) path{transition-delay:.7s}
+.well.on .promises li:nth-child(2) circle{transition-delay:.6s}.well.on .promises li:nth-child(2) path{transition-delay:1s}
+.well.on .promises li:nth-child(3) circle{transition-delay:.9s}.well.on .promises li:nth-child(3) path{transition-delay:1.3s}
+@media (max-width:860px){.well-in{grid-template-columns:minmax(0,1fr)}}
+@media (prefers-reduced-motion:reduce){.well::before{animation:none}.promises svg *,.copie svg path{stroke-dashoffset:0;transition:none}}
 
 footer{margin-top:var(--gap);background:var(--deep);padding-block:48px calc(48px + env(safe-area-inset-bottom))}
 footer .page{display:flex;justify-content:space-between;gap:16px 32px;flex-wrap:wrap;font-size:12px;letter-spacing:.12em;text-transform:uppercase}
@@ -321,8 +348,8 @@ section[id]{scroll-margin-top:20px}
 </head>
 <body>
 <script src="commun/demos.js?v=1"></script>
-<script src="commun/abysse-sphere.js?v=3"></script>
-<script src="commun/abysse-transition.js?v=4"></script>
+<script src="commun/abysse-sphere.js?v=4"></script>
+<script src="commun/abysse-transition.js?v=5"></script>
 
 <header class="bar">
   <div class="page">
@@ -447,13 +474,26 @@ section[id]{scroll-margin-top:20px}
       </div>
     </section>
 
+    <!-- le contact : un panneau cerné d'un trait de lumière qui en fait le tour ; à gauche l'invitation, à droite l'adresse et les trois promesses qui se cochent -->
     <section class="well rise" id="contact" aria-labelledby="t-contact">
-      <p class="eyebrow big">Contact</p>
-      <h2 id="t-contact">Parlons de votre commerce.</h2>
-      <p>Deux minutes de questions sur votre activité, et je vous réponds avec une proposition.</p>
-      <a class="aurora lg" href="devis.html">Faire ma demande de devis</a>
-      <div class="mail-row"><a class="mail" id="mail" href="mailto:contact@saitora.fr">contact@saitora.fr</a><button class="ghost" type="button" id="copy">Copier l'adresse</button></div>
-      <ul class="promises"><li>Réponse sous 24 heures</li><li>Devis gratuit</li><li>Sans engagement</li></ul>
+      <div class="well-in">
+        <div class="well-g">
+          <p class="eyebrow big">Contact</p>
+          <h2 id="t-contact">Parlons de votre commerce.</h2>
+          <p>Deux minutes de questions sur votre activité, et je vous réponds avec une proposition.</p>
+          <a class="aurora lg" href="devis.html">Faire ma demande de devis <span class="va" aria-hidden="true">→</span></a>
+        </div>
+        <div class="well-d">
+          <p class="eyebrow">Ou écrivez-moi</p>
+          <a class="mail" id="mail" href="mailto:contact@saitora.fr">contact@saitora.fr</a>
+          <button class="copie" type="button" id="copy"><span>Copier l'adresse</span><svg viewBox="0 0 26 26" aria-hidden="true"><path pathLength="1" d="M6 13.5l4.5 4.5L20 8.5"/></svg></button>
+          <ul class="promises">
+            <li><svg viewBox="0 0 26 26" aria-hidden="true"><circle pathLength="1" cx="13" cy="13" r="11"/><path pathLength="1" d="M7.5 13.5l3.8 3.8L18.5 9.5"/></svg><span><b>Réponse sous 24 heures</b>Le jour même quand c'est possible.</span></li>
+            <li><svg viewBox="0 0 26 26" aria-hidden="true"><circle pathLength="1" cx="13" cy="13" r="11"/><path pathLength="1" d="M7.5 13.5l3.8 3.8L18.5 9.5"/></svg><span><b>Devis gratuit</b>Clair, détaillé, sans surprise.</span></li>
+            <li><svg viewBox="0 0 26 26" aria-hidden="true"><circle pathLength="1" cx="13" cy="13" r="11"/><path pathLength="1" d="M7.5 13.5l3.8 3.8L18.5 9.5"/></svg><span><b>Sans engagement</b>Vous décidez après la maquette.</span></li>
+          </ul>
+        </div>
+      </div>
     </section>
   </div>
 </main>
@@ -555,7 +595,7 @@ addEventListener("keydown", e => { if (e.key === "Escape" && sheet.classList.con
 
 // ——— copier l'adresse
 $("copy").addEventListener("click", () => {
-  const b = $("copy"), done = () => { b.textContent = "Adresse copiée"; setTimeout(() => b.textContent = "Copier l'adresse", 1800); };
+  const b = $("copy"), done = () => { b.classList.add("fait"); b.setAttribute("aria-label", "Adresse copiée"); setTimeout(() => { b.classList.remove("fait"); b.removeAttribute("aria-label"); }, 1800); };
   try { navigator.clipboard.writeText($("mail").textContent).then(done, () => getSelection().selectAllChildren($("mail"))); } catch (_) { getSelection().selectAllChildren($("mail")); }
 });
 

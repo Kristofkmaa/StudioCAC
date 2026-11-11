@@ -175,6 +175,41 @@ footer h3{font:400 1.6rem/1 var(--disp);text-transform:uppercase;margin-bottom:8
 footer .giant{font:400 22.5vw/.8 var(--disp);text-transform:uppercase;letter-spacing:-.01em;white-space:nowrap;margin:clamp(40px,5vw,64px) 0 -.06em;text-align:center}
 footer .legal{background:var(--ink);color:#ddd;font-size:13px;padding:14px var(--m);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 
+/* ---- les mouvements, tirés de la banque animations/mouvements.html : 02, 03, 13, 24, 26, 42, 43 ---- */
+/* 13 : la question du titre se tape, s'efface et change (la ligne garde sa place : rien ne saute) */
+.hero h1 .tape{display:block;white-space:nowrap}
+.hero h1 .tape.tape-on::after{content:"";display:inline-block;width:.07em;height:.74em;margin-left:.06em;background:var(--ink);vertical-align:-.02em;animation:clign 1s steps(1) infinite}
+@keyframes clign{50%{opacity:0}}
+/* 42 : le trajet se trace de l'atelier à la commune choisie, puis l'arrivée bat */
+.map .route{fill:none;stroke:var(--yellow);stroke-width:5;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:0}
+.map .bat{fill:none;stroke:var(--yellow);stroke-width:4;opacity:0}
+/* 43 : un volet jaune traverse le panneau des prix pendant que le contenu change */
+.pane{position:relative;overflow:hidden}
+.pane::after{content:"";position:absolute;inset:0;z-index:3;background:var(--yellow);border-inline:var(--b);transform:scaleX(0);transform-origin:0 50%;pointer-events:none}
+.pane.ferme::after{transform:scaleX(1);transition:transform .24s cubic-bezier(.65,0,.35,1)}
+.pane.ouvre::after{transform:scaleX(0);transform-origin:100% 50%;transition:transform .3s cubic-bezier(.65,0,.35,1)}
+/* 03 : le bandeau d'affiche qui défile avant le pied de page (décor : il ne fait pas défiler la page) */
+.defile{overflow:hidden;background:var(--ink);color:var(--yellow);padding-block:16px}
+.defile div{display:flex;width:max-content;font:400 clamp(1.8rem,1.3rem + 2vw,3.2rem)/1 var(--disp);text-transform:uppercase;white-space:nowrap}
+.defile span{padding-right:.7em}
+.defile span::after{content:"★";padding-left:.7em;color:var(--white)}
+/* 26 : le bouton d'envoi confirme */
+.form .btn.fait{background:var(--ink);color:var(--yellow)}
+@media (prefers-reduced-motion:no-preference){
+  /* 02 : les blocs arrivent en décalé, d'un coup sec */
+  .leve{opacity:0;transform:translateY(30px);transition:opacity .35s ease-out,transform .55s cubic-bezier(.23,1,.32,1);transition-delay:var(--d,0ms)}
+  .leve.on{opacity:1;transform:none}
+  /* 24 : les chiffres roulent quand l'heure ou le prix change */
+  .roule span{display:inline-block;animation:roule .5s cubic-bezier(.23,1,.32,1) backwards;animation-delay:calc(var(--k) * 35ms)}
+  @keyframes roule{from{opacity:0;transform:translateY(.45em)}}
+  .map .route.trace{animation:trace-r .7s cubic-bezier(.65,0,.35,1) backwards}
+  @keyframes trace-r{from{stroke-dashoffset:1}}
+  .map .bat.va{animation:bat 1.1s ease-out .55s 2}
+  @keyframes bat{from{r:8px;opacity:.9}to{r:44px;opacity:0}}
+  .defile div{animation:defile 26s linear infinite}
+  @keyframes defile{to{transform:translateX(-50%)}}
+}
+
 @media (prefers-reduced-motion:reduce){.js .words span,.sheet nav a{transition:none;opacity:1;transform:none}}
 @media (max-width:900px){
   .bar .btn span{display:none}
@@ -215,7 +250,7 @@ footer .legal{background:var(--ink);color:#ddd;font-size:13px;padding:14px var(-
 <section class="hero" style="padding-bottom:0">
   <div class="wrap">
     <p class="status" id="status"><i></i><span>Disponible maintenant pour une urgence</span></p>
-    <h1 class="disp words">Une fuite&nbsp;? <span class="y">On décroche.</span></h1>
+    <h1 class="disp words"><span class="tape" id="tape">Une fuite&nbsp;?</span> <span class="y">On décroche.</span></h1>
     <p class="say">Jérôme Durand, plombier chauffagiste. Fuite, évier bouché, plus d'eau chaude : je me déplace vite et je vous donne le prix avant de commencer.</p>
     <div class="acts"><a class="btn" href="tel:+33600000000">Appeler le 06 00 00 00 00</a><a class="btn white" href="#zone">Je peux venir quand ?</a></div>
     <div class="strip">
@@ -239,6 +274,7 @@ footer .legal{background:var(--ink);color:#ddd;font-size:13px;padding:14px var(-
         <circle class="ring" cx="240" cy="240" r="210"/><circle class="ring in" cx="240" cy="240" r="130"/>
         <text class="lbl" x="240" y="20" text-anchor="middle">25 km · moins de 2 h</text>
         <text class="lbl" x="240" y="100" text-anchor="middle">15 km · moins d'1 h</text>
+        <path class="route" id="route" pathLength="1"/><circle class="bat" id="bat" r="8"/>
         <g id="pins"></g>
       </svg>
     </div>
@@ -299,7 +335,7 @@ footer .legal{background:var(--ink);color:#ddd;font-size:13px;padding:14px var(-
         <div><span class="lab">Pour quand</span><div class="chips" id="urg"></div></div>
         <div><label class="lab" for="qMsg">En quelques mots</label><textarea id="qMsg" placeholder="Le chauffe-eau fait du bruit et l'eau est tiède…"></textarea></div>
         <div><label class="lab" for="qTel">Votre téléphone</label><input id="qTel" type="tel" inputmode="tel" autocomplete="tel" placeholder="06 00 00 00 00"></div>
-        <button class="btn" type="submit">Envoyer ma demande</button>
+        <button class="btn" type="submit" id="qBtn">Envoyer ma demande</button>
         <p class="ok" id="ok" aria-live="polite" hidden></p>
       </form>
       <div>
@@ -315,6 +351,8 @@ footer .legal{background:var(--ink);color:#ddd;font-size:13px;padding:14px var(-
   </div>
 </section>
 </main>
+
+<div class="defile" aria-hidden="true"><div><span>Urgences 7 jours sur 7</span><span>Le prix avant de commencer</span><span>Fuite</span><span>Débouchage</span><span>Chauffe-eau</span><span>Salle de bain</span><span>Urgences 7 jours sur 7</span><span>Le prix avant de commencer</span><span>Fuite</span><span>Débouchage</span><span>Chauffe-eau</span><span>Salle de bain</span></div></div>
 
 <footer>
   <div class="wrap cols">
@@ -344,6 +382,25 @@ const h = new Date().getHours(), night = h >= 19 || h < 8;
 $("status").classList.toggle("night", night);
 $("status").querySelector("span").textContent = night ? "Urgence de nuit : je décroche, majoration annoncée" : "Disponible maintenant pour une urgence";
 
+// ——— les mouvements de la banque (animations/mouvements.html)
+const calme = matchMedia("(prefers-reduced-motion: reduce)").matches;
+// 24 : chaque caractère remonte à sa place, l'un après l'autre
+function roule(el) { if (calme) return; const t = el.textContent; el.classList.add("roule"); el.setAttribute("aria-label", t);
+  el.innerHTML = [...t].map((c, k) => c === " " ? " " : `<span aria-hidden="true" style="--k:${k}">${esc(c)}</span>`).join(""); }
+// 42 : le trajet de l'atelier à la commune
+let premierTrajet = true;
+function trajet(i) { const [, , a, r] = TOWNS[i], x = 240 + r * Math.cos(a * Math.PI / 180), y = 240 + r * Math.sin(a * Math.PI / 180), R = $("route"), B = $("bat");
+  const mx = (240 + x) / 2 - (y - 240) * .22, my = (240 + y) / 2 + (x - 240) * .22;
+  R.setAttribute("d", `M240 240Q${mx.toFixed(0)} ${my.toFixed(0)} ${x.toFixed(0)} ${y.toFixed(0)}`); B.setAttribute("cx", x.toFixed(0)); B.setAttribute("cy", y.toFixed(0));
+  if (premierTrajet) { premierTrajet = false; return; }
+  [R, B].forEach(n => n.classList.remove("trace", "va")); R.getBoundingClientRect(); R.classList.add("trace"); B.classList.add("va"); }
+// 43 : le volet traverse le panneau, le contenu change dessous
+let voletEnCours = 0;
+function changeJob(i) { const P = $("pane"); if (calme) return showJob(i);
+  [...$("tabs").children].forEach((b, k) => b.setAttribute("aria-selected", k === i));
+  clearTimeout(voletEnCours); P.classList.remove("ouvre"); P.classList.add("ferme");
+  voletEnCours = setTimeout(() => { showJob(i); roule(P.querySelector(".price b")); P.classList.remove("ferme"); P.classList.add("ouvre"); voletEnCours = setTimeout(() => P.classList.remove("ouvre"), 340); }, 250); }
+
 // ——— la zone : [commune, minutes de route, position sur le plan (angle en degrés, rayon)]
 const TOWNS = [["Centre-ville", 15, 215, 85], ["Saint-Martin", 25, 305, 110], ["Les Aubiers", 35, 50, 115], ["Villeneuve", 45, 150, 150], ["Bellevue", 55, 250, 185], ["Le Port", 70, 95, 190], ["La Croix-Haute", 95, 15, 185]];
 const hhmm = d => `${d.getHours()} h ${String(d.getMinutes()).padStart(2, "0")}`;
@@ -358,6 +415,7 @@ function pickTown(i) {
   at.setMinutes(Math.ceil(at.getMinutes() / 10) * 10, 0, 0);
   $("etaTown").textContent = n; $("etaTime").textContent = "Vers " + hhmm(at);
   $("etaTxt").textContent = `Si vous appelez maintenant. ${min} minutes de route, déplacement compris.`;
+  if (window.trajet) { trajet(i); roule($("etaTime")); }
 }
 $("towns").addEventListener("click", e => { const b = e.target.closest("button"); if (b) pickTown(+b.dataset.i); });
 $("pins").addEventListener("click", e => { const g = e.target.closest(".t"); if (g) pickTown(+g.dataset.i); });
@@ -378,9 +436,9 @@ function showJob(i) {
   $("pane").innerHTML = `<figure><img class="bw" src="images/plomberie/${img}.webp" alt="${esc(alt)}" width="600" height="400"><span class="tag">${esc(n)}</span></figure>
     <div class="txt"><h3 class="disp">${esc(n)}</h3><p>${esc(txt)}</p><div class="price"><small>${pre}</small><b>${pr}</b></div></div>`;
 }
-$("tabs").addEventListener("click", e => { const b = e.target.closest("button"); if (b) showJob([...$("tabs").children].indexOf(b)); });
+$("tabs").addEventListener("click", e => { const b = e.target.closest("button"); if (b) changeJob([...$("tabs").children].indexOf(b)); });
 $("tabs").addEventListener("keydown", e => { const k = { ArrowRight: 1, ArrowLeft: -1 }[e.key]; if (!k) return;
-  const i = ([...$("tabs").children].findIndex(b => b.getAttribute("aria-selected") === "true") + k + JOBS.length) % JOBS.length; showJob(i); $("tabs").children[i].focus(); });
+  const i = ([...$("tabs").children].findIndex(b => b.getAttribute("aria-selected") === "true") + k + JOBS.length) % JOBS.length; changeJob(i); $("tabs").children[i].focus(); });
 showJob(0);
 
 // ——— demande d'intervention
@@ -393,7 +451,8 @@ $("type").addEventListener("click", e => { const b = e.target.closest("button");
 $("urg").addEventListener("click", e => { const b = e.target.closest("button"); if (b) chips("urg", URG, urg = b.dataset.v); });
 $("q").addEventListener("submit", e => { e.preventDefault(); const ok = $("ok"); ok.hidden = false;
   if (!$("qTel").value.trim()) { ok.textContent = "Indiquez un numéro pour que je puisse vous rappeler."; $("qTel").focus(); return; }
-  ok.textContent = urg === "Aujourd'hui" ? `Demande « ${type} » reçue en urgence : je vous rappelle dans les 15 minutes. (Démo : rien n'est envoyé.)` : `Demande « ${type} » reçue : je vous rappelle dans la journée pour fixer un créneau. (Démo : rien n'est envoyé.)`; });
+  ok.textContent = urg === "Aujourd'hui" ? `Demande « ${type} » reçue en urgence : je vous rappelle dans les 15 minutes. (Démo : rien n'est envoyé.)` : `Demande « ${type} » reçue : je vous rappelle dans la journée pour fixer un créneau. (Démo : rien n'est envoyé.)`;
+  const b = $("qBtn"); b.classList.add("fait"); b.textContent = "✓ Demande reçue"; setTimeout(() => { b.classList.remove("fait"); b.textContent = "Envoyer ma demande"; }, 3200); });
 
 // ——— titres mot par mot
 document.querySelectorAll(".words").forEach(t => { let i = 0;
@@ -402,6 +461,17 @@ document.querySelectorAll(".words").forEach(t => { let i = 0;
   walk(t); });
 const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("on"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -8% 0px" });
 document.querySelectorAll(".words").forEach(el => io.observe(el));
+// ——— 02 : les blocs arrivent en décalé ; 13 : la question du titre se tape et change
+if (!calme) {
+  const vu = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("on"); vu.unobserve(e.target); } }), { rootMargin: "0px 0px -6% 0px" });
+  document.querySelectorAll(".strip figure, .eta, .map, .pane, .wall > *, .who, .steps li, .form, .faq > div").forEach(el => { el.classList.add("leve"); vu.observe(el); });
+  [".strip figure", ".wall > *", ".steps li", ".faq > div"].forEach(q => document.querySelectorAll(q).forEach((el, k) => el.style.setProperty("--d", (k % 4) * 80 + "ms")));
+  const T = $("tape"), Q = ["Une fuite\u00a0?", "WC bouché\u00a0?", "Plus d'eau\u00a0?", "Ça goutte\u00a0?"]; let q = 0, n = Q[0].length, sens = -1;
+  const pas = () => { const m = Q[q]; n += sens; T.textContent = m.slice(0, n) || "\u200b"; let d = sens > 0 ? 80 : 38;
+    if (sens > 0 && n === m.length) { sens = -1; d = 2200; } else if (sens < 0 && n === 0) { sens = 1; q = (q + 1) % Q.length; d = 300; }
+    setTimeout(pas, d); };
+  setTimeout(() => { T.classList.add("tape-on"); pas(); }, 3600);
+}
 </script>
 </body>
 </html>

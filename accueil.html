@@ -645,11 +645,11 @@ const fleche = '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strok
   const NOMS = ["BOULANGERIE", "FLEURISTE", "CAFÉ", "LIBRAIRIE", "ÉPICERIE", "COIFFEUR", "ATELIER", "FROMAGERIE", "PRIMEUR", "CAVE", "BIJOUTERIE", "RESTAURANT", "CORDONNERIE", "PÂTISSERIE"];
   const N = petit ? 1100 : 2600, P = Array.from({ length: N }, (_, i) => { const h = (i * .6180339887) % 1, k = (i * .7548776662) % 1, m = (i * .5698402909) % 1; return { u: h, a: k * 6.2832, r: Math.pow(m, .6), s: .6 + ((i * .3819660113) % 1) * .9 }; });
   const taille = () => { const d = Math.min(2, devicePixelRatio || 1); DP = d; W = cv.clientWidth; H = cv.clientHeight; cv.width = W * d; cv.height = H * d; g.setTransform(d, 0, 0, d, 0, 0); };
-  const dessine = now => { const t = (now - t0) / 1000; tx += (cx - tx) * .04; ty += (cy - ty) * .04; g.clearRect(0, 0, W, H);
+  const dessine = now => { const t = (now - t0) / 1000; tx += (cx - tx) * .02; ty += (cy - ty) * .02; g.clearRect(0, 0, W, H);
     const jourG = document.documentElement.dataset.theme === "jour", encre = jourG ? "#012624" : "#EDFFFE", COUL = jourG ? ["#007A72", "#8E2BAB"] : ["#CBFFFC", "#FAD1FF"];
     g.fillStyle = encre;
     if (mode === "galerie") { const L = 1.6, NB = petit ? 8 : 11, v = t * .16, dz = v % L, base = Math.floor(v / L), f = H * (petit ? 1.05 : 1.35), hx = W * .5, hy = H * (petit ? .4 : .5),
-        camX = tx * .5, camY = .62 - ty * .16, lac = tx * .22, cl = Math.cos(lac), sl = Math.sin(lac), zMax = NB * L;
+        camX = tx * .07, camY = .62 - ty * .03, lac = tx * .025,   /* le regard ne bouge presque plus avec la souris : avant, ça donnait le mal de mer */ cl = Math.cos(lac), sl = Math.sin(lac), zMax = NB * L;
       for (let k = NB - 1; k >= 0; k--) { const z0 = k * L - dz, abs = base + k, graine = Math.sin(abs * 12.9898) * 43758.5453, al = graine - Math.floor(graine),
           lumG = .35 + .65 * (.5 + .5 * Math.sin(t * .35 + abs * 2.1)), lumD = .35 + .65 * (.5 + .5 * Math.sin(t * .28 + abs * 3.7 + 1.3));
         for (let i = 0; i < TRAVEE.length; i += 5) { const z = TRAVEE[i + 2] + z0 + .9; if (z < .28) continue;

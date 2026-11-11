@@ -134,6 +134,9 @@ h1,h2,h3{color:var(--white);font-weight:500;line-height:1;text-wrap:balance}
 :root[data-fond="aurore"] .voile i:nth-child(2){width:52vmax;aspect-ratio:1.2;left:-14vmax;bottom:-16vmax;background:var(--accent-hover);opacity:.13}
 :root[data-fond="aurore"] .voile i:nth-child(3){width:40vmax;aspect-ratio:1.6;left:34%;top:30%;background:var(--kelp-hi);opacity:.5}
 :root[data-theme="jour"] .voile i{opacity:.3!important}
+/* « banc » et « houle » : les mêmes points que la sphère, mais sans globe. Un ruban vivant qui s'enroule, ou une nappe qui ondule. */
+.grains{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;display:none;opacity:calc(1 - var(--rs,0)*.9)}
+:root[data-fond="banc"] .grains,:root[data-fond="houle"] .grains{display:block}
 /* « mur » : ses vraies démos en trois rangées inclinées, qui glissent en sens opposés derrière le titre (banque : 100) */
 .mur{position:absolute;inset:-18% -24%;z-index:-1;pointer-events:none;display:none;align-content:center;gap:clamp(10px,1.4vw,22px);transform:perspective(1500px) rotateX(30deg) rotateZ(-9deg);opacity:calc(.5 - var(--rs,0)*.5);
   -webkit-mask:radial-gradient(ellipse 62% 60% at 58% 46%,#000 30%,transparent 78%);mask:radial-gradient(ellipse 62% 60% at 58% 46%,#000 30%,transparent 78%)}
@@ -491,6 +494,7 @@ section[id]{scroll-margin-top:20px}
       <canvas id="orb" aria-hidden="true"></canvas>
       <div class="voile" id="voile" aria-hidden="true"><i></i><i></i><i></i></div>
       <div class="mur" id="mur" aria-hidden="true"></div>
+      <canvas class="grains" id="grains" aria-hidden="true"></canvas>
       <h1 class="giant"><span class="ln l1"><span class="in">Votre vitrine,</span></span> <span class="ln l2"><span class="in">ouver<span class="kt">te</span> jour</span></span> <span class="ln l3"><span class="in">et nuit.</span></span></h1>
       <div class="base">
         <p>Des sites pour les restaurants, les artisans et les commerces. Faits à votre image, en ligne en trois semaines.</p>
@@ -631,6 +635,36 @@ const fleche = '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strok
     hero.addEventListener("pointermove", e => { const r = vo.getBoundingClientRect(); cx = (e.clientX - r.left) / r.width * 100; cy = (e.clientY - r.top) / r.height * 100; if (!tourne) { tourne = true; requestAnimationFrame(pas); } });
     const suit = () => { prevu = false; vo.style.setProperty("--rs", Math.min(1, scrollY / (innerHeight * .7)).toFixed(3)); };
     addEventListener("scroll", () => { if (!prevu) { prevu = true; requestAnimationFrame(suit); } }, { passive: true }); suit(); } }
+
+// ——— « banc » et « houle » : des points organiques derrière le titre (les mêmes grains que la sphère, sans globe)
+{ const cv = $("grains"), g = cv.getContext("2d"), calmeG = matchMedia("(prefers-reduced-motion: reduce)").matches, petit = innerWidth < 760;
+  let W = 0, H = 0, tx = 0, ty = 0, cx = 0, cy = 0, enVie = false, t0 = performance.now(), mode = "";
+  const N = petit ? 1100 : 2600, P = Array.from({ length: N }, (_, i) => { const h = (i * .6180339887) % 1, k = (i * .7548776662) % 1, m = (i * .5698402909) % 1; return { u: h, a: k * 6.2832, r: Math.pow(m, .6), s: .6 + ((i * .3819660113) % 1) * .9 }; });
+  const taille = () => { const d = Math.min(2, devicePixelRatio || 1); W = cv.clientWidth; H = cv.clientHeight; cv.width = W * d; cv.height = H * d; g.setTransform(d, 0, 0, d, 0, 0); };
+  const dessine = now => { const t = (now - t0) / 1000; tx += (cx - tx) * .04; ty += (cy - ty) * .04; g.clearRect(0, 0, W, H);
+    g.fillStyle = document.documentElement.dataset.theme === "jour" ? "#012624" : "#EDFFFE";
+    if (mode === "banc") { const E = Math.min(W, H) * (petit ? .15 : .135), ox = W * (petit ? .5 : .62), oy = H * (petit ? .26 : .47), ry = t * .12 + tx * .5, rx = .5 + ty * .35, cyR = Math.cos(ry), syR = Math.sin(ry), cxR = Math.cos(rx), sxR = Math.sin(rx);
+      for (const p of P) { const a = 6.2832 * (p.u + t * .012 * (.6 + p.s * .5)), w = p.a + t * .5 + a * 2,
+          ep = (.5 + .26 * Math.sin(a * 3 + t * .6)) * p.r;                       // le ruban gonfle et se resserre le long de sa course
+        let x = Math.sin(a) + 2 * Math.sin(2 * a), y = Math.cos(a) - 2 * Math.cos(2 * a), z = -Math.sin(3 * a);
+        x += Math.cos(w) * ep; y += Math.sin(w) * ep; z += Math.sin(w * 1.3) * ep;
+        const x1 = x * cyR + z * syR, z1 = -x * syR + z * cyR, y1 = y * cxR - z1 * sxR, z2 = y * sxR + z1 * cxR, pr = 5 / (5 + z2);
+        g.globalAlpha = Math.max(.22, Math.min(1, .42 + pr * .5 - z2 * .1)); const r = p.s * pr * (petit ? 1.7 : 2.3); g.fillRect(ox + x1 * E * pr - r / 2, oy + y1 * E * pr - r / 2, r, r); } }
+    else { const cols = petit ? 46 : 92, rangs = petit ? 26 : 34, hor = H * .3;
+      for (let j = 0; j < rangs; j++) { const z = j / (rangs - 1), pr = .22 + z * z * 1.25, yb = hor + z * z * H * .78;
+        for (let i = 0; i < cols; i++) { const x = (i / (cols - 1) - .5) * 2.6, q = x * 2.4 + tx * .6,
+            h = Math.sin(q * 1.7 + t * .7 + z * 5) * .5 + Math.sin(q * 3.1 - t * .45 + z * 9) * .28 + Math.sin(z * 14 - t * 1.1 + q * .6) * .22;
+          g.globalAlpha = Math.max(.1, Math.min(1, (.26 + z * .62) * (.75 + h * .5))); const r = 1.2 + pr * 2.1 * (1 + h * .3);
+          g.fillRect(W / 2 + x * W * .5 * pr - r / 2, yb - h * H * .045 * pr * (1 + ty * .3) - r / 2, r, r); } } }
+    g.globalAlpha = 1; };
+  const boucle = now => { if (!enVie) return; dessine(now); requestAnimationFrame(boucle); };
+  const regle = () => { const m = document.documentElement.dataset.fond; mode = m === "banc" || m === "houle" ? m : ""; const visible = mode && scrollY < innerHeight * 1.2;
+    if (visible && !enVie) { taille(); if (calmeG) dessine(t0 + 9000); else { enVie = true; requestAnimationFrame(boucle); } } else if (!visible) enVie = false;
+    cv.style.setProperty("--rs", Math.min(1, scrollY / (innerHeight * .7)).toFixed(3)); };
+  new MutationObserver(regle).observe(document.documentElement, { attributes: true, attributeFilter: ["data-fond", "data-theme"] });
+  addEventListener("scroll", regle, { passive: true }); addEventListener("resize", () => { if (mode) { taille(); if (calmeG) dessine(t0 + 9000); } });
+  $("hero").addEventListener("pointermove", e => { cx = e.clientX / innerWidth - .5; cy = e.clientY / innerHeight - .5; });
+  requestAnimationFrame(regle); }
 
 // ——— la sphère du site (abysse-sphere.js) derrière le titre : tourne, penche vers le doigt, grossit et pâlit au défilement
 (() => {

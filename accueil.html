@@ -134,6 +134,24 @@ h1,h2,h3{color:var(--white);font-weight:500;line-height:1;text-wrap:balance}
 :root[data-fond="aurore"] .voile i:nth-child(2){width:52vmax;aspect-ratio:1.2;left:-14vmax;bottom:-16vmax;background:var(--accent-hover);opacity:.13}
 :root[data-fond="aurore"] .voile i:nth-child(3){width:40vmax;aspect-ratio:1.6;left:34%;top:30%;background:var(--kelp-hi);opacity:.5}
 :root[data-theme="jour"] .voile i{opacity:.3!important}
+/* « mur » : ses vraies démos en trois rangées inclinées, qui glissent en sens opposés derrière le titre (banque : 100) */
+.mur{position:absolute;inset:-18% -24%;z-index:-1;pointer-events:none;display:none;align-content:center;gap:clamp(10px,1.4vw,22px);transform:perspective(1500px) rotateX(30deg) rotateZ(-9deg);opacity:calc(.5 - var(--rs,0)*.5);
+  -webkit-mask:radial-gradient(ellipse 62% 60% at 58% 46%,#000 30%,transparent 78%);mask:radial-gradient(ellipse 62% 60% at 58% 46%,#000 30%,transparent 78%)}
+:root[data-fond="mur"] .mur{display:grid}
+.mur div{display:flex;gap:clamp(10px,1.4vw,22px);width:max-content}
+.mur img{width:clamp(220px,24vw,460px);aspect-ratio:16/10;object-fit:cover;object-position:50% 0;border-radius:10px;display:block}
+:root[data-theme="jour"] .mur{opacity:calc(.34 - var(--rs,0)*.34)}
+/* « lettres » : la ligne en contour devient une fenêtre, ses démos passent à l'intérieur des lettres */
+:root[data-fond="lettres"] .giant .l3 .in{background:url(media/apercus/bande.webp) 0 50%/auto 118% repeat-x;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-stroke-color:color-mix(in srgb,var(--mist) 55%,transparent)}
+@media (prefers-reduced-motion:no-preference){
+  .mur div{animation:mur-va 70s linear infinite}
+  .mur div:nth-child(2){animation-direction:reverse;animation-duration:86s}
+  :root[data-fond="lettres"] .giant .l3{animation:lettres-va 60s linear infinite}
+}
+@keyframes mur-va{to{transform:translateX(-50%)}}
+@property --bx{syntax:"<length>";inherits:true;initial-value:0px}
+@keyframes lettres-va{to{--bx:-3000px}}
+:root[data-fond="lettres"] .giant .l3 .in{background-position:var(--bx,0px) 50%}
 @media (prefers-reduced-motion:no-preference){
   :root[data-fond="aurore"] .voile i:nth-child(1){animation:vo-a 23s ease-in-out infinite alternate}
   :root[data-fond="aurore"] .voile i:nth-child(2){animation:vo-b 29s ease-in-out infinite alternate}
@@ -472,6 +490,7 @@ section[id]{scroll-margin-top:20px}
     <div class="pin">
       <canvas id="orb" aria-hidden="true"></canvas>
       <div class="voile" id="voile" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="mur" id="mur" aria-hidden="true"></div>
       <h1 class="giant"><span class="ln l1"><span class="in">Votre vitrine,</span></span> <span class="ln l2"><span class="in">ouver<span class="kt">te</span> jour</span></span> <span class="ln l3"><span class="in">et nuit.</span></span></h1>
       <div class="base">
         <p>Des sites pour les restaurants, les artisans et les commerces. Faits à votre image, en ligne en trois semaines.</p>
@@ -605,6 +624,8 @@ const fleche = '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strok
 
 // ——— le fond de l'ouverture : ?fond=lumiere, aurore ou sphere pour comparer ; la lueur suit le pointeur, tout s'efface en défilant
 { const f = new URLSearchParams(location.search).get("fond"); if (f) document.documentElement.dataset.fond = f;
+  { const D = ["table-du-port", "fiori", "piazza", "forza", "garage-santoni", "bois-massif", "zia-rosa", "u-fucone", "libecciu", "pain-dore", "castagnetu", "a-funtana", "durand-plomberie"], rang = k => { const l = D.map((_, i) => D[(i * 3 + k * 4) % D.length]).slice(0, 7); return "<div>" + [...l, ...l].map(n => `<img src="media/apercus/${n}.webp" alt="" loading="lazy" decoding="async">`).join("") + "</div>"; };
+    $("mur").innerHTML = rang(0) + rang(1) + rang(2); addEventListener("scroll", () => $("mur").style.setProperty("--rs", Math.min(1, scrollY / (innerHeight * .7)).toFixed(3)), { passive: true }); }
   if (!matchMedia("(prefers-reduced-motion: reduce)").matches) { const vo = $("voile"), hero = $("hero"); let lx = 64, ly = 58, cx = 64, cy = 58, tourne = false, prevu = false;
     const pas = () => { lx += (cx - lx) * .07; ly += (cy - ly) * .07; vo.style.setProperty("--lx", lx.toFixed(2) + "%"); vo.style.setProperty("--ly", ly.toFixed(2) + "%"); if (Math.abs(cx - lx) + Math.abs(cy - ly) > .05) requestAnimationFrame(pas); else tourne = false; };
     hero.addEventListener("pointermove", e => { const r = vo.getBoundingClientRect(); cx = (e.clientX - r.left) / r.width * 100; cy = (e.clientY - r.top) / r.height * 100; if (!tourne) { tourne = true; requestAnimationFrame(pas); } });

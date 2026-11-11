@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Le Galion, l'« après » de l'avant / après de l'accueil</title>
+<!-- Cette page ne sert qu'à fabriquer l'image « après » de l'avant / après de l'accueil : un site imaginé, dessiné pour l'occasion
+     (il ne reprend aucune démo). Captures : 1440 × 868 (media/apercus/refonte-pc.webp) et 390 × 488 à l'échelle 2 (refonte-tel.webp). -->
+<link rel="stylesheet" href="../polices/bricolage-grotesque-lato-9a8267.css">
+<link rel="stylesheet" href="../polices/quicksand-nunito-caveat-8420c4.css">
+<style>
+*{box-sizing:border-box;margin:0}
+:root{--sable:#F3EDE2;--encre:#10302F;--corail:#E4572E;--eau:#BFD9D2;--u:calc(100vw / 1440)}
+html,body{height:100%}
+body{background:var(--sable);color:var(--encre);font:400 calc(17 * var(--u))/1.5 "Lato",sans-serif;overflow:hidden;position:relative}
+/* un grand rond d'eau derrière la photo, pour asseoir la colonne de droite */
+body::before{content:"";position:absolute;right:calc(-180 * var(--u));top:calc(-120 * var(--u));width:calc(880 * var(--u));aspect-ratio:1;border-radius:50%;background:var(--eau)}
+.nav{position:absolute;left:calc(64 * var(--u));right:calc(64 * var(--u));top:calc(34 * var(--u));display:flex;align-items:center;justify-content:space-between;z-index:3}
+.nom{font:800 calc(30 * var(--u))/1 "Bricolage Grotesque",sans-serif;letter-spacing:-.03em}
+.nom small{display:block;margin-top:calc(5 * var(--u));font:700 calc(11 * var(--u))/1 "Lato",sans-serif;letter-spacing:.16em;text-transform:uppercase;opacity:.65}
+.liens{display:flex;gap:calc(34 * var(--u));font-weight:700;font-size:calc(15 * var(--u))}
+.res{background:var(--encre);color:var(--sable);font-weight:700;font-size:calc(15 * var(--u));padding:calc(14 * var(--u)) calc(24 * var(--u));border-radius:99em}
+.g{position:absolute;left:calc(64 * var(--u));top:calc(150 * var(--u));width:calc(740 * var(--u));z-index:2}
+.ouvert{display:inline-flex;align-items:center;gap:.7em;font-weight:700;font-size:calc(13 * var(--u));letter-spacing:.14em;text-transform:uppercase;padding:.7em 1.2em;border:calc(1.5 * var(--u)) solid var(--encre);border-radius:99em}
+.ouvert i{width:.75em;height:.75em;border-radius:50%;background:#2E9E6B}
+h1{margin-top:calc(26 * var(--u));font:800 calc(128 * var(--u))/.88 "Bricolage Grotesque",sans-serif;letter-spacing:-.05em}
+h1 em{font-style:normal;color:var(--corail);position:relative;white-space:nowrap}
+h1 em svg{position:absolute;left:0;right:0;bottom:-.02em;width:100%;height:.13em;overflow:visible}
+.txt{margin-top:calc(44 * var(--u));max-width:calc(470 * var(--u));font-size:calc(19 * var(--u))}
+.acts{margin-top:calc(28 * var(--u));display:flex;align-items:center;gap:calc(22 * var(--u));font-weight:700}
+.acts b{background:var(--corail);color:#fff;padding:calc(18 * var(--u)) calc(30 * var(--u));border-radius:99em}
+.acts span{border-bottom:calc(2 * var(--u)) solid var(--encre);padding-bottom:.15em}
+.faits{position:absolute;left:calc(64 * var(--u));bottom:calc(40 * var(--u));width:calc(640 * var(--u));display:grid;grid-template-columns:repeat(3,1fr);border-top:calc(1.5 * var(--u)) solid var(--encre);z-index:2}
+.faits div{padding-top:calc(14 * var(--u));font-size:calc(15 * var(--u))}
+.faits b{display:block;font:600 calc(20 * var(--u))/1.2 "Bricolage Grotesque",sans-serif}
+/* la colonne de droite : la photo en arche, l'assiette ronde, l'ardoise du jour, le tampon */
+.arche{position:absolute;right:calc(300 * var(--u));top:calc(130 * var(--u));width:calc(380 * var(--u));height:calc(560 * var(--u));border-radius:99em 99em calc(22 * var(--u)) calc(22 * var(--u));overflow:hidden;z-index:1}
+.arche img,.rond img{width:100%;height:100%;object-fit:cover;display:block}
+.rond{position:absolute;right:calc(590 * var(--u));bottom:calc(112 * var(--u));width:calc(216 * var(--u));aspect-ratio:1;border-radius:50%;overflow:hidden;border:calc(8 * var(--u)) solid var(--sable);z-index:3}
+.ardoise{position:absolute;right:calc(64 * var(--u));top:calc(330 * var(--u));width:calc(290 * var(--u));background:var(--encre);color:var(--sable);border-radius:calc(20 * var(--u));padding:calc(26 * var(--u)) calc(26 * var(--u)) calc(22 * var(--u));z-index:3;transform:rotate(2deg)}
+.ardoise small{font-weight:700;font-size:calc(11 * var(--u));letter-spacing:.18em;text-transform:uppercase;color:var(--eau)}
+.ardoise ul{list-style:none;padding:0;margin-top:calc(12 * var(--u));font:600 calc(27 * var(--u))/1.15 "Caveat",cursive}
+.ardoise li{display:flex;justify-content:space-between;gap:.6em;padding:calc(9 * var(--u)) 0;border-bottom:calc(1 * var(--u)) dashed rgba(243,237,226,.35)}
+.ardoise li:last-child{border:0}
+.ardoise li span{color:#F2B8A6;white-space:nowrap}
+.tampon{position:absolute;right:calc(84 * var(--u));top:calc(128 * var(--u));width:calc(150 * var(--u));aspect-ratio:1;z-index:3;transform:rotate(-12deg)}
+.tampon text{font:800 15.5px "Bricolage Grotesque",sans-serif;letter-spacing:.14em;fill:var(--corail)}
+
+/* téléphone : le nom et « Réserver », le titre, puis la photo et l'ardoise côte à côte */
+@media (max-width:699px){
+  :root{--u:calc(100vw / 390)}
+  body::before{right:calc(-150 * var(--u));top:auto;bottom:calc(-150 * var(--u));width:calc(420 * var(--u))}
+  .nav{left:calc(20 * var(--u));right:calc(20 * var(--u));top:calc(18 * var(--u))}
+  .nom{font-size:calc(22 * var(--u))}.nom small{font-size:calc(8 * var(--u));margin-top:calc(4 * var(--u))}
+  .liens,.faits,.rond,.txt,.acts span{display:none}
+  .res{font-size:calc(13 * var(--u));padding:calc(11 * var(--u)) calc(18 * var(--u))}
+  .g{left:calc(20 * var(--u));top:calc(84 * var(--u));width:calc(350 * var(--u))}
+  .ouvert{font-size:calc(9.5 * var(--u));border-width:calc(1.2 * var(--u))}
+  h1{margin-top:calc(14 * var(--u));font-size:calc(51 * var(--u))}
+  .acts{margin-top:calc(24 * var(--u))}
+  .acts b{font-size:calc(14 * var(--u));padding:calc(13 * var(--u)) calc(22 * var(--u))}
+  .arche{right:auto;left:calc(20 * var(--u));top:auto;bottom:calc(-30 * var(--u));width:calc(150 * var(--u));height:calc(200 * var(--u))}
+  .ardoise{right:calc(18 * var(--u));top:auto;bottom:calc(22 * var(--u));width:calc(186 * var(--u));border-radius:calc(14 * var(--u));padding:calc(15 * var(--u)) calc(16 * var(--u)) calc(10 * var(--u))}
+  .ardoise small{font-size:calc(8 * var(--u))}
+  .ardoise ul{margin-top:calc(5 * var(--u));font-size:calc(17.5 * var(--u))}
+  .ardoise li{padding:calc(5 * var(--u)) 0}
+  .tampon{right:calc(14 * var(--u));top:calc(204 * var(--u));width:calc(66 * var(--u))}
+}
+</style>
+</head>
+<body>
+<div class="nav">
+  <div class="nom">Le Galion<small>Poissons · sur le port</small></div>
+  <div class="liens"><span>L'ardoise</span><span>La maison</span><span>Nous trouver</span></div>
+  <div class="res">Réserver</div>
+</div>
+<div class="g">
+  <span class="ouvert"><i></i>Ouvert ce soir jusqu'à 22 h 30</span>
+  <h1>Pêché ce matin, <em>servi ce soir.<svg viewBox="0 0 300 12" preserveAspectRatio="none" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"><path d="M3 8C60 1 120 11 180 5S270 3 297 7"/></svg></em></h1>
+  <p class="txt">Sur le quai, face aux bateaux qui rentrent. L'ardoise change chaque jour, selon ce que la mer a bien voulu donner.</p>
+  <div class="acts"><b>Réserver une table</b><span>Voir l'ardoise du jour</span></div>
+</div>
+<div class="faits">
+  <div><b>Midi et soir</b>fermé le lundi</div>
+  <div><b>Sur le port</b>parking à deux pas</div>
+  <div><b>En terrasse</b>dès les beaux jours</div>
+</div>
+<div class="arche"><img src="../images/port/terrasse-coucher.webp" alt=""></div>
+<div class="rond"><img src="../images/port/plat-daurade.webp" alt=""></div>
+<div class="ardoise">
+  <small>L'ardoise du jour</small>
+  <ul><li>Daurade royale<span>24 €</span></li><li>Rougets grillés<span>21 €</span></li><li>Soupe de roche<span>14 €</span></li></ul>
+</div>
+<svg class="tampon" viewBox="0 0 150 150" aria-hidden="true"><defs><path id="c" d="M75 75m-56 0a56 56 0 1 1 112 0a56 56 0 1 1-112 0"/></defs>
+  <circle cx="75" cy="75" r="72" fill="none" stroke="#E4572E" stroke-width="2.5"/><circle cx="75" cy="75" r="40" fill="none" stroke="#E4572E" stroke-width="1.5"/>
+  <text><textPath href="#c">PÊCHE DU JOUR ★ PÊCHE DU JOUR ★</textPath></text>
+  <path d="M52 75c8-11 26-12 38 0-12 12-30 11-38 0zm38 0l11-9v18z" fill="#E4572E"/></svg>
+</body>
+</html>

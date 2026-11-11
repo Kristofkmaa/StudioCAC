@@ -136,7 +136,7 @@ h1,h2,h3{color:var(--white);font-weight:500;line-height:1;text-wrap:balance}
 :root[data-theme="jour"] .voile i{opacity:.3!important}
 /* « banc » et « houle » : les mêmes points que la sphère, mais sans globe. Un ruban vivant qui s'enroule, ou une nappe qui ondule. */
 .grains{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;display:none;opacity:calc(1 - var(--rs,0)*.9)}
-:root[data-fond="banc"] .grains,:root[data-fond="houle"] .grains,:root[data-fond="champ"] .grains{display:block}
+:root[data-fond="banc"] .grains,:root[data-fond="houle"] .grains,:root[data-fond="champ"] .grains,:root[data-fond="galerie"] .grains{display:block}
 /* « mur » : ses vraies démos en trois rangées inclinées, qui glissent en sens opposés derrière le titre (banque : 100) */
 .mur{position:absolute;inset:-18% -24%;z-index:-1;pointer-events:none;display:none;align-content:center;gap:clamp(10px,1.4vw,22px);transform:perspective(1500px) rotateX(30deg) rotateZ(-9deg);opacity:calc(.5 - var(--rs,0)*.5);
   -webkit-mask:radial-gradient(ellipse 62% 60% at 58% 46%,#000 30%,transparent 78%);mask:radial-gradient(ellipse 62% 60% at 58% 46%,#000 30%,transparent 78%)}
@@ -648,7 +648,17 @@ const fleche = '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strok
   const taille = () => { const d = Math.min(2, devicePixelRatio || 1); W = cv.clientWidth; H = cv.clientHeight; cv.width = W * d; cv.height = H * d; g.setTransform(d, 0, 0, d, 0, 0); };
   const dessine = now => { const t = (now - t0) / 1000; tx += (cx - tx) * .04; ty += (cy - ty) * .04; g.clearRect(0, 0, W, H);
     g.fillStyle = document.documentElement.dataset.theme === "jour" ? "#012624" : "#EDFFFE";
-    if (mode === "champ") { if (!M || now - Mt > 140) masque(now);
+    if (mode === "galerie") { const L = 1.6, NB = petit ? 8 : 11, v = t * .16, dz = v % L, base = Math.floor(v / L), f = H * (petit ? 1.05 : 1.35), hx = W * .5, hy = H * (petit ? .4 : .5),
+        camX = tx * .5, camY = .62 - ty * .16, lac = tx * .22, cl = Math.cos(lac), sl = Math.sin(lac), zMax = NB * L;
+      for (let k = NB - 1; k >= 0; k--) { const z0 = k * L - dz, abs = base + k, graine = Math.sin(abs * 12.9898) * 43758.5453, al = graine - Math.floor(graine),
+          lumG = .35 + .65 * (.5 + .5 * Math.sin(t * .35 + abs * 2.1)), lumD = .35 + .65 * (.5 + .5 * Math.sin(t * .28 + abs * 3.7 + 1.3));
+        for (let i = 0; i < TRAVEE.length; i += 5) { const z = TRAVEE[i + 2] + z0 + .9; if (z < .28) continue;
+          const xr = (TRAVEE[i] - camX) * cl - z * sl, zr = (TRAVEE[i] - camX) * sl + z * cl; if (zr < .28) continue;
+          const e = f / zr, X = hx + xr * e, Y = hy - (TRAVEE[i + 1] - camY) * e; if (X < -8 || X > W + 8 || Y < -8 || Y > H + 8) continue;
+          const brume = Math.pow(Math.max(0, 1 - zr / zMax), 1.25) * Math.min(1, (zr - .28) * 2.2), vit = TRAVEE[i + 4];
+          g.globalAlpha = Math.min(1, TRAVEE[i + 3] * brume * (vit === 1 ? lumG * (al > .25 ? 1 : .25) : vit === 2 ? lumD * (al < .8 ? 1 : .25) : 1));
+          const r = Math.max(.8, Math.min(2.6, e * .0042)); g.fillRect(X - r / 2, Y - r / 2, r, r); } } }
+    else if (mode === "champ") { if (!M || now - Mt > 140) masque(now);
       const pas = petit ? 11 : 13, sx = (px + .5) * W, sy = (py + .5) * H;
       for (let y = pas / 2; y < H; y += pas) for (let x = pas / 2 + ((y / pas | 0) % 2) * pas / 2; x < W; x += pas) {
         // le courant : chaque point flotte un peu, comme dans l'eau
@@ -676,6 +686,26 @@ const fleche = '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strok
           g.globalAlpha = Math.max(.1, Math.min(1, (.26 + z * .62) * (.75 + h * .5))); const r = 1.2 + pr * 2.1 * (1 + h * .3);
           g.fillRect(W / 2 + x * W * .5 * pr - r / 2, yb - h * H * .045 * pr * (1 + ty * .3) - r / 2, r, r); } } }
     g.globalAlpha = 1; };
+  // la travée de la galerie : une fois pour toutes, la liste des points d'une travée [x, y, z, éclat, vitrine (0 non, 1 gauche, 2 droite)]
+  const TRAVEE = (() => { const P = [], pt = (x, y, z, b, w) => P.push(x, y, z, b, w || 0),
+      ligne = (a, b, n, e, w) => { n = Math.max(2, Math.round(n * 2.8)); for (let i = 0; i <= n; i++) { const k = i / n; pt(a[0] + (b[0] - a[0]) * k, a[1] + (b[1] - a[1]) * k, a[2] + (b[2] - a[2]) * k, e, w); } },
+      cadre = (x, y0, y1, z0, z1, n, e) => { ligne([x, y0, z0], [x, y1, z0], n * (y1 - y0) | 0, e); ligne([x, y0, z1], [x, y1, z1], n * (y1 - y0) | 0, e); ligne([x, y0, z0], [x, y0, z1], n * (z1 - z0) | 0, e); ligne([x, y1, z0], [x, y1, z1], n * (z1 - z0) | 0, e); };
+    for (const c of [-1, 1]) { const x = c * 1.05, w = c < 0 ? 1 : 2;
+      ligne([x, 0, 0], [x, 2.02, 0], 30, .85); ligne([x - c * .05, 0, 0], [x - c * .05, 1.3, 0], 16, .5);               // le pilier entre deux boutiques
+      cadre(x, .14, .8, .16, 1.02, 26, .9);                                                                          // la vitrine
+      for (let a = 0; a < 15; a++) for (let b = 0; b < 11; b++) pt(x, .19 + b * .056, .2 + a * .056, .5, w);               // sa lumière
+      cadre(x, 0, .82, 1.12, 1.46, 22, .8); pt(x - c * .02, .42, 1.2, 1);                                            // la porte et sa poignée
+      cadre(x, .9, 1.06, .16, 1.46, 20, .7); ligne([x, .98, .3], [x, .98, .95], 9, .5);                              // l'enseigne
+      for (const z of [.12, .34, .58, .82, 1.06]) ligne([x, .86, z], [x - c * .3, .74, z], 6, .75);                   // le store, en pente
+      ligne([x - c * .3, .74, .12], [x - c * .3, .74, 1.06], 14, .9); ligne([x - c * .3, .74, .12], [x - c * .3, .68, .12], 2, .6);
+      ligne([x, 1.3, 0], [x, 1.3, 1.6], 24, .7); ligne([x, 2.02, 0], [x, 2.02, 1.6], 24, .8);                        // la corniche et le haut du mur
+      cadre(x, 1.46, 1.84, .34, .62, 22, .6); cadre(x, 1.46, 1.84, .98, 1.26, 22, .6);                               // les fenêtres de l'étage
+      ligne([c * .52, 0, 0], [c * .52, 0, 1.6], 12, .32); }
+    for (let i = 0; i <= 80; i++) { const a = Math.PI * i / 80; pt(Math.cos(a) * 1.05, 2.02 + Math.sin(a) * .78, 0, .85); if (i % 2 === 0) pt(Math.cos(a) * 1.05, 2.02 + Math.sin(a) * .78, .8, .35); }   // l'arceau de la verrière
+    for (const a of [.5, .26, .74]) ligne([Math.cos(Math.PI * a) * 1.05, 2.02 + Math.sin(Math.PI * a) * .78, 0], [Math.cos(Math.PI * a) * 1.05, 2.02 + Math.sin(Math.PI * a) * .78, 1.6], 16, a === .5 ? .7 : .4);
+    ligne([0, 2.8, .8], [0, 2.36, .8], 6, .6); for (let i = 0; i < 10; i++) { const a = i * .6283; pt(Math.cos(a) * .07, 2.3 + (i % 2) * .05, .8 + Math.sin(a) * .07, 1); }                           // la lanterne
+    ligne([-1.05, 0, 0], [1.05, 0, 0], 18, .45); ligne([-1.05, 0, .8], [1.05, 0, .8], 14, .25); ligne([0, 0, 0], [0, 0, 1.6], 12, .4);                                                               // le dallage
+    return new Float32Array(P); })();
   // le masque du titre : on redessine les trois lignes en petit, on floute, et la pente du flou dit dans quel sens pousser les points
   let M = null, MW = 0, MH = 0, Mt = 0, px = 0, py = 0; const ME = 6, mc = document.createElement("canvas"), mg = mc.getContext("2d", { willReadFrequently: true });
   function masque(now) { Mt = now; MW = Math.ceil(W / ME); MH = Math.ceil(H / ME); if (mc.width !== MW || mc.height !== MH) { mc.width = MW; mc.height = MH; }
@@ -689,7 +719,7 @@ const fleche = '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strok
     M = a; }
   $("hero").addEventListener("pointermove", e => { const o = cv.getBoundingClientRect(); px = (e.clientX - o.left) / o.width - .5; py = (e.clientY - o.top) / o.height - .5; });
   const boucle = now => { if (!enVie) return; dessine(now); requestAnimationFrame(boucle); };
-  const regle = () => { const m = document.documentElement.dataset.fond; mode = m === "banc" || m === "houle" || m === "champ" ? m : ""; const visible = mode && scrollY < innerHeight * 1.2;
+  const regle = () => { const m = document.documentElement.dataset.fond; mode = m === "banc" || m === "houle" || m === "champ" || m === "galerie" ? m : ""; const visible = mode && scrollY < innerHeight * 1.2;
     if (visible && !enVie) { taille(); if (calmeG) dessine(t0 + 9000); else { enVie = true; requestAnimationFrame(boucle); } } else if (!visible) enVie = false;
     cv.style.setProperty("--rs", Math.min(1, scrollY / (innerHeight * .7)).toFixed(3)); };
   new MutationObserver(regle).observe(document.documentElement, { attributes: true, attributeFilter: ["data-fond", "data-theme"] });

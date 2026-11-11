@@ -38,6 +38,7 @@ python3 outils/tirage.py <nom> --charte <style des titres de la charte> --exclur
 - **Une seule idée vivante** par site (ce que le visiteur peut faire), faite avec le vrai contenu du métier.
 - **Rien ne défile sur le côté** : un tableau devient une fiche par ligne sur téléphone, une liste de cartes une grille avec filtres, un calendrier des boutons de mois.
 - **Photos qui arrivent** : en opacité et légère échelle, seulement une fois l'image chargée et visible (IntersectionObserver + `img.decode()`). Jamais de clip-path.
+- **Une image `loading="lazy"` cachée par son propre `clip-path` ne se charge jamais** (retour sur U Castagnetu, portrait « au rideau ») : la passer en `eager`, ou mettre le rideau sur un parent.
 - **Barre collante du bas** (Appeler / Réserver) : cachée tant que le premier écran est visible, pour ne pas masquer ses boutons.
 - **En-tête** : symétrique ou franchement aligné, jamais des liens collés aux bords loin du logo ; pas deux fois le même symbole (logo et couronne) l'un sous l'autre.
 - **Grands titres en capitales** (Anton, Bodoni…) : vérifier que les accents (É, Ê) ne touchent pas la ligne du dessus ; interligne 1,1 ou plus si besoin. Pas de mot coupé (« jet- / skis ») ni de chiffre séparé de son unité : `&nbsp;`.

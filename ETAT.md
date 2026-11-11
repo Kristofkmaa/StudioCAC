@@ -44,6 +44,8 @@ Les pages du site sont à la racine (leur place donne leur adresse sur saitora.f
 
 - **Accueil Saitora, 11 novembre 2026** : les quatre chiffres et les trois cartes « Explorer » sont devenus des widgets animés (tuiles qui s'allument, frise des semaines, horloge, lien entre deux points ; pile de démos en éventail, chemin de la méthode qui se trace, palette qui change, bordure qui s'allume près du pointeur). Le grand titre est un peu desserré (le « r » et le « t » de « ouverte » se touchaient). Scripts de la retouche, à rejouer sur l'autre branche : `/tmp/claude-0/wg/` (widgets.py, fix.py, fix2.py), non gardés.
 
+- **Essai en cours sur l'accueil (11 novembre 2026) : une rue de vitrines à la place de la sphère de points.** L'utilisateur trouve que la sphère fait « site de réseau ». Dans `accueil.html`, la sphère est seulement cachée (`.hero #orb{display:none}`) et un SVG `#rue` dessine huit devantures dont les fenêtres s'allument. La sphère reste sur l'écran d'entrée, le fond des autres pages et les transitions : si l'essai plaît, la remplacer partout (`commun/abysse-sphere.js`, `abysse-transition.js`) ; sinon, retirer `#rue` et la règle qui cache `#orb`.
+
 ## Décisions prises
 
 - **Style du site Saitora : « abysse »**, inspiré de la fiche Refero d'Auros, avec sa palette d'origine (essayée en bleu et corail, puis remise en vert à la demande de l'utilisateur) : vert d'eau profonde `#012624`, surfaces `#003734`, texte `#EDFFFE` / `#BBC7C6`, rose `#FDE9FF` pour les chiffres, dégradé « aurore » (aqua → rose) pour le bouton principal. Police Inter Tight (poids 500 pour les titres).

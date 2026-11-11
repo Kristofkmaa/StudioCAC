@@ -639,6 +639,9 @@ const fleche = '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strok
 // ——— « banc » et « houle » : des points organiques derrière le titre (les mêmes grains que la sphère, sans globe)
 { const cv = $("grains"), g = cv.getContext("2d"), calmeG = matchMedia("(prefers-reduced-motion: reduce)").matches, petit = innerWidth < 760;
   let W = 0, H = 0, DP = 1, tx = 0, ty = 0, cx = 0, cy = 0, enVie = false, t0 = performance.now(), mode = "";
+  // la largeur de chaque lettre d'un nom, mesurée une fois (et remesurée quand la police est arrivée)
+  const LG = {}, largeurs = nom => LG[nom] || (LG[nom] = (() => { g.save(); g.setTransform(1, 0, 0, 1, 0, 0); g.font = '600 7.5px "Inter Tight", sans-serif'; const l = [...nom].map(ch => g.measureText(ch).width + 1.5); g.restore(); return { l, total: l.reduce((x, y) => x + y, 0) }; })());
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { for (const k in LG) delete LG[k]; });
   const NOMS = ["BOULANGERIE", "FLEURISTE", "CAFÉ", "LIBRAIRIE", "ÉPICERIE", "COIFFEUR", "ATELIER", "FROMAGERIE", "PRIMEUR", "CAVE", "BIJOUTERIE", "RESTAURANT", "CORDONNERIE", "PÂTISSERIE"];
   const N = petit ? 1100 : 2600, P = Array.from({ length: N }, (_, i) => { const h = (i * .6180339887) % 1, k = (i * .7548776662) % 1, m = (i * .5698402909) % 1; return { u: h, a: k * 6.2832, r: Math.pow(m, .6), s: .6 + ((i * .3819660113) % 1) * .9 }; });
   const taille = () => { const d = Math.min(2, devicePixelRatio || 1); DP = d; W = cv.clientWidth; H = cv.clientHeight; cv.width = W * d; cv.height = H * d; g.setTransform(d, 0, 0, d, 0, 0); };
@@ -665,9 +668,12 @@ const fleche = '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strok
           const S1 = pj(x, .86, zz + .12), S2 = pj(x, .86, zz + 1.06), S3 = pj(x - c * .3, .74, zz + 1.06), S4 = pj(x - c * .3, .74, zz + .12); if (S1 && S2 && S3 && S4) quad(S1, S2, S3, S4, COUL[(abs + (c > 0 ? 1 : 0)) % 2], (jourG ? .5 : .38) * br);
           const zA = c < 0 ? zz + .16 : zz + 1.46, zB = c < 0 ? zz + 1.46 : zz + .16, O = pj(x, 1.06, zA), U = pj(x, 1.06, zB), V = pj(x, .9, zA);
           if (O && U && V && br > .1) { quad(O, U, pj(x, .9, zB) || U, V, jourG ? "#F1FAF8" : "#012624", .7 * Math.min(1, br * 1.3));
-            g.setTransform(DP * (U[0] - O[0]) / 100, DP * (U[1] - O[1]) / 100, DP * (V[0] - O[0]) / 12, DP * (V[1] - O[1]) / 12, DP * O[0], DP * O[1]);
-            g.globalAlpha = Math.min(1, br * 1.4); g.fillStyle = encre; g.font = '600 7.5px "Inter Tight", sans-serif'; g.textAlign = "center"; g.textBaseline = "middle"; if ("letterSpacing" in g) g.letterSpacing = "1.3px";
-            g.fillText(NOMS[(((abs * 2 + (c > 0 ? 1 : 0)) % NOMS.length) + NOMS.length) % NOMS.length], 50, 6.5); g.setTransform(DP, 0, 0, DP, 0, 0); if ("letterSpacing" in g) g.letterSpacing = "0px"; }
+            // chaque lettre a sa propre place sur le mur : on projette son haut et son bas, elle suit donc exactement l'enseigne
+            const nom = NOMS[(((abs * 2 + (c > 0 ? 1 : 0)) % NOMS.length) + NOMS.length) % NOMS.length], lg = largeurs(nom), U0 = .16 / 12, dir = c < 0 ? 1 : -1;
+            let zc = zA + dir * (1.3 - lg.total * U0) / 2; g.fillStyle = encre; g.font = '600 7.5px "Inter Tight", sans-serif'; g.textAlign = "center"; g.textBaseline = "middle"; g.globalAlpha = Math.min(1, br * 1.4);
+            for (let n = 0; n < nom.length; n++) { const a = lg.l[n], z1 = zc, z2 = zc + dir * a * U0; zc = z2; const o = pj(x, 1.06, z1), u = pj(x, 1.06, z2), w = pj(x, .9, z1); if (!o || !u || !w) continue;
+              g.setTransform(DP * (u[0] - o[0]) / a, DP * (u[1] - o[1]) / a, DP * (w[0] - o[0]) / 12, DP * (w[1] - o[1]) / 12, DP * o[0], DP * o[1]); g.fillText(nom[n], a / 2, 6.5); }
+            g.setTransform(DP, 0, 0, DP, 0, 0); }
           g.fillStyle = encre; } } }
     else if (mode === "champ") { if (!M || now - Mt > 140) masque(now);
       const pas = petit ? 11 : 13, sx = (px + .5) * W, sy = (py + .5) * H;

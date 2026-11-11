@@ -21,6 +21,8 @@
 <meta name="theme-color" content="#012624">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <style>@view-transition{navigation:auto}</style>
+<!-- le navigateur n'affiche rien de cette page tant que la galerie (#orb) n'est pas là : elle est dessinée juste après, avant la première image -->
+<link rel="expect" href="#orb" blocking="render">
 <link rel="stylesheet" href="commun/abysse.css?v=4">
 <style>html.sc-pending,html.sc-pending body{background:#012624}</style>
 <script>if(!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("sc-pending")</script>
@@ -463,6 +465,12 @@ section[id]{scroll-margin-top:20px}
   <section class="hero" id="hero" data-arrive-off>
     <div class="pin">
       <canvas id="orb" aria-hidden="true"></canvas>
+      <script>
+      /* La galerie est dessinée tout de suite, avant la première image de la page : en arrivant de l'écran d'entrée, on la retrouve
+         exactement où on l'a laissée, sans un instant de vide (le reste du script, en bas de page, prend la suite). */
+      (function () { try { var av = 0; if (document.documentElement.dataset.arrivee === "sphere") { var pos = JSON.parse(sessionStorage.getItem("galerie-pos") || "null"), h = Date.now(); av = pos && h - pos.t < 4000 ? pos.v + 13.8 * (h - pos.t) / 1000 - h / 1000 * .16 : -7.36; }
+        AbysseSphere.create(document.getElementById("orb")).draw({ av: av }); } catch (e) {} })();
+      </script>
       <div class="arrivee" id="arrivee"><div class="page">
     <section class="stats" aria-label="En chiffres">
       <div class="stat"><div class="wv tuiles" aria-hidden="true"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><i style="--i:5"></i><i style="--i:6"></i><i style="--i:7"></i><i style="--i:8"></i><i style="--i:9"></i><i style="--i:10"></i><i style="--i:11"></i><i style="--i:12"></i></div><b data-to="13">13</b><span>démos, une par métier</span></div>

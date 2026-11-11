@@ -116,51 +116,14 @@ h1,h2,h3{color:var(--white);font-weight:500;line-height:1;text-wrap:balance}
 /* ---- ouverture : la sphère de particules derrière le texte ---- */
 /* ---- ouverture : le titre géant arrive de la gauche et de la droite, la sphère derrière ;
    en descendant, la page reste figée le temps que les lignes repartent chacune de leur côté ---- */
-.hero{position:relative;height:175vh}
+.hero{position:relative;height:270vh}
+/* le fond de la galerie : en défilant on s'enfonce dans le passage, et la suite du site (les quatre chiffres) arrive du point de fuite */
+.arrivee{position:absolute;inset:0;z-index:3;display:grid;align-content:center;pointer-events:none;transform-origin:50% 50%;transform:scale(var(--as,.04));opacity:var(--ao,0);will-change:transform,opacity}
+.arrivee.la{pointer-events:auto}
+.arrivee .stats{padding-block:0}
+@media (max-width:699px){.arrivee{transform-origin:50% 42%}}
 .hero .pin{position:sticky;top:0;height:100vh;height:100svh;overflow:clip;isolation:isolate;display:grid;grid-template-rows:1fr auto;gap:clamp(16px,3vh,36px);padding:96px var(--m) clamp(28px,6vh,72px)}
 #orb{position:absolute;inset:0;z-index:-1;width:100%;height:100%}
-/* Le fond de l'ouverture (11 novembre 2026). L'utilisateur ne veut plus de la sphère de points (« site de réseau ») ;
-   deux essais dessinés (rue de maisons, devanture) ont été refusés (« moche »). Retenu ensuite : la galerie marchande en points, qui est devenue le décor commun du site (commun/abysse-sphere.js, dessinée dans #orb). Les fonds ci-dessous ne servent plus qu'à comparer.
-   Trois fonds restent disponibles pour comparer, avec data-fond sur <html> : « lumiere » (une lueur qui suit le pointeur),
-   « aurore » (trois nappes de couleur qui dérivent), « sphere » (l'ancienne sphère). */
-.voile{position:absolute;inset:0;z-index:-1;pointer-events:none;overflow:hidden;display:none;opacity:calc(1 - var(--rs,0))}
-:root[data-fond="lumiere"] .voile,:root[data-fond="aurore"] .voile{display:block}
-.voile i{position:absolute;border-radius:50%;filter:blur(90px)}
-:root[data-fond="lumiere"] .voile i{display:none}
-:root[data-fond="lumiere"] .voile i:first-child{display:block;width:62vmax;aspect-ratio:1;left:var(--lx,64%);top:var(--ly,58%);margin:-31vmax 0 0 -31vmax;background:var(--accent);opacity:.13}
-:root[data-fond="aurore"] .voile i:nth-child(1){width:58vmax;aspect-ratio:1.3;right:-12vmax;top:-18vmax;background:var(--accent);opacity:.16}
-:root[data-fond="aurore"] .voile i:nth-child(2){width:52vmax;aspect-ratio:1.2;left:-14vmax;bottom:-16vmax;background:var(--accent-hover);opacity:.13}
-:root[data-fond="aurore"] .voile i:nth-child(3){width:40vmax;aspect-ratio:1.6;left:34%;top:30%;background:var(--kelp-hi);opacity:.5}
-:root[data-theme="jour"] .voile i{opacity:.3!important}
-/* « banc » et « houle » : les mêmes points que la sphère, mais sans globe. Un ruban vivant qui s'enroule, ou une nappe qui ondule. */
-.grains{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;display:none;opacity:calc(1 - var(--rs,0)*.9)}
-:root[data-fond="banc"] .grains,:root[data-fond="houle"] .grains,:root[data-fond="champ"] .grains,:root[data-fond="galerie"] .grains{display:block}
-/* « mur » : ses vraies démos en trois rangées inclinées, qui glissent en sens opposés derrière le titre (banque : 100) */
-.mur{position:absolute;inset:-18% -24%;z-index:-1;pointer-events:none;display:none;align-content:center;gap:clamp(10px,1.4vw,22px);transform:perspective(1500px) rotateX(30deg) rotateZ(-9deg);opacity:calc(.5 - var(--rs,0)*.5);
-  -webkit-mask:radial-gradient(ellipse 62% 60% at 58% 46%,#000 30%,transparent 78%);mask:radial-gradient(ellipse 62% 60% at 58% 46%,#000 30%,transparent 78%)}
-:root[data-fond="mur"] .mur{display:grid}
-.mur div{display:flex;gap:clamp(10px,1.4vw,22px);width:max-content}
-.mur img{width:clamp(220px,24vw,460px);aspect-ratio:16/10;object-fit:cover;object-position:50% 0;border-radius:10px;display:block}
-:root[data-theme="jour"] .mur{opacity:calc(.34 - var(--rs,0)*.34)}
-/* « lettres » : la ligne en contour devient une fenêtre, ses démos passent à l'intérieur des lettres */
-:root[data-fond="lettres"] .giant .l3 .in{background:url(media/apercus/bande.webp) 0 50%/auto 118% repeat-x;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-stroke-color:color-mix(in srgb,var(--mist) 55%,transparent)}
-@media (prefers-reduced-motion:no-preference){
-  .mur div{animation:mur-va 70s linear infinite}
-  .mur div:nth-child(2){animation-direction:reverse;animation-duration:86s}
-  :root[data-fond="lettres"] .giant .l3{animation:lettres-va 60s linear infinite}
-}
-@keyframes mur-va{to{transform:translateX(-50%)}}
-@property --bx{syntax:"<length>";inherits:true;initial-value:0px}
-@keyframes lettres-va{to{--bx:-3000px}}
-:root[data-fond="lettres"] .giant .l3 .in{background-position:var(--bx,0px) 50%}
-@media (prefers-reduced-motion:no-preference){
-  :root[data-fond="aurore"] .voile i:nth-child(1){animation:vo-a 23s ease-in-out infinite alternate}
-  :root[data-fond="aurore"] .voile i:nth-child(2){animation:vo-b 29s ease-in-out infinite alternate}
-  :root[data-fond="aurore"] .voile i:nth-child(3){animation:vo-c 19s ease-in-out infinite alternate}
-}
-@keyframes vo-a{to{transform:translate(-22vw,14vh) scale(1.15)}}
-@keyframes vo-b{to{transform:translate(20vw,-12vh) scale(.9)}}
-@keyframes vo-c{to{transform:translate(-10vw,10vh) scale(1.25)}}
 .hero .pin::after{content:"";position:absolute;inset:auto 0 0;height:30%;z-index:-1;background:linear-gradient(transparent,var(--abyss));pointer-events:none}
 .giant{align-self:end;display:grid;font-weight:500;font-size:clamp(2.6rem,min(17.8vw,15svh),18.4rem);line-height:.9;letter-spacing:-.03em;margin-inline:-.03em;font-kerning:normal}
 .giant .kt{margin-left:.045em}
@@ -183,7 +146,7 @@ h1,h2,h3{color:var(--white);font-weight:500;line-height:1;text-wrap:balance}
   .hero .base p{max-width:none;font-size:clamp(1.05rem,.9rem + .4vw,1.35rem)}
   .hero .base .aurora.lg{min-height:54px;padding-block:16px}
 }
-@media (prefers-reduced-motion:reduce){.hero{height:auto}.hero .pin{position:relative;min-height:100svh;height:auto}.giant .in,.hero .base{animation:none}}
+@media (prefers-reduced-motion:reduce){.arrivee{position:static;transform:none;opacity:1;pointer-events:auto;margin-top:48px}.hero{height:auto}.hero .pin{position:relative;min-height:100svh;height:auto}.giant .in,.hero .base{animation:none}}
 .cue{position:absolute;left:50%;bottom:20px;translate:-50% 0;display:grid;justify-items:center;gap:8px;font-size:10px;letter-spacing:.15em;text-transform:uppercase}
 .cue i{width:1px;height:36px;background:linear-gradient(var(--mist),transparent);animation:cue 2.2s ease-in-out infinite;transform-origin:top}
 @keyframes cue{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
@@ -494,9 +457,14 @@ section[id]{scroll-margin-top:20px}
   <section class="hero" id="hero" data-arrive-off>
     <div class="pin">
       <canvas id="orb" aria-hidden="true"></canvas>
-      <div class="voile" id="voile" aria-hidden="true"><i></i><i></i><i></i></div>
-      <div class="mur" id="mur" aria-hidden="true"></div>
-      <canvas class="grains" id="grains" aria-hidden="true"></canvas>
+      <div class="arrivee" id="arrivee"><div class="page">
+    <section class="stats" aria-label="En chiffres">
+      <div class="stat"><div class="wv tuiles" aria-hidden="true"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><i style="--i:5"></i><i style="--i:6"></i><i style="--i:7"></i><i style="--i:8"></i><i style="--i:9"></i><i style="--i:10"></i><i style="--i:11"></i><i style="--i:12"></i></div><b data-to="13">13</b><span>démos, une par métier</span></div>
+      <div class="stat"><div class="wv frise" aria-hidden="true"><i></i><i></i><i></i></div><b data-to="3" data-pre="2–">2–3</b><span>semaines jusqu'à la mise en ligne</span></div>
+      <div class="stat"><div class="wv horloge" aria-hidden="true"><svg viewBox="0 0 64 64"><circle class="fond" cx="32" cy="32" r="26"/><circle class="tour" cx="32" cy="32" r="26" pathLength="1"/><path class="aig" d="M32 32V14"/><circle class="axe" cx="32" cy="32" r="3"/></svg></div><b data-to="24" data-suf=" h">24 h</b><span>pour une réponse à votre demande</span></div>
+      <div class="stat"><div class="wv lien" aria-hidden="true"><svg viewBox="0 0 160 64"><path class="fil" pathLength="1" d="M22 32 C 60 6, 100 58, 138 32"/><circle class="a" cx="22" cy="32" r="9"/><circle class="b" cx="138" cy="32" r="9"/><circle class="va" r="4"><animateMotion dur="2.6s" repeatCount="indefinite" path="M22 32 C 60 6, 100 58, 138 32" keyPoints="0;1;0" keyTimes="0;.5;1" calcMode="linear"/></circle></svg></div><b data-to="1">1</b><span>seul interlocuteur, du premier appel à la suite</span></div>
+    </section>
+      </div></div>
       <h1 class="giant"><span class="ln l1"><span class="in">Votre vitrine,</span></span> <span class="ln l2"><span class="in">ouver<span class="kt">te</span> jour</span></span> <span class="ln l3"><span class="in">et nuit.</span></span></h1>
       <div class="base">
         <p>Des sites pour les restaurants, les artisans et les commerces. Faits à votre image, en ligne en trois semaines.</p>
@@ -506,13 +474,6 @@ section[id]{scroll-margin-top:20px}
   </section>
 
   <div class="page">
-    <section class="stats" aria-label="En chiffres">
-      <div class="stat rise"><div class="wv tuiles" aria-hidden="true"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><i style="--i:5"></i><i style="--i:6"></i><i style="--i:7"></i><i style="--i:8"></i><i style="--i:9"></i><i style="--i:10"></i><i style="--i:11"></i><i style="--i:12"></i></div><b data-to="13">13</b><span>démos, une par métier</span></div>
-      <div class="stat rise"><div class="wv frise" aria-hidden="true"><i></i><i></i><i></i></div><b data-to="3" data-pre="2–">2–3</b><span>semaines jusqu'à la mise en ligne</span></div>
-      <div class="stat rise"><div class="wv horloge" aria-hidden="true"><svg viewBox="0 0 64 64"><circle class="fond" cx="32" cy="32" r="26"/><circle class="tour" cx="32" cy="32" r="26" pathLength="1"/><path class="aig" d="M32 32V14"/><circle class="axe" cx="32" cy="32" r="3"/></svg></div><b data-to="24" data-suf=" h">24 h</b><span>pour une réponse à votre demande</span></div>
-      <div class="stat rise"><div class="wv lien" aria-hidden="true"><svg viewBox="0 0 160 64"><path class="fil" pathLength="1" d="M22 32 C 60 6, 100 58, 138 32"/><circle class="a" cx="22" cy="32" r="9"/><circle class="b" cx="138" cy="32" r="9"/><circle class="va" r="4"><animateMotion dur="2.6s" repeatCount="indefinite" path="M22 32 C 60 6, 100 58, 138 32" keyPoints="0;1;0" keyTimes="0;.5;1" calcMode="linear"/></circle></svg></div><b data-to="1">1</b><span>seul interlocuteur, du premier appel à la suite</span></div>
-    </section>
-
     <section class="explore" aria-labelledby="t-explore">
       <div class="head rise"><p class="eyebrow">Explorer</p><h2 id="t-explore">Un site aussi soigné que celui d'une grande enseigne.</h2></div>
       <div class="rows">
@@ -629,124 +590,6 @@ let heroP = 0;   // 0 en haut de page, 1 quand les lignes du titre sont repartie
 const dezoom = document.documentElement.dataset.arrivee === "sphere";
 const fleche = '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg>';
 
-// ——— le fond de l'ouverture : ?fond=lumiere, aurore ou sphere pour comparer ; la lueur suit le pointeur, tout s'efface en défilant
-{ const f = new URLSearchParams(location.search).get("fond"); if (f) document.documentElement.dataset.fond = f;
-  { const D = ["table-du-port", "fiori", "piazza", "forza", "garage-santoni", "bois-massif", "zia-rosa", "u-fucone", "libecciu", "pain-dore", "castagnetu", "a-funtana", "durand-plomberie"], rang = k => { const l = D.map((_, i) => D[(i * 3 + k * 4) % D.length]).slice(0, 7); return "<div>" + [...l, ...l].map(n => `<img src="media/apercus/${n}.webp" alt="" loading="lazy" decoding="async">`).join("") + "</div>"; };
-    $("mur").innerHTML = rang(0) + rang(1) + rang(2); addEventListener("scroll", () => $("mur").style.setProperty("--rs", Math.min(1, scrollY / (innerHeight * .7)).toFixed(3)), { passive: true }); }
-  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) { const vo = $("voile"), hero = $("hero"); let lx = 64, ly = 58, cx = 64, cy = 58, tourne = false, prevu = false;
-    const pas = () => { lx += (cx - lx) * .07; ly += (cy - ly) * .07; vo.style.setProperty("--lx", lx.toFixed(2) + "%"); vo.style.setProperty("--ly", ly.toFixed(2) + "%"); if (Math.abs(cx - lx) + Math.abs(cy - ly) > .05) requestAnimationFrame(pas); else tourne = false; };
-    hero.addEventListener("pointermove", e => { const r = vo.getBoundingClientRect(); cx = (e.clientX - r.left) / r.width * 100; cy = (e.clientY - r.top) / r.height * 100; if (!tourne) { tourne = true; requestAnimationFrame(pas); } });
-    const suit = () => { prevu = false; vo.style.setProperty("--rs", Math.min(1, scrollY / (innerHeight * .7)).toFixed(3)); };
-    addEventListener("scroll", () => { if (!prevu) { prevu = true; requestAnimationFrame(suit); } }, { passive: true }); suit(); } }
-
-// ——— « banc » et « houle » : des points organiques derrière le titre (les mêmes grains que la sphère, sans globe)
-{ const cv = $("grains"), g = cv.getContext("2d"), calmeG = matchMedia("(prefers-reduced-motion: reduce)").matches, petit = innerWidth < 760;
-  let W = 0, H = 0, DP = 1, tx = 0, ty = 0, cx = 0, cy = 0, enVie = false, t0 = performance.now(), mode = "";
-  // la largeur de chaque lettre d'un nom, mesurée une fois (et remesurée quand la police est arrivée)
-  const LG = {}, largeurs = nom => LG[nom] || (LG[nom] = (() => { g.save(); g.setTransform(1, 0, 0, 1, 0, 0); g.font = '600 7.5px "Inter Tight", sans-serif'; const l = [...nom].map(ch => g.measureText(ch).width + 1.5); g.restore(); return { l, total: l.reduce((x, y) => x + y, 0) }; })());
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { for (const k in LG) delete LG[k]; });
-  const NOMS = ["BOULANGERIE", "FLEURISTE", "CAFÉ", "LIBRAIRIE", "ÉPICERIE", "COIFFEUR", "ATELIER", "FROMAGERIE", "PRIMEUR", "CAVE", "BIJOUTERIE", "RESTAURANT", "CORDONNERIE", "PÂTISSERIE"];
-  const N = petit ? 1100 : 2600, P = Array.from({ length: N }, (_, i) => { const h = (i * .6180339887) % 1, k = (i * .7548776662) % 1, m = (i * .5698402909) % 1; return { u: h, a: k * 6.2832, r: Math.pow(m, .6), s: .6 + ((i * .3819660113) % 1) * .9 }; });
-  const taille = () => { const d = Math.min(2, devicePixelRatio || 1); DP = d; W = cv.clientWidth; H = cv.clientHeight; cv.width = W * d; cv.height = H * d; g.setTransform(d, 0, 0, d, 0, 0); };
-  const dessine = now => { const t = (now - t0) / 1000; tx += (cx - tx) * .02; ty += (cy - ty) * .02; g.clearRect(0, 0, W, H);
-    const jourG = document.documentElement.dataset.theme === "jour", encre = jourG ? "#012624" : "#EDFFFE", COUL = jourG ? ["#007A72", "#8E2BAB"] : ["#CBFFFC", "#FAD1FF"];
-    g.fillStyle = encre;
-    if (mode === "galerie") { const L = 1.6, NB = petit ? 8 : 11, v = t * .16, dz = v % L, base = Math.floor(v / L), f = H * (petit ? 1.05 : 1.35), hx = W * .5, hy = H * (petit ? .4 : .5),
-        camX = tx * .07, camY = .62 - ty * .03, lac = tx * .025,   /* le regard ne bouge presque plus avec la souris : avant, ça donnait le mal de mer */ cl = Math.cos(lac), sl = Math.sin(lac), zMax = NB * L;
-      for (let k = NB - 1; k >= 0; k--) { const z0 = k * L - dz, abs = base + k, graine = Math.sin(abs * 12.9898) * 43758.5453, al = graine - Math.floor(graine),
-          lumG = .35 + .65 * (.5 + .5 * Math.sin(t * .35 + abs * 2.1)), lumD = .35 + .65 * (.5 + .5 * Math.sin(t * .28 + abs * 3.7 + 1.3));
-        for (let i = 0; i < TRAVEE.length; i += 5) { const z = TRAVEE[i + 2] + z0 + .9; if (z < .28) continue;
-          const xr = (TRAVEE[i] - camX) * cl - z * sl, zr = (TRAVEE[i] - camX) * sl + z * cl; if (zr < .28) continue;
-          const e = f / zr, X = hx + xr * e, Y = hy - (TRAVEE[i + 1] - camY) * e; if (X < -8 || X > W + 8 || Y < -8 || Y > H + 8) continue;
-          const brume = Math.pow(Math.max(0, 1 - zr / zMax), 1.25) * Math.min(1, (zr - .28) * 2.2), vit = TRAVEE[i + 4];
-          g.globalAlpha = Math.min(1, TRAVEE[i + 3] * brume * (vit === 1 ? lumG * (al > .25 ? 1 : .25) : vit === 2 ? lumD * (al < .8 ? 1 : .25) : 1));
-          const r = Math.max(.8, Math.min(2.6, e * .0042)); g.fillRect(X - r / 2, Y - r / 2, r, r); }
-        // ce qui fait reconnaître une boutique : la vitrine éclairée en aplat, le store de couleur, le nom sur l'enseigne
-        const pj = (x, y, z) => { const xr = (x - camX) * cl - z * sl, zr = (x - camX) * sl + z * cl; if (zr < .3) return null; const e = f / zr; return [hx + xr * e, hy - (y - camY) * e, zr]; },
-          quad = (a, b, c, d, col, al2) => { g.globalAlpha = al2; g.fillStyle = col; g.beginPath(); g.moveTo(a[0], a[1]); g.lineTo(b[0], b[1]); g.lineTo(c[0], c[1]); g.lineTo(d[0], d[1]); g.closePath(); g.fill(); }, zz = z0 + .9;
-        for (const c of [-1, 1]) { const x = c * 1.05, lum = c < 0 ? lumG : lumD, allume = c < 0 ? al > .25 : al < .8,
-            A = pj(x, .8, zz + .16), B = pj(x, .8, zz + 1.02), C = pj(x, .14, zz + 1.02), Dq = pj(x, .14, zz + .16); if (!A || !B || !C || !Dq) continue;
-          const br = Math.pow(Math.max(0, 1 - A[2] / zMax), 1.25) * Math.min(1, (A[2] - .3) * 2);
-          quad(A, B, C, Dq, COUL[0], (allume ? .1 + .16 * lum : .04) * br);
-          const S1 = pj(x, .86, zz + .12), S2 = pj(x, .86, zz + 1.06), S3 = pj(x - c * .3, .74, zz + 1.06), S4 = pj(x - c * .3, .74, zz + .12); if (S1 && S2 && S3 && S4) quad(S1, S2, S3, S4, COUL[(abs + (c > 0 ? 1 : 0)) % 2], (jourG ? .5 : .38) * br);
-          const zA = c < 0 ? zz + .16 : zz + 1.46, zB = c < 0 ? zz + 1.46 : zz + .16, O = pj(x, 1.06, zA), U = pj(x, 1.06, zB), V = pj(x, .9, zA);
-          if (O && U && V && br > .1) { quad(O, U, pj(x, .9, zB) || U, V, jourG ? "#F1FAF8" : "#012624", .7 * Math.min(1, br * 1.3));
-            // chaque lettre a sa propre place sur le mur : on projette son haut et son bas, elle suit donc exactement l'enseigne
-            const nom = NOMS[(((abs * 2 + (c > 0 ? 1 : 0)) % NOMS.length) + NOMS.length) % NOMS.length], lg = largeurs(nom), U0 = .16 / 12, dir = c < 0 ? 1 : -1;
-            let zc = zA + dir * (1.3 - lg.total * U0) / 2; g.fillStyle = encre; g.font = '600 7.5px "Inter Tight", sans-serif'; g.textAlign = "center"; g.textBaseline = "middle"; g.globalAlpha = Math.min(1, br * 1.4);
-            for (let n = 0; n < nom.length; n++) { const a = lg.l[n], z1 = zc, z2 = zc + dir * a * U0; zc = z2; const o = pj(x, 1.06, z1), u = pj(x, 1.06, z2), w = pj(x, .9, z1); if (!o || !u || !w) continue;
-              g.setTransform(DP * (u[0] - o[0]) / a, DP * (u[1] - o[1]) / a, DP * (w[0] - o[0]) / 12, DP * (w[1] - o[1]) / 12, DP * o[0], DP * o[1]); g.fillText(nom[n], a / 2, 6.5); }
-            g.setTransform(DP, 0, 0, DP, 0, 0); }
-          g.fillStyle = encre; } } }
-    else if (mode === "champ") { if (!M || now - Mt > 140) masque(now);
-      const pas = petit ? 11 : 13, sx = (px + .5) * W, sy = (py + .5) * H;
-      for (let y = pas / 2; y < H; y += pas) for (let x = pas / 2 + ((y / pas | 0) % 2) * pas / 2; x < W; x += pas) {
-        // le courant : chaque point flotte un peu, comme dans l'eau
-        let X = x + Math.sin(y * .011 + t * .55 + x * .004) * 5 + Math.sin(x * .02 - t * .3) * 2, Y = y + Math.cos(x * .009 - t * .42 + y * .003) * 5;
-        // les lettres repoussent les points : on lit la pente du masque flouté du titre
-        const mx = Math.min(MW - 2, Math.max(1, X / ME | 0)), my = Math.min(MH - 2, Math.max(1, Y / ME | 0)), i = my * MW + mx, v = M[i];
-        const gx = M[i + 1] - M[i - 1], gy = M[i + MW] - M[i - MW], bord = Math.min(1, Math.hypot(gx, gy) * 5);
-        X -= gx * 150; Y -= gy * 150;
-        // le doigt ou la souris écarte aussi les points
-        const dx = X - sx, dy = Y - sy, d2 = dx * dx + dy * dy; if (d2 < 32400) { const f = (1 - d2 / 32400) * 26 / (Math.sqrt(d2) + 1); X += dx * f; Y += dy * f; }
-        const houle = .5 + .5 * Math.sin(x * .006 + y * .012 - t * .7);
-        g.globalAlpha = Math.max(0, Math.min(1, (.2 + houle * .26 + bord * .6) * (1 - v * 1.25))); const r = 1.5 + bord * 1.3;
-        if (g.globalAlpha > .02) g.fillRect(X - r / 2, Y - r / 2, r, r); } }
-    else if (mode === "banc") { const E = Math.min(W, H) * (petit ? .15 : .135), ox = W * (petit ? .5 : .62), oy = H * (petit ? .26 : .47), ry = t * .12 + tx * .5, rx = .5 + ty * .35, cyR = Math.cos(ry), syR = Math.sin(ry), cxR = Math.cos(rx), sxR = Math.sin(rx);
-      for (const p of P) { const a = 6.2832 * (p.u + t * .012 * (.6 + p.s * .5)), w = p.a + t * .5 + a * 2,
-          ep = (.5 + .26 * Math.sin(a * 3 + t * .6)) * p.r;                       // le ruban gonfle et se resserre le long de sa course
-        let x = Math.sin(a) + 2 * Math.sin(2 * a), y = Math.cos(a) - 2 * Math.cos(2 * a), z = -Math.sin(3 * a);
-        x += Math.cos(w) * ep; y += Math.sin(w) * ep; z += Math.sin(w * 1.3) * ep;
-        const x1 = x * cyR + z * syR, z1 = -x * syR + z * cyR, y1 = y * cxR - z1 * sxR, z2 = y * sxR + z1 * cxR, pr = 5 / (5 + z2);
-        g.globalAlpha = Math.max(.22, Math.min(1, .42 + pr * .5 - z2 * .1)); const r = p.s * pr * (petit ? 1.7 : 2.3); g.fillRect(ox + x1 * E * pr - r / 2, oy + y1 * E * pr - r / 2, r, r); } }
-    else { const cols = petit ? 46 : 92, rangs = petit ? 26 : 34, hor = H * .3;
-      for (let j = 0; j < rangs; j++) { const z = j / (rangs - 1), pr = .22 + z * z * 1.25, yb = hor + z * z * H * .78;
-        for (let i = 0; i < cols; i++) { const x = (i / (cols - 1) - .5) * 2.6, q = x * 2.4 + tx * .6,
-            h = Math.sin(q * 1.7 + t * .7 + z * 5) * .5 + Math.sin(q * 3.1 - t * .45 + z * 9) * .28 + Math.sin(z * 14 - t * 1.1 + q * .6) * .22;
-          g.globalAlpha = Math.max(.1, Math.min(1, (.26 + z * .62) * (.75 + h * .5))); const r = 1.2 + pr * 2.1 * (1 + h * .3);
-          g.fillRect(W / 2 + x * W * .5 * pr - r / 2, yb - h * H * .045 * pr * (1 + ty * .3) - r / 2, r, r); } } }
-    g.globalAlpha = 1; };
-  // la travée de la galerie : une fois pour toutes, la liste des points d'une travée [x, y, z, éclat, vitrine (0 non, 1 gauche, 2 droite)]
-  const TRAVEE = (() => { const P = [], pt = (x, y, z, b, w) => P.push(x, y, z, b, w || 0),
-      ligne = (a, b, n, e, w) => { n = Math.max(2, Math.round(n * 2.8)); for (let i = 0; i <= n; i++) { const k = i / n; pt(a[0] + (b[0] - a[0]) * k, a[1] + (b[1] - a[1]) * k, a[2] + (b[2] - a[2]) * k, e, w); } },
-      cadre = (x, y0, y1, z0, z1, n, e) => { ligne([x, y0, z0], [x, y1, z0], n * (y1 - y0) | 0, e); ligne([x, y0, z1], [x, y1, z1], n * (y1 - y0) | 0, e); ligne([x, y0, z0], [x, y0, z1], n * (z1 - z0) | 0, e); ligne([x, y1, z0], [x, y1, z1], n * (z1 - z0) | 0, e); };
-    for (const c of [-1, 1]) { const x = c * 1.05, w = c < 0 ? 1 : 2;
-      ligne([x, 0, 0], [x, 2.02, 0], 30, .85); ligne([x - c * .05, 0, 0], [x - c * .05, 1.3, 0], 16, .5);               // le pilier entre deux boutiques
-      cadre(x, .14, .8, .16, 1.02, 26, .9);                                                                          // la vitrine
-      for (let a = 0; a < 15; a++) for (let b = 0; b < 11; b++) pt(x, .19 + b * .056, .2 + a * .056, .5, w);               // sa lumière
-      cadre(x, 0, .82, 1.12, 1.46, 22, .8); pt(x - c * .02, .42, 1.2, 1);                                            // la porte et sa poignée
-      cadre(x, .9, 1.06, .16, 1.46, 20, .7); ligne([x, .98, .3], [x, .98, .95], 9, .5);                              // l'enseigne
-      for (const z of [.12, .34, .58, .82, 1.06]) ligne([x, .86, z], [x - c * .3, .74, z], 6, .75);                   // le store, en pente
-      ligne([x - c * .3, .74, .12], [x - c * .3, .74, 1.06], 14, .9); ligne([x - c * .3, .74, .12], [x - c * .3, .68, .12], 2, .6);
-      ligne([x, 1.3, 0], [x, 1.3, 1.6], 24, .7); ligne([x, 2.02, 0], [x, 2.02, 1.6], 24, .8);                        // la corniche et le haut du mur
-      cadre(x, 1.46, 1.84, .34, .62, 22, .6); cadre(x, 1.46, 1.84, .98, 1.26, 22, .6);                               // les fenêtres de l'étage
-      ligne([c * .52, 0, 0], [c * .52, 0, 1.6], 12, .32); }
-    for (let i = 0; i <= 80; i++) { const a = Math.PI * i / 80; pt(Math.cos(a) * 1.05, 2.02 + Math.sin(a) * .78, 0, .85); if (i % 2 === 0) pt(Math.cos(a) * 1.05, 2.02 + Math.sin(a) * .78, .8, .35); }   // l'arceau de la verrière
-    for (const a of [.5, .26, .74]) ligne([Math.cos(Math.PI * a) * 1.05, 2.02 + Math.sin(Math.PI * a) * .78, 0], [Math.cos(Math.PI * a) * 1.05, 2.02 + Math.sin(Math.PI * a) * .78, 1.6], 16, a === .5 ? .7 : .4);
-    ligne([0, 2.8, .8], [0, 2.36, .8], 6, .6); for (let i = 0; i < 10; i++) { const a = i * .6283; pt(Math.cos(a) * .07, 2.3 + (i % 2) * .05, .8 + Math.sin(a) * .07, 1); }                           // la lanterne
-    ligne([-1.05, 0, 0], [1.05, 0, 0], 18, .45); ligne([-1.05, 0, .8], [1.05, 0, .8], 14, .25); ligne([0, 0, 0], [0, 0, 1.6], 12, .4);                                                               // le dallage
-    return new Float32Array(P); })();
-  // le masque du titre : on redessine les trois lignes en petit, on floute, et la pente du flou dit dans quel sens pousser les points
-  let M = null, MW = 0, MH = 0, Mt = 0, px = 0, py = 0; const ME = 6, mc = document.createElement("canvas"), mg = mc.getContext("2d", { willReadFrequently: true });
-  function masque(now) { Mt = now; MW = Math.ceil(W / ME); MH = Math.ceil(H / ME); if (mc.width !== MW || mc.height !== MH) { mc.width = MW; mc.height = MH; }
-    mg.setTransform(1 / ME, 0, 0, 1 / ME, 0, 0); mg.clearRect(0, 0, W, H); mg.fillStyle = "#fff"; const o = cv.getBoundingClientRect();
-    document.querySelectorAll(".giant .ln .in").forEach(el => { const c = getComputedStyle(el), r = el.getBoundingClientRect(), op = +getComputedStyle(el.parentNode).opacity; if (r.bottom < o.top || r.top > o.bottom || op < .05) return;
-      mg.font = `500 ${c.fontSize} "Inter Tight", sans-serif`; if ("letterSpacing" in mg) mg.letterSpacing = c.letterSpacing; const m = mg.measureText("Hg"), fa = m.fontBoundingBoxAscent || parseFloat(c.fontSize) * .97, fd = m.fontBoundingBoxDescent || parseFloat(c.fontSize) * .24;
-      mg.globalAlpha = op; mg.textBaseline = "alphabetic"; mg.fillText(el.textContent, r.left - o.left, r.top - o.top + (r.height - fa - fd) / 2 + fa); });
-    mg.globalAlpha = 1; const d = mg.getImageData(0, 0, MW, MH).data, a = new Float32Array(MW * MH), b = new Float32Array(MW * MH); for (let i = 0; i < a.length; i++) a[i] = d[i * 4 + 3] / 255;
-    for (let k = 0; k < 2; k++) { for (let y = 0; y < MH; y++) for (let x = 2; x < MW - 2; x++) { const i = y * MW + x; b[i] = (a[i - 2] + a[i - 1] + a[i] + a[i + 1] + a[i + 2]) / 5; }
-      for (let y = 2; y < MH - 2; y++) for (let x = 0; x < MW; x++) { const i = y * MW + x; a[i] = (b[i - 2 * MW] + b[i - MW] + b[i] + b[i + MW] + b[i + 2 * MW]) / 5; } }
-    M = a; }
-  $("hero").addEventListener("pointermove", e => { const o = cv.getBoundingClientRect(); px = (e.clientX - o.left) / o.width - .5; py = (e.clientY - o.top) / o.height - .5; });
-  const boucle = now => { if (!enVie) return; dessine(now); requestAnimationFrame(boucle); };
-  const regle = () => { const m = document.documentElement.dataset.fond; mode = m === "banc" || m === "houle" || m === "champ" || m === "galerie" ? m : ""; const visible = mode && scrollY < innerHeight * 1.2;
-    if (visible && !enVie) { taille(); if (calmeG) dessine(t0 + 9000); else { enVie = true; requestAnimationFrame(boucle); } } else if (!visible) enVie = false;
-    cv.style.setProperty("--rs", Math.min(1, scrollY / (innerHeight * .7)).toFixed(3)); };
-  new MutationObserver(regle).observe(document.documentElement, { attributes: true, attributeFilter: ["data-fond", "data-theme"] });
-  addEventListener("scroll", regle, { passive: true }); addEventListener("resize", () => { if (mode) { taille(); M = null; if (calmeG) dessine(t0 + 9000); } });
-  $("hero").addEventListener("pointermove", e => { cx = e.clientX / innerWidth - .5; cy = e.clientY / innerHeight - .5; });
-  requestAnimationFrame(regle); }
-
 // ——— la sphère du site (abysse-sphere.js) derrière le titre : tourne, penche vers le doigt, grossit et pâlit au défilement
 (() => {
   const cv = $("orb"), sphere = AbysseSphere.create(cv);
@@ -761,7 +604,7 @@ const fleche = '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strok
     const zp = dezoom ? Math.min(1, (performance.now() - z0) / 2200) : 1, ze = zp < .5 ? 4 * zp ** 3 : 1 - (-2 * zp + 2) ** 3 / 2;
     if (dezoom && zp >= 1 && !calme) AbysseSphere.suivre(true);   // après le recul, la sphère suit de nouveau le doigt
     const allume = dezoom ? Math.min(1, (performance.now() - z0) / 350) : 1;
-    return { Z: 1 + 11 * (1 - ze), A: allume * (1 - heroP * .55), grow: 1 + heroP * .9 };   // recul 12 → 1 sur 2,2 s, doux au début et à la fin
+    return { Z: 1 + 11 * (1 - ze), A: allume * (1 - Math.max(0, (heroP - .62) / .38) * .9), grow: 1 + Math.pow(heroP, 1.5) * 5.5 };   // recul 12 → 1 sur 2,2 s, doux au début et à la fin
   };
   const loop = () => { if (!AbysseSphere.cachee) sphere.draw(etat()); raf = requestAnimationFrame(loop); };   // pas sous un rideau de transition
   sphere.draw(etat());
@@ -798,14 +641,19 @@ if (dezoom && !calme) {
 
 // ——— le titre géant : en descendant, chaque ligne repart de son côté (gauche, droite, gauche)
 (() => {
-  if (calme) return;
+  const arr = $("arrivee"); let compteFait = false;
+  if (calme) { arr.querySelectorAll(".stat").forEach(el => el.classList.add("on")); return; }
   const hero = $("hero"), lns = [...hero.querySelectorAll(".ln")], base = hero.querySelector(".base"), dir = [-1, 1, -1];
   let tick = false;
   const move = () => { tick = false;
     heroP = Math.min(1, Math.max(0, scrollY / (hero.offsetHeight - innerHeight)));
-    const e = heroP * heroP;
+    const hp = Math.min(1, heroP / .46), e = hp * hp;                       // le titre a fini de partir à 46 % du trajet
     lns.forEach((l, i) => { l.style.transform = `translate3d(${(dir[i] * e * 110).toFixed(2)}vw,0,0)`; l.style.opacity = (1 - e * .8).toFixed(3); });
-    base.style.opacity = Math.max(0, 1 - heroP * 2.2).toFixed(3);
+    base.style.opacity = Math.max(0, 1 - hp * 2.2).toFixed(3);
+    // la suite arrive du fond de la galerie : elle grandit depuis le point de fuite
+    const a = Math.min(1, Math.max(0, (heroP - .4) / .52)), ae = a * a * (3 - 2 * a);
+    arr.style.setProperty("--as", (.04 + .96 * ae).toFixed(4)); arr.style.setProperty("--ao", Math.min(1, a * 2.6).toFixed(3)); arr.classList.toggle("la", a > .97);
+    if (a > .45 && !compteFait) { compteFait = true; arr.querySelectorAll(".stat").forEach(el => { el.classList.add("on"); const b = el.querySelector("b[data-to]"); if (b) compte(b); }); }
   };
   addEventListener("scroll", () => { if (!tick) { tick = true; requestAnimationFrame(move); } }, { passive: true });
   addEventListener("resize", move);

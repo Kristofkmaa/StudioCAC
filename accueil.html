@@ -119,44 +119,29 @@ h1,h2,h3{color:var(--white);font-weight:500;line-height:1;text-wrap:balance}
 .hero{position:relative;height:175vh}
 .hero .pin{position:sticky;top:0;height:100vh;height:100svh;overflow:clip;isolation:isolate;display:grid;grid-template-rows:1fr auto;gap:clamp(16px,3vh,36px);padding:96px var(--m) clamp(28px,6vh,72px)}
 #orb{position:absolute;inset:0;z-index:-1;width:100%;height:100%}
-/* L'ouverture est une vitrine (11 novembre 2026, à la place de la sphère de points puis de l'essai « rue de maisons »).
-   Un store à lambrequin, une imposte à petits carreaux, une grande vitre : le titre est peint dessus.
-   La lumière du magasin suit le pointeur, un reflet glisse sur le verre, la dernière ligne s'allume comme un néon,
-   une pancarte « Ouvert » se balance. En défilant, on entre : la devanture grandit et s'efface. */
+/* Le fond de l'ouverture (11 novembre 2026). L'utilisateur ne veut plus de la sphère de points (« site de réseau ») ;
+   deux essais dessinés (rue de maisons, devanture) ont été refusés (« moche »). Par défaut : le grand titre seul.
+   Trois fonds restent disponibles pour comparer, avec data-fond sur <html> : « lumiere » (une lueur qui suit le pointeur),
+   « aurore » (trois nappes de couleur qui dérivent), « sphere » (l'ancienne sphère). */
 .hero #orb{display:none}
-.devanture{--bord:color-mix(in srgb,var(--mist) 30%,transparent);position:absolute;inset:clamp(74px,9.5vh,100px) clamp(8px,1.4vw,24px) clamp(10px,1.8vh,22px);z-index:-1;pointer-events:none;display:grid;grid-template-rows:auto minmax(0,1fr);
-  transform-origin:50% 62%;transform:scale(calc(1 + var(--rs,0)*.12));opacity:calc(1 - var(--rs,0)*1.15)}
-.lambrequin{height:clamp(20px,3.2vh,36px);margin-inline:-5px;background:var(--kelp-hi);
-  background-image:repeating-linear-gradient(90deg,transparent 0 34px,color-mix(in srgb,var(--mist) 7%,transparent) 34px 68px);
-  -webkit-mask:radial-gradient(15px at 50% calc(100% + 5px),#0000 97%,#000) 0 0/34px 100%;mask:radial-gradient(15px at 50% calc(100% + 5px),#0000 97%,#000) 0 0/34px 100%}
-.verre{position:relative;overflow:hidden;border:1.5px solid var(--bord);border-top:0;border-bottom:clamp(6px,1vh,10px) solid var(--kelp-hi)}
-.verre::before{content:"";position:absolute;inset:0 0 auto;height:clamp(22px,4vh,44px);border-bottom:1.5px solid var(--bord);
-  background:repeating-linear-gradient(90deg,transparent 0 calc(100%/10 - 1.5px),var(--bord) calc(100%/10 - 1.5px) calc(100%/10))}
-.lueur{position:absolute;inset:0;background:radial-gradient(58vmax circle at var(--lx,64%) var(--ly,62%),color-mix(in srgb,var(--accent) 20%,transparent),transparent 60%)}
-.reflet{position:absolute;inset:-10% -30%;transform:translateX(calc(var(--refl,0)*1px));
-  background:linear-gradient(113deg,transparent 40%,color-mix(in srgb,var(--mist) 5%,transparent) 40% 46%,transparent 46% 48.500%,color-mix(in srgb,var(--mist) 3%,transparent) 48.500% 50%,transparent 50%)}
-.pancarte{position:absolute;right:clamp(14px,3.4vw,56px);top:calc(clamp(20px,3.2vh,36px) + clamp(22px,4vh,44px) + 26px);display:grid;justify-items:center;gap:1px;padding:8px 14px 9px;border-radius:5px;background:var(--mist);color:var(--abyss);
-  transform-origin:50% -26px;transform:rotate(-2deg)}
-.pancarte::before,.pancarte::after{content:"";position:absolute;bottom:100%;width:1.5px;height:28px;background:var(--bord);transform-origin:50% 100%}
-.pancarte::before{left:22%;transform:rotate(-22deg)}.pancarte::after{right:22%;transform:rotate(22deg)}
-.pancarte b{font-weight:600;font-size:13px;letter-spacing:.14em;text-transform:uppercase;line-height:1.1}
-.pancarte span{font-size:11px;letter-spacing:.04em;opacity:.7;line-height:1.1}
-/* le néon : la dernière ligne, en contour, s'allume dans la couleur d'accent */
-:root:not([data-theme="jour"]) .giant .l3 .in{-webkit-text-stroke-color:var(--accent)}
-:root:not([data-theme="jour"]) .giant .l3{filter:drop-shadow(0 0 .035em color-mix(in srgb,var(--accent) 80%,transparent)) drop-shadow(0 0 .16em color-mix(in srgb,var(--accent) 34%,transparent))}
-:root[data-theme="jour"] .lueur{opacity:.55}
-:root[data-theme="jour"] .lambrequin{background-color:var(--accent)}
+:root[data-fond="sphere"] .hero #orb{display:block}
+.voile{position:absolute;inset:0;z-index:-1;pointer-events:none;overflow:hidden;display:none;opacity:calc(1 - var(--rs,0))}
+:root[data-fond="lumiere"] .voile,:root[data-fond="aurore"] .voile{display:block}
+.voile i{position:absolute;border-radius:50%;filter:blur(90px)}
+:root[data-fond="lumiere"] .voile i{display:none}
+:root[data-fond="lumiere"] .voile i:first-child{display:block;width:62vmax;aspect-ratio:1;left:var(--lx,64%);top:var(--ly,58%);margin:-31vmax 0 0 -31vmax;background:var(--accent);opacity:.13}
+:root[data-fond="aurore"] .voile i:nth-child(1){width:58vmax;aspect-ratio:1.3;right:-12vmax;top:-18vmax;background:var(--accent);opacity:.16}
+:root[data-fond="aurore"] .voile i:nth-child(2){width:52vmax;aspect-ratio:1.2;left:-14vmax;bottom:-16vmax;background:var(--accent-hover);opacity:.13}
+:root[data-fond="aurore"] .voile i:nth-child(3){width:40vmax;aspect-ratio:1.6;left:34%;top:30%;background:var(--kelp-hi);opacity:.5}
+:root[data-theme="jour"] .voile i{opacity:.3!important}
 @media (prefers-reduced-motion:no-preference){
-  .lambrequin{animation:dv-tombe 1s cubic-bezier(.22,.8,.2,1) .3s both}
-  .verre{animation:dv-parait 1.2s ease .45s both}
-  .pancarte{animation:dv-parait .6s ease 1.3s both,dv-balance 5.5s ease-in-out 1.9s infinite}
-  :root:not([data-theme="jour"]) .giant .l3{animation:dv-neon 1.9s linear 1.25s both}
+  :root[data-fond="aurore"] .voile i:nth-child(1){animation:vo-a 23s ease-in-out infinite alternate}
+  :root[data-fond="aurore"] .voile i:nth-child(2){animation:vo-b 29s ease-in-out infinite alternate}
+  :root[data-fond="aurore"] .voile i:nth-child(3){animation:vo-c 19s ease-in-out infinite alternate}
 }
-@keyframes dv-tombe{from{transform:translateY(-110%)}}
-@keyframes dv-parait{from{opacity:0}}
-@keyframes dv-balance{0%,100%{transform:rotate(-2.6deg)}50%{transform:rotate(2.6deg)}}
-@keyframes dv-neon{0%,12%{filter:none;opacity:.35}13%,17%{filter:drop-shadow(0 0 .035em var(--accent));opacity:1}18%,31%{filter:none;opacity:.4}32%,36%{filter:drop-shadow(0 0 .035em var(--accent));opacity:1}37%,52%{filter:none;opacity:.5}53%{opacity:1}}
-@media (max-width:760px){.pancarte{top:calc(clamp(20px,3.2vh,36px) + clamp(22px,4vh,44px) + 22px);right:14px;padding:6px 11px 7px}.pancarte b{font-size:12px}}
+@keyframes vo-a{to{transform:translate(-22vw,14vh) scale(1.15)}}
+@keyframes vo-b{to{transform:translate(20vw,-12vh) scale(.9)}}
+@keyframes vo-c{to{transform:translate(-10vw,10vh) scale(1.25)}}
 .hero .pin::after{content:"";position:absolute;inset:auto 0 0;height:30%;z-index:-1;background:linear-gradient(transparent,var(--abyss));pointer-events:none}
 .giant{align-self:end;display:grid;font-weight:500;font-size:clamp(2.6rem,min(17.8vw,15svh),18.4rem);line-height:.9;letter-spacing:-.03em;margin-inline:-.03em;font-kerning:normal}
 .giant .kt{margin-left:.045em}
@@ -486,7 +471,7 @@ section[id]{scroll-margin-top:20px}
   <section class="hero" id="hero" data-arrive-off>
     <div class="pin">
       <canvas id="orb" aria-hidden="true"></canvas>
-      <div class="devanture" id="devanture" aria-hidden="true"><div class="lambrequin"></div><div class="verre"><i class="lueur"></i><i class="reflet"></i></div><div class="pancarte"><b>Ouvert</b><span>jour et nuit</span></div></div>
+      <div class="voile" id="voile" aria-hidden="true"><i></i><i></i><i></i></div>
       <h1 class="giant"><span class="ln l1"><span class="in">Votre vitrine,</span></span> <span class="ln l2"><span class="in">ouver<span class="kt">te</span> jour</span></span> <span class="ln l3"><span class="in">et nuit.</span></span></h1>
       <div class="base">
         <p>Des sites pour les restaurants, les artisans et les commerces. Faits à votre image, en ligne en trois semaines.</p>
@@ -618,13 +603,13 @@ let heroP = 0;   // 0 en haut de page, 1 quand les lignes du titre sont repartie
 const dezoom = document.documentElement.dataset.arrivee === "sphere";
 const fleche = '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg>';
 
-// ——— la vitrine de l'ouverture : la lumière du magasin suit le pointeur, le reflet glisse sur le verre, et en défilant on entre
-if (!matchMedia("(prefers-reduced-motion: reduce)").matches) { const dv = $("devanture"), hero = $("hero"); let lx = 64, ly = 62, cx = 64, cy = 62, tourne = false, prevu = false;
-  const pas = () => { lx += (cx - lx) * .08; ly += (cy - ly) * .08; dv.style.setProperty("--lx", lx.toFixed(2) + "%"); dv.style.setProperty("--ly", ly.toFixed(2) + "%"); dv.style.setProperty("--refl", ((lx - 50) * -2.2 - scrollY * .25).toFixed(1));
-    if (Math.abs(cx - lx) + Math.abs(cy - ly) > .05) requestAnimationFrame(pas); else tourne = false; };
-  hero.addEventListener("pointermove", e => { const r = dv.getBoundingClientRect(); cx = (e.clientX - r.left) / r.width * 100; cy = (e.clientY - r.top) / r.height * 100; if (!tourne) { tourne = true; requestAnimationFrame(pas); } });
-  const suit = () => { prevu = false; dv.style.setProperty("--rs", Math.min(1, scrollY / (innerHeight * .7)).toFixed(3)); dv.style.setProperty("--refl", ((lx - 50) * -2.2 - scrollY * .25).toFixed(1)); };
-  addEventListener("scroll", () => { if (!prevu) { prevu = true; requestAnimationFrame(suit); } }, { passive: true }); suit(); }
+// ——— le fond de l'ouverture : ?fond=lumiere, aurore ou sphere pour comparer ; la lueur suit le pointeur, tout s'efface en défilant
+{ const f = new URLSearchParams(location.search).get("fond"); if (f) document.documentElement.dataset.fond = f;
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) { const vo = $("voile"), hero = $("hero"); let lx = 64, ly = 58, cx = 64, cy = 58, tourne = false, prevu = false;
+    const pas = () => { lx += (cx - lx) * .07; ly += (cy - ly) * .07; vo.style.setProperty("--lx", lx.toFixed(2) + "%"); vo.style.setProperty("--ly", ly.toFixed(2) + "%"); if (Math.abs(cx - lx) + Math.abs(cy - ly) > .05) requestAnimationFrame(pas); else tourne = false; };
+    hero.addEventListener("pointermove", e => { const r = vo.getBoundingClientRect(); cx = (e.clientX - r.left) / r.width * 100; cy = (e.clientY - r.top) / r.height * 100; if (!tourne) { tourne = true; requestAnimationFrame(pas); } });
+    const suit = () => { prevu = false; vo.style.setProperty("--rs", Math.min(1, scrollY / (innerHeight * .7)).toFixed(3)); };
+    addEventListener("scroll", () => { if (!prevu) { prevu = true; requestAnimationFrame(suit); } }, { passive: true }); suit(); } }
 
 // ——— la sphère du site (abysse-sphere.js) derrière le titre : tourne, penche vers le doigt, grossit et pâlit au défilement
 (() => {

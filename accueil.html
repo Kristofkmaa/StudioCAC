@@ -638,11 +638,13 @@ const fleche = '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strok
 
 // ——— « banc » et « houle » : des points organiques derrière le titre (les mêmes grains que la sphère, sans globe)
 { const cv = $("grains"), g = cv.getContext("2d"), calmeG = matchMedia("(prefers-reduced-motion: reduce)").matches, petit = innerWidth < 760;
-  let W = 0, H = 0, tx = 0, ty = 0, cx = 0, cy = 0, enVie = false, t0 = performance.now(), mode = "";
+  let W = 0, H = 0, DP = 1, tx = 0, ty = 0, cx = 0, cy = 0, enVie = false, t0 = performance.now(), mode = "";
+  const NOMS = ["BOULANGERIE", "FLEURISTE", "CAFÉ", "LIBRAIRIE", "ÉPICERIE", "COIFFEUR", "ATELIER", "FROMAGERIE", "PRIMEUR", "CAVE", "BIJOUTERIE", "RESTAURANT", "CORDONNERIE", "PÂTISSERIE"];
   const N = petit ? 1100 : 2600, P = Array.from({ length: N }, (_, i) => { const h = (i * .6180339887) % 1, k = (i * .7548776662) % 1, m = (i * .5698402909) % 1; return { u: h, a: k * 6.2832, r: Math.pow(m, .6), s: .6 + ((i * .3819660113) % 1) * .9 }; });
-  const taille = () => { const d = Math.min(2, devicePixelRatio || 1); W = cv.clientWidth; H = cv.clientHeight; cv.width = W * d; cv.height = H * d; g.setTransform(d, 0, 0, d, 0, 0); };
+  const taille = () => { const d = Math.min(2, devicePixelRatio || 1); DP = d; W = cv.clientWidth; H = cv.clientHeight; cv.width = W * d; cv.height = H * d; g.setTransform(d, 0, 0, d, 0, 0); };
   const dessine = now => { const t = (now - t0) / 1000; tx += (cx - tx) * .04; ty += (cy - ty) * .04; g.clearRect(0, 0, W, H);
-    g.fillStyle = document.documentElement.dataset.theme === "jour" ? "#012624" : "#EDFFFE";
+    const jourG = document.documentElement.dataset.theme === "jour", encre = jourG ? "#012624" : "#EDFFFE", COUL = jourG ? ["#007A72", "#8E2BAB"] : ["#CBFFFC", "#FAD1FF"];
+    g.fillStyle = encre;
     if (mode === "galerie") { const L = 1.6, NB = petit ? 8 : 11, v = t * .16, dz = v % L, base = Math.floor(v / L), f = H * (petit ? 1.05 : 1.35), hx = W * .5, hy = H * (petit ? .4 : .5),
         camX = tx * .5, camY = .62 - ty * .16, lac = tx * .22, cl = Math.cos(lac), sl = Math.sin(lac), zMax = NB * L;
       for (let k = NB - 1; k >= 0; k--) { const z0 = k * L - dz, abs = base + k, graine = Math.sin(abs * 12.9898) * 43758.5453, al = graine - Math.floor(graine),
@@ -652,7 +654,21 @@ const fleche = '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strok
           const e = f / zr, X = hx + xr * e, Y = hy - (TRAVEE[i + 1] - camY) * e; if (X < -8 || X > W + 8 || Y < -8 || Y > H + 8) continue;
           const brume = Math.pow(Math.max(0, 1 - zr / zMax), 1.25) * Math.min(1, (zr - .28) * 2.2), vit = TRAVEE[i + 4];
           g.globalAlpha = Math.min(1, TRAVEE[i + 3] * brume * (vit === 1 ? lumG * (al > .25 ? 1 : .25) : vit === 2 ? lumD * (al < .8 ? 1 : .25) : 1));
-          const r = Math.max(.8, Math.min(2.6, e * .0042)); g.fillRect(X - r / 2, Y - r / 2, r, r); } } }
+          const r = Math.max(.8, Math.min(2.6, e * .0042)); g.fillRect(X - r / 2, Y - r / 2, r, r); }
+        // ce qui fait reconnaître une boutique : la vitrine éclairée en aplat, le store de couleur, le nom sur l'enseigne
+        const pj = (x, y, z) => { const xr = (x - camX) * cl - z * sl, zr = (x - camX) * sl + z * cl; if (zr < .3) return null; const e = f / zr; return [hx + xr * e, hy - (y - camY) * e, zr]; },
+          quad = (a, b, c, d, col, al2) => { g.globalAlpha = al2; g.fillStyle = col; g.beginPath(); g.moveTo(a[0], a[1]); g.lineTo(b[0], b[1]); g.lineTo(c[0], c[1]); g.lineTo(d[0], d[1]); g.closePath(); g.fill(); }, zz = z0 + .9;
+        for (const c of [-1, 1]) { const x = c * 1.05, lum = c < 0 ? lumG : lumD, allume = c < 0 ? al > .25 : al < .8,
+            A = pj(x, .8, zz + .16), B = pj(x, .8, zz + 1.02), C = pj(x, .14, zz + 1.02), Dq = pj(x, .14, zz + .16); if (!A || !B || !C || !Dq) continue;
+          const br = Math.pow(Math.max(0, 1 - A[2] / zMax), 1.25) * Math.min(1, (A[2] - .3) * 2);
+          quad(A, B, C, Dq, COUL[0], (allume ? .1 + .16 * lum : .04) * br);
+          const S1 = pj(x, .86, zz + .12), S2 = pj(x, .86, zz + 1.06), S3 = pj(x - c * .3, .74, zz + 1.06), S4 = pj(x - c * .3, .74, zz + .12); if (S1 && S2 && S3 && S4) quad(S1, S2, S3, S4, COUL[(abs + (c > 0 ? 1 : 0)) % 2], (jourG ? .5 : .38) * br);
+          const zA = c < 0 ? zz + .16 : zz + 1.46, zB = c < 0 ? zz + 1.46 : zz + .16, O = pj(x, 1.06, zA), U = pj(x, 1.06, zB), V = pj(x, .9, zA);
+          if (O && U && V && br > .1) { quad(O, U, pj(x, .9, zB) || U, V, jourG ? "#F1FAF8" : "#012624", .7 * Math.min(1, br * 1.3));
+            g.setTransform(DP * (U[0] - O[0]) / 100, DP * (U[1] - O[1]) / 100, DP * (V[0] - O[0]) / 12, DP * (V[1] - O[1]) / 12, DP * O[0], DP * O[1]);
+            g.globalAlpha = Math.min(1, br * 1.4); g.fillStyle = encre; g.font = '600 7.5px "Inter Tight", sans-serif'; g.textAlign = "center"; g.textBaseline = "middle"; if ("letterSpacing" in g) g.letterSpacing = "1.3px";
+            g.fillText(NOMS[(((abs * 2 + (c > 0 ? 1 : 0)) % NOMS.length) + NOMS.length) % NOMS.length], 50, 6.5); g.setTransform(DP, 0, 0, DP, 0, 0); if ("letterSpacing" in g) g.letterSpacing = "0px"; }
+          g.fillStyle = encre; } } }
     else if (mode === "champ") { if (!M || now - Mt > 140) masque(now);
       const pas = petit ? 11 : 13, sx = (px + .5) * W, sy = (py + .5) * H;
       for (let y = pas / 2; y < H; y += pas) for (let x = pas / 2 + ((y / pas | 0) % 2) * pas / 2; x < W; x += pas) {

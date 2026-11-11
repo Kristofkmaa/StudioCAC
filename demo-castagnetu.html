@@ -172,6 +172,53 @@ section{padding-block:clamp(80px,9vw,130px)}
 .card .send:active{transform:scale(.97)}
 .card .ok{font-weight:600;min-height:1.5em}
 
+/* ---- les mouvements, tirés de la banque animations/mouvements.html : 01, 02, 04, 08, 11, 19, 26, 29, 33 ---- */
+/* 11 : la barre de lecture, comme le signet d'une revue */
+.lecture{position:fixed;left:0;top:0;right:0;height:3px;z-index:50;background:var(--chest);transform-origin:0 50%;transform:scaleX(var(--lu,0));pointer-events:none}
+/* 29 : le trait à la main sous « de châtaigne » */
+.cover h1 em{position:relative;display:inline-block;white-space:nowrap}
+.cover h1 em svg{position:absolute;left:0;bottom:-.04em;width:100%;height:.14em;overflow:visible}
+.cover h1 em path{fill:none;stroke:var(--rust);stroke-width:3;stroke-linecap:round;vector-effect:non-scaling-stroke;stroke-dasharray:1;stroke-dashoffset:0}
+/* 33 : la frise des quatre étapes du reportage ; on peut toucher un point */
+.frise{position:relative;display:flex;justify-content:space-between;margin-top:26px;max-width:340px}
+.frise::before,.frise i{content:"";position:absolute;left:10px;right:10px;top:50%;height:1px;background:var(--line)}
+.frise i{background:var(--chest);height:2px;margin-top:-1px;transform-origin:0 50%;transform:scaleX(var(--f,0));transition:transform .6s cubic-bezier(.23,1,.32,1)}
+.frise button{position:relative;z-index:1;width:44px;height:44px;margin:0 -12px;border:0;background:none;cursor:pointer;display:grid;place-items:center}
+.frise button::before{content:"";width:12px;height:12px;border-radius:50%;background:var(--paper);border:1.5px solid var(--soft);transition:background-color .3s,border-color .3s,transform .3s cubic-bezier(.23,1,.32,1)}
+.frise button.fait::before{background:var(--chest);border-color:var(--chest)}
+.frise button[aria-current="true"]::before{transform:scale(1.5)}
+.pager{margin-top:14px}
+/* 26 : le bouton d'envoi confirme d'une coche */
+.card .send{display:inline-flex;align-items:center;gap:10px;transition:background-color .3s,color .3s,transform .15s}
+.card .send svg{width:0;height:18px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;transition:width .3s cubic-bezier(.23,1,.32,1)}
+.card .send svg path{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .4s .15s ease-out}
+.card .send.fait{background:var(--rust);color:#fff}
+.card .send.fait svg{width:18px}
+.card .send.fait svg path{stroke-dashoffset:0}
+@media (prefers-reduced-motion:no-preference){
+  /* 01 : le titre de couverture monte, puis le chapô ; le trait se dessine ensuite */
+  .cover h1{animation:monte-c 1.1s cubic-bezier(.23,1,.32,1) .15s both}
+  .cover .chapo{animation:monte-c 1s cubic-bezier(.23,1,.32,1) .4s both}
+  .cover h1 em path{animation:trace-c .9s ease-out 1.1s backwards}
+  @keyframes monte-c{from{opacity:0;transform:translateY(26px)}}
+  @keyframes trace-c{from{stroke-dashoffset:1}}
+  /* 02 : les blocs arrivent en décalé quand ils entrent à l'écran */
+  .leve{opacity:0;transform:translateY(22px);transition:opacity .8s ease,transform .9s cubic-bezier(.23,1,.32,1);transition-delay:var(--d,0ms)}
+  .leve.on{opacity:1;transform:none}
+  /* 08 : la citation s'allume mot à mot */
+  .pull .mot{opacity:.25;transition:opacity .45s ease}
+  .pull .mot.lu{opacity:1}
+  /* 19 : le portrait se découvre de haut en bas (le rideau est sur l'image, pas sur le cadre observé) */
+  .portrait.rideau{overflow:hidden}
+  .portrait.rideau img{clip-path:inset(0 0 100% 0);transform:scale(1.12);transition:clip-path 1.2s cubic-bezier(.65,0,.35,1),transform 1.6s cubic-bezier(.23,1,.32,1)}
+  .portrait.rideau ol{opacity:0;transition:opacity .7s ease .8s}
+  .portrait.rideau.on img{clip-path:inset(0);transform:none}
+  .portrait.rideau.on ol{opacity:1}
+  /* le calendrier : les barres poussent mois après mois, la première fois qu'on le voit */
+  .cal .tw.pousse td.on span{transform-origin:0 50%;animation:pousse .5s cubic-bezier(.23,1,.32,1) backwards;animation-delay:calc(var(--c,0) * 45ms)}
+  @keyframes pousse{from{transform:scaleX(0)}}
+}
+
 footer{border-top:1px solid var(--line);padding-block:28px}
 footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:14px;color:var(--soft)}
 footer b{font:900 1.2rem/1 var(--serif);color:var(--ink)}
@@ -193,6 +240,7 @@ footer b{font:900 1.2rem/1 var(--serif);color:var(--ink)}
 </style>
 </head>
 <body>
+<div class="lecture" id="lecture" aria-hidden="true"></div>
 <div class="demo">Site de démonstration réalisé par Saitora, producteur fictif</div>
 
 <header class="mast">
@@ -218,13 +266,13 @@ footer b{font:900 1.2rem/1 var(--serif);color:var(--ink)}
   <figure class="pano zoom"><img src="images/castagnetu/jambons.webp" alt="Des jambons qui sèchent, pendus aux poutres du séchoir" width="1280" height="800" fetchpriority="high"></figure>
   <p class="cap"><b>Au séchoir.</b> Les prisuttu pendus au-dessus du feu de châtaignier, à Piedicroce.</p>
   <div class="g12 cover">
-    <h1>Charcuterie et farine <em>de châtaigne</em></h1>
+    <h1>Charcuterie et farine <em>de châtaigne<svg viewBox="0 0 300 12" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M3 8C60 2 120 11 180 5S270 4 297 7"/></svg></em></h1>
     <div class="chapo">
       <p>En Castagniccia, nos porcs nustrale vivent dehors, sous les châtaigniers de Piedicroce. Tout est fait ici, au feu de bois et au rythme des saisons.</p>
       <div class="acts"><a class="link" href="#saisons">Ce qu'on trouve ce mois-ci</a><a class="link" href="#commander">Commander un colis</a></div>
     </div>
   </div>
-  <div class="g12 facts"><div><b>Dehors toute l'année</b><span>Les porcs vivent en liberté dans la châtaigneraie</span></div><div><b>24 mois pour le prisuttu</b><span>Deux ans de cave pour le jambon</span></div><div><b>Le samedi à la ferme</b><span>De 9 h à 12 h, au hameau de Castagnetu</span></div></div>
+  <div class="g12 facts"><div><b>Dehors toute l'année</b><span>Les porcs vivent en liberté dans la châtaigneraie</span></div><div><b><span id="mois24">24</span> mois pour le prisuttu</b><span>Deux ans de cave pour le jambon</span></div><div><b>Le samedi à la ferme</b><span>De 9 h à 12 h, au hameau de Castagnetu</span></div></div>
 </div>
 
 <section id="ferme">
@@ -254,6 +302,7 @@ footer b{font:900 1.2rem/1 var(--serif);color:var(--ink)}
     <div class="g12 story">
       <figure><div class="ph" id="sPh"></div><p class="cap" id="sCap"></p></figure>
       <div class="txt"><p class="when" id="sWhen"></p><h3 id="sTitle"></h3><p id="sTxt"></p>
+        <div class="frise" id="sFrise" role="group" aria-label="Les étapes"><i></i></div>
         <div class="pager"><button type="button" id="sPrev" aria-label="Étape précédente">←</button><span id="sNum" aria-live="polite"></span><button type="button" id="sNext" aria-label="Étape suivante">→</button></div></div>
     </div>
   </div>
@@ -300,7 +349,7 @@ footer b{font:900 1.2rem/1 var(--serif);color:var(--ink)}
         <div><span class="lab">Ce que vous voulez</span><div class="picks" id="picks"></div></div>
         <div><label class="lab" for="oDay">À retirer</label><select id="oDay"></select></div>
         <div class="two"><div><label class="lab" for="oName">Votre nom</label><input type="text" id="oName" autocomplete="name"></div><div><label class="lab" for="oTel">Téléphone</label><input type="tel" id="oTel" inputmode="tel" autocomplete="tel"></div></div>
-        <button class="send" type="submit">Envoyer la demande</button>
+        <button class="send" type="submit"><svg viewBox="0 0 18 18" aria-hidden="true"><path pathLength="1" d="M3 9.5l4 4 8-9"/></svg><span>Envoyer la demande</span></button>
         <p class="ok" id="ok" aria-live="polite"></p>
       </form>
     </div>
@@ -335,7 +384,7 @@ const STORY = [["Octobre", "Sous les châtaigniers", "Les porcs finissent aux ch
 let si = 0;
 $("sPh").innerHTML = STORY.map(([, , , f, , alt], i) => `<img src="images/castagnetu/${f}.webp" alt="${esc(alt)}" loading="lazy" class="${i ? "hide" : ""}">`).join("");
 function showStory(i) { si = (i + STORY.length) % STORY.length; [...$("sPh").children].forEach((im, k) => im.classList.toggle("hide", k !== si));
-  const [w, t, d, , c] = STORY[si]; $("sWhen").textContent = w; $("sTitle").textContent = t; $("sTxt").textContent = d; $("sCap").innerHTML = `<b>${si + 1}.</b> ${esc(c)}`; $("sNum").textContent = `${si + 1} / ${STORY.length}`; }
+  const [w, t, d, , c] = STORY[si]; $("sWhen").textContent = w; $("sTitle").textContent = t; $("sTxt").textContent = d; $("sCap").innerHTML = `<b>${si + 1}.</b> ${esc(c)}`; $("sNum").textContent = `${si + 1} / ${STORY.length}`; if (window.frise) frise(); }
 $("sPrev").onclick = () => showStory(si - 1); $("sNext").onclick = () => showStory(si + 1);
 showStory(0);
 
@@ -362,7 +411,7 @@ const YEAR = [
 let cur = now;
 function grid() {
   $("grid").innerHTML = `<thead><tr><th></th>${MS.map((m, i) => `<th class="${i + 1 === cur ? "sel" : ""}"><button type="button" data-m="${i + 1}" aria-pressed="${i + 1 === cur}" aria-label="${MN[i]}">${m}</button></th>`).join("")}</tr></thead><tbody>` +
-    PRODUCTS.map(([g, list]) => `<tr class="grp"><th colspan="13">${esc(g)}</th></tr>` + list.map(([n, , , ms]) => `<tr><th>${esc(n)}</th>${ALL.map(m => `<td class="${ms.includes(m) ? "on" : ""}${m === cur ? " sel" : ""}"><span></span></td>`).join("")}</tr>`).join("")).join("") + "</tbody>";
+    PRODUCTS.map(([g, list]) => `<tr class="grp"><th colspan="13">${esc(g)}</th></tr>` + list.map(([n, , , ms]) => `<tr><th>${esc(n)}</th>${ALL.map(m => `<td style="--c:${m}" class="${ms.includes(m) ? "on" : ""}${m === cur ? " sel" : ""}"><span></span></td>`).join("")}</tr>`).join("")).join("") + "</tbody>";
 }
 function chips() { $("mchips").innerHTML = MS.map((m, i) => `<button type="button" data-m="${i + 1}" class="${i + 1 === now ? "now" : ""}" aria-pressed="${i + 1 === cur}" aria-label="${MN[i]}">${m}</button>`).join(""); }
 function month() {
@@ -385,12 +434,45 @@ $("order").addEventListener("submit", e => { e.preventDefault();
   const items = [...$("picks").querySelectorAll("input:checked")].map(i => i.value.toLowerCase());
   if (!items.length) { $("ok").textContent = "Cochez au moins un produit."; return; }
   if (!$("oName").value.trim() || !$("oTel").value.trim()) { $("ok").textContent = "Indiquez votre nom et votre téléphone."; return; }
-  $("ok").textContent = `Merci. Colis noté (${items.join(", ")}) pour le ${$("oDay").value.toLowerCase()}. On vous rappelle ce soir pour les quantités. (Démo : rien n'est envoyé.)`; });
+  $("ok").textContent = `Merci. Colis noté (${items.join(", ")}) pour le ${$("oDay").value.toLowerCase()}. On vous rappelle ce soir pour les quantités. (Démo : rien n'est envoyé.)`;
+  const b = $("order").querySelector(".send"), t = b.querySelector("span"); b.classList.add("fait"); t.textContent = "Demande notée"; setTimeout(() => { b.classList.remove("fait"); t.textContent = "Envoyer la demande"; }, 3200); });
 
 // ——— zoom lent, une fois la photo chargée
 const ready = img => img.complete && img.naturalWidth ? Promise.resolve() : new Promise(r => { img.addEventListener("load", r, { once: true }); img.addEventListener("error", r, { once: true }); });
 const io = new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting) return; io.unobserve(e.target); ready(e.target.querySelector("img")).then(() => requestAnimationFrame(() => e.target.classList.add("on"))); }), { rootMargin: "0px 0px -8% 0px" });
 document.querySelectorAll(".zoom").forEach(el => io.observe(el));
+// ——— les mouvements de la banque (animations/mouvements.html)
+// 33 : la frise du reportage (un point par étape, le trait se remplit)
+{ const F = $("sFrise"); F.insertAdjacentHTML("beforeend", STORY.map((e, i) => `<button type="button" data-i="${i}" aria-label="Étape ${i + 1} : ${esc(e[1])}"></button>`).join(""));
+  const pts = [...F.querySelectorAll("button")], txt = document.querySelector(".story .txt"); let avant = 0;
+  window.frise = () => { F.style.setProperty("--f", si / (STORY.length - 1)); pts.forEach((p, i) => { p.classList.toggle("fait", i <= si); p.setAttribute("aria-current", i === si); });
+    if (!reduce && si !== avant) [$("sWhen"), $("sTitle"), $("sTxt")].forEach((n, k) => n.animate([{ opacity: 0, transform: `translateX(${si > avant ? 18 : -18}px)` }, { opacity: 1, transform: "none" }], { duration: 520, delay: k * 60, easing: "cubic-bezier(.23,1,.32,1)", fill: "backwards" }));
+    avant = si; };
+  F.addEventListener("click", e => { const b = e.target.closest("button"); if (b) showStory(+b.dataset.i); }); frise(); }
+(() => {
+  // 02 : les blocs arrivent en décalé ; 19 : le portrait au rideau ; le calendrier pousse
+  const vu = new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting) return; vu.unobserve(e.target); e.target.classList.add("on");
+    if (e.target.classList.contains("tw")) { e.target.classList.add("pousse"); setTimeout(() => e.target.classList.remove("pousse"), 1600); } }), { rootMargin: "0px 0px -8% 0px" });
+  if (!reduce) {
+    document.querySelectorAll(".facts div, .rub, .h2, .article .cols, .story figure, .story .txt, .cal .tw, .mchips, .prods article, .order .infos > div, .card").forEach(el => { el.classList.add("leve"); vu.observe(el); });
+    document.querySelectorAll(".facts div").forEach((el, i) => el.style.setProperty("--d", i * 90 + "ms"));
+    document.querySelectorAll(".prods article").forEach((el, i) => el.style.setProperty("--d", (i % 3) * 80 + "ms"));
+    const po = document.querySelector(".portrait"); po.querySelector("img").loading = "eager";   // une image cachée par son propre rideau ne se chargerait jamais « à la demande »
+    po.classList.add("rideau"); ready(po.querySelector("img")).then(() => vu.observe(po));
+  }
+  // 04 : « 24 mois » compte jusqu'à sa valeur
+  const m24 = $("mois24");
+  if (!reduce) new IntersectionObserver(([e], o) => { if (!e.isIntersecting) return; o.disconnect(); const t0 = performance.now();
+    const f = t => { const p = Math.min(1, (t - t0) / 1300); m24.textContent = Math.round(24 * (1 - Math.pow(1 - p, 3))); if (p < 1) requestAnimationFrame(f); }; requestAnimationFrame(f); }).observe(m24);
+  // 08 : la citation mot à mot ; 11 : la barre de lecture
+  const Q = document.querySelector(".pull"); let mots = [];
+  if (!reduce) { Q.innerHTML = Q.textContent.split(" ").map(m => `<span class="mot">${esc(m)}</span>`).join(" "); mots = [...Q.children]; }
+  const barre = $("lecture"); let tic = false;
+  const suit = () => { tic = false; const h = innerHeight, max = document.documentElement.scrollHeight - h;
+    barre.style.setProperty("--lu", max > 0 ? Math.min(1, scrollY / max).toFixed(4) : 0);
+    if (mots.length) { const r = Q.getBoundingClientRect(), p = Math.min(1, Math.max(0, (h * .86 - r.top) / (h * .36))), n = Math.round(p * mots.length); mots.forEach((m, i) => m.classList.toggle("lu", i < n)); } };
+  addEventListener("scroll", () => { if (!tic) { tic = true; requestAnimationFrame(suit); } }, { passive: true }); addEventListener("resize", suit); suit();
+})();
 </script>
 </body>
 </html>

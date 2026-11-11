@@ -49,33 +49,36 @@ window.AbysseSphere = (() => {
     const LG = {}, largeurs = nom => LG[nom] || (LG[nom] = (() => { g.save(); g.setTransform(1, 0, 0, 1, 0, 0); g.font = '600 7.5px "Inter Tight", sans-serif'; const l = [...nom].map(ch => g.measureText(ch).width + 1.5); g.restore(); return { l, total: l.reduce((x, y) => x + y, 0) }; })());
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { for (const k in LG) delete LG[k]; });
 
-    // Z : zoom (1 = vue normale, 12 = on a plongé dans le fond de la galerie) ; A : intensité (1 = pleine) ; grow : zoom au défilement
-    const draw = ({ Z = 1, A = 1, grow = 1 } = {}) => {
+    // Z : zoom (1 = vue normale, 12 = on a plongé dans le fond de la galerie) ; A : intensité (1 = pleine) ; grow : zoom au défilement ;
+    // av : pas en avant, en plus de la marche lente (l'entrée dans le site) ; eclat : 0 = galerie éteinte, 1 = tout est allumé,
+    // entre les deux les boutiques s'allument l'une après l'autre, des plus proches aux plus lointaines
+    const draw = ({ Z = 1, A = 1, grow = 1, av = 0, eclat = 1 } = {}) => {
       incl.x += (cible.x - incl.x) * .02; incl.y += (cible.y - incl.y) * .02;
       g.clearRect(0, 0, W, H);
       if (A <= 0) return;
       const jour = document.documentElement.dataset.theme === "jour", encre = jour ? "#012624" : "#EDFFFE", COUL = jour ? ["#007A72", "#8E2BAB"] : ["#CBFFFC", "#FAD1FF"];
-      const t = Date.now() / 1000, NB = mob ? 8 : 11, v = t * VITESSE, dz = v % L, base = Math.floor(v / L), zoom = Math.pow(Z * grow, .72),
+      const t = Date.now() / 1000, NB = mob ? 8 : 11, v = t * VITESSE + av, dz = ((v % L) + L) % L, base = Math.floor(v / L), zoom = Math.pow(Z * grow, .72),
         f = H * (mob ? 1.05 : 1.35) * zoom, hx = W * .5, hy = H * (mob ? .42 : .5), camX = incl.x * .07, camY = .62 - incl.y * .03, lac = incl.x * .025, cl = Math.cos(lac), sl = Math.sin(lac), zMax = NB * L;
       const pj = (x, y, z) => { const xr = (x - camX) * cl - z * sl, zr = (x - camX) * sl + z * cl; if (zr < .3) return null; const e = f / zr; return [hx + xr * e, hy - (y - camY) * e, zr]; },
         quad = (a, b, c, d, col, al2) => { g.globalAlpha = al2; g.fillStyle = col; g.beginPath(); g.moveTo(a[0], a[1]); g.lineTo(b[0], b[1]); g.lineTo(c[0], c[1]); g.lineTo(d[0], d[1]); g.closePath(); g.fill(); };
       g.fillStyle = encre;
       for (let k = NB - 1; k >= 0; k--) { const z0 = k * L - dz, abs = base + k, graine = Math.sin((abs % 9973) * 12.9898) * 43758.5453, al = graine - Math.floor(graine),
-          lumG = .35 + .65 * (.5 + .5 * Math.sin(t * .35 + (abs % 997) * 2.1)), lumD = .35 + .65 * (.5 + .5 * Math.sin(t * .28 + (abs % 997) * 3.7 + 1.3)), zz = z0 + .9;
+          lumG = .35 + .65 * (.5 + .5 * Math.sin(t * .35 + (abs % 997) * 2.1)), lumD = .35 + .65 * (.5 + .5 * Math.sin(t * .28 + (abs % 997) * 3.7 + 1.3)), zz = z0 + .9,
+          feu = Math.max(0, Math.min(1, eclat * (NB + 2) - k)), sombre = .3 + .7 * feu;   // cette travée est-elle déjà allumée ?
         for (let i = 0; i < TRAVEE.length; i += 5) { const z = TRAVEE[i + 2] + zz; if (z < .28) continue;
           const xr = (TRAVEE[i] - camX) * cl - z * sl, zr = (TRAVEE[i] - camX) * sl + z * cl; if (zr < .28) continue;
           const e = f / zr, X = hx + xr * e, Y = hy - (TRAVEE[i + 1] - camY) * e; if (X < -8 || X > W + 8 || Y < -8 || Y > H + 8) continue;
           const brume = Math.pow(Math.max(0, 1 - zr / zMax), 1.25) * Math.min(1, (zr - .28) * 2.2), vit = TRAVEE[i + 4];
-          g.globalAlpha = Math.min(1, A * TRAVEE[i + 3] * brume * (vit === 1 ? lumG * (al > .25 ? 1 : .25) : vit === 2 ? lumD * (al < .8 ? 1 : .25) : 1));
+          g.globalAlpha = Math.min(1, A * sombre * TRAVEE[i + 3] * brume * (vit === 1 ? lumG * (al > .25 ? 1 : .25) : vit === 2 ? lumD * (al < .8 ? 1 : .25) : 1));
           const r = Math.max(.8, Math.min(2.6, e / zoom * .0042)); g.fillRect(X - r / 2, Y - r / 2, r, r); }
         // ce qui fait reconnaître une boutique : la vitrine éclairée en aplat, le store de couleur, le nom sur l'enseigne
         for (const c of [-1, 1]) { const x = c * 1.05, lum = c < 0 ? lumG : lumD, allume = c < 0 ? al > .25 : al < .8,
             Aa = pj(x, .8, zz + .16), B = pj(x, .8, zz + 1.02), C = pj(x, .14, zz + 1.02), Dq = pj(x, .14, zz + .16); if (!Aa || !B || !C || !Dq) continue;
-          const br = A * Math.pow(Math.max(0, 1 - Aa[2] / zMax), 1.25) * Math.min(1, (Aa[2] - .3) * 2);
+          const br = A * (.12 + .88 * feu) * Math.pow(Math.max(0, 1 - Aa[2] / zMax), 1.25) * Math.min(1, (Aa[2] - .3) * 2);
           quad(Aa, B, C, Dq, COUL[0], (allume ? .1 + .16 * lum : .04) * br);
           const S1 = pj(x, .86, zz + .12), S2 = pj(x, .86, zz + 1.06), S3 = pj(x - c * .3, .74, zz + 1.06), S4 = pj(x - c * .3, .74, zz + .12); if (S1 && S2 && S3 && S4) quad(S1, S2, S3, S4, COUL[(((abs % 2) + 2) % 2 + (c > 0 ? 1 : 0)) % 2], (jour ? .5 : .38) * br);
           const zA = c < 0 ? zz + .16 : zz + 1.46, zB = c < 0 ? zz + 1.46 : zz + .16, O = pj(x, 1.06, zA), U = pj(x, 1.06, zB), V = pj(x, .9, zA);
-          if (O && U && V && br > .1) { quad(O, U, pj(x, .9, zB) || U, V, jour ? "#F1FAF8" : "#012624", .7 * Math.min(1, br * 1.3));
+          if (O && U && V && br > .02) { quad(O, U, pj(x, .9, zB) || U, V, jour ? "#F1FAF8" : "#012624", .7 * Math.min(1, br * 1.3));
             // chaque lettre a sa propre place sur le mur : on projette son haut et son bas, elle suit donc exactement l'enseigne
             const nom = NOMS[(((abs % NOMS.length) * 2 + (c > 0 ? 1 : 0)) % NOMS.length + NOMS.length) % NOMS.length], lg = largeurs(nom), U0 = .16 / 12, dir = c < 0 ? 1 : -1;
             let zc = zA + dir * (1.3 - lg.total * U0) / 2; g.fillStyle = encre; g.font = '600 7.5px "Inter Tight", sans-serif'; g.textAlign = "center"; g.textBaseline = "middle"; g.globalAlpha = Math.min(1, br * 1.4);

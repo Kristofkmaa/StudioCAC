@@ -2,7 +2,7 @@
 
 **Au début de chaque session, lire `ETAT.md`** : où en est le projet, les décisions prises, ce qui est en attente et les pièges de l'environnement. Le mettre à jour quand quelque chose d'important change.
 
-Site statique : `index.html` (écran d'entrée) → `accueil.html` (launcher) + pages `demo-*.html` (vitrines de démo).
+Site statique : `accueil.html` (l'accueil, avec l'écran d'entrée posé par-dessus quand on arrive à la racine) + pages `demo-*.html` (vitrines de démo). `index.html` est la copie de `accueil.html` : ne pas le modifier à la main, lancer `python3 outils/entree.py` après chaque modification de `accueil.html`.
 
 ## Règle de travail
 

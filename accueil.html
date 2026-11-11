@@ -19,6 +19,9 @@
 <meta name="twitter:image" content="https://saitora.fr/images/partage.jpg?v=2">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfessionalService","name":"Saitora","url":"https://saitora.fr/","email":"contact@saitora.fr","logo":"https://saitora.fr/favicon.svg","image":"https://saitora.fr/images/partage.jpg","description":"Création de sites vitrines pour les restaurants, artisans et commerces de Corse.","address":{"@type":"PostalAddress","addressLocality":"Ajaccio","addressRegion":"Corse","addressCountry":"FR"},"areaServed":{"@type":"AdministrativeArea","name":"Corse"}}</script>
 <meta name="theme-color" content="#012624">
+<link rel="canonical" href="https://saitora.fr/">
+<!-- index.html est la copie de accueil.html (outils/entree.py) : à la racine du site, l'écran d'entrée (la porte) est posé par-dessus -->
+<script>if(!/accueil(\.html)?$/.test(location.pathname)&&!location.hash)document.documentElement.dataset.porte="1"</script>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <style>@view-transition{navigation:auto}</style>
 <!-- le navigateur n'affiche rien de cette page tant que la galerie (#orb) n'est pas là : elle est dessinée juste après, avant la première image -->
@@ -136,6 +139,44 @@ h1,h2,h3{color:var(--white);font-weight:500;line-height:1;text-wrap:balance}
 .giant .in{display:inline-block;animation:de-gauche 1.4s cubic-bezier(.16,1,.3,1) both}
 .giant .l2 .in{animation-name:de-droite;animation-delay:.14s}
 .giant .l3 .in{animation-delay:.28s}
+/* ---- la porte : l'écran d'entrée, posé par-dessus l'accueil. C'est la même page : en entrant, la marche dans la galerie
+   ne s'arrête jamais (aucun changement de page), et le titre arrive quand elle ralentit ---- */
+.porte{position:fixed;inset:0;z-index:60;display:grid;grid-template-rows:1fr auto;padding:max(24px,env(safe-area-inset-top)) max(16px,clamp(16px,4vw,48px)) max(24px,env(safe-area-inset-bottom));color:var(--silver);overflow:clip;-webkit-tap-highlight-color:transparent}
+:root:not([data-porte]) .porte{display:none}
+.porte .mark{width:clamp(96px,min(26vw,17svh),168px);height:auto;aspect-ratio:740/590;color:var(--white);animation:p-pose 1.1s cubic-bezier(.16,1,.3,1) both}
+.porte .mark circle{fill:#FAD1FF}
+.porte .mid{align-self:center;display:grid;justify-items:center;text-align:center;gap:clamp(18px,3vh,32px)}
+.porte .nom{margin:0;color:var(--white);font-weight:500;font-size:clamp(4rem,min(26vw,30svh),18.4rem);line-height:.9;letter-spacing:-.05em;white-space:nowrap;max-width:none}
+.porte .nom span{display:inline-block;animation:p-g 1.4s cubic-bezier(.16,1,.3,1) both}
+.porte .nom span+span{animation-name:p-d;font-family:"Inter Tight Contour","Inter Tight",sans-serif;letter-spacing:-.02em;color:transparent;-webkit-text-stroke:max(1.5px,.01em) var(--mist)}
+.porte .later{animation:p-monte 1s .8s cubic-bezier(.16,1,.3,1) both}
+.porte .accroche{margin:0;max-width:34ch;line-height:1.3;font-size:clamp(1.3rem,1.05rem + 1.1vw,2.1rem);color:var(--white);letter-spacing:-.02em;white-space:nowrap}
+.porte .tw{display:inline-grid;text-align:left;vertical-align:bottom}
+.porte .tw>span{grid-area:1/1}
+.porte .tw-place{visibility:hidden}
+.porte .tw-mot{background:var(--aurora);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;font-style:italic;padding-right:.08em}
+.porte .tw-mot::after{content:"";display:inline-block;width:.07em;height:.9em;margin-left:.06em;vertical-align:-.1em;background:var(--white);animation:p-clignote 1s steps(1) infinite}
+.porte .enter{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:64px;min-width:220px;padding:20px 32px;border-radius:6px;background:var(--aurora);background-size:200% 100%;color:#1A1A1A;font:500 15px/1 "Inter Tight",sans-serif;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;transition:background-position .6s ease,transform .15s}
+.porte .enter::after{content:"→"}
+@media (hover:hover) and (pointer:fine){.porte .enter:hover{background-position:100% 0}}
+.porte .enter:active{transform:scale(.97)}
+.porte .pied{display:flex;justify-content:space-between;padding-right:56px;gap:8px 24px;flex-wrap:wrap;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+@keyframes p-pose{from{opacity:0;transform:translateY(-14px) scale(.92)}}
+@keyframes p-g{from{transform:translateX(-80vw);opacity:0}}
+@keyframes p-d{from{transform:translateX(80vw);opacity:0}}
+@keyframes p-monte{from{opacity:0;transform:translateY(16px)}}
+@keyframes p-clignote{50%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.porte .nom span,.porte .later,.porte .mark,.porte .tw-mot::after{animation:none}}
+@media (max-height:520px){.porte .mid{gap:12px}.porte .enter{min-height:52px}}
+/* tant que la porte est là : la page ne défile pas, l'en-tête et le titre attendent */
+:root[data-porte="1"] body,:root.porte-verrou body{overflow:hidden}
+:root[data-porte="1"] .bar,:root[data-porte="1"] .hero .giant,:root[data-porte="1"] .hero .base{visibility:hidden}
+:root[data-porte="1"] .giant .in,:root[data-porte="1"] .hero .base{animation-play-state:paused}
+/* on est entré : le titre arrive quand la marche ralentit (3,4 s après le clic) */
+:root[data-porte="va"] .giant .in{animation-delay:3.4s}
+:root[data-porte="va"] .giant .l2 .in{animation-delay:3.54s}
+:root[data-porte="va"] .giant .l3 .in{animation-delay:3.68s}
+:root[data-porte="va"] .hero .base{animation-delay:4.1s}
 /* arrivée depuis l'écran d'entrée : le titre n'arrive qu'une fois la marche dans la galerie terminée */
 :root[data-arrivee="sphere"] .giant .in{animation-delay:1.3s}
 :root[data-arrivee="sphere"] .giant .l2 .in{animation-delay:1.44s}
@@ -430,6 +471,18 @@ section[id]{scroll-margin-top:20px}
 <script src="commun/abysse-sphere.js?v=6"></script>
 <script src="commun/abysse-transition.js?v=5"></script>
 
+<div class="porte" id="porte" data-arrive-off>
+  <div class="mid">
+    <svg class="mark" viewBox="246 330 740 590" aria-hidden="true"><path d="M262 901L624 341L695 456L407 901Z M725 504L970 901L828 901L653 613Z" fill="currentColor"/><circle cx="620" cy="818" r="55"/></svg>
+    <p class="nom" aria-label="Saitora"><span>Sai</span><span>tora</span></p>
+    <!-- l'accroche : le dernier mot s'écrit lettre à lettre, s'efface et laisse la place au suivant ; la place du mot le plus long est gardée -->
+    <p class="later accroche" aria-label="Un site pour votre restaurant, votre commerce, votre atelier, votre boutique, votre salon, votre gîte.">Un site pour votre <span class="tw" aria-hidden="true"><span class="tw-place">restaurant</span><span class="tw-mot" id="mot">restaurant</span></span></p>
+    <a class="enter later" href="accueil.html">Entrer</a>
+  </div>
+  <div class="pied later"><span>Sites vitrines sur mesure</span><span>Votre vitrine, ouverte jour et nuit</span></div>
+</div>
+<script>if(!document.documentElement.dataset.porte)document.getElementById("porte").remove()</script>
+
 <header class="bar">
   <div class="page">
     <a class="brand" href="#" aria-label="Saitora, haut de page"><svg viewBox="246 330 740 590" aria-hidden="true"><path d="M262 901L624 341L695 456L407 901Z M725 504L970 901L828 901L653 613Z" fill="currentColor"/><circle cx="620" cy="818" r="55" fill="currentColor"/></svg>SAITORA</a>
@@ -465,7 +518,7 @@ section[id]{scroll-margin-top:20px}
       /* La galerie est dessinée tout de suite, avant la première image de la page : en arrivant de l'écran d'entrée, on la retrouve
          exactement où on l'a laissée, sans un instant de vide (le reste du script, en bas de page, prend la suite). */
       (function () { try { var av = 0; if (document.documentElement.dataset.arrivee === "sphere") { var pos = JSON.parse(sessionStorage.getItem("galerie-pos") || "null"), h = Date.now(); av = pos && h - pos.t < 4000 ? pos.v + 13.8 * (h - pos.t) / 1000 - h / 1000 * .16 : -7.36; }
-        AbysseSphere.create(document.getElementById("orb")).draw({ av: av }); } catch (e) {} })();
+        AbysseSphere.create(document.getElementById("orb")).draw({ av: av, eclat: document.documentElement.dataset.porte === "1" && !matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 1 }); } catch (e) {} })();
       </script>
       <div class="arrivee" id="arrivee"><div class="page">
     <section class="stats" aria-label="En chiffres">
@@ -597,17 +650,27 @@ const calme = matchMedia("(prefers-reduced-motion: reduce)").matches;
 let heroP = 0;   // 0 en haut de page, 1 quand les lignes du titre sont reparties
 // arrivée depuis l'écran d'entrée : on est au centre de la sphère et on recule (dézoom) ; posé par abysse-transition.js
 const dezoom = document.documentElement.dataset.arrivee === "sphere";
+// la porte (écran d'entrée) est posée par-dessus : la galerie est éteinte, « Entrer » l'allume et on avance, sans changer de page
+const porte = document.documentElement.dataset.porte === "1";
 const fleche = '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg>';
 
 // ——— la sphère du site (abysse-sphere.js) derrière le titre : tourne, penche vers le doigt, grossit et pâlit au défilement
 (() => {
   const cv = $("orb"), sphere = AbysseSphere.create(cv);
-  let run = false, raf = 0, z0 = null, av0 = -7.36;
+  let run = false, raf = 0, z0 = null, av0 = -7.36, pt0 = null;   // pt0 : l'heure du clic sur « Entrer »
   // arrivée par la plongée : écran uni tant que la page n'est pas prête, puis les points se rallument et la sphère recule
   let pret = !dezoom;
   const prete = () => requestAnimationFrame(() => requestAnimationFrame(() => { pret = true; }));
   if (!pret) { if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", prete); else prete(); }
   const etat = () => {
+    if (porte) {
+      const A = 1 - Math.max(0, (heroP - .62) / .38) * .9, grow = 1 + Math.pow(heroP, 1.5) * 5.5;
+      if (pt0 === null) return { Z: 1, av: 0, A, grow, eclat: calme ? 1 : 0 };
+      // 0–1 s : les boutiques s'allument, des plus proches aux plus lointaines ; 0,6–2,2 s : on se met en marche ;
+      // 2,2–3,8 s : on ralentit jusqu'à l'allure de promenade. Une seule courbe, sans à-coup (même vitesse à la jonction).
+      const ms = Math.max(0, performance.now() - pt0), p = Math.min(1, Math.max(0, (ms - 600) / 1600)), q = Math.min(1, Math.max(0, (ms - 2200) / 1600));
+      return { Z: 1, av: p < 1 ? Math.pow(p, 2.3) * 9.6 : 9.6 + 7.36 * (1 - Math.pow(1 - q, 3)), A, grow, eclat: Math.min(1, ms / 1000) };
+    }
     // arrivée depuis l'écran d'entrée : on reprend la marche dans la galerie exactement où elle en était (position et heure notées au départ)
     if (dezoom && z0 === null) { z0 = performance.now(); let pos = null; try { pos = JSON.parse(sessionStorage.getItem("galerie-pos") || "null"); sessionStorage.removeItem("galerie-pos"); } catch (_) {}
       const h = Date.now(); if (pos && h - pos.t < 4000) av0 = pos.v + 13.8 * (h - pos.t) / 1000 - h / 1000 * .16; }
@@ -619,6 +682,29 @@ const fleche = '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strok
   const loop = () => { if (!AbysseSphere.cachee) sphere.draw(etat()); raf = requestAnimationFrame(loop); };   // pas sous un rideau de transition
   sphere.draw(etat());
   addEventListener("resize", () => { sphere.size(); sphere.draw(etat()); });
+  if (porte) {
+    const root = document.documentElement, P = $("porte"), enter = P.querySelector(".enter");
+    const ouvre = () => { P.remove(); root.classList.remove("porte-verrou"); try { history.replaceState(null, "", enter.getAttribute("href")); } catch (_) {} };
+    enter.addEventListener("click", e => {
+      if (e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      e.preventDefault(); if (pt0 !== null) return;
+      if (calme) { pt0 = 0; delete root.dataset.porte; ouvre(); return; }
+      AbysseSphere.suivre(false);                             // la galerie se recentre doucement
+      pt0 = performance.now(); root.classList.add("porte-verrou"); root.dataset.porte = "va";
+      P.querySelector(".mid").animate([{ opacity: 1, transform: "none" }, { opacity: 0, transform: "scale(1.12)" }], { duration: 700, delay: 550, easing: "cubic-bezier(.5,0,.75,0)", fill: "forwards" });
+      P.querySelector(".pied").animate([{ opacity: 1 }, { opacity: 0 }], { duration: 400, delay: 300, fill: "forwards" });
+      document.querySelector(".bar").animate([{ opacity: 0 }, { opacity: 1 }], { delay: 2900, duration: 700, easing: "ease-out", fill: "backwards" });
+      setTimeout(ouvre, 2300);
+      setTimeout(() => AbysseSphere.suivre(true), 3800);
+    });
+    // l'accroche « Un site pour votre … » : le mot s'écrit, reste un instant, s'efface, puis le suivant
+    const el = $("mot");
+    if (el && !calme) { const mots = ["restaurant", "commerce", "atelier", "boutique", "salon", "gîte"]; let m = 0, n = mots[0].length, sens = -1;
+      const pas = () => { if (!el.isConnected) return; const mot = mots[m]; n += sens; el.textContent = mot.slice(0, n); let d = sens > 0 ? 85 : 40;
+        if (sens > 0 && n === mot.length) { sens = -1; d = 1700; } else if (sens < 0 && n === 0) { sens = 1; m = (m + 1) % mots.length; d = 320; }
+        setTimeout(pas, d); };
+      setTimeout(pas, 2600); }
+  }
   if (calme) return;
   AbysseSphere.suivre(!dezoom);                              // pas pendant le recul
   addEventListener("scroll", () => { if (!run) sphere.draw(etat()); }, { passive: true });

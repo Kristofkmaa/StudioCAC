@@ -20,6 +20,8 @@
 <meta name="theme-color" content="#012624">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preload" href="polices/inter-tight-500-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+<!-- entre l'entrée et l'accueil, le navigateur garde l'ancienne image jusqu'à ce que la nouvelle soit prête : pas d'écran vide -->
+<style>@view-transition{navigation:auto}</style>
 <link rel="stylesheet" href="commun/abysse.css?v=4">
 <style>
 /* Écran d'entrée, version test « abysse » : la sphère de particules, le grand logo, le nom en géant dont les deux
@@ -97,16 +99,17 @@ h1 span+span{animation-name:de-droite;font-family:"Inter Tight Contour","Inter T
     AbysseSphere.suivre(false);                               // la sphère se recentre doucement
     try { sessionStorage.setItem("abysse-arrivee", "sphere"); } catch (_) {}
     let parti = false;
-    const part = () => { if (!parti) { parti = true; location.href = enter.href; } };
+    // on note où on en est dans la galerie et à quelle heure : l'accueil reprend la marche exactement là
+    const part = () => { if (!parti) { parti = true; try { sessionStorage.setItem("galerie-pos", JSON.stringify({ v: Date.now() / 1000 * .16 + av, t: Date.now() })); } catch (_) {} location.href = enter.href; } };
     mid.animate([{ opacity: 1, transform: "none" }, { opacity: 0, transform: "scale(1.12)" }], { duration: 700, delay: 550, easing: "cubic-bezier(.5,0,.75,0)", fill: "forwards" });
     foot.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 400, delay: 300, fill: "forwards" });
     const t0 = performance.now();
     // 0–1 s : les boutiques s'allument l'une après l'autre, des plus proches aux plus lointaines ; 0,6–2,2 s : on se met en marche
-    // dans le passage (douze boutiques de chaque côté) ; 2–2,25 s : tout s'éteint pour le changement de page.
-    // L'accueil reprend la marche là où on l'a laissée, en ralentissant.
+    // dans le passage. La galerie reste allumée pendant le changement de page (pas d'écran noir) :
+    // l'accueil reprend la marche là où on l'a laissée, en ralentissant, et son titre arrive ensuite.
     const step = now => { const ms = Math.max(0, now - t0), p = Math.min(1, Math.max(0, (ms - 600) / 1600));   // l'heure de l'image peut précéder le clic
-      eclat = Math.min(1, ms / 1000); av = Math.pow(p, 2.3) * 9.6; A = 1 - Math.min(1, Math.max(0, (ms - 2000) / 250));
-      if (ms < 2270) requestAnimationFrame(step); else part(); };
+      eclat = Math.min(1, ms / 1000); av = p < 1 ? Math.pow(p, 2.3) * 9.6 : 9.6 + (ms - 2200) / 1000 * 13.8;   // après 2,2 s on continue à la même allure, le temps que la page change
+      if (ms >= 2200) part(); if (ms < 4000) requestAnimationFrame(step); };
     requestAnimationFrame(step);
     setTimeout(part, 2900);                                   // si le navigateur met l'animation en pause
   });

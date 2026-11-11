@@ -73,6 +73,49 @@ button,input{font:inherit;color:inherit;letter-spacing:inherit}
   .rise.on{opacity:1;transform:none}
 }
 
+/* ---- les mouvements, tirés de la banque animations/mouvements.html : 01, 02, 06, 08, 09, 17, 31, 41 ---- */
+/* 06 : l'onde au clic, comme une goutte qui tombe dans l'eau (elle part de l'endroit touché) */
+.btn{position:relative;overflow:hidden;isolation:isolate}
+.btn .goutte{position:absolute;left:var(--x);top:var(--y);width:12px;height:12px;margin:-6px;border-radius:50%;background:currentColor;opacity:.28;pointer-events:none;z-index:-1;animation:goutte .7s ease-out forwards}
+@keyframes goutte{to{transform:scale(34);opacity:0}}
+/* 17 : la pastille d'encre glisse d'un filtre à l'autre */
+.filters{position:relative;isolation:isolate}
+.filters .pastille{position:absolute;left:0;top:0;z-index:-1;border-radius:999px;background:var(--ink);pointer-events:none;transition:transform .45s var(--doux),width .45s var(--doux),height .45s var(--doux)}
+.filters.glisse .btn[aria-pressed="true"]{background:none}
+/* 09 : le fil de l'eau relie les trois étapes de la visite (grand écran seulement) */
+.visite{position:relative}
+.fil{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;overflow:visible;display:none}
+.fil path{fill:none;stroke:var(--ink);stroke-width:1.5;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:var(--reste,1)}
+/* 41 : la pastille tournante, posée sur le coin du film de la fontaine */
+.intro .film{position:relative}
+.tourne{position:absolute;right:clamp(-34px,-2.4vw,-14px);top:clamp(-52px,-3.6vw,-30px);width:clamp(92px,9.5vw,138px);aspect-ratio:1;border-radius:50%;background:var(--paper);display:grid;place-items:center;pointer-events:none}
+.tourne svg{width:100%;height:100%;grid-area:1/1;transform:rotate(var(--tour,0deg))}
+.tourne text{font-size:11.6px;letter-spacing:.2em;text-transform:uppercase;fill:var(--ink)}
+.tourne i{grid-area:1/1;width:9px;height:9px;border-radius:50%;background:var(--ink)}
+/* 31 : trois vagues d'encre avant le pied de page */
+.vagues{display:block;width:100%;height:clamp(46px,7vw,96px);margin-top:var(--entre);margin-bottom:-1px;overflow:hidden}
+.vagues svg{display:block;width:200%;height:100%}
+.vagues path{fill:var(--ink)}
+.vagues .v1{opacity:.22}.vagues .v2{opacity:.5}
+.vagues+footer{margin-top:0}
+@media (prefers-reduced-motion:no-preference){
+  /* 01 : le nom arrive mot après mot, puis la phrase et le bouton */
+  .hero h1 span{animation:leve 1.3s var(--doux) both}
+  .hero h1 span+span{animation-delay:.16s}
+  .hero .pied>*{animation:leve 1s var(--doux) .5s both}
+  .hero .pied>*+*{animation-delay:.62s}
+  @keyframes leve{from{opacity:0;transform:translateY(.28em)}}
+  /* 08 : les mots de la phrase s'allument un à un en descendant */
+  .mots .mot{opacity:.2;transition:opacity .5s ease}
+  .mots .mot.lu{opacity:1}
+  .vagues svg{animation:houle 16s linear infinite}
+  .vagues .v2{animation:houle 11s linear infinite reverse}
+  @keyframes houle{to{transform:translateX(-50%)}}
+  .vagues .v2{transform-box:fill-box}
+}
+@media (min-width:981px){.fil{display:block}}
+@media (max-width:620px){.tourne{right:-12%;top:-34px;width:84px}}
+
 .demo{max-width:none;padding:9px var(--m);text-align:center;font-size:13px;color:var(--muted);background:var(--stone)}
 
 /* ---- en-tête : le nom, quatre liens, l'action ---- */
@@ -311,7 +354,7 @@ footer .legal a{color:inherit}
 
   <section class="page g intro" aria-label="L'institut">
     <div class="dit">
-      <p class="grand rise">L'eau d'abord, le soin ensuite, les cheveux à la fin. Prenez une étape, deux, ou les trois.</p>
+      <p class="grand rise mots" id="mots">L'eau d'abord, le soin ensuite, les cheveux à la fin. Prenez une étape, deux, ou les trois.</p>
       <div class="ou rise" style="--d:90ms"><p>12, cours Grandval, Ajaccio</p><p class="ouvert" id="now">Ouvert</p></div>
     </div>
     <div class="fondu arche rise" style="--d:120ms" id="fondu">
@@ -321,6 +364,7 @@ footer .legal a{color:inherit}
     </div>
     <figure class="film rise" style="--d:180ms">
       <video id="film" muted loop playsinline preload="none" poster="media/funtana/fontaine-poster.webp" width="1280" height="800" aria-label="Une fontaine qui coule"><source src="media/funtana/fontaine.mp4" type="video/mp4"></video>
+      <div class="tourne" id="tourne" aria-hidden="true"><svg viewBox="0 0 120 120"><defs><path id="rond-t" d="M60 60m-45 0a45 45 0 1 1 90 0a45 45 0 1 1-90 0"/></defs><text><textPath href="#rond-t">L'eau · le soin · les cheveux · </textPath></text></svg><i></i></div>
       <figcaption>L'eau coule du matin au soir : c'est elle qui a donné son nom à la maison.</figcaption>
     </figure>
   </section>
@@ -347,6 +391,7 @@ footer .legal a{color:inherit}
 
   <section class="page sec" id="visite" aria-labelledby="t-visite">
     <div class="g visite">
+      <svg class="fil" id="fil" aria-hidden="true"><path pathLength="1"/></svg>
       <h2 class="caps titre t rise" id="t-visite">Dans<br>cet ordre</h2>
       <div class="etape e1">
         <img class="photo arche rise" src="images/funtana/hammam.webp" alt="Le hammam de marbre et sa fontaine" width="1600" height="1000" loading="lazy" decoding="async">
@@ -387,6 +432,11 @@ footer .legal a{color:inherit}
   </section>
 </main>
 
+<div class="vagues" aria-hidden="true"><svg viewBox="0 0 2400 100" preserveAspectRatio="none">
+  <path class="v1" d="M0 46C150 6 300 6 450 46S750 86 900 46 1050 6 1200 46 1500 86 1650 46 1950 6 2100 46 2250 86 2400 46V100H0Z"/>
+  <path class="v2" d="M0 62C100 34 200 34 300 62S500 90 600 62 800 34 900 62 1100 90 1200 62 1400 34 1500 62 1700 90 1800 62 2000 34 2100 62 2300 90 2400 62V100H0Z"/>
+  <path d="M0 80C150 60 300 60 450 80S750 100 900 80 1050 60 1200 80 1500 100 1650 80 1950 60 2100 80 2250 100 2400 80V100H0Z"/>
+</svg></div>
 <footer>
   <div class="page">
     <p class="nom" aria-hidden="true">A Funtana</p>
@@ -690,6 +740,45 @@ if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
   const film = $("film");
   new IntersectionObserver(([e]) => { if (e.isIntersecting) { film.preload = "auto"; film.play().catch(() => {}); } else film.pause(); }).observe(film);
 }
+// ——— les mouvements de la banque (animations/mouvements.html)
+(() => {
+  const calme = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // 06 : une goutte part de l'endroit touché sur chaque bouton
+  if (!calme) document.addEventListener("pointerdown", e => { const b = e.target.closest(".btn"); if (!b) return; const r = b.getBoundingClientRect(), g = document.createElement("span");
+    g.className = "goutte"; g.style.setProperty("--x", e.clientX - r.left + "px"); g.style.setProperty("--y", e.clientY - r.top + "px"); b.appendChild(g); g.addEventListener("animationend", () => g.remove()); });
+  // 17 : la pastille glisse sous le filtre choisi (les filtres sont réécrits à chaque choix : on la repose à son ancienne place, puis elle glisse)
+  { const F = $("filters"); let avant = null;
+    const pose = () => { const a = F.querySelector('[aria-pressed="true"]'); if (!a) return;
+      const r = { x: a.offsetLeft, y: a.offsetTop, w: a.offsetWidth, h: a.offsetHeight }; let p = F.querySelector(".pastille");
+      const met = (q, o) => { q.style.transform = `translate(${o.x}px,${o.y}px)`; q.style.width = o.w + "px"; q.style.height = o.h + "px"; };
+      if (!p) { p = document.createElement("span"); p.className = "pastille"; p.style.transition = "none"; met(p, avant || r); F.appendChild(p); p.offsetWidth; p.style.transition = ""; }
+      if (calme) p.style.transition = "none";
+      met(p, r); avant = r; F.classList.add("glisse"); };
+    new MutationObserver(() => { if (!F.querySelector(".pastille")) pose(); }).observe(F, { childList: true });
+    addEventListener("resize", pose); if (document.fonts) document.fonts.ready.then(pose); pose(); }
+  // 08 : la phrase de l'institut, mot à mot
+  const M = $("mots"); let mots = [];
+  if (!calme) { M.innerHTML = M.textContent.split(" ").map(m => `<span class="mot">${m}</span>`).join(" "); mots = [...M.children]; }
+  // 09 : le fil de l'eau passe derrière les trois photos de la visite, dans l'ordre
+  const fil = $("fil"), trait = fil.querySelector("path"), V = fil.parentElement;
+  const trace = () => { if (getComputedStyle(fil).display === "none") return; const o = V.getBoundingClientRect();
+    const c = [...V.querySelectorAll(".etape .photo")].map(i => { const r = i.getBoundingClientRect(); return [r.left + r.width / 2 - o.left, r.top + r.height / 2 - o.top, r.height]; });
+    if (c.length < 3) return; const [a, b, d] = c;
+    trait.setAttribute("d", `M${a[0]} ${a[1] - a[2] * .2} C${a[0]} ${a[1] + a[2] * .9} ${b[0] - 60} ${b[1] - b[2] * 1.1} ${b[0]} ${b[1]} S${d[0] + 40} ${d[1] - d[2] * 1.2} ${d[0]} ${d[1]}`); };
+  trace(); addEventListener("resize", trace); addEventListener("load", trace);
+  // 41 : la pastille tourne doucement, plus vite quand on défile
+  const T = $("tourne"); let tour = 0, vy = 0, yAvant = scrollY, tAvant = 0, vue = false;
+  new IntersectionObserver(([e]) => { vue = e.isIntersecting; if (vue && !calme) requestAnimationFrame(tourner); }).observe(T);
+  const tourner = t => { if (!vue || document.hidden) { tAvant = 0; return; } const dt = tAvant ? Math.min(50, t - tAvant) : 16; tAvant = t;
+    vy += (Math.abs(scrollY - yAvant) - vy) * .15; yAvant = scrollY; tour = (tour + dt * .012 + vy * .35) % 360; T.style.setProperty("--tour", tour.toFixed(2) + "deg"); requestAnimationFrame(tourner); };
+  // au défilement : les mots s'allument, le fil se dessine
+  let tic = false;
+  const suit = () => { tic = false; const h = innerHeight;
+    if (mots.length) { const r = M.getBoundingClientRect(), p = Math.min(1, Math.max(0, (h * .9 - r.top) / (h * .4))), n = Math.round(p * mots.length); mots.forEach((m, i) => m.classList.toggle("lu", i < n)); }
+    const r = V.getBoundingClientRect(), p = calme ? 1 : Math.min(1, Math.max(0, (h * .7 - r.top) / (r.height - h * .1)));
+    fil.style.setProperty("--reste", (1 - p).toFixed(4)); };
+  addEventListener("scroll", () => { if (!tic) { tic = true; requestAnimationFrame(suit); } }, { passive: true }); addEventListener("resize", suit); suit();
+})();
 </script>
 </body>
 </html>

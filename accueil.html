@@ -119,6 +119,34 @@ h1,h2,h3{color:var(--white);font-weight:500;line-height:1;text-wrap:balance}
 .hero{position:relative;height:175vh}
 .hero .pin{position:sticky;top:0;height:100vh;height:100svh;overflow:clip;isolation:isolate;display:grid;grid-template-rows:1fr auto;gap:clamp(16px,3vh,36px);padding:96px var(--m) clamp(28px,6vh,72px)}
 #orb{position:absolute;inset:0;z-index:-1;width:100%;height:100%}
+/* la rue de vitrines derrière le titre (essai du 11 novembre 2026, à la place de la sphère de points) :
+   des devantures au trait, dont les fenêtres s'allument une à une. La nuit elles brillent, le jour on voit les stores. */
+.hero #orb{display:none}
+.rue{position:absolute;left:0;right:0;top:clamp(84px,11vh,120px);width:100%;height:clamp(200px,44vh,430px);z-index:-1;pointer-events:none;overflow:visible;
+  transform:translateY(calc(var(--rs,0)*-46px));opacity:calc(1 - var(--rs,0)*.85)}
+.rue .trait{fill:none;stroke:var(--mist);stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round;opacity:.3;vector-effect:non-scaling-stroke}
+.rue .sol{stroke:var(--mist);stroke-width:1.6;opacity:.5;vector-effect:non-scaling-stroke}
+.rue .store{fill:var(--kelp-hi);stroke:var(--mist);stroke-width:1.4;stroke-linejoin:round;opacity:.9;vector-effect:non-scaling-stroke}
+.rue .fen,.rue .vit{fill:var(--accent);fill-opacity:0;stroke:var(--mist);stroke-width:1.4;stroke-opacity:.42;vector-effect:non-scaling-stroke;transition:fill-opacity 1.4s ease}
+.rue .fen.rose{fill:var(--accent-hover)}
+.rue .fen.allume{fill-opacity:.5}
+.rue .vit{fill-opacity:.1}
+.rue .vit.allume{fill-opacity:.36}
+.rue .halo{fill:var(--accent);opacity:0;transition:opacity 1.6s ease}
+.rue .halo.allume{opacity:.06}
+.rue .lampe{fill:var(--accent-hover)}
+:root[data-theme="jour"] .rue .fen.allume{fill-opacity:.3}
+:root[data-theme="jour"] .rue .vit,:root[data-theme="jour"] .rue .vit.allume{fill-opacity:.16}
+:root[data-theme="jour"] .rue .halo{opacity:0}
+:root[data-theme="jour"] .rue .store{fill:var(--accent);opacity:.75}
+:root[data-theme="jour"] .rue .lampe{opacity:.25}
+@media (prefers-reduced-motion:no-preference){
+  .rue .maison{opacity:0;transform:translateY(22px);animation:rue-monte 1.1s cubic-bezier(.22,.8,.2,1) forwards;animation-delay:calc(var(--i)*110ms + .5s)}
+  .rue .lampe{animation:rue-lampe 4s ease-in-out infinite}
+}
+@keyframes rue-monte{to{opacity:1;transform:none}}
+@keyframes rue-lampe{50%{opacity:.55}}
+@media (max-width:760px){.rue{top:92px;height:clamp(150px,26vh,240px)}.rue .fen.allume{fill-opacity:.8}.rue .vit.allume{fill-opacity:.6}.rue .trait{opacity:.42}}
 .hero .pin::after{content:"";position:absolute;inset:auto 0 0;height:30%;z-index:-1;background:linear-gradient(transparent,var(--abyss));pointer-events:none}
 .giant{align-self:end;display:grid;font-weight:500;font-size:clamp(2.6rem,min(17.8vw,15svh),18.4rem);line-height:.9;letter-spacing:-.03em;margin-inline:-.03em;font-kerning:normal}
 .giant .kt{margin-left:.045em}
@@ -452,6 +480,7 @@ section[id]{scroll-margin-top:20px}
   <section class="hero" id="hero" data-arrive-off>
     <div class="pin">
       <canvas id="orb" aria-hidden="true"></canvas>
+      <svg class="rue" id="rue" viewBox="0 0 1600 430" preserveAspectRatio="xMidYMax slice" aria-hidden="true"></svg>
       <h1 class="giant"><span class="ln l1"><span class="in">Votre vitrine,</span></span> <span class="ln l2"><span class="in">ouver<span class="kt">te</span> jour</span></span> <span class="ln l3"><span class="in">et nuit.</span></span></h1>
       <div class="base">
         <p>Des sites pour les restaurants, les artisans et les commerces. Faits à votre image, en ligne en trois semaines.</p>
@@ -583,6 +612,42 @@ let heroP = 0;   // 0 en haut de page, 1 quand les lignes du titre sont repartie
 // arrivée depuis l'écran d'entrée : on est au centre de la sphère et on recule (dézoom) ; posé par abysse-transition.js
 const dezoom = document.documentElement.dataset.arrivee === "sphere";
 const fleche = '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg>';
+
+// ——— la rue de vitrines derrière le titre : des devantures dessinées, dont les fenêtres s'allument une à une
+{ const rue = $("rue"), SOL = 404, calmeRue = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // [largeur, hauteur, toit (0 plat, 1 pente, 2 fronton), nombre de vitrines, store (0 aucun, 1 droit, 2 festonné)]
+  const PLAN = [[150, 250, 0, 1, 1], [210, 330, 1, 2, 2], [170, 215, 2, 1, 0], [250, 300, 0, 2, 1], [160, 350, 1, 1, 2], [230, 240, 2, 2, 1], [180, 310, 0, 1, 2], [220, 265, 1, 2, 0]];
+  let x = 14, html = "";
+  PLAN.forEach(([w, h, toit, nv, store], i) => { const haut = SOL - h, rdc = SOL - 132; let g = "";
+    g += `<path class="trait" d="M${x} ${SOL}V${haut}H${x + w}V${SOL}"/>`;
+    if (toit === 1) g += `<path class="trait" d="M${x - 6} ${haut}L${x + w / 2} ${haut - 46}L${x + w + 6} ${haut}"/>`;
+    if (toit === 2) g += `<path class="trait" d="M${x - 5} ${haut}H${x + w + 5}M${x + w * .3} ${haut}V${haut - 22}H${x + w * .7}V${haut}"/>`;
+    if (toit === 0) g += `<path class="trait" d="M${x - 5} ${haut + 12}H${x + w + 5}"/>`;
+    // les fenêtres des étages
+    const cols = Math.max(2, Math.round(w / 78)), rangs = Math.max(1, Math.floor((rdc - haut - 26) / 74));
+    for (let r = 0; r < rangs; r++) for (let c = 0; c < cols; c++) { const fx = x + (w / cols) * (c + .5) - 13, fy = haut + 30 + r * 74;
+      g += `<rect class="fen${(i + r + c) % 3 === 0 ? " rose" : ""}" x="${fx}" y="${fy}" width="26" height="40" rx="2"/><path class="trait" d="M${fx - 5} ${fy + 44}H${fx + 31}"/>`; }
+    // l'enseigne, le store, la vitrine et la porte
+    g += `<path class="trait" d="M${x} ${rdc}H${x + w}M${x + 16} ${rdc + 12}H${x + w - 16}V${rdc + 30}H${x + 16}Z M${x + 30} ${rdc + 21}H${x + w * .55}"/>`;
+    const sy = rdc + 38;
+    if (store === 1) g += `<path class="store" d="M${x + 8} ${sy}H${x + w - 8}L${x + w + 4} ${sy + 22}H${x - 4}Z"/>`;
+    if (store === 2) { let f = `M${x + 8} ${sy}H${x + w - 8}L${x + w + 4} ${sy + 20}`; const n = Math.round((w + 8) / 22), pas = (w + 8) / n; for (let k = 0; k < n; k++) f += `q${-pas / 2} 11 ${-pas} 0`; g += `<path class="store" d="${f}Z"/>`; }
+    const porte = 36, vy = sy + (store ? 30 : 8), vh = SOL - 8 - vy, large = w - 28 - porte - 10, lv = (large - (nv - 1) * 8) / nv;
+    g += `<rect class="halo" x="${x - 10}" y="${vy - 14}" width="${w + 20}" height="${SOL - vy + 14}" rx="18"/>`;
+    for (let k = 0; k < nv; k++) g += `<rect class="vit" x="${x + 14 + k * (lv + 8)}" y="${vy}" width="${lv}" height="${vh}" rx="2"/>`;
+    g += `<path class="trait" d="M${x + w - 14 - porte} ${SOL}V${vy}H${x + w - 14}V${SOL}M${x + w - 22} ${vy + (SOL - vy) / 2}v8"/>`;
+    html += `<g class="maison" style="--i:${i}">${g}</g>`; x += w + 12; });
+  // le trottoir et deux réverbères
+  html += `<path class="sol" d="M-200 ${SOL}H1800"/>` + [372, 1196].map(lx => `<path class="trait" d="M${lx} ${SOL}V${SOL - 150}q0 -14 14 -14"/><circle class="lampe" cx="${lx + 17}" cy="${SOL - 162}" r="5"/>`).join("");
+  rue.innerHTML = html;
+  const fen = [...rue.querySelectorAll(".fen")], vit = [...rue.querySelectorAll(".maison")].map(m => [...m.querySelectorAll(".vit, .halo")]);
+  fen.forEach((f, i) => f.classList.toggle("allume", (i * 7) % 5 < 2));
+  vit.forEach((v, i) => v.forEach(e => e.classList.toggle("allume", i % 2 === 0)));
+  if (!calmeRue) { let n = 0; setInterval(() => { if (document.hidden) return; n++;
+      const f = fen[Math.floor(Math.random() * fen.length)]; f.classList.toggle("allume");
+      if (n % 4 === 0) { const v = vit[Math.floor(Math.random() * vit.length)], on = !v[0].classList.contains("allume"); v.forEach(e => e.classList.toggle("allume", on)); } }, 850);
+    let prevu = false; const suit = () => { prevu = false; rue.style.setProperty("--rs", Math.min(1, scrollY / (innerHeight * .75)).toFixed(3)); };
+    addEventListener("scroll", () => { if (!prevu) { prevu = true; requestAnimationFrame(suit); } }, { passive: true }); suit(); } }
 
 // ——— la sphère du site (abysse-sphere.js) derrière le titre : tourne, penche vers le doigt, grossit et pâlit au défilement
 (() => {

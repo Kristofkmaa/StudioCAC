@@ -39,6 +39,7 @@ python3 outils/tirage.py <nom> --charte <style des titres de la charte> --exclur
 - **Une seule idée vivante** par site (ce que le visiteur peut faire), faite avec le vrai contenu du métier.
 - **Rien ne défile sur le côté** : un tableau devient une fiche par ligne sur téléphone, une liste de cartes une grille avec filtres, un calendrier des boutons de mois.
 - **Photos qui arrivent** : en opacité et légère échelle, seulement une fois l'image chargée et visible (IntersectionObserver + `img.decode()`). Jamais de clip-path.
+- **Une image `loading="lazy"` cachée par son propre `clip-path` ne se charge jamais** (retour sur U Castagnetu, portrait « au rideau ») : la passer en `eager`, ou mettre le rideau sur un parent.
 - **Un élément masqué par son propre `clip-path` n'est jamais vu par `IntersectionObserver`** (retour sur N3E Graphics : les photos « au rideau » restaient invisibles en vrai, alors que le vérificateur, qui ajoute lui-même la classe `on`, ne voyait rien). Mettre le `clip-path` sur l'enfant (l'image) et observer le cadre. Après le vérificateur, faire défiler la page dans un vrai navigateur et regarder que tout ce qui doit apparaître apparaît.
 - **Barre collante du bas** (Appeler / Réserver) : cachée tant que le premier écran est visible, pour ne pas masquer ses boutons.
 - **En-tête** : symétrique ou franchement aligné, jamais des liens collés aux bords loin du logo ; pas deux fois le même symbole (logo et couronne) l'un sous l'autre.

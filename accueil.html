@@ -324,7 +324,7 @@ h1,h2,h3{color:var(--white);font-weight:500;line-height:1;text-wrap:balance}
 
 /* refaire un site existant : un avant / après à faire glisser (animation 20). Les deux « sites » sont dessinés ici, en HTML : un exemple imaginé */
 .ba{position:relative;margin-top:36px;aspect-ratio:16/10;max-height:78vh;width:100%;border-radius:16px;overflow:hidden;border:1px solid var(--line);--p:50%;touch-action:pan-y;cursor:ew-resize;user-select:none;-webkit-user-select:none;container-type:inline-size}
-.ba .lay{position:absolute;inset:0;overflow:hidden}
+.ba .lay{position:absolute;inset:0;overflow:hidden;isolation:isolate}
 .ba .avant{clip-path:inset(0 calc(100% - var(--p)) 0 0);background:#fff;color:#000;font:400 1.55cqw/1.35 "Times New Roman",Times,serif;display:flex;flex-direction:column}
 .ba .av-band{background:linear-gradient(#000080,#1084d0);color:#ff0;font-weight:700;text-align:center;padding:1.2cqw;font-size:2cqw;letter-spacing:.05em}
 .ba .av-nav{background:#c0c0c0;border-bottom:.3cqw ridge #888;text-align:center;padding:.7cqw;color:#00e;text-decoration:underline;word-spacing:.6cqw}
@@ -333,21 +333,19 @@ h1,h2,h3{color:var(--white);font-weight:500;line-height:1;text-wrap:balance}
 .ba .av-corps b{display:block;font:700 3cqw/1.1 "Comic Sans MS","Comic Sans",cursive;color:#c00;margin-bottom:1cqw;text-decoration:underline}
 .ba .av-new{display:inline-block;margin-top:1.4cqw;background:#ff0;border:.25cqw dashed #f00;padding:.6cqw 1.2cqw;font-weight:700;color:#f00}
 .ba .av-pied{border-top:.2cqw solid #000;text-align:center;padding:.9cqw;font-size:1.25cqw;color:#444}
-.ba .apres{background:#0C0B0A;color:#F6F1E8;font:400 1.3cqw/1.5 "Inter Tight",sans-serif}
-.ba .apres>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.ba .apres::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(12,11,10,.72) 0,rgba(12,11,10,.1) 26%,rgba(12,11,10,.12) 46%,rgba(12,11,10,.9) 100%)}
-.ba .apres>*:not(img){position:absolute;z-index:2}
-.ba .ap-nav{left:3.4cqw;right:3.4cqw;top:2.8cqw;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;font-size:1.02cqw;letter-spacing:.18em;text-transform:uppercase}
-.ba .ap-nav b{font:400 2.5cqw/1 "Instrument Serif",Georgia,serif;letter-spacing:.02em;text-transform:none}
-.ba .ap-nav span:last-child{justify-self:end;border:.1cqw solid rgba(246,241,232,.6);border-radius:99cqw;padding:.7cqw 1.8cqw}
-.ba .ap-eye{left:3.4cqw;bottom:21.5cqw;font-size:1cqw;letter-spacing:.24em;text-transform:uppercase;color:#E7C98F}
-.ba .ap-h{left:3.2cqw;right:3.4cqw;bottom:6.6cqw;font:400 9cqw/.9 "Instrument Serif",Georgia,serif;letter-spacing:-.025em}
-.ba .ap-h i{color:#E7C98F}
-.ba .ap-bas{left:3.4cqw;right:3.4cqw;bottom:2.6cqw;display:flex;justify-content:space-between;gap:2cqw;padding-top:1.4cqw;border-top:.08cqw solid rgba(246,241,232,.35);font-size:1.05cqw;letter-spacing:.06em;color:#DCD3C4}
-.ba .ap-carte{right:3.4cqw;top:11cqw;width:21cqw;padding:1.6cqw 1.8cqw;border-radius:1.2cqw;background:rgba(12,11,10,.42);-webkit-backdrop-filter:blur(1.2cqw);backdrop-filter:blur(1.2cqw);border:.08cqw solid rgba(246,241,232,.28)}
-.ba .ap-carte small{display:block;font-size:.95cqw;letter-spacing:.2em;text-transform:uppercase;color:#E7C98F}
-.ba .ap-carte b{display:block;margin:.5cqw 0 .3cqw;font:400 2.1cqw/1.05 "Instrument Serif",Georgia,serif}
-.ba .ap-carte span{font-size:1.05cqw;color:#DCD3C4}
+.ba .apres{background:#FBF7EC}
+.ba .apres img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 0}
+@media (max-width:699px){
+  .ba{aspect-ratio:4/5}
+  .ba .avant{font-size:3.1cqw}
+  .ba .av-band{font-size:3.3cqw;padding:2.4cqw}
+  .ba .av-nav{padding:1.6cqw;font-size:2.7cqw;word-spacing:0}
+  .ba .av-corps{grid-template-columns:1fr;gap:3cqw;padding:4cqw}
+  .ba .av-corps img{width:62%}
+  .ba .av-corps b{font-size:6cqw;margin-bottom:2cqw}
+  .ba .av-new{margin-top:3cqw;padding:1.2cqw 2.4cqw}
+  .ba .av-pied{font-size:2.4cqw;padding:1.8cqw}
+}
 .ba .lb{position:absolute;bottom:14px;z-index:3;font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:6px 12px;border-radius:999px;background:rgba(1,29,28,.85);color:#fff}
 .ba .l1{left:14px}.ba .l2{right:14px}
 .ba .hd{position:absolute;top:0;bottom:0;left:var(--p);width:2px;background:#fff;z-index:4;transform:translateX(-1px)}
@@ -563,22 +561,18 @@ section[id]{scroll-margin-top:20px}
       <div class="head rise"><div><p class="eyebrow">Vous avez déjà un site ?</p><h2 id="t-ref">On peut aussi refaire le vôtre</h2></div><p>On garde votre adresse, vos textes et vos photos, et on refait tout le reste. Faites glisser pour comparer.</p></div>
       <div class="ba rise" id="ba" role="slider" tabindex="0" aria-label="Comparer le site avant et après la refonte" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
         <div class="lay apres" aria-hidden="true">
-          <img src="images/port/terrasse-coucher.webp" alt="" loading="lazy" decoding="async">
-          <div class="ap-nav"><span>La carte · La maison</span><b>Le Galion</b><span>Réserver</span></div>
-          <div class="ap-carte"><small>Ce soir</small><b>Daurade royale, fenouil confit</b><span>La pêche du matin, face aux bateaux.</span></div>
-          <span class="ap-eye">Table de poisson · sur le port</span>
-          <div class="ap-h">La mer, <i>le soir même</i>.</div>
-          <div class="ap-bas"><span>Midi et soir · fermé le lundi</span><span>Sur le port, face aux bateaux qui rentrent</span></div>
+          <!-- l'« après » est une vraie capture de la démo La Table du Port (media/apercus/refonte-*.webp) -->
+          <picture><source media="(max-width:699px)" srcset="media/apercus/refonte-tel.webp" width="780" height="976"><img src="media/apercus/refonte-pc.webp" alt="" width="1440" height="868" loading="lazy" decoding="async"></picture>
         </div>
         <div class="lay avant" aria-hidden="true">
-          <div class="av-band">★ BIENVENUE SUR LE SITE DU RESTAURANT LE GALION ★</div>
+          <div class="av-band">★ BIENVENUE SUR LE SITE DE LA TABLE DU PORT ★</div>
           <div class="av-nav">Accueil | Notre carte | Photos | Livre d'or | Contact</div>
           <div class="av-corps"><img src="images/port/terrasse-coucher.webp" alt="" loading="lazy" decoding="async"><div><b>Notre restaurant</b>Situé sur le port, notre restaurant vous accueille tous les jours midi et soir sauf le lundi. Spécialités de poissons. Parking à proximité. Réservation conseillée par téléphone.<br><span class="av-new">NOUVEAU !!! Menu du jour</span></div></div>
           <div class="av-pied">Vous êtes le visiteur n° 004 512 · Site optimisé pour un écran 1024 × 768</div>
         </div>
         <span class="lb l1">Avant</span><span class="lb l2">Après</span><div class="hd"></div>
       </div>
-      <p class="ba-note">Exemple imaginé pour l'illustration : ce restaurant n'existe pas.</p>
+      <p class="ba-note">Exemple imaginé pour l'illustration : ce restaurant n'existe pas. L'« après » est notre démo <a href="demo-table-du-port.html" target="_blank" rel="noopener">La Table du Port</a>.</p>
     </section>
 
     <section class="sec" id="methode" aria-labelledby="t-meth">

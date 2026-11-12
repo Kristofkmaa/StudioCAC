@@ -916,9 +916,10 @@ if (dezoom && !calme) {
   $("filmSuite").addEventListener("click", () => { descendu = true; descend(1300); });
   if (calme) { arr.querySelectorAll(".stat").forEach(el => el.classList.add("on")); return; }
   const hero = $("hero"), lns = [...hero.querySelectorAll(".ln")], base = hero.querySelector(".base"), dir = [-1, 1, -1];
-  let tick = false;
+  let tick = false, cale = () => false;
   const move = () => { tick = false;
     heroP = Math.min(1, Math.max(0, scrollY / (hero.offsetHeight - innerHeight)));
+    if (cale()) heroP = Math.min(heroP, .6);                                // pendant le blocage, l'image ne dépasse pas la vidéo, même si la page a glissé un peu plus loin
     const hp = Math.min(1, heroP / .24), e = hp * hp;                       // le titre a fini de partir à 24 % du trajet
     lns.forEach((l, i) => { l.style.transform = `translate3d(${(dir[i] * e * 110).toFixed(2)}vw,0,0)`; l.style.opacity = (1 - e * .8).toFixed(3); });
     base.style.opacity = Math.max(0, 1 - hp * 2.2).toFixed(3);
@@ -942,6 +943,7 @@ if (dezoom && !calme) {
     if (scrollY > trajet() * .5) retenu = true;                                             // page rouverte plus bas : rien à retenir
     document.addEventListener("click", e => { if (e.target.closest('a[href^="#"]')) retenu = true; }, true);   // un lien du menu passe librement
     const tient = () => !retenu && debut && performance.now() - debut < 1400;
+    cale = tient;
     addEventListener("scroll", () => { if (retenu) return; const t = trajet();
       if (!debut && scrollY >= t * .5) debut = performance.now();
       if (!debut) return;

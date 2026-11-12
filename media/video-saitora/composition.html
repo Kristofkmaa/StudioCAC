@@ -5,9 +5,9 @@
 <title>Saitora, la vidéo de présentation (composition)</title>
 <meta name="robots" content="noindex">
 <!-- La vidéo de présentation de Saitora, deuxième version : une pièce de motion design rythmée, qui ne reprend pas le décor du site.
-     Grande typographie, aplats de couleur, formes qui se transforment. Sept temps, 26 secondes :
+     Grande typographie, aplats de couleur, formes qui se transforment. Sept temps, 27,5 secondes :
      la nuit (le point rose), le jour (le point devient l'écran), les métiers qui défilent, un site qui se dessine et change de peau,
-     quatre chiffres en plein écran, le disque « jour et nuit », le logo qui s'assemble.
+     un site qu'on code et qui prend vie à côté, le disque « jour et nuit », le logo qui s'assemble.
      Tout est fonction du temps : rendu(t). La page est filmée image par image par outils/video.js.
      Règle gardée : les textes arrivent par lignes entières (derrière un cache), jamais lettre par lettre. -->
 <link rel="stylesheet" href="../../commun/abysse.css">
@@ -48,11 +48,31 @@ body{font-family:"Inter Tight",sans-serif;font-weight:500;color:#fff;letter-spac
 #fen .pt i{display:block;height:4.3vw;border-radius:.6vw;opacity:.16}
 #s4 .m{left:59vw;font-size:5.1vw}
 #s4 #metier{left:59vw;top:62%;font-size:3.2vw;letter-spacing:0;color:#FAD1FF}
-/* 5. les chiffres, en plein écran */
-.carte{position:absolute;inset:0;will-change:transform}
-.carte.nuit{background:#012624;color:#fff}
-.carte b{position:absolute;left:6vw;top:50%;transform:translateY(-54%);font-weight:500;font-size:34vw;line-height:.8;letter-spacing:-.07em;font-variant-numeric:tabular-nums;white-space:nowrap}
-.carte span{position:absolute;right:6vw;bottom:9vh;width:32vw;font-size:4.1vw;line-height:1.05;text-align:right}
+/* 5. on code à gauche, le site prend vie à droite */
+@font-face{font-family:"JetBrains Mono";font-weight:500;font-display:block;src:url(../../polices/jetbrains-mono-500-normal-latin.woff2) format("woff2")}
+#s5{background:#011D1C}
+#editeur{position:absolute;left:5vw;top:50%;width:42vw;height:34vw;margin-top:-18.5vw;border-radius:1.1vw;background:#03302D;overflow:hidden;will-change:transform}
+#editeur .onglet{height:3vw;display:flex;align-items:center;gap:.6vw;padding-left:1.3vw;background:#022623;font-size:1.05vw;letter-spacing:0;color:#9FB6B3}
+#editeur .onglet i{width:.75vw;height:.75vw;border-radius:50%;background:#5E8F8A;opacity:.6}
+#editeur .onglet b{margin-left:1vw;font-weight:500;color:#EDFFFE}
+#code{position:absolute;left:0;right:0;top:4.6vw;font:500 1.42vw/2.75vw "JetBrains Mono",ui-monospace,monospace;letter-spacing:0;white-space:pre}
+#code div{display:flex;gap:1.6vw;padding-left:1.4vw}
+#code div em{font-style:normal;color:#4F7772;width:1.6vw;text-align:right}
+#code .k{color:#7FE3DA}#code .a{color:#FAD1FF}#code .v{color:#FFE2A6}#code .x{color:#EDFFFE}#code .g{color:#6E9A95}
+#code .cur{display:inline-block;width:.75vw;height:1.6vw;background:#FAD1FF;vertical-align:-.25vw;margin-left:.1vw}
+#apercu{position:absolute;left:51vw;top:50%;width:44vw;height:34vw;margin-top:-18.5vw;border-radius:1.1vw;background:#FBF7EC;color:#1E2B33;overflow:hidden;will-change:transform;letter-spacing:-.03em}
+#apercu .tete{position:absolute;left:0;right:0;top:0;height:4vw;display:flex;align-items:center;justify-content:space-between;padding:0 2.2vw;font-size:1.5vw;background:#FBF7EC}
+#apercu .tete span{display:flex;gap:1vw}
+#apercu .tete span i{width:3.4vw;height:.5vw;border-radius:.3vw;background:#1E2B33;opacity:.28}
+#apercu .titre{position:absolute;left:2.2vw;top:7.4vw;width:23.4vw;overflow:hidden;white-space:nowrap;font-size:3.1vw;line-height:1.02;letter-spacing:-.045em;padding-bottom:.3vw}
+#apercu .titre span{display:block}
+#apercu .trait{position:absolute;left:2.2vw;top:15vw;width:13vw;height:.5vw;border-radius:.3vw;background:#E4572E;transform-origin:0 50%}
+#apercu .photo{position:absolute;right:2.2vw;top:6.4vw;width:16vw;height:22vw;border-radius:8vw 8vw .9vw .9vw;overflow:hidden;background:#E9E1D0}
+#apercu .photo img{display:block;width:100%;height:100%;object-fit:cover}
+#apercu .bouton{position:absolute;left:2.2vw;top:17.6vw;padding:1.15vw 2.3vw;border-radius:3vw;color:#fff;font-size:1.45vw;letter-spacing:-.01em;transform-origin:0 50%}
+#apercu .ouvert{position:absolute;left:2.2vw;top:23.8vw;display:flex;align-items:center;gap:.8vw;font-size:1.4vw;letter-spacing:-.01em}
+#apercu .ouvert i{width:.9vw;height:.9vw;border-radius:50%;background:#2E9E6B}
+#s5 .legende{left:0;right:0;top:86.5%;text-align:center;font-size:3vw}
 /* 6. jour et nuit */
 #s6{background:#011D1C}
 #disque{position:absolute;left:50%;top:50%;width:44vw;height:44vw;margin:-22vw 0 0 -22vw;border-radius:50%;will-change:transform}
@@ -104,10 +124,16 @@ body{font-family:"Inter Tight",sans-serif;font-weight:500;color:#fff;letter-spac
 </section>
 
 <section class="s" id="s5">
-  <div class="carte nuit"><b data-n="13">13</b><span>démos, une par métier</span></div>
-  <div class="carte clair"><b data-n="3" data-pre="2–">2–3</b><span>semaines jusqu’à la mise en ligne</span></div>
-  <div class="carte nuit"><b data-n="24" data-suf=" h">24 h</b><span>pour une réponse à votre demande</span></div>
-  <div class="carte clair"><b data-n="1">1</b><span>seul interlocuteur, du début à la fin</span></div>
+  <div id="editeur"><div class="onglet"><i></i><i></i><i></i><b>index.html</b></div><div id="code"></div></div>
+  <div id="apercu">
+    <div class="tete"><b style="font-weight:500">Chez Margot</b><span><i></i><i></i><i></i></span></div>
+    <div class="titre"><span>Le marché,<br>dans l’assiette.</span></div>
+    <div class="trait"></div>
+    <div class="photo"><img src="../../images/port/terrasse-coucher.webp" alt=""></div>
+    <div class="bouton">Réserver une table</div>
+    <div class="ouvert"><i></i>Ouvert ce soir jusqu’à 23 h</div>
+  </div>
+  <p class="m legende"><span>Codé sur mesure, ligne après ligne.</span></p>
 </section>
 
 <section class="s" id="s6">
@@ -133,7 +159,7 @@ body{font-family:"Inter Tight",sans-serif;font-weight:500;color:#fff;letter-spac
 <div id="volet"></div>
 
 <script>
-const DUREE = 26;
+const DUREE = 27.5;
 const $ = id => document.getElementById(id), q = (s, r = document) => [...r.querySelectorAll(s)];
 const c = x => Math.min(1, Math.max(0, x));
 const sort = x => { x = c(x); return x === 1 ? 1 : 1 - Math.pow(2, -10 * x); };            // arrivée vive, fin très douce
@@ -147,6 +173,14 @@ const scene = (id, t, a, b) => { const on = t >= a && t < b; $(id).style.display
 // une ligne derrière son cache : elle monte en entrant, et sort par le haut
 const cache = (el, t, entree, sortie) => { el.style.transform = `translate3d(0,${((1 - sort((t - entree) / .9)) * 112 - part((t - sortie) / .5) * 112).toFixed(2)}%,0)`; };
 
+// les lignes de code : d = l'instant où la ligne commence, t = le temps de frappe, j = les morceaux colorés
+const LIGNES = [
+  { d: 15.6, t: .5, j: [["<header>", "k"], ["Chez Margot", "x"], ["</header>", "k"]] },
+  { d: 16.25, t: .6, j: [["<h1>", "k"], ["Le marché, dans l’assiette.", "x"], ["</h1>", "k"]] },
+  { d: 17, t: .5, j: [["<img ", "k"], ["src", "a"], ["=", "g"], ["\"terrasse.jpg\"", "v"], [">", "k"]] },
+  { d: 17.65, t: .5, j: [["<a ", "k"], ["class", "a"], ["=", "g"], ["\"bouton\"", "v"], [">", "k"], ["Réserver", "x"], ["</a>", "k"]] },
+  { d: 18.3, t: .5, j: [["<p>", "k"], ["Ouvert ce soir", "x"], ["</p>", "k"]] },
+  { d: 18.95, t: .4, j: [["a ", "k"], ["{ ", "g"], ["background", "a"], [": ", "g"], ["corail", "v"], [" }", "g"]] }];
 const PEAUX = [["#FBF7EC", "#1F5C8A", "#C8553D", "#1E2B33", 62, 1, "Restaurant"], ["#F0ECE2", "#FFD23F", "#1F4BD8", "#111111", 100, 0, "Artisan"], ["#F2EBDD", "#24452F", "#B5472F", "#22301F", 44, 22, "Fleuriste"]];
 
 function rendu(t) {
@@ -192,27 +226,43 @@ function rendu(t) {
     const dm = t < 11.95 ? 10.9 : t < 13.15 ? 11.95 : 13.15, fm = t < 11.95 ? 11.8 : t < 13.15 ? 13 : 14.25;
     M.style.transform = `translate3d(0,${((1 - sort((t - dm) / .45)) * 112 - part((t - fm) / .15) * 112).toFixed(2)}%,0)`; }
 
-  if (scene("s5", t, 14.8, 19.5)) q("#s5 .carte").forEach((d, i) => { const deb = 14.8 + i * 1.12, monte = va((t - deb) / .42);
-    d.style.transform = `translate3d(0,${((1 - monte) * 100).toFixed(2)}%,0)`;
-    const n = d.querySelector("b"); n.textContent = (n.dataset.pre || "") + Math.round(+n.dataset.n * sort((t - deb - .12) / .75)) + (n.dataset.suf || "");
-    d.querySelector("span").style.opacity = sort((t - deb - .35) / .5).toFixed(3); d.querySelector("span").style.transform = `translate3d(0,${((1 - sort((t - deb - .35) / .6)) * 3).toFixed(2)}vw,0)`; });
+  // ——— 5. on code à gauche, le site prend vie à droite : chaque ligne tapée fait apparaître un morceau du site
+  if (scene("s5", t, 14.8, 21)) {
+    const arr = sort((t - 14.9) / .9), dep = part((t - 20.35) / .6);
+    $("editeur").style.transform = `translate3d(${(-(1 - arr) * 12 - dep * 60).toFixed(2)}vw,0,0)`; $("editeur").style.opacity = c((t - 14.9) / .3);
+    $("apercu").style.transform = `translate3d(${((1 - sort((t - 15.05) / .9)) * 12 + dep * 60).toFixed(2)}vw,0,0)`; $("apercu").style.opacity = c((t - 15.05) / .3);
+    // le code se tape ligne après ligne, avec son curseur
+    let courante = -1; LIGNES.forEach((L, i) => { if (t >= L.d) courante = i; });
+    $("code").innerHTML = LIGNES.map((L, i) => { if (t < L.d) return ""; const total = L.j.reduce((n, x) => n + x[0].length, 0), vus = Math.round(c((t - L.d) / L.t) * total); let reste = vus;
+      const txt = L.j.map(([mot, cl]) => { const m = mot.slice(0, Math.max(0, reste)); reste -= mot.length; return m ? `<span class="${cl}">${m.replace(/</g, "&lt;")}</span>` : ""; }).join("");
+      return `<div><em>${i + 1}</em><span>${txt}${i === courante && Math.floor(t * 3.2) % 2 === 0 || (i === courante && vus < total) ? '<i class="cur"></i>' : ""}</span></div>`; }).join("");
+    // le site : chaque morceau arrive quand sa ligne est finie
+    const f = i => LIGNES[i].d + LIGNES[i].t, A = $("apercu");
+    q(".tete", A)[0].style.transform = `translate3d(0,${((1 - sort((t - f(0)) / .6)) * -110).toFixed(2)}%,0)`;
+    q(".titre span", A)[0].style.transform = `translate3d(0,${((1 - sort((t - f(1)) / .8)) * 112).toFixed(2)}%,0)`;
+    const ph = sort((t - f(2)) / .9); q(".photo", A)[0].style.clipPath = `inset(${((1 - ph) * 100).toFixed(2)}% 0 0 0 round 8vw 8vw .9vw .9vw)`; q(".photo img", A)[0].style.transform = `scale(${(1.25 - .25 * ph).toFixed(4)})`;
+    const coul = va((t - f(5)) / .6), bt = q(".bouton", A)[0]; bt.style.transform = `scale(${rebond((t - f(3)) / .6).toFixed(4)})`; bt.style.opacity = c((t - f(3)) / .12); bt.style.background = teinte("#1E2B33", "#E4572E", coul);
+    const ou = sort((t - f(4)) / .7), o = q(".ouvert", A)[0]; o.style.opacity = ou.toFixed(3); o.style.transform = `translate3d(0,${((1 - ou) * 1.6).toFixed(2)}vw,0)`;
+    q(".trait", A)[0].style.transform = `scaleX(${sort((t - f(5)) / .8).toFixed(4)})`;
+    cache(q("#s5 .legende>span")[0], t, 19.2, 20.3); }
 
-  if (scene("s6", t, 19.3, 22.6)) { const arr = sort((t - 19.35) / 1), dep = part((t - 22) / .6), tour = (t - 19.3) * 62;
-    $("s6").style.opacity = c((t - 19.3) / .2);
+  const u = t - 1.5;   // les deux derniers temps sont décalés d'une seconde et demie
+  if (scene("s6", u, 19.3, 22.6)) { const arr = sort((u - 19.35) / 1), dep = part((u - 22) / .6), tour = (u - 19.3) * 62;
+    $("s6").style.opacity = c((u - 19.3) / .2);
     $("disque").style.background = `conic-gradient(from ${tour.toFixed(2)}deg,#EDFFFE 0 50%,#003734 50% 100%)`; $("disque").style.transform = `scale(${(arr * (1 - dep)).toFixed(4)})`;
-    $("orbite").style.transform = `scale(${(sort((t - 19.5) / 1.1) * (1 - dep)).toFixed(4)})`;
+    $("orbite").style.transform = `scale(${(sort((u - 19.5) / 1.1) * (1 - dep)).toFixed(4)})`;
     const a = (tour * 1.35 - 90) * Math.PI / 180; $("lune").style.transform = `translate3d(${(Math.cos(a) * 27 * (1 - dep)).toFixed(2)}vw,${(Math.sin(a) * 27 * (1 - dep)).toFixed(2)}vw,0) scale(${(arr * (1 + dep * .4)).toFixed(3)})`;
-    const l = q("#s6 .m>span"); cache(l[0], t, 19.6, 21.9); cache(l[1], t, 19.8, 21.98); }
+    const l = q("#s6 .m>span"); cache(l[0], u, 19.6, 21.9); cache(l[1], u, 19.8, 21.98); }
 
-  if (scene("s7", t, 22.4, DUREE + 1)) {
-    const a1 = sort((t - 22.55) / .9), a2 = sort((t - 22.7) / .9), g = rebond((t - 23.15) / .7);
-    $("aile1").setAttribute("transform", `translate(${((1 - a1) * -900).toFixed(1)} ${((1 - a1) * 500).toFixed(1)}) rotate(${((1 - a1) * -38).toFixed(2)} 480 620)`); $("aile1").style.opacity = c((t - 22.55) / .2);
-    $("aile2").setAttribute("transform", `translate(${((1 - a2) * 900).toFixed(1)} ${((1 - a2) * -500).toFixed(1)}) rotate(${((1 - a2) * 38).toFixed(2)} 810 700)`); $("aile2").style.opacity = c((t - 22.7) / .2);
-    $("grain").setAttribute("transform", `translate(0 ${((1 - g) * -520).toFixed(1)})`); $("grain").style.opacity = c((t - 23.15) / .15);
-    const n = sort((t - 23.3) / .9); $("sai").style.transform = `translate3d(${(-(1 - n) * 40).toFixed(2)}vw,0,0)`; $("tora").style.transform = `translate3d(${((1 - n) * 40).toFixed(2)}vw,0,0)`;
-    $("sai").style.opacity = $("tora").style.opacity = c((t - 23.3) / .35);
-    const b = sort((t - 24) / .8); $("bouton").style.opacity = b.toFixed(3); $("bouton").style.transform = `translateX(-50%) translateY(${((1 - b) * 2).toFixed(2)}vw)`;
-    $("adresse").style.opacity = sort((t - 24.4) / .8).toFixed(3); }
+  if (scene("s7", u, 22.4, DUREE + 1)) {
+    const a1 = sort((u - 22.55) / .9), a2 = sort((u - 22.7) / .9), g = rebond((u - 23.15) / .7);
+    $("aile1").setAttribute("transform", `translate(${((1 - a1) * -900).toFixed(1)} ${((1 - a1) * 500).toFixed(1)}) rotate(${((1 - a1) * -38).toFixed(2)} 480 620)`); $("aile1").style.opacity = c((u - 22.55) / .2);
+    $("aile2").setAttribute("transform", `translate(${((1 - a2) * 900).toFixed(1)} ${((1 - a2) * -500).toFixed(1)}) rotate(${((1 - a2) * 38).toFixed(2)} 810 700)`); $("aile2").style.opacity = c((u - 22.7) / .2);
+    $("grain").setAttribute("transform", `translate(0 ${((1 - g) * -520).toFixed(1)})`); $("grain").style.opacity = c((u - 23.15) / .15);
+    const n = sort((u - 23.3) / .9); $("sai").style.transform = `translate3d(${(-(1 - n) * 40).toFixed(2)}vw,0,0)`; $("tora").style.transform = `translate3d(${((1 - n) * 40).toFixed(2)}vw,0,0)`;
+    $("sai").style.opacity = $("tora").style.opacity = c((u - 23.3) / .35);
+    const b = sort((u - 24) / .8); $("bouton").style.opacity = b.toFixed(3); $("bouton").style.transform = `translateX(-50%) translateY(${((1 - b) * 2).toFixed(2)}vw)`;
+    $("adresse").style.opacity = sort((u - 24.4) / .8).toFixed(3); }
 }
 window.rendu = rendu; window.DUREE = DUREE;
 // regardée dans un navigateur, la composition se joue en boucle (le film, lui, est fabriqué par outils/video.js)

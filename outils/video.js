@@ -35,7 +35,7 @@ const L = 1920, H = 1080, IPS = 30, PORT = 8791;
       }
       const src = ["-y", "-loglevel", "error", "-framerate", String(IPS), "-i", path.join(dossier, "i%05d.jpg")];
       const sortie = path.join(RACINE, "media/saitora-presentation");
-      execFileSync("ffmpeg", [...src, "-c:v", "libx264", "-preset", "slow", "-crf", "21", "-pix_fmt", "yuv420p", "-movflags", "+faststart", "-an", sortie + ".mp4"]);
+      execFileSync("ffmpeg", [...src, "-c:v", "libx264", "-preset", "slow", "-crf", "26", "-pix_fmt", "yuv420p", "-movflags", "+faststart", "-an", sortie + ".mp4"]);
       execFileSync("ffmpeg", [...src, "-c:v", "libvpx-vp9", "-b:v", "0", "-crf", "34", "-row-mt", "1", "-an", sortie + ".webm"]);
       execFileSync("ffmpeg", ["-y", "-loglevel", "error", "-i", path.join(dossier, `i${String(Math.round(15 * IPS)).padStart(5, "0")}.jpg`), "-quality", "82", sortie + ".webp"]);
       for (const e of [".mp4", ".webm", ".webp"]) console.log(path.basename(sortie + e), Math.round(fs.statSync(sortie + e).size / 1024) + " Ko");

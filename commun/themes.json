@@ -132,15 +132,15 @@
         "Conseil"
       ],
       "couleurs": {
-        "fond": "#F3F2EE",
-        "texte": "#0E1A26",
-        "accent": "#F5C518",
-        "second": "#0F2A4A"
+        "fond": "#FBFAF7",
+        "texte": "#10201E",
+        "accent": "#FF6A3D",
+        "second": "#0E7C7B"
       },
       "polices": {
-        "titres": "Archivo",
-        "texte": "Archivo",
-        "css": "polices/archivo-1da6c8.css"
+        "titres": "Uncut Sans",
+        "texte": "Uncut Sans",
+        "css": "polices/redaction-uncut-sans-libre-29d207.css"
       },
       "photo": "images/libecciu/golfe.webp",
       "exemple": {

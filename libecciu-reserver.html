@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>Réserver, Libecciu, démo Saitora</title>
+<meta name="description" content="Démo de site vitrine pour un loueur de kayaks, paddles, bateaux et jet-skis dans le golfe d'Ajaccio : la réservation.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0E7C7B">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Crect%20width=%2264%22%20height=%2264%22%20fill=%22%230E7C7B%22/%3E%3Crect%20x=%2220%22%20y=%2220%22%20width=%2224%22%20height=%2224%22%20fill=%22%23FF6A3D%22/%3E%3C/svg%3E">
+<link rel="stylesheet" href="polices/redaction-uncut-sans-libre-29d207.css">
+<link rel="stylesheet" href="libecciu.css?v=1">
+</head>
+<body>
+<div class="demo">Site de démonstration réalisé par Saitora, loueur fictif</div>
+<div class="etat"><div class="wrap"><b id="etat"><i></i><span>Ouvert d'avril à octobre, de 9 h à 19 h</span></b><span>Plage du golfe, route des Sanguinaires, Ajaccio · 04 00 00 00 00</span></div></div>
+<header class="tete">
+  <div class="wrap">
+    <nav class="g" aria-label="Navigation"><a href="libecciu-flotte.html">La flotte</a><a href="libecciu-prix.html">Les prix</a></nav>
+    <a class="nom" href="demo-libecciu.html" aria-label="Libecciu, accueil"><i></i>Libecciu</a>
+    <nav class="d" aria-label="Navigation, suite"><a href="libecciu-criques.html">Les criques</a><a class="btn" href="libecciu-reserver.html" aria-current="page">Réserver</a></nav>
+    <button class="menu" type="button" id="menuBtn" aria-expanded="false" aria-controls="feuille">Menu</button>
+  </div>
+</header>
+<div class="feuille" id="feuille" role="dialog" aria-modal="true" aria-label="Menu">
+  <div class="haut"><span class="nom"><i></i>Libecciu</span><button class="fermer" type="button" id="fermerBtn">Fermer</button></div>
+  <nav aria-label="Menu"><a href="demo-libecciu.html">Accueil<span>Les prochains départs</span></a><a href="libecciu-flotte.html">La flotte<span>Sept embarcations</span></a><a href="libecciu-prix.html">Les prix<span>Par embarcation</span></a><a href="libecciu-criques.html">Les criques<span>Trois, depuis le ponton</span></a><a href="libecciu-reserver.html" aria-current="page">Réserver<span>On vous rappelle dans l'heure</span></a></nav>
+  <a class="btn" href="tel:+33400000000">Appeler le 04 00 00 00 00</a>
+</div>
+
+<main>
+<section class="sec sable page-tete" data-n="05" data-haut style="padding-bottom:clamp(72px,9vw,128px)">
+  <div class="wrap">
+    <div class="grid chapo" style="margin-bottom:clamp(36px,5vw,56px)"><h1>Réserver une sortie</h1><p>Choisissez l'embarcation, le jour et l'heure. On vous rappelle dans l'heure pour confirmer.</p></div>
+    <div class="grid reserver">
+      <div class="infos">
+        <div><h2>Le ponton</h2><p>Plage du golfe, route des Sanguinaires, Ajaccio. Parking à deux minutes à pied.</p></div>
+        <div><h2>À apporter</h2><p>Maillot, crème solaire, chapeau et une pièce d'identité pour la caution.</p></div>
+        <div><h2>La caution</h2><p>Par empreinte de carte, rendue au retour.</p></div>
+        <div><h2>Par téléphone</h2><p><a href="tel:+33400000000">04 00 00 00 00</a>, tous les jours de 9 h à 19 h.</p></div>
+      </div>
+      <form class="carte" id="resa" novalidate>
+        <div class="champs">
+          <div class="champ"><label for="fBoat">L'embarcation</label><select id="fBoat"></select></div>
+          <div class="champ"><label for="fDur">La durée</label><select id="fDur"></select></div>
+          <div class="champ"><label for="fDay">Le jour</label><select id="fDay"></select></div>
+          <div class="champ"><label for="fTime">Le départ</label><select id="fTime"></select></div>
+          <div class="champ"><label for="fName">Votre nom</label><input id="fName" autocomplete="name" placeholder="Prénom et nom"></div>
+          <div class="champ"><label for="fTel">Téléphone</label><input id="fTel" type="tel" autocomplete="tel" inputmode="tel" placeholder="06 00 00 00 00"></div>
+        </div>
+        <div class="somme" aria-live="polite">
+          <div><small>Votre sortie</small><b class="num" id="sPrice">–</b></div>
+          <button class="btn" type="submit">Envoyer la demande</button>
+          <p id="sTxt"></p>
+          <p class="ok" id="ok"></p>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="pied">
+  <div class="wrap">
+    <div class="grid">
+      <div class="col"><h2>Le ponton</h2><p>Plage du golfe, route des Sanguinaires, Ajaccio. Parking à deux minutes à pied.</p></div>
+      <div class="col"><h2>La saison</h2><p>D'avril à octobre, tous les jours de 9 h à 19 h.</p></div>
+      <div class="col"><h2>Nous joindre</h2><p><a href="tel:+33400000000">04 00 00 00 00</a><br>ponton@libecciu.fr</p></div>
+      <a class="btn rappel" href="libecciu-reserver.html">Réserver une sortie</a>
+    </div>
+    <div class="mentions"><span>Loueur fictif, site réalisé par <a href="accueil.html">Saitora</a></span><span>Photos : Pixabay</span></div>
+  </div>
+</footer>
+
+<nav class="quai-bas" aria-label="Accès rapide"><a href="tel:+33400000000">Appeler</a><a href="libecciu-reserver.html">Réserver</a></nav>
+<script src="libecciu.js?v=1"></script>
+</body>
+</html>

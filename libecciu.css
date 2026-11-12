@@ -1,0 +1,311 @@
+/* Libecciu, genre « grille suisse », version en plusieurs pages (accueil, flotte, prix, criques, réserver).
+   Une seule police (Uncut Sans), tout aligné à gauche sur douze colonnes, angles droits, aplats francs :
+   le turquoise de l'eau du golfe, le corail des bouées, le sable. Un grand numéro pâle derrière chaque section.
+   Cette feuille sert aux cinq pages ; le script commun est libecciu.js. */
+@view-transition{navigation:auto}
+:root{
+  --blanc:#FBFAF7; --encre:#10201E; --doux:#4B5B58; --eau:#0E7C7B; --eau2:#0A6564; --lagon:#D3ECE7; --corail:#FF6A3D; --sable:#EFE6D5;
+  --filet:rgba(16,32,30,.16); --filet-c:rgba(255,255,255,.28);
+  --m:clamp(16px,4vw,56px); --col:clamp(12px,2vw,28px); --sans:"Uncut Sans",system-ui,sans-serif; --e:cubic-bezier(.23,1,.32,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+html:focus-within{scroll-behavior:smooth}
+body{background:var(--blanc);color:var(--encre);font:400 17px/1.5 var(--sans);-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;overflow-x:clip}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+button,input,select{font:inherit;color:inherit}
+ul,ol{list-style:none}
+:focus-visible{outline:3px solid var(--corail);outline-offset:3px}
+.wrap{max-width:1360px;margin-inline:auto;padding-inline:var(--m)}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--col)}
+.num{font-variant-numeric:tabular-nums}
+.demo{background:var(--encre);color:#C6D2D0;font-size:13px;text-align:center;padding:6px 16px}
+
+/* boutons : rectangles pleins ; lien fléché pour le reste */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 24px;border:0;background:var(--corail);color:var(--encre);font-weight:700;text-decoration:none;cursor:pointer;transition:background-color .2s,color .2s,transform .15s}
+.btn.encre{background:var(--encre);color:var(--blanc)}
+.btn.clair{background:var(--blanc)}
+@media (hover:hover) and (pointer:fine){.btn:hover{background:var(--encre);color:var(--blanc)}.btn.encre:hover{background:var(--eau)}.btn.clair:hover{background:var(--encre);color:var(--blanc)}}
+.btn:active{transform:scale(.97)}
+.fleche{display:inline-flex;align-items:center;gap:10px;min-height:44px;font-weight:700;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:.35em}
+.fleche::after{content:"→";transition:transform .2s var(--e)}
+@media (hover:hover) and (pointer:fine){.fleche:hover::after{transform:translateX(5px)}}
+
+/* ---- la ligne du haut : ouvert ou fermé, en direct ; puis l'en-tête, le nom au centre ---- */
+.etat{border-bottom:1px solid var(--filet);font-size:14px}
+.etat .wrap{display:flex;justify-content:space-between;gap:8px 24px;flex-wrap:wrap;padding-block:9px}
+.etat b{display:inline-flex;align-items:center;gap:9px;font-weight:700}
+.etat b i{width:10px;height:10px;background:#1E9E62}
+.etat b.ferme i{background:var(--corail)}
+.etat .wrap>span{color:var(--doux)}
+.tete{position:sticky;top:0;z-index:40;background:var(--blanc);border-bottom:1px solid var(--encre)}
+.tete .wrap{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:24px;min-height:68px}
+.tete nav{display:flex;gap:clamp(18px,2.4vw,34px);font-weight:500}
+.tete nav.d{justify-content:flex-end;align-items:center}
+.tete nav a{display:inline-flex;align-items:center;min-height:44px;text-decoration:none;border-bottom:2px solid transparent}
+.tete nav a[aria-current="page"]{border-bottom-color:var(--corail)}
+@media (hover:hover) and (pointer:fine){.tete nav a:not(.btn):hover{border-bottom-color:var(--encre)}}
+.tete nav .btn{min-height:44px;padding:0 20px;border-bottom:0}
+.nom{display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:24px;letter-spacing:-.03em;text-decoration:none}
+.nom i{width:14px;height:14px;background:var(--corail)}
+.tete .menu{display:none;justify-self:end;min-height:44px;padding:0 16px;border:1px solid var(--encre);background:none;font-weight:700;cursor:pointer}
+.feuille{position:fixed;inset:0;z-index:60;background:var(--eau);color:var(--blanc);display:flex;flex-direction:column;padding:18px var(--m) max(24px,env(safe-area-inset-bottom));visibility:hidden;opacity:0;transition:opacity .2s ease-out,visibility 0s .2s;overflow:auto}
+.feuille.ouverte{visibility:visible;opacity:1;transition:opacity .2s ease-out}
+.feuille .haut{display:flex;justify-content:space-between;align-items:center}
+.feuille .fermer{min-height:44px;padding:0 16px;border:1px solid var(--blanc);background:none;color:var(--blanc);font-weight:700;cursor:pointer}
+.feuille nav{margin-block:auto;display:grid;padding-block:24px}
+.feuille nav a{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:14px 0;border-bottom:1px solid var(--filet-c);font-weight:700;font-size:clamp(2rem,9vw,3rem);line-height:1;letter-spacing:-.035em;text-decoration:none}
+.feuille nav a span{font-size:14px;font-weight:500;letter-spacing:0;opacity:.8}
+.feuille .btn{width:100%}
+
+/* ---- sections : un grand numéro pâle derrière, le titre calé sur la grille ---- */
+.sec{position:relative;padding-block:clamp(72px,9vw,128px);overflow:hidden;isolation:isolate}
+.sec[data-n]::before{content:attr(data-n);position:absolute;z-index:-1;right:var(--m);top:clamp(20px,3vw,48px);font-weight:700;font-size:clamp(9rem,24vw,23rem);line-height:.8;letter-spacing:-.06em;color:rgba(16,32,30,.055)}
+.sec.eau{background:var(--eau);color:var(--blanc)}
+.sec.sable{background:var(--sable)}
+.sec.eau[data-n]::before{color:rgba(255,255,255,.09)}
+.chapo{margin-bottom:clamp(36px,5vw,64px)}
+.chapo h1,.chapo h2{grid-column:1 / span 8;font-weight:700;font-size:clamp(2.3rem,1.4rem + 3.4vw,4.8rem);line-height:.95;letter-spacing:-.04em;text-wrap:balance}
+.chapo p{grid-column:1 / span 6;margin-top:20px;max-width:54ch;font-size:clamp(1.02rem,1rem + .25vw,1.2rem)}
+.sec.eau .chapo p{color:#DDF1EE}
+.page-tete{padding-block:clamp(48px,6vw,88px) clamp(36px,4vw,56px)}
+.page-tete .chapo{margin-bottom:0}
+
+/* ---- accueil : l'ouverture en mosaïque (une case d'eau pour le titre, trois photos, une case de sable) ---- */
+.mosaique{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));grid-template-rows:minmax(0,1.25fr) minmax(0,1fr);gap:var(--col);height:clamp(560px,calc(100svh - 150px),760px);padding-top:var(--col)}
+.mosaique>*{position:relative;overflow:hidden;min-height:0}
+.mosaique img{width:100%;height:100%;object-fit:cover}
+.mosaique .titre{grid-column:1 / span 5;grid-row:1 / span 2;background:var(--eau);color:var(--blanc);padding:clamp(22px,3vw,44px);display:flex;flex-direction:column;justify-content:flex-end}
+.mosaique h1{font-weight:700;font-size:clamp(2.5rem,1.2rem + 3.6vw,4.9rem);line-height:.93;letter-spacing:-.045em;text-wrap:balance}
+.mosaique .titre p{margin-top:20px;max-width:40ch;color:#DDF1EE;font-size:clamp(1.02rem,1rem + .25vw,1.18rem)}
+.mosaique .acts{display:flex;flex-wrap:wrap;align-items:center;gap:10px 26px;margin-top:26px}
+.mosaique .p1{grid-column:6 / span 7;grid-row:1}
+.mosaique .p2{grid-column:6 / span 3;grid-row:2}
+.mosaique .p3{grid-column:11 / span 2;grid-row:2}
+.mosaique .case{grid-column:9 / span 2;grid-row:2;background:var(--sable);padding:18px;display:flex;flex-direction:column;justify-content:space-between}
+.mosaique .case b{font-weight:700;font-size:clamp(2.6rem,1.6rem + 2.6vw,4.4rem);line-height:.85;letter-spacing:-.05em}
+.mosaique .case b small{font-size:.32em;letter-spacing:0;margin-left:4px}
+.mosaique .case span{font-size:14px;line-height:1.35}
+.mosaique figcaption{position:absolute;left:0;bottom:0;background:var(--blanc);padding:6px 12px;font-size:13px;font-weight:500}
+
+/* ---- les prochains départs : le tableau du quai ---- */
+.quai{border-top:2px solid var(--encre)}
+.quai .haut{display:flex;justify-content:space-between;align-items:baseline;gap:10px 24px;flex-wrap:wrap;padding:16px 0;border-bottom:1px solid var(--filet);font-size:15px;color:var(--doux)}
+.quai .haut b{color:var(--encre)}
+.mer{display:inline-flex;align-items:center;gap:10px}
+.mer i{width:14px;height:14px}
+.ligne{display:grid;grid-template-columns:150px minmax(0,1fr) 150px 150px auto;align-items:center;gap:16px;min-height:80px;border-bottom:1px solid var(--filet)}
+.ligne .h{font-weight:700;font-size:clamp(1.9rem,1.4rem + 1.2vw,2.6rem);line-height:1;letter-spacing:-.04em;color:var(--eau);white-space:nowrap}
+.ligne .quoi{font-weight:700;font-size:1.15rem}
+.ligne .quoi small{display:block;font-weight:400;font-size:14px;color:var(--doux)}
+.ligne .reste{font-weight:500}
+.ligne.plein{color:#93A09E}
+.ligne.plein .h{color:#93A09E}
+.ligne .btn{min-height:44px;padding:0 18px}
+.ligne .btn[aria-disabled="true"]{background:none;color:inherit;pointer-events:none}
+.quai .note{margin-top:16px;font-size:14px;color:var(--doux)}
+
+/* ---- la flotte en sommaire illustré : la liste à gauche, la photo qui change à droite ---- */
+.sommaire{align-items:start}
+.sommaire ul{grid-column:1 / span 7;border-top:2px solid var(--blanc)}
+.sommaire li a{display:grid;grid-template-columns:3em minmax(0,1fr) auto;align-items:baseline;gap:16px;padding:20px 0;border-bottom:1px solid var(--filet-c);text-decoration:none;transition:padding-left .3s var(--e)}
+.sommaire li .i{font-weight:500;font-size:14px;opacity:.75}
+.sommaire li h3{font-weight:700;font-size:clamp(1.7rem,1.2rem + 2vw,3.2rem);line-height:1;letter-spacing:-.035em}
+.sommaire li .de{font-weight:500;white-space:nowrap}
+.sommaire li.actif a{padding-left:14px}
+.sommaire li.actif h3{color:var(--sable)}
+.sommaire .vue{grid-column:9 / span 4;position:sticky;top:96px;aspect-ratio:4/5;overflow:hidden;background:var(--eau2)}
+.sommaire .vue img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .45s ease}
+.sommaire .vue img.vu{opacity:1}
+.sommaire .suite{grid-column:1 / span 7;margin-top:28px}
+
+/* ---- en chiffres ---- */
+.chiffres{border-top:2px solid var(--encre)}
+.chiffres .f{grid-column:span 3;padding-top:20px}
+.chiffres .f b{display:block;font-weight:700;font-size:clamp(3.4rem,2rem + 5vw,7.2rem);line-height:.85;letter-spacing:-.06em;color:var(--eau)}
+.chiffres .f span{display:block;margin-top:14px;max-width:24ch;color:var(--doux)}
+
+/* ---- le ponton : un texte, trois engagements, une photo ---- */
+.ponton{align-items:start}
+.ponton .txt{grid-column:1 / span 6}
+.ponton .txt>p{max-width:50ch;font-size:clamp(1.05rem,1rem + .3vw,1.25rem)}
+.ponton ol{margin-top:32px;border-top:2px solid var(--encre)}
+.ponton ol li{display:grid;grid-template-columns:3em minmax(0,1fr);gap:16px;padding:18px 0;border-bottom:1px solid var(--filet)}
+.ponton ol li b{font-weight:700;color:var(--eau)}
+.ponton ol li strong{display:block;font-weight:700;font-size:1.2rem;letter-spacing:-.01em}
+.ponton figure{grid-column:8 / span 5}
+.ponton figure img{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:50% 20%}
+
+/* ---- le bloc corail de la fin ---- */
+.appel{background:var(--corail);padding-block:clamp(64px,8vw,112px)}
+.appel p{grid-column:1 / span 9;font-weight:700;font-size:clamp(2.2rem,1.3rem + 3.6vw,5rem);line-height:.95;letter-spacing:-.045em;text-wrap:balance}
+.appel div{grid-column:1 / -1;margin-top:28px}
+
+/* ---- la flotte, page complète : une ligne par embarcation ---- */
+.bateaux{border-top:2px solid var(--encre)}
+.bateau{padding-block:clamp(28px,4vw,48px);border-bottom:1px solid var(--filet);align-items:start;scroll-margin-top:90px}
+.bateau .i{grid-column:1;font-weight:700;color:var(--eau)}
+.bateau figure{grid-column:2 / span 4}
+.bateau figure img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.bateau .txt{grid-column:7 / span 6}
+.bateau h2{font-weight:700;font-size:clamp(1.8rem,1.2rem + 2vw,3.2rem);line-height:1;letter-spacing:-.035em}
+.bateau .qui{margin-top:8px;font-weight:500;color:var(--doux)}
+.bateau .txt>p:not(.qui){margin-top:14px;max-width:46ch}
+.tarifs{margin-top:20px;border-top:1px solid var(--filet)}
+.tarifs li{display:flex;justify-content:space-between;gap:16px;padding:10px 0;border-bottom:1px solid var(--filet)}
+.tarifs li b{font-weight:700}
+.bateau .btn{margin-top:22px}
+
+/* ---- les prix ---- */
+.tw{border-top:2px solid var(--encre)}
+table.prix{width:100%;border-collapse:collapse}
+.prix th,.prix td{text-align:left;padding:14px 12px 14px 0;border-bottom:1px solid var(--filet);vertical-align:baseline}
+.prix thead th{font-size:14px;font-weight:700;padding-top:16px}
+.prix td.p{font-weight:700;font-variant-numeric:tabular-nums}
+.prix td small{display:block;font-size:14px;color:var(--doux)}
+.prix td.non{color:#A3AEAC}
+.formules .fo{grid-column:span 4;background:var(--blanc);padding:24px;border-top:8px solid var(--c)}
+.formules .fo h3{font-weight:700;font-size:1.5rem;line-height:1.1;letter-spacing:-.02em}
+.formules .fo .pr{display:block;margin-top:12px;font-weight:700;font-size:2.8rem;line-height:1;letter-spacing:-.04em}
+.formules .fo p{margin-top:12px;max-width:34ch}
+.petit{margin-top:22px;font-size:14px;color:var(--doux)}
+.questions{border-top:2px solid var(--encre)}
+.questions .q{grid-column:span 6;padding:22px 0;border-bottom:1px solid var(--filet)}
+.questions h3{font-weight:700;font-size:1.2rem;line-height:1.2}
+.questions p{margin-top:8px;max-width:52ch}
+
+/* ---- les criques ---- */
+.criques .c{grid-column:span 4;border-top:2px solid var(--encre);padding-top:18px}
+.criques .c .min{font-weight:700;font-size:clamp(3.2rem,2rem + 3.4vw,5.6rem);line-height:.85;letter-spacing:-.06em;color:var(--eau)}
+.criques .c .min small{font-size:.3em;letter-spacing:0;margin-left:4px}
+.criques .c h2{margin-top:18px;font-weight:700;font-size:1.6rem;line-height:1.1;letter-spacing:-.02em}
+.criques .c p{margin-top:8px;max-width:36ch}
+.criques .c .comment{margin-top:12px;font-size:14px;font-weight:700}
+.large{margin-top:clamp(48px,6vw,80px)}
+.large img{width:100%;aspect-ratio:21/9;object-fit:cover;object-position:50% 60%}
+.large figcaption{margin-top:10px;font-size:14px;color:var(--doux)}
+.jour{position:relative;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:var(--col);padding-top:34px}
+.jour::before{content:"";position:absolute;left:0;right:0;top:9px;height:2px;background:var(--blanc)}
+.jour li{position:relative}
+.jour li::before{content:"";position:absolute;top:-34px;left:0;width:20px;height:20px;background:var(--c,var(--blanc))}
+.jour b{display:block;font-weight:700;font-size:1.9rem;line-height:1;letter-spacing:-.03em}
+.jour span{display:block;margin-top:10px;color:#DDF1EE;max-width:22ch}
+
+/* ---- réserver : les infos à gauche, le formulaire sur une carte blanche ---- */
+.reserver{align-items:start}
+.reserver .infos{grid-column:1 / span 4;display:grid;gap:0;border-top:2px solid var(--encre)}
+.reserver .infos div{padding:18px 0;border-bottom:1px solid var(--filet)}
+.reserver .infos h2{font-size:14px;font-weight:700;margin-bottom:6px}
+.carte{grid-column:6 / span 7;background:var(--blanc);padding:clamp(20px,3vw,40px)}
+.carte .champs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 24px}
+.champ label{display:block;font-size:14px;font-weight:700;margin-bottom:6px}
+.champ select,.champ input{width:100%;min-height:52px;padding:0 14px;border:1px solid var(--encre);background:var(--blanc);border-radius:0;font-size:16px;-webkit-appearance:none;appearance:none}
+.champ select{background:var(--blanc) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%2310201E' stroke-width='2'/%3E%3C/svg%3E") no-repeat right 14px center;padding-right:38px}
+.somme{margin-top:28px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 24px;align-items:end;padding-top:22px;border-top:2px solid var(--encre)}
+.somme small{display:block;font-weight:700;font-size:14px}
+.somme b{display:block;margin-top:6px;font-weight:700;font-size:clamp(2.8rem,2rem + 2.4vw,4.4rem);line-height:.9;letter-spacing:-.05em;color:var(--eau)}
+.somme p{grid-column:1 / -1;font-size:15px;color:var(--doux)}
+.somme .btn{transition:background-color .25s,color .25s,transform .15s}
+.somme .btn.fait{background:var(--eau);color:var(--blanc)}
+.somme .ok{font-weight:700;color:var(--encre);min-height:1.5em}
+
+/* ---- pied de page : trois colonnes d'infos pratiques et le rappel du bouton ---- */
+.pied{background:var(--encre);color:var(--blanc);padding-block:clamp(56px,7vw,96px) 24px}
+.pied .col{grid-column:span 3}
+.pied h2{font-size:14px;font-weight:700;margin-bottom:8px;color:#9EC9C4}
+.pied .col p{color:#D5DEDD}
+.pied .rappel{grid-column:10 / span 3;justify-self:end;align-self:start}
+.pied .mentions{margin-top:clamp(48px,6vw,80px);padding-top:18px;border-top:1px solid rgba(255,255,255,.2);display:flex;justify-content:space-between;gap:12px 24px;flex-wrap:wrap;font-size:13px;color:#A9B8B6}
+
+/* ---- la barre du bas (téléphone) ---- */
+.quai-bas{display:none}
+
+/* ---- les mouvements, tirés de la banque animations/mouvements.html : 01, 02, 04, 14, 24, 26, 33, 43 (passage entre les pages) ---- */
+@media (prefers-reduced-motion:no-preference){
+  /* 01 : les cases de la mosaïque arrivent l'une après l'autre, puis le titre */
+  .mosaique>*{animation:case .8s var(--e) both;animation-delay:calc(var(--i,0) * 90ms)}
+  .mosaique .titre>*{animation:monte .8s var(--e) .35s both}
+  .mosaique .titre>p{animation-delay:.47s}.mosaique .titre>.acts{animation-delay:.59s}
+  .page-tete .chapo>*{animation:monte .8s var(--e) .05s both}
+  .page-tete .chapo>p{animation-delay:.17s}
+  @keyframes case{from{opacity:0;transform:translateY(26px)}}
+  @keyframes monte{from{opacity:0;transform:translateY(20px)}}
+  /* 02 : les blocs arrivent en décalé */
+  .leve{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .7s var(--e);transition-delay:var(--d,0ms)}
+  .leve.on{opacity:1;transform:none}
+  /* 24 : le prix roule quand il change */
+  .roule span{display:inline-block;animation:roule .45s var(--e) backwards;animation-delay:calc(var(--k) * 40ms)}
+  @keyframes roule{from{opacity:0;transform:translateY(.4em)}}
+  /* 33 : la ligne de la journée se remplit, les repères s'allument l'un après l'autre */
+  .jour.frise::before{transform:scaleX(0);transform-origin:0 0;transition:transform 1.7s cubic-bezier(.45,0,.2,1)}
+  .jour.frise.on::before{transform:none}
+  .jour.frise li{opacity:0;transition:opacity .5s ease;transition-delay:calc(var(--i) * 260ms + 150ms)}
+  .jour.frise li::before{transform:scale(0);transition:transform .45s var(--e);transition-delay:calc(var(--i) * 260ms)}
+  .jour.frise.on li{opacity:1}
+  .jour.frise.on li::before{transform:none}
+}
+
+@media (max-width:960px){
+  .tete .wrap{grid-template-columns:1fr auto;min-height:60px}
+  .tete nav{display:none}
+  .tete .menu{display:inline-flex;align-items:center}
+  .nom{font-size:22px}
+  .etat .wrap>span{display:none}
+  .chapo h1,.chapo h2,.chapo p{grid-column:1 / -1}
+  .mosaique{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:auto;height:auto}
+  .mosaique .titre{grid-column:1 / -1;grid-row:auto;padding-top:clamp(40px,10vw,72px)}
+  .mosaique .p1{grid-column:1 / -1;grid-row:auto;aspect-ratio:16/10}
+  .mosaique .p2,.mosaique .p3{grid-column:auto;grid-row:auto;aspect-ratio:1}
+  .mosaique .case{grid-column:1 / -1;grid-row:auto;order:5;flex-direction:row;align-items:flex-end;gap:16px}
+  .ligne{grid-template-columns:minmax(0,1fr) auto;gap:4px 16px;padding:16px 0;min-height:0}
+  .ligne .quoi,.ligne .duree,.ligne .reste{grid-column:1}
+  .ligne .btn{grid-column:2;grid-row:1 / span 2;align-self:center}
+  .ligne .duree,.ligne .reste{font-size:15px}
+  .sommaire ul,.sommaire .suite{grid-column:1 / -1}
+  .sommaire .vue{display:none}
+  .sommaire li a{grid-template-columns:2.2em minmax(0,1fr)}
+  .sommaire li .de{grid-column:2}
+  .sommaire li.actif a{padding-left:0}
+  .sommaire li.actif h3{color:inherit}
+  .chiffres .f{grid-column:span 6;margin-bottom:28px}
+  .ponton .txt,.ponton figure{grid-column:1 / -1}
+  .ponton figure{margin-top:32px}
+  .ponton figure img{aspect-ratio:4/3}
+  .appel p{grid-column:1 / -1}
+  .bateau .i{grid-column:1 / -1;margin-bottom:10px}
+  .bateau figure,.bateau .txt{grid-column:1 / -1}
+  .bateau .txt{margin-top:20px}
+  .formules .fo,.criques .c{grid-column:1 / -1;margin-bottom:28px}
+  .questions .q{grid-column:1 / -1}
+  .large img{aspect-ratio:16/10}
+  .jour{grid-template-columns:minmax(0,1fr);padding-top:0;padding-left:40px;gap:26px}
+  .jour::before{left:9px;right:auto;top:0;bottom:0;width:2px;height:auto}
+  .jour li::before{top:6px;left:-40px}
+  .reserver .infos,.carte{grid-column:1 / -1}
+  .carte{margin-top:32px}
+  .pied .col{grid-column:1 / -1;margin-bottom:22px}
+  .pied .rappel{grid-column:1 / -1;justify-self:start}
+  .pied{padding-bottom:96px}
+  .quai-bas{display:grid;grid-template-columns:1fr 1fr;position:fixed;left:0;right:0;bottom:0;z-index:40;border-top:1px solid var(--encre);padding-bottom:env(safe-area-inset-bottom);background:var(--blanc);transform:translateY(100%);transition:transform .25s var(--e)}
+  .quai-bas a{display:flex;align-items:center;justify-content:center;min-height:56px;font-weight:700;text-decoration:none}
+  .quai-bas a+a{background:var(--corail);border-left:1px solid var(--encre)}
+  .quai-bas.on{transform:none}
+}
+@media (prefers-reduced-motion:no-preference) and (max-width:960px){.jour.frise::before{transform:scaleY(0)}}
+/* sur téléphone, le tableau des prix devient une fiche par embarcation : rien ne défile sur le côté */
+@media (max-width:760px){
+  .prix thead{display:none}
+  .prix tr{display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;padding:16px 0;border-bottom:1px solid var(--filet)}
+  .prix td{padding:0;border:0}
+  .prix td:first-child{grid-column:1 / -1;margin-bottom:4px}
+  .prix td.non{display:none}
+  .prix td.p{display:flex;justify-content:space-between;gap:8px;padding:6px 0;border-bottom:1px dashed var(--filet)}
+  .prix td.p::before{content:attr(data-l);font-weight:400;color:var(--doux)}
+}
+@media (max-width:560px){
+  .carte .champs{grid-template-columns:minmax(0,1fr)}
+  .somme{grid-template-columns:minmax(0,1fr)}
+  .somme .btn{width:100%}
+  .chiffres .f b{font-size:3.4rem}
+}

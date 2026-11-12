@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>Les criques, Libecciu, démo Saitora</title>
+<meta name="description" content="Démo de site vitrine pour un loueur de kayaks, paddles, bateaux et jet-skis dans le golfe d'Ajaccio : les criques.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0E7C7B">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Crect%20width=%2264%22%20height=%2264%22%20fill=%22%230E7C7B%22/%3E%3Crect%20x=%2220%22%20y=%2220%22%20width=%2224%22%20height=%2224%22%20fill=%22%23FF6A3D%22/%3E%3C/svg%3E">
+<link rel="stylesheet" href="polices/redaction-uncut-sans-libre-29d207.css">
+<link rel="stylesheet" href="libecciu.css?v=1">
+</head>
+<body>
+<div class="demo">Site de démonstration réalisé par Saitora, loueur fictif</div>
+<div class="etat"><div class="wrap"><b id="etat"><i></i><span>Ouvert d'avril à octobre, de 9 h à 19 h</span></b><span>Plage du golfe, route des Sanguinaires, Ajaccio · 04 00 00 00 00</span></div></div>
+<header class="tete">
+  <div class="wrap">
+    <nav class="g" aria-label="Navigation"><a href="libecciu-flotte.html">La flotte</a><a href="libecciu-prix.html">Les prix</a></nav>
+    <a class="nom" href="demo-libecciu.html" aria-label="Libecciu, accueil"><i></i>Libecciu</a>
+    <nav class="d" aria-label="Navigation, suite"><a href="libecciu-criques.html" aria-current="page">Les criques</a><a class="btn" href="libecciu-reserver.html">Réserver</a></nav>
+    <button class="menu" type="button" id="menuBtn" aria-expanded="false" aria-controls="feuille">Menu</button>
+  </div>
+</header>
+<div class="feuille" id="feuille" role="dialog" aria-modal="true" aria-label="Menu">
+  <div class="haut"><span class="nom"><i></i>Libecciu</span><button class="fermer" type="button" id="fermerBtn">Fermer</button></div>
+  <nav aria-label="Menu"><a href="demo-libecciu.html">Accueil<span>Les prochains départs</span></a><a href="libecciu-flotte.html">La flotte<span>Sept embarcations</span></a><a href="libecciu-prix.html">Les prix<span>Par embarcation</span></a><a href="libecciu-criques.html" aria-current="page">Les criques<span>Trois, depuis le ponton</span></a><a href="libecciu-reserver.html">Réserver<span>On vous rappelle dans l'heure</span></a></nav>
+  <a class="btn" href="tel:+33400000000">Appeler le 04 00 00 00 00</a>
+</div>
+
+<main>
+<section class="sec page-tete" data-n="04" data-haut>
+  <div class="wrap"><div class="grid chapo"><h1>Trois criques depuis le ponton</h1><p>La carte est remise au départ. Aujourd'hui : <span class="mer" data-mer></span></p></div></div>
+</section>
+<div class="wrap">
+  <div class="grid criques">
+    <div class="c"><div class="min num">25<small>min</small></div><h2>La crique aux pins</h2><p>Une plage de galets à l'ombre des pins, à portée de pagaie. L'eau y est la plus claire le matin.</p><p class="comment">En kayak · 5 min en bateau</p></div>
+    <div class="c"><div class="min num">50<small>min</small></div><h2>La Parata</h2><p>Le promontoire de granit et sa tour génoise. On mouille au pied, on monte à pied en dix minutes.</p><p class="comment">En kayak · 12 min en bateau</p></div>
+    <div class="c"><div class="min num">30<small>min</small></div><h2>Les Sanguinaires</h2><p>Quatre îles rouges au bout du golfe, et le phare. On y va en semi-rigide, au calme du matin.</p><p class="comment">En semi-rigide</p></div>
+  </div>
+  <figure class="large"><img src="images/libecciu/golfe.webp" alt="Une crique d'eau turquoise, des bateaux au mouillage" width="1280" height="800" loading="lazy"><figcaption>Au mouillage dans une crique du golfe.</figcaption></figure>
+</div>
+
+<section class="sec eau" style="margin-top:clamp(56px,7vw,96px)">
+  <div class="wrap">
+    <div class="grid chapo"><h2>Une journée au ponton</h2><p>Le matin pour le calme et l'eau claire, la fin d'après-midi pour la lumière.</p></div>
+    <ol class="jour">
+      <li><b class="num">8 h 30</b><span>Vérification de la flotte, pleins faits</span></li>
+      <li><b class="num">9 h</b><span>Premiers départs, mer la plus calme</span></li>
+      <li><b class="num">11 h</b><span>Les kayaks arrivent à la crique aux pins</span></li>
+      <li style="--c:var(--corail)"><b class="num">14 h</b><span>Le vent se lève, on reste dans la baie si besoin</span></li>
+      <li><b class="num">17 h 30</b><span>Départ « coucher de soleil » en bateau</span></li>
+      <li><b class="num">19 h</b><span>Derniers retours, rinçage, on range</span></li>
+    </ol>
+  </div>
+</section>
+
+<section class="appel">
+  <div class="wrap grid"><p>La mer est plus calme le matin. Le ponton ouvre à 9&nbsp;h.</p><div><a class="btn encre" href="libecciu-reserver.html">Réserver une sortie</a></div></div>
+</section>
+</main>
+
+<footer class="pied">
+  <div class="wrap">
+    <div class="grid">
+      <div class="col"><h2>Le ponton</h2><p>Plage du golfe, route des Sanguinaires, Ajaccio. Parking à deux minutes à pied.</p></div>
+      <div class="col"><h2>La saison</h2><p>D'avril à octobre, tous les jours de 9 h à 19 h.</p></div>
+      <div class="col"><h2>Nous joindre</h2><p><a href="tel:+33400000000">04 00 00 00 00</a><br>ponton@libecciu.fr</p></div>
+      <a class="btn rappel" href="libecciu-reserver.html">Réserver une sortie</a>
+    </div>
+    <div class="mentions"><span>Loueur fictif, site réalisé par <a href="accueil.html">Saitora</a></span><span>Photos : Pixabay</span></div>
+  </div>
+</footer>
+
+<nav class="quai-bas" aria-label="Accès rapide"><a href="tel:+33400000000">Appeler</a><a href="libecciu-reserver.html">Réserver</a></nav>
+<script src="libecciu.js?v=1"></script>
+</body>
+</html>

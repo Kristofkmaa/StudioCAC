@@ -627,7 +627,7 @@ section[id]{scroll-margin-top:20px}
           <p class="enseigne" aria-hidden="true">SAITORA</p>
           <div class="store" aria-hidden="true"></div>
           <div class="vitrine">
-            <video id="film" muted playsinline preload="none" poster="media/saitora-presentation.webp?v=1" width="1920" height="1080" aria-label="Saitora en 38 secondes : la vidéo de présentation, sans son"><source src="media/saitora-presentation.mp4?v=3" type="video/mp4"></video>
+            <video id="film" muted playsinline preload="none" poster="media/saitora-presentation.webp?v=1" width="1920" height="1080" aria-label="Saitora en 38 secondes : la vidéo de présentation, sans son"><source src="media/saitora-presentation.mp4?v=3#t=3.25" type="video/mp4"></video>
             <button type="button" class="lecture" id="filmBtn" aria-label="Mettre la vidéo en pause"><svg class="pauser" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 2h4v12H3zM9 2h4v12H9z"/></svg><svg class="jouer" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2l10 6-10 6z"/></svg></button>
           </div>
           <button type="button" class="suite" id="filmSuite"><span id="filmSuiteMot">Passer la vidéo</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M4 9l4 4 4-4"/></svg></button>
@@ -918,8 +918,10 @@ if (dezoom && !calme) {
     { const B = $("boutique"), film = $("film"), v = Math.min(1, Math.max(0, (heroP - .2) / .3)), ve = v * v * (3 - 2 * v), x = Math.min(1, Math.max(0, (heroP - .68) / .14));
       B.style.setProperty("--bs", ((.04 + .96 * ve) * (1 + x * x * .9)).toFixed(4)); B.style.setProperty("--bo", (Math.min(1, v * 2.6) * (1 - x)).toFixed(3)); B.classList.toggle("la", v > .97 && x < .2);
       const joue = v > .55 && x < .9 && !filmArrete;
-      if (joue && film.paused) { if (!film.dataset.vu) { film.dataset.vu = 1; film.addEventListener("loadedmetadata", () => { film.currentTime = 3.25; }, { once: true }); }   // la première fois, on part de l'image d'attente
-        film.play().catch(() => {}); }
+      // la vidéo se prépare dès qu'on commence à descendre, et son adresse (#t=3.25) la fait démarrer sur l'image d'attente :
+      // avant, elle montrait un instant sa toute première image puis sautait, ce qui clignotait
+      if (heroP > .06 && !film.dataset.pret) { film.dataset.pret = 1; film.addEventListener("loadedmetadata", () => { if (film.currentTime < 3) film.currentTime = 3.25; }, { once: true }); film.preload = "auto"; film.load(); }
+      if (joue && film.paused) film.play().catch(() => {});
       else if (!joue && !film.paused) film.pause(); }
     const a = Math.min(1, Math.max(0, (heroP - .7) / .26)), ae = a * a * (3 - 2 * a);
     arr.style.setProperty("--as", (.04 + .96 * ae).toFixed(4)); arr.style.setProperty("--ao", Math.min(1, a * 2.6).toFixed(3)); arr.classList.toggle("la", a > .97);

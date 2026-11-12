@@ -29,15 +29,15 @@
    (abysse-transition.js), s'ouvre comme un iris depuis ce bouton et se retient d'une page à l'autre (localStorage « saitora-jour »).
    Le sélecteur est plus précis que les :root des pages : il gagne même quand une page redéfinit ses couleurs. */
 :root[data-theme="jour"]{
-  /* 12 novembre 2026 : deux essais trop clairs (presque blanc, puis papier beige). Ici un ton moyen, vert sauge : ni blanc ni nuit. */
-  --abyss:#B9C7BF; --deep:#AEBDB4; --kelp:#A3B3AA; --kelp-hi:#96A89E; --mist:#0B2623; --silver:#33433E; --slate:#55635D; --phosphor:#5B2C66;
+  /* 12 novembre 2026 : deux essais trop clairs (presque blanc, puis papier beige). Ici un ton moyen, vert sauge : ni blanc ni nuit. Le vert des textes est un vert d'eau foncé, pas un vert presque noir (trop dur sur ce fond). */
+  --abyss:#B9C7BF; --deep:#AEBDB4; --kelp:#A3B3AA; --kelp-hi:#96A89E; --mist:#1B4741; --silver:#3A534D; --slate:#5B6E67; --phosphor:#6A3A76;
   --aurora:linear-gradient(90deg,#BFF3EE 0%,#E6FAF7 30%,#F3DDF7 70%,#E9BEF2 96%);
-  --white:#0B2623;
+  --white:#1B4741;
   --bg:var(--abyss); --bg-alt:rgba(174,189,180,.84); --surface:rgba(163,179,170,.88); --surface-2:rgba(150,168,158,.92);
-  --ink:#0B2623; --muted:var(--silver); --faint:#55635D;
-  --line:rgba(11,38,35,.18); --line-hi:rgba(11,38,35,.38); --chip:rgba(11,38,35,.09);
-  --accent:#0A4F49; --accent-hover:#5B2C66; --on-accent:#EEF3EF; --accent-text:#5B2C66;
-  --invert-bg:#012624; --invert-ink:#EDFFFE; --invert-muted:#BBC7C6;
+  --ink:#1B4741; --muted:var(--silver); --faint:#5B6E67;
+  --line:rgba(27,71,65,.2); --line-hi:rgba(27,71,65,.42); --chip:rgba(27,71,65,.1);
+  --accent:#176259; --accent-hover:#6A3A76; --on-accent:#EEF3EF; --accent-text:#6A3A76;
+  --invert-bg:#1B4741; --invert-ink:#EDFFFE; --invert-muted:#C9D6D2;
   --ok:#14562C; --warn:#5F4000;
   --logo-filter:none;
   --night:#012624;

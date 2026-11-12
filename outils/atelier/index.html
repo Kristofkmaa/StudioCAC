@@ -99,6 +99,16 @@ dialog .note{padding:10px 18px 14px;max-width:none}
 .barre p{font-size:14px;color:var(--ink);min-width:0;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
 .barre button{flex:none}
 [hidden]{display:none!important}
+/* deux façons de remplir : « rapide » (un seul écran) ne montre que l'essentiel, « en détail » montre les sept étapes */
+body[data-mode="rapide"] .detail{display:none!important}
+body[data-mode="detail"] .rapide{display:none!important}
+body[data-mode="rapide"] .etape .num{display:none}
+.prevu{display:grid;gap:14px}
+.prevu div{display:grid;gap:2px}
+.prevu b{font-weight:500}
+.regles{display:grid;gap:8px}
+details.toujours>summary{cursor:pointer;font-weight:500;min-height:44px;display:flex;align-items:center}
+details.toujours[open]>summary{margin-bottom:8px}
 @media (hover:hover){button:not(:disabled):not(.plein):not([aria-pressed=true]):hover{border-color:var(--accent)}}
 @media (prefers-reduced-motion:no-preference){.pense::after{content:"…";animation:pts 1.2s steps(4) infinite}@keyframes pts{0%{content:""}25%{content:"."}50%{content:".."}75%{content:"..."}}}
 </style>
@@ -107,8 +117,9 @@ dialog .note{padding:10px 18px 14px;max-width:none}
   <header style="display:grid;gap:16px">
     <p class="num">SAITORA · L’ATELIER</p>
     <h1>Préparer un site</h1>
-    <p class="intro">Choisis le projet, les pages, le genre et les animations. À la fin, tu repars avec le texte à coller dans une session : tout y est décidé, je n’ai plus qu’à construire.</p>
-    <ul class="plan" aria-label="Les étapes">
+    <p class="intro">Donne le nom et le métier : l’atelier prévoit le reste, et tu repars avec le texte à coller dans une session. Pour tout choisir toi-même, passe « en détail ».</p>
+    <div class="rang" id="modes" role="group" aria-label="Façon de remplir"></div>
+    <ul class="plan detail" aria-label="Les étapes">
       <li><a href="#s1"><b>01</b>Le projet</a></li><li><a href="#sp"><b>02</b>Les pages</a></li><li><a href="#s2"><b>03</b>Le genre</a></li><li><a href="#s3"><b>04</b>La composition</a></li>
       <li><a href="#s4"><b>05</b>Les animations</a></li><li><a href="#s5"><b>06</b>Tes consignes</a></li><li><a href="#s6"><b>07</b>Le prompt</a></li>
     </ul>
@@ -117,6 +128,10 @@ dialog .note{padding:10px 18px 14px;max-width:none}
   <section class="etape" id="s1" aria-labelledby="t1">
     <div class="tete"><p class="num">01</p><h2 id="t1">Le projet</h2><p>Seul le nom est obligatoire. Plus tu en dis, moins j’invente.</p></div>
     <div class="rang" id="types" role="group" aria-label="Type de projet"></div>
+    <div class="panneau">
+      <div style="display:grid;gap:6px"><h3>Partir d’un métier</h3><p class="note">Touche le métier : je prévois les pages, l’idée vivante et quelques animations qui lui vont. Tu peux tout changer ensuite.</p></div>
+      <div class="rang" id="departs" role="group" aria-label="Métier de départ"></div>
+    </div>
     <div class="panneau">
       <div class="champs">
         <label class="ch" id="l-nom">Nom du commerce<input type="text" id="nom" autocomplete="off" placeholder="Chez Margot"></label>
@@ -127,27 +142,33 @@ dialog .note{padding:10px 18px 14px;max-width:none}
         <label class="ch large" id="l-ancien">Adresse de son site actuel (s’il en a un)<input type="url" id="ancien" autocomplete="off" inputmode="url" placeholder="https://…"></label>
       </div>
       <datalist id="metiers"><option>Restaurant<option>Boulangerie<option>Gîte, maison d’hôtes<option>Hôtel<option>Salon de coiffure<option>Institut de beauté<option>Artisan du bâtiment<option>Garage<option>Boutique<option>Fleuriste<option>Cave, bar à vins<option>Cabinet<option>Salle de sport<option>Agence immobilière</datalist>
-      <label class="coche"><input type="checkbox" id="couleurs">Je connais déjà ses couleurs</label>
-      <div class="rang" id="z-couleurs" hidden>
+      <label class="coche detail"><input type="checkbox" id="couleurs">Je connais déjà ses couleurs</label>
+      <div class="rang detail" id="z-couleurs" hidden>
         <label class="ch">Principale<input type="color" id="c1"></label>
         <label class="ch">Fond<input type="color" id="c2"></label>
         <label class="ch">Boutons<input type="color" id="c3"></label>
         <label class="coche"><input type="checkbox" id="coulApercu">Les voir sur les aperçus de genre</label>
       </div>
-      <div style="display:grid;gap:8px"><h3>Style de ses titres</h3><div class="rang" id="titres" role="group" aria-label="Style des titres"></div><p class="note">Sert à tirer la paire de polices. Laisse « Selon le genre » si tu ne sais pas.</p></div>
+      <div class="detail" style="display:grid;gap:8px"><h3>Style de ses titres</h3><div class="rang" id="titres" role="group" aria-label="Style des titres"></div><p class="note">Sert à tirer la paire de polices. Laisse « Selon le genre » si tu ne sais pas.</p></div>
       <label class="ch large">Ce qui est vrai chez lui<textarea id="vrai" placeholder="Horaires, spécialités, histoire de la maison, ce qui le rend différent, téléphone du commerce…"></textarea></label>
-      <div style="display:grid;gap:4px"><h3>Les photos</h3>
+      <div class="detail" style="display:grid;gap:4px"><h3>Les photos</h3>
         <div class="rang"><label class="coche"><input type="checkbox" id="ph-client">Celles du client</label><label class="coche"><input type="checkbox" id="ph-archives">Archives libres de son lieu</label><label class="coche"><input type="checkbox" id="ph-pixabay">Pixabay</label></div></div>
-      <label class="coche"><input type="checkbox" id="avis">Il a de vrais avis de clients à montrer</label>
+      <label class="coche detail"><input type="checkbox" id="avis">Il a de vrais avis de clients à montrer</label>
     </div>
-    <div class="panneau" id="z-idee" hidden>
+    <div class="panneau detail" id="z-idee" hidden>
       <div style="display:grid;gap:6px"><h3>Pas d’idée ? Je propose.</h3><p class="note">À partir de ce que tu as écrit au-dessus, je choisis un genre, une idée originale et quelques animations. Tu peux tout changer ensuite. La première fois, Claude demande ton accord.</p></div>
       <div class="rang"><button type="button" id="proposer">Proposer pour moi</button></div>
       <div class="sortie" id="idee" aria-live="polite"></div>
     </div>
   </section>
 
-  <section class="etape" id="sp" aria-labelledby="tp">
+  <section class="etape rapide" id="sr" aria-labelledby="tr">
+    <div class="tete"><h2 id="tr">Ce que j’ai prévu</h2><p>D’après le métier. Si quelque chose ne te va pas, règle-le en détail.</p></div>
+    <div class="panneau prevu" id="prevu" aria-live="polite"></div>
+    <div class="rang"><button type="button" id="vers-detail">Régler en détail</button></div>
+  </section>
+
+  <section class="etape detail" id="sp" aria-labelledby="tp">
     <div class="tete"><p class="num">02</p><h2 id="tp">Les pages</h2><p>Un seul bloc qu’on fait défiler, ou un site avec plusieurs pages ? Une page en plus se justifie quand elle a un vrai travail à faire : vendre, réserver, montrer beaucoup de photos.</p></div>
     <div class="rang" id="blocs" role="group" aria-label="Une ou plusieurs pages"></div>
     <div class="panneau" id="z-pages" hidden>
@@ -157,18 +178,18 @@ dialog .note{padding:10px 18px 14px;max-width:none}
     </div>
   </section>
 
-  <section class="etape" id="s2" aria-labelledby="t2">
+  <section class="etape detail" id="s2" aria-labelledby="t2">
     <div class="tete"><p class="num">03</p><h2 id="t2">Le genre</h2><p>Il décide de tout le reste : la grille, les tailles, le ton. Les aperçus portent le nom de ton projet.</p></div>
     <div class="genres" id="genres"></div>
   </section>
 
-  <section class="etape" id="s3" aria-labelledby="t3">
+  <section class="etape detail" id="s3" aria-labelledby="t3">
     <div class="tete"><p class="num">04</p><h2 id="t3">La composition</h2><p>Ne choisis que ce qui compte pour toi. Le reste est tiré au sort dans la session. En pointillé, ce qui va moins bien avec le genre choisi.</p></div>
     <div class="panneau" id="familles" style="gap:0;padding-block:8px"></div>
     <div class="rang"><button type="button" id="vider-compo">Tout remettre au tirage</button></div>
   </section>
 
-  <section class="etape" id="s4" aria-labelledby="t4">
+  <section class="etape detail" id="s4" aria-labelledby="t4">
     <div class="tete"><p class="num">05</p><h2 id="t4">Les animations</h2><p>Ta banque de 100 mouvements : 50 basiques, 50 premium, dont quatre séries faites pour un métier. Six à dix suffisent pour un site : au-delà, ça fatigue. «&nbsp;Voir&nbsp;» la joue en vrai.</p></div>
     <div class="rang" id="niveaux" role="group" aria-label="Filtrer par série"></div>
     <div class="rang" id="filtres" role="group" aria-label="Filtrer par style"></div>
@@ -179,6 +200,12 @@ dialog .note{padding:10px 18px 14px;max-width:none}
   <section class="etape" id="s5" aria-labelledby="t5">
     <div class="tete"><p class="num">06</p><h2 id="t5">Tes consignes</h2><p>Ce que tu veux absolument, ce que tu ne veux pas, ce que le client a demandé.</p></div>
     <textarea id="consignes" aria-labelledby="t5" placeholder="Par exemple : la carte doit être lisible en un coup d’œil, pas de noir, il veut qu’on voie la terrasse en premier…"></textarea>
+    <details class="panneau toujours" id="toujours">
+      <summary id="toujours-t">Mes règles de toujours</summary>
+      <p class="note">Elles partent dans chaque prompt, pour ne plus avoir à les répéter. Elles restent quand tu effaces un projet.</p>
+      <div class="regles" id="regles"></div>
+      <label class="ch large">D’autres règles à moi (une par ligne)<textarea id="regles-libre" style="min-height:84px" placeholder="Par exemple : toujours plusieurs pages pour une location, jamais de fond noir…"></textarea></label>
+    </details>
     <div class="rang"><label class="coche"><input type="checkbox" id="planche">Me montrer une planche de polices avant de construire</label><label class="coche"><input type="checkbox" id="app">Préparer aussi son appli (Saitorapp)</label></div>
   </section>
 
@@ -473,7 +500,34 @@ dialog .note{padding:10px 18px 14px;max-width:none}
     ["actualites", "Actualités", "Nouveautés, événements, plats du moment.", "actualites.html"]];
   const CONSEILS = [[/restau|bistro|pizz|brasserie|caf|bar/i, ["carte", "reserver"]], [/h[oô]tel|g[iî]te|h[oô]te|chambre|villa|camping|locat/i, ["reserver", "realisations"]], [/boutique|magasin|[ée]picerie|cave|fleur|bijou|cr[ée]at/i, ["boutique"]],
     [/coiff|beaut|institut|spa|barb|massage|esth/i, ["carte", "reserver"]], [/artisan|ma[cç]on|plomb|[ée]lectr|peint|menuis|garage|b[aâ]timent|vitr/i, ["realisations", "devis"]], [/sport|salle|club|cours|yoga/i, ["carte", "reserver"]]];
-  const VIDE = { type: "client", nom: "", refaire: "", metier: "", ville: "", charte: "", ancien: "", couleurs: false, c1: "#1F3A5F", c2: "#F6F1E7", c3: "#C8553D", coulApercu: true, titres: "", vrai: "",
+  const MODES = [["rapide", "Rapide, en un écran"], ["detail", "En détail, sept étapes"]];
+  /* les départs par métier : nom, mot pour le champ « métier », une ou plusieurs pages, pages, idée vivante, animations de la banque */
+  const DEPARTS = [
+    ["restaurant", "Restaurant", "Restaurant", "plusieurs", { carte: true, reserver: "message" }, "ouvert", [2, 6, 17, 19, 26, 31, 67, 68], { photos: "naturelles" }],
+    ["boulangerie", "Boulangerie", "Boulangerie", "une", {}, "delai", [2, 6, 24, 26, 29, 33, 34], { photos: "naturelles" }],
+    ["boutique", "Boutique", "Boutique", "plusieurs", { boutique: "message", contact: true }, "quiz", [2, 5, 6, 26, 34, 44, 59], {}],
+    ["gite", "Gîte, hôtel", "Gîte, maison d’hôtes", "plusieurs", { reserver: "calendrier", histoire: true }, "calendrier", [2, 19, 23, 26, 33, 40, 82], {}],
+    ["institut", "Coiffure, institut", "Institut de beauté", "plusieurs", { carte: true, reserver: "message" }, "creneaux", [2, 6, 9, 17, 26, 31, 41], {}],
+    ["artisan", "Artisan, dépannage", "Artisan du bâtiment", "plusieurs", { realisations: true, devis: true }, "zone", [2, 4, 6, 20, 26, 33, 42], {}],
+    ["garage", "Garage", "Garage", "plusieurs", { carte: true, devis: true }, "suivi", [2, 3, 4, 6, 24, 26, 33], {}],
+    ["fleuriste", "Fleuriste", "Fleuriste", "plusieurs", { boutique: "message" }, "configurateur", [2, 6, 18, 26, 73, 74, 76], {}],
+    ["location", "Location, loisirs", "Location", "plusieurs", { carte: true, reserver: "calendrier", realisations: true }, "ouvert", [2, 4, 18, 24, 26, 33, 82], {}],
+    ["sport", "Salle de sport", "Salle de sport", "plusieurs", { carte: true, reserver: "message" }, "creneaux", [2, 4, 6, 26, 39, 57, 96], {}],
+    ["cabinet", "Cabinet, conseil", "Cabinet", "plusieurs", { contact: true }, "estimateur", [2, 4, 9, 11, 18, 26, 33], {}],
+    ["architecte", "Architecte, décoration", "Architecte", "plusieurs", { realisations: true, contact: true }, "avant-apres", [2, 6, 20, 26, 69, 70, 72], {}]];
+  /* les règles de toujours : gardées à part du projet (elles restent quand on efface tout) */
+  const REGLES = [
+    ["sobre", "Sobre et premium : peu d’éléments, de l’air, une idée forte. Pas d’habillage « IA » (losanges, cadres dorés, sceaux, pastilles partout)."],
+    ["camera", "Mouvements très doux : rien qui balance de gauche à droite, pas de caméra qui suit fortement la souris."],
+    ["dessin", "Pas d’illustration figurative dessinée ou générée pour le décor : des photos, ou des formes simples."],
+    ["texte", "Pas d’effet d’apparition lettre par lettre ou de texte flou sur les grands titres."],
+    ["cote", "Rien ne défile sur le côté, sur ordinateur comme sur téléphone."],
+    ["vrai", "Jamais de faux avis, de faux clients ni de faux chiffres."]];
+  let G = { on: {}, libre: "" };
+  try { Object.assign(G, JSON.parse(localStorage.getItem("atelier-regles") || "{}")); } catch (e) {}
+  const gardeRegles = () => { try { localStorage.setItem("atelier-regles", JSON.stringify(G)); } catch (e) {} };
+  const reglesDites = () => [...REGLES.filter(r => G.on[r[0]] !== false).map(r => r[1]), ...G.libre.split("\n").map(x => x.trim()).filter(Boolean)];
+  const VIDE = { mode: "rapide", depart: "", type: "client", nom: "", refaire: "", metier: "", ville: "", charte: "", ancien: "", couleurs: false, c1: "#1F3A5F", c2: "#F6F1E7", c3: "#C8553D", coulApercu: true, titres: "", vrai: "",
     phClient: true, phArchives: true, phPixabay: true, avis: false, genre: "", comme: "", choix: {}, anims: [], consignes: "", planche: false, app: false, filtre: "Toutes", niveau: "", bloc: "une", pages: {}, pagesNote: "" };
   let S = structuredClone(VIDE), retouche = false;
   try { Object.assign(S, JSON.parse(localStorage.getItem("atelier-saitora") || "{}")); } catch (e) {}
@@ -487,6 +541,25 @@ dialog .note{padding:10px 18px 14px;max-width:none}
   const nomProjet = () => S.type === "refaire" ? S.refaire : S.nom.trim();
   const slug = () => S.type === "refaire" ? S.refaire : S.nom.trim().toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
   const clair = hex => { const n = parseInt(hex.slice(1), 16), r = n >> 16, g = n >> 8 & 255, b = n & 255; return (r * 299 + g * 587 + b * 114) / 1000 > 140; };
+
+  /* --- la façon de remplir, le départ par métier, les règles de toujours --- */
+  $("modes").append(...MODES.map(([id, nom]) => el("button", { type: "button", className: "puce", textContent: nom, id: "mo-" + id, onclick: () => { S.mode = id; tout(); } })));
+  $("vers-detail").onclick = () => { S.mode = "detail"; tout(); $("sp").scrollIntoView(); };
+  $("departs").append(...DEPARTS.map(([id, nom, metier, bloc, pg, idee, an, plus]) => el("button", { type: "button", className: "puce", textContent: nom, id: "de-" + id,
+    onclick: () => { S.depart = id; S.metier = metier; S.bloc = bloc; S.pages = { ...pg }; S.choix = { signature: idee, ...plus }; S.anims = [...an]; tout(); } })));
+  $("regles").append(...REGLES.map(([id, txt]) => { const c = el("input", { type: "checkbox", checked: G.on[id] !== false }); c.onchange = () => { G.on[id] = c.checked; gardeRegles(); bilan(); }; return el("label", { className: "coche" }, c, txt); }));
+  $("regles-libre").value = G.libre; $("regles-libre").addEventListener("input", e => { G.libre = e.target.value; gardeRegles(); bilan(); });
+  function prevu() {
+    const pg = PAGES.filter(x => S.pages[x[0]]), idee = S.choix.signature && option("signature", S.choix.signature);
+    const ligne = (t, v) => el("div", {}, el("b", { textContent: t }), el("span", { textContent: v }));
+    $("prevu").replaceChildren(
+      ligne("Les pages", S.bloc === "plusieurs" && pg.length ? "L’accueil, plus : " + pg.map(x => x[1].toLowerCase()).join(", ") + "." : "Une seule page qu’on fait défiler."),
+      ligne("L’idée vivante", idee ? idee[1] + ". " + idee[2] : "Laissée au tirage."),
+      ligne("Le genre", S.genre ? theme(S.genre).nom + "." : "Laissé au tirage : il sera choisi dans la session."),
+      ligne("Les animations", S.anims.length ? D.animations.filter(a => S.anims.includes(a.n)).map(a => a.nom.toLowerCase()).join(", ") + "." : "Six à dix, choisies dans la session selon le métier."),
+      ligne("Mes règles de toujours", reglesDites().length + " règle" + (reglesDites().length > 1 ? "s" : "") + " ajoutée" + (reglesDites().length > 1 ? "s" : "") + " au prompt (à régler plus bas)."));
+    $("toujours-t").textContent = `Mes règles de toujours (${reglesDites().length})`;
+  }
 
   /* --- 01 le projet --- */
   $("types").append(...TYPES.map(([id, nom]) => el("button", { type: "button", className: "puce", textContent: nom, onclick: () => { S.type = id; tout(); } , id: "ty-" + id })));
@@ -613,6 +686,7 @@ dialog .note{padding:10px 18px 14px;max-width:none}
     } else L.push("Je n’en impose aucune : en choisir peu (six à dix) dans ma banque, animations/mouvements.html (index dans animations/index.json), selon le genre et le métier, et me dire lesquelles.");
 
     if (S.consignes.trim()) L.push("", "MES CONSIGNES", S.consignes.trim());
+    if (reglesDites().length) L.push("", "MES RÈGLES DE TOUJOURS", ...reglesDites().map(r => "- " + r));
     L.push("", "À LA FIN");
     if (S.planche) L.push("- Avant de construire : me montrer une planche de 4 à 6 polices avec les vrais textes du site, et attendre mon choix.");
     L.push("- Vérifier avec outils/verifier.js, regarder les captures ordinateur et téléphone, corriger.", `- Enregistrer le tirage (${cmd.split(" --")[0]}${S.type === "labo" ? ` --fiche labo/NN-${s}/style.md` : ""} --enregistrer).`);
@@ -621,7 +695,7 @@ dialog .note{padding:10px 18px 14px;max-width:none}
     return L.join("\n");
   }
   function bilan() {
-    garde();
+    garde(); prevu();
     if (!retouche) $("prompt").value = ecrit();
     const pret = !!nomProjet(), n = Object.keys(S.choix).length;
     $("resume").textContent = pret ? `« ${nomProjet()} » · ${S.genre ? theme(S.genre).nom : "genre au tirage"} · ${S.bloc === "plusieurs" ? 1 + PAGES.filter(x => S.pages[x[0]]).length + " pages" : "une page"} · ${n} choix de composition · ${S.anims.length} animation${S.anims.length > 1 ? "s" : ""}` : "Donne un nom au projet pour avoir ton prompt.";
@@ -645,6 +719,10 @@ dialog .note{padding:10px 18px 14px;max-width:none}
     if (S.type === "refaire" && !S.refaire) S.refaire = D.sites[0];
     if (!S.avis && S.choix.preuves === "citations") delete S.choix.preuves;
     for (const [id] of TYPES) $("ty-" + id).setAttribute("aria-pressed", S.type === id);
+    if (!MODES.some(m => m[0] === S.mode)) S.mode = "rapide";
+    document.body.dataset.mode = S.mode;
+    for (const [id] of MODES) $("mo-" + id).setAttribute("aria-pressed", S.mode === id);
+    for (const [id] of DEPARTS) $("de-" + id).setAttribute("aria-pressed", S.depart === id);
     $("l-nom").hidden = S.type === "refaire"; $("l-refaire").hidden = S.type !== "refaire"; $("l-ancien").hidden = S.type !== "client";
     for (const [id, cle] of Object.entries(CHAMPS)) if ($(id).value !== S[cle]) $(id).value = S[cle];
     for (const [id, cle] of Object.entries(COCHES)) $(id).checked = S[cle];

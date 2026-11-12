@@ -163,8 +163,7 @@ dialog .note{padding:10px 18px 14px;max-width:none}
   </section>
 
   <section class="etape" id="s3" aria-labelledby="t3">
-    <div class="tete"><p class="num">04</p><h2 id="t3">La composition</h2><p>Ne choisis que ce qui compte pour toi. Le reste est tiré au sort dans la session, loin de ce que les autres sites ont déjà. Le chiffre dit combien de sites ont déjà cette option ; en pointillé, ce qui va moins bien avec le genre choisi.</p></div>
-    <label class="ch" style="max-width:420px">Doit ressembler à un de nos sites<select id="comme"></select></label>
+    <div class="tete"><p class="num">04</p><h2 id="t3">La composition</h2><p>Ne choisis que ce qui compte pour toi. Le reste est tiré au sort dans la session. En pointillé, ce qui va moins bien avec le genre choisi.</p></div>
     <div class="panneau" id="familles" style="gap:0;padding-block:8px"></div>
     <div class="rang"><button type="button" id="vider-compo">Tout remettre au tirage</button></div>
   </section>
@@ -207,7 +206,7 @@ dialog .note{padding:10px 18px 14px;max-width:none}
   const D = /*__DONNEES__*/null;
   const $ = id => document.getElementById(id);
   const el = (tag, props = {}, ...enfants) => { const e = Object.assign(document.createElement(tag), props); e.append(...enfants); return e; };
-  const TYPES = [["client", "Site client"], ["demo", "Démo Saitora"], ["refaire", "Refaire un de nos sites"], ["labo", "Essai du labo"]];
+  const TYPES = [["client", "Site client"], ["refaire", "Refaire un site client"], ["labo", "Essai du labo"]];   // nos démos ne servent plus ni de type de projet, ni de modèle, ni de compteur
   const CATS = ["Toutes", ...D.styles, "Choisies"];
   const NIVEAUX = [["", "Toutes les séries"], ["basique", "Basiques"], ["premium", "Premium"], ...D.metiers];
   const BLOCS = [["une", "Une seule page"], ["plusieurs", "Plusieurs pages"]];
@@ -227,6 +226,8 @@ dialog .note{padding:10px 18px 14px;max-width:none}
     phClient: true, phArchives: true, phPixabay: true, avis: false, genre: "", comme: "", choix: {}, anims: [], consignes: "", planche: false, app: false, filtre: "Toutes", niveau: "", bloc: "une", pages: {}, pagesNote: "" };
   let S = structuredClone(VIDE), retouche = false;
   try { Object.assign(S, JSON.parse(localStorage.getItem("atelier-saitora") || "{}")); } catch (e) {}
+  if (S.type === "demo" || (S.type === "refaire" && !D.sites.includes(S.refaire))) { S.type = "client"; S.refaire = ""; }   // anciens choix liés à nos démos
+  S.comme = "";
   const garde = () => { try { localStorage.setItem("atelier-saitora", JSON.stringify(S)); } catch (e) {} };
 
   const theme = id => D.themes.find(t => t.id === id);
@@ -239,9 +240,8 @@ dialog .note{padding:10px 18px 14px;max-width:none}
   /* --- 01 le projet --- */
   $("types").append(...TYPES.map(([id, nom]) => el("button", { type: "button", className: "puce", textContent: nom, onclick: () => { S.type = id; tout(); } , id: "ty-" + id })));
   $("refaire").append(...D.sites.map(s => el("option", { value: s, textContent: s })));
-  $("comme").append(el("option", { value: "", textContent: "À aucun" }), ...D.sites.map(s => el("option", { value: s, textContent: s })));
   $("titres").append(...[["", "Selon le genre"], ...D.chartes.map(c => [c, c])].map(([id, nom]) => el("button", { type: "button", className: "puce", textContent: nom, onclick: () => { S.titres = id; tout(); } })));
-  const CHAMPS = { nom: "nom", refaire: "refaire", metier: "metier", ville: "ville", charte: "charte", ancien: "ancien", c1: "c1", c2: "c2", c3: "c3", vrai: "vrai", consignes: "consignes", comme: "comme", pagesNote: "pagesNote" };
+  const CHAMPS = { nom: "nom", refaire: "refaire", metier: "metier", ville: "ville", charte: "charte", ancien: "ancien", c1: "c1", c2: "c2", c3: "c3", vrai: "vrai", consignes: "consignes", pagesNote: "pagesNote" };
   const COCHES = { couleurs: "couleurs", coulApercu: "coulApercu", "ph-client": "phClient", "ph-archives": "phArchives", "ph-pixabay": "phPixabay", avis: "avis", planche: "planche", app: "app" };
   let attente;
   for (const [id, cle] of Object.entries(CHAMPS)) $(id).addEventListener("input", e => { S[cle] = e.target.value; clearTimeout(attente); attente = setTimeout(() => { if (["nom", "refaire", "metier", "c1", "c2", "c3"].includes(id)) genres(); if (id === "metier") pages(); }, 350); if (id === "comme" || id === "refaire") familles(); bilan(); });
@@ -266,12 +266,11 @@ dialog .note{padding:10px 18px 14px;max-width:none}
   function genres() {
     const nom = nomProjet() || "Votre commerce", quoi = S.metier.trim() || "Depuis toujours";
     const peint = t => S.couleurs && S.coulApercu ? { ...t, couleurs: { fond: S.c2, texte: clair(S.c2) ? "#161616" : "#F4F1EA", accent: S.c3, second: S.c1 } } : t;
-    const hasard = el("button", { type: "button", className: "genre hasard" }, el("span", { className: "gn", style: "justify-content:center", textContent: "Au tirage" }), el("span", { className: "ga", textContent: "Je laisse le sort choisir, loin des genres déjà trop vus." }));
+    const hasard = el("button", { type: "button", className: "genre hasard" }, el("span", { className: "gn", style: "justify-content:center", textContent: "Au tirage" }), el("span", { className: "ga", textContent: "Je laisse le sort choisir." }));
     hasard.setAttribute("aria-pressed", !S.genre); hasard.onclick = () => { S.genre = ""; tout(); };
     $("genres").replaceChildren(hasard, ...D.themes.map(t => {
       const vue = el("span", { className: "vue" }); vue.innerHTML = Themes.render(peint(t), { nom, quoi }, "");
-      const n = D.deja.genre[t.id] || 0;
-      const b = el("button", { type: "button", className: "genre" }, vue, el("span", { className: "gn" }, t.nom, el("small", { textContent: n ? `déjà ${n} site${n > 1 ? "s" : ""}` : "jamais fait" })), el("span", { className: "ga", textContent: t.accroche + " Pour : " + t.pour.join(", ").toLowerCase() + "." }));
+      const b = el("button", { type: "button", className: "genre" }, vue, el("span", { className: "gn" }, t.nom), el("span", { className: "ga", textContent: t.accroche + " Pour : " + t.pour.join(", ").toLowerCase() + "." }));
       b.setAttribute("aria-pressed", S.genre === t.id); b.onclick = () => { S.genre = S.genre === t.id ? "" : t.id; tout(); };
       return b; }));
   }
@@ -280,12 +279,11 @@ dialog .note{padding:10px 18px 14px;max-width:none}
   const ouverts = new Set(["signature"]);
   function familles() {
     const permis = S.genre ? theme(S.genre).va_avec : {};
-    const modele = S.comme ? " (comme " + S.comme + ")" : "";
     $("familles").replaceChildren(...D.familles.map(f => {
-      const pris = S.choix[f.id], fd = el("p", { className: "fd", textContent: pris ? option(f.id, pris)[2] : "Rien d’imposé : tiré au sort dans la session" + modele + "." });
+      const pris = S.choix[f.id], fd = el("p", { className: "fd", textContent: pris ? option(f.id, pris)[2] : "Rien d’imposé : tiré au sort dans la session." });
       const puces = [["", "Au tirage"], ...f.options].filter(o => !(f.id === "preuves" && o[0] === "citations" && !S.avis)).map(o => {
-        const n = D.deja[f.id][o[0]] || 0, hors = o[0] && permis[f.id] && !permis[f.id].includes(o[0]);
-        const b = el("button", { type: "button", className: "puce" + (hors ? " hors" : "") }, o[1], ...(o[0] ? [el("small", { textContent: "×" + n })] : []));
+        const hors = o[0] && permis[f.id] && !permis[f.id].includes(o[0]);
+        const b = el("button", { type: "button", className: "puce" + (hors ? " hors" : "") }, o[1]);
         b.setAttribute("aria-pressed", (pris || "") === o[0]);
         b.onclick = () => { if (o[0]) S.choix[f.id] = o[0]; else delete S.choix[f.id]; ouverts.add(f.id); familles(); bilan(); };
         if (o[0]) b.onmouseenter = b.onfocus = () => { fd.textContent = o[2] + (hors ? " (Va moins bien avec le genre choisi.)" : ""); };
@@ -294,7 +292,7 @@ dialog .note{padding:10px 18px 14px;max-width:none}
       d.addEventListener("toggle", () => d.open ? ouverts.add(f.id) : ouverts.delete(f.id));
       return d; }));
   }
-  $("vider-compo").onclick = () => { S.choix = {}; S.comme = ""; tout(); };
+  $("vider-compo").onclick = () => { S.choix = {}; tout(); };
 
   /* --- 04 les animations --- */
   function anims() {
@@ -318,10 +316,10 @@ dialog .note{padding:10px 18px 14px;max-width:none}
   /* --- 06 le prompt --- */
   function ecrit() {
     const nom = nomProjet() || "(nom à donner)", s = slug() || "nom-du-site", L = [];
-    const quoi = { client: "site client", demo: "site de démonstration", refaire: "un de nos sites, à refaire", labo: "essai du labo" }[S.type];
+    const quoi = { client: "site client", refaire: "site client à refaire", labo: "essai du labo" }[S.type];
     L.push(`Nouveau site Saitora : « ${nom} » (${quoi}).`, "", "Lis ETAT.md, puis suis le skill nouveau-site du début à la fin. Cette fiche vient de l’atelier : ce qui y est choisi est décidé, ne me repose pas la question.", "", "LE PROJET");
-    L.push({ client: `- Où : clients/${s}/index.html, non indexé, avec le bandeau « maquette à valider ».`, demo: `- Où : demo-${s}.html, avec le bandeau « site de démonstration », et sa ligne dans commun/demos.js.`,
-      refaire: `- C’est le site « ${s} » du registre : le refaire entièrement, il ne doit plus ressembler à sa version actuelle.`, labo: `- Où : labo/NN-${s}/ (NN = le prochain numéro libre), listé dans labo/index.html.` }[S.type]);
+    L.push({ client: `- Où : clients/${s}/index.html, non indexé, avec le bandeau « maquette à valider ».`,
+      refaire: `- C’est le site clients/${s}/ : le refaire entièrement, il ne doit plus ressembler à sa version actuelle.`, labo: `- Où : labo/NN-${s}/ (NN = le prochain numéro libre), listé dans labo/index.html.` }[S.type]);
     if (S.metier.trim() || S.ville.trim()) L.push("- Activité : " + [S.metier.trim(), S.ville.trim()].filter(Boolean).join(", ") + ".");
     if (S.charte.trim()) L.push("- Lien de charte à décoder (couleurs, logo, style des titres) : " + S.charte.trim());
     if (S.couleurs) L.push(`- Couleurs du client : principale ${S.c1.toUpperCase()}, fond ${S.c2.toUpperCase()}, boutons ${S.c3.toUpperCase()}. Elles passent avant celles du genre.`);
@@ -337,7 +335,7 @@ dialog .note{padding:10px 18px 14px;max-width:none}
     const pg = PAGES.filter(x => S.pages[x[0]]);
     if (S.bloc === "une" || (!pg.length && !S.pagesNote.trim())) L.push("Une seule page : tout tient dans un seul bloc qu’on fait défiler, la navigation mène aux sections.");
     else {
-      const ou = { client: `clients/${s}/`, demo: `à la racine, sous le nom demo-${s}-<page>.html`, refaire: "à côté de sa page actuelle", labo: `labo/NN-${s}/` }[S.type];
+      const ou = { client: `clients/${s}/`, refaire: "à côté de sa page actuelle", labo: `labo/NN-${s}/` }[S.type];
       L.push(`Plusieurs pages (${ou}) : l’accueil, plus :`);
       pg.forEach(x => { const m = x[4] && (x[4].find(o => o[0] === S.pages[x[0]]) || x[4][0]); L.push(`- ${x[1]} (${x[3]}) : ${x[2]}${m ? " Fonctionnement : " + m[1].toLowerCase() + "." : ""}`); });
       if (S.pagesNote.trim()) L.push("- Précisions : " + S.pagesNote.trim());
@@ -349,13 +347,12 @@ dialog .note{padding:10px 18px 14px;max-width:none}
     if (S.type === "labo") cmd += ` --fiche labo/NN-${s}/style.md`;
     if (S.type === "refaire") cmd += " --refaire";
     if (S.titres) cmd += " --charte " + S.titres;
-    if (S.comme) cmd += " --comme " + S.comme;
     if (imposer.length) cmd += " --imposer " + imposer.join(",");
     if (!S.avis && S.choix.preuves !== "citations") cmd += " --exclure preuves=citations";
     L.push("", "LE STYLE", "Lance le tirage avec cette commande, puis suis la fiche qu’il écrit :", cmd);
     if (imposer.length) { L.push("Ce que j’ai choisi :"); if (S.genre) L.push("- Genre : " + theme(S.genre).nom + "."); D.familles.filter(f => S.choix[f.id]).forEach(f => L.push(`- ${f.nom} : ${option(f.id, S.choix[f.id])[1]}. ${option(f.id, S.choix[f.id])[2]}`)); L.push("Tout le reste est laissé au tirage."); }
     else L.push("Je n’impose rien : le tirage décide de tout.");
-    if (S.comme) L.push(`Il doit ressembler au site « ${S.comme} »${imposer.length ? ", sauf pour ce que j’ai choisi ci-dessus" : ""}.`);
+    L.push("Ne prends aucun de nos sites de démonstration comme exemple ou comme modèle : ce site part de ce commerce, de ses couleurs et de ce qui est vrai chez lui.");
 
     L.push("", "LES ANIMATIONS");
     if (S.anims.length) {
@@ -423,8 +420,8 @@ Lieu : ${S.ville || "(inconnu)"}
 Ce qui est vrai : ${S.vrai || "(rien de précisé)"}
 Consignes : ${S.consignes || "(aucune)"}
 
-GENRES (id : nom, pour qui, combien de sites l'ont déjà)
-${D.themes.map(t => `${t.id} : ${t.nom}. ${t.accroche} Pour ${t.pour.join(", ")}. Déjà ${D.deja.genre[t.id] || 0}.`).join("\n")}
+GENRES (id : nom, pour qui)
+${D.themes.map(t => `${t.id} : ${t.nom}. ${t.accroche} Pour ${t.pour.join(", ")}.`).join("\n")}
 
 IDÉES ORIGINALES (id : ce que le visiteur peut faire)
 ${sig.options.map(x => `${x[0]} : ${x[1]}. ${x[2]}`).join("\n")}

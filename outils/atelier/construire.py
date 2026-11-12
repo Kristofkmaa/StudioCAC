@@ -19,12 +19,13 @@ lis = lambda p: json.loads((RACINE / p).read_text(encoding="utf8"))
 
 # --- les genres, avec une petite photo incluse dans la page
 themes = lis("commun/themes.json")["themes"]
+# L'atelier ne montre plus nos démos : ni leurs photos, ni leur nom. À la place de la photo, un aplat neutre aux couleurs du genre.
 for t in themes:
-    im = Image.open(RACINE / t["photo"]).convert("RGB")
-    im.thumbnail((520, 520))
-    b = io.BytesIO()
-    im.save(b, "WEBP", quality=62)
-    t["photo"] = "data:image/webp;base64," + base64.b64encode(b.getvalue()).decode()
+    c = t["couleurs"]
+    svg = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 390"><rect width="520" height="390" fill="{c["second"]}"/>'
+           f'<circle cx="372" cy="150" r="118" fill="{c["accent"]}"/><path d="M0 300C120 250 250 330 520 262V390H0Z" fill="{c["fond"]}" opacity=".55"/></svg>')
+    t["photo"] = "data:image/svg+xml;base64," + base64.b64encode(svg.encode()).decode()
+    t.pop("exemple", None)
 
 # les polices des genres : Google Fonts (une seule graisse pour celles qui n'en ont qu'une)
 UNE_GRAISSE = {"Italiana", "Anton", "DM Serif Display", "Saira Stencil One", "Instrument Serif"}
@@ -41,6 +42,8 @@ polices = "https://fonts.googleapis.com/css2?" + "&".join(
 catalogue = lis("outils/styles/catalogue.json")
 familles = [k for k in catalogue if not k.startswith("_")]
 registre = lis("outils/styles/registre.json")["sites"]
+# seuls les sites clients peuvent être « refaits » depuis l'atelier (pas nos démos)
+clients = sorted(d.name for d in (RACINE / "clients").iterdir() if d.is_dir() and d.name in registre)
 deja = {f: {} for f in familles + ["genre"]}
 for s in registre.values():
     for f in deja:
@@ -83,8 +86,8 @@ T(function va(){var M=window.__mvm;if(!M||document.readyState!=="complete"){if(+
 k = source.rindex("<script>")
 (ICI / "apercu.html").write_text(source[:k] + AJOUT + source[k:], encoding="utf8")
 
-donnees = {"themes": themes, "familles": [{"id": f, "nom": NOMS[f], "options": catalogue[f]} for f in ordre], "deja": deja,
-           "sites": sorted(registre), "chartes": chartes, "animations": animations, "styles": styles, "metiers": metiers, "packs": {k: v["nom"] for k, v in packs.items()}}
+donnees = {"themes": themes, "familles": [{"id": f, "nom": NOMS[f], "options": catalogue[f]} for f in ordre],
+           "sites": clients, "chartes": chartes, "animations": animations, "styles": styles, "metiers": metiers, "packs": {k: v["nom"] for k, v in packs.items()}}
 page = (ICI / "modele.html").read_text(encoding="utf8")
 page = page.replace("__POLICES__", polices.replace("&", "&amp;"))
 page = page.replace("/*__THEMES_JS__*/", (RACINE / "commun" / "themes.js").read_text(encoding="utf8").replace("</script", "<\\/script"))

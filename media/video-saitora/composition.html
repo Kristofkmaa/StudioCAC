@@ -5,7 +5,7 @@
 <title>Saitora, la vidéo de présentation (composition)</title>
 <meta name="robots" content="noindex">
 <!-- La vidéo de présentation de Saitora, deuxième version : une pièce de motion design rythmée, qui ne reprend pas le décor du site.
-     Grande typographie, aplats de couleur, formes qui se transforment. Sept temps, 27,5 secondes :
+     Grande typographie, aplats de couleur, formes qui se transforment. Sept temps, 33 secondes :
      la nuit (le point rose), le jour (le point devient l'écran), les métiers qui défilent, un site qui se dessine et change de peau,
      un site qu'on code et qui prend vie à côté, le disque « jour et nuit », le logo qui s'assemble.
      Tout est fonction du temps : rendu(t). La page est filmée image par image par outils/video.js.
@@ -48,10 +48,11 @@ body{font-family:"Inter Tight",sans-serif;font-weight:500;color:#fff;letter-spac
 #fen .pt i{display:block;height:4.3vw;border-radius:.6vw;opacity:.16}
 #s4 .m{left:59vw;font-size:5.1vw}
 #s4 #metier{left:59vw;top:62%;font-size:3.2vw;letter-spacing:0;color:#FAD1FF}
-/* 5. on code à gauche, le site prend vie à droite */
+/* 5. le grand moment : on code à gauche, chaque ligne envoie une étincelle qui fait naître un morceau du site à droite ;
+   puis on publie, le site prend tout l'écran, défile, on clique ; enfin il se range à côté de sa version téléphone */
 @font-face{font-family:"JetBrains Mono";font-weight:500;font-display:block;src:url(../../polices/jetbrains-mono-500-normal-latin.woff2) format("woff2")}
 #s5{background:#011D1C}
-#editeur{position:absolute;left:5vw;top:50%;width:42vw;height:34vw;margin-top:-18.5vw;border-radius:1.1vw;background:#03302D;overflow:hidden;will-change:transform}
+#editeur{position:absolute;left:5vw;top:9.6vw;width:42vw;height:34vw;border-radius:1.1vw;background:#03302D;overflow:hidden;will-change:transform}
 #editeur .onglet{height:3vw;display:flex;align-items:center;gap:.6vw;padding-left:1.3vw;background:#022623;font-size:1.05vw;letter-spacing:0;color:#9FB6B3}
 #editeur .onglet i{width:.75vw;height:.75vw;border-radius:50%;background:#5E8F8A;opacity:.6}
 #editeur .onglet b{margin-left:1vw;font-weight:500;color:#EDFFFE}
@@ -60,19 +61,44 @@ body{font-family:"Inter Tight",sans-serif;font-weight:500;color:#fff;letter-spac
 #code div em{font-style:normal;color:#4F7772;width:1.6vw;text-align:right}
 #code .k{color:#7FE3DA}#code .a{color:#FAD1FF}#code .v{color:#FFE2A6}#code .x{color:#EDFFFE}#code .g{color:#6E9A95}
 #code .cur{display:inline-block;width:.75vw;height:1.6vw;background:#FAD1FF;vertical-align:-.25vw;margin-left:.1vw}
-#apercu{position:absolute;left:51vw;top:50%;width:44vw;height:34vw;margin-top:-18.5vw;border-radius:1.1vw;background:#FBF7EC;color:#1E2B33;overflow:hidden;will-change:transform;letter-spacing:-.03em}
-#apercu .tete{position:absolute;left:0;right:0;top:0;height:4vw;display:flex;align-items:center;justify-content:space-between;padding:0 2.2vw;font-size:1.5vw;background:#FBF7EC}
+#apercu{position:absolute;left:51vw;top:9.6vw;width:44vw;height:34vw;border-radius:1.1vw;background:#FBF7EC;color:#1E2B33;overflow:hidden;will-change:transform;letter-spacing:-.03em;box-shadow:0 2vw 6vw rgba(0,0,0,.45)}
+#apercu .chrome{position:absolute;left:0;right:0;top:0;height:2.6vw;z-index:3;display:flex;align-items:center;gap:.5vw;padding-left:1.1vw;background:#E9E1D0}
+#apercu .chrome>i{width:.7vw;height:.7vw;border-radius:50%;background:#1E2B33;opacity:.3}
+#apercu .url{margin-left:1.2vw;height:1.6vw;width:22vw;border-radius:1vw;background:#FBF7EC;display:flex;align-items:center;gap:.5vw;padding-left:.8vw;font-size:.95vw;letter-spacing:0}
+#apercu .url i{width:.6vw;height:.6vw;border-radius:50%;background:#2E9E6B}
+#apercu .vue{position:absolute;left:0;right:0;top:2.6vw;bottom:0;overflow:hidden}
+#apercu .long{position:absolute;left:0;right:0;top:0;height:81vw;will-change:transform}
+#apercu .tete{position:absolute;left:0;right:0;top:0;height:4vw;display:flex;align-items:center;justify-content:space-between;padding:0 2.2vw;font-size:1.5vw}
 #apercu .tete span{display:flex;gap:1vw}
 #apercu .tete span i{width:3.4vw;height:.5vw;border-radius:.3vw;background:#1E2B33;opacity:.28}
 #apercu .titre{position:absolute;left:2.2vw;top:7.4vw;width:23.4vw;overflow:hidden;white-space:nowrap;font-size:3.1vw;line-height:1.02;letter-spacing:-.045em;padding-bottom:.3vw}
 #apercu .titre span{display:block}
 #apercu .trait{position:absolute;left:2.2vw;top:15vw;width:13vw;height:.5vw;border-radius:.3vw;background:#E4572E;transform-origin:0 50%}
 #apercu .photo{position:absolute;right:2.2vw;top:6.4vw;width:16vw;height:22vw;border-radius:8vw 8vw .9vw .9vw;overflow:hidden;background:#E9E1D0}
-#apercu .photo img{display:block;width:100%;height:100%;object-fit:cover}
+#apercu .photo img,#apercu .tuiles img,#tel img{display:block;width:100%;height:100%;object-fit:cover}
 #apercu .bouton{position:absolute;left:2.2vw;top:17.6vw;padding:1.15vw 2.3vw;border-radius:3vw;color:#fff;font-size:1.45vw;letter-spacing:-.01em;transform-origin:0 50%}
 #apercu .ouvert{position:absolute;left:2.2vw;top:23.8vw;display:flex;align-items:center;gap:.8vw;font-size:1.4vw;letter-spacing:-.01em}
 #apercu .ouvert i{width:.9vw;height:.9vw;border-radius:50%;background:#2E9E6B}
-#s5 .legende{left:0;right:0;top:86.5%;text-align:center;font-size:3vw}
+/* la suite de la page, qu'on découvre quand le site défile */
+#apercu .carte-s{position:absolute;left:2.2vw;right:2.2vw;top:33vw}
+#apercu h4{margin:0 0 1.2vw;font-weight:500;font-size:2.6vw;letter-spacing:-.04em}
+#apercu .carte-s p{margin:0;display:flex;justify-content:space-between;padding:1.05vw 0;border-top:.08vw solid rgba(30,43,51,.2);font-size:1.5vw;letter-spacing:-.01em}
+#apercu .tuiles{position:absolute;left:2.2vw;right:2.2vw;top:52.5vw;height:11.5vw;display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:1vw}
+#apercu .tuiles div{border-radius:.9vw;overflow:hidden}
+#apercu .fin-s{position:absolute;left:0;right:0;top:67vw;height:14vw;background:#E4572E;color:#fff;padding:2.6vw 2.2vw}
+#apercu .fin-s b{display:block;font-weight:500;font-size:3.4vw;letter-spacing:-.045em;line-height:1}
+#apercu .fin-s span{display:inline-block;margin-top:1.5vw;padding:1vw 2.1vw;border-radius:3vw;background:#fff;color:#1E2B33;font-size:1.4vw;letter-spacing:-.01em}
+/* la version téléphone */
+#tel{position:absolute;left:70.5vw;top:6.6vw;width:15.4vw;height:31.4vw;border-radius:2.2vw;background:#FBF7EC;color:#1E2B33;border:.55vw solid #0B3F3B;overflow:hidden;will-change:transform;letter-spacing:-.03em;box-shadow:0 2vw 5vw rgba(0,0,0,.5)}
+#tel .t{padding:1.2vw 1.2vw 0;font-size:1.05vw}
+#tel b{display:block;margin:1.3vw 1.2vw 0;font-weight:500;font-size:2.1vw;line-height:1.02;letter-spacing:-.045em}
+#tel .ph{margin:1.2vw 1.2vw 0;height:12.5vw;border-radius:6vw 6vw .7vw .7vw;overflow:hidden}
+#tel .bt{margin:1.2vw 1.2vw 0;padding:.9vw 0;border-radius:3vw;background:#E4572E;color:#fff;font-size:1.05vw;text-align:center}
+/* les étincelles qui partent du code, l'onde à l'arrivée, le pointeur */
+.etincelle{position:absolute;left:0;top:0;width:1vw;height:1vw;margin:-.5vw;border-radius:50%;background:#FAD1FF;box-shadow:0 0 2.2vw .5vw rgba(250,209,255,.55);opacity:0;will-change:transform}
+.onde{position:absolute;left:0;top:0;width:3vw;height:3vw;margin:-1.5vw;border-radius:50%;border:.18vw solid #FAD1FF;opacity:0;will-change:transform}
+#pointeur{position:absolute;left:0;top:0;width:2.4vw;opacity:0;will-change:transform}
+#s5 .legende{left:0;right:0;top:84%;text-align:center;font-size:3.2vw}
 /* 6. jour et nuit */
 #s6{background:#011D1C}
 #disque{position:absolute;left:50%;top:50%;width:44vw;height:44vw;margin:-22vw 0 0 -22vw;border-radius:50%;will-change:transform}
@@ -126,14 +152,24 @@ body{font-family:"Inter Tight",sans-serif;font-weight:500;color:#fff;letter-spac
 <section class="s" id="s5">
   <div id="editeur"><div class="onglet"><i></i><i></i><i></i><b>index.html</b></div><div id="code"></div></div>
   <div id="apercu">
-    <div class="tete"><b style="font-weight:500">Chez Margot</b><span><i></i><i></i><i></i></span></div>
-    <div class="titre"><span>Le marché,<br>dans l’assiette.</span></div>
-    <div class="trait"></div>
-    <div class="photo"><img src="../../images/port/terrasse-coucher.webp" alt=""></div>
-    <div class="bouton">Réserver une table</div>
-    <div class="ouvert"><i></i>Ouvert ce soir jusqu’à 23 h</div>
+    <div class="chrome"><i></i><i></i><i></i><div class="url"><i id="enligne"></i><span id="url"></span></div></div>
+    <div class="vue"><div class="long">
+      <div class="tete"><b style="font-weight:500">Chez Margot</b><span><i></i><i></i><i></i></span></div>
+      <div class="titre"><span>Le marché,<br>dans l’assiette.</span></div>
+      <div class="trait"></div>
+      <div class="photo"><img src="../../images/port/terrasse-coucher.webp" alt=""></div>
+      <div class="bouton">Réserver une table</div>
+      <div class="ouvert"><i></i>Ouvert ce soir jusqu’à 23 h</div>
+      <div class="carte-s"><h4>La carte du jour</h4><p><span>Daurade royale, fenouil confit</span><span>24 €</span></p><p><span>Rougets grillés, huile d’olive</span><span>21 €</span></p><p><span>Fiadone au citron</span><span>8 €</span></p></div>
+      <div class="tuiles"><div><img src="../../images/port/plat-daurade.webp" alt=""></div><div><img src="../../images/port/port-barques.webp" alt=""></div><div><img src="../../images/port/plat-pastilla.webp" alt=""></div></div>
+      <div class="fin-s"><b>À ce soir ?</b><span>Réserver une table</span></div>
+    </div></div>
   </div>
-  <p class="m legende"><span>Codé sur mesure, ligne après ligne.</span></p>
+  <div id="tel"><div class="t">Chez Margot</div><b>Le marché,<br>dans l’assiette.</b><div class="ph"><img src="../../images/port/terrasse-coucher.webp" alt=""></div><div class="bt">Réserver une table</div></div>
+  <div id="etincelles"></div>
+  <svg id="pointeur" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2l15 9-6.4 1.6L10 19z" fill="#fff" stroke="#011D1C" stroke-width="1.4" stroke-linejoin="round"/></svg>
+  <p class="m legende" id="leg1"><span>Codé sur mesure, ligne après ligne.</span></p>
+  <p class="m legende" id="leg2"><span>En ligne, sur ordinateur comme sur téléphone.</span></p>
 </section>
 
 <section class="s" id="s6">
@@ -159,7 +195,7 @@ body{font-family:"Inter Tight",sans-serif;font-weight:500;color:#fff;letter-spac
 <div id="volet"></div>
 
 <script>
-const DUREE = 27.5;
+const DUREE = 33.1;
 const $ = id => document.getElementById(id), q = (s, r = document) => [...r.querySelectorAll(s)];
 const c = x => Math.min(1, Math.max(0, x));
 const sort = x => { x = c(x); return x === 1 ? 1 : 1 - Math.pow(2, -10 * x); };            // arrivée vive, fin très douce
@@ -173,14 +209,17 @@ const scene = (id, t, a, b) => { const on = t >= a && t < b; $(id).style.display
 // une ligne derrière son cache : elle monte en entrant, et sort par le haut
 const cache = (el, t, entree, sortie) => { el.style.transform = `translate3d(0,${((1 - sort((t - entree) / .9)) * 112 - part((t - sortie) / .5) * 112).toFixed(2)}%,0)`; };
 
-// les lignes de code : d = l'instant où la ligne commence, t = le temps de frappe, j = les morceaux colorés
+// les lignes de code : d = l'instant où la ligne commence, t = le temps de frappe, j = les morceaux colorés,
+// c = où va l'étincelle dans l'aperçu (en vw, depuis son coin haut gauche)
 const LIGNES = [
-  { d: 15.6, t: .5, j: [["<header>", "k"], ["Chez Margot", "x"], ["</header>", "k"]] },
-  { d: 16.25, t: .6, j: [["<h1>", "k"], ["Le marché, dans l’assiette.", "x"], ["</h1>", "k"]] },
-  { d: 17, t: .5, j: [["<img ", "k"], ["src", "a"], ["=", "g"], ["\"terrasse.jpg\"", "v"], [">", "k"]] },
-  { d: 17.65, t: .5, j: [["<a ", "k"], ["class", "a"], ["=", "g"], ["\"bouton\"", "v"], [">", "k"], ["Réserver", "x"], ["</a>", "k"]] },
-  { d: 18.3, t: .5, j: [["<p>", "k"], ["Ouvert ce soir", "x"], ["</p>", "k"]] },
-  { d: 18.95, t: .4, j: [["a ", "k"], ["{ ", "g"], ["background", "a"], [": ", "g"], ["corail", "v"], [" }", "g"]] }];
+  { d: 15.7, t: .42, c: [7, 4.6], j: [["<header>", "k"], ["Chez Margot", "x"], ["</header>", "k"]] },
+  { d: 16.3, t: .5, c: [11, 13.2], j: [["<h1>", "k"], ["Le marché, dans l’assiette.", "x"], ["</h1>", "k"]] },
+  { d: 16.95, t: .42, c: [33.8, 20], j: [["<img ", "k"], ["src", "a"], ["=", "g"], ["\"terrasse.jpg\"", "v"], [">", "k"]] },
+  { d: 17.55, t: .45, c: [8.5, 22], j: [["<a ", "k"], ["class", "a"], ["=", "g"], ["\"bouton\"", "v"], [">", "k"], ["Réserver", "x"], ["</a>", "k"]] },
+  { d: 18.15, t: .42, c: [9, 27.1], j: [["<p>", "k"], ["Ouvert ce soir", "x"], ["</p>", "k"]] },
+  { d: 18.75, t: .4, c: [8.5, 22], j: [["a ", "k"], ["{ ", "g"], ["background", "a"], [": ", "g"], ["corail", "v"], [" }", "g"]] },
+  { d: 19.4, t: .5, c: [14, 1.3], j: [["publier", "a"], ["(", "g"], ["\"chezmargot.fr\"", "v"], [")", "g"]] }];
+$("etincelles").innerHTML = LIGNES.map(() => '<i class="etincelle"></i><i class="onde"></i>').join("");
 const PEAUX = [["#FBF7EC", "#1F5C8A", "#C8553D", "#1E2B33", 62, 1, "Restaurant"], ["#F0ECE2", "#FFD23F", "#1F4BD8", "#111111", 100, 0, "Artisan"], ["#F2EBDD", "#24452F", "#B5472F", "#22301F", 44, 22, "Fleuriste"]];
 
 function rendu(t) {
@@ -226,27 +265,48 @@ function rendu(t) {
     const dm = t < 11.95 ? 10.9 : t < 13.15 ? 11.95 : 13.15, fm = t < 11.95 ? 11.8 : t < 13.15 ? 13 : 14.25;
     M.style.transform = `translate3d(0,${((1 - sort((t - dm) / .45)) * 112 - part((t - fm) / .15) * 112).toFixed(2)}%,0)`; }
 
-  // ——— 5. on code à gauche, le site prend vie à droite : chaque ligne tapée fait apparaître un morceau du site
-  if (scene("s5", t, 14.8, 21)) {
-    const arr = sort((t - 14.9) / .9), dep = part((t - 20.35) / .6);
-    $("editeur").style.transform = `translate3d(${(-(1 - arr) * 12 - dep * 60).toFixed(2)}vw,0,0)`; $("editeur").style.opacity = c((t - 14.9) / .3);
-    $("apercu").style.transform = `translate3d(${((1 - sort((t - 15.05) / .9)) * 12 + dep * 60).toFixed(2)}vw,0,0)`; $("apercu").style.opacity = c((t - 15.05) / .3);
+  // ——— 5. le grand moment. A : on code, chaque ligne envoie une étincelle qui fait naître un morceau du site.
+  // B : on publie, le site prend l'écran et défile, le pointeur clique. C : le site se range à côté de sa version téléphone.
+  if (scene("s5", t, 14.8, 26.7)) {
+    const arr = sort((t - 14.9) / .9), pub = va((t - 20) / 1.1), range = va((t - 24) / 1.1), dep = part((t - 26.05) / .6), flotte = Math.sin(t * 1.3) * .25;
+    const E = $("editeur"), A = $("apercu");
+    E.style.transform = `translate3d(${(-(1 - arr) * 14 - pub * 62).toFixed(2)}vw,${flotte.toFixed(2)}vw,0)`; E.style.opacity = (c((t - 14.9) / .3) * (1 - pub)).toFixed(3);
+    // l'aperçu : à droite pendant qu'on code, au centre et en grand quand on publie, puis à gauche du téléphone
+    const ax = (1 - sort((t - 15.05) / .9)) * 14 + pub * -23 + range * -9.5, ay = -flotte * (1 - pub) + pub * 1.5 + dep * 60, ae = 1 + pub * .5 - range * .52;
+    A.style.transform = `translate3d(${ax.toFixed(2)}vw,${ay.toFixed(2)}vw,0) scale(${ae.toFixed(4)})`; A.style.opacity = c((t - 15.05) / .3);
     // le code se tape ligne après ligne, avec son curseur
     let courante = -1; LIGNES.forEach((L, i) => { if (t >= L.d) courante = i; });
     $("code").innerHTML = LIGNES.map((L, i) => { if (t < L.d) return ""; const total = L.j.reduce((n, x) => n + x[0].length, 0), vus = Math.round(c((t - L.d) / L.t) * total); let reste = vus;
       const txt = L.j.map(([mot, cl]) => { const m = mot.slice(0, Math.max(0, reste)); reste -= mot.length; return m ? `<span class="${cl}">${m.replace(/</g, "&lt;")}</span>` : ""; }).join("");
-      return `<div><em>${i + 1}</em><span>${txt}${i === courante && Math.floor(t * 3.2) % 2 === 0 || (i === courante && vus < total) ? '<i class="cur"></i>' : ""}</span></div>`; }).join("");
-    // le site : chaque morceau arrive quand sa ligne est finie
-    const f = i => LIGNES[i].d + LIGNES[i].t, A = $("apercu");
-    q(".tete", A)[0].style.transform = `translate3d(0,${((1 - sort((t - f(0)) / .6)) * -110).toFixed(2)}%,0)`;
-    q(".titre span", A)[0].style.transform = `translate3d(0,${((1 - sort((t - f(1)) / .8)) * 112).toFixed(2)}%,0)`;
-    const ph = sort((t - f(2)) / .9); q(".photo", A)[0].style.clipPath = `inset(${((1 - ph) * 100).toFixed(2)}% 0 0 0 round 8vw 8vw .9vw .9vw)`; q(".photo img", A)[0].style.transform = `scale(${(1.25 - .25 * ph).toFixed(4)})`;
-    const coul = va((t - f(5)) / .6), bt = q(".bouton", A)[0]; bt.style.transform = `scale(${rebond((t - f(3)) / .6).toFixed(4)})`; bt.style.opacity = c((t - f(3)) / .12); bt.style.background = teinte("#1E2B33", "#E4572E", coul);
-    const ou = sort((t - f(4)) / .7), o = q(".ouvert", A)[0]; o.style.opacity = ou.toFixed(3); o.style.transform = `translate3d(0,${((1 - ou) * 1.6).toFixed(2)}vw,0)`;
-    q(".trait", A)[0].style.transform = `scaleX(${sort((t - f(5)) / .8).toFixed(4)})`;
-    cache(q("#s5 .legende>span")[0], t, 19.2, 20.3); }
+      return `<div><em>${i + 1}</em><span>${txt}${i === courante && (vus < total || Math.floor(t * 3.2) % 2 === 0) ? '<i class="cur"></i>' : ""}</span></div>`; }).join("");
+    // les étincelles : du bout de la ligne jusqu'à l'endroit où le morceau du site va naître, puis une onde
+    const f = i => LIGNES[i].d + LIGNES[i].t, et = q("#etincelles .etincelle"), on = q("#etincelles .onde");
+    LIGNES.forEach((L, i) => { const total = L.j.reduce((n, x) => n + x[0].length, 0), x0 = 9.7 + total * .852, y0 = 9.6 + 4.6 + i * 2.75 + 1.4, x1 = 51 + L.c[0], y1 = 9.6 + L.c[1];
+      const p = va((t - f(i) + .04) / .36), vol = t >= f(i) - .04 && t < f(i) + .34, k = 1 - p;
+      const x = k * k * x0 + 2 * k * p * ((x0 + x1) / 2) + p * p * x1, y = k * k * y0 + 2 * k * p * (Math.min(y0, y1) - 7) + p * p * y1;
+      et[i].style.opacity = vol ? 1 : 0; et[i].style.transform = `translate3d(${x.toFixed(2)}vw,${y.toFixed(2)}vw,0) scale(${(1 + Math.sin(p * Math.PI) * .8).toFixed(3)})`;
+      const o = c((t - f(i) - .3) / .55); on[i].style.opacity = o > 0 && o < 1 ? (1 - o).toFixed(3) : 0; on[i].style.transform = `translate3d(${x1.toFixed(2)}vw,${y1.toFixed(2)}vw,0) scale(${(.3 + sort(o) * 2.6).toFixed(3)})`; });
+    // le site : chaque morceau arrive quand son étincelle touche
+    const g = i => f(i) + .3;
+    q(".tete", A)[0].style.transform = `translate3d(0,${((1 - sort((t - g(0)) / .6)) * -110).toFixed(2)}%,0)`;
+    q(".titre span", A)[0].style.transform = `translate3d(0,${((1 - sort((t - g(1)) / .8)) * 112).toFixed(2)}%,0)`;
+    const ph = sort((t - g(2)) / .9); q(".photo", A)[0].style.clipPath = `inset(${((1 - ph) * 100).toFixed(2)}% 0 0 0 round 8vw 8vw .9vw .9vw)`; q(".photo img", A)[0].style.transform = `scale(${(1.25 - .25 * ph).toFixed(4)})`;
+    const coul = va((t - g(5)) / .5), bt = q(".bouton", A)[0]; bt.style.transform = `scale(${rebond((t - g(3)) / .6).toFixed(4)})`; bt.style.opacity = c((t - g(3)) / .1); bt.style.background = teinte("#1E2B33", "#E4572E", coul);
+    const ou = sort((t - g(4)) / .7), o = q(".ouvert", A)[0]; o.style.opacity = ou.toFixed(3); o.style.transform = `translate3d(0,${((1 - ou) * 1.6).toFixed(2)}vw,0)`;
+    q(".trait", A)[0].style.transform = `scaleX(${sort((t - g(5)) / .8).toFixed(4)})`;
+    // publier : l'adresse s'écrit dans la barre, le voyant passe au vert
+    const adr = "chezmargot.fr"; $("url").textContent = adr.slice(0, Math.round(c((t - g(6)) / .45) * adr.length)); $("enligne").style.opacity = c((t - g(6) - .45) / .2);
+    // le site défile jusqu'en bas, puis remonte quand il se range
+    const defile = va((t - 21) / 2.6) * (1 - va((t - 24) / 1)); q(".long", A)[0].style.transform = `translate3d(0,${(-defile * 49.6).toFixed(2)}vw,0)`;
+    // le pointeur vient cliquer sur « Réserver une table », en bas de la page
+    const P = $("pointeur"), pa = sort((t - 22.9) / .8), clic = c((t - 23.75) / .18), pf = c((t - 24) / .25);
+    P.style.opacity = (c((t - 22.9) / .2) * (1 - pf)).toFixed(3); P.style.transform = `translate3d(${mix(72, 31.5, pa).toFixed(2)}vw,${mix(50, 44.2, pa).toFixed(2)}vw,0) scale(${(1 - Math.sin(clic * Math.PI) * .22).toFixed(3)})`;
+    const fs = q(".fin-s span", A)[0]; fs.style.transform = `scale(${(1 - Math.sin(clic * Math.PI) * .07).toFixed(3)})`; fs.style.background = teinte("#FFFFFF", "#1E2B33", c((t - 23.8) / .15)); fs.style.color = teinte("#1E2B33", "#FFFFFF", c((t - 23.8) / .15));
+    // la version téléphone arrive à côté
+    const T = $("tel"), ta = sort((t - 24.35) / 1); T.style.opacity = c((t - 24.35) / .25); T.style.transform = `translate3d(${((1 - ta) * 26).toFixed(2)}vw,${(dep * 60 + Math.sin(t * 1.3 + 1) * .3).toFixed(2)}vw,0) rotate(${(4 + (1 - ta) * 10).toFixed(2)}deg)`;
+    cache(q("#leg1>span")[0], t, 16.1, 19.7); cache(q("#leg2>span")[0], t, 24.7, 25.95); }
 
-  const u = t - 1.5;   // les deux derniers temps sont décalés d'une seconde et demie
+  const u = t - 7.1;   // les deux derniers temps sont décalés d'autant que le grand moment a pris
   if (scene("s6", u, 19.3, 22.6)) { const arr = sort((u - 19.35) / 1), dep = part((u - 22) / .6), tour = (u - 19.3) * 62;
     $("s6").style.opacity = c((u - 19.3) / .2);
     $("disque").style.background = `conic-gradient(from ${tour.toFixed(2)}deg,#EDFFFE 0 50%,#003734 50% 100%)`; $("disque").style.transform = `scale(${(arr * (1 - dep)).toFixed(4)})`;

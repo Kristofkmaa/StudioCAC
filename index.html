@@ -123,10 +123,24 @@ h1,h2,h3{color:var(--white);font-weight:500;line-height:1;text-wrap:balance}
 /* ---- ouverture : la sphère de particules derrière le texte ---- */
 /* ---- ouverture : le titre géant arrive de la gauche et de la droite, la sphère derrière ;
    en descendant, la page reste figée le temps que les lignes repartent chacune de leur côté ---- */
-.hero{position:relative;height:270vh}
+.hero{position:relative;height:420vh}
 /* le fond de la galerie : en défilant on s'enfonce dans le passage, et la suite du site (les quatre chiffres) arrive du point de fuite */
 .arrivee{position:absolute;inset:0;z-index:3;display:grid;align-content:center;pointer-events:none;transform-origin:50% 50%;transform:scale(var(--as,.04));opacity:var(--ao,0);will-change:transform,opacity}
 .arrivee.la{pointer-events:auto}
+/* la boutique principale, au fond de la galerie : son enseigne, son store, et sa vitrine, qui est la vidéo de présentation.
+   En descendant, on s'en approche : elle grandit depuis le point de fuite, la vidéo se lance, puis on la dépasse. */
+.boutique{position:absolute;inset:0;z-index:2;display:grid;place-items:center;pointer-events:none;transform-origin:50% 50%;transform:scale(var(--bs,.04));opacity:var(--bo,0);will-change:transform,opacity}
+.boutique.la{pointer-events:auto}
+.devanture{width:min(1040px,86vw,calc((100svh - 220px) * 16 / 9));display:grid;justify-items:center}
+.enseigne{margin:0 0 14px;padding-left:.42em;font-size:clamp(1rem,.6rem + 1.6vw,1.9rem);font-weight:500;letter-spacing:.42em;color:var(--white)}
+.store{width:100%;height:clamp(10px,1.4vw,18px);border-radius:4px 4px 0 0;background:var(--aurora);opacity:.85}
+.vitrine{position:relative;width:100%;aspect-ratio:16/9;background:var(--deep);border-radius:0 0 14px 14px;overflow:hidden;box-shadow:0 0 0 1px rgba(237,255,254,.35),0 0 90px rgba(203,255,252,.28)}
+.vitrine video{display:block;width:100%;height:100%;object-fit:cover}
+.lecture{position:absolute;right:12px;bottom:12px;width:44px;height:44px;padding:0;border-radius:50%;border:0;background:rgba(1,29,28,.72);color:#fff;cursor:pointer;display:grid;place-items:center}
+.lecture svg{width:16px;height:16px;fill:currentColor}
+.lecture .jouer,.lecture.arretee .pauser{display:none}
+.lecture.arretee .jouer{display:block}
+@media (max-width:699px){.boutique{transform-origin:50% 42%}.devanture{width:92vw}}
 .arrivee .stats{padding-block:0}
 @media (max-width:699px){.arrivee{transform-origin:50% 42%}}
 .hero .pin{position:sticky;top:0;height:100vh;height:100svh;overflow:clip;isolation:isolate;display:grid;grid-template-rows:1fr auto;gap:clamp(16px,3vh,36px);padding:96px var(--m) clamp(28px,6vh,72px)}
@@ -196,7 +210,7 @@ h1,h2,h3{color:var(--white);font-weight:500;line-height:1;text-wrap:balance}
   .hero .base p{max-width:none;font-size:clamp(1.05rem,.9rem + .4vw,1.35rem)}
   .hero .base .aurora.lg{min-height:54px;padding-block:16px}
 }
-@media (prefers-reduced-motion:reduce){.arrivee{position:static;transform:none;opacity:1;pointer-events:auto;margin-top:48px}.hero{height:auto}.hero .pin{position:relative;min-height:100svh;height:auto}.giant .in,.hero .base{animation:none}}
+@media (prefers-reduced-motion:reduce){.boutique{position:static;transform:none;opacity:1;pointer-events:auto;margin-top:48px}.arrivee{position:static;transform:none;opacity:1;pointer-events:auto;margin-top:48px}.hero{height:auto}.hero .pin{position:relative;min-height:100svh;height:auto}.giant .in,.hero .base{animation:none}}
 .cue{position:absolute;left:50%;bottom:20px;translate:-50% 0;display:grid;justify-items:center;gap:8px;font-size:10px;letter-spacing:.15em;text-transform:uppercase}
 .cue i{width:1px;height:36px;background:linear-gradient(var(--mist),transparent);animation:cue 2.2s ease-in-out infinite;transform-origin:top}
 @keyframes cue{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
@@ -523,6 +537,16 @@ section[id]{scroll-margin-top:20px}
       (function () { try { var av = 0; if (document.documentElement.dataset.arrivee === "sphere") { var pos = JSON.parse(sessionStorage.getItem("galerie-pos") || "null"), h = Date.now(); av = pos && h - pos.t < 4000 ? pos.v + 13.8 * (h - pos.t) / 1000 - h / 1000 * .16 : -7.36; }
         AbysseSphere.create(document.getElementById("orb")).draw({ av: av, eclat: document.documentElement.dataset.porte === "1" && !matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 1 }); } catch (e) {} })();
       </script>
+      <div class="boutique" id="boutique">
+        <div class="devanture">
+          <p class="enseigne" aria-hidden="true">SAITORA</p>
+          <div class="store" aria-hidden="true"></div>
+          <div class="vitrine">
+            <video id="film" muted playsinline loop preload="none" poster="media/saitora-presentation.webp?v=1" width="1920" height="1080" aria-label="Saitora en 38 secondes : la vidéo de présentation, sans son"><source src="media/saitora-presentation.mp4?v=1" type="video/mp4"></video>
+            <button type="button" class="lecture" id="filmBtn" aria-label="Mettre la vidéo en pause"><svg class="pauser" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 2h4v12H3zM9 2h4v12H9z"/></svg><svg class="jouer" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2l10 6-10 6z"/></svg></button>
+          </div>
+        </div>
+      </div>
       <div class="arrivee" id="arrivee"><div class="page">
     <section class="stats" aria-label="En chiffres">
       <div class="stat"><div class="wv tuiles" aria-hidden="true"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><i style="--i:5"></i><i style="--i:6"></i><i style="--i:7"></i><i style="--i:8"></i><i style="--i:9"></i><i style="--i:10"></i><i style="--i:11"></i><i style="--i:12"></i></div><b data-to="13">13</b><span>démos, une par métier</span></div>
@@ -664,7 +688,7 @@ const fleche = '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strok
   if (!pret) { if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", prete); else prete(); }
   const etat = () => {
     if (porte) {
-      const A = 1 - Math.max(0, (heroP - .62) / .38) * .9, grow = 1 + Math.pow(heroP, 1.5) * 5.5;
+      const A = 1 - Math.max(0, (heroP - .82) / .18) * .9, grow = 1 + Math.pow(heroP, 1.5) * 5.5;
       if (pt0 === null) return { Z: 1, av: 0, A, grow, eclat: calme ? 1 : 0 };
       // 0–1 s : les boutiques s'allument, des plus proches aux plus lointaines ; 0,6–2,2 s : on se met en marche ;
       // 2,2–3,8 s : on ralentit jusqu'à l'allure de promenade. Une seule courbe, sans à-coup (même vitesse à la jonction).
@@ -677,7 +701,7 @@ const fleche = '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strok
     const zp = dezoom ? Math.min(1, (performance.now() - z0) / 1600) : 1, ze = zp < .5 ? 4 * zp ** 3 : 1 - (-2 * zp + 2) ** 3 / 2;
     if (dezoom && zp >= 1 && !calme) AbysseSphere.suivre(true);   // après le recul, la sphère suit de nouveau le doigt
     const allume = 1;                                          // la galerie est allumée dès la première image : pas d'écran noir
-    return { Z: 1, av: dezoom ? av0 + 7.36 * (1 - Math.pow(1 - zp, 3)) : 0, A: allume * (1 - Math.max(0, (heroP - .62) / .38) * .9), grow: 1 + Math.pow(heroP, 1.5) * 5.5 };   // arrivée depuis l'entrée : on finit la marche en ralentissant, sur 2,2 s   // recul 12 → 1 sur 2,2 s, doux au début et à la fin
+    return { Z: 1, av: dezoom ? av0 + 7.36 * (1 - Math.pow(1 - zp, 3)) : 0, A: allume * (1 - Math.max(0, (heroP - .82) / .18) * .9), grow: 1 + Math.pow(heroP, 1.5) * 5.5 };   // arrivée depuis l'entrée : on finit la marche en ralentissant, sur 2,2 s   // recul 12 → 1 sur 2,2 s, doux au début et à la fin
   };
   const loop = () => { if (!AbysseSphere.cachee) sphere.draw(etat()); raf = requestAnimationFrame(loop); };   // pas sous un rideau de transition
   sphere.draw(etat());
@@ -737,17 +761,27 @@ if (dezoom && !calme) {
 
 // ——— le titre géant : en descendant, chaque ligne repart de son côté (gauche, droite, gauche)
 (() => {
-  const arr = $("arrivee"); let compteFait = false;
+  const arr = $("arrivee"); let compteFait = false, filmArrete = false;
+  // le bouton de la vitrine : pause ou lecture, au choix du visiteur
+  $("filmBtn").addEventListener("click", () => { const f = $("film"), b = $("filmBtn"); filmArrete = !f.paused; if (f.paused) f.play().catch(() => {}); else f.pause();
+    b.classList.toggle("arretee", filmArrete); b.setAttribute("aria-label", filmArrete ? "Lire la vidéo" : "Mettre la vidéo en pause"); });
   if (calme) { arr.querySelectorAll(".stat").forEach(el => el.classList.add("on")); return; }
   const hero = $("hero"), lns = [...hero.querySelectorAll(".ln")], base = hero.querySelector(".base"), dir = [-1, 1, -1];
   let tick = false;
   const move = () => { tick = false;
     heroP = Math.min(1, Math.max(0, scrollY / (hero.offsetHeight - innerHeight)));
-    const hp = Math.min(1, heroP / .46), e = hp * hp;                       // le titre a fini de partir à 46 % du trajet
+    const hp = Math.min(1, heroP / .24), e = hp * hp;                       // le titre a fini de partir à 24 % du trajet
     lns.forEach((l, i) => { l.style.transform = `translate3d(${(dir[i] * e * 110).toFixed(2)}vw,0,0)`; l.style.opacity = (1 - e * .8).toFixed(3); });
     base.style.opacity = Math.max(0, 1 - hp * 2.2).toFixed(3);
     // la suite arrive du fond de la galerie : elle grandit depuis le point de fuite
-    const a = Math.min(1, Math.max(0, (heroP - .4) / .52)), ae = a * a * (3 - 2 * a);
+    // la boutique du fond : on s'en approche (elle grandit depuis le point de fuite), la vidéo joue, puis on la dépasse
+    { const B = $("boutique"), film = $("film"), v = Math.min(1, Math.max(0, (heroP - .2) / .3)), ve = v * v * (3 - 2 * v), x = Math.min(1, Math.max(0, (heroP - .68) / .14));
+      B.style.setProperty("--bs", ((.04 + .96 * ve) * (1 + x * x * .9)).toFixed(4)); B.style.setProperty("--bo", (Math.min(1, v * 2.6) * (1 - x)).toFixed(3)); B.classList.toggle("la", v > .97 && x < .2);
+      const joue = v > .55 && x < .9 && !filmArrete;
+      if (joue && film.paused) { if (!film.dataset.vu) { film.dataset.vu = 1; film.addEventListener("loadedmetadata", () => { film.currentTime = 3.25; }, { once: true }); }   // la première fois, on part de l'image d'attente
+        film.play().catch(() => {}); }
+      else if (!joue && !film.paused) film.pause(); }
+    const a = Math.min(1, Math.max(0, (heroP - .7) / .26)), ae = a * a * (3 - 2 * a);
     arr.style.setProperty("--as", (.04 + .96 * ae).toFixed(4)); arr.style.setProperty("--ao", Math.min(1, a * 2.6).toFixed(3)); arr.classList.toggle("la", a > .97);
     if (a > .45 && !compteFait) { compteFait = true; arr.querySelectorAll(".stat").forEach(el => { el.classList.add("on"); const b = el.querySelector("b[data-to]"); if (b) compte(b); }); }
   };

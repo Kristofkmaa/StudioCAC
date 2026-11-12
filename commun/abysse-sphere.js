@@ -61,6 +61,48 @@ window.AbysseSphere = (() => {
         f = H * (mob ? 1.05 : 1.35) * zoom, hx = W * .5, hy = H * (mob ? .42 : .5), camX = incl.x * .07, camY = .62 - incl.y * .03, lac = incl.x * .025, cl = Math.cos(lac), sl = Math.sin(lac), zMax = NB * L;
       const pj = (x, y, z) => { const xr = (x - camX) * cl - z * sl, zr = (x - camX) * sl + z * cl; if (zr < .3) return null; const e = f / zr; return [hx + xr * e, hy - (y - camY) * e, zr]; },
         quad = (a, b, c, d, col, al2) => { g.globalAlpha = al2; g.fillStyle = col; g.beginPath(); g.moveTo(a[0], a[1]); g.lineTo(b[0], b[1]); g.lineTo(c[0], c[1]); g.lineTo(d[0], d[1]); g.closePath(); g.fill(); };
+      // ——— les décorations de saison (réglage dans abysse-saison.js) : guirlandes, sapins, citrouilles, œufs… posés sur les boutiques
+      const sais = document.documentElement.dataset.saison, deco = sais === "noel" || sais === "halloween" || sais === "paques",
+        CN = ["#FF5F5F", "#FFD166", "#6DF0A8", "#FFFFFF"], CH = ["#FF8A2A", "#B77BFF"], CP = ["#FFC9DC", "#FFE9A8", "#BFEFD9", "#D9C8FF"],
+        F3 = (P, col, a) => { g.beginPath(); for (let i = 0; i < P.length; i += 3) { const q = pj(P[i], P[i + 1], P[i + 2]); if (!q) return; i ? g.lineTo(q[0], q[1]) : g.moveTo(q[0], q[1]); } g.closePath(); g.globalAlpha = Math.min(1, a); g.fillStyle = col; g.fill(); },
+        T3 = (P, col, a, w, ferme) => { let e = 0; g.beginPath(); for (let i = 0; i < P.length; i += 3) { const q = pj(P[i], P[i + 1], P[i + 2]); if (!q) return; i ? g.lineTo(q[0], q[1]) : g.moveTo(q[0], q[1]); e = f / q[2]; } if (ferme) g.closePath(); g.globalAlpha = Math.min(1, a); g.strokeStyle = col; g.lineWidth = Math.max(.6, w * e); g.stroke(); },
+        R3 = (x, y, z, rr, col, a) => { const q = pj(x, y, z); if (!q) return; g.globalAlpha = Math.min(1, a); g.fillStyle = col; g.beginPath(); g.arc(q[0], q[1], Math.max(.7, rr * f / q[2]), 0, 6.2832); g.fill(); },
+        ovale = (x, y, z, ry, rz) => { const P = []; for (let i = 0; i < 14; i++) { const a = i * .4488; P.push(x, y + Math.sin(a) * ry, z + Math.cos(a) * rz); } return P; },   // un rond posé à plat sur le mur
+        fil = (pt, n) => { const P = []; for (let i = 0; i <= n; i++) { const q = pt(i / n * .9999); P.push(q[0], q[1], q[2]); } return P; },
+        lampes = (pt, n, cols, rr, a, ph) => { for (let i = 0; i < n; i++) { const q = pt((i + .5) / n), cl = .5 + .5 * Math.sin(t * 2.2 + i * 1.9 + ph), col = cols[i % cols.length]; R3(q[0], q[1], q[2], rr * 2.6, col, a * cl * .2); R3(q[0], q[1], q[2], rr, col, a * (.45 + .55 * cl)); } },
+        // d'un côté à l'autre du passage, au niveau de la corniche
+        travers = (zz, br, abs) => { const gt = u => [-1.05 + 2.1 * u, 1.3 - .2 * Math.sin(Math.PI * u), zz];
+          T3(fil(gt, 20), encre, .35 * br, .004);
+          if (sais === "noel") lampes(gt, 15, ["#FFE9B0", "#FFFFFF", "#FFD166"], .018, br, abs);
+          else if (sais === "halloween") { lampes(gt, 11, CH, .018, br, abs); if (abs % 3) return;   // une chauve-souris toutes les trois travées
+            const b = .7 + .3 * Math.sin(t * 5 + abs), y = .98, M = [0, .03, .012, .05, .02, .03, .06, .045, .15 * b, .05, .13 * b, 0, .1 * b, .015, .07, -.015, .04, .005, .015, -.035, 0, -.02], P = [];   // la chauve-souris, une moitié puis son reflet
+            for (let i = 0; i < M.length; i += 2) P.push(M[i], y + M[i + 1], zz); for (let i = M.length - 4; i > 0; i -= 2) P.push(-M[i], y + M[i + 1], zz);
+            T3([0, 1.1, zz, 0, y + .03, zz], encre, .3 * br, .003); F3(P, "#B77BFF", .85 * br); }
+          else { for (let i = 0; i < 14; i++) { const a = gt(i / 14), b = gt((i + 1) / 14 * .9999); F3([a[0], a[1], zz, b[0], b[1], zz, (a[0] + b[0]) / 2, (a[1] + b[1]) / 2 - .1, zz], CP[i % 4], .8 * br); } } },
+        // sur une boutique : x est son mur, c son côté (-1 à gauche, 1 à droite)
+        pose = (c, x, zz, br, abs, pres) => { const xg = x - c * .31, xd = x - c * .015, gu = u => [xg, .735 - .07 * Math.sin(Math.PI * ((u * 3) % 1)), zz + .12 + .94 * u];
+          if (sais !== "paques") { T3(fil(gu, 24), encre, .4 * br, .004); lampes(gu, 12, sais === "noel" ? CN : CH, .016, br, abs + c); }   // la guirlande au bord du store
+          if (sais === "noel") { const zt = zz + .59;
+            F3([xd, .14, zt - .02, xd, .14, zt + .02, xd, .22, zt + .02, xd, .22, zt - .02], "#8A5A3C", .9 * br);                               // le sapin dans la vitrine
+            for (const [y0, y1, h] of [[.2, .44, .17], [.36, .58, .13], [.5, .72, .09]]) F3([xd, y0, zt - h, xd, y0, zt + h, xd, y1, zt], "#2FA36B", .92 * br);
+            [[.27, -.08], [.3, .07], [.42, -.04], [.46, .06], [.57, 0], [.24, 0]].forEach((q, i) => R3(xd, q[0], zt + q[1], .013, CN[i % 3], br * (.6 + .4 * Math.sin(t * 2.6 + i * 2.3 + abs))));
+            R3(xd, .735, zt, .05, "#FFD166", .25 * br); R3(xd, .735, zt, .022, "#FFD166", br);
+            T3(ovale(xd, .56, zz + 1.29, .085, .085), "#2FA36B", .95 * br, .03, true); R3(xd, .475, zz + 1.29, .022, "#FF5F5F", br); }       // la couronne sur la porte
+          else if (sais === "halloween") {
+            for (const [zp, rr] of [[.36, .09], [.53, .062]]) { const y = rr * .85, z = zz + zp;                                            // les citrouilles au pied de la vitrine
+              F3(ovale(xd, y, z, rr * .85, rr), "#FF8A2A", .95 * br); T3(ovale(xd, y, z, rr * .85, rr * .45), "#C25E10", .8 * br, .004, true);
+              F3([xd, y + rr * .82, z - .012, xd, y + rr * .82, z + .012, xd, y + rr * 1.12, z + .012, xd, y + rr * 1.12, z - .012], "#6DBE6A", .9 * br);
+              if (pres && rr > .07) { for (const d of [-1, 1]) F3([xd, y + .38 * rr, z + d * .38 * rr, xd, y + .08 * rr, z + d * .58 * rr, xd, y + .08 * rr, z + d * .18 * rr], "#FFE08A", br);
+                F3([xd, y - .15 * rr, z - .5 * rr, xd, y - .15 * rr, z + .5 * rr, xd, y - .45 * rr, z + .25 * rr, xd, y - .45 * rr, z - .25 * rr], "#FFE08A", br); } }
+            const A5 = [0, .32, .64, .96, 1.28, 1.5708], coin = (a, d) => [xd, .8 - Math.cos(a) * d, zz + .16 + Math.sin(a) * d];             // la toile d'araignée dans le coin de la vitrine
+            for (const a of A5) { const q = coin(a, .26); T3([xd, .8, zz + .16, q[0], q[1], q[2]], "#FFFFFF", .5 * br, .003); }
+            for (const d of [.09, .16, .23]) { const P = []; for (const a of A5) { const q = coin(a, d); P.push(q[0], q[1], q[2]); } T3(P, "#FFFFFF", .5 * br, .003); } }
+          else { const n4 = ((abs % 4) + 4) % 4;
+            T3([xg, .74, zz + .12, xg, .74, zz + 1.06], encre, .4 * br, .004);                                                                // les fanions au bord du store
+            for (let i = 0; i < 8; i++) { const z0 = zz + .12 + .94 * i / 8, z1 = zz + .12 + .94 * (i + 1) / 8; F3([xg, .74, z0, xg, .74, z1, xg, .63, (z0 + z1) / 2], CP[(i + n4) % 4], .85 * br); }
+            [.38, .59, .8].forEach((zp, i) => { const z = zz + zp; F3(ovale(xd, .27, z, .105, .074), CP[(i + n4) % 4], .95 * br);            // les œufs dans la vitrine
+              T3([xd, .27, z - .068, xd, .295, z - .034, xd, .245, z, xd, .295, z + .034, xd, .27, z + .068], "#FFFFFF", .85 * br, .007); });
+            for (let i = 0; i < 10; i++) { const a = i * .6283; R3(xd, .56 + Math.sin(a) * .085, zz + 1.29 + Math.cos(a) * .085, .024, CP[i % 4], br); } } };  // la couronne de fleurs sur la porte
       g.fillStyle = encre;
       for (let k = NB - 1; k >= 0; k--) { const z0 = k * L - dz, abs = base + k, graine = Math.sin((abs % 9973) * 12.9898) * 43758.5453, al = graine - Math.floor(graine),
           lumG = .35 + .65 * (.5 + .5 * Math.sin(t * .35 + (abs % 997) * 2.1)), lumD = .35 + .65 * (.5 + .5 * Math.sin(t * .28 + (abs % 997) * 3.7 + 1.3)), zz = z0 + .9,
@@ -71,6 +113,7 @@ window.AbysseSphere = (() => {
           const brume = Math.pow(Math.max(0, 1 - zr / zMax), 1.25) * Math.min(1, (zr - .28) * 2.2), vit = TRAVEE[i + 4];
           g.globalAlpha = Math.min(1, A * sombre * TRAVEE[i + 3] * brume * (vit === 1 ? lumG * (al > .25 ? 1 : .25) : vit === 2 ? lumD * (al < .8 ? 1 : .25) : 1));
           const r = Math.max(.8, Math.min(2.6, e / zoom * .0042)); g.fillRect(X - r / 2, Y - r / 2, r, r); }
+        if (deco) { const q = pj(0, 1.2, zz); if (q) { travers(zz, A * (.12 + .88 * feu) * Math.pow(Math.max(0, 1 - q[2] / zMax), 1.25) * Math.min(1, (q[2] - .3) * 2), abs); g.fillStyle = encre; } }
         // ce qui fait reconnaître une boutique : la vitrine éclairée en aplat, le store de couleur, le nom sur l'enseigne
         for (const c of [-1, 1]) { const x = c * 1.05, lum = c < 0 ? lumG : lumD, allume = c < 0 ? al > .25 : al < .8,
             Aa = pj(x, .8, zz + .16), B = pj(x, .8, zz + 1.02), C = pj(x, .14, zz + 1.02), Dq = pj(x, .14, zz + .16); if (!Aa || !B || !C || !Dq) continue;
@@ -85,6 +128,7 @@ window.AbysseSphere = (() => {
             for (let n = 0; n < nom.length; n++) { const a = lg.l[n], z1 = zc, z2 = zc + dir * a * U0; zc = z2; const o = pj(x, 1.06, z1), u = pj(x, 1.06, z2), w = pj(x, .9, z1); if (!o || !u || !w) continue;
               g.setTransform(DP * (u[0] - o[0]) / a, DP * (u[1] - o[1]) / a, DP * (w[0] - o[0]) / 12, DP * (w[1] - o[1]) / 12, DP * o[0], DP * o[1]); g.fillText(nom[n], a / 2, 6.5); }
             g.setTransform(DP, 0, 0, DP, 0, 0); }
+          if (deco && br > .03) pose(c, x, zz, br, abs, k < 5);
           g.fillStyle = encre; } }
       g.globalAlpha = 1;
     };

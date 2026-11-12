@@ -213,6 +213,40 @@ figcaption{margin-top:10px;font-size:var(--t-petit);color:var(--cendre);font-fam
 .carnet form[hidden]{display:none}
 .carnet .merci{font-size:15px;color:var(--charbon)}
 
+/* ---- les mouvements, tirés de la banque animations/mouvements.html : 01, 02, 08, 33, 40, 65, 67 ---- */
+/* 65 : des étincelles montent du feu, dans la photo de l'âtre (un calque posé exactement sur la photo) */
+.table>figure{position:relative}
+.braises{position:absolute;left:0;top:0;pointer-events:none;border-radius:var(--r-tableau)}
+/* 40 : le village glisse un peu dans son cadre quand on défile */
+.bandeau .tableau{object-position:50% calc(50% + var(--py,0%))}
+@media (prefers-reduced-motion:no-preference){
+  /* 01 : le nom arrive, puis le tableau se pose, puis la phrase */
+  .fenetre-h h1>*{display:inline-block;animation:arrive 1.1s var(--doux) both}
+  .fenetre-h h1>em{animation-delay:.14s}
+  .fenetre-h .tableau{animation:tableau 1.5s var(--doux) .3s both}
+  .ouverture .dessous{animation:arrive 1s var(--doux) .75s both}
+  @keyframes arrive{from{opacity:0;transform:translateY(22px)}}
+  @keyframes tableau{from{opacity:0;transform:scale(1.035)}}
+  /* 02 : les textes montent doucement ; les tableaux arrivent en fondu, une fois chargés */
+  .leve{opacity:0;transform:translateY(20px);transition:opacity .8s ease,transform .9s var(--doux);transition-delay:var(--d,0ms)}
+  .leve.on{opacity:1;transform:none}
+  img.leve{transform:scale(1.03)}
+  /* 08 : la phrase de la claie s'allume mot à mot */
+  .mots .mot{opacity:.22;transition:opacity .5s ease}
+  .mots .mot.lu{opacity:1}
+  /* 33 : la ligne du temps se trace, les dates s'allument l'une après l'autre ; le dernier point, le feu d'aujourd'hui, palpite */
+  .temps.frise::before{transform:scaleX(0);transform-origin:0 0;transition:transform 1.8s cubic-bezier(.45,0,.2,1)}
+  .temps.frise.on::before{transform:none}
+  .temps.frise li{opacity:0;transition:opacity .7s ease;transition-delay:calc(var(--i) * 300ms + 150ms)}
+  .temps.frise.on li{opacity:1}
+  .temps li:last-child::before{animation:feu 2.4s ease-in-out infinite}
+  @keyframes feu{0%,100%{box-shadow:0 0 0 0 rgba(232,116,59,.45)}50%{box-shadow:0 0 0 9px rgba(232,116,59,0)}}
+  /* 67 : le menu du soir s'écrit ligne après ligne */
+  .carte.ecrit li,.carte.ecrit .prix{opacity:0;transform:translateY(8px);transition:opacity .6s ease,transform .7s var(--doux);transition-delay:calc(var(--i) * 260ms + 200ms)}
+  .carte.ecrit.on li,.carte.ecrit.on .prix{opacity:1;transform:none}
+}
+@media (prefers-reduced-motion:no-preference) and (max-width:1000px){.temps.frise::before{transform:scaleY(0)}}
+
 /* ---- pied de page : infos pratiques ---- */
 footer{margin-top:var(--entre);background:var(--papier);border-top:1px solid var(--brume);padding-block:clamp(56px,7vw,96px) calc(28px + env(safe-area-inset-bottom))}
 footer .mot{font-family:var(--serif);font-size:var(--t-titre);line-height:1.1;letter-spacing:-.02em;max-width:22ch}
@@ -362,7 +396,7 @@ footer .legal span{max-width:80ch}
       <p>Deux cents ans de feux allumés, avec une longue pause au milieu.</p>
     </div>
     <div class="ancien-bloc"><figure class="ancien"><img class="tableau" src="images/fucone/fucone-ancien.webp" alt="Un âtre ancien dans une pièce en pierre, le chaudron suspendu au-dessus du feu" width="1204" height="803" loading="lazy" decoding="async"><figcaption>Le fucone comme il était avant 1961, le chaudron pendu à la crémaillère.</figcaption></figure>
-      <p class="phrase">La claie est toujours là, au-dessus de l'âtre. En novembre, on y sèche encore quelques châtaignes : elles finissent en farine, dans le fiadone du dimanche.</p></div>
+      <p class="phrase mots" id="mots">La claie est toujours là, au-dessus de l'âtre. En novembre, on y sèche encore quelques châtaignes : elles finissent en farine, dans le fiadone du dimanche.</p></div>
     <ol class="temps">
       <li><b>1784</b><p>Un meunier bâtit la maison en pierre au-dessus de son moulin à châtaignes.</p></li>
       <li><b>1890</b><p>Le fucone est agrandi : on y sèche les châtaignes sur la claie, tout l'hiver.</p></li>
@@ -535,6 +569,45 @@ const dock = () => { const y = scrollY, bas = y + innerHeight > document.documen
   $("dock").classList.toggle("on", apres && (y < yAvant || bas)); yAvant = y; };
 new IntersectionObserver(([e]) => { apres = !e.isIntersecting && e.boundingClientRect.top < 0; dock(); }).observe($("ouverture"));
 addEventListener("scroll", dock, { passive: true });
+// ——— les mouvements de la banque (animations/mouvements.html)
+(() => {
+  if (calme) return;
+  const charge = img => img.complete && img.naturalWidth ? Promise.resolve() : new Promise(r => { img.addEventListener("load", r, { once: true }); img.addEventListener("error", r, { once: true }); });
+  // 02 : les textes montent, les tableaux arrivent en fondu une fois chargés ; 33 : la ligne du temps ; 67 : le menu du soir
+  const vu = new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting) return; vu.unobserve(e.target); const el = e.target;
+    (el.tagName === "IMG" ? charge(el) : Promise.resolve()).then(() => requestAnimationFrame(() => el.classList.add("on"))); }), { rootMargin: "0px 0px -8% 0px" });
+  document.querySelectorAll("main .tete, .compris li, .scene, .fiche, main img.tableau:not(.fenetre-h img), .petitdej p, .balades li, .sejour > div, footer .mot, footer .infos > div").forEach(el => { el.classList.add("leve"); vu.observe(el); });
+  document.querySelectorAll(".compris li").forEach((el, k) => el.style.setProperty("--d", (k % 3) * 90 + "ms"));
+  document.querySelectorAll(".balades li").forEach((el, k) => el.style.setProperty("--d", k * 80 + "ms"));
+  const T = document.querySelector(".temps"); T.classList.add("frise"); [...T.children].forEach((li, k) => li.style.setProperty("--i", k)); vu.observe(T);
+  const C = document.querySelector(".table .carte"); C.classList.add("ecrit"); C.querySelectorAll("li, .prix").forEach((li, k) => li.style.setProperty("--i", k)); vu.observe(C);
+  // 08 : la phrase de la claie, mot à mot ; 40 : le village glisse dans son cadre
+  const M = $("mots"); M.innerHTML = M.textContent.split(" ").map(m => `<span class="mot">${m}</span>`).join(" "); const mots = [...M.children];
+  const V = document.querySelector(".bandeau .tableau"); let tic = false;
+  const suit = () => { tic = false; const h = innerHeight;
+    let r = M.getBoundingClientRect(); const n = Math.round(Math.min(1, Math.max(0, (h * .88 - r.top) / (h * .42))) * mots.length); mots.forEach((m, i) => m.classList.toggle("lu", i < n));
+    r = V.getBoundingClientRect(); if (r.bottom > 0 && r.top < h) V.style.setProperty("--py", (((r.top + r.height / 2) / h - .5) * -22).toFixed(2) + "%"); };
+  addEventListener("scroll", () => { if (!tic) { tic = true; requestAnimationFrame(suit); } }, { passive: true }); addEventListener("resize", suit); suit();
+  // 65 : les étincelles du fucone. Elles partent des braises (au centre de la photo), montent en dansant et s'éteignent.
+  const F = document.querySelector(".table .feu"), cv = document.createElement("canvas"); cv.className = "braises"; cv.setAttribute("aria-hidden", "true"); F.after(cv);
+  const ctx = cv.getContext("2d"), P = []; let W = 0, H = 0, k = 1, dx = 0, dy = 0, en = false, raf = 0, tAvant = 0;
+  const taille = () => { const d = Math.min(2, devicePixelRatio || 1); W = F.offsetWidth; H = F.offsetHeight; cv.style.left = F.offsetLeft + "px"; cv.style.top = F.offsetTop + "px"; cv.style.width = W + "px"; cv.style.height = H + "px";
+    cv.width = W * d; cv.height = H * d; ctx.setTransform(d, 0, 0, d, 0, 0);
+    k = Math.max(W / 1231, H / 821); dx = (W - 1231 * k) / 2; dy = (H - 821 * k) / 2; };   // la photo est recadrée (cover) : on retrouve où tombe le feu
+  const nait = () => ({ x: dx + (470 + Math.random() * 330) * k, y: dy + (470 + Math.random() * 90) * k, vy: -(26 + Math.random() * 46) * k, ph: Math.random() * 6.3, r: (1.3 + Math.random() * 2) * Math.max(.8, k), vie: 0, max: 1.6 + Math.random() * 2.2 });
+  const pas = t => { const dt = Math.min(.05, (t - tAvant) / 1000 || .016); tAvant = t; ctx.clearRect(0, 0, W, H);
+    if (P.length < 34 && Math.random() < .4) P.push(nait());
+    ctx.globalCompositeOperation = "lighter";
+    for (let i = P.length - 1; i >= 0; i--) { const p = P[i]; p.vie += dt; if (p.vie > p.max) { P.splice(i, 1); continue; }
+      p.y += p.vy * dt; p.x += Math.sin(p.ph + p.vie * 3.2) * 14 * k * dt; const a = Math.sin(Math.PI * p.vie / p.max);
+      ctx.fillStyle = `rgba(255,${150 + Math.round(70 * a)},70,${(a * .85).toFixed(3)})`; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 6.3); ctx.fill();
+      ctx.fillStyle = `rgba(255,170,80,${(a * .2).toFixed(3)})`; ctx.beginPath(); ctx.arc(p.x, p.y, p.r * 3.8, 0, 6.3); ctx.fill(); }
+    if (en) raf = requestAnimationFrame(pas); };
+  const marche = on => { if (on === en) return; en = on; cancelAnimationFrame(raf); if (on) { tAvant = performance.now(); raf = requestAnimationFrame(pas); } };
+  charge(F).then(() => { taille(); addEventListener("resize", taille);
+    new IntersectionObserver(([e]) => marche(e.isIntersecting && !document.hidden)).observe(F);
+    document.addEventListener("visibilitychange", () => { const r = F.getBoundingClientRect(); marche(!document.hidden && r.bottom > 0 && r.top < innerHeight); }); });
+})();
 </script>
 </body>
 </html>

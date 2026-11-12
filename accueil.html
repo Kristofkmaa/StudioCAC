@@ -38,6 +38,9 @@
    qui glisse au défilement, la carte des villes qui se dessine. Tout s'arrête avec « réduire les animations ». */
 @font-face{font-family:"Inter Tight";font-weight:400;font-display:swap;src:url(polices/inter-tight-400-normal-latin.woff2) format("woff2")}
 @font-face{font-family:"Inter Tight";font-weight:500;font-display:swap;src:url(polices/inter-tight-500-normal-latin.woff2) format("woff2")}
+@font-face{font-family:"Bagnard";font-weight:400;font-display:swap;src:url(polices/bagnard-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Instrument Serif";font-style:italic;font-weight:400;font-display:swap;src:url(polices/instrument-serif-400-italic-latin.woff2) format("woff2")}
+@font-face{font-family:"Archivo Narrow";font-weight:700;font-display:swap;src:url(polices/archivo-narrow-700-normal-latin.woff2) format("woff2")}
 :root{
   --abyss:#012624; --deep:#011D1C; --kelp:#003734; --mist:#EDFFFE; --white:#fff; --silver:#BBC7C6; --slate:#707777;
   --phosphor:#FDE9FF; --line:rgba(255,255,255,.1); --chip:rgba(3,81,75,.5);
@@ -427,9 +430,38 @@ h1,h2,h3{color:var(--white);font-weight:500;line-height:1;text-wrap:balance}
 .tool{margin-top:var(--gap);display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:36px;align-items:center;padding:clamp(28px,5vw,64px);border-radius:16px;background:var(--kelp)}
 .tool>div:first-child{display:grid;gap:20px;justify-items:start}
 .tool p:not(.eyebrow){max-width:50ch;color:var(--mist)}
-.swatch{border-radius:16px;background:var(--deep);padding:28px;display:grid;gap:16px}
-.swatch .cols{display:grid;grid-template-columns:6fr 3fr 1fr;height:110px;border-radius:6px;overflow:hidden}
-.swatch b{color:var(--white);font-weight:500;font-size:var(--h2);letter-spacing:-.02em;line-height:1}
+.acquis{list-style:none;margin:4px 0 0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:28px;width:100%;max-width:440px}
+.acquis li{padding:11px 0;border-top:1px solid var(--line);font-size:14px;letter-spacing:.01em;color:var(--mist)}
+.planche{--c1:#E9DFC9;--c2:#2F4A3A;--c3:#C8693B;border-radius:16px;background:var(--deep);padding:clamp(16px,2.2vw,26px);display:grid;gap:16px;min-width:0;box-shadow:inset 0 0 0 1px rgba(237,255,254,.07)}
+.planche .tete{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.planche .tete .eyebrow{margin:0}
+.choix{display:flex;gap:2px}
+.choix button{min-height:44px;padding:0 10px;border:0;background:none;font:inherit;font-size:13px;letter-spacing:.02em;color:var(--silver);cursor:pointer;position:relative}
+.choix button::after{content:"";position:absolute;left:10px;right:10px;bottom:9px;height:1px;background:var(--mist);transform:scaleX(0);transform-origin:0 50%;transition:transform .45s cubic-bezier(.4,0,.2,1)}
+.choix button[aria-pressed="true"]{color:var(--white)}
+.choix button[aria-pressed="true"]::after{transform:scaleX(1)}
+.choix button:focus-visible{outline:2px solid var(--mist);outline-offset:-4px;border-radius:6px}
+.feuille{border-radius:10px;background:var(--c1);color:var(--c2);padding:clamp(18px,2.4vw,28px);display:grid;gap:clamp(22px,3vw,38px);transition:background-color .7s ease,color .7s ease;min-width:0}
+.feuille .marque{display:flex;align-items:center;gap:14px;min-width:0;min-height:calc(2 * clamp(1.55rem,1rem + 1.7vw,2.3rem) + 24px)}
+.feuille .mono{flex:none;width:52px;height:52px;border-radius:50%;background:var(--c3);color:var(--c1);display:grid;place-items:center;font-size:27px;line-height:1;transition:background-color .7s ease,color .7s ease}
+.feuille .nom{display:block;font-weight:400;font-size:clamp(1.55rem,1rem + 1.7vw,2.3rem);line-height:1;letter-spacing:-.01em;overflow-wrap:anywhere}
+.feuille .genre{display:block;margin-top:7px;font-size:12px;letter-spacing:.09em;text-transform:uppercase;opacity:.72}
+.feuille .lettres{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;border-top:1px solid color-mix(in srgb,var(--c2) 22%,transparent);padding-top:16px}
+.feuille .aa{font-size:clamp(3rem,2rem + 3vw,4.6rem);line-height:.8}
+.feuille .pol{font-size:13px;line-height:1.35;text-align:right}
+.feuille .pol i{display:block;font-style:normal;font-size:11px;letter-spacing:.09em;text-transform:uppercase;opacity:.68}
+.planche .ecrit{transition:opacity .28s ease}
+.planche.change .ecrit{opacity:0}
+.planche[data-k="0"] .lettre{font-family:"Bagnard",Georgia,serif}
+.planche[data-k="1"] .lettre{font-family:"Instrument Serif",Georgia,serif;font-style:italic}
+.planche[data-k="2"] .lettre{font-family:"Archivo Narrow","Inter Tight",sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.01em}
+.planche[data-k="2"] .aa{text-transform:none}
+.barre{display:grid;grid-template-columns:6fr 3fr 1fr;height:14px;border-radius:7px;overflow:hidden;box-shadow:0 0 0 1px rgba(237,255,254,.14)}
+.barre span{transition:background-color .7s ease}
+.barre span:nth-child(1){background:var(--c1)}.barre span:nth-child(2){background:var(--c2)}.barre span:nth-child(3){background:var(--c3)}
+.teintes{margin:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.teintes dt{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--silver)}
+.teintes dd{margin:4px 0 0;font-size:14px;color:var(--white);font-variant-numeric:tabular-nums}
 
 /* ---- contact : le puits profond ---- */
 /* le contact (refait le 10 novembre 2026) : un trait de lumière fait le tour du panneau (animation 25 de « Mouvements »),
@@ -488,6 +520,7 @@ section[id]{scroll-margin-top:20px}
 @media (max-width:620px){
   .steps li{padding:28px 24px}
   .row-card{padding:12px 12px 26px}.row-card>h3,.row-card>p{padding-left:14px}.row-card>.arrow{margin-right:14px}
+  .feuille .marque{min-height:calc(2 * 1.55rem + 42px)}
   .stat{padding:18px 16px 20px}.stat h3{font-size:1.3rem}.stat p{font-size:14px;margin-top:10px}.wv{height:52px;margin-bottom:14px}.wv svg{height:52px}.tuiles{grid-template-columns:repeat(7,12px);grid-auto-rows:12px;gap:5px}.tuiles i{height:12px}
   .cue{display:none}
 }
@@ -637,13 +670,18 @@ section[id]{scroll-margin-top:20px}
         <p class="eyebrow">Outil gratuit, sans inscription</p>
         <h2 id="t-charte" style="font-size:var(--h1);letter-spacing:-.04em">La charte graphique de votre commerce</h2>
         <p>Vos couleurs, vos lettres, votre logo et les règles pour les utiliser, en six étapes guidées. Vous repartez avec une fiche PDF pour votre imprimeur, que vous preniez un site chez moi ou non.</p>
+        <ul class="acquis"><li>Vos couleurs</li><li>Vos lettres</li><li>Votre logo</li><li>La fiche PDF</li></ul>
         <a class="ghost" href="charte.html">Créer ma charte <span class="arrow"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11L11 3M5 3h6v6"/></svg></span></a>
       </div>
-      <div class="swatch" aria-hidden="true">
-        <p class="eyebrow">Exemple</p>
-        <div class="cols"><span style="background:#E9DFC9"></span><span style="background:#2F4A3A"></span><span style="background:#C8693B"></span></div>
-        <b>Boulangerie Martin</b>
-        <p>60 % fond, 30 % texte, 10 % accent</p>
+      <div class="planche" id="planche" data-k="0">
+        <div class="tete"><p class="eyebrow">Trois exemples</p>
+          <div class="choix" role="group" aria-label="Choisir un exemple de charte"><button type="button" aria-pressed="true">Boulangerie</button><button type="button" aria-pressed="false">Restaurant</button><button type="button" aria-pressed="false">Atelier</button></div></div>
+        <div class="feuille">
+          <div class="marque"><span class="mono lettre ecrit" id="plMono" aria-hidden="true">M</span><div><b class="nom lettre ecrit" id="plNom">Boulangerie Martin</b><span class="genre ecrit" id="plGenre">Boulangerie artisanale</span></div></div>
+          <div class="lettres"><span class="aa lettre ecrit" aria-hidden="true">Aa</span><span class="pol ecrit"><i>Lettres des titres</i><span id="plPol">Bagnard</span></span></div>
+        </div>
+        <div class="barre" aria-hidden="true"><span></span><span></span><span></span></div>
+        <dl class="teintes"><div><dt>Fond, 60 %</dt><dd class="ecrit" id="plC1">#E9DFC9</dd></div><div><dt>Texte, 30 %</dt><dd class="ecrit" id="plC2">#2F4A3A</dd></div><div><dt>Accent, 10 %</dt><dd class="ecrit" id="plC3">#C8693B</dd></div></dl>
       </div>
     </section>
 
@@ -806,6 +844,27 @@ const compte = b => { const to = +b.dataset.to, pre = b.dataset.pre || "", suf =
   if (calme) return; const t0 = performance.now(), dur = 1400;
   const f = now => { const p = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - p, 3); b.textContent = pre + Math.round(to * e) + suf; if (p < 1) requestAnimationFrame(f); };
   requestAnimationFrame(f); };
+
+// ——— la planche de charte : trois exemples inventés, on passe de l'un à l'autre
+(() => {
+  const P = $("planche"); if (!P) return;
+  const EX = [["Boulangerie Martin", "Boulangerie artisanale", "M", "Bagnard", "#E9DFC9", "#2F4A3A", "#C8693B"],
+              ["Chez Lisa", "Table de quartier", "L", "Instrument Serif", "#F3ECE2", "#5A1E2B", "#D98E73"],
+              ["Atelier Nord", "Menuiserie sur mesure", "N", "Archivo Narrow", "#E6EAED", "#16212B", "#2E6BE6"]];
+  const btns = [...P.querySelectorAll(".choix button")]; let k = 0, auto = null, vu = false, attente = null;
+  const pose = n => { const e = EX[n]; k = n; P.dataset.k = n;
+    $("plNom").textContent = e[0]; $("plGenre").textContent = e[1]; $("plMono").textContent = e[2]; $("plPol").textContent = e[3];
+    ["plC1", "plC2", "plC3"].forEach((id, i) => { $(id).textContent = e[4 + i]; P.style.setProperty("--c" + (i + 1), e[4 + i]); });
+    btns.forEach((b, i) => b.setAttribute("aria-pressed", String(i === n))); };
+  const va = n => { if (n === k) return; clearTimeout(attente);
+    if (calme) { pose(n); return; }
+    P.classList.add("change"); attente = setTimeout(() => { pose(n); P.classList.remove("change"); }, 280); };
+  const stop = () => { clearInterval(auto); auto = null; };
+  btns.forEach((b, i) => b.addEventListener("click", () => { stop(); vu = true; va(i); }));
+  if (calme || !("IntersectionObserver" in window)) return;
+  new IntersectionObserver(es => { const la = es[0].isIntersecting; if (vu) return;
+    if (la && !auto) auto = setInterval(() => va((k + 1) % EX.length), 4200); else if (!la) stop(); }, { threshold: .4 }).observe(P);
+})();
 
 // ——— menu plein écran (téléphone)
 const sheet = $("sheet"), menuBtn = $("menuBtn");

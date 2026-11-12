@@ -1,6 +1,6 @@
 // Filme la composition de la vidéo Saitora image par image et assemble le film.
 //   node outils/video.js [--essai]        (playwright et ffmpeg requis ; un serveur local est lancé le temps du tournage)
-// Sorties : media/saitora-presentation.mp4 (H.264) et media/saitora-presentation.webp (image d'attente, la scène claire).
+// Sorties : media/saitora-presentation.mp4 (H.264, avec les bruitages de outils/video-son.py) et media/saitora-presentation.webp (image d'attente, la scène claire).
 // « --essai » ne sort qu'une planche de douze images (media/video-saitora/essai.jpg), pour regarder avant de tout filmer.
 const { chromium } = require("playwright");
 const { execFileSync, spawn } = require("child_process");
@@ -39,6 +39,7 @@ const L = 1920, H = 1080, IPS = 30, PORT = 8791;
       const sortie = path.join(RACINE, "media/saitora-presentation");
       execFileSync("ffmpeg", [...src, "-c:v", "libx264", "-preset", "slow", "-crf", "26", "-pix_fmt", "yuv420p", "-movflags", "+faststart", "-an", sortie + ".mp4"]);
       execFileSync("ffmpeg", ["-y", "-loglevel", "error", "-i", path.join(dossier, `i${String(Math.round(4.6 * IPS)).padStart(5, "0")}.jpg`), "-vf", "scale=1280:720", "-quality", "80", sortie + ".webp"]);
+      execFileSync("python3", [path.join(__dirname, "video-son.py")], { stdio: "inherit" });   // les bruitages, posés sur le film
       for (const e of [".mp4", ".webp"]) console.log(path.basename(sortie + e), Math.round(fs.statSync(sortie + e).size / 1024) + " Ko");
     }
   } finally { await nav.close(); serveur.kill(); fs.rmSync(dossier, { recursive: true, force: true }); }

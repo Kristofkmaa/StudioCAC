@@ -56,7 +56,7 @@ window.AbysseSphere = (() => {
       incl.x += (cible.x - incl.x) * .02; incl.y += (cible.y - incl.y) * .02;
       g.clearRect(0, 0, W, H);
       if (A <= 0) return;
-      const jour = document.documentElement.dataset.theme === "jour", encre = jour ? "#10302C" : "#EDFFFE", COUL = jour ? ["#3E8F86", "#9A73A6"] : ["#CBFFFC", "#FAD1FF"];
+      const jour = document.documentElement.dataset.theme === "jour", encre = jour ? "#0B2623" : "#EDFFFE", COUL = jour ? ["#2F7F76", "#8A5E96"] : ["#CBFFFC", "#FAD1FF"];
       const t = Date.now() / 1000, NB = mob ? 8 : 11, v = t * VITESSE + av, dz = ((v % L) + L) % L, base = Math.floor(v / L), zoom = Math.pow(Z * grow, .72),
         f = H * (mob ? 1.05 : 1.35) * zoom, hx = W * .5, hy = H * (mob ? .42 : .5), camX = incl.x * .07, camY = .62 - incl.y * .03, lac = incl.x * .025, cl = Math.cos(lac), sl = Math.sin(lac), zMax = NB * L;
       const pj = (x, y, z) => { const xr = (x - camX) * cl - z * sl, zr = (x - camX) * sl + z * cl; if (zr < .3) return null; const e = f / zr; return [hx + xr * e, hy - (y - camY) * e, zr]; },
@@ -78,7 +78,7 @@ window.AbysseSphere = (() => {
           quad(Aa, B, C, Dq, COUL[0], (allume ? .1 + .16 * lum : .04) * br);
           const S1 = pj(x, .86, zz + .12), S2 = pj(x, .86, zz + 1.06), S3 = pj(x - c * .3, .74, zz + 1.06), S4 = pj(x - c * .3, .74, zz + .12); if (S1 && S2 && S3 && S4) quad(S1, S2, S3, S4, COUL[(((abs % 2) + 2) % 2 + (c > 0 ? 1 : 0)) % 2], (jour ? .5 : .38) * br);
           const zA = c < 0 ? zz + .16 : zz + 1.46, zB = c < 0 ? zz + 1.46 : zz + .16, O = pj(x, 1.06, zA), U = pj(x, 1.06, zB), V = pj(x, .9, zA);
-          if (O && U && V && br > .02) { quad(O, U, pj(x, .9, zB) || U, V, jour ? "#E7E5DA" : "#012624", .7 * Math.min(1, br * 1.3));
+          if (O && U && V && br > .02) { quad(O, U, pj(x, .9, zB) || U, V, jour ? "#B9C7BF" : "#012624", .7 * Math.min(1, br * 1.3));
             // chaque lettre a sa propre place sur le mur : on projette son haut et son bas, elle suit donc exactement l'enseigne
             const nom = NOMS[(((abs % NOMS.length) * 2 + (c > 0 ? 1 : 0)) % NOMS.length + NOMS.length) % NOMS.length], lg = largeurs(nom), U0 = .16 / 12, dir = c < 0 ? 1 : -1;
             let zc = zA + dir * (1.3 - lg.total * U0) / 2; g.fillStyle = encre; g.font = '600 7.5px "Inter Tight", sans-serif'; g.textAlign = "center"; g.textBaseline = "middle"; g.globalAlpha = Math.min(1, br * 1.4);

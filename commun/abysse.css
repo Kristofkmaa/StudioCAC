@@ -29,16 +29,16 @@
    (abysse-transition.js), s'ouvre comme un iris depuis ce bouton et se retient d'une page à l'autre (localStorage « saitora-jour »).
    Le sélecteur est plus précis que les :root des pages : il gagne même quand une page redéfinit ses couleurs. */
 :root[data-theme="jour"]{
-  /* adouci le 12 novembre 2026 : le premier essai, presque blanc, était trop agressif. Un papier chaud, une encre vert profond, des accents sourds. */
-  --abyss:#E7E5DA; --deep:#DCDACE; --kelp:#D2D1C3; --kelp-hi:#C6C5B5; --mist:#10302C; --silver:#48564F; --slate:#737A70; --phosphor:#6B3A75;
-  --aurora:linear-gradient(90deg,#7CCFC5 0%,#A8DDD5 30%,#D9B7E2 70%,#C99AD8 96%);
-  --white:#10302C;
-  --bg:var(--abyss); --bg-alt:rgba(220,218,206,.82); --surface:rgba(210,209,195,.86); --surface-2:rgba(198,197,181,.9);
-  --ink:#10302C; --muted:var(--silver); --faint:#737A70;
-  --line:rgba(16,48,44,.14); --line-hi:rgba(16,48,44,.32); --chip:rgba(16,48,44,.07);
-  --accent:#0E5F58; --accent-hover:#6B3A75; --on-accent:#F3F1E8; --accent-text:#6B3A75;
+  /* 12 novembre 2026 : deux essais trop clairs (presque blanc, puis papier beige). Ici un ton moyen, vert sauge : ni blanc ni nuit. */
+  --abyss:#B9C7BF; --deep:#AEBDB4; --kelp:#A3B3AA; --kelp-hi:#96A89E; --mist:#0B2623; --silver:#33433E; --slate:#55635D; --phosphor:#5B2C66;
+  --aurora:linear-gradient(90deg,#BFF3EE 0%,#E6FAF7 30%,#F3DDF7 70%,#E9BEF2 96%);
+  --white:#0B2623;
+  --bg:var(--abyss); --bg-alt:rgba(174,189,180,.84); --surface:rgba(163,179,170,.88); --surface-2:rgba(150,168,158,.92);
+  --ink:#0B2623; --muted:var(--silver); --faint:#55635D;
+  --line:rgba(11,38,35,.18); --line-hi:rgba(11,38,35,.38); --chip:rgba(11,38,35,.09);
+  --accent:#0A4F49; --accent-hover:#5B2C66; --on-accent:#EEF3EF; --accent-text:#5B2C66;
   --invert-bg:#012624; --invert-ink:#EDFFFE; --invert-muted:#BBC7C6;
-  --ok:#1E6B3A; --warn:#7A5200;
+  --ok:#14562C; --warn:#5F4000;
   --logo-filter:none;
   --night:#012624;
   color-scheme:light;

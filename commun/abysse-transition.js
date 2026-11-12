@@ -12,7 +12,7 @@
   const CLE_JOUR = "saitora-jour";
   let jour = false; try { jour = localStorage.getItem(CLE_JOUR) === "1"; } catch (e) {}
   const teinte = () => { if (jour) root.dataset.theme = "jour"; else if (root.dataset.theme === "jour") delete root.dataset.theme;
-    const m = document.querySelector('meta[name="theme-color"]'); if (m) m.content = jour ? "#E7E5DA" : "#012624"; };
+    const m = document.querySelector('meta[name="theme-color"]'); if (m) m.content = jour ? "#B9C7BF" : "#012624"; };
   teinte();
   addEventListener("DOMContentLoaded", () => {
     const b = document.createElement("button"); b.type = "button"; b.className = "ab-theme";

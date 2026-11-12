@@ -442,7 +442,12 @@ h1,h2,h3{color:var(--white);font-weight:500;line-height:1;text-wrap:balance}
 .choix button[aria-pressed="true"]{color:var(--white)}
 .choix button[aria-pressed="true"]::after{transform:scaleX(1)}
 .choix button:focus-visible{outline:2px solid var(--mist);outline-offset:-4px;border-radius:6px}
-.feuille{border-radius:10px;background:var(--c1);color:var(--c2);padding:clamp(18px,2.4vw,28px);display:grid;gap:clamp(22px,3vw,38px);transition:background-color .7s ease,color .7s ease;min-width:0}
+.feuille{border-radius:10px;background:var(--c1);color:var(--c2);padding:clamp(18px,2.4vw,28px);display:grid;gap:clamp(18px,2.4vw,28px);transition:color .5s ease;min-width:0;position:relative;overflow:hidden}
+.feuille>*{position:relative;z-index:1}
+.feuille .voile{position:absolute;inset:0;z-index:0;opacity:0;pointer-events:none}
+.feuille .usage{display:flex;align-items:center;gap:18px;white-space:nowrap}
+.pl-btn{padding:10px 16px;border-radius:6px;background:var(--c3);color:var(--c1);font-size:14px;font-weight:500;line-height:1.2;transition:background-color .6s ease,color .6s ease}
+.pl-lien{font-size:14px;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:5px}
 .feuille .marque{display:flex;align-items:center;gap:14px;min-width:0;min-height:calc(2 * clamp(1.55rem,1rem + 1.7vw,2.3rem) + 24px)}
 .feuille .mono{flex:none;width:52px;height:52px;border-radius:50%;background:var(--c3);color:var(--c1);display:grid;place-items:center;font-size:27px;line-height:1;transition:background-color .7s ease,color .7s ease}
 .feuille .nom{display:block;font-weight:400;font-size:clamp(1.55rem,1rem + 1.7vw,2.3rem);line-height:1;letter-spacing:-.01em;overflow-wrap:anywhere}
@@ -451,12 +456,17 @@ h1,h2,h3{color:var(--white);font-weight:500;line-height:1;text-wrap:balance}
 .feuille .aa{font-size:clamp(3rem,2rem + 3vw,4.6rem);line-height:.8}
 .feuille .pol{font-size:13px;line-height:1.35;text-align:right}
 .feuille .pol i{display:block;font-style:normal;font-size:11px;letter-spacing:.09em;text-transform:uppercase;opacity:.68}
-.planche .ecrit{transition:opacity .28s ease}
-.planche.change .ecrit{opacity:0}
+.feuille .aa{display:inline-block}
+.planche.avant .ecrit,.planche.avant .mono{opacity:0}
+.planche.avant .barre{clip-path:inset(0 100% 0 0 round 7px)}
+.planche.auto .choix button[aria-pressed="true"]::after{animation:pl-temps 4.2s linear both}
+@keyframes pl-temps{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@media (prefers-reduced-motion:no-preference){.tool.anime .acquis li{transition:opacity .6s ease,transform .7s cubic-bezier(.2,.7,.2,1)}.tool.anime .acquis li:nth-child(2){transition-delay:.08s}.tool.anime .acquis li:nth-child(3){transition-delay:.16s}.tool.anime .acquis li:nth-child(4){transition-delay:.24s}.tool.anime:not(.la) .acquis li{opacity:0;transform:translateY(12px)}}
 .planche[data-k="0"] .lettre{font-family:"Bagnard",Georgia,serif}
 .planche[data-k="1"] .lettre{font-family:"Instrument Serif",Georgia,serif;font-style:italic}
 .planche[data-k="2"] .lettre{font-family:"Archivo Narrow","Inter Tight",sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.01em}
 .planche[data-k="2"] .aa{text-transform:none}
+.planche[data-k="2"] .pl-btn{font-weight:700}
 .barre{display:grid;grid-template-columns:6fr 3fr 1fr;height:14px;border-radius:7px;overflow:hidden;box-shadow:0 0 0 1px rgba(237,255,254,.14)}
 .barre span{transition:background-color .7s ease}
 .barre span:nth-child(1){background:var(--c1)}.barre span:nth-child(2){background:var(--c2)}.barre span:nth-child(3){background:var(--c3)}
@@ -677,9 +687,10 @@ section[id]{scroll-margin-top:20px}
       <div class="planche" id="planche" data-k="0">
         <div class="tete"><p class="eyebrow">Trois exemples</p>
           <div class="choix" role="group" aria-label="Choisir un exemple de charte"><button type="button" aria-pressed="true">Boulangerie</button><button type="button" aria-pressed="false">Restaurant</button><button type="button" aria-pressed="false">Atelier</button></div></div>
-        <div class="feuille">
-          <div class="marque"><span class="mono lettre ecrit" id="plMono" aria-hidden="true">M</span><div><b class="nom lettre ecrit" id="plNom">Boulangerie Martin</b><span class="genre ecrit" id="plGenre">Boulangerie artisanale</span></div></div>
+        <div class="feuille"><i class="voile" aria-hidden="true"></i>
+          <div class="marque"><span class="mono lettre" id="plMono" aria-hidden="true">M</span><div><b class="nom lettre ecrit" id="plNom">Boulangerie Martin</b><span class="genre ecrit" id="plGenre">Boulangerie artisanale</span></div></div>
           <div class="lettres"><span class="aa lettre ecrit" aria-hidden="true">Aa</span><span class="pol ecrit"><i>Lettres des titres</i><span id="plPol">Bagnard</span></span></div>
+          <div class="usage" aria-hidden="true"><span class="pl-btn ecrit" id="plBtn">Commander</span><span class="pl-lien ecrit" id="plLien">Nos pains</span></div>
         </div>
         <div class="barre" aria-hidden="true"><span></span><span></span><span></span></div>
         <dl class="teintes"><div><dt>Fond, 60 %</dt><dd class="ecrit" id="plC1">#E9DFC9</dd></div><div><dt>Texte, 30 %</dt><dd class="ecrit" id="plC2">#2F4A3A</dd></div><div><dt>Accent, 10 %</dt><dd class="ecrit" id="plC3">#C8693B</dd></div></dl>
@@ -846,25 +857,40 @@ const compte = b => { const to = +b.dataset.to, pre = b.dataset.pre || "", suf =
   const f = now => { const p = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - p, 3); b.textContent = pre + Math.round(to * e) + suf; if (p < 1) requestAnimationFrame(f); };
   requestAnimationFrame(f); };
 
-// ——— la planche de charte : trois exemples inventés, on passe de l'un à l'autre
+// ——— la planche de charte : trois exemples inventés. À chaque changement, la nouvelle couleur part du logo et gagne la feuille,
+//     les textes montent l'un après l'autre, la barre 60 / 30 / 10 se remplit ; le trait sous l'onglet compte le temps.
 (() => {
   const P = $("planche"); if (!P) return;
-  const EX = [["Boulangerie Martin", "Boulangerie artisanale", "M", "Bagnard", "#E9DFC9", "#2F4A3A", "#C8693B"],
-              ["Chez Lisa", "Table de quartier", "L", "Instrument Serif", "#F3ECE2", "#5A1E2B", "#D98E73"],
-              ["Atelier Nord", "Menuiserie sur mesure", "N", "Archivo Narrow", "#E6EAED", "#16212B", "#2E6BE6"]];
-  const btns = [...P.querySelectorAll(".choix button")]; let k = 0, auto = null, vu = false, attente = null;
+  const EX = [["Boulangerie Martin", "Boulangerie artisanale", "M", "Bagnard", "#E9DFC9", "#2F4A3A", "#C8693B", "Commander", "Nos pains"],
+              ["Chez Lisa", "Table de quartier", "L", "Instrument Serif", "#F3ECE2", "#5A1E2B", "#B8604A", "Réserver", "La carte"],
+              ["Atelier Nord", "Menuiserie sur mesure", "N", "Archivo Narrow", "#E6EAED", "#16212B", "#2E6BE6", "Devis gratuit", "Réalisations"]];
+  const F = P.querySelector(".feuille"), voile = P.querySelector(".voile"), barre = P.querySelector(".barre"), mono = $("plMono"), bloc = P.closest(".tool");
+  const ecrits = [...P.querySelectorAll(".ecrit")], btns = [...P.querySelectorAll(".choix button")];
+  let k = 0, auto = null, vu = false, occupe = false, suivant = null;
   const pose = n => { const e = EX[n]; k = n; P.dataset.k = n;
-    $("plNom").textContent = e[0]; $("plGenre").textContent = e[1]; $("plMono").textContent = e[2]; $("plPol").textContent = e[3];
+    $("plNom").textContent = e[0]; $("plGenre").textContent = e[1]; mono.textContent = e[2]; $("plPol").textContent = e[3]; $("plBtn").textContent = e[7]; $("plLien").textContent = e[8];
     ["plC1", "plC2", "plC3"].forEach((id, i) => { $(id).textContent = e[4 + i]; P.style.setProperty("--c" + (i + 1), e[4 + i]); });
     btns.forEach((b, i) => b.setAttribute("aria-pressed", String(i === n))); };
-  const va = n => { if (n === k) return; clearTimeout(attente);
-    if (calme) { pose(n); return; }
-    P.classList.add("change"); attente = setTimeout(() => { pose(n); P.classList.remove("change"); }, 280); };
-  const stop = () => { clearInterval(auto); auto = null; };
+  const doux = "cubic-bezier(.2,.7,.2,1)";
+  const arrive = (retard = 0) => {
+    ecrits.forEach((el, i) => el.animate([{ opacity: 0, transform: "translateY(.55em)" }, { opacity: 1, transform: "none" }], { duration: 560, delay: retard + 60 + i * 55, easing: doux, fill: "backwards" }));
+    mono.animate([{ opacity: 0, transform: "scale(.4) rotate(-50deg)" }, { opacity: 1, transform: "none" }], { duration: 760, delay: retard, easing: "cubic-bezier(.3,1.5,.5,1)", fill: "backwards" });
+    barre.animate([{ clipPath: "inset(0 100% 0 0 round 7px)" }, { clipPath: "inset(0 0 0 0 round 7px)" }], { duration: 950, delay: retard + 200, easing: "cubic-bezier(.4,0,.2,1)", fill: "backwards" }); };
+  const va = n => { if (n === k) return; if (calme) { pose(n); return; } if (occupe) { suivant = n; return; } occupe = true;
+    const e = EX[n], m = mono.getBoundingClientRect(), f = F.getBoundingClientRect(), x = m.left + m.width / 2 - f.left, y = m.top + m.height / 2 - f.top;
+    F.style.background = EX[k][4]; voile.style.background = e[4]; voile.style.opacity = 1;
+    const tache = voile.animate([{ clipPath: `circle(0px at ${x}px ${y}px)` }, { clipPath: `circle(${Math.ceil(Math.hypot(f.width, f.height))}px at ${x}px ${y}px)` }], { duration: 820, easing: "cubic-bezier(.5,0,.2,1)", fill: "forwards" });
+    const sorties = [...ecrits, mono].map((el, i) => el.animate([{ opacity: 1, transform: "none" }, { opacity: 0, transform: "translateY(-.4em)" }], { duration: 230, delay: i * 18, easing: "ease-in", fill: "forwards" }));
+    setTimeout(() => { pose(n); sorties.forEach(a => a.cancel()); arrive(0); }, 360);
+    tache.onfinish = () => { F.style.background = ""; voile.style.opacity = 0; tache.cancel(); occupe = false; if (suivant !== null) { const s = suivant; suivant = null; va(s); } }; };
+  const stop = () => { clearInterval(auto); auto = null; P.classList.remove("auto"); };
   btns.forEach((b, i) => b.addEventListener("click", () => { stop(); vu = true; va(i); }));
   if (calme || !("IntersectionObserver" in window)) return;
-  new IntersectionObserver(es => { const la = es[0].isIntersecting; if (vu) return;
-    if (la && !auto) auto = setInterval(() => va((k + 1) % EX.length), 4200); else if (!la) stop(); }, { threshold: .4 }).observe(P);
+  P.classList.add("avant"); if (bloc) bloc.classList.add("anime");
+  new IntersectionObserver(es => { const la = es[0].isIntersecting;
+    if (la && P.classList.contains("avant")) { P.classList.remove("avant"); if (bloc) bloc.classList.add("la"); arrive(120); }
+    if (vu) return;
+    if (la && !auto) { P.classList.add("auto"); auto = setInterval(() => va((k + 1) % EX.length), 4200); } else if (!la) stop(); }, { threshold: .35 }).observe(P);
 })();
 
 // ——— menu plein écran (téléphone)

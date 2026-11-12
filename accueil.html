@@ -26,7 +26,7 @@
 <style>@view-transition{navigation:auto}</style>
 <!-- le navigateur n'affiche rien de cette page tant que la galerie (#orb) n'est pas là : elle est dessinée juste après, avant la première image -->
 <link rel="expect" href="#orb" blocking="render">
-<link rel="stylesheet" href="commun/abysse.css?v=4">
+<link rel="stylesheet" href="commun/abysse.css?v=5">
 <style>html.sc-pending,html.sc-pending body{background:#012624}</style>
 <script>if(!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("sc-pending")</script>
 <link rel="preload" href="polices/inter-tight-500-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -339,7 +339,7 @@ h1,h2,h3{color:var(--white);font-weight:500;line-height:1;text-wrap:balance}
 .pc .voir{display:inline-flex;align-items:center;gap:10px;margin-top:22px;color:var(--white);font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase}
 .pc .shot{border-radius:10px;overflow:hidden;background:var(--deep)}
 .pc .shot img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top}
-:root[data-theme="jour"] .pc>a{--g:color-mix(in srgb,var(--kelp),#fff calc(60% - var(--i) * 12%))!important}
+:root[data-theme="jour"] .pc>a{--g:color-mix(in srgb,var(--kelp),#fff calc(40% - var(--i) * 8%))!important}
 .autres{margin-top:clamp(48px,7vw,96px);display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(28px,5vw,80px);align-items:center}
 .autres .fiche{display:grid;justify-items:start;min-width:0}
 .autres .entete{grid-column:1/-1;display:flex;justify-content:space-between;align-items:flex-end;gap:16px 40px;flex-wrap:wrap;padding-bottom:clamp(20px,2.6vw,34px);border-bottom:1px solid var(--line)}
@@ -563,8 +563,8 @@ section[id]{scroll-margin-top:20px}
 </head>
 <body>
 <script src="commun/demos.js?v=1"></script>
-<script src="commun/abysse-sphere.js?v=6"></script>
-<script src="commun/abysse-transition.js?v=5"></script>
+<script src="commun/abysse-sphere.js?v=7"></script>
+<script src="commun/abysse-transition.js?v=6"></script>
 
 <div class="porte" id="porte" data-arrive-off>
   <div class="mid">

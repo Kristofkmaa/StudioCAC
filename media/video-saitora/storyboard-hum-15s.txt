@@ -1,0 +1,36 @@
+STORYBOARD SAITORA POUR HUM : 15 SECONDES, 5 BLOCS
+
+Comment s'en servir
+1. Dans hum, ajoute d'abord les sept images avec « Ajouter un fichier » :
+   galerie-eteinte.png, galerie-allumee.png, logo-fond-sombre.png, logo-transparent.png,
+   site-restaurant.png, site-artisan.png, site-boutique.png
+2. Découpe la frise en 5 blocs aux durées indiquées ci-dessous.
+3. Colle le texte de chaque bloc dans « Écrire ce bloc ». Là où il est écrit @nom-du-fichier, tape @ et choisis le fichier.
+4. Colle le paragraphe « STYLE » dans l'étape Script, ou au début du premier bloc si l'outil ne le demande pas ailleurs.
+
+
+STYLE (valable pour toute la vidéo)
+Motion design sobre et premium pour Saitora, un studio de sites vitrines pour les commerces. Fond vert très sombre #012624. Texte blanc #FFFFFF, texte secondaire gris clair #BBC7C6. Un seul accent : un dégradé doux du bleu glacé #CBFFFC au rose pâle #FAD1FF, réservé au bouton final. Police Inter Tight, graisse moyenne, minuscules avec une majuscule au début, lettres serrées. Le décor est une galerie marchande en perspective, dessinée en petits points lumineux, comme sur @galerie-allumee.png. La caméra avance lentement et tout droit : aucun balancement de gauche à droite, aucune rotation, aucun tremblement. Les textes arrivent en bloc, une ligne entière qui glisse depuis la gauche ou la droite avec un fondu : jamais lettre par lettre, jamais de texte flou, jamais d'effet machine à écrire. Pas d'écran noir entre les blocs : on continue d'avancer dans la galerie. Pas de personnages, pas d'icônes, pas d'émojis. Pas de voix. Musique calme et élégante, sans paroles.
+
+
+BLOC 1 : de 0 à 3 secondes (durée 3 s)
+On part de @galerie-eteinte.png : la galerie marchande est presque éteinte. Les boutiques s'allument l'une après l'autre, des plus proches aux plus lointaines, jusqu'à ressembler à @galerie-allumee.png. Une ligne de texte blanc glisse depuis la gauche et se pose au centre : « La nuit, votre boutique est fermée. »
+
+BLOC 2 : de 3 à 6 secondes (durée 3 s)
+La caméra commence à avancer lentement, tout droit, dans la galerie allumée de @galerie-allumee.png. Le texte précédent repart vers la gauche. Une nouvelle ligne glisse depuis la droite et se pose au centre : « Votre site, lui, reste ouvert. »
+
+BLOC 3 : de 6 à 9,5 secondes (durée 3,5 s)
+On avance toujours dans la galerie. Trois lignes en très grand arrivent l'une après l'autre : la première depuis la gauche, « Votre vitrine, » ; la deuxième depuis la droite, « ouverte jour » ; la troisième depuis la gauche, « et nuit. », celle-ci en lettres au contour fin, vides à l'intérieur. Les trois lignes restent une seconde, alignées comme une affiche.
+
+BLOC 4 : de 9,5 à 12,5 secondes (durée 3 s)
+Les trois lignes repartent chacune de son côté. Au fond de la galerie, trois écrans de sites apparaissent côte à côte et grandissent doucement vers nous : @site-restaurant.png à gauche, @site-artisan.png au centre, @site-boutique.png à droite, chacun dans un cadre aux coins arrondis. Sous les écrans, une ligne de texte blanc : « Fait à votre image. En ligne en trois semaines. »
+
+BLOC 5 : de 12,5 à 15 secondes (durée 2,5 s)
+Les trois écrans s'éloignent et la galerie s'assombrit un peu. Le logo de @logo-transparent.png se pose au centre : le signe d'abord, puis « Sai » depuis la gauche et « tora » depuis la droite, qui se rejoignent. Dessous, un bouton rectangulaire aux coins légèrement arrondis, rempli du dégradé bleu glacé vers rose pâle, texte sombre : « Demander un devis gratuit ». Tout en bas, en petit : « saitora.fr ». L'image finale ressemble à @logo-fond-sombre.png avec le bouton en plus, et reste fixe une seconde.
+
+
+SI TU AS 20 SECONDES (les 20 s offertes)
+Ajoute ce bloc entre le bloc 3 et le bloc 4, et décale les suivants de 5 secondes.
+
+BLOC 3 bis : durée 5 s
+On avance toujours dans la galerie. Quatre chiffres apparaissent en grand, un par un, de gauche à droite, chacun avec sa légende en petit dessous ; les nombres comptent jusqu'à leur valeur. « 13 » : démos, une par métier. « 2–3 » : semaines jusqu'à la mise en ligne. « 24 h » : pour une réponse à votre demande. « 1 » : seul interlocuteur, du premier appel à la suite.

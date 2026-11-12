@@ -60,6 +60,7 @@ ul,ol{list-style:none}
 .ouverture{position:relative;min-height:calc(100svh - 110px);display:flex;align-items:flex-end;padding:clamp(120px,22vh,260px) 0 var(--m);overflow:hidden;isolation:isolate}
 .ouverture .fond{position:absolute;inset:-8% 0 -8%;z-index:-1}
 .ouverture .fond img{width:100%;height:100%;object-fit:cover;filter:saturate(.82);transform:translate3d(0,var(--py,0),0)}
+.ouverture .page{display:flex;justify-content:flex-end}
 .carte-titre{position:relative;width:min(620px,100%);background:var(--papier);padding:clamp(24px,3.4vw,48px);border-radius:var(--r)}
 .carte-titre h1{font:500 clamp(2.5rem,1.5rem + 3.6vw,4.6rem)/1 var(--serif);letter-spacing:-.03em;text-wrap:balance}
 .carte-titre p{margin-top:18px;max-width:40ch;font-size:clamp(1.05rem,1rem + .3vw,1.22rem)}
@@ -113,7 +114,7 @@ ul,ol{list-style:none}
 .vue{position:relative;height:230vh;margin-top:var(--entre)}
 .vue .scene{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:grid;place-items:center}
 .vue .image{position:absolute;inset:0;clip-path:inset(calc(16% * (1 - var(--z,0))) calc(34% * (1 - var(--z,0))) calc(16% * (1 - var(--z,0))) calc(34% * (1 - var(--z,0))) round calc(40vw * (1 - var(--z,0))) calc(40vw * (1 - var(--z,0))) calc(18px * (1 - var(--z,0))) calc(18px * (1 - var(--z,0))))}
-.vue .image img{width:100%;height:100%;object-fit:cover;object-position:68% 50%;filter:saturate(.82);transform:scale(calc(1.12 - .12 * var(--z,0)))}
+.vue .image img{width:100%;height:100%;object-fit:cover;object-position:55% 55%;filter:saturate(.82);transform:scale(calc(1.12 - .12 * var(--z,0)))}
 .vue .avant,.vue .apres{position:absolute;z-index:2;left:var(--m);max-width:min(26ch,28vw)}
 .vue .avant{top:50%;transform:translateY(-50%);opacity:calc(1 - var(--z,0) * 2.4)}
 .vue .avant h2{font:500 clamp(2.4rem,1.4rem + 3.6vw,5rem)/.98 var(--serif);letter-spacing:-.035em}
@@ -235,6 +236,7 @@ ul,ol{list-style:none}
   .vue .image{clip-path:inset(calc(34% * (1 - var(--z,0))) calc(14% * (1 - var(--z,0))) calc(8% * (1 - var(--z,0))) calc(14% * (1 - var(--z,0))) round calc(40vw * (1 - var(--z,0))) calc(40vw * (1 - var(--z,0))) calc(18px * (1 - var(--z,0))) calc(18px * (1 - var(--z,0))))}
   .vue .avant{top:clamp(24px,6vh,60px);transform:none;max-width:calc(100% - 2 * var(--m))}
   .vue .avant p{display:none}
+  .vue .apres{bottom:calc(92px + env(safe-area-inset-bottom))}
   .semaines a,.semaines div{grid-template-columns:minmax(0,1fr) 52px}
   .semaines .etat,.semaines .prix{grid-column:1}
   .semaines .va{grid-column:2;grid-row:1 / span 3}

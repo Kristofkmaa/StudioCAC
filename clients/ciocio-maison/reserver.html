@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>Choisir vos dates, CioCio maison</title>
+<meta name="description" content="Maison à louer l’été en Corse, face à la mer : quatre chambres sur deux étages. Le calendrier et les prix.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#F8F4EA">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Crect%20width=%2264%22%20height=%2264%22%20fill=%22%232A6F8A%22/%3E%3Cpath%20d=%22M18%2052V30a14%2014%200%200%201%2028%200v22z%22%20fill=%22%23F8F4EA%22/%3E%3C/svg%3E">
+<link rel="preload" href="../../polices/lora-500-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="ciocio.css?v=1">
+</head>
+<body>
+<p class="maquette">Maquette à valider : les photos, les prix et les dates sont des exemples.</p>
+<header class="tete">
+  <div class="page">
+    <a class="nom" href="index.html" aria-label="CioCio maison, accueil">CioCio maison</a>
+    <nav aria-label="Navigation"><a href="index.html">La maison</a><a href="histoire.html">L’histoire</a><a class="rond" href="reserver.html" aria-current="page"><span>Réserver</span><i>→</i></a></nav>
+  </div>
+</header>
+
+<main>
+<section class="sec page" data-haut style="padding-top:clamp(48px,6vw,96px)">
+  <h1 class="geant">Choisir vos dates</h1>
+  <p class="chapo">Touchez le jour d’arrivée, puis le jour du départ : le prix se calcule tout seul. <b id="saison"></b></p>
+  <div class="resa">
+    <div>
+      <div class="mois" id="mois" role="group" aria-label="Choisir un mois" style="margin-top:0"></div>
+      <div class="cal"><div class="jours" id="jours"></div><p class="legende">Les jours barrés sont déjà pris. En juillet et en août, on arrive et on repart le samedi ; en juin et en septembre, trois nuits au moins. Disponibilités d’exemple, à brancher sur le vrai calendrier.</p></div>
+    </div>
+    <div class="sejour">
+      <span class="ecrit" style="font-size:1.35rem">votre séjour</span>
+      <p class="quand" id="quand" aria-live="polite"></p>
+      <p class="total"><span>Pour toute la maison</span><b class="num" id="prix">—</b></p>
+      <form class="formulaire" id="resaForm" hidden novalidate>
+        <div class="champ"><input id="rNom" type="text" placeholder=" " required><label for="rNom">Votre prénom</label></div><div class="champ"><input id="rMail" type="text" placeholder=" " required><label for="rMail">E-mail ou téléphone</label></div><div class="champ"><input id="rNb" type="text" placeholder=" " inputmode="numeric"><label for="rNb">Vous serez combien ?</label></div>
+        <button class="rond envoi" type="submit" data-texte="Demander ces dates"><b style="font-weight:500">Demander ces dates</b><i><span>→</span><svg viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" d="M5 12.5l4.5 4.5L19 7"/></svg></i></button>
+        <p class="retour" id="retour" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="sec page" aria-labelledby="t-prix">
+  <h2 class="geant" id="t-prix">Les prix</h2>
+  <p class="chapo">Pour la maison entière, quel que soit le nombre de personnes. Prix d’exemple, à valider.</p>
+  <ul class="tarifs">
+    <li><b>Juin et septembre</b><span class="num">220 € la nuit</span><span>à partir de trois nuits</span></li>
+    <li><b>Juillet</b><span class="num">320 € la nuit</span><span>à la semaine, du samedi au samedi</span></li>
+    <li><b>Août</b><span class="num">360 € la nuit</span><span>à la semaine, du samedi au samedi</span></li>
+  </ul>
+</section>
+
+<section class="sec page" aria-labelledby="t-compris">
+  <div class="duo" style="align-items:start">
+    <div>
+      <h2 class="geant" id="t-compris" style="font-size:clamp(2.6rem,1.4rem + 4.6vw,5.4rem)">Ce qui est compris</h2>
+      <ul class="compris" style="grid-template-columns:minmax(0,1fr)">
+        <li>La maison entière : quatre chambres, deux étages</li>
+        <li>Le linge de lit et les serviettes</li>
+        <li>L’eau, l’électricité et le Wi-Fi (à valider)</li>
+        <li>Le ménage de fin de séjour (à valider)</li>
+        <li>Arrivée à partir de 16 h, départ avant 10 h (à valider)</li>
+        <li>Caution et acompte : conditions à préciser</li>
+      </ul>
+    </div>
+    <figure class="photo rideau" style="--rot:1.3deg"><img src="images/chambre-2.webp" alt="Une chambre claire, la fenêtre ouverte sur les arbres (photo d’exemple)" width="1280" height="960" loading="lazy"><span class="exemple">Photo d’exemple</span></figure>
+  </div>
+</section>
+</main>
+
+<footer class="pied">
+  <div class="page">
+    <p class="mot">Cet été, la mer est à la fenêtre.</p>
+    <a class="rond" href="reserver.html">Voir les semaines libres<i>→</i></a>
+    <div class="infos">
+      <div><h2>La maison</h2><p>Quatre chambres sur deux étages, vue sur la mer. En Corse (commune à préciser).</p></div>
+      <div><h2>La saison</h2><p>À louer de juin à septembre, à la semaine ou pour quelques nuits.</p></div>
+      <div><h2>Nous joindre</h2><p><a href="tel:+33400000000">04 00 00 00 00</a> (numéro d’exemple)<br><a href="reserver.html">Écrire au propriétaire</a></p></div>
+    </div>
+    <div class="mentions"><span>Maquette réalisée par <a href="https://saitora.fr/">Saitora</a></span><span>Photos d’exemple : Pixabay (jms85, TheDigitalArtist et autres), à remplacer par celles de la maison.</span></div>
+  </div>
+</footer>
+
+<nav class="bas" aria-label="Accès rapide"><a href="tel:+33400000000">Appeler</a><a href="reserver.html">Réserver</a></nav>
+<script src="ciocio.js?v=1"></script>
+</body>
+</html>

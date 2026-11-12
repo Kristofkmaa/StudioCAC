@@ -222,6 +222,13 @@ h1,h2,h3{color:var(--white);font-weight:500;line-height:1;text-wrap:balance}
 .stat{padding:22px 22px 24px;border-radius:16px;display:grid;align-content:start;gap:0;min-width:0}
 .stat:nth-child(odd){background:var(--kelp)}
 .stat:nth-child(even){background:var(--deep)}
+.stat{box-shadow:inset 0 0 0 1px rgba(237,255,254,.07)}
+.stat h3{margin:0;font-weight:500;font-size:clamp(1.5rem,.9rem + 1.5vw,2.25rem);line-height:1.06;letter-spacing:-.035em;color:var(--phosphor);text-wrap:balance;min-height:2.12em}
+.stat p{margin:14px 0 0;font-size:15px;line-height:1.5;color:var(--mist);max-width:26ch;text-wrap:pretty}
+.dessin .cadre{fill:none;stroke:var(--accent);stroke-width:2.5;stroke-dasharray:1;stroke-dashoffset:0}
+.dessin .l1,.dessin .l2{fill:none;stroke:var(--phosphor);stroke-width:3;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:0}
+.dessin .l2{stroke:var(--accent);opacity:.55}
+.dessin .pt{fill:var(--phosphor);transform-box:fill-box;transform-origin:center}
 .wv{height:64px;margin-bottom:18px;display:flex;align-items:center}
 .wv svg{height:64px;width:auto;max-width:100%;overflow:visible}
 .tuiles{display:grid;grid-template-columns:repeat(7,14px);grid-auto-rows:14px;gap:6px;align-content:center}
@@ -276,6 +283,11 @@ h1,h2,h3{color:var(--white);font-weight:500;line-height:1;text-wrap:balance}
   .stat:not(.on) .horloge .tour{stroke-dashoffset:1}
   .horloge .tour{transition:stroke-dashoffset 1.5s cubic-bezier(.4,0,.2,1) .25s}
   .stat.on .horloge .aig{animation:wg-tour 1.5s cubic-bezier(.4,0,.2,1) .25s both}
+  .stat:not(.on) .dessin .cadre,.stat:not(.on) .dessin .l1,.stat:not(.on) .dessin .l2{stroke-dashoffset:1}
+  .stat:not(.on) .dessin .pt{opacity:0;transform:scale(.5)}
+  .dessin .cadre{transition:stroke-dashoffset 1.3s cubic-bezier(.4,0,.2,1) .25s}
+  .dessin .l1{transition:stroke-dashoffset .5s cubic-bezier(.4,0,.2,1) 1.1s}.dessin .l2{transition:stroke-dashoffset .5s cubic-bezier(.4,0,.2,1) 1.3s}
+  .dessin .pt{transition:opacity .4s ease 1.55s,transform .5s cubic-bezier(.3,1.5,.5,1) 1.55s}
   .stat:not(.on) .lien .fil{stroke-dashoffset:1}
   .lien .fil{transition:stroke-dashoffset 1.1s cubic-bezier(.4,0,.2,1) .3s}
   .stat.on .lien .a{animation:wg-pouls 2.6s ease-in-out infinite}.stat.on .lien .b{animation:wg-pouls 2.6s ease-in-out 1.3s infinite}
@@ -476,7 +488,7 @@ section[id]{scroll-margin-top:20px}
 @media (max-width:620px){
   .steps li{padding:28px 24px}
   .row-card{padding:12px 12px 26px}.row-card>h3,.row-card>p{padding-left:14px}.row-card>.arrow{margin-right:14px}
-  .stat{padding:18px}.tuiles{grid-template-columns:repeat(7,12px);grid-auto-rows:12px;gap:5px}.tuiles i{height:12px}
+  .stat{padding:18px 16px 20px}.stat h3{font-size:1.3rem}.stat p{font-size:14px;margin-top:10px}.wv{height:52px;margin-bottom:14px}.wv svg{height:52px}.tuiles{grid-template-columns:repeat(7,12px);grid-auto-rows:12px;gap:5px}.tuiles i{height:12px}
   .cue{display:none}
 }
 </style>
@@ -547,11 +559,11 @@ section[id]{scroll-margin-top:20px}
         </div>
       </div>
       <div class="arrivee" id="arrivee"><div class="page">
-    <section class="stats" aria-label="En chiffres">
-      <div class="stat"><div class="wv tuiles" aria-hidden="true"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><i style="--i:5"></i><i style="--i:6"></i><i style="--i:7"></i><i style="--i:8"></i><i style="--i:9"></i><i style="--i:10"></i><i style="--i:11"></i><i style="--i:12"></i></div><b data-to="13">13</b><span>démos, une par métier</span></div>
-      <div class="stat"><div class="wv frise" aria-hidden="true"><i></i><i></i><i></i></div><b data-to="3" data-pre="2–">2–3</b><span>semaines jusqu'à la mise en ligne</span></div>
-      <div class="stat"><div class="wv horloge" aria-hidden="true"><svg viewBox="0 0 64 64"><circle class="fond" cx="32" cy="32" r="26"/><circle class="tour" cx="32" cy="32" r="26" pathLength="1"/><path class="aig" d="M32 32V14"/><circle class="axe" cx="32" cy="32" r="3"/></svg></div><b data-to="24" data-suf=" h">24 h</b><span>pour une réponse à votre demande</span></div>
-      <div class="stat"><div class="wv lien" aria-hidden="true"><svg viewBox="0 0 160 64"><path class="fil" pathLength="1" d="M22 32 C 60 6, 100 58, 138 32"/><circle class="a" cx="22" cy="32" r="9"/><circle class="b" cx="138" cy="32" r="9"/><circle class="va" r="4"><animateMotion dur="2.6s" repeatCount="indefinite" path="M22 32 C 60 6, 100 58, 138 32" keyPoints="0;1;0" keyTimes="0;.5;1" calcMode="linear"/></circle></svg></div><b data-to="1">1</b><span>seul interlocuteur, du premier appel à la suite</span></div>
+    <section class="stats" aria-label="Ce que vous avez avec Saitora">
+      <div class="stat"><div class="wv horloge" aria-hidden="true"><svg viewBox="0 0 64 64"><circle class="fond" cx="32" cy="32" r="26"/><circle class="tour" cx="32" cy="32" r="26" pathLength="1"/><path class="aig" d="M32 32V14"/><circle class="axe" cx="32" cy="32" r="3"/></svg></div><h3>Devis gratuit</h3><p>Sans engagement, avec une réponse sous 24 h.</p></div>
+      <div class="stat"><div class="wv dessin" aria-hidden="true"><svg viewBox="0 0 96 64"><rect class="cadre" x="4" y="6" width="88" height="52" rx="7" pathLength="1"/><path class="l1" d="M16 23h34" pathLength="1"/><path class="l2" d="M16 34h22" pathLength="1"/><circle class="pt" cx="72" cy="39" r="9"/></svg></div><h3>Sur mesure</h3><p>Un site dessiné pour votre commerce, jamais un modèle tout fait.</p></div>
+      <div class="stat"><div class="wv dessin" aria-hidden="true"><svg viewBox="0 0 44 64"><rect class="cadre" x="4" y="3" width="36" height="58" rx="8" pathLength="1"/><path class="l1" d="M12 18h20" pathLength="1"/><path class="l2" d="M12 27h13" pathLength="1"/><rect class="pt" x="12" y="38" width="20" height="12" rx="4"/></svg></div><h3>Parfait sur téléphone</h3><p>Là où vos clients vous cherchent, à toute heure.</p></div>
+      <div class="stat"><div class="wv lien" aria-hidden="true"><svg viewBox="0 0 160 64"><path class="fil" pathLength="1" d="M22 32 C 60 6, 100 58, 138 32"/><circle class="a" cx="22" cy="32" r="9"/><circle class="b" cx="138" cy="32" r="9"/><circle class="va" r="4"><animateMotion dur="2.6s" repeatCount="indefinite" path="M22 32 C 60 6, 100 58, 138 32" keyPoints="0;1;0" keyTimes="0;.5;1" calcMode="linear"/></circle></svg></div><h3>Un seul interlocuteur</h3><p>Du premier appel à la mise en ligne, et après.</p></div>
     </section>
       </div></div>
       <h1 class="giant"><span class="ln l1"><span class="in">Votre vitrine,</span></span> <span class="ln l2"><span class="in">ouver<span class="kt">te</span> jour</span></span> <span class="ln l3"><span class="in">et nuit.</span></span></h1>

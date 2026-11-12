@@ -321,6 +321,10 @@ h1,h2,h3{color:var(--white);font-weight:500;line-height:1;text-wrap:balance}
 .sec .head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px 40px;flex-wrap:wrap}
 .sec .head>div{display:grid;gap:18px;max-width:640px}
 .sec .head p:not(.eyebrow){max-width:46ch}
+#refonte .head h2{margin:0;font-size:clamp(2.2rem,1.3rem + 3.6vw,4.4rem);font-weight:500;letter-spacing:-.045em;line-height:.98;color:var(--white);max-width:11ch}
+#refonte .head h2 .ct{font-family:"Inter Tight Contour","Inter Tight",sans-serif;letter-spacing:-.02em;color:transparent;-webkit-text-stroke:max(1.5px,.014em) var(--mist)}
+#refonte .head p{max-width:34ch;font-size:clamp(1rem,.95rem + .25vw,1.15rem);color:var(--mist)}
+#refonte .head p b{display:block;margin-bottom:8px;font-weight:500;font-size:clamp(1.2rem,1.05rem + .6vw,1.6rem);letter-spacing:-.02em;line-height:1.15;color:var(--white)}
 .toutes{margin-top:28px;display:flex;justify-content:center}
 .toutes .btn{display:inline-flex;align-items:center;min-height:52px;padding:14px 26px;border-radius:6px;border:1px solid var(--line-hi);color:var(--ink);text-decoration:none;font:500 14px/1 "Inter Tight",sans-serif;letter-spacing:.06em;text-transform:uppercase;transition:border-color .2s,background-color .2s}
 @media (hover:hover) and (pointer:fine){.toutes .btn:hover{border-color:var(--ink);background:var(--kelp)}}
@@ -658,7 +662,7 @@ section[id]{scroll-margin-top:20px}
     </section>
 
     <section class="sec" id="refonte" aria-labelledby="t-ref">
-      <div class="head rise"><div><p class="eyebrow">Vous avez déjà un site ?</p><h2 id="t-ref">On peut aussi refaire le vôtre</h2></div><p>On garde votre adresse, vos textes et vos photos, et on refait tout le reste. Faites glisser pour comparer.</p></div>
+      <div class="head rise"><h2 id="t-ref">Vous avez <span class="ct">déjà un site</span>&nbsp;?</h2><p><b>On peut aussi refaire le vôtre.</b> On garde votre adresse, vos textes et vos photos, et on refait tout le reste. Faites glisser pour comparer.</p></div>
       <div class="ba rise" id="ba" role="slider" tabindex="0" aria-label="Comparer le site avant et après la refonte" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
         <div class="lay apres" aria-hidden="true">
           <!-- l'« après » est un site imaginé, dessiné pour l'occasion : outils/refonte-apres.html, capturé dans media/apercus/refonte-*.webp -->
@@ -859,9 +863,16 @@ const fleche = '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strok
   /* l'avant / après : à la souris, au doigt, ou aux flèches du clavier */
   const ba = document.getElementById("ba"); if (ba) { let p = 50, tient = false; const met = v => { p = Math.max(0, Math.min(100, v)); ba.style.setProperty("--p", p + "%"); ba.setAttribute("aria-valuenow", Math.round(p)); };
     const vise = e => { const r = ba.getBoundingClientRect(); met((e.clientX - r.left) / r.width * 100); };
-    ba.addEventListener("pointerdown", e => { tient = true; try { ba.setPointerCapture(e.pointerId); } catch (x) {} vise(e); });
+    let touche = false, vu = false, enCours = false, img = 0, attente = 0;
+    const arrete = () => { touche = true; cancelAnimationFrame(img); clearTimeout(attente); };
+    const balance = () => { if (touche || enCours || !vu) return; enCours = true; const t0 = performance.now(), D = 2800;
+      const pas = t => { if (touche) return; const k = Math.min(1, (t - t0) / D); met(50 - 22 * Math.sin(k * Math.PI * 2) * Math.sin(k * Math.PI));   // un aller vers la gauche, un retour vers la droite, en douceur
+        if (k < 1) img = requestAnimationFrame(pas); else { enCours = false; attente = setTimeout(balance, 4200); } };
+      img = requestAnimationFrame(pas); };
+    if (!calmeP && "IntersectionObserver" in window) new IntersectionObserver(es => { vu = es[0].isIntersecting; if (vu) { clearTimeout(attente); attente = setTimeout(balance, 700); } }, { threshold: .45 }).observe(ba);
+    ba.addEventListener("pointerdown", e => { arrete(); tient = true; try { ba.setPointerCapture(e.pointerId); } catch (x) {} vise(e); });
     ba.addEventListener("pointermove", e => { if (tient) vise(e); }); const lache = () => { tient = false; }; ba.addEventListener("pointerup", lache); ba.addEventListener("pointercancel", lache);
-    ba.addEventListener("keydown", e => { if (e.key === "ArrowLeft") { met(p - 5); e.preventDefault(); } if (e.key === "ArrowRight") { met(p + 5); e.preventDefault(); } }); } }
+    ba.addEventListener("keydown", e => { if (e.key === "ArrowLeft" || e.key === "ArrowRight") arrete(); if (e.key === "ArrowLeft") { met(p - 5); e.preventDefault(); } if (e.key === "ArrowRight") { met(p + 5); e.preventDefault(); } }); } }
 
 // ——— arrivée par la sphère : l'en-tête et l'étiquette apparaissent pendant le recul
 if (dezoom && !calme) {

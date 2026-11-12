@@ -52,7 +52,7 @@
   --m:max(16px,clamp(16px,4vw,48px)); --gap:clamp(68px,10vw,140px);
 }
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;background:var(--abyss)}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;background:var(--abyss);overflow-x:clip}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 body{margin:0;background:var(--abyss);color:var(--silver);font:400 16px/1.4 "Inter Tight",ui-sans-serif,system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
 img{display:block;max-width:100%;height:auto}
@@ -336,39 +336,30 @@ h1,h2,h3{color:var(--white);font-weight:500;line-height:1;text-wrap:balance}
 .pc .shot{border-radius:10px;overflow:hidden;background:var(--deep)}
 .pc .shot img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top}
 :root[data-theme="jour"] .pc>a{--g:color-mix(in srgb,var(--kelp),#fff calc(60% - var(--i) * 12%))!important}
-.autres{margin-top:clamp(40px,6vw,80px);position:relative}
-.autres .tete{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding-bottom:16px}
-.autres .tete .eyebrow{margin:0}
-.autres .tete span{font-size:13px;color:var(--silver)}
-.sommaire{list-style:none;margin:0;padding:0;border-bottom:1px solid var(--line)}
-.sommaire a{display:grid;grid-template-columns:64px minmax(0,1fr) auto;align-items:center;gap:20px;padding:clamp(18px,2vw,26px) 6px;border-top:1px solid var(--line);text-decoration:none;color:var(--mist);transition:opacity .35s ease}
-.sommaire .no{font-size:13px;color:var(--silver);font-variant-numeric:tabular-nums;transition:color .3s}
-.sommaire .txt{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1fr);align-items:baseline;gap:24px;min-width:0;transition:transform .5s cubic-bezier(.16,1,.3,1)}
-.sommaire b{color:var(--white);font-weight:500;font-size:clamp(1.5rem,1rem + 1.9vw,2.6rem);letter-spacing:-.035em;line-height:1.05}
-.sommaire .me{font-size:15px;color:var(--mist)}
-.sommaire .mini{display:block;width:88px;border-radius:6px;overflow:hidden;background:var(--deep)}
-.sommaire .mini img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top}
-.sommaire .arrow{flex:none}
-.sommaire a:focus-visible{outline:2px solid var(--mist);outline-offset:-2px;border-radius:8px}
-.volant{position:absolute;left:0;top:0;z-index:3;width:min(380px,30vw);border-radius:12px;overflow:hidden;background:var(--deep);pointer-events:none;opacity:0;transform:translate3d(var(--x,0),var(--y,0),0) scale(.9);transition:opacity .3s ease;box-shadow:0 30px 60px -20px rgba(0,0,0,.75),0 0 0 1px rgba(237,255,254,.14);will-change:transform}
-.volant.la{opacity:1;transform:translate3d(var(--x,0),var(--y,0),0) scale(1)}
-.volant img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top}
-.volant img.neuve{animation:so-neuve .5s cubic-bezier(.16,1,.3,1)}
-@keyframes so-neuve{from{clip-path:inset(100% 0 0 0);transform:scale(1.08)}to{clip-path:inset(0);transform:none}}
-@media (hover:hover) and (pointer:fine) and (min-width:981px){
-  .sommaire .mini{display:none}
-  .sommaire:hover a{opacity:.4}.sommaire a:hover,.sommaire a:focus-visible{opacity:1}
-  .sommaire a:hover .txt{transform:translateX(14px)}.sommaire a:hover .no{color:var(--phosphor)}
-}
-@media not ((hover:hover) and (pointer:fine) and (min-width:981px)){.sommaire .arrow,.volant{display:none}}
-@media (max-width:700px){
-  .sommaire a{grid-template-columns:30px minmax(0,1fr) auto;gap:12px;padding:16px 2px}
-  .sommaire .txt{display:block}.sommaire b{display:block;font-size:1.35rem}.sommaire .me{display:block;margin-top:4px;font-size:13px}
-  .sommaire .mini{width:76px}.autres .tete span{display:none}
-}
-@media (prefers-reduced-motion:no-preference){
-  .sommaire.anime li{transition:opacity .7s ease,transform .8s cubic-bezier(.16,1,.3,1);transition-delay:calc(var(--i) * 60ms)}
-  .sommaire.anime:not(.vu) li{opacity:0;transform:translateY(22px)}
+.autres{margin-top:clamp(48px,7vw,96px);display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(28px,5vw,80px);align-items:center}
+.autres .fiche{display:grid;justify-items:start;min-width:0}
+.autres .fiche .eyebrow{margin:0}
+.autres .rang{margin-top:clamp(18px,2.4vw,30px);font-size:13px;color:var(--silver);font-variant-numeric:tabular-nums}
+.autres h3{margin-top:10px;font-size:clamp(1.9rem,1.3rem + 2.4vw,3.4rem);font-weight:500;letter-spacing:-.04em;line-height:1;color:var(--white);min-height:2em;display:flex;align-items:flex-end}
+.autres .me{margin-top:12px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--mist)}
+.autres .dit{margin-top:16px;max-width:34ch;color:var(--mist);min-height:4.6em}
+.autres .voir{display:inline-flex;align-items:center;gap:10px;min-height:44px;margin-top:8px;color:var(--white);font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;text-decoration:none}
+.autres .change{transition:opacity .22s ease,transform .22s ease}
+.autres.passe .change{opacity:0;transform:translateY(8px)}
+.autres .gestes{display:flex;align-items:center;gap:10px;margin-top:clamp(16px,2vw,26px)}
+.autres .gestes button{width:48px;height:48px;border-radius:50%;border:1px solid var(--line-hi,rgba(255,255,255,.28));background:none;color:var(--white);cursor:pointer;display:grid;place-items:center;transition:background-color .2s,border-color .2s}
+.autres .gestes svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.autres .gestes span{margin-left:8px;font-size:13px;color:var(--silver)}
+@media (hover:hover) and (pointer:fine){.autres .gestes button:hover{background:var(--kelp);border-color:var(--mist)}}
+.paquet{position:relative;width:100%;max-width:640px;justify-self:end;aspect-ratio:16/10;margin-bottom:48px;touch-action:pan-y}
+.carte{position:absolute;inset:0;border-radius:14px;overflow:hidden;background:var(--deep);box-shadow:0 0 0 1px rgba(237,255,254,.16),0 24px 44px -18px rgba(0,0,0,.7);transform:translate3d(var(--x,0px),calc(var(--k) * 15px + var(--y,0px)),0) rotate(calc(var(--r,0deg) + var(--t,0deg))) scale(calc(1 - var(--k) * .05));transform-origin:50% 100%;transition:transform .7s cubic-bezier(.16,1,.3,1),opacity .4s,filter .5s;z-index:calc(10 - var(--k));filter:brightness(calc(1 - var(--k) * .16));cursor:grab;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.carte img{display:block;width:100%;height:100%;object-fit:cover;object-position:top;pointer-events:none;-webkit-user-drag:none}
+.carte.tenue{transition:none;cursor:grabbing}
+.carte.partie,.carte.loin{opacity:0}
+@media (max-width:860px){
+  .autres{grid-template-columns:minmax(0,1fr);gap:26px}
+  .paquet{justify-self:center;margin-bottom:44px}
+  .autres h3{min-height:0}.autres .dit{min-height:4.6em}
 }
 @media (max-width:760px){.pc{top:calc(76px + var(--i) * 10px);margin-bottom:18px}.pc>a{grid-template-columns:minmax(0,1fr);min-height:0;gap:18px}.pc p{margin-top:12px}.pc .voir{margin-top:14px}}
 @media (prefers-reduced-motion:reduce){.pc{position:static}.pc>a{transform:none;filter:none}}
@@ -824,24 +815,36 @@ const fleche = '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strok
   <div class="pc" style="--i:${i}"><a href="demo-${slug}.html" target="_blank" rel="noopener" style="--g:${fonds[i]}">
     <div><span class="n">${String(i + 1).padStart(2, "0")} / 13</span><h3>${esc(nom)}</h3><span class="eyebrow">${esc(metier)}</span><p>${esc(txt)}</p><span class="voir">Voir la démo <span class="arrow">${fleche}</span></span></div>
     <div class="shot"><img src="media/apercus/${slug}.webp" alt="La page d'accueil de la démo ${esc(nom)}" width="720" height="450" loading="lazy" decoding="async"></div>
-  </a></div>`).join("") + `</div><div class="autres" id="autres"><div class="tete"><p class="eyebrow">Et huit autres démos</p><span>06 à 13</span></div><ul class="sommaire" id="sommaire">${DEMOS.filter(d => !PILE.includes(d[4])).map(([nom, metier, , , slug], i) => `<li style="--i:${i}"><a href="demo-${slug}.html" target="_blank" rel="noopener" data-vue="media/apercus/${slug}.webp"><span class="no">${String(i + 6).padStart(2, "0")}</span><span class="txt"><b>${esc(nom)}</b><span class="me">${esc(metier)}</span></span><span class="mini"><img src="media/apercus/${slug}.webp" alt="" width="720" height="450" loading="lazy" decoding="async"></span><span class="arrow">${fleche}</span></a></li>`).join("")}</ul><div class="volant" id="volant" aria-hidden="true"><img alt="" width="720" height="450" decoding="async"></div></div>`;
-  /* le sommaire des autres démos : les lignes montent à l'arrivée ; à la souris, l'aperçu du site suit le pointeur */
-  { const som = $("sommaire"), bloc = $("autres"), vol = $("volant"), vue = vol.firstElementChild, calmeS = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!calmeS && "IntersectionObserver" in window) { som.classList.add("anime"); new IntersectionObserver((es, o) => { if (es[0].isIntersecting) { som.classList.add("vu"); o.disconnect(); } }, { rootMargin: "0px 0px -12% 0px" }).observe(som); }
-    if (matchMedia("(hover:hover) and (pointer:fine) and (min-width:981px)").matches) {
-      let x = 0, y = 0, cx = 0, cy = 0, tourne = false, pret = false, charge = false;
-      const suit = () => { x += (cx - x) * (calmeS ? 1 : .16); y += (cy - y) * (calmeS ? 1 : .16); vol.style.setProperty("--x", x.toFixed(1) + "px"); vol.style.setProperty("--y", y.toFixed(1) + "px");
-        if (vol.classList.contains("la") && (Math.abs(cx - x) > .3 || Math.abs(cy - y) > .3)) requestAnimationFrame(suit); else tourne = false; };
-      const vise = e => { const r = bloc.getBoundingClientRect(), w = vol.offsetWidth, h = vol.offsetHeight;
-        cx = r.width - w - 72 + ((e.clientX - r.left) / r.width - .5) * 36; cy = Math.max(0, Math.min(r.height - h, e.clientY - r.top - h / 2));
-        if (!pret) { pret = true; x = cx; y = cy; } if (!tourne) { tourne = true; requestAnimationFrame(suit); } };
-      som.addEventListener("pointermove", vise);
-      som.addEventListener("pointerover", e => { const a = e.target.closest("a"); if (!a) return;
-        if (!charge) { charge = true; som.querySelectorAll("a").forEach(l => { new Image().src = l.dataset.vue; }); }
-        if (vue.getAttribute("src") !== a.dataset.vue) { vue.src = a.dataset.vue; vue.classList.remove("neuve"); void vue.offsetWidth; vue.classList.add("neuve"); }
-        vise(e); vol.classList.add("la"); });
-      som.addEventListener("pointerleave", () => { vol.classList.remove("la"); pret = false; });
-    } }
+  </a></div>`).join("") + `</div><div class="autres" id="autres"><div class="fiche"><p class="eyebrow">Et huit autres démos</p><span class="rang change" id="jeuRang"></span><h3 class="change" id="jeuNom"></h3><span class="me change" id="jeuMe"></span><p class="dit change" id="jeuDit"></p><a class="voir change" id="jeuVoir" target="_blank" rel="noopener">Voir la démo <span class="arrow">${fleche}</span></a>
+    <div class="gestes"><button type="button" id="jeuAvant" aria-label="Démo précédente"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13 8H3M7 4L3 8l4 4"/></svg></button><button type="button" id="jeuApres" aria-label="Démo suivante"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></button><span>Attrapez la carte et jetez-la.</span></div></div>
+    <div class="paquet" id="paquet" aria-hidden="true">${DEMOS.filter(d => !PILE.includes(d[4])).map(([nom, , , , slug]) => `<div class="carte" data-u="${slug}"><img src="media/apercus/${slug}.webp" alt="" width="720" height="450" loading="lazy" decoding="async" draggable="false"></div>`).join("")}</div></div>`;
+  /* le paquet des autres démos (animation 61 de la banque) : on attrape la carte du dessus, on la jette sur le côté, elle repasse dessous ; ça tourne sans fin */
+  { const bloc = $("autres"), boite = $("paquet"), LISTE = DEMOS.filter(d => !PILE.includes(d[4])), calmeJ = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let ordre = [...boite.querySelectorAll(".carte")], prise = null, minuteur = null;
+    const penche = [0, 2.2, -2.2, 1.2];
+    const range = () => ordre.forEach((c, k) => { c.style.setProperty("--k", Math.min(k, 3)); c.style.setProperty("--t", penche[Math.min(k, 3)] + "deg"); c.classList.toggle("loin", k > 3); });
+    const ecrit = () => { const u = ordre[0].dataset.u, n = LISTE.findIndex(d => d[4] === u), d = LISTE[n];
+      $("jeuRang").textContent = String(n + 6).padStart(2, "0") + " / 13"; $("jeuNom").textContent = d[0]; $("jeuMe").textContent = d[1]; $("jeuDit").textContent = d[3]; $("jeuVoir").href = "demo-" + u + ".html"; };
+    const annonce = () => { if (calmeJ) { ecrit(); return; } clearTimeout(minuteur); bloc.classList.add("passe"); minuteur = setTimeout(() => { ecrit(); bloc.classList.remove("passe"); }, 220); };
+    const repose = c => { c.style.setProperty("--x", "0px"); c.style.setProperty("--y", "0px"); c.style.setProperty("--r", "0deg"); };
+    const jette = sens => { const c = ordre[0], loin = Math.max(620, innerWidth * .7); c.classList.remove("tenue"); c.style.setProperty("--x", sens * loin + "px"); c.style.setProperty("--r", sens * 24 + "deg"); c.classList.add("partie");
+      ordre.push(ordre.shift()); ordre.forEach((o, k) => { if (o !== c) { o.style.setProperty("--k", Math.min(k, 3)); o.style.setProperty("--t", penche[Math.min(k, 3)] + "deg"); o.classList.toggle("loin", k > 3); } }); annonce();
+      setTimeout(() => { c.style.transition = "none"; repose(c); range(); void c.offsetWidth; c.style.transition = ""; c.classList.remove("partie"); }, 380); };
+    const revient = () => { const c = ordre.pop(); ordre.unshift(c); c.style.transition = "none"; c.style.setProperty("--x", -Math.max(620, innerWidth * .7) + "px"); c.style.setProperty("--r", "-24deg"); c.classList.add("partie"); range(); void c.offsetWidth; c.style.transition = ""; c.classList.remove("partie", "loin"); repose(c); annonce(); };
+    range(); ecrit();
+    boite.addEventListener("pointerdown", e => { const c = ordre[0]; if (!c.contains(e.target) || (e.pointerType === "mouse" && e.button !== 0)) return;
+      prise = { x: e.clientX, y: e.clientY, dx: 0, dy: 0, v: 0, lx: e.clientX, t: performance.now() }; c.classList.add("tenue"); try { boite.setPointerCapture(e.pointerId); } catch (err) { /* geste simulé */ } });
+    boite.addEventListener("pointermove", e => { if (!prise) return; const c = ordre[0]; prise.dx = e.clientX - prise.x; prise.dy = e.clientY - prise.y; prise.v = e.clientX - prise.lx; prise.lx = e.clientX;
+      c.style.setProperty("--x", prise.dx + "px"); c.style.setProperty("--y", prise.dy * .3 + "px"); c.style.setProperty("--r", prise.dx * .06 + "deg"); });
+    const lache = e => { if (!prise) return; const c = ordre[0], d = prise; prise = null;
+      if (Math.abs(d.dx) > 90 || Math.abs(d.v) > 9) { jette(Math.sign(d.dx || d.v)); return; }
+      c.classList.remove("tenue"); repose(c);
+      if (e.type === "pointerup" && Math.abs(d.dx) < 6 && Math.abs(d.dy) < 6 && performance.now() - d.t < 500) window.open("demo-" + c.dataset.u + ".html", "_blank", "noopener"); };   // un simple appui ouvre la démo
+    boite.addEventListener("pointerup", lache); boite.addEventListener("pointercancel", lache);
+    $("jeuApres").addEventListener("click", () => jette(1)); $("jeuAvant").addEventListener("click", revient);
+    /* à l'arrivée, la carte du dessus bouge une fois pour montrer qu'on peut la prendre */
+    if (!calmeJ && "IntersectionObserver" in window) new IntersectionObserver((es, o) => { if (!es[0].isIntersecting) return; o.disconnect();
+      setTimeout(() => { if (prise || ordre[0].dataset.u !== LISTE[0][4]) return; const c = ordre[0]; c.style.setProperty("--x", "46px"); c.style.setProperty("--r", "4deg"); setTimeout(() => { if (!prise && !c.classList.contains("partie")) repose(c); }, 520); }, 500); }, { threshold: .6 }).observe(boite); }
   /* chaque carte rétrécit et s'assombrit un peu quand la suivante vient se poser dessus */
   const cartes = [...document.querySelectorAll(".pc")], calmeP = matchMedia("(prefers-reduced-motion: reduce)").matches; let tic = false;
   const pose = () => { tic = false; cartes.forEach((c, i) => { const n = cartes[i + 1], a = c.firstElementChild; if (!n) return; const r = c.getBoundingClientRect(), nr = n.getBoundingClientRect(), k = Math.max(0, Math.min(1, 1 - (nr.top - r.top - 14) / r.height)); a.style.setProperty("--s", (1 - k * .05).toFixed(3)); a.style.setProperty("--b", (1 - k * .32).toFixed(3)); }); };

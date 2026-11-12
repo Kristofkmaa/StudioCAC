@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex">
 <!-- La vidéo de présentation de Saitora, deuxième version : une pièce de motion design rythmée, qui ne reprend pas le décor du site.
      Grande typographie, aplats de couleur, formes qui se transforment. Sept temps, 33 secondes :
-     la nuit (le point rose), le jour (le point devient l'écran), les métiers qui défilent, un site qui se dessine et change de peau,
+     la nuit (le point rose), le jour (le point devient l'écran), les métiers qui défilent, la galerie où trois sites arrivent comme des vitrines,
      un site qu'on code et qui prend vie à côté, le disque « jour et nuit », le logo qui s'assemble.
      Tout est fonction du temps : rendu(t). La page est filmée image par image par outils/video.js.
      Règle gardée : les textes arrivent par lignes entières (derrière un cache), jamais lettre par lettre. -->
@@ -35,19 +35,17 @@ body{font-family:"Inter Tight",sans-serif;font-weight:500;color:#fff;letter-spac
 #rangs .c{--trait:#5E8F8A}
 #bande{position:absolute;left:0;right:0;top:50%;height:11vw;margin-top:-5.5vw;background:#EDFFFE;color:#012624;transform-origin:50% 50%}
 #bande .m{left:0;right:0;top:2.5vw;text-align:center;font-size:5.4vw}
-/* 4. un site qui se dessine */
+/* 4. la galerie (idée reprise de l'essai fait avec hum) : elle s'allume avec un halo, on y avance, et trois sites arrivent du fond
+   comme des vitrines, en vraie profondeur ; un reflet passe sur celui du milieu */
 #s4{background:#011D1C}
-#fen{position:absolute;left:6vw;top:50%;width:48vw;height:31vw;margin-top:-15.5vw;border-radius:1.2vw;overflow:hidden;will-change:transform}
-#fen .barre{position:absolute;left:0;right:0;top:0;height:2.6vw;display:flex;align-items:center;gap:.6vw;padding-left:1.3vw}
-#fen .barre i{width:.8vw;height:.8vw;border-radius:50%;opacity:.45}
-#fen .bloc{position:absolute;left:2.6vw;top:4.4vw;height:15vw}
-#fen .t1,#fen .t2{position:absolute;left:2.6vw;height:1.9vw;border-radius:.3vw}
-#fen .t1{top:21.2vw;width:26vw}#fen .t2{top:24vw;width:17vw;opacity:.45}
-#fen .bt{position:absolute;right:2.6vw;top:22vw;width:11vw;height:3.4vw;border-radius:3vw}
-#fen .pt{position:absolute;right:2.6vw;top:4.4vw;width:13vw;display:grid;gap:1vw}
-#fen .pt i{display:block;height:4.3vw;border-radius:.6vw;opacity:.16}
-#s4 .m{left:59vw;font-size:5.1vw}
-#s4 #metier{left:59vw;top:62%;font-size:3.2vw;letter-spacing:0;color:#FAD1FF}
+#gal,#halo{position:absolute;inset:0;width:100%;height:100%}
+#halo{filter:blur(1.3vw) brightness(2.8);mix-blend-mode:screen;opacity:.95}
+#s4 .ombre{position:absolute;inset:0;background:radial-gradient(ellipse 62% 70% at 50% 46%,rgba(1,29,28,0) 0,rgba(1,29,28,.78) 100%)}
+#profondeur{position:absolute;inset:0;perspective:70vw;perspective-origin:50% 46%}
+.ecran{position:absolute;left:50%;top:46%;width:34vw;height:19.125vw;margin:-9.56vw 0 0 -17vw;border-radius:.9vw;overflow:hidden;opacity:0;will-change:transform,opacity;box-shadow:0 0 5vw rgba(203,255,252,.38),0 2vw 5vw rgba(0,0,0,.5)}
+.ecran img{display:block;width:100%;height:100%;object-fit:cover}
+.ecran .reflet{position:absolute;inset:0;background:linear-gradient(105deg,rgba(255,255,255,0) 38%,rgba(255,255,255,.6) 50%,rgba(255,255,255,0) 62%);will-change:transform}
+#s4 .m{left:0;right:0;top:78%;text-align:center;font-size:5vw}
 /* 5. le grand moment : on code à gauche, chaque ligne envoie une étincelle qui fait naître un morceau du site à droite ;
    puis on publie, le site prend tout l'écran, défile, on clique ; enfin il se range à côté de sa version téléphone */
 @font-face{font-family:"JetBrains Mono";font-weight:500;font-display:block;src:url(../../polices/jetbrains-mono-500-normal-latin.woff2) format("woff2")}
@@ -110,7 +108,8 @@ body{font-family:"Inter Tight",sans-serif;font-weight:500;color:#fff;letter-spac
 #marque{position:absolute;left:50%;top:15%;width:11vw;margin-left:-5.5vw;overflow:visible}
 #s7 .nom{position:absolute;left:0;right:0;top:41%;text-align:center;font-size:15vw;line-height:.9;letter-spacing:-.05em;white-space:nowrap}
 #s7 .nom span{display:inline-block;will-change:transform}
-#bouton{position:absolute;left:50%;top:72.5%;transform:translateX(-50%);padding:1.6vw 3.2vw;border-radius:.45vw;background:linear-gradient(90deg,#CBFFFC,#EDFFFE 30%,#FFFDFA 50%,#FAD1FF);color:#1A1A1A;font-size:1.5vw;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+#bouton{position:absolute;left:50%;top:74%;transform:translateX(-50%);padding:1.6vw 3.2vw;border-radius:.45vw;background:linear-gradient(90deg,#CBFFFC,#EDFFFE 30%,#FFFDFA 50%,#FAD1FF);color:#1A1A1A;font-size:1.5vw;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+#lueur{position:absolute;left:50%;top:68.2%;width:46vw;height:.22vw;margin-left:-23vw;border-radius:.2vw;background:linear-gradient(90deg,rgba(203,255,252,0),#CBFFFC 30%,#FFFDFA 50%,#FAD1FF 70%,rgba(250,209,255,0));filter:blur(.08vw);transform-origin:0 50%}
 #adresse{position:absolute;left:0;right:0;top:86.5%;text-align:center;font-size:1.6vw;letter-spacing:.04em;color:#BBC7C6}
 /* le point rose qui relie les temps, et le volet sombre */
 #point{left:50%;top:50%;width:2.4vw;height:2.4vw;margin:-1.2vw 0 0 -1.2vw;background:#FAD1FF;position:fixed;display:none}
@@ -139,14 +138,14 @@ body{font-family:"Inter Tight",sans-serif;font-weight:500;color:#fff;letter-spac
 </section>
 
 <section class="s" id="s4">
-  <div id="fen">
-    <div class="barre"><i></i><i></i><i></i></div>
-    <div class="bloc"></div><div class="pt"><i></i><i></i><i></i></div>
-    <div class="t1"></div><div class="t2"></div><div class="bt"></div>
+  <canvas id="gal"></canvas><canvas id="halo"></canvas>
+  <div class="ombre"></div>
+  <div id="profondeur">
+    <div class="ecran" id="e1"><img src="site-artisan.png" alt=""></div>
+    <div class="ecran" id="e2"><img src="site-boutique.png" alt=""></div>
+    <div class="ecran" id="e3"><img src="site-restaurant.png" alt=""><div class="reflet"></div></div>
   </div>
-  <p class="m" style="top:31%"><span>Dessiné</span></p>
-  <p class="m" style="top:44%"><span>à votre image.</span></p>
-  <p class="m" id="metier"><span></span></p>
+  <p class="m"><span>Dessiné à votre image.</span></p>
 </section>
 
 <section class="s" id="s5">
@@ -187,6 +186,7 @@ body{font-family:"Inter Tight",sans-serif;font-weight:500;color:#fff;letter-spac
     <circle id="grain" cx="620" cy="818" r="55" fill="#FAD1FF"/>
   </svg>
   <div class="nom"><span id="sai">Sai</span><span id="tora" class="c">tora</span></div>
+  <div id="lueur"></div>
   <div id="bouton">Demander un devis gratuit →</div>
   <div id="adresse">saitora.fr</div>
 </section>
@@ -194,6 +194,11 @@ body{font-family:"Inter Tight",sans-serif;font-weight:500;color:#fff;letter-spac
 <div class="rond" id="point"></div>
 <div id="volet"></div>
 
+<script>
+// l'horloge du décor est celle du film : la galerie avance selon t, pas selon l'heure réelle
+let TEMPS = 0; const T0 = 1700000000000; Date.now = () => T0 + TEMPS * 1000;
+</script>
+<script src="../../commun/abysse-sphere.js"></script>
 <script>
 const DUREE = 33.1;
 const $ = id => document.getElementById(id), q = (s, r = document) => [...r.querySelectorAll(s)];
@@ -222,6 +227,8 @@ const LIGNES = [
 $("etincelles").innerHTML = LIGNES.map(() => '<i class="etincelle"></i><i class="onde"></i>').join("");
 const PEAUX = [["#FBF7EC", "#1F5C8A", "#C8553D", "#1E2B33", 62, 1, "Restaurant"], ["#F0ECE2", "#FFD23F", "#1F4BD8", "#111111", 100, 0, "Artisan"], ["#F2EBDD", "#24452F", "#B5472F", "#22301F", 44, 22, "Fleuriste"]];
 
+let galerie = null, galPrete = false;
+
 function rendu(t) {
   // ——— le point rose : il naît au centre, bat, puis grandit jusqu'à devenir l'écran clair
   const P = $("point"); P.style.display = t < 3.3 ? "block" : "none";
@@ -245,25 +252,23 @@ function rendu(t) {
     $("bande").style.transform = `scaleY(${(sort((t - 7.9) / .7) * (1 - part((t - 9.6) / .45))).toFixed(4)})`;
     cache(q("#bande .m>span")[0], t, 8.1, 9.35); }
 
+  // ——— 4. la galerie : elle s'allume, on avance, trois sites arrivent du fond comme des vitrines
   if (scene("s4", t, 10.1, 15)) {
-    const F = $("fen"), arr = sort((t - 10.2) / 1), dep = part((t - 14.3) / .6);
-    // la peau du site change deux fois : restaurant, artisan, fleuriste
-    const k = t < 11.9 ? 0 : t < 13.1 ? 1 : 2, p = va(k === 0 ? 0 : (t - (k === 1 ? 11.9 : 13.1)) / .55), A = PEAUX[Math.max(0, k - 1)], B = PEAUX[k], T = (i) => teinte(A[i], B[i], p);
-    F.style.transform = `translate3d(${(-(1 - arr) * 8 - dep * 70).toFixed(2)}vw,0,0) scale(${(.86 + .14 * arr).toFixed(4)})`; F.style.opacity = c((t - 10.2) / .3);
-    F.style.background = T(0);
-    q("#fen .barre i").forEach(i => { i.style.background = T(3); });
-    const bloc = q("#fen .bloc")[0], larg = mix(A[4], B[4], p);
-    bloc.style.background = T(1); bloc.style.width = `${(larg / 100 * 42.8).toFixed(2)}vw`; bloc.style.borderRadius = `${mix(A[5], B[5], p).toFixed(2)}vw ${mix(A[5], B[5], p).toFixed(2)}vw .6vw .6vw`;
-    bloc.style.transform = `scaleY(${sort((t - 10.5) / .8).toFixed(4)})`; bloc.style.transformOrigin = "50% 100%";
-    q("#fen .pt i").forEach((i, n) => { i.style.background = T(3); i.style.transform = `translate3d(${((1 - sort((t - 10.75 - n * .1) / .7)) * 16).toFixed(2)}vw,0,0)`; });
-    q("#fen .pt")[0].style.opacity = (1 - c((larg - 62) / 30)).toFixed(3);
-    [".t1", ".t2"].forEach((s, n) => { const e = q("#fen " + s)[0]; e.style.background = T(3); e.style.transform = `scaleX(${sort((t - 10.95 - n * .12) / .7).toFixed(4)})`; e.style.transformOrigin = "0 50%"; });
-    const bt = q("#fen .bt")[0]; bt.style.background = T(2); bt.style.transform = `scale(${rebond((t - 11.2) / .6).toFixed(4)})`;
-    const l = q("#s4 .m>span"); cache(l[0], t, 10.5, 14.2); cache(l[1], t, 10.68, 14.28);
-    // le nom du métier change avec la peau
-    const M = l[2]; M.textContent = PEAUX[t < 11.95 ? 0 : t < 13.15 ? 1 : 2][6];
-    const dm = t < 11.95 ? 10.9 : t < 13.15 ? 11.95 : 13.15, fm = t < 11.95 ? 11.8 : t < 13.15 ? 13 : 14.25;
-    M.style.transform = `translate3d(0,${((1 - sort((t - dm) / .45)) * 112 - part((t - fm) / .15) * 112).toFixed(2)}%,0)`; }
+    if (!galerie) galerie = AbysseSphere.create($("gal"));
+    if (!galPrete) { galerie.size(); galPrete = true; }
+    const fuite = part((t - 14.25) / .7);
+    TEMPS = t; galerie.draw({ A: 1, av: (t - 10.1) * 1.35 + fuite * 7, eclat: c((t - 10.15) / 1.3) });
+    const G = $("gal"), H = $("halo"); if (H.width !== G.width) { H.width = G.width; H.height = G.height; }
+    const hx = H.getContext("2d"); hx.clearRect(0, 0, H.width, H.height); hx.drawImage(G, 0, 0);
+    $("s4").style.opacity = (c((t - 10.1) / .35) * (1 - c((t - 14.7) / .3))).toFixed(3);
+    // [élément, côté, départ] : les deux premiers se rangent le long des murs, le troisième vient se poser au centre
+    [["e1", -1, 10.9], ["e2", 1, 11.2], ["e3", 0, 11.75]].forEach(([id, cote, d]) => { const a = sort((t - d) / 1.5), el = $(id), derive = (t - d) * .5;
+      const x = cote * mix(26, 34, a), z = mix(cote ? -210 : -280, cote ? -24 : -4, a) + derive + fuite * 150, ry = -cote * mix(40, 30, a);
+      el.style.opacity = (c((t - d) / .4) * (1 - c((t - 14.35) / .45))).toFixed(3);
+      el.style.transform = `translate3d(${x.toFixed(2)}vw,${(Math.sin(t * 1.4 + cote) * .25).toFixed(2)}vw,${z.toFixed(2)}vw) rotateY(${ry.toFixed(2)}deg)`; });
+    // le reflet passe une fois sur le site du milieu
+    q("#e3 .reflet")[0].style.transform = `translate3d(${mix(-130, 130, va((t - 13.1) / .9)).toFixed(2)}%,0,0)`;
+    cache(q("#s4 .m>span")[0], t, 12.7, 14.2); }
 
   // ——— 5. le grand moment. A : on code, chaque ligne envoie une étincelle qui fait naître un morceau du site.
   // B : on publie, le site prend l'écran et défile, le pointeur clique. C : le site se range à côté de sa version téléphone.
@@ -321,6 +326,7 @@ function rendu(t) {
     $("grain").setAttribute("transform", `translate(0 ${((1 - g) * -520).toFixed(1)})`); $("grain").style.opacity = c((u - 23.15) / .15);
     const n = sort((u - 23.3) / .9); $("sai").style.transform = `translate3d(${(-(1 - n) * 40).toFixed(2)}vw,0,0)`; $("tora").style.transform = `translate3d(${((1 - n) * 40).toFixed(2)}vw,0,0)`;
     $("sai").style.opacity = $("tora").style.opacity = c((u - 23.3) / .35);
+    const lu = va((u - 23.75) / 1.1); $("lueur").style.transform = `translate3d(${mix(-30, 30, lu).toFixed(2)}vw,0,0) scaleX(${(Math.sin(lu * Math.PI) * 1).toFixed(4)})`; $("lueur").style.opacity = Math.sin(lu * Math.PI).toFixed(3);
     const b = sort((u - 24) / .8); $("bouton").style.opacity = b.toFixed(3); $("bouton").style.transform = `translateX(-50%) translateY(${((1 - b) * 2).toFixed(2)}vw)`;
     $("adresse").style.opacity = sort((u - 24.4) / .8).toFixed(3); }
 }

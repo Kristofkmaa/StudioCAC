@@ -159,6 +159,46 @@ section{padding:clamp(70px,8vw,120px) var(--m)}
 .ticket .round:disabled{opacity:.45;cursor:not-allowed}
 .ticket .ok{margin-top:10px;font-weight:500}
 
+/* ---- les mouvements, tirés de la banque animations/mouvements.html : 02, 24, 26, 29, 33, 34 ---- */
+/* 29 : le trait à la main sous « tous les jours. » */
+.hero h1 em{position:relative;display:inline-block;white-space:nowrap}
+.hero h1 em svg{position:absolute;left:0;bottom:-.08em;width:100%;height:.16em;overflow:visible}
+.hero h1 em path{fill:none;stroke:var(--gold);stroke-width:4;stroke-linecap:round;vector-effect:non-scaling-stroke;stroke-dasharray:1;stroke-dashoffset:0}
+/* 34 : la pastille qui vole jusqu'au bouton « Commander », et le petit compteur qui s'y pose */
+.vole{position:fixed;left:0;top:0;z-index:80;width:22px;height:22px;margin:-11px;border-radius:50%;background:var(--red);border:2px solid var(--paper);pointer-events:none}
+.round,.dock a.go{position:relative}
+.nb{position:absolute;left:36px;top:-4px;min-width:22px;height:22px;padding:0 6px;border-radius:999px;background:var(--gold);color:var(--ink);font:700 13px/22px var(--sans);text-align:center;box-shadow:0 0 0 2px var(--kraft)}
+.dock .nb{left:auto;right:12px;top:-6px;box-shadow:0 0 0 2px var(--ink)}
+.nb[hidden]{display:none}
+@media (prefers-reduced-motion:no-preference){
+  .hero h1 em path{animation:trace-p .9s ease-out 1.3s backwards}
+  @keyframes trace-p{from{stroke-dashoffset:1}}
+  /* 02 : les photos se posent, un peu de travers, comme on les scotche ; les blocs montent */
+  .snap.leve{opacity:0;transform:translateY(28px) rotate(calc(var(--rot,-2deg) + 6deg));transition:opacity .5s ease,transform .8s cubic-bezier(.34,1.4,.5,1);transition-delay:var(--d,0ms)}
+  .snap.leve.on{opacity:1;transform:rotate(var(--rot,-2deg))}
+  .leve:not(.snap){opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .7s cubic-bezier(.23,1,.32,1);transition-delay:var(--d,0ms)}
+  .leve:not(.snap).on{opacity:1;transform:none}
+  /* 33 : la ligne de la journée se déroule, les cinq fournées se posent l'une après l'autre ; la prochaine bat doucement */
+  .time.frise svg.line{clip-path:inset(0 100% 0 0);transition:clip-path 1.5s cubic-bezier(.45,0,.2,1)}
+  .time.frise.on svg.line{clip-path:inset(0)}
+  .time.frise:not(.on) li{opacity:0}
+  .time.frise.on li{animation:pose .6s cubic-bezier(.34,1.4,.5,1) backwards;animation-delay:calc(var(--i) * 190ms + 200ms)}
+  @keyframes pose{from{opacity:0;transform:translateY(-20px) rotate(calc(var(--rot,0deg) - 4deg))}}
+  .time li.soon .tag{animation:chaud 1.8s ease-in-out infinite}
+  @keyframes chaud{50%{transform:rotate(-2deg) scale(1.07)}}
+  /* l'étiquette du conseil se balance quand la réponse change, comme une étiquette au bout de sa ficelle */
+  .label.bouge{animation:balance .9s cubic-bezier(.3,.6,.3,1)}
+  @keyframes balance{0%{transform:rotate(-5deg)}35%{transform:rotate(4deg)}65%{transform:rotate(.2deg)}100%{transform:rotate(1.5deg)}}
+  .label{transform-origin:50% 12px}
+  /* 24 : le total roule ; 26 : le tampon claque quand la commande est notée */
+  .roule span{display:inline-block;animation:roule .45s cubic-bezier(.23,1,.32,1) backwards;animation-delay:calc(var(--k) * 40ms)}
+  @keyframes roule{from{opacity:0;transform:translateY(.4em)}}
+  .stamp.claque{animation:claque .5s cubic-bezier(.3,1.5,.5,1)}
+  @keyframes claque{from{opacity:0;transform:rotate(-12deg) scale(1.9)}}
+  .nb.saute,.cible.saute{animation:saute .45s cubic-bezier(.3,1.6,.5,1)}
+  @keyframes saute{40%{transform:scale(1.25)}}
+}
+
 /* ---- pied : infos pratiques ---- */
 footer{padding:clamp(56px,7vw,90px) var(--m) 28px}
 footer .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,3vw,40px)}
@@ -216,7 +256,7 @@ footer .legal{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap
     <section class="hero" id="top" style="padding-bottom:clamp(60px,7vw,100px)">
       <div>
         <p class="tag">Levain maison depuis toujours</p>
-        <h1 class="words" style="margin-top:18px">Le four tourne de 6&nbsp;h à 19&nbsp;h, <em>tous les jours.</em></h1>
+        <h1 class="words" style="margin-top:18px">Le four tourne de 6&nbsp;h à 19&nbsp;h, <em>tous les jours.<svg viewBox="0 0 300 12" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M3 8C60 2 120 11 180 5S270 4 297 7"/></svg></em></h1>
         <p class="say">Farines du moulin de Saint-Roch, cinq fournées par jour pour qu'il y ait toujours du pain chaud. Commandez ce soir, c'est prêt demain matin.</p>
         <div class="acts"><a class="round" href="#quiz"><i>→</i>Quel pain pour vous ?</a><a class="round" href="#commande"><i style="background:var(--ink)">→</i>Commander pour demain</a></div>
       </div>
@@ -328,9 +368,10 @@ function renderCart() {
   $("lines").innerHTML = ids.length ? ids.map(id => `<li><span>${cart[id]} × ${esc(ALL[id][1])}</span><span>${eur(cart[id] * ALL[id][3])}</span></li>`).join("") : `<li class="empty">Rien pour l'instant. Une baguette pour commencer ?</li>`;
   $("total").textContent = eur(ids.reduce((a, id) => a + cart[id] * ALL[id][3], 0));
   $("order").disabled = !ids.length;
+  if (window.panier) panier(ids.reduce((a, id) => a + cart[id], 0));
 }
 const add = (id, d) => { cart[id] = Math.max(0, (cart[id] || 0) + d); if (!cart[id]) delete cart[id]; renderCart(); $("ok").textContent = ""; };
-$("rows").addEventListener("click", e => { const b = e.target.closest("button[data-id]"); if (b) add(b.dataset.id, +b.dataset.d); });
+$("rows").addEventListener("click", e => { const b = e.target.closest("button[data-id]"); if (b) { add(b.dataset.id, +b.dataset.d); if (+b.dataset.d > 0 && window.vole) vole(b); } });
 renderCart();
 
 // ——— trois questions
@@ -349,7 +390,7 @@ function answer() {
 }
 $("questions").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; const q = +b.parentElement.dataset.q; pick[q] = +b.dataset.k;
   [...b.parentElement.children].forEach(x => x.setAttribute("aria-pressed", x === b)); answer(); });
-$("answer").addEventListener("click", e => { const b = e.target.closest("#takeIt"); if (!b) return; add(b.dataset.id, +b.dataset.n); b.innerHTML = "<i>✓</i>Ajouté à la commande"; });
+$("answer").addEventListener("click", e => { const b = e.target.closest("#takeIt"); if (!b) return; add(b.dataset.id, +b.dataset.n); if (window.vole) vole(b); b.innerHTML = "<i>✓</i>Ajouté à la commande"; });
 answer();
 
 // ——— retrait demain
@@ -375,6 +416,33 @@ document.querySelectorAll(".words").forEach(t => { let i = 0;
   walk(t); });
 const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("on"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -8% 0px" });
 document.querySelectorAll(".words").forEach(el => io.observe(el));
+// ——— les mouvements de la banque (animations/mouvements.html)
+(() => {
+  const calme = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // 34 : le compteur posé sur « Commander » (colonne de kraft et barre du bas), et la pastille qui y vole
+  const cibles = [document.querySelector(".side > .round"), document.querySelector(".dock a.go")].filter(Boolean);
+  cibles.forEach(c => { c.classList.add("cible"); c.insertAdjacentHTML("beforeend", '<b class="nb" hidden></b>'); });
+  let avant = 0, totalAvant = $("total").textContent;
+  window.panier = n => { cibles.forEach(c => { const b = c.querySelector(".nb"); b.hidden = !n; b.textContent = n; if (n > avant && !calme) { b.classList.remove("saute"); b.offsetWidth; b.classList.add("saute"); } }); avant = n;
+    // 24 : le total roule quand il change
+    const T = $("total"), t = T.textContent; if (t !== totalAvant && !calme) { totalAvant = t; T.classList.add("roule"); T.setAttribute("aria-label", t); T.innerHTML = [...t].map((c, k) => /\s/.test(c) ? c : `<span aria-hidden="true" style="--k:${k}">${esc(c)}</span>`).join(""); } };
+  window.vole = de => { if (calme) return; const c = cibles.find(x => { const r = x.getBoundingClientRect(); return r.width && r.bottom > 0 && r.top < innerHeight && getComputedStyle(x.closest(".dock") || x).display !== "none"; }); if (!c) return;
+    const a = de.getBoundingClientRect(), b = (c.querySelector("i") || c).getBoundingClientRect(), x0 = a.left + a.width / 2, y0 = a.top + a.height / 2, x1 = b.left + b.width / 2, y1 = b.top + b.height / 2;
+    const p = document.createElement("span"); p.className = "vole"; document.body.appendChild(p);
+    p.animate([{ transform: `translate(${x0}px,${y0}px) scale(1)` }, { transform: `translate(${(x0 + x1) / 2}px,${Math.min(y0, y1) - 70}px) scale(1.15)`, offset: .5 }, { transform: `translate(${x1}px,${y1}px) scale(.4)` }], { duration: 650, easing: "cubic-bezier(.4,0,.3,1)" }).onfinish = () => p.remove(); };
+  // l'étiquette du conseil se balance quand la réponse change
+  const L = $("answer"); new MutationObserver(() => { if (calme) return; L.classList.remove("bouge"); L.offsetWidth; L.classList.add("bouge"); }).observe(L, { childList: true });
+  // 26 : la commande notée, le tampon claque et le bouton confirme
+  $("order").addEventListener("click", () => { if (!$("ok").textContent.startsWith("Merci")) return; const b = $("order"), st = $("stamp");
+    b.innerHTML = "<i>✓</i>C'est noté"; setTimeout(() => { b.innerHTML = "<i>✓</i>Mettre de côté"; }, 3200);
+    if (!calme) { st.classList.remove("claque"); st.offsetWidth; st.classList.add("claque"); } });
+  if (calme) return;
+  // 02 : les photos se posent, les blocs montent ; 33 : la journée du four
+  const vu = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("on"); vu.unobserve(e.target); } }), { rootMargin: "0px 0px -8% 0px" });
+  document.querySelectorAll(".snap, .quiz, .row > div, .order .grid > div:first-child, footer .cols > div").forEach(el => { el.classList.add("leve"); vu.observe(el); });
+  document.querySelectorAll(".trio .snap, footer .cols > div").forEach((el, k) => el.style.setProperty("--d", (k % 3) * 110 + "ms"));
+  const J = $("time"); J.classList.add("frise"); [...J.querySelectorAll("li")].forEach((li, k) => li.style.setProperty("--i", k)); vu.observe(J);
+})();
 </script>
 </body>
 </html>

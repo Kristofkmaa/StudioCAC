@@ -56,7 +56,7 @@ window.AbysseSphere = (() => {
       incl.x += (cible.x - incl.x) * .02; incl.y += (cible.y - incl.y) * .02;
       g.clearRect(0, 0, W, H);
       if (A <= 0) return;
-      const jour = document.documentElement.dataset.theme === "jour", encre = jour ? "#0B2623" : "#EDFFFE", COUL = jour ? ["#2F7F76", "#8A5E96"] : ["#CBFFFC", "#FAD1FF"];
+      const jour = document.documentElement.dataset.theme === "jour", encre = jour ? "#1B4741" : "#EDFFFE", COUL = jour ? ["#2F7F76", "#8A5E96"] : ["#CBFFFC", "#FAD1FF"];
       const t = Date.now() / 1000, NB = mob ? 8 : 11, v = t * VITESSE + av, dz = ((v % L) + L) % L, base = Math.floor(v / L), zoom = Math.pow(Z * grow, .72),
         f = H * (mob ? 1.05 : 1.35) * zoom, hx = W * .5, hy = H * (mob ? .42 : .5), camX = incl.x * .07, camY = .62 - incl.y * .03, lac = incl.x * .025, cl = Math.cos(lac), sl = Math.sin(lac), zMax = NB * L;
       const pj = (x, y, z) => { const xr = (x - camX) * cl - z * sl, zr = (x - camX) * sl + z * cl; if (zr < .3) return null; const e = f / zr; return [hx + xr * e, hy - (y - camY) * e, zr]; },

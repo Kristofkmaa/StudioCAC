@@ -16,8 +16,8 @@
   var calme = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   var c, x, L = 0, H = 0, d = 1, P = [], hasard = Math.random, avant = 0, img = 0;
-  var TEINTES = { noel: ["#FFFFFF"], halloween: ["#FF9A3C", "#FFB868", "#B98CFF"], paques: ["#FFC9DC", "#FFE9A8", "#BFEFD9", "#D9C8FF"] };
-  var LAMPES = { noel: ["#FF5F5F", "#FFD166", "#6DF0A8", "#FFFFFF"], halloween: ["#FF8A2A", "#B77BFF"], paques: TEINTES.paques };
+  var TEINTES = { noel: ["#FFFFFF"], halloween: ["#FFA24A", "#FFC27A"], paques: ["#CBFFFC", "#FAD1FF", "#FFFFFF"] };
+  var LAMPES = { noel: ["#FFE2A6"], halloween: ["#FFA24A"], paques: ["#CBFFFC", "#FAD1FF"] };   // une seule lumière chaude, pas de couleurs vives
 
   function neuf(p, partout) {
     p.r = s === "noel" ? 1.2 + hasard() * hasard() * 4.2 : s === "halloween" ? 1.3 + hasard() * 2.4 : 3.5 + hasard() * 4.5;
@@ -67,11 +67,11 @@
     for (var i = 0; i < n; i++) { var x0 = i * pasW;
       ch += " Q" + (x0 + pasW / 2).toFixed(1) + " 30 " + (x0 + pasW).toFixed(1) + " 0";
       for (var j = 1; j <= 4; j++) { var u = j / 5, px = x0 + pasW * u, py = 30 * 2 * u * (1 - u), cl = col[k++ % col.length];
-        if (s === "paques") h += '<path d="M' + (px - 9).toFixed(1) + " " + (py - 1).toFixed(1) + "h18l-9 17z\" fill=\"" + cl + '"/>';
-        else h += '<circle cx="' + px.toFixed(1) + '" cy="' + (py + 4).toFixed(1) + '" r="4.2" fill="' + cl + '" style="animation-delay:-' + (k * .37 % 2.4).toFixed(2) + 's"/>'; } }
+        if (s === "paques") h += '<path d="M' + (px - 8).toFixed(1) + " " + (py - 1).toFixed(1) + "h16l-8 15z\" fill=\"" + cl + '" fill-opacity=".3" stroke="' + cl + '" stroke-width="1"/>';
+        else h += '<circle cx="' + px.toFixed(1) + '" cy="' + (py + 4).toFixed(1) + '" r="2.6" fill="' + cl + '" style="filter:drop-shadow(0 0 5px ' + cl + ');animation-delay:-' + (k * .37 % 2.4).toFixed(2) + 's"/>'; } }
     var g = document.createElement("div"); g.className = "saison-guirlande"; g.setAttribute("aria-hidden", "true");
     g.style.cssText = "position:absolute;inset:0 0 auto;height:44px;pointer-events:none;z-index:2";
-    g.innerHTML = '<svg width="' + w + '" height="44" viewBox="0 -4 ' + w + ' 44" style="display:block;overflow:visible"><path d="' + ch + '" fill="none" stroke="rgba(237,255,254,.45)" stroke-width="1.2"/>' + h + "</svg>";
+    g.innerHTML = '<svg width="' + w + '" height="44" viewBox="0 -4 ' + w + ' 44" style="display:block;overflow:visible"><path d="' + ch + '" fill="none" stroke="rgba(237,255,254,.3)" stroke-width="1"/>' + h + "</svg>";
     v.appendChild(g);
   }
 

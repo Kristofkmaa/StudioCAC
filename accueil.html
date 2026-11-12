@@ -139,6 +139,9 @@ h1,h2,h3{color:var(--white);font-weight:500;line-height:1;text-wrap:balance}
 .lecture svg{width:16px;height:16px;fill:currentColor}
 .lecture .jouer,.lecture.arretee .pauser{display:none}
 .lecture.arretee .jouer{display:block}
+.lecture.son{right:64px}
+.lecture.son .ondes,.lecture.son.ouvert .barre{display:none}
+.lecture.son.ouvert .ondes{display:block}
 @media (max-width:699px){.boutique{transform-origin:50% 42%}.devanture{width:92vw}}
 .arrivee .stats{padding-block:0}
 @media (max-width:699px){.arrivee{transform-origin:50% 42%}}
@@ -537,7 +540,8 @@ section[id]{scroll-margin-top:20px}
           <p class="enseigne" aria-hidden="true">SAITORA</p>
           <div class="store" aria-hidden="true"></div>
           <div class="vitrine">
-            <video id="film" muted playsinline loop preload="none" poster="media/saitora-presentation.webp?v=1" width="1920" height="1080" aria-label="Saitora en 38 secondes : la vidéo de présentation, sans son"><source src="media/saitora-presentation.mp4?v=1" type="video/mp4"></video>
+            <video id="film" muted playsinline loop preload="none" poster="media/saitora-presentation.webp?v=1" width="1920" height="1080" aria-label="Saitora en 38 secondes : la vidéo de présentation"><source src="media/saitora-presentation.mp4?v=2" type="video/mp4"></video>
+            <button type="button" class="lecture son" id="filmSon" aria-pressed="false" aria-label="Activer le son de la vidéo"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 6h2.6L8 3v10L4.6 10H2z"/><path class="ondes" d="M10 5.2a4 4 0 0 1 0 5.6M11.9 3.3a6.6 6.6 0 0 1 0 9.4" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path class="barre" d="M10.4 6.2l3.6 3.6M14 6.2l-3.6 3.6" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
             <button type="button" class="lecture" id="filmBtn" aria-label="Mettre la vidéo en pause"><svg class="pauser" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 2h4v12H3zM9 2h4v12H9z"/></svg><svg class="jouer" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2l10 6-10 6z"/></svg></button>
           </div>
         </div>
@@ -772,6 +776,7 @@ if (dezoom && !calme) {
 (() => {
   const arr = $("arrivee"); let compteFait = false, filmArrete = false;
   // le bouton de la vitrine : pause ou lecture, au choix du visiteur
+  $("filmSon").addEventListener("click", () => { const f = $("film"), b = $("filmSon"); f.muted = !f.muted; b.classList.toggle("ouvert", !f.muted); b.setAttribute("aria-pressed", String(!f.muted)); b.setAttribute("aria-label", f.muted ? "Activer le son de la vidéo" : "Couper le son de la vidéo"); });
   $("filmBtn").addEventListener("click", () => { const f = $("film"), b = $("filmBtn"); filmArrete = !f.paused; if (f.paused) f.play().catch(() => {}); else f.pause();
     b.classList.toggle("arretee", filmArrete); b.setAttribute("aria-label", filmArrete ? "Lire la vidéo" : "Mettre la vidéo en pause"); });
   if (calme) { arr.querySelectorAll(".stat").forEach(el => el.classList.add("on")); return; }

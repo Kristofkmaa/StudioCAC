@@ -134,7 +134,7 @@ h1,h2,h3{color:var(--white);font-weight:500;line-height:1;text-wrap:balance}
    En descendant, on s'en approche : elle grandit depuis le point de fuite, la vidéo se lance, puis on la dépasse. */
 .boutique{position:absolute;inset:0;z-index:2;display:grid;place-items:center;pointer-events:none;transform-origin:50% 50%;transform:scale(var(--bs,.04));opacity:var(--bo,0);will-change:transform,opacity}
 .boutique.la{pointer-events:auto}
-.devanture{width:min(1040px,86vw,calc((100svh - 220px) * 16 / 9));display:grid;justify-items:center}
+.devanture{width:min(1040px,86vw,calc((100svh - 280px) * 16 / 9));display:grid;justify-items:center}
 .enseigne{margin:0 0 14px;padding-left:.42em;font-size:clamp(1rem,.6rem + 1.6vw,1.9rem);font-weight:500;letter-spacing:.42em;color:var(--white)}
 .store{width:100%;height:clamp(10px,1.4vw,18px);border-radius:4px 4px 0 0;background:var(--aurora);opacity:.85}
 .vitrine{position:relative;width:100%;aspect-ratio:16/9;background:var(--deep);border-radius:0 0 14px 14px;overflow:hidden;box-shadow:0 0 0 1px rgba(237,255,254,.35),0 0 90px rgba(203,255,252,.28)}
@@ -143,6 +143,12 @@ h1,h2,h3{color:var(--white);font-weight:500;line-height:1;text-wrap:balance}
 .lecture svg{width:16px;height:16px;fill:currentColor}
 .lecture .jouer,.lecture.arretee .pauser{display:none}
 .lecture.arretee .jouer{display:block}
+.suite{margin-top:16px;display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:0 20px;border-radius:999px;border:1px solid var(--line-hi,rgba(255,255,255,.22));background:transparent;color:var(--white);font:inherit;font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:background-color .3s,border-color .3s}
+.suite svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;animation:suite-bas 1.8s ease-in-out infinite}
+.suite.fin{border-color:var(--white)}
+@media (hover:hover){.suite:hover{background:var(--chip,rgba(255,255,255,.08));border-color:var(--white)}}
+@keyframes suite-bas{0%,100%{transform:translateY(-2px)}50%{transform:translateY(3px)}}
+@media (prefers-reduced-motion:reduce){.suite{display:none}}
 @media (max-width:699px){.boutique{transform-origin:50% 42%}.devanture{width:92vw}}
 .arrivee .stats{padding-block:0}
 @media (max-width:699px){.arrivee{transform-origin:50% 42%}}
@@ -621,9 +627,10 @@ section[id]{scroll-margin-top:20px}
           <p class="enseigne" aria-hidden="true">SAITORA</p>
           <div class="store" aria-hidden="true"></div>
           <div class="vitrine">
-            <video id="film" muted playsinline loop preload="none" poster="media/saitora-presentation.webp?v=1" width="1920" height="1080" aria-label="Saitora en 38 secondes : la vidéo de présentation, sans son"><source src="media/saitora-presentation.mp4?v=3" type="video/mp4"></video>
+            <video id="film" muted playsinline preload="none" poster="media/saitora-presentation.webp?v=1" width="1920" height="1080" aria-label="Saitora en 38 secondes : la vidéo de présentation, sans son"><source src="media/saitora-presentation.mp4?v=3" type="video/mp4"></video>
             <button type="button" class="lecture" id="filmBtn" aria-label="Mettre la vidéo en pause"><svg class="pauser" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 2h4v12H3zM9 2h4v12H9z"/></svg><svg class="jouer" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2l10 6-10 6z"/></svg></button>
           </div>
+          <button type="button" class="suite" id="filmSuite"><span id="filmSuiteMot">Passer la vidéo</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M4 9l4 4 4-4"/></svg></button>
         </div>
       </div>
       <div class="arrivee" id="arrivee"><div class="page">
@@ -885,6 +892,18 @@ if (dezoom && !calme) {
   // le bouton de la vitrine : pause ou lecture, au choix du visiteur
   $("filmBtn").addEventListener("click", () => { const f = $("film"), b = $("filmBtn"); filmArrete = !f.paused; if (f.paused) f.play().catch(() => {}); else f.pause();
     b.classList.toggle("arretee", filmArrete); b.setAttribute("aria-label", filmArrete ? "Lire la vidéo" : "Mettre la vidéo en pause"); });
+  // la vidéo ne tourne plus en boucle : à la fin elle reste sur sa dernière image, le bouton sert à la revoir
+  let descendu = false, glisse = 0;
+  const stop = () => { cancelAnimationFrame(glisse); glisse = 0; };
+  const descend = duree => { const h = $("hero"), y0 = scrollY, y1 = (h.offsetHeight - innerHeight) * .99, t0 = performance.now(); if (y1 <= y0) return; stop(); retenu = true;
+    const pas = t => { const k = Math.min(1, (t - t0) / duree), e = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2; scrollTo({ top: y0 + (y1 - y0) * e, behavior: "instant" }); glisse = k < 1 ? requestAnimationFrame(pas) : 0; };
+    glisse = requestAnimationFrame(pas); };
+  ["wheel", "touchstart", "keydown"].forEach(n => addEventListener(n, stop, { passive: true }));   // le visiteur reprend la main quand il veut
+  let retenu = false;
+  $("film").addEventListener("ended", () => { const b = $("filmBtn"); filmArrete = true; b.classList.add("arretee"); b.setAttribute("aria-label", "Revoir la vidéo");
+    $("filmSuite").classList.add("fin"); $("filmSuiteMot").textContent = "Continuer";
+    if (!calme && !descendu && $("boutique").classList.contains("la") && !document.hidden) { descendu = true; descend(1900); } });   // une seule fois, et seulement si on regarde encore la vidéo
+  $("filmSuite").addEventListener("click", () => { descendu = true; descend(1300); });
   if (calme) { arr.querySelectorAll(".stat").forEach(el => el.classList.add("on")); return; }
   const hero = $("hero"), lns = [...hero.querySelectorAll(".ln")], base = hero.querySelector(".base"), dir = [-1, 1, -1];
   let tick = false;
@@ -908,6 +927,18 @@ if (dezoom && !calme) {
   addEventListener("scroll", () => { if (!tick) { tick = true; requestAnimationFrame(move); } }, { passive: true });
   addEventListener("resize", move);
   move();
+  // un court blocage en arrivant devant la vidéo : on ne la dépasse pas sans le vouloir en faisant défiler trop vite
+  { const trajet = () => hero.offsetHeight - innerHeight; let debut = 0;
+    if (scrollY > trajet() * .5) retenu = true;                                             // page rouverte plus bas : rien à retenir
+    document.addEventListener("click", e => { if (e.target.closest('a[href^="#"]')) retenu = true; }, true);   // un lien du menu passe librement
+    const tient = () => !retenu && debut && performance.now() - debut < 1400;
+    addEventListener("scroll", () => { if (retenu) return; const t = trajet();
+      if (!debut && scrollY >= t * .5) debut = performance.now();
+      if (!debut) return;
+      if (!tient()) { retenu = true; return; }
+      if (scrollY > t * .6) scrollTo({ top: t * .6, behavior: "instant" }); }, { passive: true });
+    addEventListener("wheel", e => { if (tient() && e.deltaY > 0 && scrollY >= trajet() * .6 - 2) e.preventDefault(); }, { passive: false });
+    addEventListener("touchmove", e => { if (tient() && e.cancelable && scrollY >= trajet() * .6 - 2) e.preventDefault(); }, { passive: false }); }
 })();
 
 // ——— les chiffres qui comptent quand ils arrivent à l'écran

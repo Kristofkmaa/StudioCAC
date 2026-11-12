@@ -61,55 +61,6 @@ window.AbysseSphere = (() => {
         f = H * (mob ? 1.05 : 1.35) * zoom, hx = W * .5, hy = H * (mob ? .42 : .5), camX = incl.x * .07, camY = .62 - incl.y * .03, lac = incl.x * .025, cl = Math.cos(lac), sl = Math.sin(lac), zMax = NB * L;
       const pj = (x, y, z) => { const xr = (x - camX) * cl - z * sl, zr = (x - camX) * sl + z * cl; if (zr < .3) return null; const e = f / zr; return [hx + xr * e, hy - (y - camY) * e, zr]; },
         quad = (a, b, c, d, col, al2) => { g.globalAlpha = al2; g.fillStyle = col; g.beginPath(); g.moveTo(a[0], a[1]); g.lineTo(b[0], b[1]); g.lineTo(c[0], c[1]); g.lineTo(d[0], d[1]); g.closePath(); g.fill(); };
-      // ——— les décorations de saison (réglage dans abysse-saison.js), dessinées comme la galerie : des points fins à l'encre du site
-      // et une seule lumière chaude. Pas d'aplats de couleurs vives : le premier essai « faisait très cheap ».
-      const sais = document.documentElement.dataset.saison, deco = sais === "noel" || sais === "halloween" || sais === "paques",
-        OR = sais === "halloween" ? "#FFA24A" : jour ? "#FFF6E0" : "#FFE2A6", FOND = jour ? "#B9C7BF" : "#012624",
-        F3 = (P, col, a) => { g.beginPath(); for (let i = 0; i < P.length; i += 3) { const q = pj(P[i], P[i + 1], P[i + 2]); if (!q) return; i ? g.lineTo(q[0], q[1]) : g.moveTo(q[0], q[1]); } g.closePath(); g.globalAlpha = Math.min(1, a); g.fillStyle = col; g.fill(); },
-        // pts : le trait devient une ligne de points, comme le reste de la galerie
-        T3 = (P, col, a, w, ferme, pts) => { let e = 0; g.beginPath(); for (let i = 0; i < P.length; i += 3) { const q = pj(P[i], P[i + 1], P[i + 2]); if (!q) return; i ? g.lineTo(q[0], q[1]) : g.moveTo(q[0], q[1]); e = f / q[2]; } if (ferme) g.closePath();
-          const lw = Math.max(pts ? 1 : .6, Math.min(pts ? 3 : 9, w * e)); g.globalAlpha = Math.min(1, a); g.strokeStyle = col; g.lineWidth = lw; if (pts) { g.setLineDash([.01, lw * 2.3]); g.lineCap = "round"; } g.stroke(); if (pts) { g.setLineDash([]); g.lineCap = "butt"; } },
-        R3 = (x, y, z, rr, col, a) => { const q = pj(x, y, z); if (!q) return; g.globalAlpha = Math.min(1, a); g.fillStyle = col; g.beginPath(); g.arc(q[0], q[1], Math.max(.6, rr * f / q[2]), 0, 6.2832); g.fill(); },
-        ovale = (x, y, z, ry, rz) => { const P = []; for (let i = 0; i < 16; i++) { const a = i * .3927; P.push(x, y + Math.sin(a) * ry, z + Math.cos(a) * rz); } return P; },   // un rond posé à plat sur le mur
-        fil = (pt, n) => { const P = []; for (let i = 0; i <= n; i++) { const q = pt(i / n * .9999); P.push(q[0], q[1], q[2]); } return P; },
-        lampes = (pt, n, rr, a, ph) => { for (let i = 0; i < n; i++) { const q = pt((i + .5) / n), cl = .55 + .45 * Math.sin(t * 1.6 + i * 1.9 + ph); R3(q[0], q[1], q[2], rr * 3.4, OR, a * cl * .14); R3(q[0], q[1], q[2], rr, OR, a * (.55 + .45 * cl)); } },
-        // d'un côté à l'autre du passage, au niveau de la corniche
-        travers = (zz, br, abs) => { const gt = u => [-1.05 + 2.1 * u, 1.3 - .16 * Math.sin(Math.PI * u), zz];
-          T3(fil(gt, 20), encre, .22 * br, .003);
-          if (sais === "noel") lampes(gt, 17, .01, br, abs);
-          else if (sais === "halloween") { lampes(gt, 9, .01, br, abs); if (abs % 3) return;   // une chauve-souris toutes les trois travées
-            const b = .7 + .3 * Math.sin(t * 5 + abs), y = 1.02, M = [0, .02, .008, .034, .014, .02, .04, .03, .1 * b, .034, .088 * b, 0, .068 * b, .01, .047, -.01, .027, .004, .01, -.024, 0, -.014], P = [];   // une moitié, puis son reflet
-            for (let i = 0; i < M.length; i += 2) P.push(M[i], y + M[i + 1], zz); for (let i = M.length - 4; i > 0; i -= 2) P.push(-M[i], y + M[i + 1], zz);
-            T3([0, 1.14, zz, 0, y + .02, zz], encre, .22 * br, .003); F3(P, FOND, .9 * br); T3(P, encre, .75 * br, .004, true); }
-          else { for (let i = 0; i < 12; i++) { const a = gt(i / 12), b = gt((i + 1) / 12 * .9999), P = [a[0], a[1], zz, b[0], b[1], zz, (a[0] + b[0]) / 2, (a[1] + b[1]) / 2 - .09, zz]; F3(P, COUL[i % 2], .16 * br); T3(P, COUL[i % 2], .75 * br, .004, true); } } },
-        // sur une boutique : x est son mur, c son côté (-1 à gauche, 1 à droite)
-        pose = (c, x, zz, br, abs, pres) => { const xg = x - c * .31, xd = x - c * .015, gu = u => [xg, .735 - .06 * Math.sin(Math.PI * ((u * 3) % 1)), zz + .12 + .94 * u];
-          if (sais !== "paques") { T3(fil(gu, 24), encre, .25 * br, .003); lampes(gu, 12, .009, br, abs + c); }                               // la guirlande au bord du store
-          if (sais === "noel") { const zt = zz + .59, Sp = [], M = [.2, .17, .4, .06, .36, .125, .56, .045, .52, .085, .73, 0];             // le sapin dans la vitrine : sa silhouette en points
-            for (let i = 0; i < M.length; i += 2) Sp.push(xd, M[i], zt - M[i + 1]); for (let i = M.length - 4; i >= 0; i -= 2) Sp.push(xd, M[i], zt + M[i + 1]);
-            F3(Sp, COUL[0], .07 * br); T3(Sp, encre, .9 * br, .008, true, true); T3([xd, .14, zt, xd, .2, zt], encre, .7 * br, .008);
-            [[.27, -.07], [.3, .06], [.43, -.035], [.47, .05], [.59, 0], [.24, 0]].forEach((q, i) => { const cl = .5 + .5 * Math.sin(t * 2 + i * 2.3 + abs); R3(xd, q[0], zt + q[1], .028, OR, .12 * br * cl); R3(xd, q[0], zt + q[1], .008, OR, br * (.5 + .5 * cl)); });
-            R3(xd, .745, zt, .05, OR, .2 * br); R3(xd, .745, zt, .015, OR, br);                                                             // l'étoile
-            T3(ovale(xd, .56, zz + 1.29, .08, .08), encre, .9 * br, .014, true, true); T3(ovale(xd, .56, zz + 1.29, .06, .06), encre, .5 * br, .008, true, true);   // la couronne sur la porte
-            for (const a of [.6, 2.6, 4.6]) R3(xd, .56 + Math.sin(a) * .07, zz + 1.29 + Math.cos(a) * .07, .009, OR, br); }
-          else if (sais === "halloween") {
-            for (const [zp, rr] of [[.36, .085], [.53, .058]]) { const y = rr * .85, z = zz + zp;                                           // les citrouilles au pied de la vitrine, au trait
-              F3(ovale(xd, y, z, rr * .85, rr), OR, .1 * br); T3(ovale(xd, y, z, rr * .85, rr), OR, .9 * br, .005, true);
-              T3(ovale(xd, y, z, rr * .85, rr * .6), OR, .45 * br, .003, true); T3(ovale(xd, y, z, rr * .85, rr * .22), OR, .45 * br, .003, true);
-              T3([xd, y + rr * .85, z, xd, y + rr * 1.12, z + rr * .12], encre, .7 * br, .006);
-              if (pres && rr > .07) { R3(xd, y, z, rr * 1.7, OR, .1 * br);
-                for (const d of [-1, 1]) F3([xd, y + .36 * rr, z + d * .36 * rr, xd, y + .1 * rr, z + d * .54 * rr, xd, y + .1 * rr, z + d * .2 * rr], OR, .95 * br);
-                F3([xd, y - .16 * rr, z - .46 * rr, xd, y - .16 * rr, z + .46 * rr, xd, y - .42 * rr, z + .22 * rr, xd, y - .42 * rr, z - .22 * rr], OR, .95 * br); } }
-            const A5 = [0, .32, .64, .96, 1.28, 1.5708], coin = (a, d) => [xd, .8 - Math.cos(a) * d, zz + .16 + Math.sin(a) * d];             // la toile d'araignée dans le coin de la vitrine
-            for (const a of A5) { const q = coin(a, .26); T3([xd, .8, zz + .16, q[0], q[1], q[2]], encre, .4 * br, .0025); }
-            for (const d of [.09, .16, .23]) { const P = []; for (const a of A5) { const q = coin(a, d); P.push(q[0], q[1], q[2]); } T3(P, encre, .4 * br, .0025); } }
-          else { const n2 = ((abs % 2) + 2) % 2;
-            T3([xg, .74, zz + .12, xg, .74, zz + 1.06], encre, .25 * br, .003);                                                               // les fanions au bord du store
-            for (let i = 0; i < 8; i++) { const z0 = zz + .12 + .94 * i / 8, z1 = zz + .12 + .94 * (i + 1) / 8, P = [xg, .74, z0, xg, .74, z1, xg, .65, (z0 + z1) / 2]; F3(P, COUL[(i + n2) % 2], .16 * br); T3(P, COUL[(i + n2) % 2], .75 * br, .004, true); }
-            [.38, .59, .8].forEach((zp, i) => { const z = zz + zp, col = COUL[(i + n2) % 2], O = ovale(xd, .27, z, .1, .07);                  // les œufs dans la vitrine, au trait
-              F3(O, col, .1 * br); T3(O, col, .9 * br, .005, true);
-              T3([xd, .27, z - .066, xd, .292, z - .033, xd, .248, z, xd, .292, z + .033, xd, .27, z + .066], col, .7 * br, .004); T3([xd, .325, z - .05, xd, .325, z + .05], col, .5 * br, .003, false, true); });
-            for (let i = 0; i < 12; i++) { const a = i * .5236; R3(xd, .56 + Math.sin(a) * .08, zz + 1.29 + Math.cos(a) * .08, .011, COUL[i % 2], .9 * br); } } };  // la couronne de fleurs sur la porte
       g.fillStyle = encre;
       for (let k = NB - 1; k >= 0; k--) { const z0 = k * L - dz, abs = base + k, graine = Math.sin((abs % 9973) * 12.9898) * 43758.5453, al = graine - Math.floor(graine),
           lumG = .35 + .65 * (.5 + .5 * Math.sin(t * .35 + (abs % 997) * 2.1)), lumD = .35 + .65 * (.5 + .5 * Math.sin(t * .28 + (abs % 997) * 3.7 + 1.3)), zz = z0 + .9,
@@ -120,7 +71,6 @@ window.AbysseSphere = (() => {
           const brume = Math.pow(Math.max(0, 1 - zr / zMax), 1.25) * Math.min(1, (zr - .28) * 2.2), vit = TRAVEE[i + 4];
           g.globalAlpha = Math.min(1, A * sombre * TRAVEE[i + 3] * brume * (vit === 1 ? lumG * (al > .25 ? 1 : .25) : vit === 2 ? lumD * (al < .8 ? 1 : .25) : 1));
           const r = Math.max(.8, Math.min(2.6, e / zoom * .0042)); g.fillRect(X - r / 2, Y - r / 2, r, r); }
-        if (deco) { const q = pj(0, 1.2, zz); if (q) { travers(zz, A * (.12 + .88 * feu) * Math.pow(Math.max(0, 1 - q[2] / zMax), 1.25) * Math.min(1, (q[2] - .3) * 2), abs); g.fillStyle = encre; } }
         // ce qui fait reconnaître une boutique : la vitrine éclairée en aplat, le store de couleur, le nom sur l'enseigne
         for (const c of [-1, 1]) { const x = c * 1.05, lum = c < 0 ? lumG : lumD, allume = c < 0 ? al > .25 : al < .8,
             Aa = pj(x, .8, zz + .16), B = pj(x, .8, zz + 1.02), C = pj(x, .14, zz + 1.02), Dq = pj(x, .14, zz + .16); if (!Aa || !B || !C || !Dq) continue;
@@ -135,7 +85,6 @@ window.AbysseSphere = (() => {
             for (let n = 0; n < nom.length; n++) { const a = lg.l[n], z1 = zc, z2 = zc + dir * a * U0; zc = z2; const o = pj(x, 1.06, z1), u = pj(x, 1.06, z2), w = pj(x, .9, z1); if (!o || !u || !w) continue;
               g.setTransform(DP * (u[0] - o[0]) / a, DP * (u[1] - o[1]) / a, DP * (w[0] - o[0]) / 12, DP * (w[1] - o[1]) / 12, DP * o[0], DP * o[1]); g.fillText(nom[n], a / 2, 6.5); }
             g.setTransform(DP, 0, 0, DP, 0, 0); }
-          if (deco && br > .03) pose(c, x, zz, br, abs, k < 5);
           g.fillStyle = encre; } }
       g.globalAlpha = 1;
     };

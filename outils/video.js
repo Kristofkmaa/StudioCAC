@@ -19,13 +19,15 @@ const L = 1920, H = 1080, IPS = 30, PORT = 8791;
     await page.goto(`http://localhost:${PORT}/media/video-saitora/composition.html?film`);
     await page.evaluate(() => document.fonts.ready);
     await page.waitForFunction(() => [...document.images].every(i => i.complete && i.naturalWidth));
+    const fautes = []; page.on("pageerror", e => fautes.push(e.message));
     await page.waitForTimeout(600);
     const duree = await page.evaluate(() => window.DUREE);
     if (ESSAI) {
-      const instants = [1.2, 3, 5.5, 9.3, 10.6, 13.2, 15.5, 19.5, 22, 25, 27, 31];
+      const instants = (process.env.INSTANTS ? process.env.INSTANTS.split(",").map(Number) : Array.from({ length: 12 }, (_, k) => (k + .5) * duree / 12));
       for (const [k, t] of instants.entries()) { await page.evaluate(t => rendu(t), t); await page.screenshot({ path: path.join(dossier, `e${String(k).padStart(2, "0")}.jpg`), quality: 88 }); }
       execFileSync("ffmpeg", ["-y", "-loglevel", "error", "-pattern_type", "glob", "-i", path.join(dossier, "e*.jpg"), "-vf", "scale=640:360,tile=4x3:padding=6:color=white", "-frames:v", "1", path.join(RACINE, "media/video-saitora/essai.jpg")]);
       console.log("planche d'essai : media/video-saitora/essai.jpg");
+      if (fautes.length) console.log("erreurs :", fautes.slice(0, 3));
     } else {
       const n = Math.round(duree * IPS);
       for (let i = 0; i < n; i++) {
@@ -37,7 +39,7 @@ const L = 1920, H = 1080, IPS = 30, PORT = 8791;
       const sortie = path.join(RACINE, "media/saitora-presentation");
       execFileSync("ffmpeg", [...src, "-c:v", "libx264", "-preset", "slow", "-crf", "26", "-pix_fmt", "yuv420p", "-movflags", "+faststart", "-an", sortie + ".mp4"]);
       execFileSync("ffmpeg", [...src, "-c:v", "libvpx-vp9", "-b:v", "0", "-crf", "34", "-row-mt", "1", "-an", sortie + ".webm"]);
-      execFileSync("ffmpeg", ["-y", "-loglevel", "error", "-i", path.join(dossier, `i${String(Math.round(15 * IPS)).padStart(5, "0")}.jpg`), "-quality", "82", sortie + ".webp"]);
+      execFileSync("ffmpeg", ["-y", "-loglevel", "error", "-i", path.join(dossier, `i${String(Math.round((duree - 1) * IPS)).padStart(5, "0")}.jpg`), "-quality", "82", sortie + ".webp"]);
       for (const e of [".mp4", ".webm", ".webp"]) console.log(path.basename(sortie + e), Math.round(fs.statSync(sortie + e).size / 1024) + " Ko");
     }
   } finally { await nav.close(); serveur.kill(); fs.rmSync(dossier, { recursive: true, force: true }); }

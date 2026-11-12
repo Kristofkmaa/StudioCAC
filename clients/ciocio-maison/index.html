@@ -9,7 +9,7 @@
 <meta name="theme-color" content="#F8F4EA">
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Crect%20width=%2264%22%20height=%2264%22%20fill=%22%232A6F8A%22/%3E%3Cpath%20d=%22M18%2052V30a14%2014%200%200%201%2028%200v22z%22%20fill=%22%23F8F4EA%22/%3E%3C/svg%3E">
 <link rel="preload" href="../../polices/lora-500-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="ciocio.css?v=1">
+<link rel="stylesheet" href="ciocio.css?v=4">
 </head>
 <body>
 <p class="maquette">Maquette à valider : les photos, les prix et les dates sont des exemples.</p>
@@ -22,7 +22,7 @@
 
 <main>
 <section class="ouverture" data-haut>
-  <div class="fond"><img src="images/vue.webp" alt="Une crique d’eau turquoise et des bateaux au mouillage, vus des hauteurs (photo d’exemple)" width="1280" height="800" fetchpriority="high"></div>
+  <div class="fond"><img src="images/vue.webp" alt="La côte corse et le golfe vus des hauteurs, les falaises et la mer (photo d’exemple)" width="1280" height="800" fetchpriority="high"></div>
   <div class="page">
     <div class="carte-titre">
       <span class="ecrit">à louer cet été</span>
@@ -52,25 +52,25 @@
       <summary><h3>Le séjour et la cuisine</h3><span aria-hidden="true">+</span></summary>
       <div class="dedans"><div><p>La grande pièce de la maison : on y cuisine, on y mange et on y reste tard. Elle ouvre directement sur la terrasse.</p>
         <ul><li>Cuisine équipée : four, plaques, lave-vaisselle, réfrigérateur</li><li>Grande table pour huit</li><li>Canapés et coin lecture</li></ul></div>
-        <figure class="photo rideau" style="--rot:1.4deg"><img src="images/sejour.webp" alt="Un séjour aux poutres apparentes, une table et un escalier en bois (photo d’exemple)" width="640" height="480"><span class="exemple">Photo d’exemple</span></figure></div>
+        <figure class="photo rideau" style="--rot:1.4deg"><img src="images/sejour.webp" alt="Un séjour clair : un canapé d’angle, une table basse en bois et des plantes (photo d’exemple)" width="1280" height="960"><span class="exemple">Photo d’exemple</span></figure></div>
     </details>
     <details>
       <summary><h3>La terrasse</h3><span aria-hidden="true">+</span></summary>
       <div class="dedans"><div><p>Le matin pour le café, le soir pour le dîner : c’est la pièce où l’on passe le plus de temps, face à la mer.</p>
         <ul><li>Table et chaises pour huit</li><li>Coin à l’ombre pour la sieste</li><li>Barbecue (à valider)</li></ul></div>
-        <figure class="photo rideau"><img src="images/terrasse.webp" alt="Une terrasse fleurie avec une table dressée, au-dessus de la mer (photo d’exemple)" width="640" height="480"><span class="exemple">Photo d’exemple</span></figure></div>
+        <figure class="photo rideau"><img src="images/terrasse.webp" alt="Une table et des chaises sur une terrasse fleurie, face à la mer (photo d’exemple)" width="1280" height="960"><span class="exemple">Photo d’exemple</span></figure></div>
     </details>
     <details>
       <summary><h3>Les quatre chambres</h3><span aria-hidden="true">+</span></summary>
       <div class="dedans"><div><p>Quatre vraies chambres, pour que chacun ait la sienne. Le linge de lit et les serviettes sont fournis.</p>
         <ul><li>Lits doubles ou lits simples, selon la chambre (à préciser)</li><li>Rangements dans chaque chambre</li><li>Salles d’eau : nombre à préciser</li></ul></div>
-        <figure class="photo rideau" style="--rot:1.2deg"><img src="images/chambre-1.webp" alt="Une chambre claire, un lit en bois et une armoire en pin (photo d’exemple)" width="640" height="480"><span class="exemple">Photo d’exemple</span></figure></div>
+        <figure class="photo rideau" style="--rot:1.2deg"><img src="images/chambre-1.webp" alt="Une chambre claire, un lit en bois et des serviettes posées dessus (photo d’exemple)" width="1280" height="960"><span class="exemple">Photo d’exemple</span></figure></div>
     </details>
     <details>
       <summary><h3>Autour de la maison</h3><span aria-hidden="true">+</span></summary>
       <div class="dedans"><div><p>La plage, le village, le marché : tout ce qu’il faut pour une semaine sans programme.</p>
         <ul><li>Distance à la plage : à préciser</li><li>Commerces et marché : à préciser</li><li>Stationnement : à préciser</li></ul></div>
-        <figure class="photo rideau"><img src="images/vue.webp" alt="La côte et la mer vues des hauteurs (photo d’exemple)" width="1280" height="800" style="object-position:20% 50%"><span class="exemple">Photo d’exemple</span></figure></div>
+        <figure class="photo rideau"><img src="images/vue.webp" alt="La côte corse et le golfe vus des hauteurs, les falaises et la mer (photo d’exemple)" width="1280" height="800" style="object-position:12% 50%"><span class="exemple">Photo d’exemple</span></figure></div>
     </details>
   </div>
 </section>
@@ -80,12 +80,12 @@
   <p class="chapo">Faites tourner les photos, avec les flèches ou du bout du doigt.</p>
   <div class="tour" id="tour" tabindex="0" role="group" aria-roledescription="diaporama" aria-label="Le tour de la maison en six photos">
     <div class="roue">
-      <figure data-nom="La vue" data-txt="Ce qu’on voit en ouvrant les volets."><img src="images/vue.webp" alt="La mer et la côte (photo d’exemple)" width="1280" height="800" style="object-position:60% 50%" draggable="false"></figure>
-      <figure data-nom="La terrasse" data-txt="Pour le café du matin et le dîner du soir."><img src="images/terrasse.webp" alt="La terrasse (photo d’exemple)" width="640" height="480" loading="lazy" draggable="false"></figure>
-      <figure data-nom="Le séjour" data-txt="La grande pièce du bas, ouverte sur la terrasse."><img src="images/sejour.webp" alt="Le séjour (photo d’exemple)" width="640" height="480" loading="lazy" draggable="false"></figure>
-      <figure data-nom="Une chambre" data-txt="Lit double, armoire, et le calme de l’étage."><img src="images/chambre-1.webp" alt="Une chambre (photo d’exemple)" width="640" height="480" loading="lazy" draggable="false"></figure>
-      <figure data-nom="Une autre chambre" data-txt="La fenêtre donne sur les arbres."><img src="images/chambre-2.webp" alt="Une chambre avec une grande fenêtre (photo d’exemple)" width="1280" height="960" loading="lazy" draggable="false"></figure>
-      <figure data-nom="Encore une chambre" data-txt="Pour les enfants, ou pour les amis."><img src="images/chambre-3.webp" alt="Une chambre aux murs de pierre (photo d’exemple)" width="800" height="462" loading="lazy" draggable="false"></figure>
+      <figure data-nom="La vue" data-txt="Ce qu’on voit en ouvrant les volets."><img src="images/vue-2.webp" alt="Une baie de Corse entre les collines, une plage et la mer (photo d’exemple)" width="1280" height="800" draggable="false"></figure>
+      <figure data-nom="La terrasse" data-txt="Pour le café du matin et le dîner du soir."><img src="images/terrasse.webp" alt="La terrasse (photo d’exemple)" width="1280" height="960" loading="lazy" draggable="false"></figure>
+      <figure data-nom="Le séjour" data-txt="La grande pièce du bas, ouverte sur la terrasse."><img src="images/sejour.webp" alt="Le séjour (photo d’exemple)" width="1280" height="960" loading="lazy" draggable="false"></figure>
+      <figure data-nom="Une chambre" data-txt="Un lit en bois, du linge clair, et le calme de l’étage."><img src="images/chambre-1.webp" alt="Une chambre (photo d’exemple)" width="1280" height="960" loading="lazy" draggable="false"></figure>
+      <figure data-nom="Une autre chambre" data-txt="De grands rideaux clairs, la lumière du matin."><img src="images/chambre-2.webp" alt="Une chambre lumineuse aux grands rideaux clairs (photo d’exemple)" width="1280" height="960" loading="lazy" draggable="false"></figure>
+      <figure data-nom="Encore une chambre" data-txt="Pour les enfants, ou pour les amis."><img src="images/chambre-3.webp" alt="Une chambre blanche avec une petite banquette sous la fenêtre (photo d’exemple)" width="1280" height="960" loading="lazy" draggable="false"></figure>
     </div>
   </div>
   <div class="tour-bas"><p id="tourNom" aria-live="polite">La vue<small id="tourTxt"></small></p><div><button type="button" id="tourAvant" aria-label="Photo précédente">←</button><button type="button" id="tourApres" aria-label="Photo suivante">→</button></div></div>
@@ -93,7 +93,7 @@
 
 <section class="vue" aria-labelledby="t-vue">
   <div class="scene">
-    <div class="image"><img src="images/vue.webp" alt="La mer turquoise et les bateaux au mouillage (photo d’exemple)" width="1280" height="800" loading="lazy"></div>
+    <div class="image"><img src="images/vue-2.webp" alt="Une baie de Corse entre les collines, une plage et la mer (photo d’exemple)" width="1280" height="800" loading="lazy"></div>
     <div class="avant"><h2 id="t-vue">La mer, depuis la maison</h2><p>Continuez à descendre : la fenêtre s’ouvre.</p></div>
     <p class="apres">Chaque matin, c’est la première chose qu’on regarde. <span class="ecrit" style="font-size:1.3rem;display:block;margin-top:4px">et la dernière, le soir</span></p>
   </div>
@@ -116,7 +116,7 @@
       <p class="chapo">Pourquoi elle s’appelle CioCio, qui l’a bâtie, et comment on y vit l’été.</p>
       <p style="margin-top:24px"><a class="rond" href="histoire.html">Lire l’histoire de la maison<i>→</i></a></p>
     </div>
-    <figure class="arche rideau"><img src="images/terrasse.webp" alt="La terrasse au-dessus de la mer (photo d’exemple)" width="640" height="480" loading="lazy"></figure>
+    <figure class="arche rideau"><img src="images/terrasse.webp" alt="La terrasse fleurie, face à la mer (photo d’exemple)" width="1280" height="960" loading="lazy"></figure>
   </div>
 </section>
 
@@ -142,7 +142,7 @@
       <div><h2>La saison</h2><p>À louer de juin à septembre, à la semaine ou pour quelques nuits.</p></div>
       <div><h2>Nous joindre</h2><p><a href="tel:+33400000000">04 00 00 00 00</a> (numéro d’exemple)<br><a href="reserver.html">Écrire au propriétaire</a></p></div>
     </div>
-    <div class="mentions"><span>Maquette réalisée par <a href="https://saitora.fr/">Saitora</a></span><span>Photos d’exemple : Pixabay (jms85, TheDigitalArtist et autres), à remplacer par celles de la maison.</span></div>
+    <div class="mentions"><span>Maquette réalisée par <a href="https://saitora.fr/">Saitora</a></span><span>Photos d’exemple : Pixabay (Tama66, 2780243, Carola68, ClickerHappy, tianya1223, Pexels, manbob86), à remplacer par celles de la maison.</span></div>
   </div>
 </footer>
 

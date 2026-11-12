@@ -18,9 +18,11 @@ feuille et script communs `ciocio.css` et `ciocio.js`. Style tiré : `style.md` 
 La fiche donnait https://n3egraphics.com/ : c'est le site de N3E Graphics, sans rapport avec la maison (reste d'une saisie précédente dans l'atelier). Rien n'en a été repris.
 
 ## Photos
-Aucune photo du client, et aucun accès aux banques ni aux archives depuis cet environnement (pas de clé Pixabay, Wikimedia non autorisé).
-Les six images de `images/` sont des photos Pixabay déjà présentes dans le dépôt, marquées « Photo d'exemple » sur la maquette : **toutes à remplacer par les photos de la maison**.
-La photo de la vue sert trois fois (ouverture, « la mer depuis la maison », tour) faute d'une autre grande image.
+Aucune photo du client pour l'instant. Les sept images de `images/` sont des photos Pixabay choisies le 12 novembre 2026 pour ce site
+(à la demande de l'utilisateur : aucune ne sert dans une démo du dépôt), marquées « Photo d'exemple » sur la maquette et créditées en pied de page.
+Sources et descriptions : `images/SOURCES.txt`. **Toutes à remplacer par les photos de la maison.**
+`vue.webp` (golfe vu des hauteurs) : ouverture, « Autour de la maison ». `vue-2.webp` (baie) : la vue qui grandit, le tour, la page histoire.
+La carte de titre de l'ouverture est posée à droite pour laisser voir la mer, à gauche de la photo.
 
 ## À valider avec le client (tout ce qui est inventé pour la maquette)
 - Le lieu exact (commune), la distance à la plage, les commerces, le stationnement.

@@ -1,0 +1,256 @@
+/* CioCio maison : une maison à louer l'été, face à la mer, en Corse. Genre « fait main » (fiche : style.md), tenu sobre :
+   du papier, une serif (Lora) pour les grands titres, une sans (Outfit) pour le reste, et une écriture à la main (Caveat)
+   deux fois par page au plus. Les photos sont posées avec un bout de ruban, les plus grandes dans une arche.
+   Couleurs : le papier, l'encre bleu nuit, le bleu des volets pour les actions, le jaune du ruban.
+   Pas de sceau, pas de cadre doré, pas de dessin figuratif : des photos et des formes simples.
+   Feuille commune aux trois pages (accueil, réserver, histoire) ; script commun : ciocio.js. */
+@font-face{font-family:"Lora";font-style:normal;font-weight:500;font-display:swap;src:url(../../polices/lora-500-normal-latin.woff2) format("woff2")}
+@font-face{font-family:"Lora";font-style:italic;font-weight:500;font-display:swap;src:url(../../polices/lora-500-italic-latin.woff2) format("woff2")}
+@font-face{font-family:"Outfit";font-style:normal;font-weight:400;font-display:swap;src:url(../../polices/outfit-400-normal-latin.woff2) format("woff2")}
+@font-face{font-family:"Outfit";font-style:normal;font-weight:500;font-display:swap;src:url(../../polices/outfit-500-normal-latin.woff2) format("woff2")}
+@font-face{font-family:"Caveat";font-style:normal;font-weight:600;font-display:swap;src:url(../../polices/caveat-600-normal-latin.woff2) format("woff2")}
+@view-transition{navigation:auto}
+:root{
+  --papier:#F8F4EA; --teinte:#EEE6D4; --blanc:#FFFDF8; --encre:#1E2B33; --doux:#52606A; --mer:#2A6F8A; --mer-f:#1E5268; --ruban:#E9B44C; --main:#B5472F;
+  --filet:rgba(30,43,51,.16);
+  --m:clamp(18px,4.2vw,64px); --entre:clamp(96px,11vw,176px); --r:18px;
+  --serif:"Lora",Georgia,serif; --sans:"Outfit",system-ui,sans-serif; --ecrit:"Caveat",cursive; --e:cubic-bezier(.2,.7,.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+html:focus-within{scroll-behavior:smooth}
+body{background:var(--papier);color:var(--encre);font:400 17px/1.6 var(--sans);-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;overflow-x:clip}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
+ul,ol{list-style:none}
+:focus-visible{outline:3px solid var(--mer);outline-offset:3px;border-radius:6px}
+.page{width:min(1280px,100%);margin-inline:auto;padding-inline:var(--m)}
+.maquette{background:var(--encre);color:#DCE3E6;font-size:13px;text-align:center;padding:7px 16px}
+.ecrit{font-family:var(--ecrit);font-weight:600;color:var(--main);font-size:1.6rem;line-height:1.1}
+.num{font-variant-numeric:tabular-nums}
+
+/* le bouton : un texte et un rond plein avec sa flèche */
+.rond{display:inline-flex;align-items:center;gap:14px;min-height:52px;font-weight:500;text-decoration:none;border:0;background:none;cursor:pointer;text-align:left}
+.rond i{flex:none;display:grid;place-items:center;width:52px;height:52px;border-radius:50%;background:var(--mer);color:#fff;font-style:normal;font-size:20px;transition:transform .25s var(--e),background-color .2s}
+.rond.encre i{background:var(--encre)}
+@media (hover:hover) and (pointer:fine){.rond:hover i{transform:translateX(5px)}}
+.rond:active i{transform:scale(.94)}
+.rond:disabled{opacity:.45;cursor:not-allowed}
+
+/* ---- en-tête discret : le nom, trois liens ---- */
+.tete{position:relative;z-index:5}
+.tete .page{display:flex;align-items:center;gap:28px;min-height:76px}
+.nom{font:500 1.6rem/1 var(--serif);letter-spacing:-.02em;text-decoration:none;margin-right:auto}
+.tete nav{display:flex;align-items:center;gap:28px}
+.tete nav a{display:inline-flex;align-items:center;min-height:44px;text-decoration:none;border-bottom:2px solid transparent}
+.tete nav a[aria-current="page"]{border-bottom-color:var(--ruban)}
+@media (hover:hover) and (pointer:fine){.tete nav a:hover{border-bottom-color:var(--encre)}}
+
+/* ---- photos : posées avec un bout de ruban, ou dans une arche ---- */
+.photo{position:relative;background:var(--blanc);padding:10px 10px 12px;transform:rotate(var(--rot,-1.2deg))}
+.photo::before{content:"";position:absolute;z-index:2;top:-13px;left:50%;width:92px;height:26px;margin-left:-46px;background:var(--ruban);opacity:.82;transform:rotate(-3deg)}
+.photo img{width:100%;aspect-ratio:var(--ratio,4/3);object-fit:cover;filter:saturate(.82)}
+.photo figcaption{padding-top:10px;font-size:14px;color:var(--doux)}
+.arche{border-radius:999px 999px var(--r) var(--r);overflow:hidden}
+.arche img{width:100%;height:100%;object-fit:cover;filter:saturate(.82)}
+.exemple{position:absolute;z-index:3;left:10px;bottom:10px;background:var(--blanc);padding:3px 9px;font-size:12px;border-radius:4px;color:var(--doux)}
+
+/* ---- ouverture : la photo plein écran, une carte de papier posée dessus ---- */
+.ouverture{position:relative;min-height:calc(100svh - 110px);display:flex;align-items:flex-end;padding:clamp(120px,22vh,260px) 0 var(--m);overflow:hidden;isolation:isolate}
+.ouverture .fond{position:absolute;inset:-8% 0 -8%;z-index:-1}
+.ouverture .fond img{width:100%;height:100%;object-fit:cover;filter:saturate(.82);transform:translate3d(0,var(--py,0),0)}
+.carte-titre{position:relative;width:min(620px,100%);background:var(--papier);padding:clamp(24px,3.4vw,48px);border-radius:var(--r)}
+.carte-titre h1{font:500 clamp(2.5rem,1.5rem + 3.6vw,4.6rem)/1 var(--serif);letter-spacing:-.03em;text-wrap:balance}
+.carte-titre p{margin-top:18px;max-width:40ch;font-size:clamp(1.05rem,1rem + .3vw,1.22rem)}
+.carte-titre .acts{display:flex;flex-wrap:wrap;gap:10px 30px;margin-top:26px}
+.carte-titre .ecrit{position:absolute;right:22px;top:-22px;transform:rotate(-4deg);background:var(--ruban);color:var(--encre);padding:2px 14px 4px;font-size:1.35rem}
+
+/* ---- sections : un titre géant, le reste calé dessous ---- */
+.sec{padding-top:var(--entre)}
+.sec.teinte{background:var(--teinte);padding-bottom:var(--entre);margin-top:var(--entre)}
+.geant{font:500 clamp(2.8rem,1.4rem + 7vw,7.6rem)/.95 var(--serif);letter-spacing:-.04em;text-wrap:balance}
+.chapo{margin-top:22px;max-width:52ch;font-size:clamp(1.05rem,1rem + .3vw,1.22rem)}
+.vague{display:block;width:100%;height:clamp(34px,5vw,72px);margin-bottom:-1px}
+.vague path{fill:var(--teinte)}
+.vague.envers{transform:scaleY(-1);margin:-1px 0 0}
+/* un bandeau de carreaux, comme un sol de terrasse */
+.carreaux{height:44px;background-color:var(--papier);background-image:radial-gradient(circle at 0 0,var(--mer) 0 10px,transparent 10.5px),radial-gradient(circle at 44px 0,var(--mer) 0 10px,transparent 10.5px),radial-gradient(circle at 0 44px,var(--mer) 0 10px,transparent 10.5px),radial-gradient(circle at 44px 44px,var(--mer) 0 10px,transparent 10.5px),radial-gradient(circle at 22px 22px,var(--ruban) 0 6px,transparent 6.5px);background-size:44px 44px;opacity:.9}
+
+/* ---- en bref : quatre faits ---- */
+.bref{margin-top:clamp(40px,5vw,72px);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(16px,2.4vw,36px)}
+.bref b{display:block;font:500 clamp(2.4rem,1.6rem + 2.6vw,4.2rem)/1 var(--serif);letter-spacing:-.03em;color:var(--mer)}
+.bref span{display:block;margin-top:8px;max-width:24ch}
+
+/* ---- la maison, pièce par pièce : une grande liste qui s'ouvre ---- */
+.pieces{margin-top:clamp(36px,5vw,64px);border-top:2px solid var(--encre)}
+.pieces details{border-bottom:1px solid var(--filet)}
+.pieces summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;justify-content:space-between;gap:20px;padding:22px 0}
+.pieces summary::-webkit-details-marker{display:none}
+.pieces summary h3{font:500 clamp(1.8rem,1.2rem + 2.4vw,3.4rem)/1.05 var(--serif);letter-spacing:-.03em}
+.pieces summary span{flex:none;width:40px;height:40px;border-radius:50%;background:var(--encre);color:var(--papier);display:grid;place-items:center;font-size:20px;transition:transform .3s var(--e)}
+.pieces details[open] summary span{transform:rotate(45deg)}
+.pieces .dedans{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,340px);gap:clamp(24px,4vw,56px);align-items:start;padding:6px 0 40px}
+.pieces .dedans p{max-width:52ch}
+.pieces .dedans ul{margin-top:16px;display:grid;gap:6px}
+.pieces .dedans li{padding-left:18px;position:relative}
+.pieces .dedans li::before{content:"";position:absolute;left:0;top:.72em;width:8px;height:2px;background:var(--mer)}
+
+/* ---- le tour de la maison : six photos sur un cylindre, qu'on fait tourner (rien ne défile sur le côté) ---- */
+.tour{margin-top:clamp(36px,5vw,64px);position:relative;height:calc(var(--w) * .78 + 60px);perspective:1500px;overflow:hidden;touch-action:pan-y;--w:min(58vw,460px)}
+.tour .roue{position:absolute;inset:0;transform-style:preserve-3d;transform:translateZ(calc(var(--w) * -.96)) rotateY(var(--a,0deg));transition:transform .9s var(--e)}
+.tour.tient .roue{transition:none}
+.tour figure{position:absolute;left:50%;top:26px;width:var(--w);margin-left:calc(var(--w) / -2);transform:rotateY(calc(var(--i) * 60deg)) translateZ(calc(var(--w) * .96));backface-visibility:hidden;background:var(--blanc);padding:10px}
+.tour figure img{width:100%;aspect-ratio:4/3;object-fit:cover;filter:saturate(.82)}
+.tour-bas{margin-top:22px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.tour-bas p{font:500 clamp(1.3rem,1.1rem + .8vw,1.8rem)/1.2 var(--serif);letter-spacing:-.02em}
+.tour-bas p small{display:block;margin-top:4px;font:400 16px/1.5 var(--sans);letter-spacing:0;color:var(--doux);max-width:46ch}
+.tour-bas div{display:flex;gap:10px}
+.tour-bas button{width:52px;height:52px;border-radius:50%;border:0;background:var(--encre);color:var(--papier);font-size:20px;cursor:pointer;transition:transform .2s var(--e)}
+.tour-bas button:active{transform:scale(.94)}
+
+/* ---- la vue : la photo, dans son arche, grandit jusqu'à remplir l'écran pendant qu'on descend ---- */
+.vue{position:relative;height:230vh;margin-top:var(--entre)}
+.vue .scene{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:grid;place-items:center}
+.vue .image{position:absolute;inset:0;clip-path:inset(calc(16% * (1 - var(--z,0))) calc(34% * (1 - var(--z,0))) calc(16% * (1 - var(--z,0))) calc(34% * (1 - var(--z,0))) round calc(40vw * (1 - var(--z,0))) calc(40vw * (1 - var(--z,0))) calc(18px * (1 - var(--z,0))) calc(18px * (1 - var(--z,0))))}
+.vue .image img{width:100%;height:100%;object-fit:cover;object-position:68% 50%;filter:saturate(.82);transform:scale(calc(1.12 - .12 * var(--z,0)))}
+.vue .avant,.vue .apres{position:absolute;z-index:2;left:var(--m);max-width:min(26ch,28vw)}
+.vue .avant{top:50%;transform:translateY(-50%);opacity:calc(1 - var(--z,0) * 2.4)}
+.vue .avant h2{font:500 clamp(2.4rem,1.4rem + 3.6vw,5rem)/.98 var(--serif);letter-spacing:-.035em}
+.vue .avant p{margin-top:16px}
+.vue .apres{bottom:clamp(28px,6vh,64px);max-width:min(30ch,80vw);background:var(--papier);padding:16px 20px;border-radius:var(--r);opacity:calc((var(--z,0) - .8) * 5)}
+
+/* ---- l'été, semaine par semaine (l'idée vivante) ---- */
+.mois{display:flex;flex-wrap:wrap;gap:8px;margin-top:clamp(28px,4vw,44px)}
+.mois button{min-height:46px;padding:0 20px;border-radius:999px;border:1.5px solid var(--encre);background:none;cursor:pointer;font-weight:500;text-transform:capitalize;transition:background-color .2s,color .2s}
+.mois button[aria-pressed="true"]{background:var(--encre);color:var(--papier)}
+.semaines{margin-top:22px;border-top:2px solid var(--encre)}
+.semaines li{border-bottom:1px solid var(--filet)}
+.semaines a,.semaines div{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr) auto 52px;align-items:center;gap:8px 20px;min-height:76px;padding:10px 0;text-decoration:none}
+.semaines .dates{font:500 clamp(1.25rem,1.05rem + .8vw,1.75rem)/1.15 var(--serif);letter-spacing:-.02em}
+.semaines .prix{font-weight:500;white-space:nowrap}
+.semaines .va{width:44px;height:44px;border-radius:50%;background:var(--mer);color:#fff;display:grid;place-items:center;justify-self:end;transition:transform .25s var(--e)}
+@media (hover:hover) and (pointer:fine){.semaines a:hover .va{transform:translateX(5px)}}
+.semaines .prise{color:#8A949A}
+.semaines .prise .dates{text-decoration:line-through;text-decoration-thickness:1.5px}
+.note{margin-top:16px;font-size:14px;color:var(--doux);max-width:70ch}
+
+/* ---- deux colonnes : un texte, une photo ---- */
+.duo{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,5vw,80px);align-items:center}
+.duo .arche{aspect-ratio:4/5;max-width:440px;justify-self:center;width:100%}
+.duo p+p{margin-top:14px}
+
+/* ---- le calendrier de réservation ---- */
+.resa{margin-top:clamp(32px,4vw,56px);display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:start}
+.cal{background:var(--blanc);border-radius:var(--r);padding:clamp(14px,2vw,24px);margin-top:16px}
+.cal .jours{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;justify-items:center;text-align:center}
+.cal .jn{font-size:12px;color:var(--doux);padding-bottom:6px}
+.cal .jours button{width:min(100%,48px);aspect-ratio:1;min-height:40px;border:0;border-radius:50%;background:none;cursor:pointer;font-size:15px;font-variant-numeric:tabular-nums;transition:background-color .2s,color .2s}
+.cal .jours button.pris{color:#B2B9BD;text-decoration:line-through;cursor:not-allowed}
+.cal .jours button.attend{color:#8C979D}
+.cal .jours button.dans{background:#DCEAF0;border-radius:0}
+.cal .jours button.bout{background:var(--mer);color:#fff}
+@media (hover:hover) and (pointer:fine){.cal .jours button:not(.pris):not(.bout):hover{box-shadow:inset 0 0 0 1.5px var(--mer)}}
+.cal .legende{margin-top:14px;font-size:13px;color:var(--doux)}
+.sejour{position:sticky;top:20px;background:var(--blanc);border-radius:var(--r);padding:clamp(20px,3vw,34px);display:grid;gap:16px}
+.sejour .quand{font:500 clamp(1.3rem,1.1rem + .8vw,1.75rem)/1.25 var(--serif);letter-spacing:-.02em;min-height:2.5em}
+.sejour .total{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-top:14px;border-top:1px solid var(--filet)}
+.sejour .total b{font:500 clamp(1.8rem,1.4rem + 1.4vw,2.6rem)/1 var(--serif);letter-spacing:-.03em;color:var(--mer)}
+.tarifs{margin-top:clamp(28px,4vw,44px);border-top:2px solid var(--encre)}
+.tarifs li{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:6px 28px;padding:14px 0;border-bottom:1px solid var(--filet);align-items:baseline}
+.tarifs b{font-weight:500}
+.compris{margin-top:clamp(28px,4vw,44px);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 40px}
+.compris li{padding-left:18px;position:relative}
+.compris li::before{content:"";position:absolute;left:0;top:.72em;width:8px;height:2px;background:var(--mer)}
+
+/* ---- le formulaire : étiquettes qui se rangent au-dessus, bouton qui confirme ---- */
+.formulaire{display:grid;gap:18px}
+.champ{position:relative}
+.champ input,.champ textarea{width:100%;min-height:58px;padding:24px 16px 8px;border:0;border-bottom:2px solid var(--encre);border-radius:8px 8px 0 0;background:var(--papier);font-size:16px}
+.sejour .champ input,.sejour .champ textarea{background:var(--papier)}
+.champ textarea{min-height:110px;resize:vertical}
+.champ label{position:absolute;left:16px;top:18px;color:var(--doux);pointer-events:none;transform-origin:0 0;transition:transform .2s var(--e)}
+.champ input:focus+label,.champ input:not(:placeholder-shown)+label,.champ textarea:focus+label,.champ textarea:not(:placeholder-shown)+label{transform:translateY(-12px) scale(.76)}
+.champ input:focus,.champ textarea:focus{outline:0;border-bottom-color:var(--mer)}
+.envoi{justify-self:start}
+.envoi i svg{width:22px;height:22px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;display:none}
+.envoi.fait i{background:#2F8A5B}
+.envoi.fait i svg{display:block}
+.envoi.fait i span{display:none}
+.envoi.fait i svg path{stroke-dasharray:1;animation:coche .4s ease-out both}
+@keyframes coche{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+.retour{min-height:1.6em;font-weight:500}
+
+/* ---- l'histoire : une ligne de temps ---- */
+.temps{position:relative;margin-top:clamp(40px,5vw,72px);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(18px,2.6vw,40px)}
+.temps::before{content:"";position:absolute;left:0;right:0;top:9px;height:2px;background:var(--encre)}
+.temps li{position:relative;padding-top:44px}
+.temps li::before{content:"";position:absolute;left:0;top:0;width:20px;height:20px;border-radius:50%;background:var(--papier);border:2px solid var(--encre)}
+.temps li:last-child::before{background:var(--ruban);border-color:var(--ruban)}
+.temps b{display:block;font:500 clamp(1.6rem,1.3rem + 1vw,2.3rem)/1.05 var(--serif);letter-spacing:-.03em}
+.temps p{margin-top:8px;max-width:28ch}
+.etages{margin-top:clamp(36px,5vw,64px);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(20px,3vw,48px)}
+.etages div{background:var(--blanc);border-radius:var(--r);padding:clamp(22px,3vw,40px)}
+.etages h3{font:500 clamp(1.6rem,1.3rem + 1vw,2.3rem)/1.05 var(--serif);letter-spacing:-.03em}
+.etages p{margin-top:12px}
+
+/* ---- pied de page : un bloc de couleur, une dernière phrase, le bouton ---- */
+.pied{margin-top:var(--entre);background:var(--mer-f);color:#F2F6F7;padding-block:clamp(64px,8vw,120px) calc(28px + env(safe-area-inset-bottom))}
+.pied .mot{font:500 clamp(2.2rem,1.3rem + 3.8vw,5rem)/1 var(--serif);letter-spacing:-.035em;max-width:16ch;text-wrap:balance}
+.pied .rond{margin-top:28px;color:#fff}
+.pied .rond i{background:var(--ruban);color:var(--encre)}
+.pied .infos{margin-top:clamp(48px,6vw,88px);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;padding-top:24px;border-top:1px solid rgba(255,255,255,.25)}
+.pied .infos h2{font-size:14px;font-weight:500;color:#B9D3DC;margin-bottom:8px}
+.pied .mentions{margin-top:clamp(40px,5vw,64px);display:flex;justify-content:space-between;gap:10px 24px;flex-wrap:wrap;font-size:13px;color:#B9D3DC}
+
+/* ---- la barre du bas (téléphone) ---- */
+.bas{display:none}
+
+/* ---- les mouvements, tirés de la banque animations/mouvements.html : 02, 19, 23, 26, 33, 40, 58, 82 ---- */
+@media (prefers-reduced-motion:no-preference){
+  /* 02 : les blocs montent doucement en arrivant à l'écran */
+  .leve{opacity:0;transform:translateY(20px);transition:opacity .8s ease,transform .9s var(--e);transition-delay:var(--d,0ms)}
+  .leve.on{opacity:1;transform:none}
+  .photo.leve{transform:translateY(20px) rotate(var(--rot,-1.2deg))}
+  .photo.leve.on{transform:rotate(var(--rot,-1.2deg))}
+  /* 19 : la photo se découvre de haut en bas (le rideau est sur l'image, pas sur le cadre observé) */
+  .rideau img{clip-path:inset(0 0 100% 0);transform:scale(1.1);transition:clip-path 1.2s cubic-bezier(.65,0,.35,1),transform 1.6s var(--e)}
+  .rideau.on img{clip-path:inset(0);transform:none}
+  /* 33 : la ligne du temps se remplit, les dates s'allument l'une après l'autre */
+  .temps.frise::before{transform:scaleX(0);transform-origin:0 0;transition:transform 1.8s cubic-bezier(.45,0,.2,1)}
+  .temps.frise.on::before{transform:none}
+  .temps.frise li{opacity:0;transition:opacity .7s ease;transition-delay:calc(var(--i) * 300ms + 150ms)}
+  .temps.frise.on li{opacity:1}
+}
+@media (prefers-reduced-motion:reduce){.vue{height:auto}.vue .scene{position:relative;height:auto;min-height:70svh}.vue .image{clip-path:none}.vue .avant{opacity:1;position:relative;top:auto;transform:none;background:var(--papier);padding:16px 20px;border-radius:var(--r);max-width:30ch}.vue .apres{display:none}.tour .roue{transition:none}}
+
+@media (max-width:900px){
+  .tete nav a:not(.rond){display:none}
+  .tete nav .rond span{display:none}
+  .ouverture{min-height:calc(100svh - 110px);padding-top:38vh}
+  .bref{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:28px}
+  .pieces .dedans,.duo,.resa,.etages{grid-template-columns:minmax(0,1fr)}
+  .pieces .dedans .photo{max-width:340px}
+  .tour{--w:min(74vw,420px)}
+  .vue .image{clip-path:inset(calc(34% * (1 - var(--z,0))) calc(14% * (1 - var(--z,0))) calc(8% * (1 - var(--z,0))) calc(14% * (1 - var(--z,0))) round calc(40vw * (1 - var(--z,0))) calc(40vw * (1 - var(--z,0))) calc(18px * (1 - var(--z,0))) calc(18px * (1 - var(--z,0))))}
+  .vue .avant{top:clamp(24px,6vh,60px);transform:none;max-width:calc(100% - 2 * var(--m))}
+  .vue .avant p{display:none}
+  .semaines a,.semaines div{grid-template-columns:minmax(0,1fr) 52px}
+  .semaines .etat,.semaines .prix{grid-column:1}
+  .semaines .va{grid-column:2;grid-row:1 / span 3}
+  .sejour{position:static}
+  .tarifs li{grid-template-columns:minmax(0,1fr) auto}
+  .tarifs li span:last-child{grid-column:1 / -1;color:var(--doux);font-size:15px}
+  .compris{grid-template-columns:minmax(0,1fr)}
+  .temps{grid-template-columns:minmax(0,1fr);gap:0;padding-left:44px}
+  .temps::before{left:9px;right:auto;top:0;bottom:0;width:2px;height:auto}
+  .temps li{padding:0 0 30px}
+  .temps li::before{left:-44px;top:6px}
+  .pied .infos{grid-template-columns:minmax(0,1fr)}
+  .pied{padding-bottom:calc(104px + env(safe-area-inset-bottom))}
+  .bas{display:grid;grid-template-columns:1fr 1fr;gap:8px;position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:40;padding:6px;border-radius:999px;background:var(--encre);transform:translateY(160%);transition:transform .3s var(--e)}
+  .bas a{display:flex;align-items:center;justify-content:center;min-height:48px;border-radius:999px;color:var(--papier);text-decoration:none;font-weight:500}
+  .bas a+a{background:var(--mer);color:#fff}
+  .bas.on{transform:none}
+}
+@media (prefers-reduced-motion:no-preference) and (max-width:900px){.temps.frise::before{transform:scaleY(0)}}

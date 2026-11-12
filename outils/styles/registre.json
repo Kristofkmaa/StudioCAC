@@ -478,6 +478,28 @@
       "boutons": "souligne",
       "pied": "geant",
       "ornement": "aucun"
+    },
+    "ciocio-maison": {
+      "signature": "calendrier",
+      "genre": "fait-main",
+      "ouverture": "carte-posee",
+      "navigation": "basse",
+      "services": "accordeon",
+      "preuves": "chiffres",
+      "a_propos": "chronologie",
+      "contact": "bandeau-collant",
+      "formes": "organiques",
+      "photos": "douces",
+      "rythme": "alterne",
+      "titres": "geants",
+      "appoint": "manuscrite",
+      "texture": "carreaux",
+      "arrivee": "rideau",
+      "decoupes": "vague",
+      "boutons": "rond",
+      "pied": "couleur",
+      "ornement": "aucun",
+      "police": "Lora + Outfit"
     }
   }
 }

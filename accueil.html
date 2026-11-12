@@ -348,14 +348,15 @@ h1,h2,h3{color:var(--white);font-weight:500;line-height:1;text-wrap:balance}
 .autres .gestes svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .autres .gestes span{margin-left:8px;font-size:13px;color:var(--silver)}
 @media (hover:hover) and (pointer:fine){.autres .gestes button:hover{background:var(--kelp);border-color:var(--mist)}}
-.paquet{position:relative;width:100%;max-width:640px;justify-self:end;aspect-ratio:16/10;margin-bottom:48px;touch-action:pan-y}
-.carte{position:absolute;inset:0;border-radius:14px;overflow:hidden;background:var(--deep);box-shadow:0 0 0 1px rgba(237,255,254,.16),0 24px 44px -18px rgba(0,0,0,.7);transform:translate3d(var(--x,0px),calc(var(--k) * 15px + var(--y,0px)),0) rotate(calc(var(--r,0deg) + var(--t,0deg))) scale(calc(1 - var(--k) * .05));transform-origin:50% 100%;transition:transform .7s cubic-bezier(.16,1,.3,1),opacity .4s,filter .5s;z-index:calc(10 - var(--k));filter:brightness(calc(1 - var(--k) * .16));cursor:grab;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.paquet{position:relative;width:100%;max-width:640px;justify-self:end;aspect-ratio:16/10;margin-bottom:34px;touch-action:pan-y}
+.carte{position:absolute;inset:0;border-radius:24px;overflow:hidden;background:var(--deep);box-shadow:0 14px 30px rgba(0,0,0,.28);transform:translate3d(var(--x,0px),calc(var(--k) * 4.7% + var(--y,0px)),0) rotate(var(--r,0deg)) scale(calc(1 - var(--k) * .05));transition:transform .7s cubic-bezier(.16,1,.3,1),opacity .4s;z-index:calc(10 - var(--k));cursor:grab;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
 .carte img{display:block;width:100%;height:100%;object-fit:cover;object-position:top;pointer-events:none;-webkit-user-drag:none}
 .carte.tenue{transition:none;cursor:grabbing}
 .carte.partie,.carte.loin{opacity:0}
 @media (max-width:860px){
   .autres{grid-template-columns:minmax(0,1fr);gap:26px}
-  .paquet{justify-self:center;margin-bottom:44px}
+  .paquet{justify-self:center;margin-bottom:30px}
+  .carte{border-radius:18px}
   .autres h3{min-height:0}.autres .dit{min-height:4.6em}
 }
 @media (max-width:760px){.pc{top:calc(76px + var(--i) * 10px);margin-bottom:18px}.pc>a{grid-template-columns:minmax(0,1fr);min-height:0;gap:18px}.pc p{margin-top:12px}.pc .voir{margin-top:14px}}
@@ -831,14 +832,13 @@ const DEMOS = [
   /* le paquet des autres démos (animation 61 de la banque) : on attrape la carte du dessus, on la jette sur le côté, elle repasse dessous ; ça tourne sans fin */
   { const bloc = $("autres"), boite = $("paquet"), LISTE = DEMOS.filter(d => !PILE.includes(d[4])), calmeJ = matchMedia("(prefers-reduced-motion: reduce)").matches;
     let ordre = [...boite.querySelectorAll(".carte")], prise = null, minuteur = null;
-    const penche = [0, 2.2, -2.2, 1.2];
-    const range = () => ordre.forEach((c, k) => { c.style.setProperty("--k", Math.min(k, 3)); c.style.setProperty("--t", penche[Math.min(k, 3)] + "deg"); c.classList.toggle("loin", k > 3); });
+    const range = () => ordre.forEach((c, k) => { c.style.setProperty("--k", Math.min(k, 3)); c.classList.toggle("loin", k > 3); });
     const ecrit = () => { const u = ordre[0].dataset.u, n = LISTE.findIndex(d => d[4] === u), d = LISTE[n];
       $("jeuRang").textContent = String(n + 6).padStart(2, "0") + " / 13"; $("jeuNom").textContent = d[0]; $("jeuMe").textContent = d[1]; $("jeuDit").textContent = d[3]; $("jeuVoir").href = "demo-" + u + ".html"; };
     const annonce = () => { if (calmeJ) { ecrit(); return; } clearTimeout(minuteur); bloc.classList.add("passe"); minuteur = setTimeout(() => { ecrit(); bloc.classList.remove("passe"); }, 220); };
     const repose = c => { c.style.setProperty("--x", "0px"); c.style.setProperty("--y", "0px"); c.style.setProperty("--r", "0deg"); };
     const jette = sens => { const c = ordre[0], loin = Math.max(620, innerWidth * .7); c.classList.remove("tenue"); c.style.setProperty("--x", sens * loin + "px"); c.style.setProperty("--r", sens * 24 + "deg"); c.classList.add("partie");
-      ordre.push(ordre.shift()); ordre.forEach((o, k) => { if (o !== c) { o.style.setProperty("--k", Math.min(k, 3)); o.style.setProperty("--t", penche[Math.min(k, 3)] + "deg"); o.classList.toggle("loin", k > 3); } }); annonce();
+      ordre.push(ordre.shift()); ordre.forEach((o, k) => { if (o !== c) { o.style.setProperty("--k", Math.min(k, 3)); o.classList.toggle("loin", k > 3); } }); annonce();
       setTimeout(() => { c.style.transition = "none"; repose(c); range(); void c.offsetWidth; c.style.transition = ""; c.classList.remove("partie"); }, 380); };
     const revient = () => { const c = ordre.pop(); ordre.unshift(c); c.style.transition = "none"; c.style.setProperty("--x", -Math.max(620, innerWidth * .7) + "px"); c.style.setProperty("--r", "-24deg"); c.classList.add("partie"); range(); void c.offsetWidth; c.style.transition = ""; c.classList.remove("partie", "loin"); repose(c); annonce(); };
     range(); ecrit();
